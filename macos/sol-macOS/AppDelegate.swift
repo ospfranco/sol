@@ -16,7 +16,7 @@ class AppDelegate: NSObject, NSApplicationDelegate  {
     
     mainWindow.contentViewController = rootViewController
     let origin = CGPoint(x: 0, y: 0)
-    let size = CGSize(width: 800, height: 500)
+    let size = CGSize(width: 800, height: 600)
     let frame = NSRect(origin: origin, size: size)
     mainWindow.setFrame(frame, display: true)
     showWindow(nil)
