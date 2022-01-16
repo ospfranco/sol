@@ -1,180 +1,307 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {Image, ScrollView, Text, TextInput, View} from 'react-native'
 import spotifyLogo from './assets/spotify.png'
 import figma from './assets/figma.png'
+import notion from './assets/notion.png'
+import googleTranslate from './assets/google_translate.png'
+import todo from './assets/todo.png'
 
 export const App = () => {
+  const [query, setQuery] = useState('')
   return (
-    <View style={{flex: 1, backgroundColor: '#1f2023'}}>
+    <View style={{flex: 1}}>
       <View
         style={{
-          paddingVertical: 15,
-          paddingHorizontal: 20,
+          backgroundColor: 'rgba(39, 40, 43, 0.95)',
+          borderRadius: 10,
+          borderWidth: 1,
+          marginBottom: 10,
           borderColor: '#444',
-          borderBottomWidth: 1,
-          width: '100%',
+          flex: 1,
         }}>
-        <TextInput
-          autoFocus
-          // @ts-ignore
-          enableFocusRing={false}
-          placeholder="Search for something..."
-        />
+        <View
+          style={{
+            paddingVertical: 15,
+            paddingHorizontal: 20,
+            borderColor: '#1e5cc6',
+            borderBottomWidth: 1,
+            width: '100%',
+          }}>
+          <TextInput
+            autoFocus
+            // @ts-ignore
+            enableFocusRing={false}
+            placeholder="Type something..."
+            value={query}
+            onChangeText={setQuery}
+          />
+        </View>
+        {!!query && (
+          <View style={{flex: 1, padding: 20}}>
+            <View style={{flexDirection: 'row'}}>
+              <View>
+                <Text style={{fontWeight: '500'}}>Pipe to</Text>
+                <View style={{flexDirection: 'row', paddingVertical: 10}}>
+                  <View
+                    style={{
+                      backgroundColor: 'rgb(240, 240, 240)',
+                      padding: 10,
+                      borderRadius: 10,
+                      borderWidth: 1,
+                      borderColor: 'white',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexDirection: 'row',
+                      width: 120,
+                      height: 40,
+                      marginRight: 10,
+                    }}>
+                    <Image source={notion} style={{height: 20, width: 20}} />
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        fontWeight: '600',
+                        color: 'black',
+                        paddingLeft: 10,
+                      }}>
+                      Notion
+                    </Text>
+                  </View>
+
+                  <View
+                    style={{
+                      backgroundColor: '#27282b',
+                      padding: 10,
+                      borderRadius: 10,
+                      borderWidth: 1,
+                      borderColor: '#444',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexDirection: 'row',
+                      width: 120,
+                      height: 40,
+                      marginRight: 10,
+                    }}>
+                    <Image
+                      source={googleTranslate}
+                      style={{height: 20, width: 20}}
+                    />
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        fontWeight: '600',
+                        paddingLeft: 10,
+                      }}>
+                      Translate
+                    </Text>
+                  </View>
+
+                  <View
+                    style={{
+                      backgroundColor: '#27282b',
+                      padding: 10,
+                      borderRadius: 10,
+                      borderWidth: 1,
+                      borderColor: '#444',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexDirection: 'row',
+                      width: 120,
+                      height: 40,
+                      marginRight: 10,
+                    }}>
+                    <Image source={todo} style={{height: 20, width: 20}} />
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        fontWeight: '600',
+                        paddingLeft: 10,
+                      }}>
+                      MS Todo
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+            <Text style={{fontWeight: '500', paddingTop: 10}}>Results</Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                paddingVertical: 10,
+                paddingHorizontal: 10,
+                marginTop: 10,
+                backgroundColor: '#333',
+                borderRadius: 5,
+              }}>
+              <Image source={figma} style={{height: 20, width: 20}} />
+              <Text style={{paddingLeft: 10}}>Figma</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                paddingVertical: 10,
+                paddingHorizontal: 10,
+              }}>
+              <Image source={spotifyLogo} style={{height: 20, width: 20}} />
+              <Text style={{paddingLeft: 10}}>Spotify - Play next song</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                paddingVertical: 10,
+                paddingHorizontal: 10,
+              }}>
+              <Image source={spotifyLogo} style={{height: 20, width: 20}} />
+              <Text style={{paddingLeft: 10}}>Spotify - Previous song</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                paddingVertical: 10,
+                paddingHorizontal: 10,
+              }}>
+              <Image source={spotifyLogo} style={{height: 20, width: 20}} />
+              <Text style={{paddingLeft: 10}}>Spotify - Play/Pause</Text>
+            </View>
+          </View>
+        )}
+        {!query && (
+          <ScrollView style={{flex: 1}} contentContainerStyle={{padding: 10}}>
+            <Text style={{fontSize: 12, fontWeight: '500', color: '#AAA'}}>
+              Recent
+            </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                paddingVertical: 10,
+                paddingHorizontal: 10,
+                marginTop: 10,
+                backgroundColor: 'rgba(30,92,198,0.3)',
+                borderRadius: 5,
+              }}>
+              <Image source={figma} style={{height: 20, width: 20}} />
+              <Text style={{paddingLeft: 10}}>Figma</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                paddingVertical: 10,
+                paddingHorizontal: 10,
+              }}>
+              <Image source={spotifyLogo} style={{height: 20, width: 20}} />
+              <Text style={{paddingLeft: 10}}>Spotify - Play next song</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                paddingVertical: 10,
+                paddingHorizontal: 10,
+              }}>
+              <Image source={spotifyLogo} style={{height: 20, width: 20}} />
+              <Text style={{paddingLeft: 10}}>Spotify - Previous song</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                paddingVertical: 10,
+                paddingHorizontal: 10,
+              }}>
+              <Image source={spotifyLogo} style={{height: 20, width: 20}} />
+              <Text style={{paddingLeft: 10}}>Spotify - Play/Pause</Text>
+            </View>
+          </ScrollView>
+        )}
       </View>
-      <ScrollView style={{flex: 1}} contentContainerStyle={{padding: 20}}>
-        <View style={{flexDirection: 'row'}}>
-          <View>
-            <Text style={{fontWeight: '500'}}>Favorites</Text>
-            <View style={{flexDirection: 'row', paddingVertical: 10}}>
-              <View
-                style={{
-                  backgroundColor: '#27282b',
-                  padding: 10,
-                  borderRadius: 10,
-                  borderWidth: 1,
-                  borderColor: '#444',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: 90,
-                  height: 90,
-                  marginRight: 10,
-                }}>
-                <Image source={spotifyLogo} style={{height: 40, width: 40}} />
-                <Text style={{paddingTop: 10, fontSize: 12, fontWeight: '600'}}>
-                  Spotify
-                </Text>
-              </View>
 
-              <View
-                style={{
-                  backgroundColor: '#27282b',
-                  padding: 10,
-                  borderRadius: 10,
-                  borderWidth: 1,
-                  borderColor: '#444',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: 90,
-                  height: 90,
-                  marginRight: 10,
-                }}>
-                <Image source={figma} style={{height: 40, width: 40}} />
-                <Text style={{paddingTop: 10, fontSize: 12, fontWeight: '600'}}>
-                  Figma
-                </Text>
-              </View>
-
-              <View
-                style={{
-                  backgroundColor: '#27282b',
-                  padding: 10,
-                  borderRadius: 10,
-                  borderWidth: 1,
-                  borderColor: '#444',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: 90,
-                  height: 90,
-                  marginRight: 10,
-                }}>
-                <Image source={figma} style={{height: 40, width: 40}} />
-                <Text style={{paddingTop: 10, fontSize: 12, fontWeight: '600'}}>
-                  Figma
-                </Text>
-              </View>
+      <View style={{flexDirection: 'row'}}>
+        <View
+          style={{
+            backgroundColor: 'rgba(39, 40, 43, 0.95)',
+            padding: 10,
+            borderRadius: 10,
+            borderWidth: 1,
+            borderColor: '#444',
+            marginRight: 10,
+          }}>
+          <Text style={{fontSize: 12, fontWeight: '500', color: '#AAA'}}>
+            Favorites
+          </Text>
+          <View style={{flexDirection: 'row', paddingVertical: 10}}>
+            <View style={{paddingHorizontal: 20}}>
+              <Image source={spotifyLogo} style={{height: 40, width: 40}} />
+              <Text style={{paddingTop: 10, fontSize: 12, fontWeight: '600'}}>
+                Spotify
+              </Text>
             </View>
-          </View>
 
-          <View style={{marginLeft: 20}}>
-            <Text style={{fontWeight: '500'}}>Calendar</Text>
-            <View style={{flexDirection: 'row', paddingVertical: 10}}>
-              <View
-                style={{
-                  backgroundColor: '#27282b',
-                  padding: 10,
-                  borderRadius: 10,
-                  borderWidth: 1,
-                  borderColor: 'rgba(255,171,128,0.5)',
-                  width: 200,
-                  height: 90,
-                  marginRight: 10,
-                }}>
-                <Text style={{fontSize: 12, fontWeight: '600'}}>
-                  C-Levels Monthly
-                </Text>
-                <Text style={{fontSize: 12}}>In 20 Mins.</Text>
-                <View style={{flex: 1}} />
-                <Text style={{fontSize: 12, fontWeight: '600'}}>Join →</Text>
-              </View>
+            <View style={{paddingHorizontal: 20}}>
+              <Image source={figma} style={{height: 40, width: 40}} />
+              <Text style={{paddingTop: 10, fontSize: 12, fontWeight: '600'}}>
+                Figma
+              </Text>
             </View>
-          </View>
 
-          <View style={{marginLeft: 20}}>
-            <Text style={{fontWeight: '500'}}>Weather</Text>
-            <View style={{flexDirection: 'row', paddingVertical: 10}}>
-              <View
-                style={{
-                  backgroundColor: '#27282b',
-                  padding: 10,
-                  borderRadius: 10,
-                  borderWidth: 1,
-                  borderColor: '#444',
-                  width: 180,
-                  height: 90,
-                  marginRight: 10,
-                }}>
-                <Text style={{fontSize: 16, fontWeight: '600'}}>20 ℃</Text>
-                <Text style={{fontSize: 12, color: '#ccc'}}>
-                  80% Chance of rain
-                </Text>
-                <View style={{flex: 1}} />
-                <Text style={{fontSize: 12}}>Munich</Text>
-              </View>
+            <View style={{paddingHorizontal: 20}}>
+              <Image source={figma} style={{height: 40, width: 40}} />
+              <Text style={{paddingTop: 10, fontSize: 12, fontWeight: '600'}}>
+                Figma
+              </Text>
             </View>
           </View>
         </View>
 
-        <Text style={{fontWeight: '500', paddingTop: 10}}>Recent</Text>
         <View
           style={{
-            flexDirection: 'row',
-            paddingVertical: 10,
-            paddingHorizontal: 10,
-            marginTop: 10,
-            backgroundColor: '#333',
-            borderRadius: 5,
+            backgroundColor: 'rgba(39, 40, 43, 0.95)',
+            padding: 10,
+            borderRadius: 10,
+            borderWidth: 1,
+            borderColor: '#444',
+            marginRight: 10,
+            width: 180,
           }}>
-          <Image source={figma} style={{height: 20, width: 20}} />
-          <Text style={{paddingLeft: 10}}>Figma</Text>
+          <Text style={{fontSize: 12, fontWeight: '500', color: '#AAA'}}>
+            Calendar
+          </Text>
+
+          <Text style={{fontSize: 14, fontWeight: '600', marginTop: 10}}>
+            C-Levels Monthly
+          </Text>
+          <Text style={{fontSize: 12}}>20 Mins.</Text>
+          <View style={{flex: 1}} />
+          <Text
+            style={{
+              fontSize: 12,
+              fontWeight: '600',
+              textAlign: 'right',
+              color: '#1e5cc6',
+            }}>
+            Join →
+          </Text>
         </View>
+
         <View
           style={{
-            flexDirection: 'row',
-            paddingVertical: 10,
-            paddingHorizontal: 10,
+            backgroundColor: 'rgba(39, 40, 43, 0.95)',
+            padding: 10,
+            borderRadius: 10,
+            borderWidth: 1,
+            borderColor: '#444',
+            marginRight: 10,
+            width: 180,
           }}>
-          <Image source={spotifyLogo} style={{height: 20, width: 20}} />
-          <Text style={{paddingLeft: 10}}>Spotify - Play next song</Text>
+          <Text style={{fontSize: 12, fontWeight: '500', color: '#AAA'}}>
+            Weather
+          </Text>
+
+          <Text style={{fontSize: 16, fontWeight: '600', paddingTop: 10}}>
+            20 ℃
+          </Text>
+          <Text style={{fontSize: 12, color: '#ccc'}}>80% Chance of rain</Text>
+          <View style={{flex: 1}} />
+          <Text style={{fontSize: 12, textAlign: 'right'}}>Munich</Text>
         </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            paddingVertical: 10,
-            paddingHorizontal: 10,
-          }}>
-          <Image source={spotifyLogo} style={{height: 20, width: 20}} />
-          <Text style={{paddingLeft: 10}}>Spotify - Previous song</Text>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            paddingVertical: 10,
-            paddingHorizontal: 10,
-          }}>
-          <Image source={spotifyLogo} style={{height: 20, width: 20}} />
-          <Text style={{paddingLeft: 10}}>Spotify - Play/Pause</Text>
-        </View>
-      </ScrollView>
+      </View>
     </View>
   )
 }

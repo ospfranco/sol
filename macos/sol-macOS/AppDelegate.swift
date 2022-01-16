@@ -52,13 +52,14 @@ class AppDelegate: NSObject, NSApplicationDelegate  {
     window.standardWindowButton(.zoomButton)?.isHidden = true
     window.standardWindowButton(.miniaturizeButton)?.isHidden = true
     window.isOpaque = false
-    window.alphaValue = 0.98
+    window.backgroundColor = .clear
+//    window.alphaValue = 0.98
 
-     let visualEffect = NSVisualEffectView()
-     visualEffect.blendingMode = .behindWindow
-     visualEffect.state = .active
-    visualEffect.material = .windowBackground
-     window.contentView = visualEffect
+//     let visualEffect = NSVisualEffectView()
+//     visualEffect.blendingMode = .behindWindow
+//     visualEffect.state = .active
+//    visualEffect.material = .windowBackground
+//     window.contentView = visualEffect
 
     return window
   }
