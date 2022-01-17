@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,6 +14,8 @@
 		514201522437B4B40078DB4F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 514201512437B4B40078DB4F /* Assets.xcassets */; };
 		514201552437B4B40078DB4F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 514201532437B4B40078DB4F /* Main.storyboard */; };
 		70EA99EA2794967E008E54FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70EA99E92794967E008E54FD /* AppDelegate.swift */; };
+		70F7EBEE2795A68B00CED17A /* MyNSWindowDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F7EBED2795A68B00CED17A /* MyNSWindowDelegate.swift */; };
+		70F7EBF12795A85200CED17A /* HotKey in Frameworks */ = {isa = PBXBuildFile; productRef = 70F7EBF02795A85200CED17A /* HotKey */; };
 		889C5FD9C31FC8F222708FCC /* libPods-sol-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F947041E530F4CAA5666143 /* libPods-sol-iOS.a */; };
 		E2E9BB8131AAA431B6402620 /* libPods-sol-macOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D8F39DB7FD91E1376ED253D /* libPods-sol-macOS.a */; };
 /* End PBXBuildFile section */
@@ -40,6 +42,7 @@
 		514201592437B4B40078DB4F /* sol.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = sol.entitlements; sourceTree = "<group>"; };
 		70EA99E82794967E008E54FD /* sol-macOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "sol-macOS-Bridging-Header.h"; sourceTree = "<group>"; };
 		70EA99E92794967E008E54FD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		70F7EBED2795A68B00CED17A /* MyNSWindowDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyNSWindowDelegate.swift; sourceTree = "<group>"; };
 		9D32DFD059D5DB6DDEF38881 /* Pods-Shared-sol-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shared-sol-iOS.debug.xcconfig"; path = "Target Support Files/Pods-Shared-sol-iOS/Pods-Shared-sol-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		A82DFB63B157C65E5D698CA2 /* Pods-Shared-sol-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shared-sol-iOS.release.xcconfig"; path = "Target Support Files/Pods-Shared-sol-iOS/Pods-Shared-sol-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		CE0E74F571E1F48FF00A8324 /* Pods-Shared-sol-macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shared-sol-macOS.release.xcconfig"; path = "Target Support Files/Pods-Shared-sol-macOS/Pods-Shared-sol-macOS.release.xcconfig"; sourceTree = "<group>"; };
@@ -62,6 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70F7EBF12795A85200CED17A /* HotKey in Frameworks */,
 				E2E9BB8131AAA431B6402620 /* libPods-sol-macOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -112,6 +116,7 @@
 		5142014A2437B4B30078DB4F /* sol-macOS */ = {
 			isa = PBXGroup;
 			children = (
+				70F7EBEA2795A4BD00CED17A /* lib */,
 				38423A3E24576CBC00BC2EAC /* main.jsbundle */,
 				514201512437B4B40078DB4F /* Assets.xcassets */,
 				514201532437B4B40078DB4F /* Main.storyboard */,
@@ -121,6 +126,14 @@
 				70EA99E82794967E008E54FD /* sol-macOS-Bridging-Header.h */,
 			);
 			path = "sol-macOS";
+			sourceTree = "<group>";
+		};
+		70F7EBEA2795A4BD00CED17A /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				70F7EBED2795A68B00CED17A /* MyNSWindowDelegate.swift */,
+			);
+			path = lib;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -196,6 +209,9 @@
 			dependencies = (
 			);
 			name = "sol-macOS";
+			packageProductDependencies = (
+				70F7EBF02795A85200CED17A /* HotKey */,
+			);
 			productName = sol;
 			productReference = 514201492437B4B30078DB4F /* sol.app */;
 			productType = "com.apple.product-type.application";
@@ -227,6 +243,9 @@
 				Base,
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
+			packageReferences = (
+				70F7EBEF2795A85200CED17A /* XCRemoteSwiftPackageReference "HotKey" */,
+			);
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -443,6 +462,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				70EA99EA2794967E008E54FD /* AppDelegate.swift in Sources */,
+				70F7EBEE2795A68B00CED17A /* MyNSWindowDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -477,7 +497,10 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "sol-iOS/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -499,7 +522,10 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = "sol-iOS/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -522,7 +548,10 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				INFOPLIST_FILE = "sol-macos/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/DoubleConversion-macOS\"",
@@ -574,7 +603,10 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				INFOPLIST_FILE = "sol-macos/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/DoubleConversion-macOS\"",
@@ -663,7 +695,10 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					/usr/lib/swift,
+					"$(inherited)",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift-5.2/$(PLATFORM_NAME)\"",
 					"\"$(inherited)\"",
@@ -715,7 +750,10 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					/usr/lib/swift,
+					"$(inherited)",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift-5.2/$(PLATFORM_NAME)\"",
 					"\"$(inherited)\"",
@@ -757,6 +795,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		70F7EBEF2795A85200CED17A /* XCRemoteSwiftPackageReference "HotKey" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/soffes/HotKey";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		70F7EBF02795A85200CED17A /* HotKey */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70F7EBEF2795A85200CED17A /* XCRemoteSwiftPackageReference "HotKey" */;
+			productName = HotKey;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 83CBB9F71A601CBA00E9B192 /* Project object */;
 }

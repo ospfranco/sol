@@ -1,12 +1,21 @@
 import Foundation
 import Cocoa
+import HotKey
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate  {
+  var myWindowDelegate: MyNSWindowDelegate!
   var mainWindow: NSWindow!
   var statusBarItem: NSStatusItem!
+  let hotKey = HotKey(key: .space, modifiers: [.option])
   
-  func applicationDidFinishLaunching(_ aNotification: Notification) {    setupMainView()
+  func applicationDidFinishLaunching(_ aNotification: Notification) {
+    self.myWindowDelegate = MyNSWindowDelegate(resignHandler: {
+      print("ROPO trying to hide window")
+      self.hideWindow()
+    })
+    
+    
     
     let jsCodeLocation: URL = RCTBundleURLProvider.sharedSettings().jsBundleURL(forBundleRoot: "index", fallbackResource:"main")
 
@@ -14,33 +23,27 @@ class AppDelegate: NSObject, NSApplicationDelegate  {
     let rootViewController = NSViewController()
     rootViewController.view = rootView
     
+    mainWindow = createWindow()
+    mainWindow.delegate = myWindowDelegate
+    mainWindow.setFrameAutosaveName("Main Window")
     mainWindow.contentViewController = rootViewController
     let origin = CGPoint(x: 0, y: 0)
     let size = CGSize(width: 800, height: 600)
     let frame = NSRect(origin: origin, size: size)
     mainWindow.setFrame(frame, display: true)
-    showWindow(nil)
-  }
-  
-  
-  func setupMainView() {
-
-    mainWindow = createWindow()
-    mainWindow.setFrameAutosaveName("Main Window")
-    var registeredDraggedTypes: [NSPasteboard.PasteboardType] = [.fileURL]
     
-    let filePromiseReceiverTypes = NSFilePromiseReceiver.readableDraggedTypes.map {
-      NSPasteboard.PasteboardType($0)
+    showWindow()
+    hotKey.keyDownHandler = {
+      self.showWindow()
     }
-    
-    registeredDraggedTypes.append(contentsOf: filePromiseReceiverTypes)
-    
+
   }
   
   private func createWindow() -> NSWindow {
     let window = NSWindow(
       contentRect: NSRect(x: 0, y: 0, width: 800, height: 500),
-      styleMask: [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView],
+//      styleMask: [.borderless, .closable, .miniaturizable],
+      styleMask: [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView, .borderless],
       backing: .buffered, defer: false)
     
     window.titlebarAppearsTransparent = true
@@ -53,24 +56,14 @@ class AppDelegate: NSObject, NSApplicationDelegate  {
     window.standardWindowButton(.miniaturizeButton)?.isHidden = true
     window.isOpaque = false
     window.backgroundColor = .clear
-//    window.alphaValue = 0.98
-
-//     let visualEffect = NSVisualEffectView()
-//     visualEffect.blendingMode = .behindWindow
-//     visualEffect.state = .active
-//    visualEffect.material = .windowBackground
-//     window.contentView = visualEffect
-
     return window
   }
   
 
-  @objc func toggleWindow(_ sender: AnyObject?) {
-    if self.mainWindow.isVisible && self.mainWindow.isKeyWindow {
+  func toggleWindow(_ sender: AnyObject?) {
+    if self.mainWindow.isVisible || self.mainWindow.isKeyWindow {
       self.mainWindow.close()
-//      self.hotKey.isPaused = true
     } else {
-//      self.hotKey.isPaused = false
       self.mainWindow.makeKeyAndOrderFront(self)
       self.mainWindow.center()
        if !NSApp.isActive {
@@ -79,27 +72,18 @@ class AppDelegate: NSObject, NSApplicationDelegate  {
     }
   }
   
-  @objc func showWindow(_ sender: AnyObject?) {
-    if !(self.mainWindow.isVisible && self.mainWindow.isKeyWindow) {
-//      self.hotKey.isPaused = false
-      self.mainWindow.makeKeyAndOrderFront(self)
-      self.mainWindow.center()
-      if !NSApp.isActive {
-        NSApp.activate(ignoringOtherApps: true)
-      }
+  func showWindow() {
+    self.mainWindow.makeKeyAndOrderFront(self)
+    self.mainWindow.center()
+    if !NSApp.isActive {
+      NSApp.activate(ignoringOtherApps: true)
     }
   }
   
-  @objc func hideWindow() {
-    if self.mainWindow.isVisible {
-      self.mainWindow.close()
-//      self.hotKey.isPaused = true
-    }
-  }
+  func hideWindow() {
   
-  // func initPipeline(urls: [URL]) {
-//    store.initPipeline(urls: urls)
-  // }
+    self.mainWindow.close()
+  }
   
   func closeApp() {
     NSApp.terminate(nil)

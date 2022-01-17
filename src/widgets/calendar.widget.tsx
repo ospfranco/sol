@@ -35,6 +35,7 @@ export const CalendarWidget: FC<IProps> = ({style}) => {
 
   return (
     <TouchableOpacity
+      disabled
       // @ts-expect-error
       onMouseEnter={hoverOn}
       onMouseLeave={hoverOff}

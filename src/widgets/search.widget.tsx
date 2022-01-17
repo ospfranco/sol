@@ -43,20 +43,13 @@ export const SearchWidget = () => {
       onMouseLeave={hoverOff}
       disabled
       style={tw.style(
-        `bg-light dark:bg-dark rounded-lg border border-gray-100 dark:border-gray-600 flex-1`,
+        `bg-light dark:bg-dark rounded-lg border flex-1`,
         // @ts-ignore
         {
           borderColor,
         },
       )}>
-      <View
-        style={{
-          paddingVertical: 15,
-          paddingHorizontal: 20,
-          borderColor: '#444',
-          borderBottomWidth: 1,
-          width: '100%',
-        }}>
+      <View style={tw`px-6 py-4 border-b border-gray-200 dark:border-gray-600`}>
         <TextInput
           autoFocus
           // @ts-ignore
