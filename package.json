@@ -16,7 +16,7 @@
     "@types/react-native": "^0.66.12",
     "react": "17.0.1",
     "react-native": "0.64.3",
-    "react-native-macos": "^0.64.0-0",
+    "react-native-macos": "^0.64.22",
     "twrnc": "^2.2.0",
     "typescript": "^4.5.4"
   },

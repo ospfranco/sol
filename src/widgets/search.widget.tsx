@@ -1,13 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react'
-import {
-  Animated,
-  Image,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native'
+import {Animated, Image, ScrollView, Text, TextInput, View} from 'react-native'
 import spotifyLogo from '../assets/spotify.png'
 import figma from '../assets/figma.png'
 import notion from '../assets/notion.png'
@@ -18,46 +10,47 @@ import tw from 'tailwind'
 import {useBoolean} from 'hooks'
 
 export const SearchWidget = () => {
-  const [query, setQuery] = useState('')
   useDeviceContext(tw)
-  const [hovered, hoverOn, hoverOff] = useBoolean()
-  const fadeAnim = useRef(new Animated.Value(0)).current
+  const [query, setQuery] = useState('')
+  const [inputFocused, focusOn, focusOff] = useBoolean()
+  const fadeAnim = useRef(new Animated.Value(1)).current
 
   useEffect(() => {
     Animated.timing(fadeAnim, {
-      toValue: hovered ? 1 : 0,
+      toValue: inputFocused ? 1 : 0,
       duration: 300,
       useNativeDriver: false,
     }).start()
-  }, [hovered])
+  }, [inputFocused])
 
   const borderColor = fadeAnim.interpolate({
     inputRange: [0, 1],
-    outputRange: ['rgba(0, 0, 0, 0)', 'rgba(30, 92, 198,1)'],
+    outputRange: ['rgba(100, 100, 100, 1)', 'rgba(30, 92, 198,1)'],
   })
 
   return (
-    <TouchableOpacity
-      // @ts-expect-error
-      onMouseEnter={hoverOn}
-      onMouseLeave={hoverOff}
-      disabled
-      style={tw.style(
-        `bg-light dark:bg-dark rounded-lg border flex-1`,
-        // @ts-ignore
-        {
-          borderColor,
-        },
-      )}>
-      <View style={tw`px-6 py-4 border-b border-gray-200 dark:border-gray-600`}>
-        <TextInput
-          autoFocus
-          // @ts-ignore
-          enableFocusRing={false}
-          placeholder="Type something..."
-          value={query}
-          onChangeText={setQuery}
-        />
+    <View
+      style={tw`flex-1 border rounded-lg bg-light dark:bg-dark dark:border-gray-800`}>
+      <View style={tw`px-3 py-2`}>
+        <Animated.View
+          style={tw.style(
+            `px-3 py-2 border rounded`,
+            // @ts-ignore
+            {
+              borderColor,
+            },
+          )}>
+          <TextInput
+            autoFocus
+            // @ts-ignore
+            enableFocusRing={false}
+            placeholder="Type something..."
+            value={query}
+            onChangeText={setQuery}
+            onFocus={focusOn}
+            onBlur={focusOff}
+          />
+        </Animated.View>
       </View>
       {!!query && (
         <View style={{flex: 1, padding: 20}}>
@@ -234,6 +227,6 @@ export const SearchWidget = () => {
           </View>
         </ScrollView>
       )}
-    </TouchableOpacity>
+    </View>
   )
 }

@@ -13,6 +13,7 @@ import {useDeviceContext} from 'twrnc'
 
 interface IProps {
   style?: StyleProp<ViewStyle>
+  focused?: boolean
 }
 
 export const CalendarWidget: FC<IProps> = ({style}) => {
@@ -47,34 +48,33 @@ export const CalendarWidget: FC<IProps> = ({style}) => {
         },
         style,
       )}>
-      <Text style={tw`text-xs text-gray-400`}>Calendar</Text>
-
-      <View style={tw`pt-3`}>
-        <View style={tw`flex-row items-center`}>
-          <View style={tw`h-2 w-2 rounded-full bg-red-500 mr-2`} />
-          <Text style={tw`font-medium dark:text-white`}>C-Levels Monthly</Text>
+      <TouchableOpacity style={tw`flex-1`}>
+        <Text style={tw`text-xs text-gray-400`}>Calendar</Text>
+        <View
+          style={tw`pt-3`}
+          // focusable={true}
+          // enableFocusRing={true}
+          // onFocus={() => console.warn('ROPO')}
+        >
+          <View style={tw`flex-row items-center`}>
+            <View style={tw`w-2 h-2 mr-2 bg-red-500 rounded-full`} />
+            <Text style={tw`font-medium dark:text-white`}>
+              C-Levels Monthly
+            </Text>
+          </View>
+          <Text style={tw`text-sm dark:text-gray-400`}>20 Mins.</Text>
         </View>
-        <Text style={tw`text-sm dark:text-gray-400`}>20 Mins.</Text>
-      </View>
-      <View style={{flex: 1}} />
-      <Text
-        style={{
-          fontSize: 12,
-          fontWeight: '600',
-          textAlign: 'right',
-          color: '#1e5cc6',
-        }}>
-        Join →
-      </Text>
-
-      {/* <Animated.View
-        style={tw.style(
-          `border-blue-400 bg-transparent border rounded-lg absolute inset-0`,
-          {
-            opacity: fadeAnim,
-          },
-        )}
-      /> */}
+        <View style={{flex: 1}} />
+        <Text
+          style={{
+            fontSize: 12,
+            fontWeight: '600',
+            textAlign: 'right',
+            color: '#1e5cc6',
+          }}>
+          Join →
+        </Text>
+      </TouchableOpacity>
     </TouchableOpacity>
   )
 }

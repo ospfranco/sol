@@ -11,11 +11,10 @@ class AppDelegate: NSObject, NSApplicationDelegate  {
   
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     self.myWindowDelegate = MyNSWindowDelegate(resignHandler: {
-      print("ROPO trying to hide window")
+      #if !DEBUG
       self.hideWindow()
+      #endif
     })
-    
-    
     
     let jsCodeLocation: URL = RCTBundleURLProvider.sharedSettings().jsBundleURL(forBundleRoot: "index", fallbackResource:"main")
 
@@ -30,9 +29,10 @@ class AppDelegate: NSObject, NSApplicationDelegate  {
     let origin = CGPoint(x: 0, y: 0)
     let size = CGSize(width: 800, height: 600)
     let frame = NSRect(origin: origin, size: size)
-    mainWindow.setFrame(frame, display: true)
+    mainWindow.setFrame(frame, display: false)
     
     showWindow()
+
     hotKey.keyDownHandler = {
       self.showWindow()
     }
@@ -40,17 +40,17 @@ class AppDelegate: NSObject, NSApplicationDelegate  {
   }
   
   private func createWindow() -> NSWindow {
-    let window = NSWindow(
+    let window = NSPanel(
       contentRect: NSRect(x: 0, y: 0, width: 800, height: 500),
-//      styleMask: [.borderless, .closable, .miniaturizable],
-      styleMask: [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView, .borderless],
+      styleMask: [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView],
       backing: .buffered, defer: false)
     
+    window.collectionBehavior = [.moveToActiveSpace, .transient, .ignoresCycle]
     window.titlebarAppearsTransparent = true
     window.titleVisibility = .hidden
-    window.isMovableByWindowBackground = false
+//    window.isMovableByWindowBackground = false
     window.isReleasedWhenClosed = false
-    window.collectionBehavior = [.transient, .ignoresCycle]
+    
     window.standardWindowButton(.closeButton)?.isHidden = true
     window.standardWindowButton(.zoomButton)?.isHidden = true
     window.standardWindowButton(.miniaturizeButton)?.isHidden = true
@@ -61,27 +61,20 @@ class AppDelegate: NSObject, NSApplicationDelegate  {
   
 
   func toggleWindow(_ sender: AnyObject?) {
-    if self.mainWindow.isVisible || self.mainWindow.isKeyWindow {
-      self.mainWindow.close()
+    if self.mainWindow.isVisible && self.mainWindow.isKeyWindow {
+      hideWindow()
     } else {
-      self.mainWindow.makeKeyAndOrderFront(self)
-      self.mainWindow.center()
-       if !NSApp.isActive {
-         NSApp.activate(ignoringOtherApps: true)
-       }
+      showWindow()
     }
   }
   
   func showWindow() {
-    self.mainWindow.makeKeyAndOrderFront(self)
-    self.mainWindow.center()
-    if !NSApp.isActive {
-      NSApp.activate(ignoringOtherApps: true)
-    }
+    NSApp.activate(ignoringOtherApps: true)
+    mainWindow.center()
+    mainWindow.makeKeyAndOrderFront(self)
   }
   
   func hideWindow() {
-  
     self.mainWindow.close()
   }
   

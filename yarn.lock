@@ -5569,7 +5569,7 @@ react-native-codegen@^0.0.6:
     jscodeshift "^0.11.0"
     nullthrows "^1.1.1"
 
-react-native-macos@^0.64.0-0:
+react-native-macos@^0.64.22:
   version "0.64.22"
   resolved "https://registry.yarnpkg.com/react-native-macos/-/react-native-macos-0.64.22.tgz#e538e2f9f932ec923c37c25188e00d3e21536fba"
   integrity sha512-UwQUGGbQlm0vSsVZZmstn49f8YLfVBuXmpEAfk8hZSX0K4k2K0G8AC5U9i5rxypL2v7MqxWKgnctwWZvVjegaA==
