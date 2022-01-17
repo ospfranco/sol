@@ -15,7 +15,7 @@ interface IProps {
   style?: StyleProp<ViewStyle>
 }
 
-export const CalendarWidget: FC<IProps> = ({style}) => {
+export const WeatherWidget: FC<IProps> = ({style}) => {
   useDeviceContext(tw)
   const [hovered, hoverOn, hoverOff] = useBoolean()
   const fadeAnim = useRef(new Animated.Value(0)).current
@@ -46,25 +46,18 @@ export const CalendarWidget: FC<IProps> = ({style}) => {
         },
         style,
       )}>
-      <Text style={tw`text-xs text-gray-400`}>Calendar</Text>
+      <Text style={tw`text-xs text-gray-400`}>Weather</Text>
 
       <View style={tw`pt-3`}>
-        <View style={tw`flex-row items-center`}>
-          <View style={tw`h-2 w-2 rounded-full bg-red-500 mr-2`} />
-          <Text style={tw`font-medium dark:text-white`}>C-Levels Monthly</Text>
-        </View>
-        <Text style={tw`text-sm dark:text-gray-400`}>20 Mins.</Text>
+        <Text style={tw`font-medium dark:text-white text-lg`}>20 ℃</Text>
+        <Text style={tw`text-sm text-gray-500 dark:text-gray-400`}>
+          80% Chance of rain
+        </Text>
+        <Text style={tw`text-xs text-gray-500 dark:text-gray-400`}>
+          Munich - Harlaching
+        </Text>
       </View>
       <View style={{flex: 1}} />
-      <Text
-        style={{
-          fontSize: 12,
-          fontWeight: '600',
-          textAlign: 'right',
-          color: '#1e5cc6',
-        }}>
-        Join →
-      </Text>
 
       {/* <Animated.View
         style={tw.style(
