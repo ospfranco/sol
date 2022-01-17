@@ -5,6 +5,7 @@ import figma from './assets/figma.png'
 import notion from './assets/notion.png'
 import googleTranslate from './assets/google_translate.png'
 import todo from './assets/todo.png'
+import {CalendarWidget} from 'widgets/calendar.widget'
 
 export const App = () => {
   const [query, setQuery] = useState('')
@@ -269,58 +270,10 @@ export const App = () => {
                 Renovate expired certificates
               </Text>
             </View>
-            {/* <View style={{paddingHorizontal: 20}}>
-              <Image source={spotifyLogo} style={{height: 40, width: 40}} />
-              <Text style={{paddingTop: 10, fontSize: 12, fontWeight: '600'}}>
-                Spotify
-              </Text>
-            </View>
-
-            <View style={{paddingHorizontal: 20}}>
-              <Image source={figma} style={{height: 40, width: 40}} />
-              <Text style={{paddingTop: 10, fontSize: 12, fontWeight: '600'}}>
-                Figma
-              </Text>
-            </View>
-
-            <View style={{paddingHorizontal: 20}}>
-              <Image source={figma} style={{height: 40, width: 40}} />
-              <Text style={{paddingTop: 10, fontSize: 12, fontWeight: '600'}}>
-                Figma
-              </Text>
-            </View> */}
           </View>
         </View>
 
-        <View
-          style={{
-            backgroundColor: 'rgba(39, 40, 43, 0.98)',
-            padding: 10,
-            borderRadius: 10,
-            borderWidth: 1,
-            borderColor: '#444',
-            marginRight: 10,
-            width: 180,
-          }}>
-          <Text style={{fontSize: 12, fontWeight: '500', color: '#AAA'}}>
-            Calendar
-          </Text>
-
-          <Text style={{fontSize: 14, fontWeight: '600', marginTop: 10}}>
-            C-Levels Monthly
-          </Text>
-          <Text style={{fontSize: 12}}>20 Mins.</Text>
-          <View style={{flex: 1}} />
-          <Text
-            style={{
-              fontSize: 12,
-              fontWeight: '600',
-              textAlign: 'right',
-              color: '#1e5cc6',
-            }}>
-            Join →
-          </Text>
-        </View>
+        <CalendarWidget />
 
         <View
           style={{
