@@ -8,6 +8,7 @@ class AppDelegate: NSObject, NSApplicationDelegate  {
   var mainWindow: NSWindow!
   var statusBarItem: NSStatusItem!
   let hotKey = HotKey(key: .space, modifiers: [.option])
+//  let tabHotkey = HotKey(key: .a, modifiers: [])
   
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     self.myWindowDelegate = MyNSWindowDelegate(resignHandler: {
@@ -36,7 +37,16 @@ class AppDelegate: NSObject, NSApplicationDelegate  {
     hotKey.keyDownHandler = {
       self.showWindow()
     }
-
+    
+    NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
+      self.keyDown(with: $0)
+      return $0
+    }
+    
+  }
+  
+  func keyDown(with event: NSEvent) {
+    print("MARKER pressed \(event.characters ?? "NO_CHAR")")
   }
   
   private func createWindow() -> NSWindow {

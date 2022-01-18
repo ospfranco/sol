@@ -13,6 +13,8 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		514201522437B4B40078DB4F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 514201512437B4B40078DB4F /* Assets.xcassets */; };
 		514201552437B4B40078DB4F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 514201532437B4B40078DB4F /* Main.storyboard */; };
+		70969E1727966ECD00BE3F1C /* SolNative.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70969E1627966ECD00BE3F1C /* SolNative.swift */; };
+		70969E192796719100BE3F1C /* SolNative.m in Sources */ = {isa = PBXBuildFile; fileRef = 70969E182796719100BE3F1C /* SolNative.m */; };
 		70EA99EA2794967E008E54FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70EA99E92794967E008E54FD /* AppDelegate.swift */; };
 		70F7EBEE2795A68B00CED17A /* MyNSWindowDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F7EBED2795A68B00CED17A /* MyNSWindowDelegate.swift */; };
 		70F7EBF12795A85200CED17A /* HotKey in Frameworks */ = {isa = PBXBuildFile; productRef = 70F7EBF02795A85200CED17A /* HotKey */; };
@@ -40,6 +42,8 @@
 		514201542437B4B40078DB4F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		514201562437B4B40078DB4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		514201592437B4B40078DB4F /* sol.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = sol.entitlements; sourceTree = "<group>"; };
+		70969E1627966ECD00BE3F1C /* SolNative.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolNative.swift; sourceTree = "<group>"; };
+		70969E182796719100BE3F1C /* SolNative.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SolNative.m; sourceTree = "<group>"; };
 		70EA99E82794967E008E54FD /* sol-macOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "sol-macOS-Bridging-Header.h"; sourceTree = "<group>"; };
 		70EA99E92794967E008E54FD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		70F7EBED2795A68B00CED17A /* MyNSWindowDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyNSWindowDelegate.swift; sourceTree = "<group>"; };
@@ -132,6 +136,8 @@
 			isa = PBXGroup;
 			children = (
 				70F7EBED2795A68B00CED17A /* MyNSWindowDelegate.swift */,
+				70969E1627966ECD00BE3F1C /* SolNative.swift */,
+				70969E182796719100BE3F1C /* SolNative.m */,
 			);
 			path = lib;
 			sourceTree = "<group>";
@@ -463,6 +469,8 @@
 			files = (
 				70EA99EA2794967E008E54FD /* AppDelegate.swift in Sources */,
 				70F7EBEE2795A68B00CED17A /* MyNSWindowDelegate.swift in Sources */,
+				70969E1727966ECD00BE3F1C /* SolNative.swift in Sources */,
+				70969E192796719100BE3F1C /* SolNative.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

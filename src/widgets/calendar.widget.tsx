@@ -50,12 +50,7 @@ export const CalendarWidget: FC<IProps> = ({style}) => {
       )}>
       <TouchableOpacity style={tw`flex-1`}>
         <Text style={tw`text-xs text-gray-400`}>Calendar</Text>
-        <View
-          style={tw`pt-3`}
-          // focusable={true}
-          // enableFocusRing={true}
-          // onFocus={() => console.warn('ROPO')}
-        >
+        <View style={tw`pt-3`}>
           <View style={tw`flex-row items-center`}>
             <View style={tw`w-2 h-2 mr-2 bg-red-500 rounded-full`} />
             <Text style={tw`font-medium dark:text-white`}>
