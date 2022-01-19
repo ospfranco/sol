@@ -107,6 +107,7 @@ export const SearchWidget = () => {
                       fontSize: 12,
                       fontWeight: '600',
                       paddingLeft: 10,
+                      color: "#fff",
                     }}>
                     Translate
                   </Text>
@@ -132,6 +133,7 @@ export const SearchWidget = () => {
                       fontSize: 12,
                       fontWeight: '600',
                       paddingLeft: 10,
+                      color: "#fff",
                     }}>
                     MS Todo
                   </Text>
@@ -146,7 +148,7 @@ export const SearchWidget = () => {
               paddingVertical: 10,
               paddingHorizontal: 10,
               marginTop: 10,
-              backgroundColor: '#333',
+              backgroundColor: 'rgba(30,92,198,0.3)',
               borderRadius: 5,
             }}>
             <Image source={figma} style={{height: 20, width: 20}} />
