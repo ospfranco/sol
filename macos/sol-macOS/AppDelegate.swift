@@ -4,6 +4,7 @@ import HotKey
 import EventKit
 
 let handledKeys: [UInt16] = [53, 126, 125, 36, 48]
+let numberchars: [String] = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate  {
@@ -49,7 +50,7 @@ class AppDelegate: NSObject, NSApplicationDelegate  {
         return nil
       }
 
-      if metaPressed && $0.keyCode == 18 {
+      if metaPressed && $0.characters != nil && numberchars.contains($0.characters!) {
         return nil
       }      
       
