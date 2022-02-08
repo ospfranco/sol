@@ -9,5 +9,6 @@ RCT_EXTERN_METHOD(getNextEvents: (RCTPromiseResolveBlock)resolve rejecter:(RCTPr
 RCT_EXTERN_METHOD(hideWindow)
 RCT_EXTERN_METHOD(getApps: (RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(openFile: (NSString)path)
+RCT_EXTERN_METHOD(toggleDarkMode)
 
 @end

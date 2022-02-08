@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSAppleEventsUsageDescription</key>
+	<string>Allow sol to control system preferences</string>
 	<key>NSCalendarsUsageDescription</key>
 	<string>To display your next appointments</string>
 	<key>CFBundleDevelopmentRegion</key>

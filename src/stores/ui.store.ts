@@ -106,13 +106,21 @@ export let createUIStore = (root: IRootStore) => {
     }
   }
 
-  const SETTING_ITEMS = [
+  const SETTING_ITEMS: IItem[] = [
     {
       icon: '☯️',
       name: 'Turn on minimalism',
       type: ItemType.CONFIGURATION,
       callback: () => {
         store.toggleMinimalist()
+      },
+    },
+    {
+      icon: '🌓',
+      name: 'Toggle dark mode',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.toggleDarkMode()
       },
     },
   ]

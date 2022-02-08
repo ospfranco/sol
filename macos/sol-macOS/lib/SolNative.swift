@@ -52,4 +52,8 @@ class SolNative: RCTEventEmitter {
   @objc func openFile(_ path: String) {
     NSWorkspace.shared.openFile(path)
   }
+  
+  @objc func toggleDarkMode() {
+    DarkMode.isEnabled = !DarkMode.isEnabled
+  }
 }
