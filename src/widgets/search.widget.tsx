@@ -64,14 +64,14 @@ export const SearchWidget: FC<IProps> = observer(() => {
   return (
     <View
       style={tw`flex-1 border border-gray-200 rounded-lg bg-light dark:bg-dark dark:border-gray-800`}>
-      <View style={tw`py-2`}>
+      <View style={tw`pt-2`}>
         <Animated.View
           style={tw.style(
-            `px-3 py-2 border-b flex-row`,
-            // @ts-ignore
-            {
-              borderColor,
-            },
+            `px-3 py-2 flex-row`,
+            // // @ts-ignore
+            // {
+            //   borderColor,
+            // },
           )}>
           <TextInput
             autoFocus
@@ -81,7 +81,7 @@ export const SearchWidget: FC<IProps> = observer(() => {
             value={store.ui.query}
             onChangeText={store.ui.setQuery}
             ref={inputRef}
-            style={tw`flex-1`}
+            style={tw`flex-1 text-base`}
           />
           {store.ui.isLoading && (
             <ActivityIndicator size="small" style={tw`w-2 h-2`} />
@@ -92,20 +92,39 @@ export const SearchWidget: FC<IProps> = observer(() => {
       {!store.ui.translationResults && (
         <>
           {!!store.ui.query && (
-            <View style={tw`flex-row p-3`}>
+            <View style={tw`flex-row px-3 py-2 `}>
               <View
-                style={tw`flex-row items-center px-3 py-1 mr-4 rounded shadow-sm dark:bg-gray-800`}>
-                <Text style={tw`text-xs dark:text-gray-500`}>Translate</Text>
+                style={tw`flex-row items-center px-3 py-1 mr-1 rounded shadow dark:bg-gray-800`}>
+                <Text style={tw`text-xs dark:text-gray-400`}>Translate</Text>
               </View>
 
               <View
-                style={tw`flex-row items-center px-3 py-1 mr-4 rounded shadow-sm dark:bg-gray-800`}>
-                <Text style={tw`text-xs dark:text-gray-500`}>Add Todo</Text>
+                style={tw`flex-row items-center px-3 py-1 mr-1 rounded shadow dark:bg-gray-800`}>
+                <Text style={tw`text-xs dark:text-gray-400`}>Add Todo</Text>
               </View>
 
               <View
-                style={tw`flex-row items-center px-3 py-1 mr-4 rounded shadow-sm dark:bg-gray-800`}>
-                <Text style={tw`text-xs dark:text-gray-500`}>Google</Text>
+                style={tw`flex-row items-center px-3 py-1 mr-1 rounded shadow dark:bg-gray-800`}>
+                <Text style={tw`text-xs dark:text-gray-400`}>Google</Text>
+              </View>
+            </View>
+          )}
+
+          {!store.ui.query && (
+            <View style={tw`flex-row px-3 py-2 `}>
+              <View
+                style={tw`flex-row items-center px-3 py-1 mr-1 rounded shadow dark:bg-gray-800`}>
+                <Text style={tw`text-xs dark:text-gray-400`}>Protonmail</Text>
+              </View>
+
+              <View
+                style={tw`flex-row items-center px-3 py-1 mr-1 rounded shadow dark:bg-gray-800`}>
+                <Text style={tw`text-xs dark:text-gray-400`}>BF Repo</Text>
+              </View>
+
+              <View
+                style={tw`flex-row items-center px-3 py-1 mr-1 rounded shadow dark:bg-gray-800`}>
+                <Text style={tw`text-xs dark:text-gray-400`}>Twitter</Text>
               </View>
             </View>
           )}
@@ -129,14 +148,16 @@ export const SearchWidget: FC<IProps> = observer(() => {
                 <View
                   key={index}
                   style={tw.style(`flex-row items-center px-2 py-2 rounded`, {
-                    'bg-gray-200 dark:bg-gray-600':
+                    'bg-gray-500 bg-opacity-50':
                       store.ui.selectedIndex === index && focused,
                   })}>
                   {!!item.url && (
                     <FileIcon url={item.url} style={tw`w-6 h-6`} />
                   )}
                   {!!item.icon && <Text style={tw`text-lg`}>{item.icon}</Text>}
-                  <Text style={tw`ml-3 text-sm`}>{item.name}</Text>
+                  <Text style={tw`ml-3 text-sm dark:text-gray-300`}>
+                    {item.name}
+                  </Text>
                 </View>
               )
             }}
@@ -145,11 +166,11 @@ export const SearchWidget: FC<IProps> = observer(() => {
       )}
 
       {!!store.ui.translationResults && (
-        <View style={tw`flex-row flex-1 p-3`}>
+        <View style={tw`flex-1 p-3`}>
           <View style={tw`flex-1 pr-2`}>
             <View
               style={tw.style(`flex-1 p-3 rounded`, {
-                'bg-gray-200 dark:bg-gray-700': store.ui.selectedIndex === 0,
+                'bg-gray-500 bg-opacity-50': store.ui.selectedIndex === 0,
               })}>
               <Text>🇺🇸</Text>
               <Text style={tw`flex-1 pt-2 text-lg`}>
@@ -160,7 +181,7 @@ export const SearchWidget: FC<IProps> = observer(() => {
           <View style={tw`flex-1 pl-2`}>
             <View
               style={tw.style(`flex-1 p-3 rounded`, {
-                'bg-gray-200 dark:bg-gray-700': store.ui.selectedIndex === 1,
+                'bg-gray-500 bg-opacity-50': store.ui.selectedIndex === 1,
               })}>
               <Text>🇩🇪</Text>
               <Text style={tw`flex-1 pt-2 text-lg`}>

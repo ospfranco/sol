@@ -5,7 +5,7 @@ import {WeatherWidget} from 'widgets/weather.widget'
 import {TodosWidget} from 'widgets/todos.widget'
 import tw from 'tailwind'
 import {SearchWidget} from 'widgets/search.widget'
-import {FavoritesWidget} from 'widgets/favorites.widget'
+// import {FavoritesWidget} from 'widgets/favorites.widget'
 import {observer} from 'mobx-react-lite'
 import {useStore} from 'store'
 
@@ -22,7 +22,7 @@ export const RootContainer = observer(() => {
 
         <WeatherWidget />
       </View>
-      <FavoritesWidget style={tw`mt-1`} />
+      {/* <FavoritesWidget style={tw`mt-1`} /> */}
     </View>
   )
 })

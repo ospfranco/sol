@@ -23,10 +23,12 @@ const Todo = ({
   text,
   focused,
   cb,
+  index,
 }: {
   text: string
   focused: boolean
   cb: () => void
+  index: number
 }) => {
   return (
     <TouchableOpacity
@@ -34,7 +36,13 @@ const Todo = ({
         'bg-gray-500 bg-opacity-50 rounded': focused,
       })}
       onPress={cb}>
-      <Text>▸ {text}</Text>
+      <Text>
+        <Text style={tw`text-xs font-medium dark:text-gray-500`}>
+          {index + 1}
+        </Text>
+        {'  '}
+        {text}
+      </Text>
     </TouchableOpacity>
   )
 }
@@ -62,6 +70,7 @@ export const TodosWidget: FC<IProps> = observer(({style}) => {
         renderItem={({item, index}) => {
           return (
             <Todo
+              index={index}
               focused={focused && selectedIndex === index}
               text={item.text}
               cb={() => {
