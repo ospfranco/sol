@@ -9,8 +9,8 @@ import Fuse from 'fuse.js'
 import {doubleTranslate} from 'lib/translator'
 
 const FUSE_OPTIONS = {
-  distance: 20,
-  threshold: 0.96,
+  threshold: 0.4,
+  ignoreLocation: true,
   keys: ['name'],
 }
 
@@ -89,7 +89,6 @@ export let createUIStore = (root: IRootStore) => {
 
   let hydrate = async () => {
     const storeState = await AsyncStorage.getItem('@ui.store')
-    // let stringState = await buildingAppsNative.keychainRead('state')
 
     if (storeState) {
       let parsedStore = JSON.parse(storeState)
@@ -97,11 +96,7 @@ export let createUIStore = (root: IRootStore) => {
       runInAction(() => {
         store.minimalistMode = parsedStore.minimalistMode
         store.todos = parsedStore.todos
-
-        // store.books = parsedStore.books.map((book: any) => ({
-        //   title: book.title,
-        //   date: new Date(book.date),
-        // }))
+        store.frequencies = parsedStore.frequencies
       })
     }
   }
@@ -126,6 +121,12 @@ export let createUIStore = (root: IRootStore) => {
   ]
 
   let store = makeAutoObservable({
+    //    ____  _                              _     _
+    //   / __ \| |                            | |   | |
+    //  | |  | | |__  ___  ___ _ ____   ____ _| |__ | | ___  ___
+    //  | |  | | '_ \/ __|/ _ \ '__\ \ / / _` | '_ \| |/ _ \/ __|
+    //  | |__| | |_) \__ \  __/ |   \ V / (_| | |_) | |  __/\__ \
+    //   \____/|_.__/|___/\___|_|    \_/ \__,_|_.__/|_|\___||___/
     query: '' as string,
     selectedIndex: 0 as number,
     minimalistMode: false as boolean,
@@ -141,15 +142,41 @@ export let createUIStore = (root: IRootStore) => {
       en: string | undefined
       de: string | undefined
     },
+    frequencies: {} as Record<string, number>,
+    //    _____                            _           _
+    //   / ____|                          | |         | |
+    //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
+    //  | |    / _ \| '_ ` _ \| '_ \| | | | __/ _ \/ _` |
+    //  | |___| (_) | | | | | | |_) | |_| | ||  __/ (_| |
+    //   \_____\___/|_| |_| |_| .__/ \__,_|\__\___|\__,_|
+    //                        | |
+    //                        |_|
     get items(): IItem[] {
       if (store.query) {
-        return new Fuse([...store.apps, ...SETTING_ITEMS], FUSE_OPTIONS)
+        return new Fuse([...store.apps, ...SETTING_ITEMS], {
+          ...FUSE_OPTIONS,
+          sortFn: (a: any, b: any) => {
+            const freqA = store.frequencies[a.name] ?? 0
+            const freqB = store.frequencies[b.name] ?? 0
+            return freqB - freqA
+          },
+        })
           .search(store.query)
           .map(r => r.item)
       } else {
-        return [...store.apps, ...SETTING_ITEMS]
+        return [...store.apps, ...SETTING_ITEMS].sort((a, b) => {
+          const freqA = store.frequencies[a.name] ?? 0
+          const freqB = store.frequencies[b.name] ?? 0
+          return freqB - freqA
+        })
       }
     },
+    //                _   _
+    //      /\       | | (_)
+    //     /  \   ___| |_ _  ___  _ __  ___
+    //    / /\ \ / __| __| |/ _ \| '_ \/ __|
+    //   / ____ \ (__| |_| | (_) | | | \__ \
+    //  /_/    \_\___|\__|_|\___/|_| |_|___/
     toggleMinimalist: () => {
       store.minimalistMode = !store.minimalistMode
     },
@@ -223,7 +250,7 @@ export let createUIStore = (root: IRootStore) => {
           break
         }
 
-        // enter
+        // Enter key
         case 36: {
           switch (store.focusedWidget) {
             case FocusableWidget.CALENDAR: {
@@ -251,6 +278,11 @@ export let createUIStore = (root: IRootStore) => {
                 } else if (item.callback) {
                   item.callback()
                 }
+
+                // bump frequency
+                store.frequencies[item.name] = store.frequencies[item.name]
+                  ? store.frequencies[item.name] + 1
+                  : 1
                 solNative.hideWindow()
               }
               break
