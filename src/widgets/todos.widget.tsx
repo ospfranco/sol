@@ -80,7 +80,7 @@ export const TodosWidget: FC<IProps> = observer(({style}) => {
             style={tw.style(
               `text-gray-500 items-center justify-center flex-1`,
               {
-                'bg-blue-500 bg-opacity-50 rounded': focused,
+                'bg-gray-500 bg-opacity-50 rounded': focused,
               },
             )}>
             <Image source={inbox} />

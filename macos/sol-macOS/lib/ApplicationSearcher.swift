@@ -1,6 +1,9 @@
 import Cocoa
 
 class ApplicationSearcher: NSObject {
+  let fixedApps: [URL] = [
+    URL(fileURLWithPath: "/System/Library/CoreServices/Finder.app")
+  ]
 
   public func getAllApplications() -> [Application] {
 
@@ -8,7 +11,7 @@ class ApplicationSearcher: NSObject {
     let systemApplicationsUrls = getApplicationUrlsAt(directory: .applicationDirectory, domain: .systemDomainMask)
     let systemUtilitiesUrls = getApplicationUrlsAt(directory: .applicationDirectory, domain: .systemDomainMask, subpath: "/Utilities")
     
-    let allApplicationUrls = localApplicationUrls + systemApplicationsUrls + systemUtilitiesUrls
+    let allApplicationUrls = localApplicationUrls + systemApplicationsUrls + systemUtilitiesUrls + fixedApps
 
     var applications = [Application]()
     

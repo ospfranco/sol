@@ -58,7 +58,7 @@ export const SearchWidget: FC<IProps> = observer(() => {
 
   const borderColor = fadeAnim.interpolate({
     inputRange: [0, 1],
-    outputRange: ['rgb(100, 100, 100)', 'rgb(0, 205, 255)'],
+    outputRange: ['rgb(100, 100, 100)', 'rgb(0, 142, 255)'],
   })
 
   return (
@@ -111,7 +111,7 @@ export const SearchWidget: FC<IProps> = observer(() => {
                     <FileIcon url={item.url} style={tw`w-6 h-6`} />
                   )}
                   {!!item.icon && <Text style={tw`text-lg`}>{item.icon}</Text>}
-                  <Text style={tw`ml-3`}>{item.name}</Text>
+                  <Text style={tw`ml-3 text-sm`}>{item.name}</Text>
                 </View>
               )
             }}
@@ -138,23 +138,23 @@ export const SearchWidget: FC<IProps> = observer(() => {
           <View style={tw`flex-1 pr-2`}>
             <View
               style={tw.style(`flex-1 p-3 rounded`, {
-                'bg-blue-500': store.ui.selectedIndex === 0,
+                'bg-gray-200 dark:bg-gray-700': store.ui.selectedIndex === 0,
               })}>
+              <Text>🇺🇸</Text>
               <Text style={tw`flex-1 pt-2 text-lg`}>
                 {store.ui.translationResults.en}
               </Text>
-              <Text>🇺🇸</Text>
             </View>
           </View>
           <View style={tw`flex-1 pl-2`}>
             <View
               style={tw.style(`flex-1 p-3 rounded`, {
-                'bg-blue-500 dark:bg-blue-700': store.ui.selectedIndex === 1,
+                'bg-gray-200 dark:bg-gray-700': store.ui.selectedIndex === 1,
               })}>
+              <Text>🇩🇪</Text>
               <Text style={tw`flex-1 pt-2 text-lg`}>
                 {store.ui.translationResults.de}
               </Text>
-              <Text>🇩🇪</Text>
             </View>
           </View>
         </View>

@@ -2,25 +2,28 @@ import Foundation
 import Cocoa
 import HotKey
 import EventKit
+import LaunchAtLogin
 
 let handledKeys: [UInt16] = [53, 126, 125, 36, 48]
 let numberchars: [String] = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate  {
+  
   var mainWindow: Panel!
-  // let hotKey = HotKey(key: .space, modifiers: [.option])
-  let hotKey = HotKey(key: .space, modifiers: [.command])
+  let hotKey = HotKey(key: .space, modifiers: [.option])
+//  let hotKey = HotKey(key: .space, modifiers: [.command])
   let dateFormatter = ISO8601DateFormatter()
   
   func applicationDidFinishLaunching(_ aNotification: Notification) {
+    LaunchAtLogin.isEnabled = true
     hotKey.keyDownHandler = toggle
     
     let eventAuthorizationStatus = EKEventStore.authorizationStatus(for: .event)
     if eventAuthorizationStatus == .notDetermined {
       let store = EKEventStore()
       store.requestAccess(to: .event) { granted, error in
-          print("Event kit request acces response, granted: \(granted), error: \(error)")
+          print("Event kit request access response")
       }
     }
 
