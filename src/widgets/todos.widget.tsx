@@ -72,12 +72,18 @@ export const TodosWidget: FC<IProps> = observer(({style}) => {
           )
         }}
         keyExtractor={({id}) => id}
+        contentContainerStyle={tw`flex-grow-1`}
         ListEmptyComponent={
           <View
-            style={tw.style(`text-gray-500`, {
-              'bg-blue-500 bg-opacity-50 rounded': focused,
-            })}>
-            <Text style={tw.style(`text-gray-500`)}>No new todos</Text>
+            style={tw.style(
+              `text-gray-500 items-center justify-center flex-1`,
+              {
+                'bg-blue-500 bg-opacity-50 rounded': focused,
+              },
+            )}>
+            <Text style={tw.style(`text-gray-300 dark:text-gray-500`)}>
+              No TODOs
+            </Text>
           </View>
         }
       />

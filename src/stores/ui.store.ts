@@ -337,6 +337,13 @@ export let createUIStore = (root: IRootStore) => {
             }
           }
         }
+
+        // "3"
+        case 20: {
+          if (meta) {
+            Linking.openURL('https://twitter.com')
+          }
+        }
       }
     },
     onShow: () => {

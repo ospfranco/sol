@@ -11,12 +11,8 @@ import {
 } from 'react-native'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
-import spotifyLogo from '../assets/spotify.png'
-import figma from '../assets/figma.png'
-import notion from '../assets/notion.png'
-import googleTranslate from '../assets/google_translate.png'
-import todo from '../assets/todo.png'
 import protonmail from '../assets/proton.png'
+import twitter from '../assets/twitter.jpeg'
 import bf from '../assets/bf.png'
 import {observer} from 'mobx-react-lite'
 import {useStore} from 'store'
@@ -41,12 +37,17 @@ export const FavoritesWidget: FC<IProps> = observer(({style}) => {
       <View style={tw`flex-row`}>
         <View style={tw`flex-row items-center mr-4`}>
           <Image source={protonmail} style={tw`w-4 h-4`} resizeMode="contain" />
-          <Text style={tw`ml-2 text-xs font-bold`}>Inbox</Text>
+          <Text style={tw`ml-1 text-xs `}>Inbox</Text>
         </View>
 
-        <View style={tw`flex-row items-center mr-2`}>
+        <View style={tw`flex-row items-center mr-4`}>
           <Image source={bf} style={tw`w-4 h-4`} resizeMode="contain" />
-          <Text style={tw`ml-2 text-xs font-bold`}>BF Repo</Text>
+          <Text style={tw`ml-1 text-xs `}>BF Repo</Text>
+        </View>
+
+        <View style={tw`flex-row items-center mr-4`}>
+          <Image source={twitter} style={tw`w-4 h-4`} resizeMode="contain" />
+          <Text style={tw`ml-1 text-xs `}>Twitter</Text>
         </View>
       </View>
     </View>

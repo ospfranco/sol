@@ -58,12 +58,12 @@ export const SearchWidget: FC<IProps> = observer(() => {
 
   const borderColor = fadeAnim.interpolate({
     inputRange: [0, 1],
-    outputRange: ['rgba(100, 100, 100, 1)', 'rgba(30, 92, 198, 1)'],
+    outputRange: ['rgb(100, 100, 100)', 'rgb(0, 205, 255)'],
   })
 
   return (
     <View
-      style={tw`flex-1 border rounded-lg bg-light dark:bg-dark dark:border-gray-800`}>
+      style={tw`flex-1 border border-gray-200 rounded-lg bg-light dark:bg-dark dark:border-gray-800`}>
       <View style={tw`py-2`}>
         <Animated.View
           style={tw.style(
@@ -91,32 +91,6 @@ export const SearchWidget: FC<IProps> = observer(() => {
 
       {!store.ui.translationResults && (
         <>
-          {!!store.ui.query && (
-            <View style={tw`flex-row p-3`}>
-              <View
-                style={tw`flex-row items-center mr-4 border-gray-600 rounded`}>
-                <Image source={googleTranslate} style={tw`w-6 h-6`} />
-                <View style={tw`flex-row px-1 ml-2 bg-gray-600 rounded`}>
-                  <Text style={tw`text-xs font-bold`}>⌘</Text>
-                </View>
-                <View style={tw`flex-row px-1 ml-1 bg-gray-600 rounded`}>
-                  <Text style={tw`text-xs font-bold`}>1</Text>
-                </View>
-              </View>
-
-              <View style={tw`flex-row items-center border-gray-600 rounded`}>
-                <Text>✅</Text>
-                {/* <Image source={googleTranslate} style={tw`w-6 h-6`} /> */}
-                <View style={tw`flex-row px-1 ml-2 bg-gray-600 rounded`}>
-                  <Text style={tw`text-xs font-bold`}>⌘</Text>
-                </View>
-                <View style={tw`flex-row px-1 ml-1 bg-gray-600 rounded`}>
-                  <Text style={tw`text-xs font-bold`}>2</Text>
-                </View>
-              </View>
-            </View>
-          )}
-
           <FlatList
             style={tw`flex-1`}
             contentContainerStyle={tw`p-3`}
@@ -129,8 +103,8 @@ export const SearchWidget: FC<IProps> = observer(() => {
               return (
                 <View
                   key={index}
-                  style={tw.style(`flex-row items-center px-2 py-1 rounded`, {
-                    'dark:bg-gray-600':
+                  style={tw.style(`flex-row items-center px-2 py-2 rounded`, {
+                    'bg-gray-200 dark:bg-gray-600':
                       store.ui.selectedIndex === index && focused,
                   })}>
                   {!!item.url && (
@@ -142,6 +116,20 @@ export const SearchWidget: FC<IProps> = observer(() => {
               )
             }}
           />
+          {!!store.ui.query && (
+            <View style={tw`flex-row p-3`}>
+              <View
+                style={tw`flex-row items-center mr-4 border-gray-600 rounded`}>
+                <Image source={googleTranslate} style={tw`w-3 h-3`} />
+                <Text style={tw`pl-1 text-xs`}>Translate</Text>
+              </View>
+
+              <View style={tw`flex-row items-center border-gray-600 rounded`}>
+                <Text style={tw`text-xs`}>✅</Text>
+                <Text style={tw`pl-1 text-xs`}>Add TODO</Text>
+              </View>
+            </View>
+          )}
         </>
       )}
 
