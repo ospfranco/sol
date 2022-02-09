@@ -91,14 +91,39 @@ export const SearchWidget: FC<IProps> = observer(() => {
 
       {!store.ui.translationResults && (
         <>
+          {!!store.ui.query && (
+            <View style={tw`flex-row p-3`}>
+              <View
+                style={tw`flex-row items-center px-3 py-1 mr-4 rounded shadow-sm dark:bg-gray-800`}>
+                <Text style={tw`text-xs dark:text-gray-500`}>Translate</Text>
+              </View>
+
+              <View
+                style={tw`flex-row items-center px-3 py-1 mr-4 rounded shadow-sm dark:bg-gray-800`}>
+                <Text style={tw`text-xs dark:text-gray-500`}>Add Todo</Text>
+              </View>
+
+              <View
+                style={tw`flex-row items-center px-3 py-1 mr-4 rounded shadow-sm dark:bg-gray-800`}>
+                <Text style={tw`text-xs dark:text-gray-500`}>Google</Text>
+              </View>
+            </View>
+          )}
           <FlatList
             style={tw`flex-1`}
-            contentContainerStyle={tw`p-3`}
+            contentContainerStyle={tw`p-3 flex-grow-1`}
             ref={listRef}
             data={store.ui.items}
             keyExtractor={item => item.name}
             showsVerticalScrollIndicator
             persistentScrollbar
+            ListEmptyComponent={
+              <View style={tw`items-center justify-center flex-1`}>
+                <Text style={tw`text-gray-200 dark:text-gray-500`}>
+                  No results
+                </Text>
+              </View>
+            }
             renderItem={({item, index}) => {
               return (
                 <View
@@ -116,20 +141,6 @@ export const SearchWidget: FC<IProps> = observer(() => {
               )
             }}
           />
-          {!!store.ui.query && (
-            <View style={tw`flex-row p-3`}>
-              <View
-                style={tw`flex-row items-center mr-4 border-gray-600 rounded`}>
-                <Image source={googleTranslate} style={tw`w-3 h-3`} />
-                <Text style={tw`pl-1 text-xs`}>Translate</Text>
-              </View>
-
-              <View style={tw`flex-row items-center border-gray-600 rounded`}>
-                <Text style={tw`text-xs`}>✅</Text>
-                <Text style={tw`pl-1 text-xs`}>Add TODO</Text>
-              </View>
-            </View>
-          )}
         </>
       )}
 

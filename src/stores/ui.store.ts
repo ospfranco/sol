@@ -9,7 +9,7 @@ import Fuse from 'fuse.js'
 import {doubleTranslate} from 'lib/translator'
 
 const FUSE_OPTIONS = {
-  threshold: 0.4,
+  threshold: 0.3,
   ignoreLocation: true,
   keys: ['name'],
 }
@@ -374,7 +374,11 @@ export let createUIStore = (root: IRootStore) => {
         // "3"
         case 20: {
           if (meta) {
-            Linking.openURL('https://twitter.com')
+            if (store.query) {
+              Linking.openURL(`https://google.com/search?q=${store.query}`)
+            } else {
+              Linking.openURL('https://twitter.com')
+            }
           }
           break
         }
