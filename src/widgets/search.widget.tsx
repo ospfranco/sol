@@ -14,38 +14,24 @@ import {useStore} from 'store'
 import {FocusableWidget} from 'stores'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
-import googleTranslate from '../assets/google_translate.png'
 
 interface IProps {}
+
+const Snack = ({title}: {title: string}) => {
+  return (
+    <View
+      style={tw`flex-row items-center px-3 py-1 mr-1 rounded shadow dark:bg-gray-800`}>
+      <Text style={tw`text-xs dark:text-gray-400`}>{title}</Text>
+    </View>
+  )
+}
 
 export const SearchWidget: FC<IProps> = observer(() => {
   useDeviceContext(tw)
   const store = useStore()
   const focused = store.ui.focusedWidget === FocusableWidget.SEARCH
-  const fadeAnim = useRef(new Animated.Value(1)).current
   const inputRef = useRef<TextInput | null>(null)
   const listRef = useRef<FlatList | null>(null)
-
-  useEffect(() => {
-    // if (focused) {
-    //   inputRef.current?.setNativeProps({editable: true})
-    //   inputRef.current?.focus()
-    //   // Promise.resolve().then(() => {
-    //   //   inputRef.current?.focus()
-    //   // })
-    // } else {
-    //   // blur() does not work, the workaround is to completely disable the input
-    //   // https://github.com/microsoft/react-native-macos/issues/913
-    //   // inputRef.current?.blur()
-    //   inputRef.current?.setNativeProps({editable: false})
-    // }
-
-    Animated.timing(fadeAnim, {
-      toValue: focused ? 1 : 0,
-      duration: 300,
-      useNativeDriver: false,
-    }).start()
-  }, [focused])
 
   useEffect(() => {
     if (focused && store.ui.items.length) {
@@ -56,23 +42,11 @@ export const SearchWidget: FC<IProps> = observer(() => {
     }
   }, [focused, store.ui.items, store.ui.selectedIndex])
 
-  const borderColor = fadeAnim.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['rgb(100, 100, 100)', 'rgb(0, 142, 255)'],
-  })
-
   return (
     <View
       style={tw`flex-1 border border-gray-200 rounded-lg bg-light dark:bg-dark dark:border-gray-800`}>
       <View style={tw`pt-2`}>
-        <Animated.View
-          style={tw.style(
-            `px-3 py-2 flex-row`,
-            // // @ts-ignore
-            // {
-            //   borderColor,
-            // },
-          )}>
+        <View style={tw.style(`px-3 py-2 flex-row`)}>
           <TextInput
             autoFocus
             // @ts-ignore
@@ -86,48 +60,28 @@ export const SearchWidget: FC<IProps> = observer(() => {
           {store.ui.isLoading && (
             <ActivityIndicator size="small" style={tw`w-2 h-2`} />
           )}
-        </Animated.View>
+        </View>
       </View>
 
       {!store.ui.translationResults && (
         <>
           {!!store.ui.query && (
             <View style={tw`flex-row px-3 py-2 `}>
-              <View
-                style={tw`flex-row items-center px-3 py-1 mr-1 rounded shadow dark:bg-gray-800`}>
-                <Text style={tw`text-xs dark:text-gray-400`}>Translate</Text>
-              </View>
-
-              <View
-                style={tw`flex-row items-center px-3 py-1 mr-1 rounded shadow dark:bg-gray-800`}>
-                <Text style={tw`text-xs dark:text-gray-400`}>Add Todo</Text>
-              </View>
-
-              <View
-                style={tw`flex-row items-center px-3 py-1 mr-1 rounded shadow dark:bg-gray-800`}>
-                <Text style={tw`text-xs dark:text-gray-400`}>Google</Text>
-              </View>
+              <Snack title="Translate" />
+              <Snack title="Add todo" />
+              <Snack title="Google it" />
             </View>
           )}
 
           {!store.ui.query && (
             <View style={tw`flex-row px-3 py-2 `}>
-              <View
-                style={tw`flex-row items-center px-3 py-1 mr-1 rounded shadow dark:bg-gray-800`}>
-                <Text style={tw`text-xs dark:text-gray-400`}>Protonmail</Text>
-              </View>
-
-              <View
-                style={tw`flex-row items-center px-3 py-1 mr-1 rounded shadow dark:bg-gray-800`}>
-                <Text style={tw`text-xs dark:text-gray-400`}>BF Repo</Text>
-              </View>
-
-              <View
-                style={tw`flex-row items-center px-3 py-1 mr-1 rounded shadow dark:bg-gray-800`}>
-                <Text style={tw`text-xs dark:text-gray-400`}>Twitter</Text>
-              </View>
+              <Snack title="Protonmail" />
+              <Snack title="BodyFast" />
+              <Snack title="Twitter" />
+              <Snack title="Productlane" />
             </View>
           )}
+
           <FlatList
             style={tw`flex-1`}
             contentContainerStyle={tw`p-3 flex-grow-1`}
@@ -155,7 +109,11 @@ export const SearchWidget: FC<IProps> = observer(() => {
                     <FileIcon url={item.url} style={tw`w-6 h-6`} />
                   )}
                   {!!item.icon && <Text style={tw`text-lg`}>{item.icon}</Text>}
-                  <Text style={tw`ml-3 text-sm dark:text-gray-300`}>
+                  <Text
+                    style={tw.style(`ml-3 text-sm dark:text-gray-400`, {
+                      'dark:text-white':
+                        store.ui.selectedIndex === index && focused,
+                    })}>
                     {item.name}
                   </Text>
                 </View>

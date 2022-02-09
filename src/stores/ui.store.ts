@@ -382,6 +382,14 @@ export let createUIStore = (root: IRootStore) => {
           }
           break
         }
+
+        // "4"
+        case 21: {
+          if (meta) {
+            Linking.openURL('vscode://file/Users/osp/Developer/productlane')
+          }
+          break
+        }
       }
     },
     onShow: () => {
