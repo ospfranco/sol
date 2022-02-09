@@ -336,6 +336,7 @@ export let createUIStore = (root: IRootStore) => {
               Linking.openURL('https://github.com/matttti/BodyFast/pulls')
             }
           }
+          break
         }
 
         // "3"
@@ -343,6 +344,7 @@ export let createUIStore = (root: IRootStore) => {
           if (meta) {
             Linking.openURL('https://twitter.com')
           }
+          break
         }
       }
     },
