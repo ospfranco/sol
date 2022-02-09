@@ -24,7 +24,7 @@ export const WeatherWidget: FC<IProps> = observer(({style}) => {
   return (
     <View
       style={tw.style(
-        `p-3 bg-light dark:bg-dark rounded-lg border border-gray-100 dark:border-gray-600 w-[180px]`,
+        `p-3 bg-light dark:bg-dark rounded-lg border border-gray-100 dark:border-gray-800 w-[180px]`,
         // @ts-ignore
         style,
       )}>

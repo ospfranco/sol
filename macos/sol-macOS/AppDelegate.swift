@@ -11,8 +11,8 @@ let numberchars: [String] = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 class AppDelegate: NSObject, NSApplicationDelegate  {
   
   var mainWindow: Panel!
-  let hotKey = HotKey(key: .space, modifiers: [.option])
-//  let hotKey = HotKey(key: .space, modifiers: [.command])
+//  let hotKey = HotKey(key: .space, modifiers: [.option])
+  let hotKey = HotKey(key: .space, modifiers: [.command])
   let dateFormatter = ISO8601DateFormatter()
   
   func applicationDidFinishLaunching(_ aNotification: Notification) {

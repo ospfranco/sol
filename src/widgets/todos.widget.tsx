@@ -56,7 +56,7 @@ export const TodosWidget: FC<IProps> = observer(({style}) => {
   return (
     <View
       style={tw.style(
-        `p-3 bg-light dark:bg-dark rounded-lg border border-gray-100 dark:border-gray-600 flex-1 h-32`,
+        `p-3 bg-light dark:bg-dark rounded-lg border border-gray-100 dark:border-gray-800 flex-1 h-32`,
         // @ts-ignore
         style,
       )}>
