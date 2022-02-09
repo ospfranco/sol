@@ -2,6 +2,7 @@ import {observer} from 'mobx-react-lite'
 import React, {FC} from 'react'
 import {
   FlatList,
+  Image,
   StyleProp,
   Text,
   TouchableOpacity,
@@ -12,6 +13,7 @@ import {useStore} from 'store'
 import {FocusableWidget} from 'stores'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
+import inbox from '../assets/inbox.png'
 
 interface IProps {
   style?: StyleProp<ViewStyle>
@@ -81,9 +83,7 @@ export const TodosWidget: FC<IProps> = observer(({style}) => {
                 'bg-blue-500 bg-opacity-50 rounded': focused,
               },
             )}>
-            <Text style={tw.style(`text-gray-300 dark:text-gray-500`)}>
-              No TODOs
-            </Text>
+            <Image source={inbox} />
           </View>
         }
       />
