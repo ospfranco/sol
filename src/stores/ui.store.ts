@@ -9,7 +9,7 @@ import Fuse from 'fuse.js'
 import {doubleTranslate} from 'lib/translator'
 
 const FUSE_OPTIONS = {
-  threshold: 0.3,
+  threshold: 0.2,
   ignoreLocation: true,
   keys: ['name'],
 }

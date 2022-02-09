@@ -1,15 +1,7 @@
 import {FileIcon} from 'components/FileIcon'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect, useRef} from 'react'
-import {
-  ActivityIndicator,
-  Animated,
-  FlatList,
-  Image,
-  Text,
-  TextInput,
-  View,
-} from 'react-native'
+import {ActivityIndicator, FlatList, Text, TextInput, View} from 'react-native'
 import {useStore} from 'store'
 import {FocusableWidget} from 'stores'
 import tw from 'tailwind'
