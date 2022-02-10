@@ -376,6 +376,7 @@ export let createUIStore = (root: IRootStore) => {
           if (meta) {
             if (store.query) {
               Linking.openURL(`https://google.com/search?q=${store.query}`)
+              store.query = ''
             } else {
               Linking.openURL('https://twitter.com')
             }

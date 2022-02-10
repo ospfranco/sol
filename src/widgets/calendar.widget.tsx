@@ -1,10 +1,9 @@
-import {useBoolean} from 'hooks'
 import {CONSTANTS} from 'lib/constants'
 import {DateTime} from 'luxon'
 import {observer} from 'mobx-react-lite'
-import React, {FC, useRef} from 'react'
+import React, {FC} from 'react'
 import {
-  Animated,
+  Image,
   Linking,
   StyleProp,
   Text,
@@ -16,6 +15,7 @@ import {useStore} from 'store'
 import {FocusableWidget} from 'stores'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
+import inbox from '../assets/inbox.png'
 
 const MEETING_PROVIDERS_URLS = [
   'https://us06web.zoom.us',
@@ -66,7 +66,7 @@ export const CalendarWidget: FC<IProps> = observer(({style}) => {
         `p-3 rounded-lg border border-gray-100 dark:border-gray-800 w-[180px]`,
         {
           'bg-light dark:bg-dark': !focused,
-          'dark:bg-gray-800': focused,
+          'dark:bg-highlightDark': focused,
         },
         // @ts-ignore
         style,
@@ -107,10 +107,11 @@ export const CalendarWidget: FC<IProps> = observer(({style}) => {
           </View>
         )}
         {!nextEvent && (
-          <View>
-            <Text style={tw`text-sm dark:text-gray-400`}>
-              No Upcoming Event
-            </Text>
+          <View
+            style={tw.style(
+              `text-gray-500 items-center justify-center flex-1`,
+            )}>
+            <Image source={inbox} style={tw`h-10`} resizeMode="contain" />
           </View>
         )}
       </TouchableOpacity>

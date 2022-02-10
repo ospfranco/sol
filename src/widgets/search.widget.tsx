@@ -1,18 +1,26 @@
 import {FileIcon} from 'components/FileIcon'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect, useRef} from 'react'
-import {ActivityIndicator, FlatList, Text, TextInput, View} from 'react-native'
+import {
+  ActivityIndicator,
+  FlatList,
+  Image,
+  Text,
+  TextInput,
+  View,
+} from 'react-native'
 import {useStore} from 'store'
 import {FocusableWidget} from 'stores'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
+import inbox from '../assets/inbox.png'
 
 interface IProps {}
 
 const Snack = ({title}: {title: string}) => {
   return (
     <View
-      style={tw`flex-row items-center px-3 py-1 mr-1 bg-gray-200 rounded shadow dark:bg-gray-800`}>
+      style={tw`flex-row items-center px-3 py-1 mr-1 bg-gray-200 rounded shadow dark:bg-highlightDark`}>
       <Text style={tw`text-xs dark:text-gray-400`}>{title}</Text>
     </View>
   )
@@ -84,9 +92,7 @@ export const SearchWidget: FC<IProps> = observer(() => {
             persistentScrollbar
             ListEmptyComponent={
               <View style={tw`items-center justify-center flex-1`}>
-                <Text style={tw`text-gray-200 dark:text-gray-500`}>
-                  No results
-                </Text>
+                <Image source={inbox} style={tw`h-10`} resizeMode="contain" />
               </View>
             }
             renderItem={({item, index}) => {
@@ -94,7 +100,7 @@ export const SearchWidget: FC<IProps> = observer(() => {
                 <View
                   key={index}
                   style={tw.style(`flex-row items-center px-2 py-2 rounded`, {
-                    'bg-gray-300 dark:bg-gray-500 bg-opacity-50':
+                    'bg-gray-300 dark:bg-highlightDark':
                       store.ui.selectedIndex === index && focused,
                   })}>
                   {!!item.url && (
@@ -120,7 +126,7 @@ export const SearchWidget: FC<IProps> = observer(() => {
           <View style={tw`flex-1 pr-2`}>
             <View
               style={tw.style(`flex-1 p-3 rounded`, {
-                'bg-gray-500 bg-opacity-50': store.ui.selectedIndex === 0,
+                'bg-highlightDark': store.ui.selectedIndex === 0,
               })}>
               <Text>🇺🇸</Text>
               <Text style={tw`flex-1 pt-2 text-lg`}>
@@ -131,7 +137,7 @@ export const SearchWidget: FC<IProps> = observer(() => {
           <View style={tw`flex-1 pl-2`}>
             <View
               style={tw.style(`flex-1 p-3 rounded`, {
-                'bg-gray-500 bg-opacity-50': store.ui.selectedIndex === 1,
+                'bg-highlightDark': store.ui.selectedIndex === 1,
               })}>
               <Text>🇩🇪</Text>
               <Text style={tw`flex-1 pt-2 text-lg`}>

@@ -33,7 +33,7 @@ const Todo = ({
   return (
     <TouchableOpacity
       style={tw.style(`flex-row items-center px-2 py-1`, {
-        'bg-gray-300 dark:bg-gray-500 bg-opacity-50 rounded': focused,
+        'bg-gray-300 dark:bg-highlightDark rounded': focused,
       })}
       onPress={cb}>
       <Text>
@@ -60,7 +60,7 @@ export const TodosWidget: FC<IProps> = observer(({style}) => {
         // @ts-ignore
         style,
       )}>
-      {!store.ui.minimalistMode && !focused && (
+      {!store.ui.minimalistMode && (
         <Text style={tw`pb-3 text-xs text-gray-400`}>Todos</Text>
       )}
 
@@ -89,7 +89,7 @@ export const TodosWidget: FC<IProps> = observer(({style}) => {
             style={tw.style(
               `text-gray-500 items-center justify-center flex-1`,
               {
-                'bg-gray-500 bg-opacity-50 rounded': focused,
+                'bg-highlightDark rounded': focused,
               },
             )}>
             <Image source={inbox} style={tw`h-10`} resizeMode="contain" />
