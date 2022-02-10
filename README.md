@@ -2,7 +2,7 @@
 
 A Raycast/Alfred/Spotlight alternative
 
-<img src="https://raw.githubusercontent.com/ospfranco/sol/main/assets/screenshot2.jpeg" width="100%"/>
+<img src="https://raw.githubusercontent.com/ospfranco/sol/main/assets/screenshot3.png" width="100%"/>
 
 ## Running this
 
