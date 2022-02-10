@@ -92,7 +92,7 @@ export const TodosWidget: FC<IProps> = observer(({style}) => {
                 'bg-gray-500 bg-opacity-50 rounded': focused,
               },
             )}>
-            <Image source={inbox} />
+            <Image source={inbox} style={tw`h-10`} resizeMode="contain" />
           </View>
         }
       />
