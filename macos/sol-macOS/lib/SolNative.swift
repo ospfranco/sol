@@ -56,4 +56,8 @@ class SolNative: RCTEventEmitter {
   @objc func toggleDarkMode() {
     DarkMode.isEnabled = !DarkMode.isEnabled
   }
+  
+  @objc func executeAppleScript(_ source: String) {
+    AppleScriptHelper.runAppleScript(source)
+  }
 }

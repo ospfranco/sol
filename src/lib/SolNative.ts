@@ -16,6 +16,7 @@ class SolNative extends NativeEventEmitter {
   >
   getApps: () => Promise<string[]>
   toggleDarkMode: () => void
+  executeAppleScript: (source: string) => void
 
   constructor(nativeModule: any) {
     super(nativeModule)
@@ -25,6 +26,7 @@ class SolNative extends NativeEventEmitter {
     this.getApps = nativeModule.getApps
     this.openFile = nativeModule.openFile
     this.toggleDarkMode = nativeModule.toggleDarkMode
+    this.executeAppleScript = nativeModule.executeAppleScript
   }
 }
 

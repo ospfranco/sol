@@ -118,6 +118,14 @@ export let createUIStore = (root: IRootStore) => {
         solNative.toggleDarkMode()
       },
     },
+    {
+      icon: '💤',
+      name: 'Sleep',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.executeAppleScript('tell application "Finder" to sleep')
+      },
+    },
   ]
 
   let store = makeAutoObservable({
