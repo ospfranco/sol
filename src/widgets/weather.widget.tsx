@@ -32,15 +32,14 @@ export const WeatherWidget: FC<IProps> = observer(({style}) => {
         <Text style={tw`pb-3 text-xs text-gray-400`}>Weather</Text>
       )}
 
-      <View>
-        <Text style={tw`text-lg font-medium dark:text-white`}>
-          {store.ui.currentTemp} ℃
-        </Text>
-        <Text style={tw`text-sm text-gray-500 dark:text-gray-400`}>
-          Next hour: {store.ui.nextHourForecast}
-        </Text>
-      </View>
+      <Text style={tw`text-4xl font-medium dark:text-white`}>
+        {store.ui.currentTemp}
+        <Text style={tw`text-lg text-gray-500`}>℃</Text>
+      </Text>
       <View style={{flex: 1}} />
+      <Text style={tw`text-sm text-right text-gray-500 dark:text-gray-400`}>
+        {store.ui.nextHourForecast}
+      </Text>
 
       {/* <Animated.View
         style={tw.style(

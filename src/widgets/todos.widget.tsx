@@ -33,11 +33,11 @@ const Todo = ({
   return (
     <TouchableOpacity
       style={tw.style(`flex-row items-center px-2 py-1`, {
-        'bg-gray-500 bg-opacity-50 rounded': focused,
+        'bg-gray-300 dark:bg-gray-500 bg-opacity-50 rounded': focused,
       })}
       onPress={cb}>
       <Text>
-        <Text style={tw`text-xs font-medium dark:text-gray-500`}>
+        <Text style={tw`font-medium text-gray-400 dark:text-gray-500`}>
           {index + 1}
         </Text>
         {'  '}
@@ -56,7 +56,7 @@ export const TodosWidget: FC<IProps> = observer(({style}) => {
   return (
     <View
       style={tw.style(
-        `p-3 bg-light dark:bg-dark rounded-lg border border-gray-100 dark:border-gray-800 flex-1 h-32`,
+        `p-3 bg-light dark:bg-dark rounded-lg border border-gray-100 dark:border-gray-800 flex-1 h-44`,
         // @ts-ignore
         style,
       )}>

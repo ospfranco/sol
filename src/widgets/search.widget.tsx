@@ -12,7 +12,7 @@ interface IProps {}
 const Snack = ({title}: {title: string}) => {
   return (
     <View
-      style={tw`flex-row items-center px-3 py-1 mr-1 rounded shadow dark:bg-gray-800`}>
+      style={tw`flex-row items-center px-3 py-1 mr-1 bg-gray-200 rounded shadow dark:bg-gray-800`}>
       <Text style={tw`text-xs dark:text-gray-400`}>{title}</Text>
     </View>
   )
@@ -94,7 +94,7 @@ export const SearchWidget: FC<IProps> = observer(() => {
                 <View
                   key={index}
                   style={tw.style(`flex-row items-center px-2 py-2 rounded`, {
-                    'bg-gray-500 bg-opacity-50':
+                    'bg-gray-300 dark:bg-gray-500 bg-opacity-50':
                       store.ui.selectedIndex === index && focused,
                   })}>
                   {!!item.url && (

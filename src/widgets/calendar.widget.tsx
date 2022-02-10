@@ -89,7 +89,7 @@ export const CalendarWidget: FC<IProps> = observer(({style}) => {
                 {nextEvent.title}
               </Text>
             </View>
-            <Text style={tw`text-sm dark:text-gray-400`}>
+            <Text style={tw`pl-4 text-sm text-gray-500 dark:text-gray-400`}>
               {lDate?.toRelative() ?? ''}
             </Text>
             <View style={{flex: 1}} />
