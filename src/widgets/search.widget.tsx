@@ -99,7 +99,7 @@ export const SearchWidget: FC<IProps> = observer(() => {
               return (
                 <View
                   key={index}
-                  style={tw.style(`flex-row items-center px-2 py-2 rounded`, {
+                  style={tw.style(`flex-row items-center px-3 py-2 rounded`, {
                     'bg-gray-300 dark:bg-highlightDark':
                       store.ui.selectedIndex === index && focused,
                   })}>

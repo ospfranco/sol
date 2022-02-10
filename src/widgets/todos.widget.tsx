@@ -14,6 +14,7 @@ import {FocusableWidget} from 'stores'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
 import inbox from '../assets/inbox.png'
+import todo from '../assets/todo.png'
 
 interface IProps {
   style?: StyleProp<ViewStyle>
@@ -36,13 +37,8 @@ const Todo = ({
         'bg-gray-300 dark:bg-highlightDark rounded': focused,
       })}
       onPress={cb}>
-      <Text>
-        <Text style={tw`font-medium text-gray-400 dark:text-gray-500`}>
-          {index + 1}
-        </Text>
-        {'  '}
-        {text}
-      </Text>
+      <View style={tw`w-3 h-3 border rounded dark:border-gray-500`} />
+      <Text style={tw`ml-2`}>{text}</Text>
     </TouchableOpacity>
   )
 }
