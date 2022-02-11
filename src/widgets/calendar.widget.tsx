@@ -76,7 +76,7 @@ export const CalendarWidget: FC<IProps> = observer(({style}) => {
           <Text style={tw`pb-3 text-xs text-gray-400`}>Calendar</Text>
         )}
         {nextEvent && (
-          <View>
+          <View style={tw`flex-1`}>
             <View style={tw`flex-row items-center`}>
               <View
                 style={tw.style(`w-2 h-2 mr-2 rounded-full`, {
@@ -92,17 +92,9 @@ export const CalendarWidget: FC<IProps> = observer(({style}) => {
             <Text style={tw`pl-4 text-sm text-gray-500 dark:text-gray-400`}>
               {lDate?.toRelative() ?? ''}
             </Text>
-            <View style={{flex: 1}} />
+            <View style={tw`flex-1`} />
             {!!eventLink && (
-              <Text
-                style={{
-                  fontSize: 12,
-                  fontWeight: '600',
-                  textAlign: 'right',
-                  color: '#1e5cc6',
-                }}>
-                Join →
-              </Text>
+              <Text style={tw`font-medium text-right`}>Join ↗</Text>
             )}
           </View>
         )}

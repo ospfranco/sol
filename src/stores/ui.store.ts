@@ -14,6 +14,39 @@ const FUSE_OPTIONS = {
   keys: ['name'],
 }
 
+export const FAVOURITES = [
+  {
+    title: 'Protonmail',
+    callback: () => {
+      Linking.openURL('https://mail.protonmail.com/u/0/inbox')
+    },
+  },
+  {
+    title: 'BF Repo',
+    callback: () => {
+      Linking.openURL('https://github.com/matttti/BodyFast')
+    },
+  },
+  {
+    title: 'Twitter',
+    callback: () => {
+      Linking.openURL('https://twitter.com')
+    },
+  },
+  {
+    title: 'PL Code',
+    callback: () => {
+      Linking.openURL('vscode://file/Users/osp/Developer/productlane')
+    },
+  },
+  {
+    title: 'PL Admin',
+    callback: () => {
+      Linking.openURL('https://productlane.io/admin')
+    },
+  },
+]
+
 const MEETING_PROVIDERS_URLS = [
   'https://us06web.zoom.us',
   'https://meet.google.com',
@@ -215,6 +248,7 @@ export let createUIStore = (root: IRootStore) => {
       store.focusedWidget = widget
     },
     setQuery: (query: string) => {
+      store.focusedWidget = FocusableWidget.SEARCH
       store.query = query
       store.selectedIndex = 0
     },
@@ -361,7 +395,7 @@ export let createUIStore = (root: IRootStore) => {
                 })
               }
             } else {
-              Linking.openURL('https://mail.protonmail.com/u/0/inbox')
+              FAVOURITES[0].callback()
             }
           }
           break
@@ -373,7 +407,7 @@ export let createUIStore = (root: IRootStore) => {
             if (store.query) {
               store.addTodo()
             } else {
-              Linking.openURL('https://github.com/matttti/BodyFast/pulls')
+              FAVOURITES[1].callback()
             }
           }
           break
@@ -386,7 +420,7 @@ export let createUIStore = (root: IRootStore) => {
               Linking.openURL(`https://google.com/search?q=${store.query}`)
               store.query = ''
             } else {
-              Linking.openURL('https://twitter.com')
+              FAVOURITES[2].callback()
             }
           }
           break
@@ -395,7 +429,15 @@ export let createUIStore = (root: IRootStore) => {
         // "4"
         case 21: {
           if (meta) {
-            Linking.openURL('vscode://file/Users/osp/Developer/productlane')
+            FAVOURITES[3].callback()
+          }
+          break
+        }
+
+        // "5"
+        case 23: {
+          if (meta) {
+            FAVOURITES[4].callback()
           }
           break
         }

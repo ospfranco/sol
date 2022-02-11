@@ -10,7 +10,7 @@ import {
   View,
 } from 'react-native'
 import {useStore} from 'store'
-import {FocusableWidget} from 'stores'
+import {FAVOURITES, FocusableWidget} from 'stores'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
 import inbox from '../assets/inbox.png'
@@ -75,10 +75,9 @@ export const SearchWidget: FC<IProps> = observer(() => {
 
           {!store.ui.query && (
             <View style={tw`flex-row px-3 py-2 `}>
-              <Snack title="Protonmail" />
-              <Snack title="BodyFast" />
-              <Snack title="Twitter" />
-              <Snack title="Productlane" />
+              {FAVOURITES.map((fav, index) => (
+                <Snack key={index} title={fav.title} />
+              ))}
             </View>
           )}
 
