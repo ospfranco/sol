@@ -52,9 +52,14 @@ export const TodosWidget: FC<IProps> = observer(({style}) => {
   return (
     <View
       style={tw.style(
-        `p-3 bg-light dark:bg-dark rounded-lg border border-gray-100 dark:border-gray-800 flex-1 h-44`,
+        `p-3 rounded-lg border border-gray-100 dark:border-gray-800 flex-1 h-44`,
         // @ts-ignore
         style,
+        {
+          'bg-light dark:bg-dark': !focused,
+          'bg-gray-300 dark:bg-highlightDark':
+            focused && store.ui.todos.length === 0,
+        },
       )}>
       {!store.ui.minimalistMode && (
         <Text style={tw`pb-3 text-xs text-gray-400`}>Todos</Text>
@@ -81,13 +86,7 @@ export const TodosWidget: FC<IProps> = observer(({style}) => {
         keyExtractor={({id}) => id}
         contentContainerStyle={tw`flex-grow-1`}
         ListEmptyComponent={
-          <View
-            style={tw.style(
-              `text-gray-500 items-center justify-center flex-1`,
-              {
-                'bg-highlightDark rounded': focused,
-              },
-            )}>
+          <View style={tw`items-center justify-center flex-1`}>
             <Image source={inbox} style={tw`h-10`} resizeMode="contain" />
           </View>
         }

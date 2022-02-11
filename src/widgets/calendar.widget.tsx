@@ -66,7 +66,7 @@ export const CalendarWidget: FC<IProps> = observer(({style}) => {
         `p-3 rounded-lg border border-gray-100 dark:border-gray-800 w-[180px]`,
         {
           'bg-light dark:bg-dark': !focused,
-          'dark:bg-highlightDark': focused,
+          'bg-gray-300 dark:bg-highlightDark': focused,
         },
         // @ts-ignore
         style,
