@@ -1,8 +1,20 @@
-# Sol
+<h1 align="center">SOL</h1>
 
-A Raycast/Alfred/Spotlight alternative
+<h3 align="center">A Raycast/Spotlight OSS implementation</h3>
 
-<img src="https://raw.githubusercontent.com/ospfranco/sol/main/assets/screenshot3.png" width="100%"/>
+![cidemon](https://raw.githubusercontent.com/ospfranco/sol/main/assets/screenshot3.png)
+
+<div align="center">
+  <a align="center" href="https://github.com/ospfranco?tab=followers">
+    <img src="https://img.shields.io/github/followers/ospfranco?label=Follow%20%40ospfranco&style=social" />
+  </a>
+  <br />
+  <a align="center" href="https://twitter.com/ospfranco">
+    <img src="https://img.shields.io/twitter/follow/ospfranco?label=Follow%20%40ospfranco&style=social" />
+  </a>
+</div>
+
+<br/>
 
 ## Running this
 
