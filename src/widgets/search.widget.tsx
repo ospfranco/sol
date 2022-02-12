@@ -21,7 +21,7 @@ const Snack = ({title}: {title: string}) => {
   return (
     <View
       style={tw`flex-row items-center px-3 py-1 mr-1 bg-gray-200 rounded shadow dark:bg-highlightDark`}>
-      <Text style={tw`text-xs dark:text-gray-400`}>{title}</Text>
+      <Text style={tw`text-xs font-medium dark:text-gray-400`}>{title}</Text>
     </View>
   )
 }
@@ -73,7 +73,7 @@ export const SearchWidget: FC<IProps> = observer(() => {
           )}
 
           {!store.ui.query && (
-            <View style={tw`flex-row px-3 py-2 `}>
+            <View style={tw`flex-row px-3 pt-2`}>
               {FAVOURITES.map((fav, index) => (
                 <Snack key={index} title={fav.title} />
               ))}

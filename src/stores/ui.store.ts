@@ -288,14 +288,19 @@ export let createUIStore = (root: IRootStore) => {
           let nextWidget = store.focusedWidget
           switch (store.focusedWidget) {
             case FocusableWidget.SEARCH:
+              if (store.events[0]?.isAllDay) {
+                store.selectedIndex = 1
+              } else {
+                store.selectedIndex = 0
+              }
               nextWidget = FocusableWidget.CALENDAR
               break
             case FocusableWidget.CALENDAR:
+              store.selectedIndex = 0
               nextWidget = FocusableWidget.SEARCH
               break
           }
 
-          store.selectedIndex = 0
           store.focusedWidget = nextWidget
 
           break
