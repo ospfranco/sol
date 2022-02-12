@@ -24,7 +24,7 @@ const MEETING_PROVIDERS_URLS = [
 ]
 
 interface IProps {
-  style: StyleProp<ViewStyle>
+  style?: StyleProp<ViewStyle>
 }
 
 function extractLinkFromDescription(text: string) {
@@ -44,69 +44,56 @@ export const CalendarWidget: FC<IProps> = observer(({style}) => {
   const store = useStore()
   const focused = store.ui.focusedWidget === FocusableWidget.CALENDAR
 
-  const filteredEvents = store.ui.events.filter(e => !e.isAllDay)
-  const nextEvent = filteredEvents[0]
-  const lDate = nextEvent?.date ? DateTime.fromISO(nextEvent.date) : null
-  let eventLink = nextEvent?.url
-  if (!eventLink && nextEvent?.notes) {
-    eventLink = extractLinkFromDescription(nextEvent?.notes)
-  }
-
-  const onPress = () => {
-    if (eventLink) {
-      Linking.openURL(eventLink)
-    } else {
-      Linking.openURL('ical://')
-    }
-  }
-
   return (
     <View
       style={tw.style(
-        `p-3 rounded-lg border border-gray-100 dark:border-gray-800 w-[180px]`,
-        {
-          'bg-light dark:bg-dark': !focused,
-          'bg-gray-300 dark:bg-highlightDark': focused,
-        },
+        `p-3 w-1/2 rounded-xl h-48`,
         // @ts-ignore
         style,
       )}>
-      <TouchableOpacity style={tw`flex-1`} onPress={onPress}>
-        {!store.ui.minimalistMode && (
-          <Text style={tw`pb-3 text-xs text-gray-400`}>Calendar</Text>
-        )}
-        {nextEvent && (
-          <View style={tw`flex-1`}>
-            <View style={tw`flex-row items-center`}>
-              <View
-                style={tw.style(`w-2 h-2 mr-2 rounded-full`, {
-                  backgroundColor: nextEvent.color,
-                })}
-              />
+      {/* <TouchableOpacity style={tw`flex-1`} onPress={onPress}> */}
+      {!store.ui.minimalistMode && (
+        <Text style={tw`pb-1 text-xs font-medium text-gray-400`}>Calendar</Text>
+      )}
+      {store.ui.events.slice(0, 3).map((event, index) => {
+        const lDate = DateTime.fromISO(event.date)
+        const lEndDate = event.endDate ? DateTime.fromISO(event.endDate) : null
+        return (
+          <View
+            key={index}
+            style={tw.style(`flex-row flex-1 py-1 px-3 rounded`, {
+              'dark:bg-highlightDark':
+                focused && store.ui.selectedIndex === index,
+            })}>
+            <View
+              style={tw.style(`w-1 h-full mr-2 rounded`, {
+                backgroundColor: event.color,
+              })}
+            />
+            <View>
               <Text
                 style={tw`font-medium flex-shrink-1 dark:text-white`}
-                numberOfLines={2}>
-                {nextEvent.title}
+                numberOfLines={1}>
+                {event.title}
+              </Text>
+              <Text style={tw`pt-1 text-sm text-gray-500 dark:text-gray-400`}>
+                {event.isAllDay ? 'All day, ' : null}
+                {lDate.toRelative()} at {lDate.toFormat('HH:mm')}
+                {lEndDate && !event.isAllDay
+                  ? `, ${lEndDate.diff(lDate, 'minutes').minutes} mins.`
+                  : null}
               </Text>
             </View>
-            <Text style={tw`pl-4 text-sm text-gray-500 dark:text-gray-400`}>
-              {lDate?.toRelative() ?? ''}
-            </Text>
-            <View style={tw`flex-1`} />
-            {!!eventLink && (
-              <Text style={tw`font-medium text-right`}>Join ↗</Text>
-            )}
           </View>
-        )}
-        {!nextEvent && (
-          <View
-            style={tw.style(
-              `text-gray-500 items-center justify-center flex-1`,
-            )}>
-            <Image source={inbox} style={tw`h-10`} resizeMode="contain" />
-          </View>
-        )}
-      </TouchableOpacity>
+        )
+      })}
+      {!store.ui.events.length && (
+        <View
+          style={tw.style(`text-gray-500 items-center justify-center flex-1`)}>
+          <Image source={inbox} style={tw`h-10`} resizeMode="contain" />
+        </View>
+      )}
+      {/* </TouchableOpacity> */}
     </View>
   )
 })

@@ -43,8 +43,7 @@ export const SearchWidget: FC<IProps> = observer(() => {
   }, [focused, store.ui.items, store.ui.selectedIndex])
 
   return (
-    <View
-      style={tw`flex-1 border border-gray-200 rounded-lg bg-light dark:bg-dark dark:border-gray-800`}>
+    <View style={tw`flex-1`}>
       <View style={tw`pt-2`}>
         <View style={tw.style(`px-3 py-2 flex-row`)}>
           <TextInput

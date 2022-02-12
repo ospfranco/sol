@@ -86,6 +86,7 @@ interface IEvent {
   title?: string
   url?: string
   date: string
+  endDate?: string
   isAllDay: boolean
   notes?: string
   color: string
@@ -176,8 +177,7 @@ export let createUIStore = (root: IRootStore) => {
     minimalistMode: false as boolean,
     focusedWidget: FocusableWidget.SEARCH as FocusableWidget,
     events: [] as IEvent[],
-    nextEventLink: null as null | string,
-    currentTemp: null as null | number,
+    currentTemp: 0 as number,
     nextHourForecast: null as null | string,
     todos: [] as ITodo[],
     apps: [] as IApp[],
@@ -288,17 +288,11 @@ export let createUIStore = (root: IRootStore) => {
           let nextWidget = store.focusedWidget
           switch (store.focusedWidget) {
             case FocusableWidget.SEARCH:
-              nextWidget = FocusableWidget.TODOS
-              break
-            case FocusableWidget.TODOS:
               nextWidget = FocusableWidget.CALENDAR
               break
             case FocusableWidget.CALENDAR:
               nextWidget = FocusableWidget.SEARCH
               break
-            // case FocusableWidget.WEATHER:
-            //   nextWidget = FocusableWidget.SEARCH
-            //   break
           }
 
           store.selectedIndex = 0
@@ -311,8 +305,17 @@ export let createUIStore = (root: IRootStore) => {
         case 36: {
           switch (store.focusedWidget) {
             case FocusableWidget.CALENDAR: {
-              if (store.nextEventLink) {
-                Linking.openURL(store.nextEventLink)
+              const event = store.events[store.selectedIndex]
+              if (event) {
+                let eventLink = event.url
+                if (!eventLink && event.notes) {
+                  eventLink = extractLinkFromDescription(event.notes)
+                }
+                if (eventLink) {
+                  Linking.openURL(eventLink)
+                } else {
+                  Linking.openURL('ical://')
+                }
               } else {
                 Linking.openURL('ical://')
               }
@@ -374,20 +377,23 @@ export let createUIStore = (root: IRootStore) => {
 
         // arrow down
         case 125: {
-          if (store.focusedWidget === FocusableWidget.SEARCH) {
-            if (store.translationResults) {
-              store.selectedIndex = (store.selectedIndex + 1) % 2
-            } else {
-              store.selectedIndex = Math.min(
-                store.items.length - 1,
-                store.selectedIndex + 1,
-              )
+          switch (store.focusedWidget) {
+            case FocusableWidget.SEARCH: {
+              if (store.translationResults) {
+                store.selectedIndex = (store.selectedIndex + 1) % 2
+              } else {
+                store.selectedIndex = Math.min(
+                  store.items.length - 1,
+                  store.selectedIndex + 1,
+                )
+              }
+              break
             }
-          } else if (store.focusedWidget === FocusableWidget.TODOS) {
-            store.selectedIndex = Math.min(
-              store.todos.length - 1,
-              store.selectedIndex + 1,
-            )
+
+            case FocusableWidget.CALENDAR: {
+              store.selectedIndex = Math.min(2, store.selectedIndex + 1)
+              break
+            }
           }
           break
         }
@@ -464,18 +470,6 @@ export let createUIStore = (root: IRootStore) => {
         .then(events => {
           runInAction(() => {
             store.events = events
-
-            const filteredEvents = events.filter(e => !e.isAllDay)
-
-            const nextEvent = filteredEvents[0]
-            let eventLink = nextEvent?.url
-            if (!eventLink) {
-              eventLink = extractLink(nextEvent?.notes, nextEvent?.location)
-            }
-
-            if (eventLink) {
-              store.nextEventLink = eventLink
-            }
           })
         })
         .catch(e => {
@@ -484,7 +478,7 @@ export let createUIStore = (root: IRootStore) => {
 
       getCurrentWeather().then(res => {
         runInAction(() => {
-          store.currentTemp = res?.temp ? Math.round(res.temp) : null
+          store.currentTemp = res?.temp ? Math.round(res.temp) : 0
           store.nextHourForecast = res?.nextHourForecast ?? null
         })
       })
@@ -523,4 +517,7 @@ export let createUIStore = (root: IRootStore) => {
   solNative.addListener('onHide', store.onHide)
 
   return store
+}
+function extractLinkFromDescription(notes: any): string | undefined {
+  throw new Error('Function not implemented.')
 }

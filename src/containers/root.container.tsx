@@ -10,15 +10,14 @@ import {observer} from 'mobx-react-lite'
 import {useStore} from 'store'
 
 export const RootContainer = observer(() => {
-  const store = useStore()
-
   return (
-    <View style={{flex: 1}}>
+    <View
+      style={tw`flex-1 border border-gray-200 rounded-lg bg-light dark:bg-dark dark:border-gray-800`}>
       <SearchWidget />
-      <View style={tw`flex-row pt-1`}>
-        <TodosWidget style={tw`mr-1`} />
+      <View style={tw`flex-row`}>
+        {/* <TodosWidget style={tw`mr-1`} /> */}
 
-        <CalendarWidget style={tw`mr-1`} />
+        <CalendarWidget />
 
         <WeatherWidget />
       </View>

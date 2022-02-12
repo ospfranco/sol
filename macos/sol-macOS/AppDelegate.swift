@@ -92,6 +92,7 @@ class AppDelegate: NSObject, NSApplicationDelegate  {
         "location": event.location,
         "color": hexColor,
         "date": event.startDate != nil ? dateFormatter.string(from: event.startDate) : nil,
+        "endDate": event.endDate != nil ? dateFormatter.string(from: event.endDate) : nil,
         "isAllDay": event.isAllDay
       ]
     }

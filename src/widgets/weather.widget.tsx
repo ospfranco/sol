@@ -24,21 +24,20 @@ export const WeatherWidget: FC<IProps> = observer(({style}) => {
   return (
     <View
       style={tw.style(
-        `p-3 bg-light dark:bg-dark rounded-lg border border-gray-100 dark:border-gray-800 w-[180px]`,
+        `p-3 rounded-lg  w-1/2`,
         // @ts-ignore
         style,
       )}>
       {!store.ui.minimalistMode && (
-        <Text style={tw`pb-3 text-xs text-gray-400`}>Weather</Text>
+        <Text style={tw`pb-1 text-xs font-medium text-gray-400`}>Weather</Text>
       )}
 
       <Text style={tw`text-4xl font-medium dark:text-white`}>
         {store.ui.currentTemp}
         <Text style={tw`text-lg text-gray-500`}>℃</Text>
       </Text>
-      <View style={{flex: 1}} />
-      <Text style={tw`text-sm text-right text-gray-500 dark:text-gray-400`}>
-        {store.ui.nextHourForecast}
+      <Text style={tw`text-sm text-gray-500 capitalize dark:text-gray-400`}>
+        {store.ui.nextHourForecast} in 1 hour
       </Text>
 
       {/* <Animated.View
