@@ -81,6 +81,12 @@ export const SearchWidget: FC<IProps> = observer(() => {
             </View>
           )}
 
+          {!!store.ui.temporaryResult && (
+            <Text style={tw`px-3 py-6 text-xl text-center bg-highlightDark`}>
+              {store.ui.temporaryResult}
+            </Text>
+          )}
+
           <FlatList
             style={tw`flex-1`}
             contentContainerStyle={tw`p-3 flex-grow-1`}

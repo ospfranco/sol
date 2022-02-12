@@ -15,6 +15,7 @@
     "@types/react": "^17.0.38",
     "@types/react-native": "^0.66.12",
     "axios": "^0.25.0",
+    "expr-eval": "^2.0.2",
     "fuse.js": "^6.5.3",
     "luxon": "^2.3.0",
     "mobx": "^6.3.12",

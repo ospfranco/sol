@@ -7,6 +7,9 @@ import {getCurrentWeather} from 'lib/weather'
 import {DateTime} from 'luxon'
 import Fuse from 'fuse.js'
 import {doubleTranslate} from 'lib/translator'
+import {Parser} from 'expr-eval'
+
+const exprParser = new Parser()
 
 const FUSE_OPTIONS = {
   threshold: 0.2,
@@ -184,6 +187,7 @@ export let createUIStore = (root: IRootStore) => {
       de: string | undefined
     },
     frequencies: {} as Record<string, number>,
+    temporaryResult: null as string | null,
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -251,6 +255,17 @@ export let createUIStore = (root: IRootStore) => {
       store.focusedWidget = FocusableWidget.SEARCH
       store.query = query
       store.selectedIndex = 0
+
+      try {
+        const res = exprParser.evaluate(store.query)
+        if (res) {
+          store.temporaryResult = res.toString()
+        } else {
+          store.temporaryResult = null
+        }
+      } catch (e) {
+        store.temporaryResult = null
+      }
     },
     handleKeyPress: async ({
       keyCode,
