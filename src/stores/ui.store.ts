@@ -17,6 +17,15 @@ const FUSE_OPTIONS = {
   keys: ['name'],
 }
 
+// export const PIPE_OPTIONS = [
+//   {
+//     title: 'Translate',
+//   },
+//   {
+//     title: 'Google',
+//   },
+// ]
+
 export const FAVOURITES = [
   {
     title: 'Protonmail',
@@ -132,7 +141,6 @@ export let createUIStore = (root: IRootStore) => {
 
       runInAction(() => {
         store.minimalistMode = parsedStore.minimalistMode
-        store.todos = parsedStore.todos
         store.frequencies = parsedStore.frequencies
       })
     }
@@ -179,7 +187,6 @@ export let createUIStore = (root: IRootStore) => {
     events: [] as IEvent[],
     currentTemp: 0 as number,
     nextHourForecast: null as null | string,
-    todos: [] as ITodo[],
     apps: [] as IApp[],
     isLoading: false as boolean,
     translationResults: null as null | {
@@ -225,29 +232,6 @@ export let createUIStore = (root: IRootStore) => {
     toggleMinimalist: () => {
       store.minimalistMode = !store.minimalistMode
     },
-    // Actions
-    markTodoDone: (idx: number) => {
-      if (idx <= store.todos.length) {
-        const newTodos = [...store.todos]
-        newTodos.splice(idx, 1)
-
-        store.todos = newTodos
-
-        if (
-          store.focusedWidget === FocusableWidget.TODOS &&
-          store.selectedIndex >= store.todos.length
-        ) {
-          store.selectedIndex = Math.max(0, store.selectedIndex - 1)
-        }
-      }
-    },
-    addTodo: () => {
-      store.todos.unshift({
-        id: DateTime.now().toString(),
-        text: store.query,
-      })
-      store.query = ''
-    },
     setFocus: (widget: FocusableWidget) => {
       store.focusedWidget = widget
     },
@@ -288,12 +272,14 @@ export let createUIStore = (root: IRootStore) => {
           let nextWidget = store.focusedWidget
           switch (store.focusedWidget) {
             case FocusableWidget.SEARCH:
-              if (store.events[0]?.isAllDay) {
-                store.selectedIndex = 1
-              } else {
-                store.selectedIndex = 0
+              if (store.events.length) {
+                if (store.events[0].isAllDay) {
+                  store.selectedIndex = 1
+                } else {
+                  store.selectedIndex = 0
+                }
+                nextWidget = FocusableWidget.CALENDAR
               }
-              nextWidget = FocusableWidget.CALENDAR
               break
             case FocusableWidget.CALENDAR:
               store.selectedIndex = 0
@@ -350,11 +336,6 @@ export let createUIStore = (root: IRootStore) => {
                   : 1
                 solNative.hideWindow()
               }
-              break
-            }
-
-            case FocusableWidget.TODOS: {
-              store.markTodoDone(store.selectedIndex)
               break
             }
           }
@@ -431,7 +412,8 @@ export let createUIStore = (root: IRootStore) => {
         case 19: {
           if (meta) {
             if (store.query) {
-              store.addTodo()
+              Linking.openURL(`https://google.com/search?q=${store.query}`)
+              store.query = ''
             } else {
               FAVOURITES[1].callback()
             }

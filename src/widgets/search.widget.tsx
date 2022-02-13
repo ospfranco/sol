@@ -64,21 +64,22 @@ export const SearchWidget: FC<IProps> = observer(() => {
 
       {!store.ui.translationResults && (
         <>
-          {!!store.ui.query && (
-            <View style={tw`flex-row px-3 py-2 `}>
-              <Snack title="Translate" />
-              <Snack title="Add todo" />
-              <Snack title="Google it" />
-            </View>
-          )}
+          <View style={tw`flex-row px-3 pt-2`}>
+            {!!store.ui.query && (
+              <>
+                <Snack title="Translate" />
+                <Snack title="Google it" />
+              </>
+            )}
 
-          {!store.ui.query && (
-            <View style={tw`flex-row px-3 pt-2`}>
-              {FAVOURITES.map((fav, index) => (
-                <Snack key={index} title={fav.title} />
-              ))}
-            </View>
-          )}
+            {!store.ui.query && (
+              <>
+                {FAVOURITES.map((fav, index) => (
+                  <Snack key={index} title={fav.title} />
+                ))}
+              </>
+            )}
+          </View>
 
           {!!store.ui.temporaryResult && (
             <Text style={tw`px-3 py-6 text-xl text-center bg-highlightDark`}>
