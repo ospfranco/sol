@@ -71,7 +71,7 @@ class AppDelegate: NSObject, NSApplicationDelegate  {
     }
     
     let store = EKEventStore()
-    
+      
     let calendars = store.calendars(for: .event)
     
     let now = Date()

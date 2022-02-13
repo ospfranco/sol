@@ -25,7 +25,6 @@
 		70B78361279BE866008660F5 /* Panel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B78360279BE866008660F5 /* Panel.swift */; };
 		70EA99EA2794967E008E54FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70EA99E92794967E008E54FD /* AppDelegate.swift */; };
 		70F7EBF12795A85200CED17A /* HotKey in Frameworks */ = {isa = PBXBuildFile; productRef = 70F7EBF02795A85200CED17A /* HotKey */; };
-		889C5FD9C31FC8F222708FCC /* libPods-sol-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F947041E530F4CAA5666143 /* libPods-sol-iOS.a */; };
 		E2E9BB8131AAA431B6402620 /* libPods-sol-macOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D8F39DB7FD91E1376ED253D /* libPods-sol-macOS.a */; };
 /* End PBXBuildFile section */
 
@@ -39,9 +38,7 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = sol/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		1F947041E530F4CAA5666143 /* libPods-sol-iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-sol-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		28CB954D981B0B12E61FFF23 /* Pods-sol-macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sol-macOS.debug.xcconfig"; path = "Target Support Files/Pods-sol-macOS/Pods-sol-macOS.debug.xcconfig"; sourceTree = "<group>"; };
-		2CE370B4AB65B44465429F64 /* Pods-sol-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sol-iOS.release.xcconfig"; path = "Target Support Files/Pods-sol-iOS/Pods-sol-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		38423A3E24576CBC00BC2EAC /* main.jsbundle */ = {isa = PBXFileReference; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		3D8F39DB7FD91E1376ED253D /* libPods-sol-macOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-sol-macOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		514201492437B4B30078DB4F /* sol.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sol.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -67,7 +64,6 @@
 		E38193674F963423ED4771D8 /* Pods-sol-macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sol-macOS.release.xcconfig"; path = "Target Support Files/Pods-sol-macOS/Pods-sol-macOS.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
-		ED72E6D10D16F914C23B622C /* Pods-sol-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sol-iOS.debug.xcconfig"; path = "Target Support Files/Pods-sol-iOS/Pods-sol-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,7 +71,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				889C5FD9C31FC8F222708FCC /* libPods-sol-iOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,8 +108,6 @@
 				A82DFB63B157C65E5D698CA2 /* Pods-Shared-sol-iOS.release.xcconfig */,
 				02422F9FB6FF5F34B4E63E6F /* Pods-Shared-sol-macOS.debug.xcconfig */,
 				CE0E74F571E1F48FF00A8324 /* Pods-Shared-sol-macOS.release.xcconfig */,
-				ED72E6D10D16F914C23B622C /* Pods-sol-iOS.debug.xcconfig */,
-				2CE370B4AB65B44465429F64 /* Pods-sol-iOS.release.xcconfig */,
 				28CB954D981B0B12E61FFF23 /* Pods-sol-macOS.debug.xcconfig */,
 				E38193674F963423ED4771D8 /* Pods-sol-macOS.release.xcconfig */,
 			);
@@ -126,7 +119,6 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				1F947041E530F4CAA5666143 /* libPods-sol-iOS.a */,
 				3D8F39DB7FD91E1376ED253D /* libPods-sol-macOS.a */,
 			);
 			name = Frameworks;
@@ -202,14 +194,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "sol-iOS" */;
 			buildPhases = (
-				7BC40D98CAD1562CFD247217 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				86F49EC917AD82D1FFCE0578 /* [CP] Embed Pods Frameworks */,
-				69AD12749454860EE602288A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -274,7 +263,7 @@
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			packageReferences = (
 				70F7EBEF2795A85200CED17A /* XCRemoteSwiftPackageReference "HotKey" */,
-				7049C90B27B459C7007D5945 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
+				7049C90B27B459C7007D5945 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */,
 			);
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
@@ -380,64 +369,6 @@
 			shellPath = /bin/sh;
 			shellScript = "export RCT_METRO_PORT=\"${RCT_METRO_PORT:=8081}\"\necho \"export RCT_METRO_PORT=${RCT_METRO_PORT}\" > \"${SRCROOT}/../node_modules/react-native-macos/scripts/.packager.env\"\nif [ -z \"${RCT_NO_LAUNCH_PACKAGER+xxx}\" ] ; then\n  if nc -w 5 -z localhost ${RCT_METRO_PORT} ; then\n    if ! curl -s \"http://localhost:${RCT_METRO_PORT}/status\" | grep -q \"packager-status:running\" ; then\n      echo \"Port ${RCT_METRO_PORT} already in use, packager is either not running or not running correctly\"\n      exit 2\n    fi\n  else\n    open \"$SRCROOT/../node_modules/react-native-macos/scripts/launchPackager.command\" || echo \"Can't start packager automatically\"\n  fi\nfi\n";
 		};
-		69AD12749454860EE602288A /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-sol-iOS/Pods-sol-iOS-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core-iOS/AccessibilityResources.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-sol-iOS/Pods-sol-iOS-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7BC40D98CAD1562CFD247217 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-sol-iOS-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		86F49EC917AD82D1FFCE0578 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-sol-iOS/Pods-sol-iOS-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL-Universal/OpenSSL.framework/OpenSSL",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-sol-iOS/Pods-sol-iOS-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		AB47F5B1B5458AA9DCA44477 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -445,7 +376,7 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-sol-macOS/Pods-sol-macOS-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core-macOS/AccessibilityResources.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -528,7 +459,6 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = ED72E6D10D16F914C23B622C /* Pods-sol-iOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -554,7 +484,6 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2CE370B4AB65B44465429F64 /* Pods-sol-iOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -620,7 +549,7 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/glog-macOS\"",
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift-5.2/$(PLATFORM_NAME)\"",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -680,7 +609,7 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/glog-macOS\"",
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift-5.2/$(PLATFORM_NAME)\"",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -844,7 +773,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		7049C90B27B459C7007D5945 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */ = {
+		7049C90B27B459C7007D5945 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "git@github.com:sindresorhus/LaunchAtLogin.git";
 			requirement = {
@@ -865,7 +794,7 @@
 /* Begin XCSwiftPackageProductDependency section */
 		7049C90C27B459C7007D5945 /* LaunchAtLogin */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 7049C90B27B459C7007D5945 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */;
+			package = 7049C90B27B459C7007D5945 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */;
 			productName = LaunchAtLogin;
 		};
 		70F7EBF02795A85200CED17A /* HotKey */ = {
