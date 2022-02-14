@@ -13,7 +13,8 @@ export const RootContainer = observer(() => {
     <View
       style={tw`flex-1 border border-gray-200 rounded-lg bg-light dark:bg-dark dark:border-gray-800`}>
       <SearchWidget />
-      <View style={tw`flex-row border-t border-gray-200 dark:border-gray-800`}>
+      <View
+        style={tw`flex-row border-t border-gray-200 dark:border-highlightDark`}>
         <CalendarWidget />
         <WeatherWidget />
       </View>
