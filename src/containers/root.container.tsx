@@ -23,13 +23,10 @@ export const RootContainer = () => {
           e.stopPropagation()
         }}>
         <View
-          style={tw.style(
-            `border border-gray-200 rounded-lg bg-light dark:bg-dark dark:border-gray-900 shadow-lg`,
-            {
-              width: 800,
-              height: 600,
-            },
-          )}>
+          style={tw.style(`rounded-lg bg-light dark:bg-dark shadow-xl`, {
+            width: 800,
+            height: 600,
+          })}>
           <SearchWidget />
           <View
             style={tw`flex-row border-t border-gray-200 dark:border-gray-800`}>

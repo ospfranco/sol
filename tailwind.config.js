@@ -18,6 +18,8 @@ module.exports = {
         light: {DEFAULT: 'rgb(251, 251, 251)'},
         // dark: {DEFAULT: '#1f2c33'},
         dark: {DEFAULT: '#2b2c2f'},
+        bg1: {DEFAULT: '#28292c'},
+        bg2: {DEFAULT: '#2d2e31'},
         highlightDark: {DEFAULT: '#313236'},
         // highlightDark: {DEFAULT: '#2a3942'},
         gray: {
