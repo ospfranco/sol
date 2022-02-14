@@ -62,7 +62,7 @@ export const CalendarWidget: FC<IProps> = observer(({style}) => {
           <View
             key={index}
             style={tw.style(`flex-row flex-1 py-1 px-3 rounded`, {
-              'dark:bg-highlightDark':
+              'bg-gray-200 dark:bg-highlightDark':
                 focused && store.ui.selectedIndex === index,
             })}>
             <View

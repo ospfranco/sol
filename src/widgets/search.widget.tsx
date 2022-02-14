@@ -18,10 +18,14 @@ import inbox from '../assets/inbox.png'
 interface IProps {}
 
 const Snack = ({title}: {title: string}) => {
+  useDeviceContext(tw)
+
   return (
     <View
       style={tw`flex-row items-center px-3 py-1 mr-1 bg-gray-200 rounded shadow dark:bg-highlightDark`}>
-      <Text style={tw`text-xs font-medium dark:text-gray-400`}>{title}</Text>
+      <Text style={tw`text-xs font-medium text-gray-500 dark:text-gray-400`}>
+        {title}
+      </Text>
     </View>
   )
 }
@@ -105,7 +109,7 @@ export const SearchWidget: FC<IProps> = observer(() => {
                 <View
                   key={index}
                   style={tw.style(`flex-row items-center px-3 py-2 rounded`, {
-                    'bg-gray-300 dark:bg-highlightDark':
+                    'bg-gray-200 dark:bg-highlightDark':
                       store.ui.selectedIndex === index && focused,
                   })}>
                   {!!item.url && (

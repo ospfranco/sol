@@ -13,14 +13,10 @@ export const RootContainer = observer(() => {
     <View
       style={tw`flex-1 border border-gray-200 rounded-lg bg-light dark:bg-dark dark:border-gray-800`}>
       <SearchWidget />
-      <View style={tw`flex-row border-t dark:border-gray-800`}>
-        {/* <TodosWidget style={tw`mr-1`} /> */}
-
+      <View style={tw`flex-row border-t border-gray-200 dark:border-gray-800`}>
         <CalendarWidget />
-
         <WeatherWidget />
       </View>
-      {/* <FavoritesWidget style={tw`mt-1`} /> */}
     </View>
   )
 })

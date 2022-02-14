@@ -272,7 +272,7 @@ export let createUIStore = (root: IRootStore) => {
           let nextWidget = store.focusedWidget
           switch (store.focusedWidget) {
             case FocusableWidget.SEARCH:
-              if (store.events.length) {
+              if (!!store.events.length) {
                 if (store.events[0].isAllDay) {
                   store.selectedIndex = 1
                 } else {

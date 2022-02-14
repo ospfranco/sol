@@ -7,10 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
-		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		514201522437B4B40078DB4F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 514201512437B4B40078DB4F /* Assets.xcassets */; };
 		514201552437B4B40078DB4F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 514201532437B4B40078DB4F /* Main.storyboard */; };
 		700A18D8279DBBE40096C830 /* ApplicationSearcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700A18D7279DBBE40096C830 /* ApplicationSearcher.swift */; };
@@ -29,15 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		02422F9FB6FF5F34B4E63E6F /* Pods-Shared-sol-macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shared-sol-macOS.debug.xcconfig"; path = "Target Support Files/Pods-Shared-sol-macOS/Pods-Shared-sol-macOS.debug.xcconfig"; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* sol.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sol.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = sol/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		28CB954D981B0B12E61FFF23 /* Pods-sol-macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sol-macOS.debug.xcconfig"; path = "Target Support Files/Pods-sol-macOS/Pods-sol-macOS.debug.xcconfig"; sourceTree = "<group>"; };
 		38423A3E24576CBC00BC2EAC /* main.jsbundle */ = {isa = PBXFileReference; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		3D8F39DB7FD91E1376ED253D /* libPods-sol-macOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-sol-macOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -67,13 +55,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		13B07F8C1A680F5B00A75B9A /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		514201462437B4B30078DB4F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -87,20 +68,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		13B07FAE1A68108700A75B9A /* sol-iOS */ = {
-			isa = PBXGroup;
-			children = (
-				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
-				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
-				13B07FB01A68108700A75B9A /* AppDelegate.m */,
-				13B07FB51A68108700A75B9A /* Images.xcassets */,
-				13B07FB61A68108700A75B9A /* Info.plist */,
-				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
-				13B07FB71A68108700A75B9A /* main.m */,
-			);
-			path = "sol-iOS";
-			sourceTree = "<group>";
-		};
 		1986A43FA6A91CFACDF0A798 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -167,7 +134,6 @@
 			isa = PBXGroup;
 			children = (
 				5142014A2437B4B30078DB4F /* sol-macOS */,
-				13B07FAE1A68108700A75B9A /* sol-iOS */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
@@ -181,7 +147,6 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* sol.app */,
 				514201492437B4B30078DB4F /* sol.app */,
 			);
 			name = Products;
@@ -190,25 +155,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		13B07F861A680F5B00A75B9A /* sol-iOS */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "sol-iOS" */;
-			buildPhases = (
-				FD10A7F022414F080027D42C /* Start Packager */,
-				13B07F871A680F5B00A75B9A /* Sources */,
-				13B07F8C1A680F5B00A75B9A /* Frameworks */,
-				13B07F8E1A680F5B00A75B9A /* Resources */,
-				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "sol-iOS";
-			productName = sol;
-			productReference = 13B07F961A680F5B00A75B9A /* sol.app */;
-			productType = "com.apple.product-type.application";
-		};
 		514201482437B4B30078DB4F /* sol-macOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5142015A2437B4B40078DB4F /* Build configuration list for PBXNativeTarget "sol-macOS" */;
@@ -242,9 +188,6 @@
 			attributes = {
 				LastUpgradeCheck = 1130;
 				TargetAttributes = {
-					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
-					};
 					514201482437B4B30078DB4F = {
 						CreatedOnToolsVersion = 11.4;
 						LastSwiftMigration = 1320;
@@ -263,28 +206,18 @@
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			packageReferences = (
 				70F7EBEF2795A85200CED17A /* XCRemoteSwiftPackageReference "HotKey" */,
-				7049C90B27B459C7007D5945 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */,
+				7049C90B27B459C7007D5945 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
 			);
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* sol-iOS */,
 				514201482437B4B30078DB4F /* sol-macOS */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		13B07F8E1A680F5B00A75B9A /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		514201472437B4B30078DB4F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -297,20 +230,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Bundle React Native code and images";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native-macos/scripts/react-native-xcode.sh\n";
-		};
 		1A938104A937498D81B3BD3B /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -387,37 +306,9 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-sol-macOS/Pods-sol-macOS-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		FD10A7F022414F080027D42C /* Start Packager */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Start Packager";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export RCT_METRO_PORT=\"${RCT_METRO_PORT:=8081}\"\necho \"export RCT_METRO_PORT=${RCT_METRO_PORT}\" > \"${SRCROOT}/../node_modules/react-native-macos/scripts/.packager.env\"\nif [ -z \"${RCT_NO_LAUNCH_PACKAGER+xxx}\" ] ; then\n  if nc -w 5 -z localhost ${RCT_METRO_PORT} ; then\n    if ! curl -s \"http://localhost:${RCT_METRO_PORT}/status\" | grep -q \"packager-status:running\" ; then\n      echo \"Port ${RCT_METRO_PORT} already in use, packager is either not running or not running correctly\"\n      exit 2\n    fi\n  else\n    open \"$SRCROOT/../node_modules/react-native-macos/scripts/launchPackager.command\" || echo \"Can't start packager automatically\"\n  fi\nfi\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		13B07F871A680F5B00A75B9A /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
-				13B07FC11A68108700A75B9A /* main.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		514201452437B4B30078DB4F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -438,14 +329,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		13B07FB11A68108700A75B9A /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				13B07FB21A68108700A75B9A /* Base */,
-			);
-			name = LaunchScreen.xib;
-			sourceTree = "<group>";
-		};
 		514201532437B4B40078DB4F /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -457,65 +340,17 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		13B07F941A680F5B00A75B9A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = "sol-iOS/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-ObjC",
-					"-lc++",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ospfranco.sol;
-				PRODUCT_NAME = sol;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-				VERSIONING_SYSTEM = "apple-generic";
-			};
-			name = Debug;
-		};
-		13B07F951A680F5B00A75B9A /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				INFOPLIST_FILE = "sol-iOS/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-ObjC",
-					"-lc++",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ospfranco.sol;
-				PRODUCT_NAME = sol;
-				SWIFT_VERSION = 5.0;
-				VERSIONING_SYSTEM = "apple-generic";
-			};
-			name = Release;
-		};
 		5142015B2437B4B40078DB4F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 28CB954D981B0B12E61FFF23 /* Pods-sol-macOS.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "sol-macOS/sol-macOS.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
 				CURRENT_PROJECT_VERSION = 1;
-				DEAD_CODE_STRIPPING = YES;
+				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 24CMR7378R;
 				ENABLE_HARDENED_RUNTIME = NO;
 				INFOPLIST_FILE = "sol-macos/Info.plist";
@@ -523,39 +358,12 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/DoubleConversion-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/FBReactNativeSpec-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/RCT-Folly-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/RCTTypeSafety-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-Core-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-CoreModules-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTAnimation-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTBlob-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTImage-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTLinking-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTNetwork-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTSettings-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTText-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTVibration-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-cxxreact-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-jsi-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-jsiexecutor-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-jsinspector-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-perflogger-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Yoga-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/glog-macOS\"",
-					"\"$(TOOLCHAIN_DIR)/usr/lib/swift-5.2/$(PLATFORM_NAME)\"",
-				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -Xcc -fmodule-map-file=\"${PODS_ROOT}/Headers/Public/React/React-Core-macOS.modulemap\" -Xcc -fmodule-map-file=\"${PODS_ROOT}/Headers/Public/yoga/Yoga-macOS.modulemap\" -D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ospfranco.sol;
 				PRODUCT_NAME = sol;
 				SDKROOT = macosx;
@@ -569,45 +377,18 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E38193674F963423ED4771D8 /* Pods-sol-macOS.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "sol-macOS/sol-macOS.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CURRENT_PROJECT_VERSION = 1;
-				DEAD_CODE_STRIPPING = YES;
+				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 24CMR7378R;
 				ENABLE_HARDENED_RUNTIME = NO;
 				INFOPLIST_FILE = "sol-macos/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
-				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/DoubleConversion-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/FBReactNativeSpec-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/RCT-Folly-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/RCTTypeSafety-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-Core-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-CoreModules-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTAnimation-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTBlob-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTImage-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTLinking-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTNetwork-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTSettings-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTText-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTVibration-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-cxxreact-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-jsi-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-jsiexecutor-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-jsinspector-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-perflogger-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Yoga-macOS\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/glog-macOS\"",
-					"\"$(TOOLCHAIN_DIR)/usr/lib/swift-5.2/$(PLATFORM_NAME)\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				OTHER_LDFLAGS = (
@@ -655,6 +436,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -717,6 +499,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -743,15 +526,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "sol-iOS" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				13B07F941A680F5B00A75B9A /* Debug */,
-				13B07F951A680F5B00A75B9A /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		5142015A2437B4B40078DB4F /* Build configuration list for PBXNativeTarget "sol-macOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -773,7 +547,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		7049C90B27B459C7007D5945 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */ = {
+		7049C90B27B459C7007D5945 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "git@github.com:sindresorhus/LaunchAtLogin.git";
 			requirement = {
@@ -794,7 +568,7 @@
 /* Begin XCSwiftPackageProductDependency section */
 		7049C90C27B459C7007D5945 /* LaunchAtLogin */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 7049C90B27B459C7007D5945 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */;
+			package = 7049C90B27B459C7007D5945 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */;
 			productName = LaunchAtLogin;
 		};
 		70F7EBF02795A85200CED17A /* HotKey */ = {
