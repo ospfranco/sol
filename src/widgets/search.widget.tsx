@@ -17,13 +17,15 @@ import inbox from '../assets/inbox.png'
 
 interface IProps {}
 
-const Snack = ({title}: {title: string}) => {
+const Snack = ({title, index}: {title: string; index: number}) => {
   useDeviceContext(tw)
 
   return (
     <View
       style={tw`flex-row items-center px-3 py-1 mr-1 bg-gray-200 rounded shadow dark:bg-highlightDark`}>
-      <Text style={tw`text-xs text-gray-500 uppercase dark:text-gray-400`}>
+      <Text style={tw`text-xs text-gray-500 dark:text-gray-400`}>
+        <Text style={tw`dark:text-gray-600`}>{index + 1}</Text>
+        {'  '}
         {title}
       </Text>
     </View>
@@ -71,15 +73,15 @@ export const SearchWidget: FC<IProps> = observer(() => {
           <View style={tw`flex-row px-3 pt-2`}>
             {!!store.ui.query && (
               <>
-                <Snack title="Translate" />
-                <Snack title="Google it" />
+                <Snack title="Translate" index={0} />
+                <Snack title="Google it" index={1} />
               </>
             )}
 
             {!store.ui.query && (
               <>
                 {FAVOURITES.map((fav, index) => (
-                  <Snack key={index} title={fav.title} />
+                  <Snack key={index} title={fav.title} index={index} />
                 ))}
               </>
             )}
