@@ -102,29 +102,24 @@ interface IEvent {
   location: string
 }
 
-interface ITodo {
-  id: string
-  text: string
-}
+// function extractLink(text?: string, location?: string) {
+//   let link = text
+//     ?.replace(/\n/g, ' ')
+//     .split(' ')
+//     .filter(token => CONSTANTS.REGEX_VALID_URL.test(token))
+//     .find(link =>
+//       MEETING_PROVIDERS_URLS.some(baseUrl => link.includes(baseUrl)),
+//     )
 
-function extractLink(text?: string, location?: string) {
-  let link = text
-    ?.replace(/\n/g, ' ')
-    .split(' ')
-    .filter(token => CONSTANTS.REGEX_VALID_URL.test(token))
-    .find(link =>
-      MEETING_PROVIDERS_URLS.some(baseUrl => link.includes(baseUrl)),
-    )
+//   if (!link && !!location) {
+//     const isLocationUrl = CONSTANTS.REGEX_VALID_URL.test(location)
+//     if (isLocationUrl) {
+//       link = location
+//     }
+//   }
 
-  if (!link && !!location) {
-    const isLocationUrl = CONSTANTS.REGEX_VALID_URL.test(location)
-    if (isLocationUrl) {
-      link = location
-    }
-  }
-
-  return link
-}
+//   return link
+// }
 
 export let createUIStore = (root: IRootStore) => {
   const persist = async () => {
@@ -180,6 +175,7 @@ export let createUIStore = (root: IRootStore) => {
     //  | |  | | '_ \/ __|/ _ \ '__\ \ / / _` | '_ \| |/ _ \/ __|
     //  | |__| | |_) \__ \  __/ |   \ V / (_| | |_) | |  __/\__ \
     //   \____/|_.__/|___/\___|_|    \_/ \__,_|_.__/|_|\___||___/
+    visible: false as boolean,
     query: '' as string,
     selectedIndex: 0 as number,
     minimalistMode: false as boolean,
@@ -452,6 +448,8 @@ export let createUIStore = (root: IRootStore) => {
       }
     },
     onShow: () => {
+      store.visible = true
+
       solNative
         .getNextEvents()
         .then(events => {
@@ -492,6 +490,7 @@ export let createUIStore = (root: IRootStore) => {
       store.setQuery('')
       store.selectedIndex = 0
       store.translationResults = null
+      store.visible = false
     },
   })
 

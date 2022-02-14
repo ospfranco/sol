@@ -23,7 +23,7 @@ const Snack = ({title}: {title: string}) => {
   return (
     <View
       style={tw`flex-row items-center px-3 py-1 mr-1 bg-gray-200 rounded shadow dark:bg-highlightDark`}>
-      <Text style={tw`text-xs font-medium text-gray-500 dark:text-gray-400`}>
+      <Text style={tw`text-xs text-gray-500 uppercase dark:text-gray-400`}>
         {title}
       </Text>
     </View>
