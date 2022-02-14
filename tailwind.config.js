@@ -17,6 +17,7 @@ module.exports = {
       colors: {
         light: {DEFAULT: 'rgb(251, 251, 251)'},
         dark: {DEFAULT: '#1f2c33'},
+        // dark: {DEFAULT: '#1f2023'},
         highlightDark: {DEFAULT: '#2a3942'},
         gray: {
           10: '#FCFCFC',
