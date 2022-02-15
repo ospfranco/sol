@@ -23,8 +23,8 @@ const Snack = ({title, index}: {title: string; index: number}) => {
   return (
     <View
       style={tw`flex-row items-center px-3 py-1 mr-1 bg-gray-200 rounded shadow dark:bg-highlightDark`}>
-      <Text style={tw`text-xs text-gray-500 dark:text-gray-300`}>
-        <Text style={tw`dark:text-gray-500`}>{index + 1}</Text>
+      <Text style={tw`text-xs text-gray-600 dark:text-gray-300`}>
+        <Text style={tw`text-gray-500 dark:text-gray-500`}>{index + 1}</Text>
         {'  '}
         {title}
       </Text>
@@ -61,7 +61,6 @@ export const SearchWidget: FC<IProps> = observer(() => {
             onChangeText={store.ui.setQuery}
             ref={inputRef}
             style={tw`flex-1 text-base`}
-            selectionColor="white"
           />
           {store.ui.isLoading && (
             <ActivityIndicator size="small" style={tw`w-2 h-2`} />
