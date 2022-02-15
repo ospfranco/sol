@@ -1,6 +1,5 @@
-import {solNative} from 'lib/SolNative'
 import React from 'react'
-import {Pressable, View} from 'react-native'
+import {View} from 'react-native'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
 import {CalendarWidget} from 'widgets/calendar.widget'
