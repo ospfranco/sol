@@ -33,11 +33,15 @@ class AppDelegate: NSObject, NSApplicationDelegate  {
     let rootViewController = NSViewController()
     rootViewController.view = rootView
     
-    let mainScreen = NSScreen.main!
     mainWindow = Panel(
-      contentRect: NSRect(x: 0, y: 0, width: mainScreen.frame.width, height: mainScreen.frame.height),
+      contentRect: NSRect(x: 0, y: 0, width: 800, height: 600),
       backing: .buffered, defer: false)
     mainWindow.contentViewController = rootViewController
+    
+        let origin = CGPoint(x: 0, y: 0)
+        let size = CGSize(width: 800, height: 600)
+        let frame = NSRect(origin: origin, size: size)
+        mainWindow.setFrame(frame, display: false)
     
     NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
       
@@ -101,11 +105,11 @@ class AppDelegate: NSObject, NSApplicationDelegate  {
   }
   
   func showWindow() {
-    let mainScreen = NSScreen.main!
-    let origin = CGPoint(x: 0, y: 0)
-    let size = CGSize(width: mainScreen.frame.width, height: mainScreen.frame.height)
-    let frame = NSRect(origin: origin, size: size)
-    mainWindow.setFrame(frame, display: false)
+//    let mainScreen = NSScreen.main!
+//    let origin = CGPoint(x: max(mainScreen.frame.origin.x, mainWindow.frame.origin.x), y: max(mainScreen.frame.origin.y, mainWindow.frame.origin.y))
+//    let size = CGSize(width: max(mainScreen.frame.width, mainWindow.frame.width), height: max(mainScreen.frame.height, mainWindow.frame.height))
+//    let frame = NSRect(origin: origin, size: size)
+//    mainWindow.setFrame(frame, display: false)
     
     mainWindow.makeKeyAndOrderFront(self)
     mainWindow.center()
