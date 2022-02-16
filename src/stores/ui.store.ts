@@ -201,7 +201,7 @@ export let createUIStore = (root: IRootStore) => {
     //                        |_|
     get items(): IItem[] {
       if (store.query) {
-        return new Fuse([...store.apps, ...SETTING_ITEMS], {
+        let results = new Fuse([...store.apps, ...SETTING_ITEMS], {
           ...FUSE_OPTIONS,
           sortFn: (a: any, b: any) => {
             const freqA = store.frequencies[a.name] ?? 0
@@ -211,6 +211,21 @@ export let createUIStore = (root: IRootStore) => {
         })
           .search(store.query)
           .map(r => r.item)
+
+        if (results.length === 0) {
+          return [
+            {
+              icon: '🔎',
+              name: 'Google it',
+              type: ItemType.CONFIGURATION,
+              callback: () => {
+                Linking.openURL(`https://google.com/search?q=${store.query}`)
+              },
+            },
+          ]
+        }
+
+        return results
       } else {
         return [...store.apps, ...SETTING_ITEMS].sort((a, b) => {
           const freqA = store.frequencies[a.name] ?? 0

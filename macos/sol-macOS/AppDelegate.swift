@@ -8,10 +8,9 @@ let handledKeys: [UInt16] = [53, 126, 125, 36, 48]
 let numberchars: [String] = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate  {
+class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate  {
   
   var mainWindow: Panel!
-//  let hotKey = HotKey(key: .space, modifiers: [.option])
   let hotKey = HotKey(key: .space, modifiers: [.command])
   let dateFormatter = ISO8601DateFormatter()
   

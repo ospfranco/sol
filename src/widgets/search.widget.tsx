@@ -137,7 +137,8 @@ export const SearchWidget: FC<IProps> = observer(() => {
           <View style={tw`flex-1 pr-2`}>
             <View
               style={tw.style(`flex-1 p-3 rounded`, {
-                'bg-highlightDark': store.ui.selectedIndex === 0,
+                'bg-gray-200 dark:bg-highlightDark':
+                  store.ui.selectedIndex === 0,
               })}>
               <Text>🇺🇸</Text>
               <Text style={tw`flex-1 pt-2 text-lg`}>
@@ -148,7 +149,8 @@ export const SearchWidget: FC<IProps> = observer(() => {
           <View style={tw`flex-1 pl-2`}>
             <View
               style={tw.style(`flex-1 p-3 rounded`, {
-                'bg-highlightDark': store.ui.selectedIndex === 1,
+                'bg-gray-200 dark:bg-highlightDark':
+                  store.ui.selectedIndex === 1,
               })}>
               <Text>🇩🇪</Text>
               <Text style={tw`flex-1 pt-2 text-lg`}>
