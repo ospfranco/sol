@@ -2,6 +2,7 @@ import {NativeEventEmitter, NativeModules} from 'react-native'
 
 class SolNative extends NativeEventEmitter {
   openFile: (path: string) => void
+  openWithFinder: (path: string) => void
   hideWindow: () => void
   getNextEvents: () => Promise<
     {
@@ -27,6 +28,7 @@ class SolNative extends NativeEventEmitter {
     this.openFile = nativeModule.openFile
     this.toggleDarkMode = nativeModule.toggleDarkMode
     this.executeAppleScript = nativeModule.executeAppleScript
+    this.openWithFinder = nativeModule.openWithFinder
   }
 }
 

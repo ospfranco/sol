@@ -53,6 +53,10 @@ class SolNative: RCTEventEmitter {
     NSWorkspace.shared.openFile(path)
   }
   
+  @objc func openWithFinder(_ path: String) {
+    NSWorkspace.shared.openFile(path, withApplication: "Finder")
+  }
+  
   @objc func toggleDarkMode() {
     DarkMode.isEnabled = !DarkMode.isEnabled
   }

@@ -166,6 +166,31 @@ export let createUIStore = (root: IRootStore) => {
         solNative.executeAppleScript('tell application "Finder" to sleep')
       },
     },
+    {
+      icon: '💻',
+      name: 'AirDrop',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.executeAppleScript(`tell application "Finder"
+        if exists window "AirDrop" then
+                tell application "System Events" to ¬
+                        tell application process "Finder" to ¬
+                                perform action "AXRaise" of ¬
+                                        (windows whose title is "AirDrop")
+        else if (count Finder windows) > 0 then
+                make new Finder window
+                tell application "System Events" to ¬
+                        click menu item "AirDrop" of menu 1 of menu bar item ¬
+                                "Go" of menu bar 1 of application process "Finder"
+        else
+                tell application "System Events" to ¬
+                        click menu item "AirDrop" of menu 1 of menu bar item ¬
+                                "Go" of menu bar 1 of application process "Finder"
+        end if
+        activate
+end tell`)
+      },
+    },
   ]
 
   let store = makeAutoObservable({
