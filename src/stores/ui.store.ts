@@ -102,24 +102,24 @@ interface IEvent {
   location: string
 }
 
-// function extractLink(text?: string, location?: string) {
-//   let link = text
-//     ?.replace(/\n/g, ' ')
-//     .split(' ')
-//     .filter(token => CONSTANTS.REGEX_VALID_URL.test(token))
-//     .find(link =>
-//       MEETING_PROVIDERS_URLS.some(baseUrl => link.includes(baseUrl)),
-//     )
+function extractLinkFromDescription(text?: string, location?: string) {
+  let link = text
+    ?.replace(/\n/g, ' ')
+    .split(' ')
+    .filter(token => CONSTANTS.REGEX_VALID_URL.test(token))
+    .find(link =>
+      MEETING_PROVIDERS_URLS.some(baseUrl => link.includes(baseUrl)),
+    )
 
-//   if (!link && !!location) {
-//     const isLocationUrl = CONSTANTS.REGEX_VALID_URL.test(location)
-//     if (isLocationUrl) {
-//       link = location
-//     }
-//   }
+  if (!link && !!location) {
+    const isLocationUrl = CONSTANTS.REGEX_VALID_URL.test(location)
+    if (isLocationUrl) {
+      link = location
+    }
+  }
 
-//   return link
-// }
+  return link
+}
 
 export let createUIStore = (root: IRootStore) => {
   const persist = async () => {
@@ -229,8 +229,8 @@ end tell`)
         let results = new Fuse([...store.apps, ...SETTING_ITEMS], {
           ...FUSE_OPTIONS,
           sortFn: (a: any, b: any) => {
-            const freqA = store.frequencies[a.name] ?? 0
-            const freqB = store.frequencies[b.name] ?? 0
+            const freqA = store.frequencies[a.item[0].v] ?? 0
+            const freqB = store.frequencies[b.item[0].v] ?? 0
             return freqB - freqA
           },
         })
@@ -543,7 +543,4 @@ end tell`)
   solNative.addListener('onHide', store.onHide)
 
   return store
-}
-function extractLinkFromDescription(notes: any): string | undefined {
-  throw new Error('Function not implemented.')
 }
