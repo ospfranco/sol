@@ -14,6 +14,9 @@ module.exports = {
       '7xl': '5rem',
     },
     extend: {
+      borderRadius: {
+        xs: '1px',
+      },
       colors: {
         light: {DEFAULT: 'rgb(251, 251, 251)'},
         dark: {DEFAULT: '#22272f'},

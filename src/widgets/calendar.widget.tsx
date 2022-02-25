@@ -61,12 +61,12 @@ export const CalendarWidget: FC<IProps> = observer(({style}) => {
         return (
           <View
             key={index}
-            style={tw.style(`flex-row flex-1 py-1 px-3 rounded`, {
+            style={tw.style(`flex-row py-1 px-3 rounded`, {
               'bg-gray-200 dark:bg-highlightDark':
                 focused && store.ui.selectedIndex === index,
             })}>
             <View
-              style={tw.style(`w-1 h-full mr-2 rounded`, {
+              style={tw.style(`w-1 h-full mr-2 rounded-xs`, {
                 backgroundColor: event.color,
               })}
             />

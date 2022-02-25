@@ -33,18 +33,6 @@ export const FAVOURITES = [
     },
   },
   {
-    title: 'BF Repo',
-    callback: () => {
-      Linking.openURL('https://github.com/matttti/BodyFast')
-    },
-  },
-  {
-    title: 'Twitter',
-    callback: () => {
-      Linking.openURL('https://twitter.com')
-    },
-  },
-  {
     title: 'PL Code',
     callback: () => {
       Linking.openURL('vscode://file/Users/osp/Developer/productlane')
@@ -54,6 +42,12 @@ export const FAVOURITES = [
     title: 'PL Admin',
     callback: () => {
       Linking.openURL('https://productlane.io/admin')
+    },
+  },
+  {
+    title: 'Sol',
+    callback: () => {
+      Linking.openURL('vscode://file/Users/osp/Developer/sol')
     },
   },
 ]

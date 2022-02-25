@@ -17,7 +17,7 @@ export const RootContainer = () => {
       <View
         style={tw`flex-row border-t border-gray-200 dark:border-darkBorder`}>
         <CalendarWidget
-          style={tw`border-r border-gray-200 dark:border-darkBorder`}
+          style={tw`border-r border-gray-200 dark:border-darkBorder flex-1`}
         />
         <WeatherWidget />
       </View>
