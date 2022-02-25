@@ -481,7 +481,9 @@ end tell`)
       }
     },
     onShow: () => {
-      store.visible = true
+      runInAction(() => {
+        store.visible = true
+      })
 
       solNative
         .getNextEvents()

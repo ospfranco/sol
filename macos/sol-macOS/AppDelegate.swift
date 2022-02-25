@@ -104,20 +104,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   }
   
   func showWindow() {
-//    let mainScreen = NSScreen.main!
-//    let origin = CGPoint(x: max(mainScreen.frame.origin.x, mainWindow.frame.origin.x), y: max(mainScreen.frame.origin.y, mainWindow.frame.origin.y))
-//    let size = CGSize(width: max(mainScreen.frame.width, mainWindow.frame.width), height: max(mainScreen.frame.height, mainWindow.frame.height))
-//    let frame = NSRect(origin: origin, size: size)
-//    mainWindow.setFrame(frame, display: false)
-    
-    mainWindow.makeKeyAndOrderFront(self)
-    mainWindow.center()
-    
     if !NSApp.isActive {
       NSApp.activate(ignoringOtherApps: true)
     }
-    NSCursor.setHiddenUntilMouseMoves(true)
+    
+    mainWindow.center()
+    mainWindow.makeKeyAndOrderFront(self)
+    
     SolEmitter.sharedInstance.onShow()
+    
+    NSCursor.setHiddenUntilMouseMoves(true)
   }
   
   func hideWindow() {
