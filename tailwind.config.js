@@ -20,8 +20,8 @@ module.exports = {
       colors: {
         light: {DEFAULT: 'rgb(251, 251, 251)'},
         dark: {DEFAULT: '#22272f'},
-        highlightDark: {DEFAULT: '#2d333c'},
-        darkBorder: {DEFAULT: '#444c56'},
+        highlightDark: {DEFAULT: '#333537'},
+        darkBorder: {DEFAULT: '#333537'},
         gray: {
           10: '#FCFCFC',
           50: '#F7F9F9',

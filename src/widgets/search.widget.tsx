@@ -21,11 +21,14 @@ const Snack = ({title, index}: {title: string; index: number}) => {
   useDeviceContext(tw)
 
   return (
-    <View
-      style={tw`flex-row items-center px-3 py-1 mr-1 bg-gray-200 rounded shadow dark:bg-highlightDark`}>
-      <Text style={tw`text-xs text-gray-600 dark:text-gray-300`}>
-        <Text style={tw`text-gray-500 dark:text-gray-500`}>{index + 1}</Text>
-        {'  '}
+    <View style={tw`flex-row items-center mr-4`}>
+      <View
+        style={tw`bg-gray-200 rounded dark:bg-highlightDark w-4 items-center justify-center`}>
+        <Text style={tw`text-gray-500 dark:text-gray-400 text-sm font-medium`}>
+          {index + 1}
+        </Text>
+      </View>
+      <Text style={tw`text-xs text-gray-600 dark:text-gray-300 ml-1`}>
         {title}
       </Text>
     </View>

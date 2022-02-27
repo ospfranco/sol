@@ -16,10 +16,7 @@ export const RootContainer = observer(() => {
   }
 
   return (
-    <View
-      style={tw.style(
-        `flex-1 rounded-lg border bg-light dark:bg-dark shadow-xl border-gray-200 dark:border-darkBorder`,
-      )}>
+    <View style={tw.style(`flex-1`)}>
       <SearchWidget />
       <View
         style={tw`flex-row border-t border-gray-200 dark:border-darkBorder`}>

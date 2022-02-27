@@ -37,11 +37,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
       backing: .buffered, defer: false)
     mainWindow.contentViewController = rootViewController
     
-        let origin = CGPoint(x: 0, y: 0)
-        let size = CGSize(width: 800, height: 600)
-        let frame = NSRect(origin: origin, size: size)
-        mainWindow.setFrame(frame, display: false)
-    
+    let origin = CGPoint(x: 0, y: 0)
+    let size = CGSize(width: 800, height: 600)
+    let frame = NSRect(origin: origin, size: size)
+    mainWindow.setFrame(frame, display: false)
+  
     NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
       
       let metaPressed = $0.modifierFlags.contains(.command)
