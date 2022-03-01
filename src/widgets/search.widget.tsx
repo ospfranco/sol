@@ -91,7 +91,8 @@ export const SearchWidget: FC<IProps> = observer(() => {
           </View>
 
           {!!store.ui.temporaryResult && (
-            <Text style={tw`px-3 py-6 text-xl text-center bg-highlightDark`}>
+            <Text
+              style={tw`px-3 py-6 text-xl text-center bg-gray-200 my-4 dark:bg-highlightDark`}>
               {store.ui.temporaryResult}
             </Text>
           )}
