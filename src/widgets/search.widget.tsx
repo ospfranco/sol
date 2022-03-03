@@ -117,7 +117,7 @@ export const SearchWidget: FC<IProps> = observer(() => {
             }}
           />
 
-          <View style={tw`flex-row px-3 py-2`}>
+          <View style={tw`flex-row px-6 py-3`}>
             {!!store.ui.query && (
               <>
                 <Snack title="Translate" index={0} />
