@@ -27,13 +27,13 @@ const FUSE_OPTIONS = {
 
 export const FAVOURITES = [
   {
-    title: 'Protonmail',
+    title: 'Mail',
     callback: () => {
       Linking.openURL('https://mail.protonmail.com/u/0/inbox')
     },
   },
   {
-    title: 'PL Code',
+    title: 'PL',
     callback: () => {
       Linking.openURL('vscode://file/Users/osp/Developer/productlane')
     },

@@ -22,12 +22,12 @@ const Snack = ({title, index}: {title: string; index: number}) => {
 
   return (
     <View style={tw`flex-row items-center mr-4`}>
-      <View
+      {/* <View
         style={tw`bg-gray-200 rounded dark:bg-highlightDark w-4 items-center justify-center`}>
         <Text style={tw`text-gray-500 dark:text-gray-400 text-sm font-medium`}>
           {index + 1}
         </Text>
-      </View>
+      </View> */}
       <Text style={tw`text-xs text-gray-600 dark:text-gray-500 ml-2`}>
         {title}
       </Text>
@@ -54,7 +54,10 @@ export const SearchWidget: FC<IProps> = observer(() => {
   return (
     <View style={tw`flex-1`}>
       <View style={tw`pt-2`}>
-        <View style={tw.style(`px-3 py-2 flex-row`)}>
+        <View
+          style={tw.style(
+            `px-3 py-3 flex-row border-b border-gray-200 dark:border-gray-800`,
+          )}>
           <TextInput
             autoFocus
             // @ts-ignore
@@ -117,7 +120,7 @@ export const SearchWidget: FC<IProps> = observer(() => {
             }}
           />
 
-          <View style={tw`flex-row px-6 py-3`}>
+          <View style={tw`absolute right-0 top-5 flex-row`}>
             {!!store.ui.query && (
               <>
                 <Snack title="Translate" index={0} />

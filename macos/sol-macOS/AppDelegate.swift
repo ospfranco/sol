@@ -44,7 +44,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     
     let visualEffect = NSVisualEffectView(frame: frame)
     visualEffect.blendingMode = .behindWindow
-    visualEffect.material = .dark
+    visualEffect.material = .sidebar
     visualEffect.state = .active
     mainWindow.contentView!.addSubview(visualEffect)
     mainWindow.contentView!.addSubview(rootView)
