@@ -28,7 +28,7 @@ const Snack = ({title, index}: {title: string; index: number}) => {
           {index + 1}
         </Text>
       </View>
-      <Text style={tw`text-xs text-gray-600 dark:text-gray-300 ml-1`}>
+      <Text style={tw`text-xs text-gray-600 dark:text-gray-500 ml-2`}>
         {title}
       </Text>
     </View>
@@ -59,7 +59,7 @@ export const SearchWidget: FC<IProps> = observer(() => {
             autoFocus
             // @ts-ignore
             enableFocusRing={false}
-            placeholder="Type something..."
+            placeholder={`Currently ${store.ui.currentTemp} ℃ - Next: ${store.ui.nextHourForecast}`}
             value={store.ui.query}
             onChangeText={store.ui.setQuery}
             ref={inputRef}
@@ -73,23 +73,6 @@ export const SearchWidget: FC<IProps> = observer(() => {
 
       {!store.ui.translationResults && (
         <>
-          <View style={tw`flex-row px-3 pt-2`}>
-            {!!store.ui.query && (
-              <>
-                <Snack title="Translate" index={0} />
-                <Snack title="Google it" index={1} />
-              </>
-            )}
-
-            {!store.ui.query && (
-              <>
-                {FAVOURITES.map((fav, index) => (
-                  <Snack key={index} title={fav.title} index={index} />
-                ))}
-              </>
-            )}
-          </View>
-
           {!!store.ui.temporaryResult && (
             <Text
               style={tw`px-3 py-6 text-xl text-center bg-gray-200 my-4 dark:bg-highlightDark`}>
@@ -133,6 +116,23 @@ export const SearchWidget: FC<IProps> = observer(() => {
               )
             }}
           />
+
+          <View style={tw`flex-row px-3 py-2`}>
+            {!!store.ui.query && (
+              <>
+                <Snack title="Translate" index={0} />
+                <Snack title="Google it" index={1} />
+              </>
+            )}
+
+            {!store.ui.query && (
+              <>
+                {FAVOURITES.map((fav, index) => (
+                  <Snack key={index} title={fav.title} index={index} />
+                ))}
+              </>
+            )}
+          </View>
         </>
       )}
 

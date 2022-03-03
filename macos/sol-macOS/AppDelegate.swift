@@ -29,18 +29,31 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     let jsCodeLocation: URL = RCTBundleURLProvider.sharedSettings().jsBundleURL(forBundleRoot: "index", fallbackResource:"main")
 
     let rootView = RCTRootView(bundleURL: jsCodeLocation, moduleName: "sol", initialProperties: nil, launchOptions: nil)
-    let rootViewController = NSViewController()
-    rootViewController.view = rootView
+//    let rootViewController = NSViewController()
+//    rootViewController.view = rootView
     
     mainWindow = Panel(
       contentRect: NSRect(x: 0, y: 0, width: 800, height: 600),
       backing: .buffered, defer: false)
-    mainWindow.contentViewController = rootViewController
+//    mainWindow.contentViewController = rootViewController
     
     let origin = CGPoint(x: 0, y: 0)
     let size = CGSize(width: 800, height: 600)
     let frame = NSRect(origin: origin, size: size)
     mainWindow.setFrame(frame, display: false)
+    
+    let visualEffect = NSVisualEffectView(frame: frame)
+    visualEffect.blendingMode = .behindWindow
+    visualEffect.material = .dark
+    visualEffect.state = .active
+    mainWindow.contentView!.addSubview(visualEffect)
+    mainWindow.contentView!.addSubview(rootView)
+    
+    rootView.translatesAutoresizingMaskIntoConstraints = false
+    rootView.topAnchor.constraint(equalTo: mainWindow.contentView!.topAnchor).isActive = true
+    rootView.leadingAnchor.constraint(equalTo: mainWindow.contentView!.leadingAnchor).isActive = true
+    rootView.trailingAnchor.constraint(equalTo: mainWindow.contentView!.trailingAnchor).isActive = true
+    rootView.bottomAnchor.constraint(equalTo: mainWindow.contentView!.bottomAnchor).isActive = true
   
     NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
       

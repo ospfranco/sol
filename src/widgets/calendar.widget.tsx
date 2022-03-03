@@ -17,32 +17,26 @@ import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
 import inbox from '../assets/inbox.png'
 
-const MEETING_PROVIDERS_URLS = [
-  'https://us06web.zoom.us',
-  'https://meet.google.com',
-  'https://meet.ffmuc.net',
-]
-
 interface IProps {
   style?: StyleProp<ViewStyle>
-}
-
-function extractLinkFromDescription(text: string) {
-  const link = text
-    .replace(/\n/g, ` `)
-    .split(` `)
-    .filter(token => CONSTANTS.REGEX_VALID_URL.test(token))
-    .find(link =>
-      MEETING_PROVIDERS_URLS.some(baseUrl => link.includes(baseUrl)),
-    )
-
-  return link
 }
 
 export const CalendarWidget: FC<IProps> = observer(({style}) => {
   useDeviceContext(tw)
   const store = useStore()
   const focused = store.ui.focusedWidget === FocusableWidget.CALENDAR
+
+  const groups = store.ui.events.slice(0, 3).reduce((acc, event) => {
+    const lDate = DateTime.fromISO(event.date)
+    const relativeDate = lDate.toRelativeCalendar()!
+
+    if (!acc[relativeDate]) {
+      acc[relativeDate] = [event]
+    } else {
+      acc[relativeDate].push(event)
+    }
+    return acc
+  }, {} as Record<string, Array<any>>)
 
   return (
     <View
@@ -55,13 +49,55 @@ export const CalendarWidget: FC<IProps> = observer(({style}) => {
       {!store.ui.minimalistMode && (
         <Text style={tw`pb-1 text-xs font-medium text-gray-400`}>Calendar</Text>
       )}
-      {store.ui.events.slice(0, 3).map((event, index) => {
+      {Object.entries(groups).map(([key, events]) => {
+        return (
+          <View key={key}>
+            <Text style={tw`capitalize font-medium pb-2 dark:text-gray-400`}>
+              {key}
+            </Text>
+            {events.map((event, index) => {
+              const lDate = DateTime.fromISO(event.date)
+              const lEndDate = event.endDate
+                ? DateTime.fromISO(event.endDate)
+                : null
+              return (
+                <View
+                  key={index}
+                  style={tw.style(`flex-row py-2 px-4 rounded items-center`, {
+                    'bg-gray-200 dark:bg-highlightDark':
+                      focused && store.ui.selectedIndex === index,
+                  })}>
+                  <View
+                    style={tw.style(`w-4 h-4 border mr-2 rounded-full`, {
+                      borderColor: event.color,
+                    })}
+                  />
+                  <Text
+                    style={tw`text-sm text-gray-500 dark:text-gray-400 pl-2`}>
+                    {event.isAllDay ? 'All day, ' : null}
+                    {lDate.toFormat('HH:mm')}{' '}
+                    {lEndDate && !event.isAllDay
+                      ? `- ${lEndDate.toFormat('HH:mm')}`
+                      : null}
+                  </Text>
+                  <Text
+                    style={tw`font-medium flex-shrink-1 dark:text-white pl-4`}
+                    numberOfLines={1}>
+                    {event.title}
+                  </Text>
+                </View>
+              )
+            })}
+          </View>
+        )
+      })}
+      {/* {store.ui.events.slice(0, 3).map((event, index) => {
         const lDate = DateTime.fromISO(event.date)
         const lEndDate = event.endDate ? DateTime.fromISO(event.endDate) : null
         return (
           <View
             key={index}
-            style={tw.style(`flex-row py-1 px-3 rounded flex-1 items-center`, {
+            style={tw.style(`flex-row py-1 px-3 rounded items-center`, {
               'bg-gray-200 dark:bg-highlightDark':
                 focused && store.ui.selectedIndex === index,
             })}>
@@ -86,7 +122,7 @@ export const CalendarWidget: FC<IProps> = observer(({style}) => {
             </View>
           </View>
         )
-      })}
+      })} */}
       {!store.ui.events.length && (
         <View
           style={tw.style(`text-gray-500 items-center justify-center flex-1`)}>

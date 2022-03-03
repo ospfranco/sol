@@ -20,7 +20,7 @@ module.exports = {
       colors: {
         light: {DEFAULT: 'rgb(251, 251, 251)'},
         dark: {DEFAULT: '#22272f'},
-        highlightDark: {DEFAULT: '#333537'},
+        highlightDark: {DEFAULT: '#424242'},
         darkBorder: {DEFAULT: '#333537'},
         gray: {
           10: '#FCFCFC',

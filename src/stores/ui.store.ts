@@ -144,8 +144,8 @@ export let createUIStore = (root: IRootStore) => {
       },
     },
     {
-      icon: '🌓',
-      name: 'Toggle dark mode',
+      icon: '🌕',
+      name: 'Dark mode',
       type: ItemType.CONFIGURATION,
       callback: () => {
         solNative.toggleDarkMode()
