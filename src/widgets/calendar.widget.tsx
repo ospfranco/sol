@@ -64,16 +64,18 @@ export const CalendarWidget: FC<IProps> = observer(({style}) => {
                 <View
                   key={index}
                   style={tw.style(`flex-row py-2 px-4 rounded items-center`, {
-                    'bg-gray-200 dark:bg-highlightDark':
+                    'bg-highlight dark:bg-highlightDark':
                       focused && store.ui.selectedIndex === index,
                   })}>
                   <View
-                    style={tw.style(`w-4 h-4 border mr-2 rounded-full`, {
-                      borderColor: event.color,
-                    })}
+                    style={tw.style(
+                      `w-[15px] h-[15px] border-2 mr-2 rounded-full`,
+                      {
+                        borderColor: event.color,
+                      },
+                    )}
                   />
-                  <Text
-                    style={tw`text-sm text-gray-500 dark:text-gray-400 pl-2`}>
+                  <Text style={tw`text-gray-500 dark:text-gray-400 pl-2`}>
                     {event.isAllDay ? 'All day, ' : null}
                     {lDate.toFormat('HH:mm')}{' '}
                     {lEndDate && !event.isAllDay
