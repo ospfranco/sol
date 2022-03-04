@@ -28,7 +28,7 @@ const Snack = ({title, index}: {title: string; index: number}) => {
           {index + 1}
         </Text>
       </View> */}
-      <Text style={tw`text-xs text-gray-600 dark:text-gray-500 ml-2`}>
+      <Text style={tw`text-xs text-gray-600 dark:text-gray-200 ml-2`}>
         {title}
       </Text>
     </View>
@@ -56,7 +56,7 @@ export const SearchWidget: FC<IProps> = observer(() => {
       <View style={tw`pt-2`}>
         <View
           style={tw.style(
-            `px-3 py-3 flex-row border-b border-lightBorder dark:border-darkBorder`,
+            `px-3 pt-2 pb-3 flex-row border-b border-lightBorder dark:border-darkBorder`,
           )}>
           <TextInput
             autoFocus
@@ -102,26 +102,20 @@ export const SearchWidget: FC<IProps> = observer(() => {
                 <View
                   key={index}
                   style={tw.style(`flex-row items-center px-3 py-2 rounded`, {
-                    'bg-highlight dark:bg-gray-500 bg-opacity-50':
+                    'bg-highlight dark:bg-gray-500 bg-opacity-30':
                       store.ui.selectedIndex === index && focused,
                   })}>
                   {!!item.url && (
                     <FileIcon url={item.url} style={tw`w-6 h-6`} />
                   )}
                   {!!item.icon && <Text style={tw`text-lg`}>{item.icon}</Text>}
-                  <Text
-                    style={tw.style(`ml-3 text-sm dark:text-gray-400`, {
-                      'dark:text-white':
-                        store.ui.selectedIndex === index && focused,
-                    })}>
-                    {item.name}
-                  </Text>
+                  <Text style={tw.style('ml-3 text-sm')}>{item.name}</Text>
                 </View>
               )
             }}
           />
 
-          <View style={tw`absolute right-0 top-5 flex-row`}>
+          <View style={tw`absolute right-0 top-4 flex-row`}>
             {!!store.ui.query && (
               <>
                 <Snack title="Translate" index={0} />
