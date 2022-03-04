@@ -124,7 +124,7 @@ export const SearchWidget: FC<IProps> = observer(() => {
             {!!store.ui.query && (
               <>
                 <Snack title="Translate" index={0} />
-                <Snack title="Google it" index={1} />
+                <Snack title="Google" index={1} />
               </>
             )}
 
@@ -141,28 +141,28 @@ export const SearchWidget: FC<IProps> = observer(() => {
 
       {!!store.ui.translationResults && (
         <View style={tw`flex-1 p-3`}>
-          <View style={tw`flex-1 pr-2`}>
+          <View style={tw`flex-1`}>
             <View
-              style={tw.style(`flex-1 p-3 rounded`, {
-                'bg-gray-200 dark:bg-highlightDark':
+              style={tw.style(`flex-1 p-3 rounded flex-row items-center`, {
+                'bg-highlight dark:bg-highlightDark':
                   store.ui.selectedIndex === 0,
               })}>
-              <Text>🇺🇸</Text>
-              <Text style={tw`flex-1 pt-2 text-lg`}>
+              <Text style={tw`flex-1 h-full pt-2 text-lg`}>
                 {store.ui.translationResults.en}
               </Text>
+              <Text style={tw`text-3xl`}>🇬🇧</Text>
             </View>
           </View>
-          <View style={tw`flex-1 pl-2`}>
+          <View style={tw`flex-1`}>
             <View
-              style={tw.style(`flex-1 p-3 rounded`, {
-                'bg-gray-200 dark:bg-highlightDark':
+              style={tw.style(`flex-1 p-3 rounded flex-row items-center`, {
+                'bg-highlight dark:bg-highlightDark':
                   store.ui.selectedIndex === 1,
               })}>
-              <Text>🇩🇪</Text>
-              <Text style={tw`flex-1 pt-2 text-lg`}>
+              <Text style={tw`flex-1 pt-2 text-lg h-full`}>
                 {store.ui.translationResults.de}
               </Text>
+              <Text style={tw`text-3xl`}>🇩🇪</Text>
             </View>
           </View>
         </View>

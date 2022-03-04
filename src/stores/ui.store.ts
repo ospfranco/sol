@@ -222,8 +222,8 @@ end tell`)
         if (results.length === 0) {
           return [
             {
-              icon: '🔎',
-              name: 'Google it',
+              icon: '🌎',
+              name: 'Google',
               type: ItemType.CONFIGURATION,
               callback: () => {
                 Linking.openURL(`https://google.com/search?q=${store.query}`)
