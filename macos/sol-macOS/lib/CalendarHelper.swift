@@ -18,7 +18,6 @@ class CalendarHelper {
   }
   
   func getNextEvents() -> Any? {
-    
     let eventAuthorizationStatus = EKEventStore.authorizationStatus(for: .event)
     if(eventAuthorizationStatus != .authorized) {
       return []
@@ -27,8 +26,8 @@ class CalendarHelper {
     let calendars = store.calendars(for: .event)
     
     let now = Date()
-    let tomorrow = Date(timeIntervalSinceNow: 3*24*3600)
-    let predicate = store.predicateForEvents(withStart: now, end: tomorrow, calendars: calendars)
+    let aWeekFromNow = Date(timeIntervalSinceNow: 7*24*3600)
+    let predicate = store.predicateForEvents(withStart: now, end: aWeekFromNow, calendars: calendars)
     let events = store.events(matching: predicate)
     
     return events.map { event -> Any in
@@ -45,7 +44,9 @@ class CalendarHelper {
         "color": hexColor,
         "date": event.startDate != nil ? dateFormatter.string(from: event.startDate) : nil,
         "endDate": event.endDate != nil ? dateFormatter.string(from: event.endDate) : nil,
-        "isAllDay": event.isAllDay
+        "isAllDay": event.isAllDay,
+        "status": event.status.rawValue, // 0 none, 1 confirmed, 2 tentative, 3 cancelled
+        "attendeesLength": event.attendees?.count ?? 0
       ]
     }
   }

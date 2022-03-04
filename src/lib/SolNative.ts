@@ -1,20 +1,22 @@
 import {NativeEventEmitter, NativeModules} from 'react-native'
 
+export interface INativeEvent {
+  title?: string
+  url?: string
+  date: string
+  endDate: string
+  isAllDay: boolean
+  notes: string
+  color: string
+  location: string
+  status: number // 0 none, 1 confirmed, 2 tentative, 3 cancelled
+}
+
 class SolNative extends NativeEventEmitter {
   openFile: (path: string) => void
   openWithFinder: (path: string) => void
   hideWindow: () => void
-  getNextEvents: () => Promise<
-    {
-      title?: string
-      url?: string
-      date: string
-      isAllDay: boolean
-      notes: string
-      color: string
-      location: string
-    }[]
-  >
+  getNextEvents: () => Promise<INativeEvent[]>
   getApps: () => Promise<string[]>
   toggleDarkMode: () => void
   executeAppleScript: (source: string) => void

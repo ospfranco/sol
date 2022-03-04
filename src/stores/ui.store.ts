@@ -1,6 +1,6 @@
 import {makeAutoObservable, runInAction, toJS, autorun} from 'mobx'
 import {IRootStore} from 'Store'
-import {solNative} from 'lib/SolNative'
+import {INativeEvent, solNative} from 'lib/SolNative'
 import {AsyncStorage, Linking, Clipboard} from 'react-native'
 import {CONSTANTS} from 'lib/constants'
 import {getCurrentWeather} from 'lib/weather'
@@ -82,17 +82,6 @@ interface IItem {
   type: ItemType
   name: string
   callback?: () => void
-}
-
-interface IEvent {
-  title?: string
-  url?: string
-  date: string
-  endDate?: string
-  isAllDay: boolean
-  notes?: string
-  color: string
-  location: string
 }
 
 function extractLinkFromDescription(text?: string, location?: string) {
@@ -198,7 +187,7 @@ end tell`)
     selectedIndex: 0 as number,
     minimalistMode: false as boolean,
     focusedWidget: FocusableWidget.SEARCH as FocusableWidget,
-    events: [] as IEvent[],
+    events: [] as INativeEvent[],
     currentTemp: 0 as number,
     nextHourForecast: null as null | string,
     apps: [] as IApp[],
