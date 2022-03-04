@@ -52,7 +52,8 @@ export const CalendarWidget: FC<IProps> = observer(({style}) => {
       {Object.entries(groups).map(([key, events]) => {
         return (
           <View key={key}>
-            <Text style={tw`capitalize font-medium pb-2 dark:text-gray-400`}>
+            <Text
+              style={tw`capitalize font-medium pb-2 dark:text-gray-400 text-gray-500`}>
               {key}
             </Text>
             {events.map((event, index) => {
@@ -77,14 +78,14 @@ export const CalendarWidget: FC<IProps> = observer(({style}) => {
                   />
                   <Text style={tw`text-gray-500 dark:text-gray-400 pl-2`}>
                     {event.isAllDay ? 'All day, ' : null}
-                    {lDate.toFormat('HH:mm')}{' '}
+                    <Text style={tw`text-gray-800 dark:text-gray-200`}>
+                      {lDate.toFormat('HH:mm')}{' '}
+                    </Text>
                     {lEndDate && !event.isAllDay
                       ? `- ${lEndDate.toFormat('HH:mm')}`
                       : null}
                   </Text>
-                  <Text
-                    style={tw`font-medium flex-shrink-1 dark:text-white pl-4`}
-                    numberOfLines={1}>
+                  <Text style={tw`pl-4`} numberOfLines={1}>
                     {event.title}
                   </Text>
                 </View>

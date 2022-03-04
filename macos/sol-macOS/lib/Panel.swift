@@ -17,6 +17,11 @@ final class Panel: NSPanel {
       self.standardWindowButton(.zoomButton)?.isHidden = true
       self.isOpaque = false
       self.alphaValue = 0.98
+      let visualEffect = NSVisualEffectView(frame: frame)
+      visualEffect.blendingMode = .behindWindow
+      visualEffect.material = .sidebar
+      visualEffect.state = .active
+      self.contentView!.addSubview(visualEffect)
     }
     
     override var canBecomeKey: Bool {

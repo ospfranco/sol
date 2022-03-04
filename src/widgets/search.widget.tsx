@@ -62,7 +62,7 @@ export const SearchWidget: FC<IProps> = observer(() => {
             autoFocus
             // @ts-ignore
             enableFocusRing={false}
-            placeholder={`Currently ${store.ui.currentTemp} ℃ - Next: ${store.ui.nextHourForecast}`}
+            placeholder={`Currently ${store.ui.currentTemp} ℃ → ${store.ui.nextHourForecast}`}
             value={store.ui.query}
             onChangeText={store.ui.setQuery}
             ref={inputRef}

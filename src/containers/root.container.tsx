@@ -9,22 +9,22 @@ import {SearchWidget} from 'widgets/search.widget'
 
 export const RootContainer = observer(() => {
   useDeviceContext(tw)
-  const store = useStore()
-  let content = null
-  if (store.ui.visible) {
-    content = (
-      <>
-        <SearchWidget />
-        <CalendarWidget
-          style={tw`border-t w-full border-gray-300 dark:border-gray-800`}
-        />
-      </>
-    )
-  }
+  // const store = useStore()
+  // let content = null
+  // if (store.ui.visible) {
+  //   content = (
+  //     <>
+
+  //     </>
+  //   )
+  // }
 
   return (
     <View style={tw.style(`flex-1 bg-white dark:bg-black bg-opacity-50`)}>
-      {content}
+      <SearchWidget />
+      <CalendarWidget
+        style={tw`border-t w-full border-gray-300 dark:border-gray-800`}
+      />
     </View>
   )
 })

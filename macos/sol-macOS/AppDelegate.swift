@@ -12,41 +12,24 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   
   var mainWindow: Panel!
   let hotKey = HotKey(key: .space, modifiers: [.command])
-  let dateFormatter = ISO8601DateFormatter()
   
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     LaunchAtLogin.isEnabled = true
     hotKey.keyDownHandler = toggle
-    
-    let eventAuthorizationStatus = EKEventStore.authorizationStatus(for: .event)
-    if eventAuthorizationStatus == .notDetermined {
-      let store = EKEventStore()
-      store.requestAccess(to: .event) { granted, error in
-          print("Event kit request access response")
-      }
-    }
 
     let jsCodeLocation: URL = RCTBundleURLProvider.sharedSettings().jsBundleURL(forBundleRoot: "index", fallbackResource:"main")
 
     let rootView = RCTRootView(bundleURL: jsCodeLocation, moduleName: "sol", initialProperties: nil, launchOptions: nil)
-//    let rootViewController = NSViewController()
-//    rootViewController.view = rootView
     
     mainWindow = Panel(
       contentRect: NSRect(x: 0, y: 0, width: 800, height: 600),
       backing: .buffered, defer: false)
-//    mainWindow.contentViewController = rootViewController
     
     let origin = CGPoint(x: 0, y: 0)
     let size = CGSize(width: 800, height: 600)
     let frame = NSRect(origin: origin, size: size)
     mainWindow.setFrame(frame, display: false)
     
-    let visualEffect = NSVisualEffectView(frame: frame)
-    visualEffect.blendingMode = .behindWindow
-    visualEffect.material = .sidebar
-    visualEffect.state = .active
-    mainWindow.contentView!.addSubview(visualEffect)
     mainWindow.contentView!.addSubview(rootView)
     
     rootView.translatesAutoresizingMaskIntoConstraints = false
@@ -69,42 +52,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
       }      
       
       return $0
-    }
-  }
-  
-  
-  func getNextEvents() -> Any? {
-    
-    let eventAuthorizationStatus = EKEventStore.authorizationStatus(for: .event)
-    if(eventAuthorizationStatus != .authorized) {
-      return []
-    }
-    
-    let store = EKEventStore()
-      
-    let calendars = store.calendars(for: .event)
-    
-    let now = Date()
-    let tomorrow = Date(timeIntervalSinceNow: 3*24*3600)
-    let predicate = store.predicateForEvents(withStart: now, end: tomorrow, calendars: calendars)
-    let events = store.events(matching: predicate)
-    
-    return events.map { event -> Any in
-      
-      let color = event.calendar.color
-      let hexColor = String(format: "#%02X%02X%02X", (Int) (color!.redComponent * 0xFF), (Int) (color!.greenComponent * 0xFF),
-                            (Int) (color!.blueComponent * 0xFF))
-      
-      return [
-        "title": event.title,
-        "url": event.url?.absoluteString,
-        "notes": event.notes,
-        "location": event.location,
-        "color": hexColor,
-        "date": event.startDate != nil ? dateFormatter.string(from: event.startDate) : nil,
-        "endDate": event.endDate != nil ? dateFormatter.string(from: event.endDate) : nil,
-        "isAllDay": event.isAllDay
-      ]
     }
   }
   

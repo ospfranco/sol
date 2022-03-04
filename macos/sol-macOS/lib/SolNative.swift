@@ -26,10 +26,7 @@ class SolNative: RCTEventEmitter {
   }
   
   @objc func getNextEvents(_ resolve: @escaping  RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) {
-    DispatchQueue.main.async {
-      let appDelegate = NSApp.delegate as? AppDelegate
-      resolve(appDelegate?.getNextEvents())
-    }
+    resolve(CalendarHelper.sharedInstance.getNextEvents())
   }
   
   @objc func hideWindow() {
