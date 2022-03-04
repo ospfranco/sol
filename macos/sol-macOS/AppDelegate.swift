@@ -15,7 +15,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     LaunchAtLogin.isEnabled = true
-    hotKey.keyDownHandler = toggle
+    hotKey.keyDownHandler = toggleWindow
 
     let jsCodeLocation: URL = RCTBundleURLProvider.sharedSettings().jsBundleURL(forBundleRoot: "index", fallbackResource:"main")
 
@@ -39,7 +39,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     rootView.bottomAnchor.constraint(equalTo: mainWindow.contentView!.bottomAnchor).isActive = true
   
     NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
-      
       let metaPressed = $0.modifierFlags.contains(.command)
       SolEmitter.sharedInstance.keyDown(key: $0.characters, keyCode: $0.keyCode, meta: metaPressed)
       
@@ -55,7 +54,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     }
   }
   
-  func toggle() {
+  func toggleWindow() {
     if mainWindow.isVisible && mainWindow.isKeyWindow {
       hideWindow()
     } else {
@@ -80,9 +79,5 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     NSApp.hide(self)
     NSCursor.unhide()
     SolEmitter.sharedInstance.onHide()
-  }
-  
-  func closeApp() {
-    NSApp.terminate(nil)
   }
 }

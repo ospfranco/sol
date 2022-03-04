@@ -209,7 +209,7 @@
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			packageReferences = (
 				70F7EBEF2795A85200CED17A /* XCRemoteSwiftPackageReference "HotKey" */,
-				7049C90B27B459C7007D5945 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
+				7049C90B27B459C7007D5945 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */,
 			);
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
@@ -551,7 +551,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		7049C90B27B459C7007D5945 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */ = {
+		7049C90B27B459C7007D5945 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "git@github.com:sindresorhus/LaunchAtLogin.git";
 			requirement = {
@@ -572,7 +572,7 @@
 /* Begin XCSwiftPackageProductDependency section */
 		7049C90C27B459C7007D5945 /* LaunchAtLogin */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 7049C90B27B459C7007D5945 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */;
+			package = 7049C90B27B459C7007D5945 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */;
 			productName = LaunchAtLogin;
 		};
 		70F7EBF02795A85200CED17A /* HotKey */ = {

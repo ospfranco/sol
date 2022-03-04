@@ -66,7 +66,7 @@ export const SearchWidget: FC<IProps> = observer(() => {
             value={store.ui.query}
             onChangeText={store.ui.setQuery}
             ref={inputRef}
-            style={tw`flex-1 text-base`}
+            style={tw`flex-1`}
           />
           {store.ui.isLoading && (
             <ActivityIndicator size="small" style={tw`w-2 h-2`} />
