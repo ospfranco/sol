@@ -1,6 +1,6 @@
 <h1 align="center">SOL</h1>
 
-<h3 align="center">A Raycast/Spotlight OSS implementation</h3>
+<h3 align="center">A macOS command palette</h3>
 
 ![cidemon](https://raw.githubusercontent.com/ospfranco/sol/main/screenshot2.png)
 
