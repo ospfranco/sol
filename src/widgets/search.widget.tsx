@@ -56,7 +56,7 @@ export const SearchWidget: FC<IProps> = observer(() => {
       <View style={tw`pt-2`}>
         <View
           style={tw.style(
-            `px-3 py-3 flex-row border-b border-gray-300 dark:border-gray-800`,
+            `px-3 py-3 flex-row border-b border-lightBorder dark:border-darkBorder`,
           )}>
           <TextInput
             autoFocus
@@ -67,6 +67,7 @@ export const SearchWidget: FC<IProps> = observer(() => {
             onChangeText={store.ui.setQuery}
             ref={inputRef}
             style={tw`flex-1`}
+            placeholderTextColor={tw.color('text-gray-500')}
           />
           {store.ui.isLoading && (
             <ActivityIndicator size="small" style={tw`w-2 h-2`} />
@@ -101,7 +102,7 @@ export const SearchWidget: FC<IProps> = observer(() => {
                 <View
                   key={index}
                   style={tw.style(`flex-row items-center px-3 py-2 rounded`, {
-                    'bg-highlight dark:bg-highlightDark':
+                    'bg-highlight dark:bg-gray-500 bg-opacity-50':
                       store.ui.selectedIndex === index && focused,
                   })}>
                   {!!item.url && (
