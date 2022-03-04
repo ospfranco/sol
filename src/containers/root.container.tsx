@@ -25,7 +25,7 @@ export const RootContainer = observer(() => {
         style={tw`bg-gray-100 dark:bg-black bg-opacity-70 dark:bg-opacity-50`}
       />
       <CalendarWidget
-        style={tw`border-t w-full bg-gray-100 dark:bg-black bg-opacity-70 dark:border-darkBorder`}
+        style={tw`border-t w-full bg-white dark:bg-black bg-opacity-80 dark:bg-opacity-70 border-lightBorder dark:border-darkBorder`}
       />
     </View>
   )
