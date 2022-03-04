@@ -5,17 +5,17 @@ import {
   ActivityIndicator,
   FlatList,
   Image,
+  StyleProp,
   Text,
   TextInput,
   View,
+  ViewStyle,
 } from 'react-native'
 import {useStore} from 'store'
 import {FAVOURITES, FocusableWidget} from 'stores'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
 import inbox from '../assets/inbox.png'
-
-interface IProps {}
 
 const Snack = ({title, index}: {title: string; index: number}) => {
   useDeviceContext(tw)
@@ -35,7 +35,11 @@ const Snack = ({title, index}: {title: string; index: number}) => {
   )
 }
 
-export const SearchWidget: FC<IProps> = observer(() => {
+interface IProps {
+  style?: StyleProp<ViewStyle>
+}
+
+export const SearchWidget: FC<IProps> = observer(({style}) => {
   useDeviceContext(tw)
   const store = useStore()
   const focused = store.ui.focusedWidget === FocusableWidget.SEARCH
@@ -52,7 +56,12 @@ export const SearchWidget: FC<IProps> = observer(() => {
   }, [focused, store.ui.items, store.ui.selectedIndex])
 
   return (
-    <View style={tw`flex-1`}>
+    <View
+      style={tw.style(
+        `flex-1`,
+        //@ts-ignore
+        style,
+      )}>
       <View style={tw`pt-2`}>
         <View
           style={tw.style(

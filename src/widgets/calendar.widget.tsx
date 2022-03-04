@@ -33,7 +33,7 @@ export const CalendarWidget: FC<IProps> = observer(({style}) => {
   return (
     <View
       style={tw.style(
-        `p-3 w-1/2 h-44 text-gray-200 dark:border-highlightDark`,
+        `px-6 py-3 w-1/2 h-44 text-gray-200`,
         // @ts-ignore
         style,
       )}>
@@ -43,10 +43,10 @@ export const CalendarWidget: FC<IProps> = observer(({style}) => {
       )}
       {Object.entries(groups).map(([key, data]) => {
         return (
-          <View key={key}>
+          <View key={key} style={tw`pb-2`}>
             <View style={tw`flex-row`}>
               <Text
-                style={tw`capitalize pb-1 font-medium dark:text-gray-200 text-gray-600 text-xs`}>
+                style={tw`capitalize font-medium dark:text-gray-200 text-gray-600 text-xs`}>
                 {key}
               </Text>
               <Text style={tw`dark:text-gray-400 text-gray-400 text-xs pl-2`}>
