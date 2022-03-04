@@ -2,7 +2,7 @@
 
 <h3 align="center">A macOS command palette</h3>
 
-![cidemon](https://raw.githubusercontent.com/ospfranco/sol/main/screenshot2.png)
+![screenshot](https://raw.githubusercontent.com/ospfranco/sol/main/screenshot.png)
 
 <div align="center">
   <a align="center" href="https://github.com/ospfranco?tab=followers">
@@ -20,13 +20,12 @@
 
 Things that are working:
 
-- Global Option + Space shortcut
-- Floating panel, that hides/shows correctly (a la spotlight/alfred/raycast)
-- (Rough) Keyboard events, basic state handling (via mobx)
+- Command + Space shortcut
+- Floating panel, that hides/shows correctly
+- Keyboard events, basic state handling (via mobx)
 - Some hardcoded code is in there for MY workflows
 - App search
 - Google translate
-- A basic todo list implementation
 - A basic calendar integration
 - A basic weather API integration (hardcoded to Munich)
 
