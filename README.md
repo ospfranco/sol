@@ -2,7 +2,7 @@
 
 <h3 align="center">A Raycast/Spotlight OSS implementation</h3>
 
-![cidemon](https://raw.githubusercontent.com/ospfranco/sol/main/screenshot.png)
+![cidemon](https://raw.githubusercontent.com/ospfranco/sol/main/screenshot2.png)
 
 <div align="center">
   <a align="center" href="https://github.com/ospfranco?tab=followers">
