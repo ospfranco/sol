@@ -20,7 +20,7 @@ export const RootContainer = observer(() => {
   // }
 
   return (
-    <View style={tw.style(`flex-1 bg-white dark:bg-black bg-opacity-50`)}>
+    <View style={tw.style(`flex-1 bg-gray-100 dark:bg-black bg-opacity-80`)}>
       <SearchWidget />
       <CalendarWidget
         style={tw`border-t w-full border-gray-300 dark:border-gray-800`}
