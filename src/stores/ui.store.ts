@@ -198,6 +198,10 @@ end tell`)
     },
     frequencies: {} as Record<string, number>,
     temporaryResult: null as string | null,
+    track: null as
+      | {title: string; artist: string; artwork: string}
+      | null
+      | undefined,
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -489,6 +493,12 @@ end tell`)
         runInAction(() => {
           store.currentTemp = res?.temp ? Math.round(res.temp) : 0
           store.nextHourForecast = res?.nextHourForecast ?? null
+        })
+      })
+
+      solNative.getMediaInfo().then(res => {
+        runInAction(() => {
+          store.track = res
         })
       })
 

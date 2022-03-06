@@ -71,7 +71,7 @@ export const SearchWidget: FC<IProps> = observer(({style}) => {
             autoFocus
             // @ts-ignore
             enableFocusRing={false}
-            placeholder={`Currently ${store.ui.currentTemp} ℃ → ${store.ui.nextHourForecast}`}
+            placeholder={`Type something...`}
             value={store.ui.query}
             onChangeText={store.ui.setQuery}
             ref={inputRef}
@@ -111,7 +111,7 @@ export const SearchWidget: FC<IProps> = observer(({style}) => {
                 <View
                   key={index}
                   style={tw.style(`flex-row items-center px-3 py-2 rounded`, {
-                    'bg-highlight dark:bg-gray-500 bg-opacity-30':
+                    'bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-30':
                       store.ui.selectedIndex === index && focused,
                   })}>
                   {!!item.url && (

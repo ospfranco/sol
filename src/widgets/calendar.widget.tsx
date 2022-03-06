@@ -33,7 +33,7 @@ export const CalendarWidget: FC<IProps> = observer(({style}) => {
   return (
     <View
       style={tw.style(
-        `px-6 py-3 w-1/2 h-44 text-gray-200`,
+        `px-6 pt-3 w-1/2 text-gray-200`,
         // @ts-ignore
         style,
       )}>
