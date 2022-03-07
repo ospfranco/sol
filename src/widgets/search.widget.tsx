@@ -23,12 +23,12 @@ const Snack = ({title, index}: {title: string; index: number}) => {
 
   return (
     <View style={tw`flex-row items-center mr-4`}>
-      {/* <View
+      <View
         style={tw`bg-gray-200 rounded dark:bg-highlightDark w-4 items-center justify-center`}>
         <Text style={tw`text-gray-500 dark:text-gray-400 text-sm font-medium`}>
           {index + 1}
         </Text>
-      </View> */}
+      </View>
       <Text style={tw`text-xs text-gray-600 dark:text-gray-200 ml-2`}>
         {title}
       </Text>
