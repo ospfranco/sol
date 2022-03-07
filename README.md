@@ -2,7 +2,7 @@
 
 <h3 align="center">A macOS command palette</h3>
 
-![screenshot](https://raw.githubusercontent.com/ospfranco/sol/main/screenshot.png)
+![screenshot](https://raw.githubusercontent.com/ospfranco/sol/main/s2.png)
 
 <div align="center">
   <a align="center" href="https://github.com/ospfranco?tab=followers">
