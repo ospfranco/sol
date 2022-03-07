@@ -20,6 +20,7 @@ class SolNative: RCTEventEmitter {
   @objc override func supportedEvents() -> [String]? {
     return [
       "keyDown",
+      "keyUp",
       "onShow",
       "onHide"
     ]

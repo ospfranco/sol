@@ -202,6 +202,7 @@ end tell`)
       | {title: string; artist: string; artwork: string}
       | null
       | undefined,
+    commandPressed: false as boolean,
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -273,7 +274,7 @@ end tell`)
         store.temporaryResult = null
       }
     },
-    handleKeyPress: async ({
+    keyDown: async ({
       keyCode,
       meta,
     }: {
@@ -286,6 +287,7 @@ end tell`)
       // arrow down = "" or 125
       // tab = "\t" or 48
       // enter = "\r" or 36
+      // command = "command" or 55
       // console.warn('key pressed', keyCode)
 
       switch (keyCode) {
@@ -471,6 +473,28 @@ end tell`)
           }
           break
         }
+
+        case 55: {
+          store.commandPressed = true
+          break
+        }
+      }
+    },
+    keyUp: async ({
+      keyCode,
+      meta,
+    }: {
+      key: string
+      keyCode: number
+      meta: boolean
+    }) => {
+      switch (keyCode) {
+        case 55:
+          store.commandPressed = false
+          break
+
+        default:
+          break
       }
     },
     onShow: () => {
@@ -532,7 +556,8 @@ end tell`)
     autorun(persist)
   })
 
-  solNative.addListener('keyDown', store.handleKeyPress)
+  solNative.addListener('keyDown', store.keyDown)
+  solNative.addListener('keyUp', store.keyUp)
   solNative.addListener('onShow', store.onShow)
   solNative.addListener('onHide', store.onHide)
 

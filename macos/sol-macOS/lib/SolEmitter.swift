@@ -22,6 +22,14 @@ class SolEmitter {
     ])
   }
   
+  func keyUp(key: String?, keyCode: UInt16, meta: Bool) {
+    dispatch(name: "keyUp", body: [
+      "key": key,
+      "keyCode": keyCode,
+      "meta": meta
+    ])
+  }
+  
   func onShow() {
     dispatch(name: "onShow", body: [])
   }

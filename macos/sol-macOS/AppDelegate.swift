@@ -52,6 +52,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
       
       return $0
     }
+
+    NSEvent.addLocalMonitorForEvents(matching: .flagsChanged) {
+      if $0.modifierFlags.contains(.command){
+        SolEmitter.sharedInstance.keyDown(key: "command", keyCode: 55, meta: true)
+      } else {
+        SolEmitter.sharedInstance.keyUp(key: "command", keyCode: 55, meta: false)
+      }
+
+      return $0
+    }
   }
   
   func toggleWindow() {

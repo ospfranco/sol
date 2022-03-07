@@ -35,10 +35,10 @@ export const GeneralWidget: FC<IProps> = observer(({style}) => {
         {store.ui.track?.artist}
       </Text>
       <View style={tw`flex-1`} />
-      <Text style={tw`dark:text-gray-400 text-gray-600 text-xs`}>
-        {store.ui.nextHourForecast}
+      <Text style={tw`text-xs font-bold pl-1`}>{store.ui.currentTemp}°</Text>
+      <Text style={tw`text-xs dark:text-gray-400 text-gray-600 pl-1`}>
+        · {store.ui.nextHourForecast}
       </Text>
-      <Text style={tw`text-xs font-medium pl-2`}>{store.ui.currentTemp} ℃</Text>
     </View>
   )
 })

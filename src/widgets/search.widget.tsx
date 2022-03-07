@@ -125,14 +125,14 @@ export const SearchWidget: FC<IProps> = observer(({style}) => {
           />
 
           <View style={tw`absolute right-0 top-4 flex-row`}>
-            {!!store.ui.query && (
+            {!!store.ui.query && store.ui.commandPressed && (
               <>
                 <Snack title="Translate" index={0} />
                 <Snack title="Google" index={1} />
               </>
             )}
 
-            {!store.ui.query && (
+            {!store.ui.query && store.ui.commandPressed && (
               <>
                 {FAVOURITES.map((fav, index) => (
                   <Snack key={index} title={fav.title} index={index} />
