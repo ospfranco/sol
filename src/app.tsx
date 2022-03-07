@@ -8,7 +8,7 @@ configure({
   useProxies: 'never',
 })
 
-LogBox.ignoreLogs(['AsyncStorage ', 'Clipboard '])
+LogBox.ignoreLogs(['AsyncStorage ', 'Clipboard ', 'Component'])
 
 export const App = () => {
   return (

@@ -1,3 +1,4 @@
+import {Fade} from 'components/Fade'
 import {FileIcon} from 'components/FileIcon'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect, useRef} from 'react'
@@ -124,21 +125,23 @@ export const SearchWidget: FC<IProps> = observer(({style}) => {
             }}
           />
 
-          <View style={tw`absolute right-0 top-4 flex-row`}>
-            {!!store.ui.query && store.ui.commandPressed && (
-              <>
-                <Snack title="Translate" index={0} />
-                <Snack title="Google" index={1} />
-              </>
-            )}
+          <View style={tw`absolute right-0 top-4`}>
+            <Fade visible={store.ui.commandPressed} style={tw`flex-row`}>
+              {!!store.ui.query && (
+                <>
+                  <Snack title="Translate" index={0} />
+                  <Snack title="Google" index={1} />
+                </>
+              )}
 
-            {!store.ui.query && store.ui.commandPressed && (
-              <>
-                {FAVOURITES.map((fav, index) => (
-                  <Snack key={index} title={fav.title} index={index} />
-                ))}
-              </>
-            )}
+              {!store.ui.query && (
+                <>
+                  {FAVOURITES.map((fav, index) => (
+                    <Snack key={index} title={fav.title} index={index} />
+                  ))}
+                </>
+              )}
+            </Fade>
           </View>
         </>
       )}
@@ -148,10 +151,10 @@ export const SearchWidget: FC<IProps> = observer(({style}) => {
           <View style={tw`flex-1`}>
             <View
               style={tw.style(`flex-1 p-3 rounded flex-row items-center`, {
-                'bg-highlight dark:bg-highlightDark':
+                'bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-30':
                   store.ui.selectedIndex === 0,
               })}>
-              <Text style={tw`flex-1 h-full pt-2 text-lg`}>
+              <Text style={tw`flex-1 pt-2 text-base`}>
                 {store.ui.translationResults.en}
               </Text>
               <Text style={tw`text-3xl`}>🇬🇧</Text>
@@ -160,10 +163,10 @@ export const SearchWidget: FC<IProps> = observer(({style}) => {
           <View style={tw`flex-1`}>
             <View
               style={tw.style(`flex-1 p-3 rounded flex-row items-center`, {
-                'bg-highlight dark:bg-highlightDark':
+                'bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-30':
                   store.ui.selectedIndex === 1,
               })}>
-              <Text style={tw`flex-1 pt-2 text-lg h-full`}>
+              <Text style={tw`flex-1 pt-2 text-base`}>
                 {store.ui.translationResults.de}
               </Text>
               <Text style={tw`text-3xl`}>🇩🇪</Text>
