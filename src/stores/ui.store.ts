@@ -53,6 +53,11 @@ export const FAVOURITES = [
 ]
 
 const MEETING_PROVIDERS_URLS = [
+  'https://us01web.zoom.us',
+  'https://us02web.zoom.us',
+  'https://us03web.zoom.us',
+  'https://us04web.zoom.us',
+  'https://us05web.zoom.us',
   'https://us06web.zoom.us',
   'https://meet.google.com',
   'https://meet.ffmuc.net',
