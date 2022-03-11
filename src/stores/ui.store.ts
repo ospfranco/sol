@@ -7,6 +7,7 @@ import {getCurrentWeather} from 'lib/weather'
 import Fuse from 'fuse.js'
 import {doubleTranslate} from 'lib/translator'
 import {Parser} from 'expr-eval'
+import {DateTime} from 'luxon'
 
 const exprParser = new Parser()
 
@@ -16,32 +17,11 @@ const FUSE_OPTIONS = {
   keys: ['name'],
 }
 
-// export const PIPE_OPTIONS = [
-//   {
-//     title: 'Translate',
-//   },
-//   {
-//     title: 'Google',
-//   },
-// ]
-
 export const FAVOURITES = [
   {
     title: 'Mail',
     callback: () => {
       Linking.openURL('https://mail.protonmail.com/u/0/inbox')
-    },
-  },
-  {
-    title: 'PL',
-    callback: () => {
-      Linking.openURL('vscode://file/Users/osp/Developer/productlane')
-    },
-  },
-  {
-    title: 'PL Admin',
-    callback: () => {
-      Linking.openURL('https://productlane.io/admin')
     },
   },
   {
@@ -65,9 +45,10 @@ const MEETING_PROVIDERS_URLS = [
 
 export enum FocusableWidget {
   SEARCH = 'SEARCH',
-  TODOS = 'TODOS',
   CALENDAR = 'CALENDAR',
-  WEATHER = 'WEATHER',
+  PROJECT_CREATION = 'PROJECT_CREATION',
+  PROJECT_SELECT = 'PROJECT_SELECT',
+  TRANSLATION = 'TRANSLATION',
 }
 
 export enum ItemType {
@@ -81,9 +62,22 @@ interface IApp {
   name: string
 }
 
+interface IPeriod {
+  id: number
+  start: number
+  end?: number
+}
+
+interface ITrackingProject {
+  id: string
+  name: string
+  periods: IPeriod[]
+}
+
 interface IItem {
   icon?: string
   url?: string
+  preventClose?: boolean
   type: ItemType
   name: string
   callback?: () => void
@@ -122,23 +116,49 @@ export let createUIStore = (root: IRootStore) => {
       let parsedStore = JSON.parse(storeState)
 
       runInAction(() => {
-        store.minimalistMode = parsedStore.minimalistMode
         store.frequencies = parsedStore.frequencies
+        store.projects = parsedStore.projects
       })
     }
   }
 
   const SETTING_ITEMS: IItem[] = [
     {
-      icon: '☯️',
-      name: 'Turn on minimalism',
+      icon: '🔫',
+      name: 'Start Tracking Time',
       type: ItemType.CONFIGURATION,
+      preventClose: true,
       callback: () => {
-        store.toggleMinimalist()
+        store.focusWidget(FocusableWidget.PROJECT_SELECT)
       },
     },
     {
-      icon: '🌕',
+      icon: '✋',
+      name: 'Stop Tracking Time',
+      type: ItemType.CONFIGURATION,
+      preventClose: true,
+      callback: () => {
+        store.stopTrackingProject()
+      },
+    },
+    {
+      icon: '⏸',
+      name: 'Pause Tracking Time',
+      type: ItemType.CONFIGURATION,
+      preventClose: true,
+      callback: () => {},
+    },
+    {
+      icon: '➕',
+      name: 'Create Tracking Project',
+      type: ItemType.CONFIGURATION,
+      preventClose: true,
+      callback: () => {
+        store.showProjectCreationForm()
+      },
+    },
+    {
+      icon: '🕶',
       name: 'Dark mode',
       type: ItemType.CONFIGURATION,
       callback: () => {
@@ -190,7 +210,6 @@ end tell`)
     visible: false as boolean,
     query: '' as string,
     selectedIndex: 0 as number,
-    minimalistMode: false as boolean,
     focusedWidget: FocusableWidget.SEARCH as FocusableWidget,
     events: [] as INativeEvent[],
     currentTemp: 0 as number,
@@ -208,6 +227,9 @@ end tell`)
       | null
       | undefined,
     commandPressed: false as boolean,
+    projects: [] as ITrackingProject[],
+    tempProjectName: '' as string,
+    currentlyTrackedProjectId: null as string | null,
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -216,6 +238,33 @@ end tell`)
     //   \_____\___/|_| |_| |_| .__/ \__,_|\__\___|\__,_|
     //                        | |
     //                        |_|
+    get currentlyTrackedProject(): {
+      project: ITrackingProject
+      todayTime: number
+    } | null {
+      const project = store.projects.find(
+        p => p.id === store.currentlyTrackedProjectId,
+      )
+      if (!project) {
+        return null
+      }
+      const todayStartMillis = DateTime.now().startOf('day').valueOf()
+      const todayTime = project.periods.reduce((acc, p) => {
+        const lStart = DateTime.fromMillis(p.start)
+        const lEnd = p.end ? DateTime.fromMillis(p.end) : DateTime.now()
+
+        if (lStart.startOf('day').valueOf() === todayStartMillis) {
+          acc += lEnd.diff(lStart, 'minutes').minutes
+        }
+
+        return acc
+      }, 0)
+
+      return {
+        project,
+        todayTime: Math.floor(todayTime),
+      }
+    },
     get items(): IItem[] {
       if (store.query) {
         let results = new Fuse([...store.apps, ...SETTING_ITEMS], {
@@ -257,8 +306,47 @@ end tell`)
     //    / /\ \ / __| __| |/ _ \| '_ \/ __|
     //   / ____ \ (__| |_| | (_) | | | \__ \
     //  /_/    \_\___|\__|_|\___/|_| |_|___/
-    toggleMinimalist: () => {
-      store.minimalistMode = !store.minimalistMode
+    trackProject: (id: string) => {
+      store.currentlyTrackedProjectId = id
+      const foundIndex = store.projects.findIndex(p => p.id === id)
+      if (foundIndex >= 0) {
+        store.projects[foundIndex].periods.push({
+          id: DateTime.now().toMillis(),
+          start: DateTime.now().toMillis(),
+        })
+      }
+    },
+    stopTrackingProject: () => {
+      const foundIndex = store.projects.findIndex(
+        p => p.id === store.currentlyTrackedProjectId,
+      )
+      if (foundIndex >= 0) {
+        store.projects[foundIndex].periods[
+          store.projects[foundIndex].periods.length - 1
+        ].end = DateTime.now().toMillis()
+        store.currentlyTrackedProjectId = null
+      }
+      store.query = ''
+    },
+    setTempProjectName: (name: string) => {
+      store.tempProjectName = name
+    },
+    focusWidget: (widget: FocusableWidget) => {
+      store.selectedIndex = 0
+      store.focusedWidget = widget
+    },
+    createTrackingProject: () => {
+      store.projects.push({
+        id: new Date().getMilliseconds().toString(),
+        name: store.tempProjectName,
+        periods: [],
+      })
+      store.focusedWidget = FocusableWidget.PROJECT_SELECT
+      store.selectedIndex = 0
+      store.tempProjectName = ''
+    },
+    showProjectCreationForm: () => {
+      store.focusedWidget = FocusableWidget.PROJECT_CREATION
     },
     setFocus: (widget: FocusableWidget) => {
       store.focusedWidget = widget
@@ -324,6 +412,19 @@ end tell`)
         // Enter key
         case 36: {
           switch (store.focusedWidget) {
+            case FocusableWidget.PROJECT_CREATION: {
+              store.createTrackingProject()
+              break
+            }
+
+            case FocusableWidget.PROJECT_SELECT: {
+              const id = store.projects[store.selectedIndex].id
+              store.trackProject(id)
+              store.focusedWidget = FocusableWidget.SEARCH
+              store.selectedIndex = 0
+              break
+            }
+
             case FocusableWidget.CALENDAR: {
               const event = store.events[store.selectedIndex]
               if (event) {
@@ -363,7 +464,10 @@ end tell`)
                 store.frequencies[item.name] = store.frequencies[item.name]
                   ? store.frequencies[item.name] + 1
                   : 1
-                solNative.hideWindow()
+
+                if (!item.preventClose) {
+                  solNative.hideWindow()
+                }
               }
               break
             }
@@ -372,8 +476,16 @@ end tell`)
           break
         }
 
-        // escape
+        // esc key
         case 53: {
+          if (
+            store.focusedWidget === FocusableWidget.PROJECT_SELECT ||
+            store.focusedWidget === FocusableWidget.PROJECT_CREATION
+          ) {
+            store.focusedWidget = FocusableWidget.SEARCH
+            return
+          }
+
           if (store.query && store.translationResults) {
             store.query = ''
             store.translationResults = null
@@ -407,6 +519,12 @@ end tell`)
 
             case FocusableWidget.CALENDAR: {
               store.selectedIndex = Math.min(2, store.selectedIndex + 1)
+              break
+            }
+
+            case FocusableWidget.PROJECT_SELECT: {
+              store.selectedIndex =
+                (store.selectedIndex + 1) % store.projects.length
               break
             }
           }

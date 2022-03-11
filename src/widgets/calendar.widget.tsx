@@ -37,10 +37,6 @@ export const CalendarWidget: FC<IProps> = observer(({style}) => {
         // @ts-ignore
         style,
       )}>
-      {/* <TouchableOpacity style={tw`flex-1`} onPress={onPress}> */}
-      {!store.ui.minimalistMode && (
-        <Text style={tw`pb-1 text-xs font-medium text-gray-400`}>Calendar</Text>
-      )}
       {Object.entries(groups).map(([key, data]) => {
         return (
           <View key={key} style={tw`pb-2`}>
@@ -115,10 +111,11 @@ export const CalendarWidget: FC<IProps> = observer(({style}) => {
         )
       })}
       {!store.ui.events.length && (
-        <View
-          style={tw.style(`text-gray-500 items-center justify-center flex-1`)}>
-          <Image source={inbox} style={tw`h-10`} resizeMode="contain" />
-        </View>
+        <Image
+          source={inbox}
+          style={tw`h-10 self-center my-10`}
+          resizeMode="contain"
+        />
       )}
       {/* </TouchableOpacity> */}
     </View>

@@ -57,12 +57,7 @@ export const SearchWidget: FC<IProps> = observer(({style}) => {
   }, [focused, store.ui.items, store.ui.selectedIndex])
 
   return (
-    <View
-      style={tw.style(
-        `flex-1`,
-        //@ts-ignore
-        style,
-      )}>
+    <View style={style}>
       <View style={tw`pt-2`}>
         <View
           style={tw.style(
