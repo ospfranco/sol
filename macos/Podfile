@@ -4,10 +4,10 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 target 'sol-macOS' do
   platform :macos, '10.15'
   use_native_modules!
-  # "hermes-engine-darwin": "~0.5.3",
+
   use_react_native!(
     :path => '../node_modules/react-native-macos',
-    :hermes_enabled => false
+    :hermes_enabled => true
   )
 
   post_install do |installer|

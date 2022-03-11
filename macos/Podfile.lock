@@ -12,6 +12,8 @@ PODS:
     - ReactCommon/turbomodule/core (= 0.66.30)
   - fmt (6.2.1)
   - glog (0.3.5)
+  - hermes-engine (0.9.0)
+  - libevent (2.1.12)
   - RCT-Folly (2021.06.28.00-v2):
     - boost
     - DoubleConversion
@@ -23,6 +25,12 @@ PODS:
     - DoubleConversion
     - fmt (~> 6.2.1)
     - glog
+  - RCT-Folly/Futures (2021.06.28.00-v2):
+    - boost
+    - DoubleConversion
+    - fmt (~> 6.2.1)
+    - glog
+    - libevent
   - RCTRequired (0.66.30)
   - RCTTypeSafety (0.66.30):
     - FBLazyVector (= 0.66.30)
@@ -189,6 +197,17 @@ PODS:
     - React-logger (= 0.66.30)
     - React-perflogger (= 0.66.30)
     - React-runtimeexecutor (= 0.66.30)
+  - React-hermes (0.66.30):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2021.06.28.00-v2)
+    - RCT-Folly/Futures (= 2021.06.28.00-v2)
+    - React-cxxreact (= 0.66.30)
+    - React-jsi (= 0.66.30)
+    - React-jsiexecutor (= 0.66.30)
+    - React-jsinspector (= 0.66.30)
+    - React-perflogger (= 0.66.30)
   - React-jsi (0.66.30):
     - boost (= 1.76.0)
     - DoubleConversion
@@ -284,6 +303,8 @@ DEPENDENCIES:
   - FBLazyVector (from `../node_modules/react-native-macos/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native-macos/React/FBReactNativeSpec`)
   - glog (from `../node_modules/react-native-macos/third-party-podspecs/glog.podspec`)
+  - hermes-engine (~> 0.9.0)
+  - libevent (~> 2.1.12)
   - RCT-Folly (from `../node_modules/react-native-macos/third-party-podspecs/RCT-Folly.podspec`)
   - RCTRequired (from `../node_modules/react-native-macos/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native-macos/Libraries/TypeSafety`)
@@ -294,6 +315,7 @@ DEPENDENCIES:
   - React-Core/RCTWebSocket (from `../node_modules/react-native-macos/`)
   - React-CoreModules (from `../node_modules/react-native-macos/React/CoreModules`)
   - React-cxxreact (from `../node_modules/react-native-macos/ReactCommon/cxxreact`)
+  - React-hermes (from `../node_modules/react-native-macos/ReactCommon/hermes`)
   - React-jsi (from `../node_modules/react-native-macos/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native-macos/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native-macos/ReactCommon/jsinspector`)
@@ -315,6 +337,8 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - fmt
+    - hermes-engine
+    - libevent
 
 EXTERNAL SOURCES:
   boost:
@@ -345,6 +369,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-macos/React/CoreModules"
   React-cxxreact:
     :path: "../node_modules/react-native-macos/ReactCommon/cxxreact"
+  React-hermes:
+    :path: "../node_modules/react-native-macos/ReactCommon/hermes"
   React-jsi:
     :path: "../node_modules/react-native-macos/ReactCommon/jsi"
   React-jsiexecutor:
@@ -388,7 +414,9 @@ SPEC CHECKSUMS:
   FBReactNativeSpec: d431ef6be4629d33addf12e8681dc5c520e0471e
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: 42c4bf47024808486e90b25ea9e5ac3959047641
-  RCT-Folly: 5c589d0de10e841479ad79352fae591dc0e9533a
+  hermes-engine: bf7577d12ac6ccf53ab8b5af3c6ccf0dd8458c5c
+  libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
+  RCT-Folly: 43adc9ce880eb76792f88c011773cb5c664c1419
   RCTRequired: e69b88fd895326b82baf95509162517aed070883
   RCTTypeSafety: 3d8f9b9f7650cc7ed1e355601efa4fe1933dbe43
   React: b87b26fe9902100edad5f4ec4849057134fc31c4
@@ -396,6 +424,7 @@ SPEC CHECKSUMS:
   React-Core: 5d836a07a3b3e6cb93f17e57be77d59ad7176557
   React-CoreModules: ab641f98aad211ba4474a9cb62e468ee83c9f7e0
   React-cxxreact: 23301267888719a3ddc004b76a5aa2c91c678256
+  React-hermes: 09e8ef95c878839e4cdd0a807f4a3ad4700906d0
   React-jsi: 68ddb8a2cb3064cadf3d9c5415a5cfbd6c509c2c
   React-jsiexecutor: f5b3f1546d2fe55620cb652d0c28dd14d1ecc2bd
   React-jsinspector: 035bb702ec70ceaa1161a868c9ace88ae0b9003c
@@ -414,6 +443,6 @@ SPEC CHECKSUMS:
   ReactCommon: 7ad361970efb9dfb29e5adb62846c91749fafa84
   Yoga: 3ae8c79a74fb1078b45c4ae6ab5647f2f8c2f323
 
-PODFILE CHECKSUM: 043df8668ee64386c6603f823f78677bafe6ef05
+PODFILE CHECKSUM: d9821b58dafcf398934da98a939af71808956666
 
 COCOAPODS: 1.11.2

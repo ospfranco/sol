@@ -3,6 +3,8 @@ import React from 'react'
 import {root, StoreProvider} from 'store'
 import {configure} from 'mobx'
 import {LogBox} from 'react-native'
+import 'intl'
+import 'intl/locale-data/jsonp/en'
 
 configure({
   useProxies: 'never',
