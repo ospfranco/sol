@@ -485,6 +485,7 @@ end tell`)
             store.focusedWidget === FocusableWidget.TRANSLATION
           ) {
             store.focusedWidget = FocusableWidget.SEARCH
+            store.selectedIndex = 0
             return
           }
 

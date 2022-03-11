@@ -31,6 +31,8 @@ export const ProjectSelectWidget: FC<IProps> = observer(({style}) => {
           return <Text style={tw`text-gray-500`}>No projects</Text>
         }}
         renderItem={({item, index}) => {
+          const selected = index === selectedIndex
+
           let todayTime = 0
           let monthTime = 0
           const todayStart = DateTime.now().startOf('day').valueOf()
@@ -55,29 +57,86 @@ export const ProjectSelectWidget: FC<IProps> = observer(({style}) => {
               }
             }
           })
+
+          const aggregation = item.periods.reduce((acc, p) => {
+            const lDay = DateTime.fromMillis(p.start).startOf('day')
+            const startDayMillis = lDay.toMillis()
+            if (DateTime.now().diff(lDay, 'days').days > 10) {
+              return acc
+            }
+
+            const lStart = DateTime.fromMillis(p.start)
+            const lEnd = p.end ? DateTime.fromMillis(p.end) : DateTime.now()
+
+            if (!acc[startDayMillis]) {
+              acc[startDayMillis] = {
+                date: lDay,
+                time: 0,
+              }
+            }
+
+            acc[startDayMillis].time += lEnd.diff(lStart, 'minutes').minutes
+            return acc
+          }, {} as Record<string, {date: DateTime; time: number}>)
+
           return (
             <View
-              style={tw.style(
-                `flex-row items-center px-3 py-2 rounded w-full`,
-                {
-                  'bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-30':
-                    selectedIndex === index,
-                },
-              )}>
-              <Text style={tw`flex-1`}>{item.name}</Text>
-              <Text style={tw`font-medium text-sm`}>
-                <Text style={tw`font-normal text-sm text-gray-500`}>
-                  Today:
-                </Text>{' '}
-                {Math.ceil(todayTime / 60)} H
-              </Text>
+              style={tw.style(`px-3 py-2 rounded w-full`, {
+                'bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-30':
+                  selectedIndex === index,
+              })}>
+              <View style={tw`flex-row items-center`}>
+                <Text style={tw`flex-1`}>{item.name}</Text>
+                <Text style={tw`font-medium text-sm w-20`}>
+                  {Math.ceil(todayTime / 60)}h{' '}
+                  <Text style={tw`font-normal text-sm text-gray-500`}>
+                    today
+                  </Text>
+                </Text>
 
-              <Text style={tw`font-medium text-sm pl-4`}>
-                <Text style={tw`font-normal text-sm text-gray-500`}>
-                  Month:
-                </Text>{' '}
-                {Math.ceil(monthTime / 60)} H
-              </Text>
+                <Text style={tw`font-medium text-sm pl-4 w-24`}>
+                  {Math.ceil(monthTime / 60)}h{' '}
+                  <Text style={tw`font-normal text-sm text-gray-500`}>
+                    month
+                  </Text>
+                </Text>
+              </View>
+              {selected && (
+                <View style={tw`h-32 flex-row mt-4`}>
+                  <View
+                    style={tw`pr-2 border-r dark:border-gray-600 justify-between mt-4`}>
+                    <Text style={tw`text-xs dark:text-gray-600`}>10</Text>
+                    <Text style={tw`text-xs dark:text-gray-600`}>8</Text>
+                    <Text style={tw`text-xs dark:text-gray-600`}>6</Text>
+                    <Text style={tw`text-xs dark:text-gray-600`}>4</Text>
+                    <Text style={tw`text-xs dark:text-gray-600`}>2</Text>
+                    <Text style={tw`text-xs dark:text-gray-600`}>0</Text>
+                  </View>
+                  <View
+                    style={tw`border-b dark:border-gray-600 flex-1 flex-row px-3`}>
+                    {Object.values(aggregation).map(
+                      (entry: {date: DateTime; time: number}) => {
+                        return (
+                          <View style={tw`h-full`} key={entry.date.toISO()}>
+                            <Text style={tw`text-xs dark:text-gray-400`}>
+                              {entry.date.toFormat('LLL dd')}
+                            </Text>
+                            <View style={tw`flex-1`} />
+                            <View
+                              style={tw.style(
+                                `w-10 border-gray-600 bg-white bg-opacity-50`,
+                                {
+                                  height: Math.ceil(entry.time / 60) * 7,
+                                },
+                              )}
+                            />
+                          </View>
+                        )
+                      },
+                    )}
+                  </View>
+                </View>
+              )}
             </View>
           )
         }}
