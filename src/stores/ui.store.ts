@@ -1,13 +1,14 @@
 import {makeAutoObservable, runInAction, toJS, autorun} from 'mobx'
 import {IRootStore} from 'Store'
 import {INativeEvent, solNative} from 'lib/SolNative'
-import {AsyncStorage, Linking, Clipboard} from 'react-native'
+import {AsyncStorage, Linking, Clipboard, ImageURISource} from 'react-native'
 import {CONSTANTS} from 'lib/constants'
 import {getCurrentWeather} from 'lib/weather'
 import Fuse from 'fuse.js'
 import {doubleTranslate} from 'lib/translator'
 import {Parser} from 'expr-eval'
 import {DateTime} from 'luxon'
+import {Assets} from 'assets'
 
 const exprParser = new Parser()
 
@@ -76,6 +77,7 @@ interface ITrackingProject {
 
 interface IItem {
   icon?: string
+  iconImage?: ImageURISource | number | ImageURISource[]
   url?: string
   preventClose?: boolean
   type: ItemType
@@ -276,7 +278,7 @@ end tell`)
         if (results.length === 0) {
           return [
             {
-              icon: '🌎',
+              iconImage: Assets.googleLogo,
               name: 'Google',
               type: ItemType.CONFIGURATION,
               callback: () => {
