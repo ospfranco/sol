@@ -486,6 +486,7 @@ end tell`)
           ) {
             store.focusedWidget = FocusableWidget.SEARCH
             store.selectedIndex = 0
+            store.query = ''
             return
           }
 

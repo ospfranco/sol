@@ -52,10 +52,13 @@ export const TranslationWidget: FC<IProps> = observer(({style}) => {
         <View style={tw`flex-1 p-3`}>
           <View style={tw`flex-1`}>
             <View
-              style={tw.style(`flex-1 p-3 rounded flex-row items-center`, {
-                'bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-30':
-                  store.ui.selectedIndex === 0,
-              })}>
+              style={tw.style(
+                `flex-1 p-3 rounded flex-row items-center border border-transparent`,
+                {
+                  'bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-20 border-lightBorder dark:border-darkBorder':
+                    store.ui.selectedIndex === 0,
+                },
+              )}>
               <Text style={tw`flex-1 pt-2 text-base`}>
                 {store.ui.translationResults.en}
               </Text>
@@ -64,10 +67,13 @@ export const TranslationWidget: FC<IProps> = observer(({style}) => {
           </View>
           <View style={tw`flex-1`}>
             <View
-              style={tw.style(`flex-1 p-3 rounded flex-row items-center`, {
-                'bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-30':
-                  store.ui.selectedIndex === 1,
-              })}>
+              style={tw.style(
+                `flex-1 p-3 rounded flex-row items-center border border-transparent`,
+                {
+                  'bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-20 border-lightBorder dark:border-darkBorder':
+                    store.ui.selectedIndex === 1,
+                },
+              )}>
               <Text style={tw`flex-1 pt-2 text-base`}>
                 {store.ui.translationResults.de}
               </Text>
