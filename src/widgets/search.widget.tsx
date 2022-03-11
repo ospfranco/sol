@@ -108,7 +108,7 @@ export const SearchWidget: FC<IProps> = observer(({style}) => {
                 style={tw.style(
                   `flex-row items-center px-3 py-2 rounded border border-transparent`,
                   {
-                    'bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-30 border-lightBorder dark:border-darkBorder ':
+                    'bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-30 border-buttonBorder dark:border-darkBorder ':
                       store.ui.selectedIndex === index && focused,
                   },
                 )}>

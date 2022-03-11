@@ -81,10 +81,13 @@ export const ProjectSelectWidget: FC<IProps> = observer(({style}) => {
 
           return (
             <View
-              style={tw.style(`px-3 py-2 rounded w-full`, {
-                'bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-30':
-                  selectedIndex === index,
-              })}>
+              style={tw.style(
+                `px-3 py-2 rounded w-full border border-transparent`,
+                {
+                  'bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-20 border-buttonBorder dark:border-darkBorder':
+                    selectedIndex === index,
+                },
+              )}>
               <View style={tw`flex-row items-center`}>
                 <Text style={tw`flex-1`}>{item.name}</Text>
                 <Text style={tw`font-medium text-sm w-20`}>

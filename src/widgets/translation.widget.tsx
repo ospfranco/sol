@@ -55,7 +55,7 @@ export const TranslationWidget: FC<IProps> = observer(({style}) => {
               style={tw.style(
                 `flex-1 p-3 rounded flex-row items-center border border-transparent`,
                 {
-                  'bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-20 border-lightBorder dark:border-darkBorder':
+                  'bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-20 border-buttonBorder dark:border-darkBorder':
                     store.ui.selectedIndex === 0,
                 },
               )}>
@@ -70,7 +70,7 @@ export const TranslationWidget: FC<IProps> = observer(({style}) => {
               style={tw.style(
                 `flex-1 p-3 rounded flex-row items-center border border-transparent`,
                 {
-                  'bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-20 border-lightBorder dark:border-darkBorder':
+                  'bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-20 border-buttonBorder dark:border-darkBorder':
                     store.ui.selectedIndex === 1,
                 },
               )}>

@@ -22,8 +22,9 @@ module.exports = {
         dark: {DEFAULT: '#22272f'},
         highlight: {DEFAULT: '#c9c9cd'},
         highlightDark: {DEFAULT: '#424242'},
-        darkBorder: {DEFAULT: 'rgba(255, 250, 250, .10)'},
+        darkBorder: {DEFAULT: 'rgba(255, 250, 250, .1)'},
         lightBorder: {DEFAULT: 'rgba(0, 0, 0, .1)'},
+        buttonBorder: {DEFAULT: 'rgba(0, 0, 0, .03)'},
         gray: {
           50: '#fafafa',
           100: '#f5f5f5',
