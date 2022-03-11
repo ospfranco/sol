@@ -33,14 +33,14 @@ export const CalendarWidget: FC<IProps> = observer(({style}) => {
   return (
     <View
       style={tw.style(
-        `px-6 pt-3 w-1/2 text-gray-200`,
+        `pt-3 w-1/2 text-gray-200`,
         // @ts-ignore
         style,
       )}>
       {Object.entries(groups).map(([key, data]) => {
         return (
           <View key={key} style={tw`pb-2`}>
-            <View style={tw`flex-row`}>
+            <View style={tw`flex-row pb-1 px-6`}>
               <Text
                 style={tw`capitalize font-medium dark:text-gray-200 text-gray-600 text-xs`}>
                 {key}
@@ -50,63 +50,73 @@ export const CalendarWidget: FC<IProps> = observer(({style}) => {
                 {data.date.toFormat('dd LLL')}
               </Text>
             </View>
-            {data.events.map((event, index) => {
-              const lDate = DateTime.fromISO(event.date)
-              const lEndDate = event.endDate
-                ? DateTime.fromISO(event.endDate)
-                : null
-              return (
-                <View
-                  key={index}
-                  style={tw.style(`flex-row py-2 px-4 rounded items-center`, {
-                    'bg-highlight dark:bg-gray-500 bg-opacity-30':
-                      focused &&
-                      store.ui.selectedIndex ===
-                        store.ui.events.findIndex(e => e.title === event.title),
-                  })}>
+            <View style={tw`px-4`}>
+              {data.events.map((event, index) => {
+                const lDate = DateTime.fromISO(event.date)
+                const lEndDate = event.endDate
+                  ? DateTime.fromISO(event.endDate)
+                  : null
+                return (
                   <View
+                    key={index}
                     style={tw.style(
-                      `w-[15px] h-[15px] border-2 mr-2 rounded-full justify-center items-center`,
+                      `flex-row py-2 px-3 rounded items-center border border-transparent`,
                       {
-                        borderColor: event.color,
+                        'bg-highlight dark:bg-gray-500 bg-opacity-30 border-lightBorder dark:border-darkBorder':
+                          focused &&
+                          store.ui.selectedIndex ===
+                            store.ui.events.findIndex(
+                              e => e.title === event.title,
+                            ),
                       },
                     )}>
-                    {event.status === 1 && (
-                      // <Text
-                      //   style={tw.style('text-sm font-bold', {
-                      //     color: event.color,
-                      //   })}>
-                      //   ✓
-                      // </Text>
-                      <View
-                        style={tw.style(`w-[8px] h-[8px] rounded-full`, {
-                          backgroundColor: event.color,
-                        })}
-                      />
-                    )}
+                    <View
+                      style={tw.style(
+                        `w-[15px] h-[15px] border-2 mr-2 rounded-full justify-center items-center`,
+                        {
+                          borderColor: event.color,
+                        },
+                      )}>
+                      {event.status === 1 && (
+                        // <Text
+                        //   style={tw.style('text-sm font-bold', {
+                        //     color: event.color,
+                        //   })}>
+                        //   ✓
+                        // </Text>
+                        <View
+                          style={tw.style(`w-[8px] h-[8px] rounded-full`, {
+                            backgroundColor: event.color,
+                          })}
+                        />
+                      )}
+                    </View>
+                    <Text
+                      numberOfLines={1}
+                      style={tw.style(`flex-1`, {
+                        'line-through': event.status === 2,
+                      })}>
+                      {event.title}
+                    </Text>
+                    <Text
+                      style={tw`text-gray-500 dark:text-gray-400 text-right text-sm`}>
+                      {event.isAllDay ? (
+                        'All day'
+                      ) : (
+                        <>
+                          <Text style={tw`text-gray-800 dark:text-gray-200`}>
+                            {lDate.toFormat('HH:mm')}{' '}
+                          </Text>
+                          {lEndDate && !event.isAllDay
+                            ? `- ${lEndDate.toFormat('HH:mm')}`
+                            : null}
+                        </>
+                      )}
+                    </Text>
                   </View>
-                  <Text style={tw`text-gray-500 dark:text-gray-400 w-26`}>
-                    {event.isAllDay ? (
-                      'All day'
-                    ) : (
-                      <>
-                        <Text style={tw`text-gray-800 dark:text-gray-200`}>
-                          {lDate.toFormat('HH:mm')}{' '}
-                        </Text>
-                        {lEndDate && !event.isAllDay
-                          ? `- ${lEndDate.toFormat('HH:mm')}`
-                          : null}
-                      </>
-                    )}
-                  </Text>
-                  <Text
-                    numberOfLines={1}
-                    style={tw.style({'line-through': event.status === 2})}>
-                    {event.title}
-                  </Text>
-                </View>
-              )
-            })}
+                )
+              })}
+            </View>
           </View>
         )
       })}

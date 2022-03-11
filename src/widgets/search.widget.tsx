@@ -105,10 +105,13 @@ export const SearchWidget: FC<IProps> = observer(({style}) => {
             return (
               <View
                 key={index}
-                style={tw.style(`flex-row items-center px-3 py-2 rounded`, {
-                  'bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-30':
-                    store.ui.selectedIndex === index && focused,
-                })}>
+                style={tw.style(
+                  `flex-row items-center px-3 py-2 rounded border border-transparent`,
+                  {
+                    'bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-30 border-lightBorder dark:border-darkBorder ':
+                      store.ui.selectedIndex === index && focused,
+                  },
+                )}>
                 {!!item.url && <FileIcon url={item.url} style={tw`w-6 h-6`} />}
                 {!!item.icon && <Text style={tw`text-lg`}>{item.icon}</Text>}
                 <Text style={tw.style('ml-3 text-sm')}>{item.name}</Text>
