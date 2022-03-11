@@ -104,16 +104,28 @@ export const ProjectSelectWidget: FC<IProps> = observer(({style}) => {
               {selected && (
                 <View style={tw`h-32 flex-row mt-4`}>
                   <View
-                    style={tw`pr-2 border-r dark:border-gray-600 justify-between mt-4`}>
-                    <Text style={tw`text-xs dark:text-gray-600`}>10</Text>
-                    <Text style={tw`text-xs dark:text-gray-600`}>8</Text>
-                    <Text style={tw`text-xs dark:text-gray-600`}>6</Text>
-                    <Text style={tw`text-xs dark:text-gray-600`}>4</Text>
-                    <Text style={tw`text-xs dark:text-gray-600`}>2</Text>
-                    <Text style={tw`text-xs dark:text-gray-600`}>0</Text>
+                    style={tw`pr-2 border-r dark:border-gray-600 border-gray-400 justify-between mt-4`}>
+                    <Text style={tw`text-xs dark:text-gray-600 text-gray-500 `}>
+                      10
+                    </Text>
+                    <Text style={tw`text-xs dark:text-gray-600 text-gray-500 `}>
+                      8
+                    </Text>
+                    <Text style={tw`text-xs dark:text-gray-600 text-gray-500 `}>
+                      6
+                    </Text>
+                    <Text style={tw`text-xs dark:text-gray-600 text-gray-500 `}>
+                      4
+                    </Text>
+                    <Text style={tw`text-xs dark:text-gray-600 text-gray-500 `}>
+                      2
+                    </Text>
+                    <Text style={tw`text-xs dark:text-gray-600 text-gray-500 `}>
+                      0
+                    </Text>
                   </View>
                   <View
-                    style={tw`border-b dark:border-gray-600 flex-1 flex-row px-3`}>
+                    style={tw`border-b border-gray-400 dark:border-gray-600 flex-1 flex-row px-3`}>
                     {Object.values(aggregation).map(
                       (entry: {date: DateTime; time: number}) => {
                         return (
@@ -124,7 +136,7 @@ export const ProjectSelectWidget: FC<IProps> = observer(({style}) => {
                             <View style={tw`flex-1`} />
                             <View
                               style={tw.style(
-                                `w-10 border-gray-600 bg-white bg-opacity-50`,
+                                `w-10 border-gray-600 dark:bg-white bg-black bg-opacity-50`,
                                 {
                                   height: Math.ceil(entry.time / 60) * 7,
                                 },
