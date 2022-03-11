@@ -118,6 +118,7 @@ export let createUIStore = (root: IRootStore) => {
       runInAction(() => {
         store.frequencies = parsedStore.frequencies
         store.projects = parsedStore.projects
+        store.currentlyTrackedProjectId = parsedStore.currentlyTrackedProjectId
       })
     }
   }
@@ -140,13 +141,6 @@ export let createUIStore = (root: IRootStore) => {
       callback: () => {
         store.stopTrackingProject()
       },
-    },
-    {
-      icon: '⏸',
-      name: 'Pause Tracking Time',
-      type: ItemType.CONFIGURATION,
-      preventClose: true,
-      callback: () => {},
     },
     {
       icon: '➕',
@@ -207,6 +201,7 @@ end tell`)
     //  | |  | | '_ \/ __|/ _ \ '__\ \ / / _` | '_ \| |/ _ \/ __|
     //  | |__| | |_) \__ \  __/ |   \ V / (_| | |_) | |  __/\__ \
     //   \____/|_.__/|___/\___|_|    \_/ \__,_|_.__/|_|\___||___/
+    now: DateTime.now() as DateTime,
     visible: false as boolean,
     query: '' as string,
     selectedIndex: 0 as number,
@@ -251,7 +246,7 @@ end tell`)
       const todayStartMillis = DateTime.now().startOf('day').valueOf()
       const todayTime = project.periods.reduce((acc, p) => {
         const lStart = DateTime.fromMillis(p.start)
-        const lEnd = p.end ? DateTime.fromMillis(p.end) : DateTime.now()
+        const lEnd = p.end ? DateTime.fromMillis(p.end) : store.now
 
         if (lStart.startOf('day').valueOf() === todayStartMillis) {
           acc += lEnd.diff(lStart, 'minutes').minutes
@@ -307,6 +302,11 @@ end tell`)
     //   / ____ \ (__| |_| | (_) | | | \__ \
     //  /_/    \_\___|\__|_|\___/|_| |_|___/
     trackProject: (id: string) => {
+      // Stop tracking previous project
+      if (store.currentlyTrackedProjectId) {
+        store.stopTrackingProject()
+      }
+
       store.currentlyTrackedProjectId = id
       const foundIndex = store.projects.findIndex(p => p.id === id)
       if (foundIndex >= 0) {
@@ -315,6 +315,7 @@ end tell`)
           start: DateTime.now().toMillis(),
         })
       }
+      store.query = ''
     },
     stopTrackingProject: () => {
       const foundIndex = store.projects.findIndex(
@@ -480,7 +481,8 @@ end tell`)
         case 53: {
           if (
             store.focusedWidget === FocusableWidget.PROJECT_SELECT ||
-            store.focusedWidget === FocusableWidget.PROJECT_CREATION
+            store.focusedWidget === FocusableWidget.PROJECT_CREATION ||
+            store.focusedWidget === FocusableWidget.TRANSLATION
           ) {
             store.focusedWidget = FocusableWidget.SEARCH
             return
@@ -506,14 +508,10 @@ end tell`)
         case 125: {
           switch (store.focusedWidget) {
             case FocusableWidget.SEARCH: {
-              if (store.translationResults) {
-                store.selectedIndex = (store.selectedIndex + 1) % 2
-              } else {
-                store.selectedIndex = Math.min(
-                  store.items.length - 1,
-                  store.selectedIndex + 1,
-                )
-              }
+              store.selectedIndex = Math.min(
+                store.items.length - 1,
+                store.selectedIndex + 1,
+              )
               break
             }
 
@@ -525,6 +523,11 @@ end tell`)
             case FocusableWidget.PROJECT_SELECT: {
               store.selectedIndex =
                 (store.selectedIndex + 1) % store.projects.length
+              break
+            }
+
+            case FocusableWidget.TRANSLATION: {
+              store.selectedIndex = (store.selectedIndex + 1) % 2
               break
             }
           }
@@ -539,6 +542,7 @@ end tell`)
               try {
                 const translations = await doubleTranslate(store.query)
                 runInAction(() => {
+                  store.focusedWidget = FocusableWidget.TRANSLATION
                   store.translationResults = translations
                   store.selectedIndex = 0
                 })
@@ -623,6 +627,7 @@ end tell`)
     onShow: () => {
       runInAction(() => {
         store.visible = true
+        store.now = DateTime.now()
       })
 
       solNative

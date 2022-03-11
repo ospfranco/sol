@@ -69,14 +69,14 @@ export const ProjectSelectWidget: FC<IProps> = observer(({style}) => {
                 <Text style={tw`font-normal text-sm text-gray-500`}>
                   Today:
                 </Text>{' '}
-                {Math.ceil(todayTime / 60)}
+                {Math.ceil(todayTime / 60)} H
               </Text>
 
               <Text style={tw`font-medium text-sm pl-4`}>
                 <Text style={tw`font-normal text-sm text-gray-500`}>
                   Month:
                 </Text>{' '}
-                {Math.ceil(monthTime / 60)}
+                {Math.ceil(monthTime / 60)} H
               </Text>
             </View>
           )

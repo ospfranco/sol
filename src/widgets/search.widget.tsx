@@ -80,95 +80,62 @@ export const SearchWidget: FC<IProps> = observer(({style}) => {
         </View>
       </View>
 
-      {!store.ui.translationResults && (
-        <>
-          {!!store.ui.temporaryResult && (
-            <Text
-              style={tw`px-3 py-6 text-xl text-center bg-gray-200 my-4 dark:bg-highlightDark`}>
-              {store.ui.temporaryResult}
-            </Text>
-          )}
+      <>
+        {!!store.ui.temporaryResult && (
+          <Text
+            style={tw`px-3 py-6 text-xl text-center bg-gray-200 my-4 dark:bg-highlightDark`}>
+            {store.ui.temporaryResult}
+          </Text>
+        )}
 
-          <FlatList
-            style={tw`flex-1`}
-            contentContainerStyle={tw`p-3 flex-grow-1`}
-            ref={listRef}
-            data={store.ui.items}
-            keyExtractor={item => item.name}
-            showsVerticalScrollIndicator
-            persistentScrollbar
-            ListEmptyComponent={
-              <View style={tw`items-center justify-center flex-1`}>
-                <Image source={inbox} style={tw`h-10`} resizeMode="contain" />
+        <FlatList
+          style={tw`flex-1`}
+          contentContainerStyle={tw`p-3 flex-grow-1`}
+          ref={listRef}
+          data={store.ui.items}
+          keyExtractor={item => item.name}
+          showsVerticalScrollIndicator
+          persistentScrollbar
+          ListEmptyComponent={
+            <View style={tw`items-center justify-center flex-1`}>
+              <Image source={inbox} style={tw`h-10`} resizeMode="contain" />
+            </View>
+          }
+          renderItem={({item, index}) => {
+            return (
+              <View
+                key={index}
+                style={tw.style(`flex-row items-center px-3 py-2 rounded`, {
+                  'bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-30':
+                    store.ui.selectedIndex === index && focused,
+                })}>
+                {!!item.url && <FileIcon url={item.url} style={tw`w-6 h-6`} />}
+                {!!item.icon && <Text style={tw`text-lg`}>{item.icon}</Text>}
+                <Text style={tw.style('ml-3 text-sm')}>{item.name}</Text>
               </View>
-            }
-            renderItem={({item, index}) => {
-              return (
-                <View
-                  key={index}
-                  style={tw.style(`flex-row items-center px-3 py-2 rounded`, {
-                    'bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-30':
-                      store.ui.selectedIndex === index && focused,
-                  })}>
-                  {!!item.url && (
-                    <FileIcon url={item.url} style={tw`w-6 h-6`} />
-                  )}
-                  {!!item.icon && <Text style={tw`text-lg`}>{item.icon}</Text>}
-                  <Text style={tw.style('ml-3 text-sm')}>{item.name}</Text>
-                </View>
-              )
-            }}
-          />
+            )
+          }}
+        />
 
-          <View style={tw`absolute right-0 top-4`}>
-            <Fade visible={store.ui.commandPressed} style={tw`flex-row`}>
-              {!!store.ui.query && (
-                <>
-                  <Snack title="Translate" index={0} />
-                  <Snack title="Google" index={1} />
-                </>
-              )}
+        <View style={tw`absolute right-0 top-4`}>
+          <Fade visible={store.ui.commandPressed} style={tw`flex-row`}>
+            {!!store.ui.query && (
+              <>
+                <Snack title="Translate" index={0} />
+                <Snack title="Google" index={1} />
+              </>
+            )}
 
-              {!store.ui.query && (
-                <>
-                  {FAVOURITES.map((fav, index) => (
-                    <Snack key={index} title={fav.title} index={index} />
-                  ))}
-                </>
-              )}
-            </Fade>
-          </View>
-        </>
-      )}
-
-      {!!store.ui.translationResults && (
-        <View style={tw`flex-1 p-3`}>
-          <View style={tw`flex-1`}>
-            <View
-              style={tw.style(`flex-1 p-3 rounded flex-row items-center`, {
-                'bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-30':
-                  store.ui.selectedIndex === 0,
-              })}>
-              <Text style={tw`flex-1 pt-2 text-base`}>
-                {store.ui.translationResults.en}
-              </Text>
-              <Text style={tw`text-3xl`}>🇬🇧</Text>
-            </View>
-          </View>
-          <View style={tw`flex-1`}>
-            <View
-              style={tw.style(`flex-1 p-3 rounded flex-row items-center`, {
-                'bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-30':
-                  store.ui.selectedIndex === 1,
-              })}>
-              <Text style={tw`flex-1 pt-2 text-base`}>
-                {store.ui.translationResults.de}
-              </Text>
-              <Text style={tw`text-3xl`}>🇩🇪</Text>
-            </View>
-          </View>
+            {!store.ui.query && (
+              <>
+                {FAVOURITES.map((fav, index) => (
+                  <Snack key={index} title={fav.title} index={index} />
+                ))}
+              </>
+            )}
+          </Fade>
         </View>
-      )}
+      </>
     </View>
   )
 })

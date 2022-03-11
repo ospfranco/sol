@@ -10,6 +10,7 @@ import {GeneralWidget} from 'widgets/general.widget'
 import {ProjectCreationWidget} from 'widgets/projectCreation.widget'
 import {ProjectSelectWidget} from 'widgets/projectSelect.widget'
 import {SearchWidget} from 'widgets/search.widget'
+import {TranslationWidget} from 'widgets/translation.widget'
 
 export const RootContainer = observer(() => {
   useDeviceContext(tw)
@@ -22,6 +23,10 @@ export const RootContainer = observer(() => {
 
   if (store.ui.focusedWidget === FocusableWidget.PROJECT_SELECT) {
     return <ProjectSelectWidget style={mainStyle} />
+  }
+
+  if (store.ui.focusedWidget === FocusableWidget.TRANSLATION) {
+    return <TranslationWidget style={mainStyle} />
   }
 
   return (

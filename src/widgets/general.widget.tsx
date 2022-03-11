@@ -1,10 +1,8 @@
-import React, {FC} from 'react'
 import {observer} from 'mobx-react-lite'
-import {Image, StyleProp, Text, View, ViewStyle} from 'react-native'
-import tw from 'tailwind'
+import React, {FC} from 'react'
+import {StyleProp, Text, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
-import spotify from '../assets/spotify.png'
-import {DateTime} from 'luxon'
+import tw from 'tailwind'
 
 interface IProps {
   style?: StyleProp<ViewStyle>
@@ -31,7 +29,7 @@ export const GeneralWidget: FC<IProps> = observer(({style}) => {
       )}
       <Text style={tw`w-48`} numberOfLines={1}>
         <Text style={tw`text-xs pl-1 font-medium`}>
-          🔊 {store.ui.track?.title}
+          {store.ui.track?.title}
         </Text>{' '}
         <Text style={tw`dark:text-gray-400 text-gray-600 text-xs`}>
           · {store.ui.track?.artist}
@@ -41,7 +39,7 @@ export const GeneralWidget: FC<IProps> = observer(({style}) => {
       {!!store.ui.currentlyTrackedProject && (
         <>
           <Text style={tw`text-xs font-bold pl-1`}>
-            ⌛️ {store.ui.currentlyTrackedProject.project.name}
+            {store.ui.currentlyTrackedProject.project.name}
           </Text>
           <Text style={tw`text-xs dark:text-gray-400 text-gray-600 pl-1`}>
             · {store.ui.currentlyTrackedProject.todayTime} mins
@@ -50,7 +48,7 @@ export const GeneralWidget: FC<IProps> = observer(({style}) => {
       )}
       <View style={tw`flex-1`} />
       <Text style={tw`w-48 text-right`}>
-        <Text style={tw`text-xs font-bold`}>☀️ {store.ui.currentTemp}°</Text>{' '}
+        <Text style={tw`text-xs font-bold`}>{store.ui.currentTemp}°</Text>{' '}
         <Text style={tw`text-xs dark:text-gray-400 text-gray-600`}>
           · {store.ui.nextHourForecast}
         </Text>
