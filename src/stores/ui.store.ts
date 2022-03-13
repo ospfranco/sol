@@ -446,7 +446,7 @@ end tell`)
               break
             }
 
-            case FocusableWidget.SEARCH: {
+            case FocusableWidget.TRANSLATION: {
               if (store.translationResults) {
                 if (store.selectedIndex === 0) {
                   Clipboard.setString(store.translationResults.en!)
@@ -455,22 +455,25 @@ end tell`)
                 }
                 solNative.hideWindow()
                 store.translationResults = null
-              } else {
-                const item = store.items[store.selectedIndex]
-                if (item.url) {
-                  solNative.openFile(item.url)
-                } else if (item.callback) {
-                  item.callback()
-                }
+              }
+              break
+            }
 
-                // bump frequency
-                store.frequencies[item.name] = store.frequencies[item.name]
-                  ? store.frequencies[item.name] + 1
-                  : 1
+            case FocusableWidget.SEARCH: {
+              const item = store.items[store.selectedIndex]
+              if (item.url) {
+                solNative.openFile(item.url)
+              } else if (item.callback) {
+                item.callback()
+              }
 
-                if (!item.preventClose) {
-                  solNative.hideWindow()
-                }
+              // bump frequency
+              store.frequencies[item.name] = store.frequencies[item.name]
+                ? store.frequencies[item.name] + 1
+                : 1
+
+              if (!item.preventClose) {
+                solNative.hideWindow()
               }
               break
             }
