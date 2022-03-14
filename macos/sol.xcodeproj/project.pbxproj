@@ -15,7 +15,6 @@
 		701086A727989798004C8CCD /* SolEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701086A627989798004C8CCD /* SolEmitter.swift */; };
 		7047E80627D4D31400582E1B /* MediaHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7047E80527D4D31400582E1B /* MediaHelper.swift */; };
 		7047E80827D4DAEB00582E1B /* Sequence.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7047E80727D4DAEB00582E1B /* Sequence.extension.swift */; };
-		7049C90D27B459C7007D5945 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 7049C90C27B459C7007D5945 /* LaunchAtLogin */; };
 		7071D43727B3211700F8A4DC /* DarkMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7071D43527B3211700F8A4DC /* DarkMode.swift */; };
 		7071D43827B3211700F8A4DC /* AppleScriptHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7071D43627B3211700F8A4DC /* AppleScriptHelper.swift */; };
 		70969E1727966ECD00BE3F1C /* SolNative.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70969E1627966ECD00BE3F1C /* SolNative.swift */; };
@@ -65,7 +64,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7049C90D27B459C7007D5945 /* LaunchAtLogin in Frameworks */,
 				70F7EBF12795A85200CED17A /* HotKey in Frameworks */,
 				E2E9BB8131AAA431B6402620 /* libPods-sol-macOS.a in Frameworks */,
 			);
@@ -184,7 +182,6 @@
 			name = "sol-macOS";
 			packageProductDependencies = (
 				70F7EBF02795A85200CED17A /* HotKey */,
-				7049C90C27B459C7007D5945 /* LaunchAtLogin */,
 			);
 			productName = sol;
 			productReference = 514201492437B4B30078DB4F /* sol.app */;
@@ -216,7 +213,6 @@
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			packageReferences = (
 				70F7EBEF2795A85200CED17A /* XCRemoteSwiftPackageReference "HotKey" */,
-				7049C90B27B459C7007D5945 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */,
 			);
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
@@ -578,14 +574,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		7049C90B27B459C7007D5945 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "git@github.com:sindresorhus/LaunchAtLogin.git";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 		70F7EBEF2795A85200CED17A /* XCRemoteSwiftPackageReference "HotKey" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/soffes/HotKey";
@@ -597,11 +585,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		7049C90C27B459C7007D5945 /* LaunchAtLogin */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 7049C90B27B459C7007D5945 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */;
-			productName = LaunchAtLogin;
-		};
 		70F7EBF02795A85200CED17A /* HotKey */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 70F7EBEF2795A85200CED17A /* XCRemoteSwiftPackageReference "HotKey" */;
