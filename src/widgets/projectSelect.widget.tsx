@@ -16,6 +16,12 @@ export const ProjectSelectWidget: FC<IProps> = observer(({style}) => {
 
   const selectedIndex = store.ui.selectedIndex
 
+  const lNow = DateTime.now()
+  const last30Days = new Array(90)
+    .fill(0)
+    .map((_, index) => lNow.minus({days: index}))
+    .reverse()
+
   return (
     <View
       style={tw.style(
@@ -23,7 +29,7 @@ export const ProjectSelectWidget: FC<IProps> = observer(({style}) => {
         //@ts-ignore
         style,
       )}>
-      <Text style={tw`font-medium text-gray-500`}>Track work time</Text>
+      <Text style={tw`font-medium`}>Track work time</Text>
       <FlatList
         style={tw`flex-1 w-full mt-4`}
         data={store.ui.projects.slice()}
@@ -79,6 +85,13 @@ export const ProjectSelectWidget: FC<IProps> = observer(({style}) => {
             return acc
           }, {} as Record<string, {date: DateTime; time: number}>)
 
+          // INSERT RANDOM JUNK
+          // let randomDay = lNow.minus({day: 30})
+          // aggregation[randomDay.startOf('day').toMillis()] = {
+          //   date: randomDay,
+          //   time: 180,
+          // }
+
           return (
             <View
               style={tw.style(
@@ -105,55 +118,119 @@ export const ProjectSelectWidget: FC<IProps> = observer(({style}) => {
                 </Text>
               </View>
               {selected && (
-                <View style={tw`h-32 flex-row mt-4`}>
-                  <View
-                    style={tw`pr-2 border-r dark:border-gray-600 border-gray-400 justify-between mt-4`}>
-                    <Text style={tw`text-xs dark:text-gray-600 text-gray-500 `}>
-                      10
-                    </Text>
-                    <Text style={tw`text-xs dark:text-gray-600 text-gray-500 `}>
-                      8
-                    </Text>
-                    <Text style={tw`text-xs dark:text-gray-600 text-gray-500 `}>
-                      6
-                    </Text>
-                    <Text style={tw`text-xs dark:text-gray-600 text-gray-500 `}>
-                      4
-                    </Text>
-                    <Text style={tw`text-xs dark:text-gray-600 text-gray-500 `}>
-                      2
-                    </Text>
-                    <Text style={tw`text-xs dark:text-gray-600 text-gray-500 `}>
-                      0
-                    </Text>
-                  </View>
-                  <View
-                    style={tw`border-b border-gray-400 dark:border-gray-600 flex-1 flex-row px-3`}>
-                    {Object.values(aggregation).map(
-                      (entry: {date: DateTime; time: number}) => {
-                        return (
+                <View style={tw`h-32 mt-4 flex-wrap`}>
+                  {last30Days.map(lDate => {
+                    const entry = aggregation[lDate.startOf('day').toMillis()]
+                    if (!entry) {
+                      return (
+                        <View style={tw`h-5 pb-1 w-10 pr-1`}>
                           <View
-                            style={tw`h-full px-2`}
-                            key={entry.date.toISO()}>
-                            <Text style={tw`text-xs dark:text-gray-400`}>
-                              {entry.date.toFormat('LLL dd')}
-                            </Text>
-                            <View style={tw`flex-1`} />
-                            <View
-                              style={tw.style(
-                                `w-10 border-gray-600 dark:bg-white bg-black bg-opacity-50`,
-                                {
-                                  height: Math.ceil(entry.time / 60) * 7,
-                                },
-                              )}
-                            />
-                          </View>
-                        )
-                      },
-                    )}
-                  </View>
+                            style={tw`w-full h-full border-gray-600 rounded-sm bg-gray-900`}
+                          />
+                        </View>
+                      )
+                    }
+
+                    const monthIndex = Math.floor(
+                      lNow.diff(lDate, 'months').months,
+                    )
+                    // console.warn('monthIndex', monthIndex, entry)
+
+                    let baseColor = 'indigo'
+                    if (monthIndex === 1) {
+                      baseColor = 'blue'
+                    }
+                    if (monthIndex === 2) {
+                      baseColor = 'green'
+                    }
+
+                    let bgColor = `bg-${baseColor}-400`
+
+                    switch (true) {
+                      case entry.time >= 420:
+                        bgColor = `bg-${baseColor}-800`
+                        break
+                      case entry.time >= 360:
+                        bgColor = `bg-${baseColor}-700`
+                        break
+                      case entry.time >= 240:
+                        bgColor = `bg-${baseColor}-600`
+                        break
+                      case entry.time >= 120:
+                        bgColor = `bg-${baseColor}-500`
+                        break
+                    }
+
+                    return (
+                      <View style={tw`h-5 pb-1 w-10 pr-1`}>
+                        <View
+                          style={tw.style(
+                            `w-full h-full rounded-sm items-center justify-center`,
+                            bgColor,
+                          )}>
+                          <Text style={tw`text-xs pb-2`}>
+                            {Math.floor(entry.time / 60)}:
+                            {Math.round(entry.time % 60)}
+                          </Text>
+                        </View>
+                      </View>
+                    )
+                  })}
                 </View>
               )}
+              {/* {selected && (
+                <View style={tw`h-32 flex-row mt-4`}>
+                  <View
+                    style={tw`border-gray-400 dark:border-gray-600 flex-1 flex-row`}>
+                    {last30Days.map(lDate => {
+                      const entry = aggregation[lDate.startOf('day').toMillis()]
+
+                      if (!entry) {
+                        return (
+                          <View
+                            key={lDate.toISO()}
+                            style={tw`h-full items-center`}>
+                            <View
+                              style={tw`flex-1 border-b w-6 border-gray-600`}
+                            />
+                            <Text
+                              style={tw`text-xs dark:text-gray-400 text-center`}>
+                              {lDate.toFormat('dd')}
+                            </Text>
+                          </View>
+                        )
+                      }
+
+                      return (
+                        <View
+                          style={tw`h-full items-center`}
+                          key={lDate.toISO()}>
+                          <View style={tw`flex-1`} />
+                          <View
+                            style={tw`w-6 border-b border-gray-600 items-center`}>
+                            <Text style={tw`text-xs pb-2`}>
+                              {Math.floor(entry.time / 60)}:
+                              {Math.round(entry.time % 60)}
+                            </Text>
+                            <View
+                              style={tw`w-2 h-2 rounded-full bg-indigo-600`}
+                            />
+                            <View
+                              style={tw.style(`w-[1px] bg-indigo-600`, {
+                                height: Math.ceil(entry.time / 60) * 7,
+                              })}
+                            />
+                          </View>
+                          <Text
+                            style={tw`text-xs dark:text-gray-400 text-center`}>
+                            {entry.date.toFormat('dd')}
+                          </Text>
+                        </View>
+                      )
+                    })}
+                  </View>
+                </View>
+              )} */}
             </View>
           )
         }}
