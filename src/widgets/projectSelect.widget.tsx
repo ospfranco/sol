@@ -132,7 +132,9 @@ export const ProjectSelectWidget: FC<IProps> = observer(({style}) => {
                     {Object.values(aggregation).map(
                       (entry: {date: DateTime; time: number}) => {
                         return (
-                          <View style={tw`h-full`} key={entry.date.toISO()}>
+                          <View
+                            style={tw`h-full px-2`}
+                            key={entry.date.toISO()}>
                             <Text style={tw`text-xs dark:text-gray-400`}>
                               {entry.date.toFormat('LLL dd')}
                             </Text>
