@@ -5,7 +5,7 @@
 	<key>NSAppleEventsUsageDescription</key>
 	<string>Allow sol to control system preferences</string>
 	<key>NSCalendarsUsageDescription</key>
-	<string>To display your next appointments</string>
+	<string>Allow sol to display your next appointments</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>

@@ -12,7 +12,7 @@ class CalendarHelper {
     if eventAuthorizationStatus == .notDetermined {
       let store = EKEventStore()
       store.requestAccess(to: .event) { granted, error in
-          print("Event kit request access response")
+          print("Event kit request access response, granted: \(granted), error: \(error)")
       }
     }
   }

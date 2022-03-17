@@ -1,3 +1,3 @@
-import env from 'env.json'
+// import env from 'env.json'
 
-export const WEATHER_API_KEY = env.WEATHER_API_KEY
+// export const WEATHER_API_KEY = env.WEATHER_API_KEY

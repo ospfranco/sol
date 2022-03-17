@@ -1,14 +1,14 @@
-import {makeAutoObservable, runInAction, toJS, autorun} from 'mobx'
-import {IRootStore} from 'Store'
-import {INativeEvent, solNative} from 'lib/SolNative'
-import {AsyncStorage, Linking, Clipboard, ImageURISource} from 'react-native'
-import {CONSTANTS} from 'lib/constants'
-import {getCurrentWeather} from 'lib/weather'
-import Fuse from 'fuse.js'
-import {doubleTranslate} from 'lib/translator'
-import {Parser} from 'expr-eval'
-import {DateTime} from 'luxon'
 import {Assets} from 'assets'
+import {Parser} from 'expr-eval'
+import Fuse from 'fuse.js'
+import {CONSTANTS} from 'lib/constants'
+import {INativeEvent, solNative} from 'lib/SolNative'
+import {doubleTranslate} from 'lib/translator'
+import {getWeather} from 'lib/weather'
+import {DateTime} from 'luxon'
+import {autorun, makeAutoObservable, runInAction, toJS} from 'mobx'
+import {AsyncStorage, Clipboard, ImageURISource, Linking} from 'react-native'
+import {IRootStore} from 'Store'
 
 const exprParser = new Parser()
 
@@ -50,6 +50,7 @@ export enum FocusableWidget {
   PROJECT_CREATION = 'PROJECT_CREATION',
   PROJECT_SELECT = 'PROJECT_SELECT',
   TRANSLATION = 'TRANSLATION',
+  WEATHER_CONFIG = 'WEATHER_CONFIG',
 }
 
 export enum ItemType {
@@ -121,6 +122,9 @@ export let createUIStore = (root: IRootStore) => {
         store.frequencies = parsedStore.frequencies
         store.projects = parsedStore.projects
         store.currentlyTrackedProjectId = parsedStore.currentlyTrackedProjectId
+        store.weatherApiKey = parsedStore.weatherApiKey
+        store.weatherLat = parsedStore.weatherLat
+        store.weatherLon = parsedStore.weatherLon
       })
     }
   }
@@ -194,6 +198,15 @@ export let createUIStore = (root: IRootStore) => {
 end tell`)
       },
     },
+    {
+      icon: '🌧',
+      name: 'Weather configuration',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        store.focusWidget(FocusableWidget.WEATHER_CONFIG)
+      },
+      preventClose: true,
+    },
   ]
 
   let store = makeAutoObservable({
@@ -227,6 +240,9 @@ end tell`)
     projects: [] as ITrackingProject[],
     tempProjectName: '' as string,
     currentlyTrackedProjectId: null as string | null,
+    weatherApiKey: '' as string,
+    weatherLat: '' as string,
+    weatherLon: '' as string,
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -303,6 +319,15 @@ end tell`)
     //    / /\ \ / __| __| |/ _ \| '_ \/ __|
     //   / ____ \ (__| |_| | (_) | | | \__ \
     //  /_/    \_\___|\__|_|\___/|_| |_|___/
+    setWeatherLat: (lat: string) => {
+      store.weatherLat = lat
+    },
+    setWeatherLon: (lon: string) => {
+      store.weatherLon = lon
+    },
+    setWeatherApiKey: (key: string) => {
+      store.weatherApiKey = key
+    },
     trackProject: (id: string) => {
       // Stop tracking previous project
       if (store.currentlyTrackedProjectId) {
@@ -487,7 +512,8 @@ end tell`)
           if (
             store.focusedWidget === FocusableWidget.PROJECT_SELECT ||
             store.focusedWidget === FocusableWidget.PROJECT_CREATION ||
-            store.focusedWidget === FocusableWidget.TRANSLATION
+            store.focusedWidget === FocusableWidget.TRANSLATION ||
+            store.focusedWidget === FocusableWidget.WEATHER_CONFIG
           ) {
             store.focusedWidget = FocusableWidget.SEARCH
             store.selectedIndex = 0
@@ -648,12 +674,18 @@ end tell`)
           console.warn('Error getting events', e)
         })
 
-      getCurrentWeather().then(res => {
-        runInAction(() => {
-          store.currentTemp = res?.temp ? Math.round(res.temp) : 0
-          store.nextHourForecast = res?.nextHourForecast ?? null
+      if (store.weatherApiKey) {
+        getWeather(
+          store.weatherApiKey,
+          store.weatherLat,
+          store.weatherLon,
+        ).then(res => {
+          runInAction(() => {
+            store.currentTemp = res?.temp ? Math.round(res.temp) : 0
+            store.nextHourForecast = res?.nextHourForecast ?? null
+          })
         })
-      })
+      }
 
       solNative.getMediaInfo().then(res => {
         runInAction(() => {

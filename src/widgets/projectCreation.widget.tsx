@@ -1,12 +1,12 @@
 import {observer} from 'mobx-react-lite'
-import React, {FC, useState} from 'react'
-import {StyleProp, Text, TextInput, View, ViewStyle} from 'react-native'
+import React, {FC} from 'react'
+import {Text, TextInput, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
 
 interface IProps {
-  style?: StyleProp<ViewStyle>
+  style?: ViewStyle
 }
 
 export const ProjectCreationWidget: FC<IProps> = observer(({style}) => {
@@ -14,12 +14,7 @@ export const ProjectCreationWidget: FC<IProps> = observer(({style}) => {
   const store = useStore()
 
   return (
-    <View
-      style={tw.style(
-        `flex-1 items-center p-6 justify-center`,
-        //@ts-ignore
-        style,
-      )}>
+    <View style={tw.style(`flex-1 items-center p-6 justify-center`, style)}>
       <View style={tw`w-92`}>
         <Text style={tw`font-medium`}>Create Tracking Project</Text>
         <TextInput

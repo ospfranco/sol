@@ -1,20 +1,12 @@
-import {useBoolean} from 'hooks'
 import {observer} from 'mobx-react-lite'
-import React, {FC, useEffect, useRef} from 'react'
-import {
-  TouchableOpacity,
-  Text,
-  View,
-  Animated,
-  StyleProp,
-  ViewStyle,
-} from 'react-native'
+import React, {FC} from 'react'
+import {Text, TextInput, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
 
 interface IProps {
-  style?: StyleProp<ViewStyle>
+  style?: ViewStyle
 }
 
 export const WeatherWidget: FC<IProps> = observer(({style}) => {
@@ -22,32 +14,48 @@ export const WeatherWidget: FC<IProps> = observer(({style}) => {
   const store = useStore()
 
   return (
-    <View
-      style={tw.style(
-        `p-3 rounded-lg`,
-        // @ts-ignore
-        style,
-      )}>
-      {!store.ui.minimalistMode && (
-        <Text style={tw`pb-1 text-xs font-medium text-gray-400`}>Weather</Text>
-      )}
-
-      <Text style={tw`text-4xl font-medium dark:text-white`}>
-        {store.ui.currentTemp}
-        <Text style={tw`text-lg text-gray-500`}>℃</Text>
-      </Text>
-      <Text style={tw`text-sm text-gray-500 capitalize dark:text-gray-400`}>
-        {store.ui.nextHourForecast} in 1 hour
-      </Text>
-
-      {/* <Animated.View
-        style={tw.style(
-          `border-blue-400 bg-transparent border rounded-lg absolute inset-0`,
-          {
-            opacity: fadeAnim,
-          },
-        )}
-      /> */}
+    <View style={tw.style(`flex-1 items-center p-6 justify-center`, style)}>
+      <View style={tw`w-92`}>
+        <Text style={tw`font-bold`}>Weather configuration</Text>
+        <Text style={tw`pt-4`}>OpenWeatherMap Api Key</Text>
+        <View
+          style={tw`w-full rounded border border-gray-500 dark:border-gray-700 bg-transparent px-2 py-2 mt-4`}>
+          <TextInput
+            autoFocus
+            // @ts-ignore
+            enableFocusRing={false}
+            value={store.ui.weatherApiKey}
+            onChangeText={store.ui.setWeatherApiKey}
+            placeholder="Api key..."
+          />
+        </View>
+        <Text style={tw`pt-4`}>Latitude</Text>
+        <View
+          style={tw`w-full rounded border border-gray-500 dark:border-gray-700 bg-transparent px-2 py-2 mt-4`}>
+          <TextInput
+            autoFocus
+            // @ts-ignore
+            enableFocusRing={false}
+            value={store.ui.weatherLat}
+            onChangeText={store.ui.setWeatherLat}
+            placeholder="Latitude..."
+            style={tw`w-full`}
+          />
+        </View>
+        <Text style={tw`pt-4`}>Longitude</Text>
+        <View
+          style={tw`w-full rounded border border-gray-500 dark:border-gray-700 bg-transparent px-2 py-2 mt-4`}>
+          <TextInput
+            autoFocus
+            // @ts-ignore
+            enableFocusRing={false}
+            value={store.ui.weatherLon}
+            onChangeText={store.ui.setWeatherLon}
+            placeholder="Longitude..."
+            style={tw`w-full`}
+          />
+        </View>
+      </View>
     </View>
   )
 })
