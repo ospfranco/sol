@@ -9,8 +9,6 @@ export async function getWeather(
   nextHourForecast: string
 } | null> {
   try {
-    console.warn({apiKey, lat, lon})
-
     const res = await axios.get(
       `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric&exclude=minutely,daily,alerts`,
     )
