@@ -27,9 +27,9 @@ Things that are working:
 - App search
 - Google translate
 - A basic calendar integration
-- A basic weather API integration (hardcoded to Munich)
+- A basic weather API integration
 
-TBH, I won't be publishing this as product on my own, I have very little time for it nowadays, so please, feel free to fork it and create your own version, if you wanted to create a raycast/alfred product this is a great start for you, you can write most of the new logic in pure javascript, it's react-native so if you know react it shouldn't be a problem to do some cool new stuff
+Download from the release page
 
 `yarn && npx pod-install macos && yarn mac`
 
