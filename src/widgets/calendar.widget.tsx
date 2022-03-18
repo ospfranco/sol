@@ -2,7 +2,7 @@ import {INativeEvent} from 'lib/SolNative'
 import {DateTime} from 'luxon'
 import {observer} from 'mobx-react-lite'
 import React, {FC} from 'react'
-import {Image, StyleProp, Text, View, ViewStyle} from 'react-native'
+import {Image, Text, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
 import {FocusableWidget} from 'stores'
 import tw from 'tailwind'
@@ -10,7 +10,7 @@ import {useDeviceContext} from 'twrnc'
 import inbox from '../assets/inbox.png'
 
 interface IProps {
-  style?: StyleProp<ViewStyle>
+  style?: ViewStyle
 }
 
 export const CalendarWidget: FC<IProps> = observer(({style}) => {
@@ -31,24 +31,26 @@ export const CalendarWidget: FC<IProps> = observer(({style}) => {
   }, {} as Record<string, {date: DateTime; events: Array<INativeEvent>}>)
 
   return (
-    <View
-      style={tw.style(
-        `pt-3 w-1/2 text-gray-200`,
-        // @ts-ignore
-        style,
-      )}>
+    <View style={tw.style(`pt-3 w-1/2 text-gray-200`, style)}>
       {Object.entries(groups).map(([key, data]) => {
         return (
           <View key={key} style={tw`pb-2`}>
             <View style={tw`flex-row pb-1 px-6`}>
-              <Text
-                style={tw`capitalize font-medium dark:text-gray-200 text-gray-600 text-xs`}>
-                {key}
-              </Text>
-              <Text style={tw`dark:text-gray-400 text-gray-400 text-xs pl-2`}>
-                {key !== 'today' && `${data.date.toFormat('cccc')}, `}
-                {data.date.toFormat('dd LLL')}
-              </Text>
+              {key === 'tomorrow' ? (
+                <Text
+                  style={tw`capitalize font-medium dark:text-gray-200 text-gray-600 text-xs`}>
+                  {key}
+                </Text>
+              ) : (
+                <Text
+                  style={tw`capitalize font-medium dark:text-gray-200 text-gray-600 text-xs`}>
+                  {key !== 'today' && `${data.date.toFormat('cccc')} `}
+                  <Text
+                    style={tw`capitalize font-medium dark:text-gray-400 text-gray-400 text-xs`}>
+                    · {data.date.toFormat('dd LLL')}
+                  </Text>
+                </Text>
+              )}
             </View>
             <View style={tw`px-4`}>
               {data.events.map((event, index) => {

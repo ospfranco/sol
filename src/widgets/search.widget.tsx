@@ -112,10 +112,10 @@ export const SearchWidget: FC<IProps> = observer(({style}) => {
                       store.ui.selectedIndex === index && focused,
                   },
                 )}>
-                {!!item.url && <FileIcon url={item.url} style={tw`w-6 h-6`} />}
-                {!!item.icon && <Text style={tw`text-lg`}>{item.icon}</Text>}
+                {!!item.url && <FileIcon url={item.url} style={tw`w-4 h-4`} />}
+                {!!item.icon && <Text style={tw`text-xs`}>{item.icon}</Text>}
                 {!!item.iconImage && (
-                  <Image source={item.iconImage} style={tw`w-6 h-6`} />
+                  <Image source={item.iconImage} style={tw`w-4 h-4`} />
                 )}
                 <Text style={tw.style('ml-3 text-sm')}>{item.name}</Text>
               </View>

@@ -12,7 +12,7 @@ export const GeneralWidget: FC<IProps> = observer(({style}) => {
   const store = useStore()
 
   return (
-    <View style={tw.style(`px-6 py-2 text-gray-200 flex-row`, style)}>
+    <View style={tw.style(`px-6 pt-1 pb-2 text-gray-200 flex-row`, style)}>
       {/* <Text style={tw`text-xs`}>🎵</Text> */}
       {/* <Image
         source={{uri: store.ui.track?.artwork}}

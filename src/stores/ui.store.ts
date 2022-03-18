@@ -131,8 +131,8 @@ export let createUIStore = (root: IRootStore) => {
 
   const SETTING_ITEMS: IItem[] = [
     {
-      icon: '🔫',
-      name: 'Start Tracking Time',
+      icon: '⏰',
+      name: 'Track time',
       type: ItemType.CONFIGURATION,
       preventClose: true,
       callback: () => {
