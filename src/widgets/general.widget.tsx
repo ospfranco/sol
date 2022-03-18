@@ -1,23 +1,18 @@
 import {observer} from 'mobx-react-lite'
 import React, {FC} from 'react'
-import {StyleProp, Text, View, ViewStyle} from 'react-native'
+import {Text, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
 import tw from 'tailwind'
 
 interface IProps {
-  style?: StyleProp<ViewStyle>
+  style?: ViewStyle
 }
 
 export const GeneralWidget: FC<IProps> = observer(({style}) => {
   const store = useStore()
 
   return (
-    <View
-      style={tw.style(
-        `px-6 py-2 text-gray-200 flex-row`,
-        // @ts-ignore
-        style,
-      )}>
+    <View style={tw.style(`px-6 py-2 text-gray-200 flex-row`, style)}>
       {/* <Text style={tw`text-xs`}>🎵</Text> */}
       {/* <Image
         source={{uri: store.ui.track?.artwork}}
@@ -31,9 +26,11 @@ export const GeneralWidget: FC<IProps> = observer(({style}) => {
         <Text style={tw`text-xs pl-1 font-medium`}>
           {store.ui.track?.title}
         </Text>{' '}
-        <Text style={tw`dark:text-gray-400 text-gray-600 text-xs`}>
-          · {store.ui.track?.artist}
-        </Text>
+        {!!store.ui.track?.artist && (
+          <Text style={tw`dark:text-gray-400 text-gray-600 text-xs`}>
+            · {store.ui.track?.artist}
+          </Text>
+        )}
       </Text>
       <View style={tw`flex-1`} />
       {!!store.ui.currentlyTrackedProject && (

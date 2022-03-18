@@ -486,20 +486,23 @@ end tell`)
 
             case FocusableWidget.SEARCH: {
               const item = store.items[store.selectedIndex]
-              if (item.url) {
-                solNative.openFile(item.url)
-              } else if (item.callback) {
-                item.callback()
-              }
 
               // bump frequency
               store.frequencies[item.name] = store.frequencies[item.name]
                 ? store.frequencies[item.name] + 1
                 : 1
 
+              // close window
               if (!item.preventClose) {
                 solNative.hideWindow()
               }
+
+              if (item.url) {
+                solNative.openFile(item.url)
+              } else if (item.callback) {
+                item.callback()
+              }
+
               break
             }
           }
