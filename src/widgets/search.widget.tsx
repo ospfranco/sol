@@ -75,12 +75,14 @@ export const SearchWidget: FC<IProps> = observer(({style}) => {
             placeholderTextColor={tw.color('text-gray-500')}
           />
           {!store.ui.query && (
-            <Image
-              style={tw.style(`absolute left-[50%] top-2 w-5 h-5`, {
-                tintColor: colorScheme === 'dark' ? '#CCC' : '#222',
-              })}
-              source={Assets.SolWhiteSmall}
-            />
+            <View style={tw`absolute inset-0 items-center justify-center`}>
+              <Image
+                style={tw.style(`w-7 h-7`, {
+                  tintColor: colorScheme === 'dark' ? '#AAA' : '#222',
+                })}
+                source={Assets.SolWhiteSmall}
+              />
+            </View>
           )}
           {store.ui.isLoading && (
             <ActivityIndicator size="small" style={tw`w-2 h-2`} />
