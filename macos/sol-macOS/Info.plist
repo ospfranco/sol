@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>NSAppleEventsUsageDescription</key>
-	<string>Allow sol to control system preferences</string>
+	<string>Allow Sol to control system preferences</string>
 	<key>NSCalendarsUsageDescription</key>
-	<string>Allow sol to display your next appointments</string>
+	<string>Allow Sol to display your next appointments</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -18,6 +18,8 @@
 	<string>6.0</string>
 	<key>CFBundleName</key>
 	<string>$(PRODUCT_NAME)</string>
+  <key>CFBundleDisplayName</key>
+  <string>Sol</string>
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>

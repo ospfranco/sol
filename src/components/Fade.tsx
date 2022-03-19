@@ -1,60 +1,32 @@
-import React, {Component} from 'react'
-import {Animated} from 'react-native'
+import React, {FC, useEffect, useRef} from 'react'
+import {Animated, ViewProps, ViewStyle} from 'react-native'
 
-export class Fade extends Component<
-  {visible: boolean; style?: any},
-  {visible: boolean}
-> {
-  _visibility: any = null
-  constructor(props: any) {
-    super(props)
-    this.state = {
-      visible: props.visible,
-    }
-  }
+interface IProps extends ViewProps {
+  visible: boolean
+  style?: ViewStyle
+}
 
-  componentWillMount() {
-    this._visibility = new Animated.Value(this.props.visible ? 1 : 0)
-  }
-
-  componentWillReceiveProps(nextProps: any) {
-    if (nextProps.visible) {
-      this.setState({visible: true})
-    }
-    Animated.timing(this._visibility, {
-      toValue: nextProps.visible ? 1 : 0,
-      duration: 200,
+export const Fade: FC<IProps> = ({visible, style, children, ...rest}) => {
+  const visibilityRef = useRef(new Animated.Value(visible ? 1 : 0))
+  useEffect(() => {
+    Animated.timing(visibilityRef.current, {
+      toValue: visible ? 1 : 0,
+      duration: 100,
       useNativeDriver: true,
-    }).start(() => {
-      this.setState({visible: nextProps.visible})
-    })
+    }).start()
+  }, [visible])
+
+  const containerStyle = {
+    opacity: visibilityRef.current.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 1],
+    }),
   }
 
-  render() {
-    const {visible, style, children, ...rest} = this.props
-
-    const containerStyle = {
-      opacity: this._visibility.interpolate({
-        inputRange: [0, 1],
-        outputRange: [0, 1],
-      }),
-      transform: [
-        {
-          scale: this._visibility.interpolate({
-            inputRange: [0, 1],
-            outputRange: [0.8, 1],
-          }),
-        },
-      ],
-    }
-
-    const combinedStyle = [containerStyle, style]
-    return (
-      <Animated.View
-        style={this.state.visible ? combinedStyle : containerStyle}
-        {...rest}>
-        {this.state.visible ? children : null}
-      </Animated.View>
-    )
-  }
+  const combinedStyle = [containerStyle, style]
+  return (
+    <Animated.View style={visible ? combinedStyle : containerStyle} {...rest}>
+      {visible ? children : null}
+    </Animated.View>
+  )
 }
