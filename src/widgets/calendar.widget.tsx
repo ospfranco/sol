@@ -36,7 +36,7 @@ export const CalendarWidget: FC<IProps> = observer(({style}) => {
         return (
           <View key={key} style={tw`pb-2`}>
             <View style={tw`flex-row pb-1 px-6`}>
-              {key === 'tomorrow' ? (
+              {key === 'tomorrow' || key === 'today' ? (
                 <Text
                   style={tw`capitalize font-medium dark:text-gray-200 text-gray-600 text-xs`}>
                   {key}
