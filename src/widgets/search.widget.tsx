@@ -5,6 +5,7 @@ import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect, useRef} from 'react'
 import {
   ActivityIndicator,
+  Appearance,
   FlatList,
   Image,
   StyleProp,
@@ -43,6 +44,7 @@ interface IProps {
 
 export const SearchWidget: FC<IProps> = observer(({style}) => {
   useDeviceContext(tw)
+  const colorScheme = Appearance.getColorScheme()
   const store = useStore()
   const focused = store.ui.focusedWidget === FocusableWidget.SEARCH
   const inputRef = useRef<TextInput | null>(null)
@@ -66,7 +68,6 @@ export const SearchWidget: FC<IProps> = observer(({style}) => {
             autoFocus
             // @ts-ignore
             enableFocusRing={false}
-            // placeholder={`Type something...`}
             value={store.ui.query}
             onChangeText={store.ui.setQuery}
             ref={inputRef}
@@ -75,12 +76,8 @@ export const SearchWidget: FC<IProps> = observer(({style}) => {
           />
           {!store.ui.query && (
             <Image
-              // @ts-ignore
               style={tw.style(`absolute left-[50%] top-2 w-5 h-5`, {
-                tintColor: {
-                  dark: 'rgba(255,255,255,0.1)',
-                  light: 'rgba(255,255,255,0.7)',
-                },
+                tintColor: colorScheme === 'dark' ? '#CCC' : '#222',
               })}
               source={Assets.SolWhiteSmall}
             />
