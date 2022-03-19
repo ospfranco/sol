@@ -1,3 +1,4 @@
+import {Assets} from 'assets'
 import {Fade} from 'components/Fade'
 import {FileIcon} from 'components/FileIcon'
 import {observer} from 'mobx-react-lite'
@@ -60,20 +61,30 @@ export const SearchWidget: FC<IProps> = observer(({style}) => {
     <View style={style}>
       <View style={tw`pt-2`}>
         <View
-          style={tw.style(
-            `px-3 pt-2 pb-3 flex-row border-b border-lightBorder dark:border-darkBorder`,
-          )}>
+          style={tw`px-3 pt-2 pb-3 flex-row border-b border-lightBorder dark:border-darkBorder relative`}>
           <TextInput
             autoFocus
             // @ts-ignore
             enableFocusRing={false}
-            placeholder={`Type something...`}
+            // placeholder={`Type something...`}
             value={store.ui.query}
             onChangeText={store.ui.setQuery}
             ref={inputRef}
             style={tw`flex-1`}
             placeholderTextColor={tw.color('text-gray-500')}
           />
+          {!store.ui.query && (
+            <Image
+              // @ts-ignore
+              style={tw.style(`absolute left-[50%] top-2 w-5 h-5`, {
+                tintColor: {
+                  dark: 'rgba(255,255,255,0.1)',
+                  light: 'rgba(255,255,255,0.7)',
+                },
+              })}
+              source={Assets.SolWhiteSmall}
+            />
+          )}
           {store.ui.isLoading && (
             <ActivityIndicator size="small" style={tw`w-2 h-2`} />
           )}

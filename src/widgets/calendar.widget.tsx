@@ -125,11 +125,10 @@ export const CalendarWidget: FC<IProps> = observer(({style}) => {
       {!store.ui.events.length && (
         <Image
           source={inbox}
-          style={tw`h-10 self-center my-10`}
+          style={tw`h-20 self-center my-10`}
           resizeMode="contain"
         />
       )}
-      {/* </TouchableOpacity> */}
     </View>
   )
 })
