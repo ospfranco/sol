@@ -8,7 +8,6 @@ import {
   Appearance,
   FlatList,
   Image,
-  StyleProp,
   Text,
   TextInput,
   View,
@@ -39,7 +38,7 @@ const Snack = ({title, index}: {title: string; index: number}) => {
 }
 
 interface IProps {
-  style?: StyleProp<ViewStyle>
+  style?: ViewStyle
 }
 
 export const SearchWidget: FC<IProps> = observer(({style}) => {
@@ -78,7 +77,7 @@ export const SearchWidget: FC<IProps> = observer(({style}) => {
             <View style={tw`absolute inset-0 items-center justify-center`}>
               <Image
                 style={tw.style(`w-7 h-7`, {
-                  tintColor: colorScheme === 'dark' ? '#AAA' : '#222',
+                  tintColor: colorScheme === 'dark' ? '#AAA' : '#555',
                 })}
                 source={Assets.SolWhiteSmall}
               />
