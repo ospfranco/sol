@@ -2,7 +2,7 @@
 
 <h3 align="center">A macOS command palette</h3>
 
-![screenshot](https://raw.githubusercontent.com/ospfranco/sol/main/s2.png)
+![screenshot](https://raw.githubusercontent.com/ospfranco/sol/main/s.png)
 
 <div align="center">
   <a align="center" href="https://github.com/ospfranco?tab=followers">
@@ -29,7 +29,7 @@ Things that are working:
 - A basic calendar integration
 - A basic weather API integration
 
-Download from the release page
+The latest release is on the root directory (Sol.zip)
 
 `yarn && npx pod-install macos && yarn mac`
 
