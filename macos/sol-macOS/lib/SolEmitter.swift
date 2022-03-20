@@ -1,6 +1,9 @@
 import Foundation
 
 class SolEmitter {
+  
+  var hasListeners = false
+  
   public static var sharedInstance = SolEmitter()
 
   private static var emitter: SolNative!
@@ -10,7 +13,9 @@ class SolEmitter {
   }
 
   func dispatch(name: String, body: Any?) {
-    SolEmitter.emitter.sendEvent(withName: name, body: body)
+    if(hasListeners) {
+      SolEmitter.emitter.sendEvent(withName: name, body: body)
+    }
   }
 
   // You can add more typesafety here if you want to

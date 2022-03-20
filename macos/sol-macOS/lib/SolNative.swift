@@ -2,9 +2,18 @@ import Foundation
 
 @objc(SolNative)
 class SolNative: RCTEventEmitter {
+  
   override init() {
     super.init()
     SolEmitter.sharedInstance.registerEmitter(emitter: self)
+  }
+  
+  @objc override func startObserving() {
+    SolEmitter.sharedInstance.hasListeners = true
+  }
+  
+  @objc override func stopObserving() {
+    SolEmitter.sharedInstance.hasListeners = false
   }
   
   @objc override static func requiresMainQueueSetup() -> Bool {
