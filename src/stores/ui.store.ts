@@ -243,6 +243,7 @@ end tell`)
     weatherApiKey: '' as string,
     weatherLat: '' as string,
     weatherLon: '' as string,
+    weatherLang: '' as string,
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -324,6 +325,9 @@ end tell`)
     },
     setWeatherLon: (lon: string) => {
       store.weatherLon = lon
+    },
+    setWeatherLang: (lang: string) => {
+      store.weatherLang = lang
     },
     setWeatherApiKey: (key: string) => {
       store.weatherApiKey = key
@@ -682,6 +686,7 @@ end tell`)
           store.weatherApiKey,
           store.weatherLat,
           store.weatherLon,
+          store.weatherLang
         ).then(res => {
           runInAction(() => {
             store.currentTemp = res?.temp ? Math.round(res.temp) : 0

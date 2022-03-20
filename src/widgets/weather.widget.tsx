@@ -55,6 +55,19 @@ export const WeatherWidget: FC<IProps> = observer(({style}) => {
             style={tw`w-full`}
           />
         </View>
+        <Text style={tw`pt-4`}>Language</Text>
+        <View
+            style={tw`w-full rounded border border-gray-500 dark:border-gray-700 bg-transparent px-2 py-2 mt-4`}>
+          <TextInput
+              autoFocus
+              // @ts-ignore
+              enableFocusRing={false}
+              value={store.ui.weatherLang}
+              onChangeText={store.ui.setWeatherLang}
+              placeholder="Language..."
+              style={tw`w-full`}
+          />
+        </View>
       </View>
     </View>
   )
