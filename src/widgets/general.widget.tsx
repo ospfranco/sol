@@ -44,13 +44,17 @@ export const GeneralWidget: FC<IProps> = observer(({style}) => {
           </Text>
         </>
       )}
-      <View style={tw`flex-1`} />
-      <Text style={tw`w-48 text-right`}>
-        <Text style={tw`text-xs font-bold`}>{store.ui.currentTemp}°</Text>{' '}
-        <Text style={tw`text-xs dark:text-gray-400 text-gray-600`}>
-          · {store.ui.nextHourForecast}
-        </Text>
-      </Text>
+      {!!store.ui.weatherApiKey && (
+        <>
+          <View style={tw`flex-1`} />
+          <Text style={tw`w-48 text-right`}>
+            <Text style={tw`text-xs font-bold`}>{store.ui.currentTemp}°</Text>{' '}
+            <Text style={tw`text-xs dark:text-gray-400 text-gray-600`}>
+              · {store.ui.nextHourForecast}
+            </Text>
+          </Text>
+        </>
+      )}
     </View>
   )
 })
