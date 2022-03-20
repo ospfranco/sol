@@ -5,6 +5,7 @@ import {useStore} from 'store'
 import {FocusableWidget} from 'stores'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
+import {AboutWidget} from 'widgets/about.widget'
 import {CalendarWidget} from 'widgets/calendar.widget'
 import {GeneralWidget} from 'widgets/general.widget'
 import {ProjectCreationWidget} from 'widgets/projectCreation.widget'
@@ -32,6 +33,10 @@ export const RootContainer = observer(() => {
 
   if (store.ui.focusedWidget === FocusableWidget.WEATHER_CONFIG) {
     return <WeatherWidget style={mainStyle} />
+  }
+
+  if (store.ui.focusedWidget === FocusableWidget.ABOUT) {
+    return <AboutWidget style={mainStyle} />
   }
 
   return (

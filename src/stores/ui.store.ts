@@ -51,6 +51,7 @@ export enum FocusableWidget {
   PROJECT_SELECT = 'PROJECT_SELECT',
   TRANSLATION = 'TRANSLATION',
   WEATHER_CONFIG = 'WEATHER_CONFIG',
+  ABOUT = 'ABOUT',
 }
 
 export enum ItemType {
@@ -204,6 +205,15 @@ end tell`)
       type: ItemType.CONFIGURATION,
       callback: () => {
         store.focusWidget(FocusableWidget.WEATHER_CONFIG)
+      },
+      preventClose: true,
+    },
+    {
+      iconImage: Assets.SolWhiteSmall,
+      name: 'About',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        store.focusWidget(FocusableWidget.ABOUT)
       },
       preventClose: true,
     },
@@ -516,7 +526,8 @@ end tell`)
             store.focusedWidget === FocusableWidget.PROJECT_SELECT ||
             store.focusedWidget === FocusableWidget.PROJECT_CREATION ||
             store.focusedWidget === FocusableWidget.TRANSLATION ||
-            store.focusedWidget === FocusableWidget.WEATHER_CONFIG
+            store.focusedWidget === FocusableWidget.WEATHER_CONFIG ||
+            store.focusedWidget === FocusableWidget.ABOUT
           ) {
             store.focusedWidget = FocusableWidget.SEARCH
             store.selectedIndex = 0
