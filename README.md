@@ -1,6 +1,6 @@
 <h1 align="center">SOL</h1>
 
-<h3 align="center">A macOS command palette</h3>
+<h3 align="center">A macOS launcher/command palette</h3>
 
 ![screenshot](https://raw.githubusercontent.com/ospfranco/sol/main/s.png)
 
@@ -16,30 +16,38 @@
 
 <br/>
 
-## Running this
-
-Things that are working:
-
-- Command + Space shortcut
-- Floating panel, that hides/shows correctly
-- Keyboard events, basic state handling (via mobx)
-- Some hardcoded code is in there for MY workflows
-- App search
-- Google translate
-- A basic calendar integration
-- A basic weather API integration
+## Download
 
 The latest release is on the root directory (Sol.zip)
 
+## Features
+
+- Command + Space shortcut
+- Floating panel
+- Keyboard events
+- App search
+- Google translate
+- Google translate
+- A basic calendar integration
+- A basic weather API integration
+- Some Applescript commands (sleep, dark mode, etc.)
+
+## Development
+
 `yarn && npx pod-install macos && yarn mac`
 
-In the mean time you can check out my other projects:
+## TODO
 
-- [Productlane](https://productlane.io)
+- [ ] Customize global shortcut
+- [ ] Customize language translation
+- [ ] Onboarding tutorial
+- [ ] Some sort of plugin system?
+
+## Other tools
+
+- [About me](https://ospfranco.com)
 - [Messer](https://messerapp.cc)
 - [CI Demon](https://cidemon.com)
-
-I'll continue iterating on this on my free time but only for my own usage
 
 ## License
 
