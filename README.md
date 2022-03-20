@@ -1,3 +1,5 @@
+![logo](https://raw.githubusercontent.com/ospfranco/sol/main/logoRound.png)
+
 <h1 align="center">SOL</h1>
 
 <h3 align="center">A macOS launcher/command palette</h3>
@@ -15,6 +17,10 @@
 </div>
 
 <br/>
+
+## About
+
+If you ever liked tools like Raycast and Alfred, but wanted to own them and tweak them yourself, then SOL is the tool for you. All the affordances of complex tools now made open source.
 
 ## Download
 
