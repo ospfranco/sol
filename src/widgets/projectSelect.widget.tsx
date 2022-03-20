@@ -100,7 +100,9 @@ export const ProjectSelectWidget: FC<IProps> = observer(({style}) => {
                   'bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-20 border-buttonBorder dark:border-darkBorder':
                     selectedIndex === index,
                 },
-              )}>
+              )}
+              key={index}
+            >
               <View style={tw`flex-row items-center`}>
                 <Text style={tw`flex-1`}>{item.name}</Text>
                 <Text style={tw`font-medium text-sm w-20`}>
