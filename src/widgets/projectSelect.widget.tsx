@@ -6,6 +6,16 @@ import {useStore} from 'store'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
 
+const DAY_WEEK_TO_TEXT = {
+  0: 'Mo',
+  1: 'Tu',
+  2: 'We',
+  3: 'Th',
+  4: 'Fr',
+  5: 'Sa',
+  6: 'Su',
+}
+
 interface IProps {
   style?: StyleProp<ViewStyle>
 }
@@ -17,10 +27,15 @@ export const ProjectSelectWidget: FC<IProps> = observer(({style}) => {
   const selectedIndex = store.ui.selectedIndex
 
   const lNow = DateTime.now()
-  const last30Days = new Array(90)
-    .fill(0)
-    .map((_, index) => lNow.minus({days: index}))
-    .reverse()
+  const lThreeMonthsAgo = lNow.minus({month: 3}).startOf('week')
+  let lastDays: DateTime[] = []
+  let ii = 0
+  while (
+    Math.floor(lNow.diff(lThreeMonthsAgo.plus({days: ii}), 'days').days) >= 0
+  ) {
+    lastDays.push(lThreeMonthsAgo.plus({day: ii}))
+    ii = ii + 1
+  }
 
   return (
     <View
@@ -118,14 +133,28 @@ export const ProjectSelectWidget: FC<IProps> = observer(({style}) => {
                 </Text>
               </View>
               {selected && (
-                <View style={tw`h-32 mt-4 flex-wrap`}>
-                  {last30Days.map(lDate => {
+                <View style={tw`h-[154px] mt-4 flex-wrap`}>
+                  {new Array(7).fill(0).map((day, idx) => {
+                    return (
+                      <View
+                        style={tw`h-[20px] pb-[3px] w-10 pr-[3px]`}
+                        key={`label-${idx}`}>
+                        <Text style={tw`text-xs text-right pr-2`}>
+                          {/* @ts-ignore */}
+                          {DAY_WEEK_TO_TEXT[idx]}
+                        </Text>
+                      </View>
+                    )
+                  })}
+                  {lastDays.map((lDate, idx) => {
                     const entry = aggregation[lDate.startOf('day').toMillis()]
                     if (!entry) {
                       return (
-                        <View style={tw`h-5 pb-1 w-10 pr-1`}>
+                        <View
+                          style={tw`h-[20px] pb-[3px] w-10 pr-[3px]`}
+                          key={idx}>
                           <View
-                            style={tw`w-full h-full border-gray-600 rounded-sm bg-gray-900`}
+                            style={tw`w-full h-full border-gray-600 rounded-sm bg-gray-400 dark:bg-gray-900`}
                           />
                         </View>
                       )
@@ -134,9 +163,9 @@ export const ProjectSelectWidget: FC<IProps> = observer(({style}) => {
                     const monthIndex = Math.floor(
                       lNow.diff(lDate, 'months').months,
                     )
-                    // console.warn('monthIndex', monthIndex, entry)
 
                     let baseColor = 'indigo'
+
                     if (monthIndex === 1) {
                       baseColor = 'blue'
                     }
@@ -162,13 +191,15 @@ export const ProjectSelectWidget: FC<IProps> = observer(({style}) => {
                     }
 
                     return (
-                      <View style={tw`h-5 pb-1 w-10 pr-1`}>
+                      <View
+                        style={tw`h-[20px] pb-[3px] w-10 pr-[3px]`}
+                        key={idx}>
                         <View
                           style={tw.style(
-                            `w-full h-full rounded-sm items-center justify-center`,
+                            `w-full h-full rounded-sm items-center justify-center `,
                             bgColor,
                           )}>
-                          <Text style={tw`text-xs pb-2`}>
+                          <Text style={tw`text-xs pb-2 text-white`}>
                             {Math.floor(entry.time / 60)}:
                             {Math.round(entry.time % 60)}
                           </Text>
@@ -178,59 +209,6 @@ export const ProjectSelectWidget: FC<IProps> = observer(({style}) => {
                   })}
                 </View>
               )}
-              {/* {selected && (
-                <View style={tw`h-32 flex-row mt-4`}>
-                  <View
-                    style={tw`border-gray-400 dark:border-gray-600 flex-1 flex-row`}>
-                    {last30Days.map(lDate => {
-                      const entry = aggregation[lDate.startOf('day').toMillis()]
-
-                      if (!entry) {
-                        return (
-                          <View
-                            key={lDate.toISO()}
-                            style={tw`h-full items-center`}>
-                            <View
-                              style={tw`flex-1 border-b w-6 border-gray-600`}
-                            />
-                            <Text
-                              style={tw`text-xs dark:text-gray-400 text-center`}>
-                              {lDate.toFormat('dd')}
-                            </Text>
-                          </View>
-                        )
-                      }
-
-                      return (
-                        <View
-                          style={tw`h-full items-center`}
-                          key={lDate.toISO()}>
-                          <View style={tw`flex-1`} />
-                          <View
-                            style={tw`w-6 border-b border-gray-600 items-center`}>
-                            <Text style={tw`text-xs pb-2`}>
-                              {Math.floor(entry.time / 60)}:
-                              {Math.round(entry.time % 60)}
-                            </Text>
-                            <View
-                              style={tw`w-2 h-2 rounded-full bg-indigo-600`}
-                            />
-                            <View
-                              style={tw.style(`w-[1px] bg-indigo-600`, {
-                                height: Math.ceil(entry.time / 60) * 7,
-                              })}
-                            />
-                          </View>
-                          <Text
-                            style={tw`text-xs dark:text-gray-400 text-center`}>
-                            {entry.date.toFormat('dd')}
-                          </Text>
-                        </View>
-                      )
-                    })}
-                  </View>
-                </View>
-              )} */}
             </View>
           )
         }}
