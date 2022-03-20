@@ -1,7 +1,7 @@
 <div align="center">
   <img src="https://raw.githubusercontent.com/ospfranco/sol/main/logoRound.png" height="120" align="center"/>
 </div>
-<h1 align="center" style="margin-top: 30px;">SOL</h1>
+<h1 align="center" style="margin-top: 30px; border-bottom:0;">SOL</h1>
 
 <h3 align="center">A macOS launcher/command palette</h3>
 
