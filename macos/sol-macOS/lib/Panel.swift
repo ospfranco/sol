@@ -2,7 +2,7 @@ import Foundation
 
 final class Panel: NSPanel {
     init(contentRect: NSRect, backing: NSWindow.BackingStoreType, defer flag: Bool) {
-      super.init(contentRect: contentRect, styleMask: [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView], backing: backing, defer: flag)
+      super.init(contentRect: contentRect, styleMask: [.titled, .closable, .miniaturizable, .fullSizeContentView], backing: backing, defer: flag)
       
       self.isFloatingPanel = true
       self.level = .floating
