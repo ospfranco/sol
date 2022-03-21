@@ -392,6 +392,14 @@ end tell`)
       }
       store.query = ''
     },
+    deleteTrackingProject: (id: string) => {
+      if (store.currentlyTrackedProjectId === id) {
+        store.stopTrackingProject()
+      }
+      const projects = store.projects.filter(p => p.id !== id)
+      store.projects = projects
+      store.query = ''
+    },
     stopTrackingProject: () => {
       const foundIndex = store.projects.findIndex(
         p => p.id === store.currentlyTrackedProjectId,
@@ -519,6 +527,7 @@ end tell`)
             }
 
             case FocusableWidget.PROJECT_SELECT: {
+              if(store.projects.length === 0) break
               const id = store.projects[store.selectedIndex].id
               store.trackProject(id)
               store.focusedWidget = FocusableWidget.SEARCH
@@ -576,6 +585,24 @@ end tell`)
                 item.callback()
               }
 
+              break
+            }
+          }
+
+          break
+        }
+
+        // delete key
+        case 51: {
+          switch (store.focusedWidget) {
+            case FocusableWidget.PROJECT_SELECT: {
+              if(store.projects.length === 0) break
+              const id = store.projects[store.selectedIndex].id
+              store.deleteTrackingProject(id)
+              store.focusedWidget = FocusableWidget.PROJECT_SELECT
+              let selectedIndex = store.selectedIndex - 1
+              store.selectedIndex = selectedIndex < 1 ? 0 : selectedIndex
+              store.query = ''
               break
             }
           }
