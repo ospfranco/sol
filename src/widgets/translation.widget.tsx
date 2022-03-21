@@ -1,13 +1,7 @@
+import {Input} from 'components/Input'
 import {observer} from 'mobx-react-lite'
-import React, {FC, useState} from 'react'
-import {
-  ActivityIndicator,
-  StyleProp,
-  Text,
-  TextInput,
-  View,
-  ViewStyle,
-} from 'react-native'
+import React, {FC} from 'react'
+import {ActivityIndicator, StyleProp, Text, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
@@ -32,7 +26,7 @@ export const TranslationWidget: FC<IProps> = observer(({style}) => {
           style={tw.style(
             `px-3 pt-2 pb-3 flex-row border-b border-lightBorder dark:border-darkBorder`,
           )}>
-          <TextInput
+          <Input
             autoFocus
             // @ts-ignore
             enableFocusRing={false}

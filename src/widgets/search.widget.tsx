@@ -1,6 +1,7 @@
 import {Assets} from 'assets'
 import {Fade} from 'components/Fade'
 import {FileIcon} from 'components/FileIcon'
+import {Input} from 'components/Input'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect, useRef} from 'react'
 import {
@@ -9,7 +10,6 @@ import {
   FlatList,
   Image,
   Text,
-  TextInput,
   View,
   ViewStyle,
 } from 'react-native'
@@ -46,7 +46,7 @@ export const SearchWidget: FC<IProps> = observer(({style}) => {
   const colorScheme = Appearance.getColorScheme()
   const store = useStore()
   const focused = store.ui.focusedWidget === FocusableWidget.SEARCH
-  const inputRef = useRef<TextInput | null>(null)
+  const inputRef = useRef<any | null>(null)
   const listRef = useRef<FlatList | null>(null)
 
   useEffect(() => {
@@ -63,7 +63,7 @@ export const SearchWidget: FC<IProps> = observer(({style}) => {
       <View style={tw`pt-2`}>
         <View
           style={tw`px-3 pt-2 pb-3 flex-row border-b border-lightBorder dark:border-darkBorder relative`}>
-          <TextInput
+          <Input
             autoFocus
             // @ts-ignore
             enableFocusRing={false}

@@ -1,6 +1,7 @@
+import {Input} from 'components/Input'
 import {observer} from 'mobx-react-lite'
 import React, {FC} from 'react'
-import {Text, TextInput, View, ViewStyle} from 'react-native'
+import {Text, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
@@ -19,7 +20,7 @@ export const ProjectCreationWidget: FC<IProps> = observer(({style}) => {
         <Text style={tw`font-medium`}>Create Tracking Project</Text>
         <View
           style={tw`w-full rounded border border-gray-500 dark:border-gray-700 bg-transparent px-2 py-2 mt-4`}>
-          <TextInput
+          <Input
             autoFocus
             // @ts-ignore
             enableFocusRing={false}

@@ -2,7 +2,6 @@ import Foundation
 import Cocoa
 import HotKey
 import EventKit
-// import LaunchAtLogin
 
 let handledKeys: [UInt16] = [53, 126, 125, 36, 48]
 let numberchars: [String] = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
@@ -14,7 +13,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   let hotKey = HotKey(key: .space, modifiers: [.command])
   
   func applicationDidFinishLaunching(_ aNotification: Notification) {
-    // LaunchAtLogin.isEnabled = true
     hotKey.keyDownHandler = toggleWindow
 
     let jsCodeLocation: URL = RCTBundleURLProvider.sharedSettings().jsBundleURL(forBundleRoot: "index", fallbackResource:"main")
