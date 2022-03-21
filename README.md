@@ -45,7 +45,7 @@ Get the latest versions from the [releases page](https://github.com/ospfranco/so
 
 ## TODO
 
-- [ ] Customize global shortcut
+- [x] Customize global shortcut
 - [ ] Customize language translation
 - [ ] Onboarding tutorial
 - [ ] Some sort of plugin system?
