@@ -92,11 +92,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   }
   
   func setGlobalShortcut(_ key: String) {
+    self.hotKey.isPaused = true
     if(key == "command") {
-      self.hotKey = HotKey(key: .space, modifiers: [.command])
+      self.hotKey = HotKey(key: .space, modifiers: [.command], keyDownHandler: toggleWindow)
     } else {
-      self.hotKey = HotKey(key: .space, modifiers: [.option])
+      self.hotKey = HotKey(key: .space, modifiers: [.option], keyDownHandler: toggleWindow)
     }
-    hotKey.keyDownHandler = toggleWindow
   }
 }
