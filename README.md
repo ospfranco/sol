@@ -35,7 +35,6 @@ The latest release is on the root directory (Sol.zip)
 - Keyboard events
 - App search
 - Google translate
-- Google translate
 - A basic calendar integration
 - A basic weather API integration
 - Some Applescript commands (sleep, dark mode, etc.)
