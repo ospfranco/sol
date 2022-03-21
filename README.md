@@ -49,6 +49,7 @@ The latest release is on the root directory (Sol.zip)
 - [ ] Customize language translation
 - [ ] Onboarding tutorial
 - [ ] Some sort of plugin system?
+- [ ] This being built on React Native means it is possible to make it compatible to Windows (and maybe Linux?), looking for help there
 
 ## Other tools
 
