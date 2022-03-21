@@ -26,7 +26,7 @@ If you ever liked tools like Raycast and Alfred, but wanted to own them and twea
 
 ## Download
 
-The latest release is on the root directory (Sol.zip)
+Get the latest versions from the [releases page](https://github.com/ospfranco/sol/releases)
 
 ## Features
 
