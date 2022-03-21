@@ -16,11 +16,11 @@ const DAY_WEEK_TO_TEXT = {
   6: 'Su',
 }
 
-interface IProps {
+interface Props {
   style?: StyleProp<ViewStyle>
 }
 
-export const ProjectSelectWidget: FC<IProps> = observer(({style}) => {
+export const ProjectSelectWidget: FC<Props> = observer(({style}) => {
   useDeviceContext(tw)
   const store = useStore()
 

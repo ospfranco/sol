@@ -8,6 +8,7 @@ import {useDeviceContext} from 'twrnc'
 import {AboutWidget} from 'widgets/about.widget'
 import {CalendarWidget} from 'widgets/calendar.widget'
 import {GeneralWidget} from 'widgets/general.widget'
+import {OnboardingWidget} from 'widgets/onboarding.widget'
 import {ProjectCreationWidget} from 'widgets/projectCreation.widget'
 import {ProjectSelectWidget} from 'widgets/projectSelect.widget'
 import {SearchWidget} from 'widgets/search.widget'
@@ -18,6 +19,13 @@ export const RootContainer = observer(() => {
   useDeviceContext(tw)
   const store = useStore()
   const mainStyle = tw`bg-gray-100 dark:bg-black bg-opacity-70 dark:bg-opacity-50 flex-1`
+
+  if (
+    store.ui.onboardingStep !== 'v1_skipped' &&
+    store.ui.onboardingStep !== 'v1_completed'
+  ) {
+    return <OnboardingWidget style={mainStyle} />
+  }
 
   if (store.ui.focusedWidget === FocusableWidget.PROJECT_CREATION) {
     return <ProjectCreationWidget style={mainStyle} />

@@ -23,6 +23,7 @@ class SolNative extends NativeEventEmitter {
   getMediaInfo: () => Promise<
     {title: string; artist: string; artwork: string} | null | undefined
   >
+  setGlobalShortcut: (key: 'command' | 'option') => void
 
   constructor(nativeModule: any) {
     super(nativeModule)
@@ -35,6 +36,7 @@ class SolNative extends NativeEventEmitter {
     this.executeAppleScript = nativeModule.executeAppleScript
     this.openWithFinder = nativeModule.openWithFinder
     this.getMediaInfo = nativeModule.getMediaInfo
+    this.setGlobalShortcut = nativeModule.setGlobalShortcut
   }
 }
 

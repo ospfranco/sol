@@ -45,6 +45,7 @@ const MEETING_PROVIDERS_URLS = [
 ]
 
 export enum FocusableWidget {
+  ONBOARDING = 'ONBOARDING',
   SEARCH = 'SEARCH',
   CALENDAR = 'CALENDAR',
   PROJECT_CREATION = 'PROJECT_CREATION',
@@ -106,6 +107,13 @@ function extractLinkFromDescription(text?: string, location?: string) {
   return link
 }
 
+type OnboardingStep =
+  | 'v1_start'
+  | 'v1_shortcut'
+  | 'v1_quick_actions'
+  | 'v1_skipped'
+  | 'v1_completed'
+
 export let createUIStore = (root: IRootStore) => {
   const persist = async () => {
     const plainState = toJS(store)
@@ -126,6 +134,14 @@ export let createUIStore = (root: IRootStore) => {
         store.weatherApiKey = parsedStore.weatherApiKey
         store.weatherLat = parsedStore.weatherLat
         store.weatherLon = parsedStore.weatherLon
+        store.onboardingStep = parsedStore.onboardingStep
+
+        if (
+          store.onboardingStep !== 'v1_completed' &&
+          store.onboardingStep !== 'v1_skipped'
+        ) {
+          store.focusedWidget = FocusableWidget.ONBOARDING
+        }
       })
     }
   }
@@ -219,6 +235,19 @@ end tell`)
     },
   ]
 
+  if (__DEV__) {
+    SETTING_ITEMS.push({
+      icon: '🐣',
+      name: 'Restart onboarding',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        store.onboardingStep = 'v1_start'
+        store.focusWidget(FocusableWidget.ONBOARDING)
+      },
+      preventClose: true,
+    })
+  }
+
   let store = makeAutoObservable({
     //    ____  _                              _     _
     //   / __ \| |                            | |   | |
@@ -226,6 +255,8 @@ end tell`)
     //  | |  | | '_ \/ __|/ _ \ '__\ \ / / _` | '_ \| |/ _ \/ __|
     //  | |__| | |_) \__ \  __/ |   \ V / (_| | |_) | |  __/\__ \
     //   \____/|_.__/|___/\___|_|    \_/ \__,_|_.__/|_|\___||___/
+    onboardingStep: 'v1_start' as OnboardingStep,
+    globalShorcut: 'command' as 'command' | 'option',
     now: DateTime.now() as DateTime,
     visible: false as boolean,
     query: '' as string,
@@ -329,6 +360,13 @@ end tell`)
     //    / /\ \ / __| __| |/ _ \| '_ \/ __|
     //   / ____ \ (__| |_| | (_) | | | \__ \
     //  /_/    \_\___|\__|_|\___/|_| |_|___/
+    setOnboardingStep: (step: OnboardingStep) => {
+      store.onboardingStep = step
+    },
+    setGlobalShortcut: (key: 'command' | 'option') => {
+      solNative.setGlobalShortcut(key)
+      store.globalShorcut = key
+    },
     setWeatherLat: (lat: string) => {
       store.weatherLat = lat
     },
@@ -450,6 +488,31 @@ end tell`)
         // Enter key
         case 36: {
           switch (store.focusedWidget) {
+            case FocusableWidget.ONBOARDING: {
+              switch (store.onboardingStep) {
+                case 'v1_start': {
+                  store.onboardingStep = 'v1_shortcut'
+                  break
+                }
+
+                case 'v1_shortcut': {
+                  if (store.selectedIndex === 0) {
+                    store.setGlobalShortcut('command')
+                  } else {
+                    store.setGlobalShortcut('option')
+                  }
+                  store.onboardingStep = 'v1_quick_actions'
+                  break
+                }
+
+                case 'v1_quick_actions': {
+                  store.onboardingStep = 'v1_completed'
+                  break
+                }
+              }
+              break
+            }
+
             case FocusableWidget.PROJECT_CREATION: {
               store.createTrackingProject()
               break
@@ -522,38 +585,36 @@ end tell`)
 
         // esc key
         case 53: {
-          if (
-            store.focusedWidget === FocusableWidget.PROJECT_SELECT ||
-            store.focusedWidget === FocusableWidget.PROJECT_CREATION ||
-            store.focusedWidget === FocusableWidget.TRANSLATION ||
-            store.focusedWidget === FocusableWidget.WEATHER_CONFIG ||
-            store.focusedWidget === FocusableWidget.ABOUT
-          ) {
-            store.focusedWidget = FocusableWidget.SEARCH
-            store.selectedIndex = 0
-            store.query = ''
+          if (store.focusedWidget === FocusableWidget.SEARCH) {
+            solNative.hideWindow()
             return
           }
 
-          if (store.query && store.translationResults) {
-            store.query = ''
-            store.translationResults = null
-          } else {
-            store.focusedWidget = FocusableWidget.SEARCH
-            solNative.hideWindow()
-          }
+          store.focusedWidget = FocusableWidget.SEARCH
+          store.selectedIndex = 0
+          store.query = ''
+
           break
         }
 
-        // arrow up
+        // up key
         case 126: {
           store.selectedIndex = Math.max(0, store.selectedIndex - 1)
           break
         }
 
-        // arrow down
+        // down key
         case 125: {
           switch (store.focusedWidget) {
+            case FocusableWidget.ONBOARDING: {
+              switch (store.onboardingStep) {
+                case 'v1_shortcut': {
+                  store.selectedIndex = Math.min(1, store.selectedIndex + 1)
+                }
+              }
+              break
+            }
+
             case FocusableWidget.SEARCH: {
               store.selectedIndex = Math.min(
                 store.items.length - 1,
@@ -735,6 +796,7 @@ end tell`)
 
   hydrate().then(() => {
     autorun(persist)
+    solNative.setGlobalShortcut(store.globalShorcut)
   })
 
   solNative.addListener('keyDown', store.keyDown)

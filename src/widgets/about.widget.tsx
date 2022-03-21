@@ -2,18 +2,16 @@ import {Assets} from 'assets'
 import {observer} from 'mobx-react-lite'
 import React, {FC} from 'react'
 import {Appearance, Image, Text, View, ViewStyle} from 'react-native'
-import {useStore} from 'store'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
 
-interface IProps {
+interface Props {
   style?: ViewStyle
 }
 
-export const AboutWidget: FC<IProps> = observer(({style}) => {
+export const AboutWidget: FC<Props> = observer(({style}) => {
   const colorScheme = Appearance.getColorScheme()
   useDeviceContext(tw)
-  const store = useStore()
 
   return (
     <View

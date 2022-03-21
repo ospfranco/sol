@@ -37,11 +37,11 @@ const Snack = ({title, index}: {title: string; index: number}) => {
   )
 }
 
-interface IProps {
+interface Props {
   style?: ViewStyle
 }
 
-export const SearchWidget: FC<IProps> = observer(({style}) => {
+export const SearchWidget: FC<Props> = observer(({style}) => {
   useDeviceContext(tw)
   const colorScheme = Appearance.getColorScheme()
   const store = useStore()

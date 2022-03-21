@@ -1,9 +1,9 @@
 import React, {FC} from 'react'
 import {Appearance, TextInput, TextInputProps} from 'react-native'
 
-interface IProps extends TextInputProps {}
+interface Props extends TextInputProps {}
 
-export const Input: FC<IProps> = props => {
+export const Input: FC<Props> = props => {
   const colorScheme = Appearance.getColorScheme()
   return (
     <TextInput

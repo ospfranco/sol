@@ -6,11 +6,11 @@ import {useStore} from 'store'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
 
-interface IProps {
+interface Props {
   style?: StyleProp<ViewStyle>
 }
 
-export const TranslationWidget: FC<IProps> = observer(({style}) => {
+export const TranslationWidget: FC<Props> = observer(({style}) => {
   useDeviceContext(tw)
   const store = useStore()
 

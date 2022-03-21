@@ -1,17 +1,24 @@
 import React, {FC, useEffect, useRef} from 'react'
 import {Animated, ViewProps, ViewStyle} from 'react-native'
 
-interface IProps extends ViewProps {
+interface Props extends ViewProps {
   visible: boolean
   style?: ViewStyle
+  duration?: number
 }
 
-export const Fade: FC<IProps> = ({visible, style, children, ...rest}) => {
-  const visibilityRef = useRef(new Animated.Value(visible ? 1 : 0))
+export const Fade: FC<Props> = ({
+  visible,
+  style,
+  children,
+  duration = 100,
+  ...rest
+}) => {
+  const visibilityRef = useRef(new Animated.Value(0))
   useEffect(() => {
     Animated.timing(visibilityRef.current, {
       toValue: visible ? 1 : 0,
-      duration: 100,
+      duration: duration,
       useNativeDriver: true,
     }).start()
   }, [visible])

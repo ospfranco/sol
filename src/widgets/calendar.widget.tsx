@@ -9,11 +9,11 @@ import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
 import inbox from '../assets/inbox.png'
 
-interface IProps {
+interface Props {
   style?: ViewStyle
 }
 
-export const CalendarWidget: FC<IProps> = observer(({style}) => {
+export const CalendarWidget: FC<Props> = observer(({style}) => {
   useDeviceContext(tw)
   const store = useStore()
   const focused = store.ui.focusedWidget === FocusableWidget.CALENDAR

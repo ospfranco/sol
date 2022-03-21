@@ -4,11 +4,11 @@ import {Text, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
 import tw from 'tailwind'
 
-interface IProps {
+interface Props {
   style?: ViewStyle
 }
 
-export const GeneralWidget: FC<IProps> = observer(({style}) => {
+export const GeneralWidget: FC<Props> = observer(({style}) => {
   const store = useStore()
 
   return (

@@ -10,7 +10,7 @@ let numberchars: [String] = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate  {
   
   var mainWindow: Panel!
-  let hotKey = HotKey(key: .space, modifiers: [.command])
+  var hotKey = HotKey(key: .space, modifiers: [.command])
   
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     hotKey.keyDownHandler = toggleWindow
@@ -60,6 +60,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
       return $0
     }
+    
+    showWindow()
   }
   
   func toggleWindow() {
@@ -87,5 +89,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     NSApp.hide(self)
     NSCursor.unhide()
     SolEmitter.sharedInstance.onHide()
+  }
+  
+  func setGlobalShortcut(_ key: String) {
+    if(key == "command") {
+      self.hotKey = HotKey(key: .space, modifiers: [.command])
+    } else {
+      self.hotKey = HotKey(key: .space, modifiers: [.option])
+    }
+    hotKey.keyDownHandler = toggleWindow
   }
 }

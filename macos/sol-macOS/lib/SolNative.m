@@ -11,4 +11,5 @@ RCT_EXTERN_METHOD(openWithFinder: (NSString)path)
 RCT_EXTERN_METHOD(toggleDarkMode)
 RCT_EXTERN_METHOD(executeAppleScript: (NSString)source)
 RCT_EXTERN_METHOD(getMediaInfo: (RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+RCT_EXTERN_METHOD(setGlobalShortcut: (NSString)key)
 @end

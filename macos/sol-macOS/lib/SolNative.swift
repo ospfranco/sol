@@ -85,4 +85,11 @@ class SolNative: RCTEventEmitter {
       ])
     })
   }
+  
+  @objc func setGlobalShortcut(_ key: String) {
+    DispatchQueue.main.async {
+      let appDelegate = NSApp.delegate as? AppDelegate
+      appDelegate?.setGlobalShortcut(key)
+    }
+  }
 }
