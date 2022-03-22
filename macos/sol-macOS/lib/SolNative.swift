@@ -35,8 +35,8 @@ class SolNative: RCTEventEmitter {
     ]
   }
   
-  @objc func getNextEvents(_ resolve: @escaping  RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) {
-    resolve(CalendarHelper.sharedInstance.getNextEvents())
+  @objc func getNextEvents(_ query: String?, resolver resolve: @escaping  RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) {
+    resolve(CalendarHelper.sharedInstance.getNextEvents(query))
   }
   
   @objc func hideWindow() {

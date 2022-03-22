@@ -22,7 +22,7 @@ class SolNative extends NativeEventEmitter {
   openFile: (path: string) => void
   openWithFinder: (path: string) => void
   hideWindow: () => void
-  getNextEvents: () => Promise<INativeEvent[]>
+  getNextEvents: (query?: string) => Promise<INativeEvent[]>
   getApps: () => Promise<string[]>
   toggleDarkMode: () => void
   executeAppleScript: (source: string) => void

@@ -450,6 +450,19 @@ end tell`)
       } catch (e) {
         store.temporaryResult = null
       }
+
+      solNative.getNextEvents(query).then(events => {
+        events = events.filter(
+          v =>
+            v.title?.toLowerCase().includes(store.query.toLowerCase()) ??
+            v.notes?.toLowerCase().includes(store.query.toLowerCase()) ??
+            false,
+        )
+
+        runInAction(() => {
+          store.events = events
+        })
+      })
     },
     keyDown: async ({
       keyCode,
@@ -748,7 +761,7 @@ end tell`)
       })
 
       solNative
-        .getNextEvents()
+        .getNextEvents(store.query)
         .then(events => {
           runInAction(() => {
             store.events = events

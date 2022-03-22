@@ -16,7 +16,7 @@ class CalendarHelper {
     }
   }
   
-  func getNextEvents() -> Any? {
+  func getNextEvents(_ query: String?) -> Any? {
     let eventAuthorizationStatus = EKEventStore.authorizationStatus(for: .event)
     if(eventAuthorizationStatus != .authorized) {
       return []
@@ -25,7 +25,7 @@ class CalendarHelper {
     let calendars = store.calendars(for: .event)
     
     let now = Date()
-    let aWeekFromNow = Date(timeIntervalSinceNow: 7*24*3600)
+    let aWeekFromNow = Date(timeIntervalSinceNow: query != nil ?  6 * 7 * 24 * 3600 : 7*24*3600)
     let predicate = store.predicateForEvents(withStart: now, end: aWeekFromNow, calendars: calendars)
     let events = store.events(matching: predicate)
     
