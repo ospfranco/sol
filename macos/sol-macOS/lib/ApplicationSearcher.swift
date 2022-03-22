@@ -10,8 +10,9 @@ class ApplicationSearcher: NSObject {
     let localApplicationUrls = getApplicationUrlsAt(directory: .applicationDirectory, domain: .localDomainMask)
     let systemApplicationsUrls = getApplicationUrlsAt(directory: .applicationDirectory, domain: .systemDomainMask)
     let systemUtilitiesUrls = getApplicationUrlsAt(directory: .applicationDirectory, domain: .systemDomainMask, subpath: "/Utilities")
+    let personalApplicationUrls = getApplicationUrlsAt(directory: .applicationDirectory, domain: .userDomainMask)
     
-    let allApplicationUrls = localApplicationUrls + systemApplicationsUrls + systemUtilitiesUrls + fixedApps
+    let allApplicationUrls = localApplicationUrls + systemApplicationsUrls + systemUtilitiesUrls + personalApplicationUrls + fixedApps
 
     var applications = [Application]()
     

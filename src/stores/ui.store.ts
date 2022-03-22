@@ -122,8 +122,6 @@ export let createUIStore = (root: IRootStore) => {
   }
 
   let hydrate = async () => {
-    console.warn('hydrating!')
-
     const storeState = await AsyncStorage.getItem('@ui.store')
 
     if (storeState) {
