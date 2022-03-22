@@ -64,8 +64,7 @@ export enum FocusableWidget {
   PROJECT_CREATION = 'PROJECT_CREATION',
   PROJECT_SELECT = 'PROJECT_SELECT',
   TRANSLATION = 'TRANSLATION',
-  WEATHER_CONFIG = 'WEATHER_CONFIG',
-  ABOUT = 'ABOUT',
+  SETTINGS = 'SETTINGS',
 }
 
 export enum ItemType {
@@ -233,15 +232,6 @@ end tell`)
       },
     },
     {
-      icon: '🌧',
-      name: 'Weather configuration',
-      type: ItemType.CONFIGURATION,
-      callback: () => {
-        store.focusWidget(FocusableWidget.WEATHER_CONFIG)
-      },
-      preventClose: true,
-    },
-    {
       iconComponent: () => {
         const colorScheme = Appearance.getColorScheme()
 
@@ -254,10 +244,10 @@ end tell`)
           />
         )
       },
-      name: 'About',
+      name: 'Settings',
       type: ItemType.CONFIGURATION,
       callback: () => {
-        store.focusWidget(FocusableWidget.ABOUT)
+        store.focusWidget(FocusableWidget.SETTINGS)
       },
       preventClose: true,
     },

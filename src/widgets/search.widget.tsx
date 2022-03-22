@@ -1,7 +1,6 @@
 import {Assets} from 'assets'
 import {Fade} from 'components/Fade'
 import {FileIcon} from 'components/FileIcon'
-import {Input} from 'components/Input'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect, useRef} from 'react'
 import {
@@ -10,6 +9,7 @@ import {
   FlatList,
   Image,
   Text,
+  TextInput,
   View,
   ViewStyle,
 } from 'react-native'
@@ -63,7 +63,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
       <View style={tw`pt-2`}>
         <View
           style={tw`px-3 pt-2 pb-3 flex-row border-b border-lightBorder dark:border-darkBorder relative`}>
-          <Input
+          <TextInput
             autoFocus
             // @ts-ignore
             enableFocusRing={false}

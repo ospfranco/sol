@@ -5,15 +5,14 @@ import {useStore} from 'store'
 import {FocusableWidget} from 'stores'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
-import {AboutWidget} from 'widgets/about.widget'
 import {CalendarWidget} from 'widgets/calendar.widget'
 import {GeneralWidget} from 'widgets/general.widget'
 import {OnboardingWidget} from 'widgets/onboarding.widget'
 import {ProjectCreationWidget} from 'widgets/projectCreation.widget'
 import {ProjectSelectWidget} from 'widgets/projectSelect.widget'
 import {SearchWidget} from 'widgets/search.widget'
+import {SettingsWidget} from 'widgets/settings.widget'
 import {TranslationWidget} from 'widgets/translation.widget'
-import {WeatherWidget} from 'widgets/weather.widget'
 
 export const RootContainer = observer(() => {
   useDeviceContext(tw)
@@ -36,12 +35,8 @@ export const RootContainer = observer(() => {
     return <TranslationWidget style={mainStyle} />
   }
 
-  if (store.ui.focusedWidget === FocusableWidget.WEATHER_CONFIG) {
-    return <WeatherWidget style={mainStyle} />
-  }
-
-  if (store.ui.focusedWidget === FocusableWidget.ABOUT) {
-    return <AboutWidget style={mainStyle} />
+  if (store.ui.focusedWidget === FocusableWidget.SETTINGS) {
+    return <SettingsWidget style={mainStyle} />
   }
 
   return (

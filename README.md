@@ -47,7 +47,7 @@ Get the latest versions from the [releases page](https://github.com/ospfranco/so
 
 - [x] Customize global shortcut
 - [ ] Customize language translation
-- [ ] Onboarding tutorial
+- [x] Onboarding tutorial
 - [ ] Some sort of plugin system?
 - [ ] This being built on React Native means it is possible to make it compatible to Windows (and maybe Linux?), looking for help there
 
