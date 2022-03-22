@@ -20,10 +20,7 @@ export const RootContainer = observer(() => {
   const store = useStore()
   const mainStyle = tw`bg-gray-100 dark:bg-black bg-opacity-70 dark:bg-opacity-50 flex-1`
 
-  if (
-    store.ui.onboardingStep !== 'v1_skipped' &&
-    store.ui.onboardingStep !== 'v1_completed'
-  ) {
+  if (store.ui.focusedWidget === FocusableWidget.ONBOARDING) {
     return <OnboardingWidget style={mainStyle} />
   }
 

@@ -122,6 +122,8 @@ export let createUIStore = (root: IRootStore) => {
   }
 
   let hydrate = async () => {
+    console.warn('hydrating!')
+
     const storeState = await AsyncStorage.getItem('@ui.store')
 
     if (storeState) {
@@ -135,7 +137,6 @@ export let createUIStore = (root: IRootStore) => {
         store.weatherLat = parsedStore.weatherLat
         store.weatherLon = parsedStore.weatherLon
         store.onboardingStep = parsedStore.onboardingStep
-
         if (
           store.onboardingStep !== 'v1_completed' &&
           store.onboardingStep !== 'v1_skipped'
@@ -143,6 +144,8 @@ export let createUIStore = (root: IRootStore) => {
           store.focusedWidget = FocusableWidget.ONBOARDING
         }
       })
+    } else {
+      store.focusedWidget = FocusableWidget.ONBOARDING
     }
   }
 
@@ -507,6 +510,7 @@ end tell`)
 
                 case 'v1_quick_actions': {
                   store.onboardingStep = 'v1_completed'
+                  store.focusWidget(FocusableWidget.SEARCH)
                   break
                 }
               }

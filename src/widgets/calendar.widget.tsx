@@ -2,12 +2,11 @@ import {INativeEvent} from 'lib/SolNative'
 import {DateTime} from 'luxon'
 import {observer} from 'mobx-react-lite'
 import React, {FC} from 'react'
-import {Image, Text, View, ViewStyle} from 'react-native'
+import {Text, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
 import {FocusableWidget} from 'stores'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
-import inbox from '../assets/inbox.png'
 
 interface Props {
   style?: ViewStyle
@@ -123,11 +122,9 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
         )
       })}
       {!store.ui.events.length && (
-        <Image
-          source={inbox}
-          style={tw`h-20 self-center my-10`}
-          resizeMode="contain"
-        />
+        <Text style={tw`text-center pt-1 pb-4 text-gray-500 text-xs`}>
+          Grant Sol access to your Calendar under System Preferences
+        </Text>
       )}
     </View>
   )

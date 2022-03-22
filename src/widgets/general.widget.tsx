@@ -19,9 +19,8 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
         style={tw`h-12 w-12 rounded-lg`}
       /> */}
 
-      {store.ui.track?.title == null && (
-        <Text style={tw`text-xs pl-2 font-medium`}>-</Text>
-      )}
+      {store.ui.track?.title == null && <View style={tw`w-48`} />}
+
       <Text style={tw`w-48`} numberOfLines={1}>
         <Text style={tw`text-xs pl-1 font-medium`}>
           {store.ui.track?.title}
@@ -33,7 +32,7 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
         )}
       </Text>
       <View style={tw`flex-1`} />
-      {!!store.ui.currentlyTrackedProject && (
+      {!!store.ui.currentlyTrackedProject ? (
         <>
           <Text style={tw`text-xs font-bold pl-1`}>
             {store.ui.currentlyTrackedProject.project.name}
@@ -43,6 +42,8 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
             {store.ui.currentlyTrackedProject.todayTime % 60}m
           </Text>
         </>
+      ) : (
+        <View style={tw`w-2`} />
       )}
       <View style={tw`flex-1`} />
       {!!store.ui.currentTemp && (
