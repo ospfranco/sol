@@ -11,8 +11,17 @@ import {doubleTranslate} from 'lib/translator'
 import {getWeather} from 'lib/weather'
 import {DateTime} from 'luxon'
 import {autorun, makeAutoObservable, runInAction, toJS} from 'mobx'
-import {AsyncStorage, Clipboard, ImageURISource, Linking} from 'react-native'
+import React, {ReactNode} from 'react'
+import {
+  Appearance,
+  AsyncStorage,
+  Clipboard,
+  Image,
+  ImageURISource,
+  Linking,
+} from 'react-native'
 import {IRootStore} from 'Store'
+import tw from 'tailwind'
 
 const exprParser = new Parser()
 
@@ -85,6 +94,7 @@ interface ITrackingProject {
 interface IItem {
   icon?: string
   iconImage?: ImageURISource | number | ImageURISource[]
+  iconComponent?: ReactNode
   url?: string
   preventClose?: boolean
   type: ItemType
@@ -232,7 +242,18 @@ end tell`)
       preventClose: true,
     },
     {
-      iconImage: Assets.SolWhiteSmall,
+      iconComponent: () => {
+        const colorScheme = Appearance.getColorScheme()
+
+        return (
+          <Image
+            source={Assets.SolWhiteSmall}
+            style={tw.style('w-4 h-4', {
+              tintColor: colorScheme === 'dark' ? 'white' : 'black',
+            })}
+          />
+        )
+      },
       name: 'About',
       type: ItemType.CONFIGURATION,
       callback: () => {
