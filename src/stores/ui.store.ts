@@ -145,7 +145,9 @@ export let createUIStore = (root: IRootStore) => {
         }
       })
     } else {
-      store.focusedWidget = FocusableWidget.ONBOARDING
+      runInAction(() => {
+        store.focusedWidget = FocusableWidget.ONBOARDING
+      })
     }
   }
 
