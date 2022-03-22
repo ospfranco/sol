@@ -208,7 +208,7 @@ export let createUIStore = (root: IRootStore) => {
       },
     },
     {
-      icon: '💻',
+      iconImage: Assets.Airdrop,
       name: 'AirDrop',
       type: ItemType.CONFIGURATION,
       callback: () => {

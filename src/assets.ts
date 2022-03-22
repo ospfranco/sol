@@ -1,3 +1,4 @@
+import Airdrop from './assets/airdrop.png'
 import googleLogo from './assets/google.png'
 import Logo from './assets/Logo.png'
 import SolBlackSmall from './assets/SolBlackSmall.png'
@@ -8,4 +9,5 @@ export const Assets = {
   SolBlackSmall,
   SolWhiteSmall,
   Logo,
+  Airdrop,
 }
