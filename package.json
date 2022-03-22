@@ -1,12 +1,13 @@
 {
   "name": "sol",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "private": true,
   "scripts": {
     "mac": "react-native run-macos",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "bump": "./bump-version.sh"
   },
   "dependencies": {
     "@types/node": "^17.0.8",
