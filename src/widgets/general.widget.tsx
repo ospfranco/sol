@@ -14,7 +14,7 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
   return (
     <View
       style={tw.style(
-        `px-6 pt-1 pb-2 text-gray-200 flex-row justify-between`,
+        `px-6 h-7 pb-1 text-gray-200 flex-row justify-between items-center`,
         style,
       )}>
       {/* <Text style={tw`text-xs`}>🎵</Text> */}

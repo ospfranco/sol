@@ -781,6 +781,14 @@ end tell`)
         store.now = DateTime.now()
       })
 
+      if (store.calendarAuthorizationStatus === 'notDetermined') {
+        solNative.getCalendarAuthorizationStatus().then(authorization => {
+          runInAction(() => {
+            store.calendarAuthorizationStatus = authorization
+          })
+        })
+      }
+
       solNative
         .getNextEvents(store.query)
         .then(events => {
@@ -839,12 +847,6 @@ end tell`)
 
   hydrate().then(() => {
     autorun(persist)
-    solNative.getCalendarAuthorizationStatus().then(authorization => {
-      runInAction(() => {
-        store.calendarAuthorizationStatus = authorization
-      })
-    })
-
     solNative.setGlobalShortcut(store.globalShorcut)
   })
 
