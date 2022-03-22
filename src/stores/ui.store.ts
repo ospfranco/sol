@@ -2,7 +2,11 @@ import {Assets} from 'assets'
 import {Parser} from 'expr-eval'
 import Fuse from 'fuse.js'
 import {CONSTANTS} from 'lib/constants'
-import {INativeEvent, solNative} from 'lib/SolNative'
+import {
+  CalendarAuthorizationStatus,
+  INativeEvent,
+  solNative,
+} from 'lib/SolNative'
 import {doubleTranslate} from 'lib/translator'
 import {getWeather} from 'lib/weather'
 import {DateTime} from 'luxon'
@@ -258,6 +262,7 @@ end tell`)
     //  | |  | | '_ \/ __|/ _ \ '__\ \ / / _` | '_ \| |/ _ \/ __|
     //  | |__| | |_) \__ \  __/ |   \ V / (_| | |_) | |  __/\__ \
     //   \____/|_.__/|___/\___|_|    \_/ \__,_|_.__/|_|\___||___/
+    calendarAuthorizationStatus: 'notDetermined' as CalendarAuthorizationStatus,
     onboardingStep: 'v1_start' as OnboardingStep,
     globalShorcut: 'command' as 'command' | 'option',
     now: DateTime.now() as DateTime,
@@ -800,6 +805,12 @@ end tell`)
 
   hydrate().then(() => {
     autorun(persist)
+    solNative.getCalendarAuthorizationStatus().then(authorization => {
+      runInAction(() => {
+        store.calendarAuthorizationStatus = authorization
+      })
+    })
+
     solNative.setGlobalShortcut(store.globalShorcut)
   })
 

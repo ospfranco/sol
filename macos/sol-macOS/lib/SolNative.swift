@@ -92,4 +92,8 @@ class SolNative: RCTEventEmitter {
       appDelegate?.setGlobalShortcut(key)
     }
   }
+  
+  @objc func getCalendarAuthorizationStatus(_ resolve: @escaping  RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) {
+    resolve(CalendarHelper.sharedInstance.getCalendarAuthorizationStatus())
+  }
 }

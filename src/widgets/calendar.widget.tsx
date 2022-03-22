@@ -79,12 +79,6 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
                         },
                       )}>
                       {event.status === 1 && (
-                        // <Text
-                        //   style={tw.style('text-sm font-bold', {
-                        //     color: event.color,
-                        //   })}>
-                        //   ✓
-                        // </Text>
                         <View
                           style={tw.style(`w-[8px] h-[8px] rounded-full`, {
                             backgroundColor: event.color,
@@ -121,11 +115,17 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
           </View>
         )
       })}
-      {!store.ui.events.length && (
+      {store.ui.calendarAuthorizationStatus === 'notDetermined' && (
         <Text style={tw`text-center pt-1 pb-4 text-gray-500 text-xs`}>
           Grant Sol access to your Calendar under System Preferences
         </Text>
       )}
+      {store.ui.calendarAuthorizationStatus === 'authorized' &&
+        !store.ui.events.length && (
+          <Text style={tw`text-center pt-1 pb-4 text-gray-500 text-xs`}>
+            No upcoming events
+          </Text>
+        )}
     </View>
   )
 })

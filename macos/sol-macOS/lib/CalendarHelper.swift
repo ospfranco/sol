@@ -10,7 +10,6 @@ class CalendarHelper {
   init() {
     let eventAuthorizationStatus = EKEventStore.authorizationStatus(for: .event)
     if eventAuthorizationStatus == .notDetermined {
-      let store = EKEventStore()
       store.requestAccess(to: .event) { granted, error in
           print("Event kit request access response, granted: \(granted), error: \(error)")
       }
@@ -48,6 +47,20 @@ class CalendarHelper {
         "status": event.status.rawValue, // 0 none, 1 confirmed, 2 tentative, 3 cancelled
         "attendeesLength": event.attendees?.count ?? 0
       ]
+    }
+  }
+  
+  func getCalendarAuthorizationStatus() -> String {
+    let eventAuthorizationStatus = EKEventStore.authorizationStatus(for: .event)
+    switch eventAuthorizationStatus {
+    case .notDetermined:
+      return "notDetermined"
+    case .restricted:
+      return "restricted"
+    case .denied:
+      return "denied"
+    case .authorized:
+      return "authorized"
     }
   }
 }

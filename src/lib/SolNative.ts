@@ -1,5 +1,11 @@
 import {NativeEventEmitter, NativeModules} from 'react-native'
 
+export type CalendarAuthorizationStatus =
+  | 'notDetermined'
+  | 'restricted'
+  | 'denied'
+  | 'authorized'
+
 export interface INativeEvent {
   title?: string
   url?: string
@@ -24,6 +30,7 @@ class SolNative extends NativeEventEmitter {
     {title: string; artist: string; artwork: string} | null | undefined
   >
   setGlobalShortcut: (key: 'command' | 'option') => void
+  getCalendarAuthorizationStatus: () => Promise<CalendarAuthorizationStatus>
 
   constructor(nativeModule: any) {
     super(nativeModule)
@@ -37,6 +44,8 @@ class SolNative extends NativeEventEmitter {
     this.openWithFinder = nativeModule.openWithFinder
     this.getMediaInfo = nativeModule.getMediaInfo
     this.setGlobalShortcut = nativeModule.setGlobalShortcut
+    this.getCalendarAuthorizationStatus =
+      nativeModule.getCalendarAuthorizationStatus
   }
 }
 

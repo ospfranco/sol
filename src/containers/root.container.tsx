@@ -48,9 +48,12 @@ export const RootContainer = observer(() => {
     <View style={tw`flex-1`}>
       <SearchWidget style={mainStyle} />
 
-      <CalendarWidget
-        style={tw`border-t w-full bg-white dark:bg-black bg-opacity-70 dark:bg-opacity-60 border-lightBorder dark:border-darkBorder`}
-      />
+      {(store.ui.calendarAuthorizationStatus === 'authorized' ||
+        store.ui.calendarAuthorizationStatus === 'notDetermined') && (
+        <CalendarWidget
+          style={tw`border-t w-full bg-white dark:bg-black bg-opacity-70 dark:bg-opacity-60 border-lightBorder dark:border-darkBorder`}
+        />
+      )}
       <GeneralWidget
         style={tw`border-t w-full bg-white dark:bg-black bg-opacity-80 dark:bg-opacity-70 border-lightBorder dark:border-darkBorder`}
       />
