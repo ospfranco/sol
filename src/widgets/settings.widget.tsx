@@ -4,6 +4,7 @@ import {observer} from 'mobx-react-lite'
 import React, {FC, useState} from 'react'
 import {
   Appearance,
+  Button,
   Image,
   Text,
   TouchableOpacity,
@@ -79,7 +80,8 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
         />
       </View>
       {selected === 'ABOUT' && (
-        <View style={tw`flex-1 flex-row justify-center items-center`}>
+        <View
+          style={tw`flex-1 flex-row justify-center items-center bg-white dark:bg-black bg-opacity-30`}>
           <Image
             source={Assets.Logo}
             style={tw.style(`h-32 w-32`, {
@@ -95,8 +97,8 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
         </View>
       )}
       {selected === 'WEATHER' && (
-        <View style={tw`flex-1 p-4`}>
-          <Text style={tw`font-medium text-xl`}>Weather configuration</Text>
+        <View style={tw`flex-1 p-4 bg-white dark:bg-black bg-opacity-30`}>
+          <Text style={tw`font-medium text-lg`}>Weather configuration</Text>
           <Text style={tw`text-sm text-gray-700 dark:text-gray-400 pt-2`}>
             OpenWeatherMap params which allow to show local weather data
           </Text>
@@ -132,6 +134,16 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
             placeholder="Longitude..."
             style={tw`w-full`}
           />
+
+          {__DEV__ && (
+            <Button
+              title="Munich"
+              onPress={() => {
+                store.ui.setWeatherLat('48.1351')
+                store.ui.setWeatherLon('11.5820')
+              }}
+            />
+          )}
         </View>
       )}
     </View>
