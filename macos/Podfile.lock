@@ -294,6 +294,8 @@ PODS:
     - React-jsi (= 0.66.33)
     - React-logger (= 0.66.33)
     - React-perflogger (= 0.66.33)
+  - RNCPicker (2.4.0):
+    - React-Core
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -332,6 +334,7 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native-macos/Libraries/Vibration`)
   - React-runtimeexecutor (from `../node_modules/react-native-macos/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native-macos/ReactCommon`)
+  - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
   - Yoga (from `../node_modules/react-native-macos/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -403,6 +406,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-macos/ReactCommon/runtimeexecutor"
   ReactCommon:
     :path: "../node_modules/react-native-macos/ReactCommon"
+  RNCPicker:
+    :path: "../node_modules/@react-native-picker/picker"
   Yoga:
     :path: "../node_modules/react-native-macos/ReactCommon/yoga"
 
@@ -441,6 +446,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: 23161c0a31913d0e912e33ec23e3beb143b1522d
   React-runtimeexecutor: f2dc86acda25a5970741aab04948d9756933fe87
   ReactCommon: 424f32cfbc815bfb19380d3fa9522cf01f285101
+  RNCPicker: 6d5d64e7b90c240c779ee0938ec433c11e2dd758
   Yoga: b64c96ee53c2ecbff1c2eed76e8722534e1deef0
 
 PODFILE CHECKSUM: d9821b58dafcf398934da98a939af71808956666

@@ -1,3 +1,4 @@
+import {Picker} from '@react-native-picker/picker'
 import {Assets} from 'assets'
 import {Input} from 'components/Input'
 import {observer} from 'mobx-react-lite'
@@ -6,6 +7,7 @@ import {
   Appearance,
   Button,
   Image,
+  Switch,
   Text,
   TouchableOpacity,
   TouchableOpacityProps,
@@ -21,7 +23,7 @@ interface Props {
   style?: ViewStyle
 }
 
-type ITEM = 'ABOUT' | 'WEATHER'
+type ITEM = 'ABOUT' | 'WEATHER' | 'GENERAL'
 
 interface SelectableButtonProps extends TouchableOpacityProps {
   selected: boolean
@@ -39,9 +41,10 @@ const SelectableButton: FC<SelectableButtonProps> = ({
     <TouchableOpacity
       {...props}
       style={tw.style(
-        'rounded px-3 py-1 w-full',
+        'rounded px-2 py-1 w-full border border-transparent',
         {
-          'bg-gray-200 dark:bg-highlightDark': selected,
+          'bg-gray-200 dark:bg-highlightDark border-lightBorder dark:border-darkBorder':
+            selected,
         },
         style,
       )}>
@@ -54,7 +57,7 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
   const store = useStore()
   const colorScheme = Appearance.getColorScheme()
   useDeviceContext(tw)
-  const [selected, setSelected] = useState<ITEM>('WEATHER')
+  const [selected, setSelected] = useState<ITEM>('GENERAL')
 
   return (
     <View style={tw.style(`flex-1 flex-row`, style)}>
@@ -64,20 +67,31 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
           onPress={() => {
             store.ui.focusWidget(FocusableWidget.SEARCH)
           }}>
-          <Text style={tw`text-lg font-medium`}>← Settings</Text>
+          <Text style={tw`text-lg font-medium`}>
+            <Text style={tw`text-lg text-gray-500`}>←</Text>
+            {'  '}Settings
+          </Text>
         </TouchableOpacity>
-        <SelectableButton
-          title="Weather"
-          selected={selected === 'WEATHER'}
-          style={tw`mt-3`}
-          onPress={() => setSelected('WEATHER')}
-        />
-        <SelectableButton
-          title="About"
-          selected={selected === 'ABOUT'}
-          style={tw`mt-1`}
-          onPress={() => setSelected('ABOUT')}
-        />
+        <View style={tw`w-full pl-4`}>
+          <SelectableButton
+            title="General"
+            selected={selected === 'GENERAL'}
+            style={tw`mt-3`}
+            onPress={() => setSelected('GENERAL')}
+          />
+          <SelectableButton
+            title="Weather"
+            selected={selected === 'WEATHER'}
+            style={tw`mt-1`}
+            onPress={() => setSelected('WEATHER')}
+          />
+          <SelectableButton
+            title="About"
+            selected={selected === 'ABOUT'}
+            style={tw`mt-1`}
+            onPress={() => setSelected('ABOUT')}
+          />
+        </View>
       </View>
       {selected === 'ABOUT' && (
         <View
@@ -144,6 +158,29 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
               }}
             />
           )}
+        </View>
+      )}
+      {selected === 'GENERAL' && (
+        <View style={tw`flex-1 p-4 bg-white dark:bg-black bg-opacity-30`}>
+          <Text style={tw`font-medium text-lg`}>General configuration</Text>
+          <Text style={tw`text-sm text-gray-700 dark:text-gray-400 pt-2`}>
+            Manage general settings for Sol
+          </Text>
+
+          <View style={tw`flex-row mt-8 items-center`}>
+            <Text style={tw`flex-1`}>Global shortcut</Text>
+            <Picker
+              selectedValue={store.ui.globalShorcut}
+              style={tw`w-32`}
+              onValueChange={v => store.ui.setGlobalShortcut(v)}>
+              <Picker.Item label="Command then space" value="command" />
+              <Picker.Item label="Option then space" value="option" />
+            </Picker>
+          </View>
+          <View style={tw`flex-row mt-3 items-center`}>
+            <Text style={tw`flex-1`}>Launch on start</Text>
+            <Switch />
+          </View>
         </View>
       )}
     </View>
