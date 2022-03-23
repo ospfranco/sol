@@ -32,8 +32,8 @@ export const Fade: FC<Props> = ({
 
   const combinedStyle = [containerStyle, style]
   return (
-    <Animated.View style={visible ? combinedStyle : containerStyle} {...rest}>
-      {visible ? children : null}
+    <Animated.View style={combinedStyle} {...rest}>
+      {children}
     </Animated.View>
   )
 }

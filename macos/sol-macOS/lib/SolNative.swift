@@ -1,4 +1,5 @@
 import Foundation
+import LaunchAtLogin
 
 @objc(SolNative)
 class SolNative: RCTEventEmitter {
@@ -95,5 +96,9 @@ class SolNative: RCTEventEmitter {
   
   @objc func getCalendarAuthorizationStatus(_ resolve: @escaping  RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) {
     resolve(CalendarHelper.sharedInstance.getCalendarAuthorizationStatus())
+  }
+  
+  @objc func setLaunchAtLogin(_ v: Bool) {
+    LaunchAtLogin.isEnabled = v
   }
 }

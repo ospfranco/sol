@@ -148,6 +148,7 @@ export let createUIStore = (root: IRootStore) => {
         store.weatherLat = parsedStore.weatherLat
         store.weatherLon = parsedStore.weatherLon
         store.onboardingStep = parsedStore.onboardingStep
+        store.launchAtLogin = parsedStore.launchAtLogin
         if (
           store.onboardingStep !== 'v1_completed' &&
           store.onboardingStep !== 'v1_skipped'
@@ -303,6 +304,7 @@ end tell`)
     weatherApiKey: '' as string,
     weatherLat: '' as string,
     weatherLon: '' as string,
+    launchAtLogin: false as boolean,
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -379,6 +381,10 @@ end tell`)
     //    / /\ \ / __| __| |/ _ \| '_ \/ __|
     //   / ____ \ (__| |_| | (_) | | | \__ \
     //  /_/    \_\___|\__|_|\___/|_| |_|___/
+    setLaunchAtLogin: (launchAtLogin: boolean) => {
+      store.launchAtLogin = launchAtLogin
+      solNative.setLaunchAtLogin(launchAtLogin)
+    },
     setOnboardingStep: (step: OnboardingStep) => {
       store.onboardingStep = step
     },

@@ -178,8 +178,11 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
             </Picker>
           </View>
           <View style={tw`flex-row mt-3 items-center`}>
-            <Text style={tw`flex-1`}>Launch on start</Text>
-            <Switch />
+            <Text style={tw`flex-1`}>Launch at login</Text>
+            <Switch
+              value={store.ui.launchAtLogin}
+              onValueChange={store.ui.setLaunchAtLogin}
+            />
           </View>
         </View>
       )}

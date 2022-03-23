@@ -8,6 +8,15 @@
         "branch" : "master",
         "revision" : "c13662730cb5bc28de4a799854bbb018a90649bf"
       }
+    },
+    {
+      "identity" : "launchatlogin",
+      "kind" : "remoteSourceControl",
+      "location" : "git@github.com:sindresorhus/LaunchAtLogin.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "e8171b3e38a2816f579f58f3dac1522aa39efe41"
+      }
     }
   ],
   "version" : 2
