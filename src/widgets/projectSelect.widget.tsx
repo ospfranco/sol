@@ -200,8 +200,8 @@ export const ProjectSelectWidget: FC<Props> = observer(({style}) => {
                             bgColor,
                           )}>
                           <Text style={tw`text-xs pb-2 text-white`}>
-                            {Math.floor(entry.time / 60)}:
-                            {Math.round(entry.time % 60)}
+                            {`${Math.floor(entry.time / 60)}`.padStart(2, '0')}:
+                            {`${Math.round(entry.time % 60)}`.padStart(2, '0')}
                           </Text>
                         </View>
                       </View>
