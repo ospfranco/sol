@@ -55,6 +55,7 @@ const MEETING_PROVIDERS_URLS = [
   'https://us06web.zoom.us',
   'https://meet.google.com',
   'https://meet.ffmuc.net',
+  'https://teams.microsoft.com',
 ]
 
 export enum FocusableWidget {
