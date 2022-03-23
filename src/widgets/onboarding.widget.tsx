@@ -36,7 +36,9 @@ export const OnboardingWidget: FC<Props> = observer(({style}) => {
   const [onboardingStep, setOnboardingStep] = useState(store.ui.onboardingStep)
 
   useEffect(() => {
-    setVisible(false)
+    if (store.ui.onboardingStep !== 'v1_start') {
+      setVisible(false)
+    }
     setTimeout(() => {
       setVisible(true)
       setOnboardingStep(store.ui.onboardingStep)
