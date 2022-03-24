@@ -548,7 +548,6 @@ end tell`)
 
                 case 'v1_quick_actions': {
                   store.onboardingStep = 'v1_completed'
-                  store.focusWidget(FocusableWidget.SEARCH)
                   break
                 }
               }

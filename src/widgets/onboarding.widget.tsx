@@ -4,6 +4,7 @@ import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect, useState} from 'react'
 import {Appearance, Image, Switch, Text, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
+import {FocusableWidget} from 'stores'
 import tw from 'tailwind'
 
 interface Props {
@@ -36,6 +37,11 @@ export const OnboardingWidget: FC<Props> = observer(({style}) => {
   const [onboardingStep, setOnboardingStep] = useState(store.ui.onboardingStep)
 
   useEffect(() => {
+    if (store.ui.onboardingStep === 'v1_completed') {
+      setTimeout(() => {
+        store.ui.focusWidget(FocusableWidget.SEARCH)
+      }, 500)
+    }
     if (store.ui.onboardingStep !== 'v1_start') {
       setVisible(false)
     }
