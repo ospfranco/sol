@@ -2,7 +2,8 @@ import Cocoa
 
 class ApplicationSearcher: NSObject {
   let fixedApps: [URL] = [
-    URL(fileURLWithPath: "/System/Library/CoreServices/Finder.app")
+    URL(fileURLWithPath: "/System/Library/CoreServices/Finder.app"),
+    URL(fileURLWithPath: "/System/Library/CoreServices/Applications/Screen Sharing.app")
   ]
 
   public func getAllApplications() -> [Application] {
