@@ -411,9 +411,11 @@ end tell`)
       store.currentlyTrackedProjectId = id
       const foundIndex = store.projects.findIndex(p => p.id === id)
       if (foundIndex >= 0) {
+        const now = DateTime.now()
+        store.now = now
         store.projects[foundIndex].periods.push({
-          id: DateTime.now().toMillis(),
-          start: DateTime.now().toMillis(),
+          id: now.toMillis(),
+          start: now.toMillis(),
         })
       }
       store.query = ''
