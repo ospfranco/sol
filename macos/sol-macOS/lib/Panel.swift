@@ -1,15 +1,16 @@
 import Foundation
 
-final class Panel: NSPanel {
+final class Panel: NSWindow {
     init(contentRect: NSRect, backing: NSWindow.BackingStoreType, defer flag: Bool) {
-      super.init(contentRect: contentRect, styleMask: [.titled, .closable, .miniaturizable, .fullSizeContentView], backing: backing, defer: flag)
+      super.init(contentRect: contentRect, styleMask: [.titled, .closable, .miniaturizable, .fullSizeContentView, .nonactivatingPanel], backing: backing, defer: flag)
       
 //      self.displaysWhenScreenProfileChanges = false
 //      self.visible
-      self.isFloatingPanel = true
+//      self.isFloatingPanel = true
 //      self.level = .floating
+      // Allow the pannel to appear in a fullscreen space
       self.collectionBehavior.insert(.fullScreenAuxiliary)
-      self.collectionBehavior.insert(.moveToActiveSpace)
+      self.hidesOnDeactivate = true
       self.titleVisibility = .hidden
       self.titlebarAppearsTransparent = true
       self.isMovable = false
@@ -33,6 +34,6 @@ final class Panel: NSPanel {
     }
     
     override var canBecomeMain: Bool {
-        return true
+      return false
     }
 }
