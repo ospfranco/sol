@@ -653,9 +653,7 @@ export let createUIStore = (root: IRootStore) => {
             return
           }
 
-          store.focusedWidget = FocusableWidget.SEARCH
-          store.selectedIndex = 0
-          store.query = ''
+          store.setQuery('')
 
           break
         }
