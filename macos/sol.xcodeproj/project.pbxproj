@@ -516,6 +516,7 @@
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift-5.2/$(PLATFORM_NAME)\"",
 					"\"$(inherited)\"",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -573,6 +574,7 @@
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift-5.2/$(PLATFORM_NAME)\"",
 					"\"$(inherited)\"",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
