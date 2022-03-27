@@ -101,7 +101,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
           {!store.ui.query && (
             <View style={tw`absolute inset-0 items-center justify-center`}>
               <Image
-                style={tw.style(`w-7 h-7`, {
+                style={tw.style(`-mt-1 w-7 h-7`, {
                   tintColor: colorScheme === 'dark' ? '#AAA' : '#555',
                 })}
                 source={Assets.SolWhiteSmall}

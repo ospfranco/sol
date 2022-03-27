@@ -12,12 +12,12 @@ struct MediaHelper {
     let MRMediaRemoteGetNowPlayingInfo = unsafeBitCast(MRMediaRemoteGetNowPlayingInfoPointer, to: MRMediaRemoteGetNowPlayingInfoFunction.self)
 
     // Get a Swift function for MRNowPlayingClientGetBundleIdentifier
-    guard let MRNowPlayingClientGetBundleIdentifierPointer = CFBundleGetFunctionPointerForName(bundle, "MRNowPlayingClientGetBundleIdentifier" as CFString) else { return }
-    typealias MRNowPlayingClientGetBundleIdentifierFunction = @convention(c) (AnyObject?) -> String
-    let MRNowPlayingClientGetBundleIdentifier = unsafeBitCast(MRNowPlayingClientGetBundleIdentifierPointer, to: MRNowPlayingClientGetBundleIdentifierFunction.self)
+//    guard let MRNowPlayingClientGetBundleIdentifierPointer = CFBundleGetFunctionPointerForName(bundle, "MRNowPlayingClientGetBundleIdentifier" as CFString) else { return }
+//    typealias MRNowPlayingClientGetBundleIdentifierFunction = @convention(c) (AnyObject?) -> String
+//    let MRNowPlayingClientGetBundleIdentifier = unsafeBitCast(MRNowPlayingClientGetBundleIdentifierPointer, to: MRNowPlayingClientGetBundleIdentifierFunction.self)
 
     // Get song info
-    MRMediaRemoteGetNowPlayingInfo(DispatchQueue.main, callback
+    MRMediaRemoteGetNowPlayingInfo(DispatchQueue.main, callback)
 //                                   {
       
 //      (information) in
@@ -36,6 +36,6 @@ struct MediaHelper {
 //        NSLog("%@", MRNowPlayingClientGetBundleIdentifier(object))
 //        dlclose(handle)
 //    }
-    )
+//    )
   }
 }
