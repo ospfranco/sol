@@ -10,6 +10,7 @@ final class Panel: NSPanel {
       self.collectionBehavior.insert(.moveToActiveSpace)
       self.titleVisibility = .hidden
       self.titlebarAppearsTransparent = true
+      self.isMovable = false
       self.isMovableByWindowBackground = false
       self.isReleasedWhenClosed = false
       self.standardWindowButton(.closeButton)?.isHidden = true
