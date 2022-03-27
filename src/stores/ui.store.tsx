@@ -232,7 +232,19 @@ export let createUIStore = (root: IRootStore) => {
                                 "Go" of menu bar 1 of application process "Finder"
         end if
         activate
-end tell`)
+      end tell`)
+      },
+    },
+    {
+      icon: '📺',
+      name: 'Display preferences',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.executeAppleScript(`tell application "System Preferences"
+        activate
+        set current pane to pane "com.apple.preference.displays"
+       end tell
+       `)
       },
     },
     {
