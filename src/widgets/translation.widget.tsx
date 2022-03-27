@@ -1,8 +1,10 @@
 import languages from 'lib/languages.json'
 import {observer} from 'mobx-react-lite'
-import React, {FC} from 'react'
+import React, {FC, useEffect, useRef} from 'react'
 import {
   ActivityIndicator,
+  Animated,
+  Appearance,
   StyleProp,
   Text,
   TextInput,
@@ -20,6 +22,18 @@ interface Props {
 export const TranslationWidget: FC<Props> = observer(({style}) => {
   useDeviceContext(tw)
   const store = useStore()
+  const colorScheme = Appearance.getColorScheme()
+  const animatedBorderRef = useRef(
+    new Animated.Value(store.ui.isLoading ? 1 : 0),
+  )
+
+  useEffect(() => {
+    Animated.timing(animatedBorderRef.current, {
+      toValue: store.ui.isLoading ? 1 : 0,
+      duration: 500,
+      useNativeDriver: false,
+    }).start()
+  }, [store.ui.isLoading])
 
   return (
     <View
@@ -29,10 +43,21 @@ export const TranslationWidget: FC<Props> = observer(({style}) => {
         style,
       )}>
       <View style={tw`pt-2`}>
-        <View
-          style={tw.style(
-            `px-3 pt-2 pb-3 flex-row border-b border-lightBorder dark:border-darkBorder`,
-          )}>
+        <Animated.View
+          style={[
+            tw`px-3 pt-2 pb-3 flex-row border-b border-lightBorder dark:border-darkBorder`,
+            {
+              borderColor: animatedBorderRef.current.interpolate({
+                inputRange: [0, 1],
+                outputRange: [
+                  colorScheme === 'dark'
+                    ? 'rgba(255, 250, 250, .1)'
+                    : 'rgba(0, 0, 0, .1)',
+                  'rgba(14, 165, 233, 0.8)',
+                ],
+              }),
+            },
+          ]}>
           <TextInput
             autoFocus
             // @ts-ignore
@@ -46,7 +71,7 @@ export const TranslationWidget: FC<Props> = observer(({style}) => {
           {store.ui.isLoading && (
             <ActivityIndicator size="small" style={tw`w-2 h-2`} />
           )}
-        </View>
+        </Animated.View>
       </View>
 
       {!!store.ui.translationResults && (

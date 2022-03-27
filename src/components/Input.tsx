@@ -17,7 +17,7 @@ export const Input: FC<Props> = props => {
         },
       )}>
       <TextInput
-        // selectionColor="#1068FF"
+        // selectionColor="#0284c7"
         onFocus={focusOn}
         onBlur={focusOff}
         selectionColor={colorScheme === 'dark' ? 'white' : 'black'}

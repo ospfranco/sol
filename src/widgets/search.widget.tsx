@@ -4,7 +4,7 @@ import {FileIcon} from 'components/FileIcon'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect, useRef} from 'react'
 import {
-  ActivityIndicator,
+  Animated,
   Appearance,
   FlatList,
   Image,
@@ -48,6 +48,17 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
   const focused = store.ui.focusedWidget === FocusableWidget.SEARCH
   const inputRef = useRef<any | null>(null)
   const listRef = useRef<FlatList | null>(null)
+  const animatedBorderRef = useRef(
+    new Animated.Value(store.ui.isLoading ? 1 : 0),
+  )
+
+  useEffect(() => {
+    Animated.timing(animatedBorderRef.current, {
+      toValue: store.ui.isLoading ? 1 : 0,
+      duration: 500,
+      useNativeDriver: false,
+    }).start()
+  }, [store.ui.isLoading])
 
   useEffect(() => {
     if (focused && store.ui.items.length) {
@@ -61,8 +72,21 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
   return (
     <View style={style}>
       <View style={tw`pt-2`}>
-        <View
-          style={tw`px-3 pt-2 pb-3 flex-row border-b border-lightBorder dark:border-darkBorder relative`}>
+        <Animated.View
+          style={[
+            tw`px-3 pt-2 pb-3 flex-row border-b border-lightBorder dark:border-darkBorder relative`,
+            {
+              borderColor: animatedBorderRef.current.interpolate({
+                inputRange: [0, 1],
+                outputRange: [
+                  colorScheme === 'dark'
+                    ? 'rgba(255, 250, 250, .1)'
+                    : 'rgba(0, 0, 0, .1)',
+                  'rgba(14, 165, 233, 0.8)',
+                ],
+              }),
+            },
+          ]}>
           <TextInput
             autoFocus
             // @ts-ignore
@@ -71,6 +95,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
             onChangeText={store.ui.setQuery}
             ref={inputRef}
             style={tw`flex-1`}
+            selectionColor="#0ea5e9"
             placeholderTextColor={tw.color('text-gray-500')}
           />
           {!store.ui.query && (
@@ -83,10 +108,10 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
               />
             </View>
           )}
-          {store.ui.isLoading && (
+          {/* {store.ui.isLoading && (
             <ActivityIndicator size="small" style={tw`w-2 h-2`} />
-          )}
-        </View>
+          )} */}
+        </Animated.View>
       </View>
 
       <>
