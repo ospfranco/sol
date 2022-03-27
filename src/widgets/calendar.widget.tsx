@@ -30,19 +30,19 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
   }, {} as Record<string, {date: DateTime; events: Array<INativeEvent>}>)
 
   return (
-    <View style={tw.style(`pt-3 w-1/2 text-gray-200`, style)}>
+    <View style={tw.style(`pt-3`, style)}>
       {Object.entries(groups).map(([key, data]) => {
         return (
           <View key={key} style={tw`pb-2`}>
             <View style={tw`flex-row pb-1 px-6`}>
               {key === 'tomorrow' || key === 'today' ? (
                 <Text
-                  style={tw`capitalize font-medium dark:text-gray-200 text-gray-600 text-xs`}>
+                  style={tw`capitalize font-medium dark:text-gray-200 text-gray-500 text-xs`}>
                   {key}
                 </Text>
               ) : (
                 <Text
-                  style={tw`capitalize font-medium dark:text-gray-200 text-gray-600 text-xs`}>
+                  style={tw`capitalize font-medium dark:text-gray-200 text-gray-500 text-xs`}>
                   {key !== 'today' && `${data.date.toFormat('cccc')} `}
                   <Text
                     style={tw`capitalize font-medium dark:text-gray-400 text-gray-400 text-xs`}>
@@ -57,11 +57,12 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
                 const lEndDate = event.endDate
                   ? DateTime.fromISO(event.endDate)
                   : null
+
                 return (
                   <View
                     key={index}
                     style={tw.style(
-                      `flex-row py-2 px-3 rounded items-center border border-transparent`,
+                      `flex-row py-2 px-2 rounded items-center border border-transparent`,
                       {
                         'bg-highlight dark:bg-gray-500 bg-opacity-30 border-buttonBorder dark:border-darkBorder':
                           focused &&
@@ -73,14 +74,15 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
                     )}>
                     <View
                       style={tw.style(
-                        `w-[15px] h-[15px] border-2 mr-2 rounded-full justify-center items-center`,
+                        `w-[15px] h-[15px] mr-2 rounded-full justify-center items-center`,
                         {
                           borderColor: event.color,
+                          borderWidth: 1.5,
                         },
                       )}>
                       {event.status === 1 && (
                         <View
-                          style={tw.style(`w-[8px] h-[8px] rounded-full`, {
+                          style={tw.style(`w-[10px] h-[10px] rounded-full`, {
                             backgroundColor: event.color,
                           })}
                         />

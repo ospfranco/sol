@@ -17,7 +17,7 @@ import {TranslationWidget} from 'widgets/translation.widget'
 export const RootContainer = observer(() => {
   useDeviceContext(tw)
   const store = useStore()
-  const mainStyle = tw`bg-gray-100 dark:bg-black bg-opacity-70 dark:bg-opacity-50 flex-1`
+  const mainStyle = tw`bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-50 flex-1`
 
   if (store.ui.focusedWidget === FocusableWidget.ONBOARDING) {
     return <OnboardingWidget style={mainStyle} />
@@ -46,11 +46,11 @@ export const RootContainer = observer(() => {
       {(store.ui.calendarAuthorizationStatus === 'authorized' ||
         store.ui.calendarAuthorizationStatus === 'notDetermined') && (
         <CalendarWidget
-          style={tw`border-t w-full bg-white dark:bg-black bg-opacity-70 dark:bg-opacity-60 border-lightBorder dark:border-darkBorder`}
+          style={tw`border-t w-full bg-white dark:bg-black bg-opacity-80 dark:bg-opacity-60 border-lightBorder dark:border-darkBorder`}
         />
       )}
       <GeneralWidget
-        style={tw`border-t w-full bg-white dark:bg-black bg-opacity-80 dark:bg-opacity-70 border-lightBorder dark:border-darkBorder`}
+        style={tw`border-t w-full bg-white dark:bg-black bg-opacity-90 dark:bg-opacity-70 border-lightBorder dark:border-darkBorder`}
       />
     </View>
   )
