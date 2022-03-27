@@ -83,6 +83,7 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
           <SelectableButton
             title="Translation"
             selected={selected === 'TRANSLATE'}
+            style={tw`mt-1`}
             onPress={() => setSelected('TRANSLATE')}
           />
           <SelectableButton
