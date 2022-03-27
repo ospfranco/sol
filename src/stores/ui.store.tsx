@@ -380,6 +380,15 @@ export let createUIStore = (root: IRootStore) => {
                 Linking.openURL(`https://google.com/search?q=${store.query}`)
               },
             },
+            {
+              iconImage: Assets.googleTranslateLogo,
+              name: 'Google Translate',
+              type: ItemType.CONFIGURATION,
+              callback: () => {
+                store.translateQuery()
+              },
+              preventClose: true,
+            },
           ]
         }
 
@@ -398,6 +407,30 @@ export let createUIStore = (root: IRootStore) => {
     //    / /\ \ / __| __| |/ _ \| '_ \/ __|
     //   / ____ \ (__| |_| | (_) | | | \__ \
     //  /_/    \_\___|\__|_|\___/|_| |_|___/
+    translateQuery: async () => {
+      if (store.query) {
+        store.isLoading = true
+        try {
+          const translations = await doubleTranslate(
+            store.firstTranslationLanguage,
+            store.secondTranslationLanguage,
+            store.query,
+          )
+          runInAction(() => {
+            store.focusedWidget = FocusableWidget.TRANSLATION
+            store.translationResults = translations
+            store.selectedIndex = 0
+          })
+        } catch (e) {
+        } finally {
+          runInAction(() => {
+            store.isLoading = false
+          })
+        }
+      } else {
+        FAVOURITES[0].callback()
+      }
+    },
     setFirstTranslationLanguage: (l: string) => {
       store.firstTranslationLanguage = l
     },
@@ -706,28 +739,7 @@ export let createUIStore = (root: IRootStore) => {
         // "1"
         case 18: {
           if (meta) {
-            if (store.query) {
-              store.isLoading = true
-              try {
-                const translations = await doubleTranslate(
-                  store.firstTranslationLanguage,
-                  store.secondTranslationLanguage,
-                  store.query,
-                )
-                runInAction(() => {
-                  store.focusedWidget = FocusableWidget.TRANSLATION
-                  store.translationResults = translations
-                  store.selectedIndex = 0
-                })
-              } catch (e) {
-              } finally {
-                runInAction(() => {
-                  store.isLoading = false
-                })
-              }
-            } else {
-              FAVOURITES[0].callback()
-            }
+            store.translateQuery()
           }
           break
         }
