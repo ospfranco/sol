@@ -73,12 +73,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   }
   
   func showWindow() {
+    mainWindow.setIsVisible(false)
+    mainWindow.center()
+    
     if !NSApp.isActive {
       NSApp.activate(ignoringOtherApps: true)
     }
     
-    mainWindow.center()
     mainWindow.makeKeyAndOrderFront(self)
+    
+    mainWindow.setIsVisible(true)
     
     SolEmitter.sharedInstance.onShow()
     

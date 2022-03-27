@@ -4,8 +4,10 @@ final class Panel: NSPanel {
     init(contentRect: NSRect, backing: NSWindow.BackingStoreType, defer flag: Bool) {
       super.init(contentRect: contentRect, styleMask: [.titled, .closable, .miniaturizable, .fullSizeContentView], backing: backing, defer: flag)
       
+//      self.displaysWhenScreenProfileChanges = false
+//      self.visible
       self.isFloatingPanel = true
-      self.level = .floating
+//      self.level = .floating
       self.collectionBehavior.insert(.fullScreenAuxiliary)
       self.collectionBehavior.insert(.moveToActiveSpace)
       self.titleVisibility = .hidden
