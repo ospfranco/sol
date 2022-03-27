@@ -168,10 +168,14 @@ async function translate(
   return undefined
 }
 
-export async function doubleTranslate(str: string) {
+export async function doubleTranslate(
+  lang1: string,
+  lang2: string,
+  str: string,
+) {
   const results = await Promise.all([
-    translate(str, {to: 'en', from: 'de'}),
-    translate(str, {to: 'de', from: 'en'}),
+    translate(str, {to: lang1, from: lang2}),
+    translate(str, {to: lang2, from: lang1}),
   ])
 
   return {

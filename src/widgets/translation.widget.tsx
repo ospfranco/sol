@@ -1,3 +1,4 @@
+import languages from 'lib/languages.json'
 import {observer} from 'mobx-react-lite'
 import React, {FC} from 'react'
 import {
@@ -62,7 +63,10 @@ export const TranslationWidget: FC<Props> = observer(({style}) => {
               <Text style={tw`flex-1 pt-2 text-base`}>
                 {store.ui.translationResults.en}
               </Text>
-              <Text style={tw`text-3xl`}>🇬🇧</Text>
+              <Text style={tw`text-3xl`}>
+                {/* @ts-ignore */}
+                {languages[store.ui.firstTranslationLanguage]?.flag}
+              </Text>
             </View>
           </View>
           <View style={tw`flex-1`}>
@@ -77,7 +81,10 @@ export const TranslationWidget: FC<Props> = observer(({style}) => {
               <Text style={tw`flex-1 pt-2 text-base`}>
                 {store.ui.translationResults.de}
               </Text>
-              <Text style={tw`text-3xl`}>🇩🇪</Text>
+              <Text style={tw`text-3xl`}>
+                {/* @ts-ignore */}
+                {languages[store.ui.secondTranslationLanguage]?.flag}
+              </Text>
             </View>
           </View>
         </View>

@@ -1,6 +1,7 @@
 import {Picker} from '@react-native-picker/picker'
 import {Assets} from 'assets'
 import {Input} from 'components/Input'
+import languages from 'lib/languages.json'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useState} from 'react'
 import {
@@ -23,7 +24,7 @@ interface Props {
   style?: ViewStyle
 }
 
-type ITEM = 'ABOUT' | 'WEATHER' | 'GENERAL'
+type ITEM = 'ABOUT' | 'WEATHER' | 'GENERAL' | 'TRANSLATE'
 
 interface SelectableButtonProps extends TouchableOpacityProps {
   selected: boolean
@@ -78,6 +79,11 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
             selected={selected === 'GENERAL'}
             style={tw`mt-3`}
             onPress={() => setSelected('GENERAL')}
+          />
+          <SelectableButton
+            title="Translation"
+            selected={selected === 'TRANSLATE'}
+            onPress={() => setSelected('TRANSLATE')}
           />
           <SelectableButton
             title="Weather"
@@ -183,6 +189,36 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
               value={store.ui.launchAtLogin}
               onValueChange={store.ui.setLaunchAtLogin}
             />
+          </View>
+        </View>
+      )}
+      {selected === 'TRANSLATE' && (
+        <View style={tw`flex-1 p-4 bg-white dark:bg-black bg-opacity-30`}>
+          <Text style={tw`font-medium text-lg`}>Translation</Text>
+          <Text style={tw`text-sm text-gray-700 dark:text-gray-400 pt-2`}>
+            Configure the languages to translate
+          </Text>
+          <View style={tw`flex-row items-center mt-4`}>
+            <Text style={tw`flex-1`}>First language</Text>
+            <Picker
+              onValueChange={store.ui.setFirstTranslationLanguage}
+              selectedValue={store.ui.firstTranslationLanguage}
+              style={tw`w-32`}>
+              {Object.values(languages).map((v, index) => {
+                return <Picker.Item label={v.name} value={v.code} key={index} />
+              })}
+            </Picker>
+          </View>
+          <View style={tw`flex-row items-center mt-2`}>
+            <Text style={tw`flex-1`}>Second language</Text>
+            <Picker
+              onValueChange={store.ui.setSecondTranslationLanguage}
+              selectedValue={store.ui.secondTranslationLanguage}
+              style={tw`w-32`}>
+              {Object.values(languages).map((v, index) => {
+                return <Picker.Item label={v.name} value={v.code} key={index} />
+              })}
+            </Picker>
           </View>
         </View>
       )}

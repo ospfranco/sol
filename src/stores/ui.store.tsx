@@ -150,6 +150,8 @@ export let createUIStore = (root: IRootStore) => {
         store.weatherLon = parsedStore.weatherLon
         store.onboardingStep = parsedStore.onboardingStep
         store.launchAtLogin = parsedStore.launchAtLogin
+        store.firstTranslationLanguage = parsedStore.firstTranslationLanguage
+        store.secondTranslationLanguage = parsedStore.secondTranslationLanguage
         if (
           store.onboardingStep !== 'v1_completed' &&
           store.onboardingStep !== 'v1_skipped'
@@ -306,6 +308,8 @@ end tell`)
     weatherLat: '' as string,
     weatherLon: '' as string,
     launchAtLogin: false as boolean,
+    firstTranslationLanguage: 'en' as string,
+    secondTranslationLanguage: 'de' as string,
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -382,6 +386,12 @@ end tell`)
     //    / /\ \ / __| __| |/ _ \| '_ \/ __|
     //   / ____ \ (__| |_| | (_) | | | \__ \
     //  /_/    \_\___|\__|_|\___/|_| |_|___/
+    setFirstTranslationLanguage: (l: string) => {
+      store.firstTranslationLanguage = l
+    },
+    setSecondTranslationLanguage: (l: string) => {
+      store.secondTranslationLanguage = l
+    },
     setLaunchAtLogin: (launchAtLogin: boolean) => {
       store.launchAtLogin = launchAtLogin
       solNative.setLaunchAtLogin(launchAtLogin)
@@ -689,7 +699,11 @@ end tell`)
             if (store.query) {
               store.isLoading = true
               try {
-                const translations = await doubleTranslate(store.query)
+                const translations = await doubleTranslate(
+                  store.firstTranslationLanguage,
+                  store.secondTranslationLanguage,
+                  store.query,
+                )
                 runInAction(() => {
                   store.focusedWidget = FocusableWidget.TRANSLATION
                   store.translationResults = translations
