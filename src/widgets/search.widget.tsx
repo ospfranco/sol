@@ -108,9 +108,6 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
               />
             </View>
           )}
-          {/* {store.ui.isLoading && (
-            <ActivityIndicator size="small" style={tw`w-2 h-2`} />
-          )} */}
         </Animated.View>
       </View>
 
