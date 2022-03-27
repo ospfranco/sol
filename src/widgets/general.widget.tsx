@@ -25,9 +25,7 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
 
       {!!store.ui.track?.title ? (
         <Text style={tw`w-48`} numberOfLines={1}>
-          <Text style={tw`text-xs pl-1 font-medium`}>
-            {store.ui.track?.title}
-          </Text>{' '}
+          <Text style={tw`text-xs pl-1`}>{store.ui.track?.title}</Text>{' '}
           {!!store.ui.track?.artist && (
             <Text style={tw`dark:text-gray-400 text-gray-600 text-xs`}>
               · {store.ui.track?.artist}
@@ -40,7 +38,7 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
 
       {!!store.ui.currentlyTrackedProject ? (
         <View style={tw`flex-row items-center`}>
-          <Text style={tw`text-xs font-bold pl-1`}>
+          <Text style={tw`text-xs pl-1`}>
             {store.ui.currentlyTrackedProject.project.name}
           </Text>
           <Text style={tw`text-xs dark:text-gray-400 text-gray-600 pl-1`}>
@@ -54,8 +52,8 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
 
       {!!store.ui.currentTemp ? (
         <Text style={tw`w-48 text-right`}>
-          <Text style={tw`text-xs font-bold`}>{store.ui.currentTemp}°</Text>{' '}
-          <Text style={tw`text-xs dark:text-gray-400 text-gray-600`}>
+          <Text style={tw`text-xs`}>{store.ui.currentTemp}°</Text>{' '}
+          <Text style={tw`text-xs dark:text-gray-400 text-gray-500`}>
             · {store.ui.nextHourForecast}
           </Text>
         </Text>

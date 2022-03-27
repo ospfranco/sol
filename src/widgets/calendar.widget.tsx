@@ -88,13 +88,13 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
                     </View>
                     <Text
                       numberOfLines={1}
-                      style={tw.style(`flex-1`, {
+                      style={tw.style(`flex-1 text-sm`, {
                         'line-through': event.status === 2,
                       })}>
                       {event.title}
                     </Text>
                     <Text
-                      style={tw`text-gray-500 dark:text-gray-400 text-right text-sm`}>
+                      style={tw`text-gray-500 dark:text-gray-400 text-right text-xs`}>
                       {event.isAllDay ? (
                         'All day'
                       ) : (
