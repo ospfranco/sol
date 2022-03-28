@@ -18,7 +18,6 @@ final class Panel: NSPanel, NSWindowDelegate {
       self.standardWindowButton(.zoomButton)?.isHidden = true
       self.isOpaque = false
 //      self.alphaValue = 0.98
-//      blah blah
       let visualEffect = NSVisualEffectView(frame: frame)
       visualEffect.blendingMode = .behindWindow
       visualEffect.material = .fullScreenUI
@@ -26,19 +25,6 @@ final class Panel: NSPanel, NSWindowDelegate {
       self.contentView!.addSubview(visualEffect)
       self.delegate = self
     }
-  
-    
-//    override var canBecomeKey: Bool {
-//        return true
-//    }
-//
-//    override var canBecomeMain: Bool {
-//      return true
-//    }
-  
-//  func windowDidBecomeKey(_ notification: Notification) {
-//    SolEmitter.sharedInstance.onShow()
-//  }
   
    func windowDidResignKey(_ notification: Notification) {
      DispatchQueue.main.async {
