@@ -65,7 +65,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   }
   
   func toggleWindow() {
-    if mainWindow.isVisible && mainWindow.isKeyWindow {
+    if mainWindow != nil && mainWindow.isKeyWindow {
       hideWindow()
     } else {
       showWindow()
