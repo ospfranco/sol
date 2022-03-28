@@ -76,10 +76,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     mainWindow.setIsVisible(false)
     mainWindow.center()
     
-    if !NSApp.isActive {
-      NSApp.activate(ignoringOtherApps: true)
-    }
-    
     mainWindow.makeKeyAndOrderFront(self)
     
     mainWindow.setIsVisible(true)
@@ -90,7 +86,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   }
   
   func hideWindow() {
-    NSApp.hide(self)
+    mainWindow.orderOut(self)
     NSCursor.unhide()
     SolEmitter.sharedInstance.onHide()
   }

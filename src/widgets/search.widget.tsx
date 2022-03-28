@@ -46,7 +46,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
   const colorScheme = Appearance.getColorScheme()
   const store = useStore()
   const focused = store.ui.focusedWidget === FocusableWidget.SEARCH
-  const inputRef = useRef<any | null>(null)
+  const inputRef = useRef<TextInput | null>(null)
   const listRef = useRef<FlatList | null>(null)
   const animatedBorderRef = useRef(
     new Animated.Value(store.ui.isLoading ? 1 : 0),

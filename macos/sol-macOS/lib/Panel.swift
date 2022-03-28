@@ -1,16 +1,13 @@
 import Foundation
 
-final class Panel: NSWindow {
+final class Panel: NSPanel, NSWindowDelegate {
     init(contentRect: NSRect, backing: NSWindow.BackingStoreType, defer flag: Bool) {
-      super.init(contentRect: contentRect, styleMask: [.titled, .closable, .miniaturizable, .fullSizeContentView, .nonactivatingPanel], backing: backing, defer: flag)
+      super.init(contentRect: contentRect, styleMask: [.titled, .closable, .miniaturizable, .borderless, .fullSizeContentView, .nonactivatingPanel], backing: backing, defer: flag)
       
-//      self.displaysWhenScreenProfileChanges = false
-//      self.visible
-//      self.isFloatingPanel = true
-//      self.level = .floating
+      self.level = .mainMenu
       // Allow the pannel to appear in a fullscreen space
       self.collectionBehavior.insert(.fullScreenAuxiliary)
-      self.hidesOnDeactivate = true
+      self.collectionBehavior.insert(.canJoinAllSpaces)
       self.titleVisibility = .hidden
       self.titlebarAppearsTransparent = true
       self.isMovable = false
@@ -21,19 +18,32 @@ final class Panel: NSWindow {
       self.standardWindowButton(.zoomButton)?.isHidden = true
       self.isOpaque = false
 //      self.alphaValue = 0.98
+//      blah blah
       let visualEffect = NSVisualEffectView(frame: frame)
       visualEffect.blendingMode = .behindWindow
       visualEffect.material = .fullScreenUI
       visualEffect.state = .active
       self.contentView!.addSubview(visualEffect)
-
+      self.delegate = self
     }
+  
     
-    override var canBecomeKey: Bool {
-        return true
-    }
-    
-    override var canBecomeMain: Bool {
-      return false
-    }
+//    override var canBecomeKey: Bool {
+//        return true
+//    }
+//
+//    override var canBecomeMain: Bool {
+//      return true
+//    }
+  
+//  func windowDidBecomeKey(_ notification: Notification) {
+//    SolEmitter.sharedInstance.onShow()
+//  }
+  
+   func windowDidResignKey(_ notification: Notification) {
+     DispatchQueue.main.async {
+       let appDelegate = NSApp.delegate as? AppDelegate
+       appDelegate?.hideWindow()
+     }
+  }
 }
