@@ -177,6 +177,7 @@
 				381D8A6E24576A4E00465D17 /* Bundle React Native code and images */,
 				AB47F5B1B5458AA9DCA44477 /* [CP] Copy Pods Resources */,
 				8E13F5A6081B119AB305575A /* [CP] Embed Pods Frameworks */,
+				70A02FE027F25F110085E9C7 /* Swiftlint */,
 			);
 			buildRules = (
 			);
@@ -316,6 +317,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${BUILT_PRODUCTS_DIR}/LaunchAtLogin_LaunchAtLogin.bundle/Contents/Resources/copy-helper-swiftpm.sh\"\n";
+		};
+		70A02FE027F25F110085E9C7 /* Swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = Swiftlint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 		8E13F5A6081B119AB305575A /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;

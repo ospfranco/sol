@@ -19,9 +19,9 @@ struct MediaHelper {
     // Get song info
     MRMediaRemoteGetNowPlayingInfo(DispatchQueue.main, callback)
 //                                   {
-      
+
 //      (information) in
-      
+
 //        NSLog("%@", information["kMRMediaRemoteNowPlayingInfoArtist"] as! String)
 //        NSLog("%@", information["kMRMediaRemoteNowPlayingInfoTitle"] as! String)
 //        NSLog("%@", information["kMRMediaRemoteNowPlayingInfoAlbum"] as! String)
@@ -32,7 +32,9 @@ struct MediaHelper {
 //        let _MRNowPlayingClientProtobuf: AnyClass? = NSClassFromString("_MRNowPlayingClientProtobuf")
 //        let handle : UnsafeMutableRawPointer! = dlopen("/usr/lib/libobjc.A.dylib", RTLD_NOW)
 //        let object = unsafeBitCast(dlsym(handle, "objc_msgSend"), to:(@convention(c)(AnyClass?,Selector?)->AnyObject).self)(_MRNowPlayingClientProtobuf,Selector("a"+"lloc"))
-//        unsafeBitCast(dlsym(handle, "objc_msgSend"), to:(@convention(c)(AnyObject?,Selector?,Any?)->Void).self)(object,Selector("i"+"nitWithData:"),information["kMRMediaRemoteNowPlayingInfoClientPropertiesData"] as AnyObject?)
+//        unsafeBitCast(
+//            dlsym(handle, "objc_msgSend"),
+//            to:(@convention(c)(AnyObject?,Selector?,Any?)->Void).self)(object,Selector("i"+"nitWithData:"),information["kMRMediaRemoteNowPlayingInfoClientPropertiesData"] as AnyObject?)
 //        NSLog("%@", MRNowPlayingClientGetBundleIdentifier(object))
 //        dlclose(handle)
 //    }

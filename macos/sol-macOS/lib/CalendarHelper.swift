@@ -2,11 +2,11 @@ import Foundation
 import EventKit
 
 class CalendarHelper {
-  
+
   public static var sharedInstance = CalendarHelper()
   private var store = EKEventStore()
   private var dateFormatter = ISO8601DateFormatter()
-  
+
   init() {
     let eventAuthorizationStatus = EKEventStore.authorizationStatus(for: .event)
     if eventAuthorizationStatus == .notDetermined {
@@ -15,26 +15,30 @@ class CalendarHelper {
       }
     }
   }
-  
+
   func getNextEvents(_ query: String?) -> Any? {
     let eventAuthorizationStatus = EKEventStore.authorizationStatus(for: .event)
-    if(eventAuthorizationStatus != .authorized) {
+    if eventAuthorizationStatus != .authorized {
       return []
     }
-      
+
     let calendars = store.calendars(for: .event)
-    
+
     let now = Date()
     let aWeekFromNow = Date(timeIntervalSinceNow: query != nil ?  6 * 7 * 24 * 3600 : 7*24*3600)
     let predicate = store.predicateForEvents(withStart: now, end: aWeekFromNow, calendars: calendars)
     let events = store.events(matching: predicate)
-    
+
     return events.map { event -> Any in
-      
+
       let color = event.calendar.color
-      let hexColor = String(format: "#%02X%02X%02X", (Int) (color!.redComponent * 0xFF), (Int) (color!.greenComponent * 0xFF),
-                            (Int) (color!.blueComponent * 0xFF))
-      
+      let hexColor = String(
+        format: "#%02X%02X%02X",
+        (Int) (color!.redComponent * 0xFF),
+        (Int) (color!.greenComponent * 0xFF),
+        (Int) (color!.blueComponent * 0xFF)
+      )
+
       return [
         "title": event.title,
         "url": event.url?.absoluteString,
@@ -49,7 +53,7 @@ class CalendarHelper {
       ]
     }
   }
-  
+
   func getCalendarAuthorizationStatus() -> String {
     let eventAuthorizationStatus = EKEventStore.authorizationStatus(for: .event)
     switch eventAuthorizationStatus {

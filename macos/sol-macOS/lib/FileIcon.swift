@@ -1,14 +1,13 @@
 import Cocoa
 
-
-class _FileIcon: NSView {
+class FileIcon: NSView {
   let image = NSImageView()
   @objc var url: NSString = "" {
     didSet {
       self.setupView()
     }
   }
-  
+
   override init(frame: CGRect) {
   super.init(frame: frame)
   }
@@ -27,13 +26,13 @@ class _FileIcon: NSView {
 
 @objc (FileIconManager)
 class FileIconManager: RCTViewManager {
- 
+
   override static func requiresMainQueueSetup() -> Bool {
     return true
   }
- 
+
   override func view() -> NSView! {
-    return _FileIcon()
+    return FileIcon()
   }
- 
+
 }

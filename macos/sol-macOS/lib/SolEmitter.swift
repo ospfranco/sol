@@ -1,9 +1,9 @@
 import Foundation
 
 class SolEmitter {
-  
+
   var hasListeners = false
-  
+
   public static var sharedInstance = SolEmitter()
 
   private static var emitter: SolNative!
@@ -13,7 +13,7 @@ class SolEmitter {
   }
 
   func dispatch(name: String, body: Any?) {
-    if(hasListeners) {
+    if hasListeners {
       SolEmitter.emitter.sendEvent(withName: name, body: body)
     }
   }
@@ -26,7 +26,7 @@ class SolEmitter {
       "meta": meta
     ])
   }
-  
+
   func keyUp(key: String?, keyCode: UInt16, meta: Bool) {
     dispatch(name: "keyUp", body: [
       "key": key!,
@@ -34,11 +34,11 @@ class SolEmitter {
       "meta": meta
     ])
   }
-  
+
   func onShow() {
     dispatch(name: "onShow", body: [])
   }
-  
+
   func onHide() {
     dispatch(name: "onHide", body: [])
   }

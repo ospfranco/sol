@@ -2,8 +2,12 @@ import Foundation
 
 final class Panel: NSPanel, NSWindowDelegate {
     init(contentRect: NSRect, backing: NSWindow.BackingStoreType, defer flag: Bool) {
-      super.init(contentRect: contentRect, styleMask: [.titled, .closable, .miniaturizable, .borderless, .fullSizeContentView, .nonactivatingPanel], backing: backing, defer: flag)
-      
+      super.init(
+        contentRect: contentRect,
+        styleMask: [.titled, .closable, .miniaturizable, .borderless, .fullSizeContentView, .nonactivatingPanel],
+        backing: backing,
+        defer: flag)
+
       self.level = .mainMenu
       // Allow the pannel to appear in a fullscreen space
       self.collectionBehavior.insert(.fullScreenAuxiliary)
@@ -25,7 +29,7 @@ final class Panel: NSPanel, NSWindowDelegate {
       self.contentView!.addSubview(visualEffect)
       self.delegate = self
     }
-  
+
    func windowDidResignKey(_ notification: Notification) {
      DispatchQueue.main.async {
        let appDelegate = NSApp.delegate as? AppDelegate
