@@ -164,9 +164,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		514201482437B4B30078DB4F /* sol-macOS */ = {
+		514201482437B4B30078DB4F /* macOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5142015A2437B4B40078DB4F /* Build configuration list for PBXNativeTarget "sol-macOS" */;
+			buildConfigurationList = 5142015A2437B4B40078DB4F /* Build configuration list for PBXNativeTarget "macOS" */;
 			buildPhases = (
 				1A938104A937498D81B3BD3B /* [CP] Check Pods Manifest.lock */,
 				381D8A6F24576A6C00465D17 /* Start Packager */,
@@ -183,7 +183,7 @@
 			);
 			dependencies = (
 			);
-			name = "sol-macOS";
+			name = macOS;
 			packageProductDependencies = (
 				70F7EBF02795A85200CED17A /* HotKey */,
 				706CD89C27EAECBE00EC5F35 /* LaunchAtLogin */,
@@ -224,7 +224,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				514201482437B4B30078DB4F /* sol-macOS */,
+				514201482437B4B30078DB4F /* macOS */,
 			);
 		};
 /* End PBXProject section */
@@ -598,7 +598,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5142015A2437B4B40078DB4F /* Build configuration list for PBXNativeTarget "sol-macOS" */ = {
+		5142015A2437B4B40078DB4F /* Build configuration list for PBXNativeTarget "macOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5142015B2437B4B40078DB4F /* Debug */,

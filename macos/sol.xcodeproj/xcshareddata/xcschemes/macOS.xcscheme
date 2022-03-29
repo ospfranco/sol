@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "514201482437B4B30078DB4F"
                BuildableName = "sol.app"
-               BlueprintName = "sol-macOS"
+               BlueprintName = "macOS"
                ReferencedContainer = "container:sol.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,7 +46,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "514201482437B4B30078DB4F"
             BuildableName = "sol.app"
-            BlueprintName = "sol-macOS"
+            BlueprintName = "macOS"
             ReferencedContainer = "container:sol.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -70,7 +70,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "514201482437B4B30078DB4F"
             BuildableName = "sol.app"
-            BlueprintName = "sol-macOS"
+            BlueprintName = "macOS"
             ReferencedContainer = "container:sol.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
