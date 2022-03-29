@@ -42,15 +42,15 @@
 		</dict>
 	</dict>
 	<key>NSAppleEventsUsageDescription</key>
-	<string>Allow Sol to control system preferences</string>
+	<string>Sol needs permision to execute certain scripts</string>
 	<key>NSCalendarsUsageDescription</key>
-	<string>Allow Sol to display your next appointments</string>
+	<string>Sol needs permission to display your appointments</string>
 	<key>NSMainStoryboardFile</key>
 	<string>Main</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>NSSupportsAutomaticTermination</key>
-	<true/>
+	<false/>
 	<key>NSSupportsSuddenTermination</key>
 	<true/>
 </dict>

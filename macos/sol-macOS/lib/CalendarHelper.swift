@@ -4,10 +4,10 @@ import EventKit
 class CalendarHelper {
 
   public static var sharedInstance = CalendarHelper()
-  private var store = EKEventStore()
   private var dateFormatter = ISO8601DateFormatter()
 
   init() {
+    let store = EKEventStore()
     let eventAuthorizationStatus = EKEventStore.authorizationStatus(for: .event)
     if eventAuthorizationStatus == .notDetermined {
       store.requestAccess(to: .event) { granted, error in
@@ -17,6 +17,7 @@ class CalendarHelper {
   }
 
   func getNextEvents(_ query: String?) -> Any? {
+    let store = EKEventStore()
     let eventAuthorizationStatus = EKEventStore.authorizationStatus(for: .event)
     if eventAuthorizationStatus != .authorized {
       return []
