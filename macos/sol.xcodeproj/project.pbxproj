@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1DAB47A1C5202375AB34B232 /* libPods-macOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 26A00CE308779EAC9F81E0E7 /* libPods-macOS.a */; };
 		514201522437B4B40078DB4F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 514201512437B4B40078DB4F /* Assets.xcassets */; };
 		514201552437B4B40078DB4F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 514201532437B4B40078DB4F /* Main.storyboard */; };
 		700A18D8279DBBE40096C830 /* ApplicationSearcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700A18D7279DBBE40096C830 /* ApplicationSearcher.swift */; };
@@ -24,14 +25,15 @@
 		70B78361279BE866008660F5 /* Panel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B78360279BE866008660F5 /* Panel.swift */; };
 		70EA99EA2794967E008E54FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70EA99E92794967E008E54FD /* AppDelegate.swift */; };
 		70F7EBF12795A85200CED17A /* HotKey in Frameworks */ = {isa = PBXBuildFile; productRef = 70F7EBF02795A85200CED17A /* HotKey */; };
-		E2E9BB8131AAA431B6402620 /* libPods-sol-macOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D8F39DB7FD91E1376ED253D /* libPods-sol-macOS.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		02422F9FB6FF5F34B4E63E6F /* Pods-Shared-sol-macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shared-sol-macOS.debug.xcconfig"; path = "Target Support Files/Pods-Shared-sol-macOS/Pods-Shared-sol-macOS.debug.xcconfig"; sourceTree = "<group>"; };
+		26A00CE308779EAC9F81E0E7 /* libPods-macOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-macOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		28CB954D981B0B12E61FFF23 /* Pods-sol-macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sol-macOS.debug.xcconfig"; path = "Target Support Files/Pods-sol-macOS/Pods-sol-macOS.debug.xcconfig"; sourceTree = "<group>"; };
+		3024F09B306485629ADB87FC /* Pods-macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-macOS.debug.xcconfig"; path = "Target Support Files/Pods-macOS/Pods-macOS.debug.xcconfig"; sourceTree = "<group>"; };
 		38423A3E24576CBC00BC2EAC /* main.jsbundle */ = {isa = PBXFileReference; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
-		3D8F39DB7FD91E1376ED253D /* libPods-sol-macOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-sol-macOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4B392B9EB20A626307717950 /* Pods-macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-macOS.release.xcconfig"; path = "Target Support Files/Pods-macOS/Pods-macOS.release.xcconfig"; sourceTree = "<group>"; };
 		514201492437B4B30078DB4F /* sol.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sol.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		514201512437B4B40078DB4F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		514201542437B4B40078DB4F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -67,7 +69,7 @@
 			files = (
 				706CD89D27EAECBE00EC5F35 /* LaunchAtLogin in Frameworks */,
 				70F7EBF12795A85200CED17A /* HotKey in Frameworks */,
-				E2E9BB8131AAA431B6402620 /* libPods-sol-macOS.a in Frameworks */,
+				1DAB47A1C5202375AB34B232 /* libPods-macOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +85,8 @@
 				CE0E74F571E1F48FF00A8324 /* Pods-Shared-sol-macOS.release.xcconfig */,
 				28CB954D981B0B12E61FFF23 /* Pods-sol-macOS.debug.xcconfig */,
 				E38193674F963423ED4771D8 /* Pods-sol-macOS.release.xcconfig */,
+				3024F09B306485629ADB87FC /* Pods-macOS.debug.xcconfig */,
+				4B392B9EB20A626307717950 /* Pods-macOS.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -92,7 +96,7 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				3D8F39DB7FD91E1376ED253D /* libPods-sol-macOS.a */,
+				26A00CE308779EAC9F81E0E7 /* libPods-macOS.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -218,7 +222,7 @@
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			packageReferences = (
 				70F7EBEF2795A85200CED17A /* XCRemoteSwiftPackageReference "HotKey" */,
-				706CD89B27EAECBE00EC5F35 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
+				706CD89B27EAECBE00EC5F35 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */,
 			);
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
@@ -257,7 +261,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-sol-macOS-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-macOS-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -342,7 +346,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-sol-macOS/Pods-sol-macOS-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-macOS/Pods-macOS-frameworks.sh",
 				"${PODS_ROOT}/hermes-engine/destroot/Library/Frameworks/macosx/hermes.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -351,7 +355,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-sol-macOS/Pods-sol-macOS-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-macOS/Pods-macOS-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		AB47F5B1B5458AA9DCA44477 /* [CP] Copy Pods Resources */ = {
@@ -360,7 +364,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-sol-macOS/Pods-sol-macOS-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-macOS/Pods-macOS-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -369,7 +373,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-sol-macOS/Pods-sol-macOS-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-macOS/Pods-macOS-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -411,7 +415,7 @@
 /* Begin XCBuildConfiguration section */
 		5142015B2437B4B40078DB4F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 28CB954D981B0B12E61FFF23 /* Pods-sol-macOS.debug.xcconfig */;
+			baseConfigurationReference = 3024F09B306485629ADB87FC /* Pods-macOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -446,7 +450,7 @@
 		};
 		5142015C2437B4B40078DB4F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E38193674F963423ED4771D8 /* Pods-sol-macOS.release.xcconfig */;
+			baseConfigurationReference = 4B392B9EB20A626307717950 /* Pods-macOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -619,7 +623,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		706CD89B27EAECBE00EC5F35 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */ = {
+		706CD89B27EAECBE00EC5F35 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "git@github.com:sindresorhus/LaunchAtLogin.git";
 			requirement = {
@@ -640,7 +644,7 @@
 /* Begin XCSwiftPackageProductDependency section */
 		706CD89C27EAECBE00EC5F35 /* LaunchAtLogin */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 706CD89B27EAECBE00EC5F35 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */;
+			package = 706CD89B27EAECBE00EC5F35 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */;
 			productName = LaunchAtLogin;
 		};
 		70F7EBF02795A85200CED17A /* HotKey */ = {
