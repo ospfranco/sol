@@ -654,6 +654,8 @@ export let createUIStore = (root: IRootStore) => {
             }
 
             case FocusableWidget.SEARCH: {
+              // TODO: make temporary result + another selectedIndex > 0 work
+              // Too lazy right now
               if (store.temporaryResult) {
                 Clipboard.setString(store.temporaryResult)
                 solNative.hideWindow()
