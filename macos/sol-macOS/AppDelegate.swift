@@ -22,11 +22,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     let rootView = RCTRootView(bundleURL: jsCodeLocation, moduleName: "sol", initialProperties: nil, launchOptions: nil)
 
     mainWindow = Panel(
-      contentRect: NSRect(x: 0, y: 0, width: 750, height: 600),
+      contentRect: NSRect(x: 0, y: 0, width: 750, height: 500),
       backing: .buffered, defer: false)
 
     let origin = CGPoint(x: 0, y: 0)
-    let size = CGSize(width: 750, height: 600)
+    let size = CGSize(width: 750, height: 500)
     let frame = NSRect(origin: origin, size: size)
     mainWindow.setFrame(frame, display: false)
 

@@ -1,4 +1,3 @@
-import {Assets} from 'assets'
 import {Fade} from 'components/Fade'
 import {FileIcon} from 'components/FileIcon'
 import {observer} from 'mobx-react-lite'
@@ -97,17 +96,8 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
             style={tw`flex-1`}
             selectionColor="#0ea5e9"
             placeholderTextColor={tw.color('text-gray-500')}
+            placeholder="Type something..."
           />
-          {!store.ui.query && (
-            <View style={tw`absolute inset-0 items-center justify-center`}>
-              <Image
-                style={tw.style(`-mt-1 w-7 h-7`, {
-                  tintColor: colorScheme === 'dark' ? '#AAA' : '#555',
-                })}
-                source={Assets.SolWhiteSmall}
-              />
-            </View>
-          )}
         </Animated.View>
       </View>
 
