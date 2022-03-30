@@ -1,11 +1,13 @@
 import {useBoolean} from 'hooks'
-import React, {FC} from 'react'
+import React, {FC, MutableRefObject} from 'react'
 import {Appearance, TextInput, TextInputProps, View} from 'react-native'
 import tw from 'tailwind'
 
-interface Props extends TextInputProps {}
+interface Props extends TextInputProps {
+  inputRef?: MutableRefObject<TextInput | null>
+}
 
-export const Input: FC<Props> = props => {
+export const Input: FC<Props> = ({inputRef, ...props}) => {
   const colorScheme = Appearance.getColorScheme()
   const [focused, focusOn, focusOff] = useBoolean(props.autoFocus)
   return (
@@ -17,10 +19,10 @@ export const Input: FC<Props> = props => {
         },
       )}>
       <TextInput
-        // selectionColor="#0284c7"
+        ref={inputRef}
+        selectionColor="#0ea5e9"
         onFocus={focusOn}
         onBlur={focusOff}
-        selectionColor={colorScheme === 'dark' ? 'white' : 'black'}
         {...props}
       />
     </View>

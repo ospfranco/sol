@@ -66,6 +66,7 @@ export enum FocusableWidget {
   PROJECT_SELECT = 'PROJECT_SELECT',
   TRANSLATION = 'TRANSLATION',
   SETTINGS = 'SETTINGS',
+  CREATE_ITEM = 'CREATE_ITEM',
 }
 
 export enum ItemType {
@@ -77,6 +78,14 @@ interface IApp {
   url: string
   type: ItemType.APPLICATION
   name: string
+}
+
+interface ICustomItem {
+  id: string
+  name: string
+  icon: string // save this as base64, save files on disk?
+  link?: string
+  appleScript?: string
 }
 
 interface IPeriod {
@@ -267,6 +276,15 @@ export let createUIStore = (root: IRootStore) => {
       },
       preventClose: true,
     },
+    {
+      icon: '✳️',
+      name: 'Create Shortcut/Script',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        store.focusWidget(FocusableWidget.CREATE_ITEM)
+      },
+      preventClose: true,
+    },
   ]
 
   if (__DEV__) {
@@ -300,6 +318,7 @@ export let createUIStore = (root: IRootStore) => {
     events: [] as INativeEvent[],
     currentTemp: 0 as number,
     nextHourForecast: null as null | string,
+    customItems: [] as ICustomItem[],
     apps: [] as IApp[],
     isLoading: false as boolean,
     translationResults: null as null | {
@@ -878,7 +897,7 @@ export let createUIStore = (root: IRootStore) => {
         })
       })
     },
-    onHide: () => {
+    onHide: ({preventStateClear}: {preventStateClear: boolean}) => {
       store.focusedWidget = FocusableWidget.SEARCH
       store.setQuery('')
       store.selectedIndex = 0

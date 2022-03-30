@@ -32,6 +32,7 @@ class SolNative extends NativeEventEmitter {
   setGlobalShortcut: (key: 'command' | 'option') => void
   getCalendarAuthorizationStatus: () => Promise<CalendarAuthorizationStatus>
   setLaunchAtLogin: (v: boolean) => void
+  importImage: () => Promise<string>
 
   constructor(nativeModule: any) {
     super(nativeModule)
@@ -48,6 +49,7 @@ class SolNative extends NativeEventEmitter {
     this.getCalendarAuthorizationStatus =
       nativeModule.getCalendarAuthorizationStatus
     this.setLaunchAtLogin = nativeModule.setLaunchAtLogin
+    this.importImage = nativeModule.importImage
   }
 }
 
