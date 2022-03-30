@@ -113,10 +113,12 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
 
       <>
         {!!store.ui.temporaryResult && (
-          <Text
-            style={tw`px-3 py-6 text-xl text-center bg-gray-200 my-4 dark:bg-highlightDark`}>
-            {store.ui.temporaryResult}
-          </Text>
+          <View style={tw`p-3`}>
+            <View
+              style={tw`border bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-30 border-buttonBorder dark:border-darkBorder justify-center items-center rounded-lg p-3`}>
+              <Text style={tw`text-xl`}>{store.ui.temporaryResult}</Text>
+            </View>
+          </View>
         )}
 
         <FlatList
@@ -139,8 +141,10 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
                 style={tw.style(
                   `flex-row items-center px-3 py-2 rounded border border-transparent`,
                   {
-                    'bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-30 border-buttonBorder dark:border-darkBorder ':
-                      store.ui.selectedIndex === index && focused,
+                    'bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-30 border-buttonBorder dark:border-darkBorder':
+                      store.ui.selectedIndex === index &&
+                      focused &&
+                      !store.ui.temporaryResult,
                   },
                 )}>
                 {!!item.url && <FileIcon url={item.url} style={tw`w-4 h-4`} />}

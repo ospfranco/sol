@@ -3,7 +3,7 @@
   "version": "1.0.12",
   "private": true,
   "scripts": {
-    "mac": "react-native run-macos",
+    "mac": "react-native run-macos --scheme macOS",
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",

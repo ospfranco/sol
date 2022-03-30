@@ -654,6 +654,12 @@ export let createUIStore = (root: IRootStore) => {
             }
 
             case FocusableWidget.SEARCH: {
+              if (store.temporaryResult) {
+                Clipboard.setString(store.temporaryResult)
+                solNative.hideWindow()
+                return
+              }
+
               const item = store.items[store.selectedIndex]
 
               // bump frequency
