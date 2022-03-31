@@ -38,7 +38,12 @@ export const ProjectCreationWidget: FC<Props> = observer(({style}) => {
       </View>
       <View
         style={tw`border-t border-lightBorder dark:border-darkBorder items-end px-3 py-2`}>
-        <SolButton title="Create" />
+        <SolButton
+          title="Create"
+          onPress={() => {
+            store.ui.createTrackingProject()
+          }}
+        />
       </View>
     </View>
   )
