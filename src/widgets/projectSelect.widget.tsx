@@ -1,7 +1,7 @@
 import {DateTime} from 'luxon'
 import {observer} from 'mobx-react-lite'
 import React, {FC} from 'react'
-import {FlatList, StyleProp, Text, View, ViewStyle} from 'react-native'
+import {FlatList, Text, TouchableOpacity, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
@@ -17,7 +17,7 @@ const DAY_WEEK_TO_TEXT = {
 }
 
 interface Props {
-  style?: StyleProp<ViewStyle>
+  style?: ViewStyle
 }
 
 export const ProjectSelectWidget: FC<Props> = observer(({style}) => {
@@ -38,15 +38,19 @@ export const ProjectSelectWidget: FC<Props> = observer(({style}) => {
   }
 
   return (
-    <View
-      style={tw.style(
-        `flex-1 p-6`,
-        //@ts-ignore
-        style,
-      )}>
-      <Text style={tw`font-medium`}>Track work time</Text>
+    <View style={tw.style(`flex-1`, style)}>
+      <TouchableOpacity
+        style={tw`border-b border-lightBorder dark:border-darkBorder p-3`}
+        onPress={() => {
+          store.ui.onHide()
+        }}>
+        <Text style={tw``}>
+          <Text style={tw`text-gray-500`}>←</Text> Track time
+        </Text>
+      </TouchableOpacity>
       <FlatList
-        style={tw`flex-1 w-full mt-4`}
+        style={tw`flex-1 w-full`}
+        contentContainerStyle={tw`p-3`}
         data={store.ui.projects.slice()}
         ListEmptyComponent={() => {
           return <Text style={tw`text-gray-500`}>No projects</Text>

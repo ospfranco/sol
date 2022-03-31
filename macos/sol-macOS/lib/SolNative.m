@@ -14,5 +14,4 @@ RCT_EXTERN_METHOD(getMediaInfo: (RCTPromiseResolveBlock)resolve rejecter:(RCTPro
 RCT_EXTERN_METHOD(setGlobalShortcut: (NSString)key)
 RCT_EXTERN_METHOD(getCalendarAuthorizationStatus: (RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(setLaunchAtLogin: (BOOL)launchAtLogin)
-RCT_EXTERN_METHOD(importImage: (RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 @end

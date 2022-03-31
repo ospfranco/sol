@@ -127,33 +127,31 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
 
           <Input
             autoFocus
-            // @ts-ignore
-            enableFocusRing={false}
             value={store.ui.weatherApiKey}
             onChangeText={store.ui.setWeatherApiKey}
             placeholder="Api key..."
+            bordered
+            style={tw`mt-2`}
           />
 
           <Text style={tw`pt-4`}>Latitude</Text>
 
           <Input
-            // @ts-ignore
-            enableFocusRing={false}
             value={store.ui.weatherLat}
             onChangeText={store.ui.setWeatherLat}
             placeholder="Latitude..."
-            style={tw`w-full`}
+            style={tw`w-full mt-2`}
+            bordered
           />
 
           <Text style={tw`pt-4`}>Longitude</Text>
 
           <Input
-            // @ts-ignore
-            enableFocusRing={false}
             value={store.ui.weatherLon}
             onChangeText={store.ui.setWeatherLon}
             placeholder="Longitude..."
-            style={tw`w-full`}
+            style={tw`w-full mt-2`}
+            bordered
           />
 
           {__DEV__ && (

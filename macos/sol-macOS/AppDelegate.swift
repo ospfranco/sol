@@ -68,7 +68,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
   func toggleWindow() {
     if mainWindow != nil && mainWindow.isKeyWindow {
-      hideWindow(preventStateClear: false)
+      hideWindow()
     } else {
       showWindow()
     }
@@ -87,10 +87,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     NSCursor.setHiddenUntilMouseMoves(true)
   }
 
-  func hideWindow(preventStateClear: Bool) {
+  func hideWindow() {
     mainWindow.orderOut(self)
     NSCursor.unhide()
-    SolEmitter.sharedInstance.onHide(preventStateClear: preventStateClear)
+    SolEmitter.sharedInstance.onHide()
   }
 
   func setGlobalShortcut(_ key: String) {
@@ -99,23 +99,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
       self.hotKey = HotKey(key: .space, modifiers: [.command], keyDownHandler: toggleWindow)
     } else {
       self.hotKey = HotKey(key: .space, modifiers: [.option], keyDownHandler: toggleWindow)
-    }
-  }
-  
-  func showPanel() {
-    let dialog = NSOpenPanel()
-
-//    mainWindow.level = .mainMenu
-    mainWindow.setIsVisible(false)
-    dialog.level = .floating
-    dialog.title = "Choose an icon file"
-    dialog.allowsMultipleSelection = false
-    dialog.canChooseDirectories = false
-    dialog.canChooseFiles = true
-    
-    if dialog.runModal() == NSApplication.ModalResponse.OK {
-      print("Response OK")
-      mainWindow.setIsVisible(true)
     }
   }
 }

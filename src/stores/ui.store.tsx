@@ -311,7 +311,6 @@ export let createUIStore = (root: IRootStore) => {
     onboardingStep: 'v1_start' as OnboardingStep,
     globalShorcut: 'command' as 'command' | 'option',
     now: DateTime.now() as DateTime,
-    visible: false as boolean,
     query: '' as string,
     selectedIndex: 0 as number,
     focusedWidget: FocusableWidget.SEARCH as FocusableWidget,
@@ -838,7 +837,6 @@ export let createUIStore = (root: IRootStore) => {
     },
     onShow: () => {
       runInAction(() => {
-        store.visible = true
         store.now = DateTime.now()
       })
 
@@ -897,12 +895,17 @@ export let createUIStore = (root: IRootStore) => {
         })
       })
     },
-    onHide: ({preventStateClear}: {preventStateClear: boolean}) => {
+    onHide: () => {
       store.focusedWidget = FocusableWidget.SEARCH
       store.setQuery('')
       store.selectedIndex = 0
       store.translationResults = null
-      store.visible = false
+    },
+    resetUI: () => {
+      store.focusedWidget = FocusableWidget.SEARCH
+      store.setQuery('')
+      store.selectedIndex = 0
+      store.translationResults = null
     },
   })
 

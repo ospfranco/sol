@@ -1,7 +1,8 @@
 import {Input} from 'components/Input'
+import {SolButton} from 'components/SolButton'
 import {observer} from 'mobx-react-lite'
 import React, {FC} from 'react'
-import {Text, View, ViewStyle} from 'react-native'
+import {Text, TouchableOpacity, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
@@ -15,19 +16,29 @@ export const ProjectCreationWidget: FC<Props> = observer(({style}) => {
   const store = useStore()
 
   return (
-    <View style={tw.style(`flex-1 items-center p-6 justify-center`, style)}>
-      <View style={tw`w-92`}>
-        <Text style={tw`font-medium`}>Create Tracking Project</Text>
-
+    <View style={tw.style(`flex-1`, style)}>
+      <TouchableOpacity
+        style={tw`border-b border-lightBorder dark:border-darkBorder p-3`}
+        onPress={() => {
+          store.ui.onHide()
+        }}>
+        <Text style={tw``}>
+          <Text style={tw`text-gray-500`}>←</Text> Create Tracking Project
+        </Text>
+      </TouchableOpacity>
+      <View style={tw`p-3 flex-1`}>
         <Input
           autoFocus
-          // @ts-ignore
-          enableFocusRing={false}
           value={store.ui.tempProjectName}
           onChangeText={store.ui.setTempProjectName}
           placeholder="Project name"
           style={tw`w-full`}
+          inputStyle={tw`text-lg`}
         />
+      </View>
+      <View
+        style={tw`border-t border-lightBorder dark:border-darkBorder items-end p-3`}>
+        <SolButton title="Create" />
       </View>
     </View>
   )

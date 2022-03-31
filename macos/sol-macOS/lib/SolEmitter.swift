@@ -39,9 +39,7 @@ class SolEmitter {
     dispatch(name: "onShow", body: [])
   }
 
-  func onHide(preventStateClear: Bool) {
-    dispatch(name: "onHide", body: [
-      preventStateClear: preventStateClear
-    ])
+  func onHide() {
+    dispatch(name: "onHide", body: [])
   }
 }
