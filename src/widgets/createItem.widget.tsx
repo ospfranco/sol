@@ -2,17 +2,12 @@ import {Icons} from 'assets'
 import {Input} from 'components/Input'
 import {MySwitch} from 'components/MySwitch'
 import {SolButton} from 'components/SolButton'
+import {solNative} from 'lib/SolNative'
 import {observer} from 'mobx-react-lite'
-import React, {FC, useEffect, useRef, useState} from 'react'
-import {
-  Image,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-  ViewStyle,
-} from 'react-native'
+import React, {FC, useEffect, useState} from 'react'
+import {Image, Text, TouchableOpacity, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
+import {ItemType} from 'stores'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
 
@@ -37,36 +32,38 @@ export const USER_COLOR_PALETTE = [
   '#c52828',
 ]
 
-const IconSelector = ({
-  icon,
-  onChange,
-  color,
-  onColorChange,
-}: {
-  icon: string
-  onChange: (name: string) => void
-  color: string
-  onColorChange: (color: string) => void
-}) => {
-  const [open, setOpen] = useState(false)
-
-  return <View style={tw.style(`relative`, {zIndex: 100})}></View>
-}
-
 export const CreateItemWidget: FC<Props> = observer(({style}) => {
   useDeviceContext(tw)
-  // const colorScheme = Appearance.getColorScheme()
   const store = useStore()
-  const inputRef = useRef<TextInput | null>(null)
   const [icon, setIcon] = useState('Apple')
   const [color, setColor] = useState(USER_COLOR_PALETTE[0])
   const [isApplescript, setIsAppleScript] = useState(false)
+  const [name, setName] = useState('')
   const [text, setText] = useState('')
   const [iconSelectorOpen, setIconSelectorOpen] = useState(false)
 
   useEffect(() => {
-    inputRef.current?.focus()
-  }, [])
+    const subscription = solNative.addListener('keyDown', e => {
+      if (isApplescript && e.keyCode === 36) {
+        setText(text + '\n')
+      }
+    })
+    return () => {
+      subscription.remove()
+    }
+  }, [text, setText])
+
+  const commit = () => {
+    store.ui.createCustomItem({
+      name,
+      icon,
+      color,
+      text,
+      isApplescript,
+      type: ItemType.CUSTOM,
+    })
+    store.ui.onHide()
+  }
 
   return (
     <View style={tw.style(`flex-1`, style)}>
@@ -83,7 +80,12 @@ export const CreateItemWidget: FC<Props> = observer(({style}) => {
         <View style={tw`pt-1`}>
           <TouchableOpacity
             onPress={() => setIconSelectorOpen(!iconSelectorOpen)}
-            style={tw`h-6 w-6 justify-center items-center border border-lightBorder dark:border-darkBorder rounded`}>
+            style={tw.style(
+              `h-6 w-6 justify-center items-center border border-lightBorder dark:border-darkBorder rounded`,
+              {
+                'bg-blue-500': iconSelectorOpen,
+              },
+            )}>
             {!!icon ? (
               <Image
                 // @ts-ignore
@@ -98,12 +100,9 @@ export const CreateItemWidget: FC<Props> = observer(({style}) => {
           </TouchableOpacity>
         </View>
         {iconSelectorOpen && (
-          <View
-            style={tw.style(
-              `border-lightBorder dark:border-darkBorder border rounded ml-3 mt-1`,
-            )}>
+          <View style={tw.style(`ml-3`)}>
             <View
-              style={tw`w-full border-b border-lightBorder dark:border-darkBorder flex-row p-2`}>
+              style={tw`w-full border-lightBorder dark:border-darkBorder flex-row px-2`}>
               {USER_COLOR_PALETTE.map(c => (
                 <TouchableOpacity
                   onPress={() => {
@@ -149,9 +148,9 @@ export const CreateItemWidget: FC<Props> = observer(({style}) => {
         {!iconSelectorOpen && (
           <View style={tw.style(`flex-1 ml-2`)}>
             <Input
-              inputRef={inputRef}
-              value={store.ui.tempProjectName}
-              onChangeText={store.ui.setTempProjectName}
+              autoFocus
+              value={name}
+              onChangeText={setName}
               placeholder="Item name..."
               inputStyle={tw`text-lg`}
             />
@@ -188,8 +187,8 @@ export const CreateItemWidget: FC<Props> = observer(({style}) => {
           </View>
         )}
       </View>
-      <View style={tw`border-t dark:border-highlightDark items-end p-3`}>
-        <SolButton title="Create" />
+      <View style={tw`border-t dark:border-highlightDark items-end px-3 py-2`}>
+        <SolButton title="Create" onPress={commit} />
       </View>
     </View>
   )

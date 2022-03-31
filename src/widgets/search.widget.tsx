@@ -1,3 +1,4 @@
+import {Icons} from 'assets'
 import {Fade} from 'components/Fade'
 import {FileIcon} from 'components/FileIcon'
 import {observer} from 'mobx-react-lite'
@@ -13,7 +14,7 @@ import {
   ViewStyle,
 } from 'react-native'
 import {useStore} from 'store'
-import {FAVOURITES, FocusableWidget} from 'stores'
+import {FAVOURITES, FocusableWidget, ItemType} from 'stores'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
 import inbox from '../assets/inbox.png'
@@ -138,7 +139,18 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
                   },
                 )}>
                 {!!item.url && <FileIcon url={item.url} style={tw`w-4 h-4`} />}
-                {!!item.icon && <Text style={tw`text-xs`}>{item.icon}</Text>}
+                {item.type !== ItemType.CUSTOM && !!item.icon && (
+                  <Text style={tw`text-xs`}>{item.icon}</Text>
+                )}
+                {item.type === ItemType.CUSTOM && (
+                  <Image
+                    // @ts-ignore
+                    source={Icons[item.icon]}
+                    style={tw.style(`h-4 w-4`, {
+                      tintColor: item.color,
+                    })}
+                  />
+                )}
                 {!!item.iconImage && (
                   <Image source={item.iconImage} style={tw`w-4 h-4`} />
                 )}

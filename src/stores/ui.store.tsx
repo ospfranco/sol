@@ -72,6 +72,7 @@ export enum FocusableWidget {
 export enum ItemType {
   APPLICATION = 'APPLICATION',
   CONFIGURATION = 'CONFIGURATION',
+  CUSTOM = 'CUSTOM',
 }
 
 interface IApp {
@@ -81,11 +82,12 @@ interface IApp {
 }
 
 interface ICustomItem {
-  id: string
   name: string
-  icon: string // save this as base64, save files on disk?
-  link?: string
-  appleScript?: string
+  icon: string
+  color: string
+  text: string
+  type: ItemType.CUSTOM
+  isApplescript: boolean
 }
 
 interface IPeriod {
@@ -109,6 +111,8 @@ interface IItem {
   type: ItemType
   name: string
   callback?: () => void
+  isApplescript?: boolean
+  text?: string
 }
 
 function extractLinkFromDescription(text?: string, location?: string) {
@@ -161,6 +165,7 @@ export let createUIStore = (root: IRootStore) => {
         store.launchAtLogin = parsedStore.launchAtLogin
         store.firstTranslationLanguage = parsedStore.firstTranslationLanguage
         store.secondTranslationLanguage = parsedStore.secondTranslationLanguage
+        store.customItems = parsedStore.customItems
         if (
           store.onboardingStep !== 'v1_completed' &&
           store.onboardingStep !== 'v1_skipped'
@@ -377,14 +382,17 @@ export let createUIStore = (root: IRootStore) => {
     },
     get items(): IItem[] {
       if (store.query) {
-        let results = new Fuse([...store.apps, ...SETTING_ITEMS], {
-          ...FUSE_OPTIONS,
-          sortFn: (a: any, b: any) => {
-            const freqA = store.frequencies[a.item[0].v] ?? 0
-            const freqB = store.frequencies[b.item[0].v] ?? 0
-            return freqB - freqA
+        let results = new Fuse(
+          [...store.apps, ...SETTING_ITEMS, ...store.customItems],
+          {
+            ...FUSE_OPTIONS,
+            sortFn: (a: any, b: any) => {
+              const freqA = store.frequencies[a.item[0].v] ?? 0
+              const freqB = store.frequencies[b.item[0].v] ?? 0
+              return freqB - freqA
+            },
           },
-        })
+        )
           .search(store.query)
           .map(r => r.item)
 
@@ -425,6 +433,9 @@ export let createUIStore = (root: IRootStore) => {
     //    / /\ \ / __| __| |/ _ \| '_ \/ __|
     //   / ____ \ (__| |_| | (_) | | | \__ \
     //  /_/    \_\___|\__|_|\___/|_| |_|___/
+    createCustomItem: (item: ICustomItem) => {
+      store.customItems.push(item)
+    },
     translateQuery: async () => {
       if (store.query) {
         store.isLoading = true
@@ -696,6 +707,16 @@ export let createUIStore = (root: IRootStore) => {
                 solNative.openFile(item.url)
               } else if (item.callback) {
                 item.callback()
+              }
+
+              if (item.type === ItemType.CUSTOM) {
+                if (item.text) {
+                  if (item.isApplescript) {
+                    solNative.executeAppleScript(item.text)
+                  } else {
+                    Linking.openURL(item.text)
+                  }
+                }
               }
 
               break

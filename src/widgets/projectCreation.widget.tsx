@@ -37,7 +37,7 @@ export const ProjectCreationWidget: FC<Props> = observer(({style}) => {
         />
       </View>
       <View
-        style={tw`border-t border-lightBorder dark:border-darkBorder items-end p-3`}>
+        style={tw`border-t border-lightBorder dark:border-darkBorder items-end px-3 py-2`}>
         <SolButton title="Create" />
       </View>
     </View>
