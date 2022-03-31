@@ -117,7 +117,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
           contentContainerStyle={tw`p-3 flex-grow-1`}
           ref={listRef}
           data={store.ui.items}
-          keyExtractor={item => item.name}
+          keyExtractor={item => `${item.name}-${item.type}`}
           showsVerticalScrollIndicator
           persistentScrollbar
           ListEmptyComponent={
