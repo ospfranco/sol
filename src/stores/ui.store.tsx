@@ -400,7 +400,7 @@ export let createUIStore = (root: IRootStore) => {
           return [
             {
               iconImage: Assets.googleLogo,
-              name: 'Google',
+              name: 'Google Search',
               type: ItemType.CONFIGURATION,
               callback: () => {
                 Linking.openURL(`https://google.com/search?q=${store.query}`)
@@ -420,11 +420,13 @@ export let createUIStore = (root: IRootStore) => {
 
         return results
       } else {
-        return [...store.apps, ...SETTING_ITEMS].sort((a, b) => {
-          const freqA = store.frequencies[a.name] ?? 0
-          const freqB = store.frequencies[b.name] ?? 0
-          return freqB - freqA
-        })
+        return [...store.apps, ...SETTING_ITEMS, ...store.customItems].sort(
+          (a, b) => {
+            const freqA = store.frequencies[a.name] ?? 0
+            const freqB = store.frequencies[b.name] ?? 0
+            return freqB - freqA
+          },
+        )
       }
     },
     //                _   _
