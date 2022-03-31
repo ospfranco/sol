@@ -44,7 +44,7 @@ Get the latest versions from the [releases page](https://github.com/ospfranco/so
 - [x] Customize global shortcut
 - [x] Customize language translation
 - [x] Onboarding tutorial
-- [ ] Custom shortcuts/scripts
+- [x] Custom shortcuts/scripts
 - [ ] This being built on React Native means it is possible to make it compatible to Windows (and maybe Linux?), looking for help there
 - [ ] Window manager
 - [ ] Clipboard manager
