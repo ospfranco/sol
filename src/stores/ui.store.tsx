@@ -283,7 +283,7 @@ export let createUIStore = (root: IRootStore) => {
     },
     {
       icon: '✳️',
-      name: 'Create Shortcut/Script',
+      name: 'Create shortcut',
       type: ItemType.CONFIGURATION,
       callback: () => {
         store.focusWidget(FocusableWidget.CREATE_ITEM)

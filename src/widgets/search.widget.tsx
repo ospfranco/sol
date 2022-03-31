@@ -143,13 +143,18 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
                   <Text style={tw`text-xs`}>{item.icon}</Text>
                 )}
                 {item.type === ItemType.CUSTOM && (
-                  <Image
-                    // @ts-ignore
-                    source={Icons[item.icon]}
-                    style={tw.style(`h-4 w-4`, {
-                      tintColor: item.color,
-                    })}
-                  />
+                  <View
+                    style={tw`h-4 w-4 bg-gray-800 rounded items-center justify-center`}>
+                    <Image
+                      // @ts-ignore
+                      source={Icons[item.icon]}
+                      style={tw.style({
+                        tintColor: item.color,
+                        height: 12,
+                        width: 12,
+                      })}
+                    />
+                  </View>
                 )}
                 {!!item.iconImage && (
                   <Image source={item.iconImage} style={tw`w-4 h-4`} />

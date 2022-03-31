@@ -6,7 +6,7 @@
 
 <h3 align="center">A macOS launcher/command palette</h3>
 
-![screenshot](https://raw.githubusercontent.com/ospfranco/sol/main/s.png)
+![screenshot](https://raw.githubusercontent.com/ospfranco/sol/main/s2.png)
 
 <div align="center">
   <a align="center" href="https://github.com/ospfranco?tab=followers">
@@ -39,16 +39,12 @@ Get the latest versions from the [releases page](https://github.com/ospfranco/so
 - A basic weather API integration
 - Some Applescript commands (sleep, dark mode, etc.)
 
-## Development
-
-`yarn && npx pod-install macos && yarn mac`
-
 ## TODO
 
 - [x] Customize global shortcut
 - [x] Customize language translation
 - [x] Onboarding tutorial
-- [ ] Some sort of plugin system?
+- [ ] Custom shortcuts/scripts
 - [ ] This being built on React Native means it is possible to make it compatible to Windows (and maybe Linux?), looking for help there
 - [ ] Window manager
 - [ ] Clipboard manager
