@@ -163,9 +163,11 @@ export let createUIStore = (root: IRootStore) => {
         store.weatherLon = parsedStore.weatherLon
         store.onboardingStep = parsedStore.onboardingStep
         store.launchAtLogin = parsedStore.launchAtLogin
-        store.firstTranslationLanguage = parsedStore.firstTranslationLanguage
-        store.secondTranslationLanguage = parsedStore.secondTranslationLanguage
-        store.customItems = parsedStore.customItems
+        store.firstTranslationLanguage =
+          parsedStore.firstTranslationLanguage ?? 'en'
+        store.secondTranslationLanguage =
+          parsedStore.secondTranslationLanguage ?? 'de'
+        store.customItems = parsedStore.customItems ?? []
         if (
           store.onboardingStep !== 'v1_completed' &&
           store.onboardingStep !== 'v1_skipped'
