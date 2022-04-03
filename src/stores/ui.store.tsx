@@ -419,13 +419,13 @@ export let createUIStore = (root: IRootStore) => {
 
         return results
       } else {
-        return [...store.apps, ...SETTING_ITEMS, ...store.customItems].sort(
-          (a, b) => {
+        return [...store.apps, ...SETTING_ITEMS, ...store.customItems]
+          .filter(i => !store.favorites[i.name])
+          .sort((a, b) => {
             const freqA = store.frequencies[a.name] ?? 0
             const freqB = store.frequencies[b.name] ?? 0
             return freqB - freqA
-          },
-        )
+          })
       }
     },
     //                _   _

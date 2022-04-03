@@ -61,16 +61,26 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
     }).start()
   }, [store.ui.isLoading])
 
-  useEffect(() => {
-    if (focused && store.ui.items.length) {
-      // listRef.current?.scrollToIndex({
-      //   index: store.ui.selectedIndex,
-      //   viewOffset: 100,
-      // })
-    }
-  }, [focused, store.ui.items, store.ui.selectedIndex])
-
   const favorites = store.ui.favorites
+  const favoriteItems = store.ui.favoriteItems
+
+  useEffect(() => {
+    if (focused) {
+      listRef.current?.scrollToLocation({
+        sectionIndex: !!store.ui.query
+          ? 0
+          : store.ui.selectedIndex < favoriteItems.length
+          ? 0
+          : 1,
+        itemIndex: !!store.ui.query
+          ? store.ui.selectedIndex
+          : store.ui.selectedIndex >= favoriteItems.length
+          ? store.ui.selectedIndex - favoriteItems.length
+          : store.ui.selectedIndex,
+        viewOffset: 80,
+      })
+    }
+  }, [focused, favorites, favoriteItems, store.ui.selectedIndex])
 
   let sections = [
     {
@@ -79,10 +89,10 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
     },
   ]
 
-  if (!store.ui.query) {
+  if (!store.ui.query && favoriteItems.length) {
     sections.unshift({
       key: 'favorites',
-      data: store.ui.favoriteItems,
+      data: [...favoriteItems],
     })
   }
 
@@ -152,14 +162,18 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
             )
           }}
           renderItem={({item, index, section}) => {
+            const finalIndex =
+              !store.ui.query && section.key !== 'favorites'
+                ? store.ui.favoriteItems.length + index
+                : index
             return (
               <View
                 key={index}
                 style={tw.style(
-                  `flex-row items-center pl-3 py-2 rounded border border-transparent`,
+                  `flex-row items-center px-3 py-2 rounded border border-transparent`,
                   {
                     'bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-30 border-buttonBorder dark:border-darkBorder':
-                      store.ui.selectedIndex === index &&
+                      store.ui.selectedIndex === finalIndex &&
                       focused &&
                       !store.ui.temporaryResult,
                   },
@@ -187,34 +201,30 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
                 )}
                 {!!item.iconComponent && <item.iconComponent />}
                 <Text style={tw.style('ml-3 text-sm flex-1')}>{item.name}</Text>
-                {store.ui.selectedIndex === index &&
+                {store.ui.selectedIndex === finalIndex &&
                   focused &&
                   section.key !== 'favorites' && (
                     <TouchableOpacity
                       onPress={() => {
-                        console.warn('toggle favorite', favorites[item.name])
+                        console.warn('blah')
 
                         store.ui.toggleFavorite(item)
                       }}>
                       <Image
                         source={
-                          !!favorites[item.name]
-                            ? Assets.StarFilled
-                            : Assets.Star
+                          favorites[item.name] ? Assets.StarFilled : Assets.Star
                         }
-                        style={tw.style('h-3', {
-                          tintColor: colorScheme === 'dark' ? 'white' : 'black',
+                        style={tw.style('h-3 w-4', {
+                          tintColor: colorScheme === 'dark' ? 'gray' : 'black',
                         })}
                         resizeMode="contain"
                       />
                     </TouchableOpacity>
                   )}
                 {section.key === 'favorites' && (
-                  <View style={tw`flex-row items-center mr-3 flex-shrink-0`}>
-                    <Text style={tw`text-gray-500 dark:text-gray-400 text-xs`}>
-                      ⌘ 1
-                    </Text>
-                  </View>
+                  <Text style={tw`text-gray-500 dark:text-gray-400 text-xs`}>
+                    ⌘ {index + 1}
+                  </Text>
                 )}
               </View>
             )
