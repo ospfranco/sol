@@ -31,21 +31,6 @@ const FUSE_OPTIONS = {
   keys: ['name'],
 }
 
-export const FAVOURITES = [
-  {
-    title: 'Mail',
-    callback: () => {
-      Linking.openURL('https://mail.protonmail.com/u/0/inbox')
-    },
-  },
-  {
-    title: 'Sol',
-    callback: () => {
-      Linking.openURL('vscode://file/Users/osp/Developer/sol')
-    },
-  },
-]
-
 const MEETING_PROVIDERS_URLS = [
   'https://us01web.zoom.us',
   'https://us02web.zoom.us',
@@ -326,6 +311,7 @@ export let createUIStore = (root: IRootStore) => {
     nextHourForecast: null as null | string,
     customItems: [] as ICustomItem[],
     apps: [] as IApp[],
+    favorites: {} as Record<string, boolean>,
     isLoading: false as boolean,
     translationResults: null as null | {
       en: string | undefined
@@ -355,6 +341,17 @@ export let createUIStore = (root: IRootStore) => {
     //   \_____\___/|_| |_| |_| .__/ \__,_|\__\___|\__,_|
     //                        | |
     //                        |_|
+    get favoriteItems(): (IApp | ICustomItem)[] {
+      const items = [...store.apps, ...SETTING_ITEMS, ...store.customItems]
+      const favorites = Object.keys(store.favorites)
+        .map(favName => {
+          return items.find(i => i.name === favName)
+        })
+        .filter(i => i)
+
+      // @ts-ignore
+      return favorites
+    },
     get currentlyTrackedProject(): {
       project: ITrackingProject
       todayTime: number
@@ -437,27 +434,36 @@ export let createUIStore = (root: IRootStore) => {
     //    / /\ \ / __| __| |/ _ \| '_ \/ __|
     //   / ____ \ (__| |_| | (_) | | | \__ \
     //  /_/    \_\___|\__|_|\___/|_| |_|___/
+    toggleFavorite: (item: ICustomItem | IApp) => {
+      if (!!store.favorites[item.name]) {
+        store.favorites[item.name] = false
+      } else {
+        store.favorites[item.name] = true
+      }
+    },
     createCustomItem: (item: ICustomItem) => {
       store.customItems.push(item)
     },
     translateQuery: async () => {
-      store.isLoading = true
-      try {
-        const translations = await doubleTranslate(
-          store.firstTranslationLanguage,
-          store.secondTranslationLanguage,
-          store.query,
-        )
-        runInAction(() => {
-          store.focusedWidget = FocusableWidget.TRANSLATION
-          store.translationResults = translations
-          store.selectedIndex = 0
-        })
-      } catch (e) {
-      } finally {
-        runInAction(() => {
-          store.isLoading = false
-        })
+      if (store.query) {
+        store.isLoading = true
+        try {
+          const translations = await doubleTranslate(
+            store.firstTranslationLanguage,
+            store.secondTranslationLanguage,
+            store.query,
+          )
+          runInAction(() => {
+            store.focusedWidget = FocusableWidget.TRANSLATION
+            store.translationResults = translations
+            store.selectedIndex = 0
+          })
+        } catch (e) {
+        } finally {
+          runInAction(() => {
+            store.isLoading = false
+          })
+        }
       }
     },
     setFirstTranslationLanguage: (l: string) => {
@@ -786,12 +792,9 @@ export let createUIStore = (root: IRootStore) => {
         // "1"
         case 18: {
           if (meta) {
-            if (store.query) {
-              store.translateQuery()
-            } else {
-              FAVOURITES[0].callback()
-              solNative.hideWindow()
-            }
+            store.translateQuery()
+          } else {
+            // FAVOURITES[0].callback()
           }
           break
         }
@@ -803,8 +806,7 @@ export let createUIStore = (root: IRootStore) => {
               Linking.openURL(`https://google.com/search?q=${store.query}`)
               store.query = ''
             } else {
-              FAVOURITES[1].callback()
-              solNative.hideWindow()
+              // FAVOURITES[1].callback()
             }
           }
           break
@@ -817,7 +819,7 @@ export let createUIStore = (root: IRootStore) => {
               Linking.openURL(`https://google.com/search?q=${store.query}`)
               store.query = ''
             } else {
-              FAVOURITES[2].callback()
+              // FAVOURITES[2].callback()
             }
           }
           break
@@ -826,7 +828,7 @@ export let createUIStore = (root: IRootStore) => {
         // "4"
         case 21: {
           if (meta) {
-            FAVOURITES[3].callback()
+            // FAVOURITES[3].callback()
           }
           break
         }
@@ -834,7 +836,7 @@ export let createUIStore = (root: IRootStore) => {
         // "5"
         case 23: {
           if (meta) {
-            FAVOURITES[4].callback()
+            // FAVOURITES[4].callback()
           }
           break
         }

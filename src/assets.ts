@@ -118,6 +118,8 @@ import googleTranslateLogo from './assets/google_translate.png'
 import Logo from './assets/Logo.png'
 import SolBlackSmall from './assets/SolBlackSmall.png'
 import SolWhiteSmall from './assets/SolWhiteSmall.png'
+import Star from './assets/star.png'
+import StarFilled from './assets/starFilled.png'
 
 export const Assets = {
   googleLogo,
@@ -126,6 +128,8 @@ export const Assets = {
   SolWhiteSmall,
   Logo,
   Airdrop,
+  Star,
+  StarFilled,
 }
 
 export const Icons = {

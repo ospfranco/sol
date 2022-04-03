@@ -1,4 +1,4 @@
-import {Icons} from 'assets'
+import {Assets, Icons} from 'assets'
 import {Fade} from 'components/Fade'
 import {FileIcon} from 'components/FileIcon'
 import {observer} from 'mobx-react-lite'
@@ -6,15 +6,16 @@ import React, {FC, useEffect, useRef} from 'react'
 import {
   Animated,
   Appearance,
-  FlatList,
   Image,
+  SectionList,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
   ViewStyle,
 } from 'react-native'
 import {useStore} from 'store'
-import {FAVOURITES, FocusableWidget, ItemType} from 'stores'
+import {FocusableWidget, ItemType} from 'stores'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
 import inbox from '../assets/inbox.png'
@@ -47,7 +48,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
   const store = useStore()
   const focused = store.ui.focusedWidget === FocusableWidget.SEARCH
   const inputRef = useRef<TextInput | null>(null)
-  const listRef = useRef<FlatList | null>(null)
+  const listRef = useRef<SectionList | null>(null)
   const animatedBorderRef = useRef(
     new Animated.Value(store.ui.isLoading ? 1 : 0),
   )
@@ -62,12 +63,28 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
 
   useEffect(() => {
     if (focused && store.ui.items.length) {
-      listRef.current?.scrollToIndex({
-        index: store.ui.selectedIndex,
-        viewOffset: 100,
-      })
+      // listRef.current?.scrollToIndex({
+      //   index: store.ui.selectedIndex,
+      //   viewOffset: 100,
+      // })
     }
   }, [focused, store.ui.items, store.ui.selectedIndex])
+
+  const favorites = store.ui.favorites
+
+  let sections = [
+    {
+      data: store.ui.items,
+      key: 'all',
+    },
+  ]
+
+  if (!store.ui.query) {
+    sections.unshift({
+      key: 'favorites',
+      data: store.ui.favoriteItems,
+    })
+  }
 
   return (
     <View style={style}>
@@ -112,11 +129,11 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
           </View>
         )}
 
-        <FlatList
+        <SectionList
           style={tw`flex-1`}
           contentContainerStyle={tw`p-3 flex-grow-1`}
           ref={listRef}
-          data={store.ui.items}
+          sections={sections}
           keyExtractor={item => `${item.name}-${item.type}`}
           showsVerticalScrollIndicator
           persistentScrollbar
@@ -125,12 +142,21 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
               <Image source={inbox} style={tw`h-10`} resizeMode="contain" />
             </View>
           }
-          renderItem={({item, index}) => {
+          renderSectionFooter={() => {
+            return (
+              <View style={tw`items-center justify-center my-3`}>
+                <View
+                  style={tw`w-64 border-b border-lightBorder dark:border-darkBorder`}
+                />
+              </View>
+            )
+          }}
+          renderItem={({item, index, section}) => {
             return (
               <View
                 key={index}
                 style={tw.style(
-                  `flex-row items-center px-3 py-2 rounded border border-transparent`,
+                  `flex-row items-center pl-3 py-2 rounded border border-transparent`,
                   {
                     'bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-30 border-buttonBorder dark:border-darkBorder':
                       store.ui.selectedIndex === index &&
@@ -160,7 +186,36 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
                   <Image source={item.iconImage} style={tw`w-4 h-4`} />
                 )}
                 {!!item.iconComponent && <item.iconComponent />}
-                <Text style={tw.style('ml-3 text-sm')}>{item.name}</Text>
+                <Text style={tw.style('ml-3 text-sm flex-1')}>{item.name}</Text>
+                {store.ui.selectedIndex === index &&
+                  focused &&
+                  section.key !== 'favorites' && (
+                    <TouchableOpacity
+                      onPress={() => {
+                        console.warn('toggle favorite', favorites[item.name])
+
+                        store.ui.toggleFavorite(item)
+                      }}>
+                      <Image
+                        source={
+                          !!favorites[item.name]
+                            ? Assets.StarFilled
+                            : Assets.Star
+                        }
+                        style={tw.style('h-3', {
+                          tintColor: colorScheme === 'dark' ? 'white' : 'black',
+                        })}
+                        resizeMode="contain"
+                      />
+                    </TouchableOpacity>
+                  )}
+                {section.key === 'favorites' && (
+                  <View style={tw`flex-row items-center mr-3 flex-shrink-0`}>
+                    <Text style={tw`text-gray-500 dark:text-gray-400 text-xs`}>
+                      ⌘ 1
+                    </Text>
+                  </View>
+                )}
               </View>
             )
           }}
@@ -168,20 +223,20 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
 
         <View style={tw`absolute right-0 top-4`}>
           <Fade visible={store.ui.commandPressed} style={tw`flex-row`}>
-            {!!store.ui.query && (
+            {/* {!!store.ui.query && (
               <>
                 <Snack title="Translate" index={0} />
                 <Snack title="Google" index={1} />
               </>
-            )}
+            )} */}
 
-            {!store.ui.query && (
+            {/* {!store.ui.query && (
               <>
                 {FAVOURITES.map((fav, index) => (
                   <Snack key={index} title={fav.title} index={index} />
                 ))}
               </>
-            )}
+            )} */}
           </Fade>
         </View>
       </>
