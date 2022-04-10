@@ -136,9 +136,9 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
           }
           renderSectionFooter={() => {
             return (
-              <View style={tw`items-center justify-center my-3`}>
+              <View style={tw`items-center justify-center my-2`}>
                 <View
-                  style={tw`w-64 border-b border-lightBorder dark:border-darkBorder`}
+                  style={tw`w-full border-b border-lightBorder dark:border-darkBorder`}
                 />
               </View>
             )

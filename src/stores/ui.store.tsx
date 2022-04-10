@@ -342,14 +342,9 @@ export let createUIStore = (root: IRootStore) => {
     //                        | |
     //                        |_|
     get favoriteItems(): (IApp | ICustomItem)[] {
-      console.warn('calculating favorite items')
-      // const favoritesCopy = {...store.favorites}
-
       const items = [...store.apps, ...SETTING_ITEMS, ...store.customItems]
       const favorites = store.favorites
-        .map(favName => {
-          return items.find(i => i.name === favName)
-        })
+        .map(favName => items.find(i => i.name === favName))
         .filter(i => i)
 
       // @ts-ignore
