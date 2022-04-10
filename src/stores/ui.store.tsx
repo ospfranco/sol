@@ -441,27 +441,23 @@ export let createUIStore = (root: IRootStore) => {
       store.customItems.push(item)
     },
     translateQuery: async () => {
-      if (store.query) {
-        store.isLoading = true
-        try {
-          const translations = await doubleTranslate(
-            store.firstTranslationLanguage,
-            store.secondTranslationLanguage,
-            store.query,
-          )
-          runInAction(() => {
-            store.focusedWidget = FocusableWidget.TRANSLATION
-            store.translationResults = translations
-            store.selectedIndex = 0
-          })
-        } catch (e) {
-        } finally {
-          runInAction(() => {
-            store.isLoading = false
-          })
-        }
-      } else {
-        FAVOURITES[0].callback()
+      store.isLoading = true
+      try {
+        const translations = await doubleTranslate(
+          store.firstTranslationLanguage,
+          store.secondTranslationLanguage,
+          store.query,
+        )
+        runInAction(() => {
+          store.focusedWidget = FocusableWidget.TRANSLATION
+          store.translationResults = translations
+          store.selectedIndex = 0
+        })
+      } catch (e) {
+      } finally {
+        runInAction(() => {
+          store.isLoading = false
+        })
       }
     },
     setFirstTranslationLanguage: (l: string) => {
@@ -790,7 +786,12 @@ export let createUIStore = (root: IRootStore) => {
         // "1"
         case 18: {
           if (meta) {
-            store.translateQuery()
+            if (store.query) {
+              store.translateQuery()
+            } else {
+              FAVOURITES[0].callback()
+              solNative.hideWindow()
+            }
           }
           break
         }
@@ -803,6 +804,7 @@ export let createUIStore = (root: IRootStore) => {
               store.query = ''
             } else {
               FAVOURITES[1].callback()
+              solNative.hideWindow()
             }
           }
           break
