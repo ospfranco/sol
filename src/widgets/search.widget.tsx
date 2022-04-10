@@ -20,24 +20,6 @@ import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
 import inbox from '../assets/inbox.png'
 
-const Snack = ({title, index}: {title: string; index: number}) => {
-  useDeviceContext(tw)
-
-  return (
-    <View style={tw`flex-row items-center mr-4`}>
-      <View
-        style={tw`bg-gray-200 rounded dark:bg-highlightDark w-4 items-center justify-center`}>
-        <Text style={tw`text-gray-500 dark:text-gray-400 text-sm font-medium`}>
-          {index + 1}
-        </Text>
-      </View>
-      <Text style={tw`text-xs text-gray-600 dark:text-gray-200 ml-2`}>
-        {title}
-      </Text>
-    </View>
-  )
-}
-
 interface Props {
   style?: ViewStyle
 }
@@ -65,21 +47,21 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
   const favoriteItems = store.ui.favoriteItems
 
   useEffect(() => {
-    if (focused) {
-      listRef.current?.scrollToLocation({
-        sectionIndex: !!store.ui.query
-          ? 0
-          : store.ui.selectedIndex < favoriteItems.length
-          ? 0
-          : 1,
-        itemIndex: !!store.ui.query
-          ? store.ui.selectedIndex
-          : store.ui.selectedIndex >= favoriteItems.length
-          ? store.ui.selectedIndex - favoriteItems.length
-          : store.ui.selectedIndex,
-        viewOffset: 80,
-      })
-    }
+    // if (focused) {
+    //   listRef.current?.scrollToLocation({
+    //     sectionIndex: !!store.ui.query
+    //       ? 0
+    //       : store.ui.selectedIndex < favoriteItems.length
+    //       ? 0
+    //       : 1,
+    //     itemIndex: !!store.ui.query
+    //       ? store.ui.selectedIndex
+    //       : store.ui.selectedIndex >= favoriteItems.length
+    //       ? store.ui.selectedIndex - favoriteItems.length
+    //       : store.ui.selectedIndex,
+    //     viewOffset: 80,
+    //   })
+    // }
   }, [focused, favorites, favoriteItems, store.ui.selectedIndex])
 
   let sections = [
@@ -133,7 +115,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
         {!!store.ui.temporaryResult && (
           <View style={tw`p-3`}>
             <View
-              style={tw`border bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-30 border-buttonBorder dark:border-darkBorder justify-center items-center rounded-lg p-3`}>
+              style={tw`bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-30 justify-center items-center rounded-lg p-3`}>
               <Text style={tw`text-xl`}>{store.ui.temporaryResult}</Text>
             </View>
           </View>
@@ -169,15 +151,12 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
             return (
               <View
                 key={index}
-                style={tw.style(
-                  `flex-row items-center px-3 py-2 rounded border border-transparent`,
-                  {
-                    'bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-30 border-buttonBorder dark:border-darkBorder':
-                      store.ui.selectedIndex === finalIndex &&
-                      focused &&
-                      !store.ui.temporaryResult,
-                  },
-                )}>
+                style={tw.style(`flex-row items-center px-3 py-2 rounded`, {
+                  'bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-30':
+                    store.ui.selectedIndex === finalIndex &&
+                    focused &&
+                    !store.ui.temporaryResult,
+                })}>
                 {!!item.url && <FileIcon url={item.url} style={tw`w-4 h-4`} />}
                 {item.type !== ItemType.CUSTOM && !!item.icon && (
                   <Text style={tw`text-xs`}>{item.icon}</Text>
@@ -206,8 +185,6 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
                   section.key !== 'favorites' && (
                     <TouchableOpacity
                       onPress={() => {
-                        console.warn('blah')
-
                         store.ui.toggleFavorite(item)
                       }}>
                       <Image

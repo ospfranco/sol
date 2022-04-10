@@ -311,7 +311,7 @@ export let createUIStore = (root: IRootStore) => {
     nextHourForecast: null as null | string,
     customItems: [] as ICustomItem[],
     apps: [] as IApp[],
-    favorites: {} as Record<string, boolean>,
+    favorites: [] as string[],
     isLoading: false as boolean,
     translationResults: null as null | {
       en: string | undefined
@@ -342,8 +342,11 @@ export let createUIStore = (root: IRootStore) => {
     //                        | |
     //                        |_|
     get favoriteItems(): (IApp | ICustomItem)[] {
+      console.warn('calculating favorite items')
+      // const favoritesCopy = {...store.favorites}
+
       const items = [...store.apps, ...SETTING_ITEMS, ...store.customItems]
-      const favorites = Object.keys(store.favorites)
+      const favorites = store.favorites
         .map(favName => {
           return items.find(i => i.name === favName)
         })
@@ -420,7 +423,7 @@ export let createUIStore = (root: IRootStore) => {
         return results
       } else {
         return [...store.apps, ...SETTING_ITEMS, ...store.customItems]
-          .filter(i => !store.favorites[i.name])
+          .filter(i => !store.favorites.includes(i.name))
           .sort((a, b) => {
             const freqA = store.frequencies[a.name] ?? 0
             const freqB = store.frequencies[b.name] ?? 0
@@ -435,11 +438,19 @@ export let createUIStore = (root: IRootStore) => {
     //   / ____ \ (__| |_| | (_) | | | \__ \
     //  /_/    \_\___|\__|_|\___/|_| |_|___/
     toggleFavorite: (item: ICustomItem | IApp) => {
-      if (!!store.favorites[item.name]) {
-        store.favorites[item.name] = false
+      if (store.favorites.includes(item.name)) {
+        store.favorites = store.favorites.filter(v => v === item.name)
       } else {
-        store.favorites[item.name] = true
+        store.favorites.push(item.name)
       }
+      // if (!!store.favorites[item.name]) {
+      //   console.warn('removing favorite', item.name)
+
+      //   store.favorites[item.name] = false
+      // } else {
+      //   console.warn('ADDING favorite', item.name)
+      //   store.favorites[item.name] = true
+      // }
     },
     createCustomItem: (item: ICustomItem) => {
       store.customItems.push(item)
