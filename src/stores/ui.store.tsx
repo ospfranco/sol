@@ -153,6 +153,7 @@ export let createUIStore = (root: IRootStore) => {
         store.secondTranslationLanguage =
           parsedStore.secondTranslationLanguage ?? 'de'
         store.customItems = parsedStore.customItems ?? []
+        store.favorites = parsedStore.favorites ?? []
         if (
           store.onboardingStep !== 'v1_completed' &&
           store.onboardingStep !== 'v1_skipped'
@@ -696,14 +697,21 @@ export let createUIStore = (root: IRootStore) => {
 
             case FocusableWidget.SEARCH: {
               // TODO: make temporary result + another selectedIndex > 0 work
-              // Too lazy right now
               if (store.temporaryResult) {
                 Clipboard.setString(store.temporaryResult)
                 solNative.hideWindow()
                 return
               }
 
-              const item = store.items[store.selectedIndex]
+              let item = store.items[store.selectedIndex]
+              if (!store.query) {
+                if (store.selectedIndex < store.favorites.length) {
+                  item = store.favoriteItems[store.selectedIndex]
+                } else {
+                  item =
+                    store.items[store.selectedIndex - store.favorites.length]
+                }
+              }
 
               // bump frequency
               store.frequencies[item.name] = store.frequencies[item.name]
