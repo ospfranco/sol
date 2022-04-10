@@ -47,21 +47,22 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
   const favoriteItems = store.ui.favoriteItems
 
   useEffect(() => {
-    // if (focused) {
-    //   listRef.current?.scrollToLocation({
-    //     sectionIndex: !!store.ui.query
-    //       ? 0
-    //       : store.ui.selectedIndex < favoriteItems.length
-    //       ? 0
-    //       : 1,
-    //     itemIndex: !!store.ui.query
-    //       ? store.ui.selectedIndex
-    //       : store.ui.selectedIndex >= favoriteItems.length
-    //       ? store.ui.selectedIndex - favoriteItems.length
-    //       : store.ui.selectedIndex,
-    //     viewOffset: 80,
-    //   })
-    // }
+    if (focused) {
+      listRef.current?.scrollToLocation({
+        sectionIndex:
+          !!store.ui.query || favoriteItems.length === 0
+            ? 0
+            : store.ui.selectedIndex < favoriteItems.length
+            ? 0
+            : 1,
+        itemIndex: !!store.ui.query
+          ? store.ui.selectedIndex
+          : store.ui.selectedIndex >= favoriteItems.length
+          ? store.ui.selectedIndex - favoriteItems.length
+          : store.ui.selectedIndex,
+        viewOffset: 80,
+      })
+    }
   }, [focused, favorites, favoriteItems, store.ui.selectedIndex])
 
   let sections = [
@@ -134,7 +135,10 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
               <Image source={inbox} style={tw`h-10`} resizeMode="contain" />
             </View>
           }
-          renderSectionFooter={() => {
+          renderSectionFooter={({section: {key}}) => {
+            if (key !== 'favorites') {
+              return null
+            }
             return (
               <View style={tw`items-center justify-center my-2`}>
                 <View
