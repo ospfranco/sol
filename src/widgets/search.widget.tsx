@@ -186,9 +186,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
                 <Text
                   style={tw.style('ml-3 text-sm flex-1', {
                     'text-white':
-                      store.ui.selectedIndex === finalIndex &&
-                      focused &&
-                      !store.ui.temporaryResult,
+                      store.ui.selectedIndex === finalIndex && focused,
                   })}>
                   {item.name}
                 </Text>
@@ -216,9 +214,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
                       `text-gray-500 dark:text-gray-400 text-xs w-6`,
                       {
                         'text-white dark:text-white':
-                          store.ui.selectedIndex === finalIndex &&
-                          focused &&
-                          !store.ui.temporaryResult,
+                          store.ui.selectedIndex === finalIndex && focused,
                       },
                     )}>
                     ⌘ {index + 1}
