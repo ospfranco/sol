@@ -59,18 +59,18 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
                   ? DateTime.fromISO(event.endDate)
                   : null
 
+                const highlighted =
+                  focused &&
+                  store.ui.selectedIndex ===
+                    store.ui.events.findIndex(e => e.title === event.title)
+
                 return (
                   <View
                     key={index}
                     style={tw.style(
                       `flex-row py-2 px-2 rounded items-center border border-transparent`,
                       {
-                        'bg-highlight':
-                          focused &&
-                          store.ui.selectedIndex ===
-                            store.ui.events.findIndex(
-                              e => e.title === event.title,
-                            ),
+                        'bg-highlight': highlighted,
                       },
                     )}>
                     <View
@@ -93,11 +93,17 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
                       numberOfLines={1}
                       style={tw.style(`flex-1 text-xs`, {
                         'line-through': event.status === 2,
+                        'text-white': highlighted,
                       })}>
                       {event.title}
                     </Text>
                     <Text
-                      style={tw`text-gray-500 dark:text-gray-400 text-right text-xs`}>
+                      style={tw.style(
+                        `text-gray-500 dark:text-gray-400 text-right text-xs`,
+                        {
+                          'text-white': highlighted,
+                        },
+                      )}>
                       {event.isAllDay ? (
                         'All Day'
                       ) : (
