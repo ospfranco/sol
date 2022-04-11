@@ -13,6 +13,7 @@ import {DateTime} from 'luxon'
 import {autorun, makeAutoObservable, runInAction, toJS} from 'mobx'
 import React, {ReactNode} from 'react'
 import {
+  Alert,
   Appearance,
   AsyncStorage,
   Clipboard,
@@ -197,7 +198,7 @@ export let createUIStore = (root: IRootStore) => {
       },
     },
     {
-      icon: '🕶',
+      iconImage: Assets.DarkModeIcon,
       name: 'Dark mode',
       type: ItemType.CONFIGURATION,
       callback: () => {
@@ -205,7 +206,7 @@ export let createUIStore = (root: IRootStore) => {
       },
     },
     {
-      icon: '💤',
+      iconImage: Assets.SleepIcon,
       name: 'Sleep',
       type: ItemType.CONFIGURATION,
       callback: () => {
@@ -235,6 +236,16 @@ export let createUIStore = (root: IRootStore) => {
         end if
         activate
       end tell`)
+      },
+    },
+    {
+      iconImage: Assets.LockIcon,
+      name: 'Lock',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.executeAppleScript(
+          `tell application "System Events" to keystroke "q" using {control down, command down}`,
+        )
       },
     },
     {
@@ -437,16 +448,12 @@ export let createUIStore = (root: IRootStore) => {
       if (store.favorites.includes(item.name)) {
         store.favorites = store.favorites.filter(v => v === item.name)
       } else {
+        if (store.favorites.length === 5) {
+          Alert.alert('Only 5 favorite items allowed.')
+          return
+        }
         store.favorites.push(item.name)
       }
-      // if (!!store.favorites[item.name]) {
-      //   console.warn('removing favorite', item.name)
-
-      //   store.favorites[item.name] = false
-      // } else {
-      //   console.warn('ADDING favorite', item.name)
-      //   store.favorites[item.name] = true
-      // }
     },
     createCustomItem: (item: ICustomItem) => {
       store.customItems.push(item)

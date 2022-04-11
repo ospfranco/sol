@@ -113,9 +113,12 @@ import Users from './assets/customIcons/Users.png'
 import Video from './assets/customIcons/Video.png'
 import Watch from './assets/customIcons/Watch.png'
 import World from './assets/customIcons/World.png'
+import DarkModeIcon from './assets/DarkModeIcon.png'
 import googleLogo from './assets/google.png'
 import googleTranslateLogo from './assets/google_translate.png'
+import LockIcon from './assets/LockIcon.png'
 import Logo from './assets/Logo.png'
+import SleepIcon from './assets/SleepIcon.png'
 import SolBlackSmall from './assets/SolBlackSmall.png'
 import SolWhiteSmall from './assets/SolWhiteSmall.png'
 import Star from './assets/star.png'
@@ -130,6 +133,9 @@ export const Assets = {
   Airdrop,
   Star,
   StarFilled,
+  DarkModeIcon,
+  SleepIcon,
+  LockIcon,
 }
 
 export const Icons = {
