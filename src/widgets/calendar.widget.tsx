@@ -99,7 +99,7 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
                     </Text>
                     <Text
                       style={tw.style(
-                        `text-gray-500 dark:text-gray-400 text-right text-xs`,
+                        `text-gray-500 dark:text-gray-400 text-right text-sm`,
                         {
                           'text-white': highlighted,
                         },
@@ -125,7 +125,7 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
         )
       })}
       {store.ui.calendarAuthorizationStatus === 'notDetermined' && (
-        <Text style={tw`text-center pt-1 pb-4 text-gray-500 text-xs`}>
+        <Text style={tw`text-center pt-1 pb-4 text-gray-500 text-sm`}>
           Grant Sol access to your Calendar under System Preferences
         </Text>
       )}
