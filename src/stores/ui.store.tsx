@@ -452,25 +452,23 @@ export let createUIStore = (root: IRootStore) => {
       store.customItems.push(item)
     },
     translateQuery: async () => {
-      if (store.query) {
-        store.isLoading = true
-        try {
-          const translations = await doubleTranslate(
-            store.firstTranslationLanguage,
-            store.secondTranslationLanguage,
-            store.query,
-          )
-          runInAction(() => {
-            store.focusedWidget = FocusableWidget.TRANSLATION
-            store.translationResults = translations
-            store.selectedIndex = 0
-          })
-        } catch (e) {
-        } finally {
-          runInAction(() => {
-            store.isLoading = false
-          })
-        }
+      store.isLoading = true
+      try {
+        const translations = await doubleTranslate(
+          store.firstTranslationLanguage,
+          store.secondTranslationLanguage,
+          store.query,
+        )
+        runInAction(() => {
+          store.focusedWidget = FocusableWidget.TRANSLATION
+          store.translationResults = translations
+          store.selectedIndex = 0
+        })
+      } catch (e) {
+      } finally {
+        runInAction(() => {
+          store.isLoading = false
+        })
       }
     },
     setFirstTranslationLanguage: (l: string) => {
@@ -580,6 +578,21 @@ export let createUIStore = (root: IRootStore) => {
           store.events = events
         })
       })
+    },
+    runFavorite: (index: number) => {
+      const item = store.favoriteItems[index]
+
+      if (!!item && item.type === ItemType.CUSTOM) {
+        if (item.text) {
+          if (item.isApplescript) {
+            solNative.executeAppleScript(item.text)
+          } else {
+            Linking.openURL(item.text)
+          }
+        }
+      }
+
+      solNative.hideWindow()
     },
     keyDown: async ({
       keyCode,
@@ -806,9 +819,11 @@ export let createUIStore = (root: IRootStore) => {
         // "1"
         case 18: {
           if (meta) {
-            store.translateQuery()
-          } else {
-            // FAVOURITES[0].callback()
+            if (store.query) {
+              store.translateQuery()
+            } else {
+              store.runFavorite(0)
+            }
           }
           break
         }
@@ -820,7 +835,7 @@ export let createUIStore = (root: IRootStore) => {
               Linking.openURL(`https://google.com/search?q=${store.query}`)
               store.query = ''
             } else {
-              // FAVOURITES[1].callback()
+              store.runFavorite(1)
             }
           }
           break
@@ -833,7 +848,7 @@ export let createUIStore = (root: IRootStore) => {
               Linking.openURL(`https://google.com/search?q=${store.query}`)
               store.query = ''
             } else {
-              // FAVOURITES[2].callback()
+              store.runFavorite(2)
             }
           }
           break
@@ -842,7 +857,7 @@ export let createUIStore = (root: IRootStore) => {
         // "4"
         case 21: {
           if (meta) {
-            // FAVOURITES[3].callback()
+            store.runFavorite(3)
           }
           break
         }
@@ -850,7 +865,7 @@ export let createUIStore = (root: IRootStore) => {
         // "5"
         case 23: {
           if (meta) {
-            // FAVOURITES[4].callback()
+            store.runFavorite(4)
           }
           break
         }

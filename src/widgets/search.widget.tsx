@@ -203,7 +203,8 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
                     </TouchableOpacity>
                   )}
                 {section.key === 'favorites' && (
-                  <Text style={tw`text-gray-500 dark:text-gray-400 text-xs`}>
+                  <Text
+                    style={tw`text-gray-500 dark:text-gray-400 text-xs w-6`}>
                     ⌘ {index + 1}
                   </Text>
                 )}
