@@ -37,16 +37,17 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
             <View style={tw`flex-row pb-1 px-6`}>
               {key === 'tomorrow' || key === 'today' ? (
                 <Text
-                  style={tw`capitalize font-medium dark:text-gray-200 text-gray-500 text-xs`}>
+                  style={tw`capitalize dark:text-gray-400 text-gray-500 text-xs`}>
                   {key}
                 </Text>
               ) : (
                 <Text
-                  style={tw`capitalize font-medium dark:text-gray-200 text-gray-500 text-xs`}>
+                  style={tw`capitalize dark:text-gray-400 text-gray-500 text-xs`}>
                   {key !== 'today' && `${data.date.toFormat('cccc')} `}
                   <Text
-                    style={tw`capitalize font-medium dark:text-gray-400 text-gray-400 text-xs`}>
-                    · {data.date.toFormat('dd LLL')}
+                    style={tw`capitalize dark:text-gray-400 text-gray-500 text-xs`}>
+                    {' '}
+                    {data.date.toFormat('dd LLL')}
                   </Text>
                 </Text>
               )}
@@ -64,7 +65,7 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
                     style={tw.style(
                       `flex-row py-2 px-2 rounded items-center border border-transparent`,
                       {
-                        'bg-highlight dark:bg-gray-500 bg-opacity-30 border-buttonBorder dark:border-darkBorder':
+                        'bg-highlight':
                           focused &&
                           store.ui.selectedIndex ===
                             store.ui.events.findIndex(
@@ -74,7 +75,7 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
                     )}>
                     <View
                       style={tw.style(
-                        `w-[15px] h-[15px] mr-2 rounded-full justify-center items-center`,
+                        `w-[13px] h-[13px] mr-2 rounded-full justify-center items-center`,
                         {
                           borderColor: event.color,
                           borderWidth: 1.5,
@@ -82,7 +83,7 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
                       )}>
                       {event.status === 1 && (
                         <View
-                          style={tw.style(`w-[10px] h-[10px] rounded-full`, {
+                          style={tw.style(`w-[7px] h-[7px] rounded-full`, {
                             backgroundColor: event.color,
                           })}
                         />
@@ -90,7 +91,7 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
                     </View>
                     <Text
                       numberOfLines={1}
-                      style={tw.style(`flex-1 text-sm`, {
+                      style={tw.style(`flex-1 text-xs`, {
                         'line-through': event.status === 2,
                       })}>
                       {event.title}
@@ -98,7 +99,7 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
                     <Text
                       style={tw`text-gray-500 dark:text-gray-400 text-right text-xs`}>
                       {event.isAllDay ? (
-                        'All day'
+                        'All Day'
                       ) : (
                         <>
                           <Text style={tw`text-gray-800 dark:text-gray-200`}>

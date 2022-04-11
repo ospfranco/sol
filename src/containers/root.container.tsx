@@ -18,7 +18,7 @@ import {TranslationWidget} from 'widgets/translation.widget'
 export const RootContainer = observer(() => {
   useDeviceContext(tw)
   const store = useStore()
-  const mainStyle = tw`bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-50 flex-1`
+  const mainStyle = tw`bg-white dark:bg-black bg-opacity-70 dark:bg-opacity-50 flex-1`
 
   if (store.ui.focusedWidget === FocusableWidget.CREATE_ITEM) {
     return <CreateItemWidget style={mainStyle} />

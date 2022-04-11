@@ -1,10 +1,10 @@
 import {RootContainer} from 'containers'
-import React from 'react'
-import {root, StoreProvider} from 'store'
-import {configure} from 'mobx'
-import {LogBox} from 'react-native'
 import 'intl'
 import 'intl/locale-data/jsonp/en'
+import {configure} from 'mobx'
+import React from 'react'
+import {LogBox} from 'react-native'
+import {root, StoreProvider} from 'store'
 
 configure({
   useProxies: 'never',

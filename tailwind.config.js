@@ -1,6 +1,7 @@
 module.exports = {
   theme: {
     fontSize: {
+      xxs: '0.7rem',
       xs: '.75rem',
       sm: '.83rem',
       base: '1rem',
@@ -20,7 +21,7 @@ module.exports = {
       colors: {
         light: {DEFAULT: 'rgb(251, 251, 251)'},
         dark: {DEFAULT: '#22272f'},
-        highlight: {DEFAULT: '#c9c9cd'},
+        highlight: {DEFAULT: '#006ce1'},
         highlightDark: {DEFAULT: '#424242'},
         darkBorder: {DEFAULT: 'rgba(255, 250, 250, .1)'},
         lightBorder: {DEFAULT: 'rgba(0, 0, 0, .1)'},

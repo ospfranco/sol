@@ -84,7 +84,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
       <View style={tw`pt-2`}>
         <Animated.View
           style={[
-            tw`px-3 pt-2 pb-3 flex-row border-b border-lightBorder dark:border-darkBorder relative`,
+            tw`px-3 pt-1 pb-3 flex-row border-b border-lightBorder dark:border-darkBorder relative`,
             {
               borderColor: animatedBorderRef.current.interpolate({
                 inputRange: [0, 1],
@@ -105,7 +105,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
             onChangeText={store.ui.setQuery}
             ref={inputRef}
             style={tw`flex-1`}
-            selectionColor="#0ea5e9"
+            selectionColor="#006ce1"
             placeholderTextColor={tw.color('text-gray-500')}
             placeholder="Type something..."
           />
@@ -140,10 +140,10 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
               return null
             }
             return (
-              <View style={tw`items-center justify-center my-2`}>
-                <View
+              <View style={tw`mt-2`}>
+                {/* <View
                   style={tw`w-full border-b border-lightBorder dark:border-darkBorder`}
-                />
+                /> */}
               </View>
             )
           }}
@@ -156,7 +156,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
               <View
                 key={index}
                 style={tw.style(`flex-row items-center px-3 py-2 rounded`, {
-                  'bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-30':
+                  'bg-highlight':
                     store.ui.selectedIndex === finalIndex &&
                     focused &&
                     !store.ui.temporaryResult,
@@ -183,7 +183,15 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
                   <Image source={item.iconImage} style={tw`w-4 h-4`} />
                 )}
                 {!!item.iconComponent && <item.iconComponent />}
-                <Text style={tw.style('ml-3 text-sm flex-1')}>{item.name}</Text>
+                <Text
+                  style={tw.style('ml-3 text-sm flex-1', {
+                    'text-white':
+                      store.ui.selectedIndex === finalIndex &&
+                      focused &&
+                      !store.ui.temporaryResult,
+                  })}>
+                  {item.name}
+                </Text>
                 {store.ui.selectedIndex === finalIndex &&
                   focused &&
                   section.key !== 'favorites' && (
@@ -196,7 +204,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
                           favorites[item.name] ? Assets.StarFilled : Assets.Star
                         }
                         style={tw.style('h-3 w-4', {
-                          tintColor: colorScheme === 'dark' ? 'gray' : 'black',
+                          tintColor: 'white',
                         })}
                         resizeMode="contain"
                       />
@@ -204,7 +212,15 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
                   )}
                 {section.key === 'favorites' && (
                   <Text
-                    style={tw`text-gray-500 dark:text-gray-400 text-xs w-6`}>
+                    style={tw.style(
+                      `text-gray-500 dark:text-gray-400 text-xs w-6`,
+                      {
+                        'text-white dark:text-white':
+                          store.ui.selectedIndex === finalIndex &&
+                          focused &&
+                          !store.ui.temporaryResult,
+                      },
+                    )}>
                     ⌘ {index + 1}
                   </Text>
                 )}
