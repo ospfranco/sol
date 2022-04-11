@@ -91,7 +91,7 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
                     </View>
                     <Text
                       numberOfLines={1}
-                      style={tw.style(`flex-1 text-xs`, {
+                      style={tw.style(`flex-1 text-sm`, {
                         'line-through': event.status === 2,
                         'text-white': highlighted,
                       })}>

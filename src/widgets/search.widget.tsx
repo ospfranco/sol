@@ -1,5 +1,4 @@
 import {Assets, Icons} from 'assets'
-import {Fade} from 'components/Fade'
 import {FileIcon} from 'components/FileIcon'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect, useRef} from 'react'
@@ -147,8 +146,13 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
             if (item.type === ItemType.TEMPORARY_RESULT) {
               return (
                 <View
-                  key={index}
-                  style={tw`bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-30 justify-center items-center rounded-lg p-3`}>
+                  style={tw.style(
+                    `justify-center items-center rounded-lg p-3`,
+                    {
+                      'bg-highlight':
+                        finalIndex === store.ui.selectedIndex && focused,
+                    },
+                  )}>
                   <Text style={tw`text-xl`}>{store.ui.temporaryResult}</Text>
                 </View>
               )
@@ -224,25 +228,6 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
             )
           }}
         />
-
-        <View style={tw`absolute right-0 top-4`}>
-          <Fade visible={store.ui.commandPressed} style={tw`flex-row`}>
-            {/* {!!store.ui.query && (
-              <>
-                <Snack title="Translate" index={0} />
-                <Snack title="Google" index={1} />
-              </>
-            )} */}
-
-            {/* {!store.ui.query && (
-              <>
-                {FAVOURITES.map((fav, index) => (
-                  <Snack key={index} title={fav.title} index={index} />
-                ))}
-              </>
-            )} */}
-          </Fade>
-        </View>
       </>
     </View>
   )
