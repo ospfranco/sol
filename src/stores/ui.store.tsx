@@ -59,6 +59,7 @@ export enum ItemType {
   APPLICATION = 'APPLICATION',
   CONFIGURATION = 'CONFIGURATION',
   CUSTOM = 'CUSTOM',
+  TEMPORARY_RESULT = 'TEMPORARY_RESULT',
 }
 
 interface IApp {
@@ -405,27 +406,43 @@ export let createUIStore = (root: IRootStore) => {
           .search(store.query)
           .map(r => r.item)
 
-        if (results.length === 0) {
-          return [
-            {
-              iconImage: Assets.googleLogo,
-              name: 'Google Search',
-              type: ItemType.CONFIGURATION,
-              callback: () => {
-                Linking.openURL(`https://google.com/search?q=${store.query}`)
-              },
+        const fallbackItems = [
+          {
+            iconImage: Assets.googleLogo,
+            name: 'Google Search',
+            type: ItemType.CONFIGURATION,
+            callback: () => {
+              Linking.openURL(
+                `https://google.com/search?q=${encodeURIComponent(
+                  store.query,
+                )}`,
+              )
             },
-            {
-              iconImage: Assets.googleTranslateLogo,
-              name: 'Google Translate',
-              type: ItemType.CONFIGURATION,
-              callback: () => {
-                store.translateQuery()
-              },
-              preventClose: true,
+          },
+          {
+            iconImage: Assets.googleTranslateLogo,
+            name: 'Google Translate',
+            type: ItemType.CONFIGURATION,
+            callback: () => {
+              store.translateQuery()
             },
-          ]
-        }
+            preventClose: true,
+          },
+        ]
+
+        // Return the fallback if we have a temporary result or no results
+        const shouldReturnFallback =
+          results.length === 0 || !!store.temporaryResult
+
+        const temporaryResultItems = !!store.temporaryResult
+          ? [{type: ItemType.TEMPORARY_RESULT, name: ''}]
+          : []
+
+        return [
+          ...temporaryResultItems,
+          ...results,
+          ...(shouldReturnFallback ? fallbackItems : []),
+        ]
 
         return results
       } else {
@@ -716,8 +733,7 @@ export let createUIStore = (root: IRootStore) => {
             }
 
             case FocusableWidget.SEARCH: {
-              // TODO: make temporary result + another selectedIndex > 0 work
-              if (store.temporaryResult) {
+              if (store.temporaryResult && store.selectedIndex === 0) {
                 Clipboard.setString(store.temporaryResult)
                 solNative.hideWindow()
                 return

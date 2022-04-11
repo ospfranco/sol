@@ -99,7 +99,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
           ]}>
           <TextInput
             autoFocus
-            // @ts-ignore
+            // @ts-expect-error
             enableFocusRing={false}
             value={store.ui.query}
             onChangeText={store.ui.setQuery}
@@ -113,15 +113,6 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
       </View>
 
       <>
-        {!!store.ui.temporaryResult && (
-          <View style={tw`p-3`}>
-            <View
-              style={tw`bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-30 justify-center items-center rounded-lg p-3`}>
-              <Text style={tw`text-xl`}>{store.ui.temporaryResult}</Text>
-            </View>
-          </View>
-        )}
-
         <SectionList
           style={tw`flex-1`}
           contentContainerStyle={tw`p-3 flex-grow-1`}
@@ -152,14 +143,23 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
               !store.ui.query && section.key !== 'favorites'
                 ? store.ui.favoriteItems.length + index
                 : index
+
+            if (item.type === ItemType.TEMPORARY_RESULT) {
+              return (
+                <View
+                  key={index}
+                  style={tw`bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-30 justify-center items-center rounded-lg p-3`}>
+                  <Text style={tw`text-xl`}>{store.ui.temporaryResult}</Text>
+                </View>
+              )
+            }
+
             return (
               <View
                 key={index}
                 style={tw.style(`flex-row items-center px-3 py-2 rounded`, {
                   'bg-highlight':
-                    store.ui.selectedIndex === finalIndex &&
-                    focused &&
-                    !store.ui.temporaryResult,
+                    store.ui.selectedIndex === finalIndex && focused,
                 })}>
                 {!!item.url && <FileIcon url={item.url} style={tw`w-4 h-4`} />}
                 {item.type !== ItemType.CUSTOM && !!item.icon && (
