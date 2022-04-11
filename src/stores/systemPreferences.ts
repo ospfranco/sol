@@ -8,6 +8,7 @@ const preferences = [
   {preference: 'com.apple.preference.digihub.discs'},
   {
     icon: '📺',
+    name: 'Display',
     preference: 'com.apple.preference.displays',
   },
   {preference: 'com.apple.preference.dock'},
