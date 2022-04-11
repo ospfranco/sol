@@ -1,5 +1,4 @@
 import {Assets, Icons} from 'assets'
-import {Fade} from 'components/Fade'
 import {FileIcon} from 'components/FileIcon'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect, useRef} from 'react'
@@ -231,25 +230,6 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
             )
           }}
         />
-
-        <View style={tw`absolute right-0 top-4`}>
-          <Fade visible={store.ui.commandPressed} style={tw`flex-row`}>
-            {/* {!!store.ui.query && (
-              <>
-                <Snack title="Translate" index={0} />
-                <Snack title="Google" index={1} />
-              </>
-            )} */}
-
-            {/* {!store.ui.query && (
-              <>
-                {FAVOURITES.map((fav, index) => (
-                  <Snack key={index} title={fav.title} index={index} />
-                ))}
-              </>
-            )} */}
-          </Fade>
-        </View>
       </>
     </View>
   )
