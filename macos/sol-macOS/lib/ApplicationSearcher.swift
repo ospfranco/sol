@@ -62,6 +62,8 @@ class ApplicationSearcher: NSObject {
   }
 }
 
+
+
 struct Application {
   var name: String
   var url: String
