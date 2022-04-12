@@ -279,7 +279,7 @@ export let createUIStore = (root: IRootStore) => {
     //   \____/|_.__/|___/\___|_|    \_/ \__,_|_.__/|_|\___||___/
     calendarAuthorizationStatus: 'notDetermined' as CalendarAuthorizationStatus,
     onboardingStep: 'v1_start' as OnboardingStep,
-    globalShorcut: 'command' as 'command' | 'option',
+    globalShortcut: 'command' as 'command' | 'option',
     now: DateTime.now() as DateTime,
     query: '' as string,
     selectedIndex: 0 as number,
@@ -502,7 +502,7 @@ export let createUIStore = (root: IRootStore) => {
     },
     setGlobalShortcut: (key: 'command' | 'option') => {
       solNative.setGlobalShortcut(key)
-      store.globalShorcut = key
+      store.globalShortcut = key
     },
     setWeatherLat: (lat: string) => {
       store.weatherLat = lat
@@ -981,7 +981,7 @@ export let createUIStore = (root: IRootStore) => {
 
   hydrate().then(() => {
     autorun(persist)
-    solNative.setGlobalShortcut(store.globalShorcut)
+    solNative.setGlobalShortcut(store.globalShortcut)
   })
 
   keyDownListener = solNative.addListener('keyDown', store.keyDown)

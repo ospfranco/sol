@@ -175,7 +175,7 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
           <View style={tw`flex-row mt-8 items-center`}>
             <Text style={tw`flex-1`}>Global shortcut</Text>
             <Picker
-              selectedValue={store.ui.globalShorcut}
+              selectedValue={store.ui.globalShortcut}
               style={tw`w-32`}
               onValueChange={v => store.ui.setGlobalShortcut(v)}>
               <Picker.Item label="Command then space" value="command" />

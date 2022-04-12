@@ -1,90 +1,94 @@
+import {SystemPreferencesIcon} from 'components/SystemPreferencesIcon'
 import {solNative} from 'lib/SolNative'
-import {ItemType} from './ui.store'
+import {Item, ItemType} from './ui.store'
 
 const preferences = [
-  {name: 'Language & Region', preference: 'com.apple.Localization'},
-  {name: 'Date & Time', preference: 'com.apple.preference.datetime'},
+  {name: 'Language & Region', preferenceId: 'com.apple.Localization'},
+  {name: 'Date & Time', preferenceId: 'com.apple.preference.datetime'},
   {
     name: 'Desktop & ScreenSaver',
-    preference: 'com.apple.preference.desktopscreeneffect',
+    preferenceId: 'com.apple.preference.desktopscreeneffect',
   },
-  // {preference: 'com.apple.preference.digihub.discs'},
+  // {preferenceId: 'com.apple.preference.digihub.discs'},
   {
     // icon: '📺',
     name: 'Display',
-    preference: 'com.apple.preference.displays',
+    preferenceId: 'com.apple.preference.displays',
   },
-  {name: 'Dock & Menubar', preference: 'com.apple.preference.dock'},
-  {name: 'Battery', preference: 'com.apple.preference.battery'},
-  {name: 'Exposé', preference: 'com.apple.preference.expose'},
-  {preference: 'com.apple.preference.general'},
-  // {preference: 'com.apple.preference.ink'},
-  {name: 'Keyboard', preference: 'com.apple.preference.keyboard'},
-  {name: 'Mouse', preference: 'com.apple.preference.mouse'},
-  {name: 'Network', preference: 'com.apple.preference.network'},
-  {name: 'Notifications', preference: 'com.apple.preference.notifications'},
-  // {preference: 'com.apple.preference.printfax'},
-  {name: 'Screen Time', preference: 'com.apple.preference.screentime'},
-  {preference: 'com.apple.preference.security'},
-  {preference: 'com.apple.preference.sidecar'},
-  {preference: 'com.apple.preference.sound'},
-  {preference: 'com.apple.preference.speech'},
-  {preference: 'com.apple.preference.spotlight'},
-  // {preference: 'com.apple.preference.startupdisk'},
-  {name: 'TrackPad', preference: 'com.apple.preference.trackpad'},
+  {name: 'Dock & Menubar', preferenceId: 'com.apple.preference.dock'},
+  {name: 'Battery', preferenceId: 'com.apple.preference.battery'},
+  {name: 'Exposé', preferenceId: 'com.apple.preference.expose'},
+  {preferenceId: 'com.apple.preference.general'},
+  // {preferenceId: 'com.apple.preference.ink'},
+  {name: 'Keyboard', preferenceId: 'com.apple.preference.keyboard'},
+  {name: 'Mouse', preferenceId: 'com.apple.preference.mouse'},
+  {name: 'Network', preferenceId: 'com.apple.preference.network'},
+  {name: 'Notifications', preferenceId: 'com.apple.preference.notifications'},
+  {name: 'Printers & Scanners', preferenceId: 'com.apple.preference.printfax'},
+  {name: 'Screen Time', preferenceId: 'com.apple.preference.screentime'},
+  {preferenceId: 'com.apple.preference.security'},
+  {preferenceId: 'com.apple.preference.sidecar'},
+  {preferenceId: 'com.apple.preference.sound'},
+  {preferenceId: 'com.apple.preference.speech'},
+  {preferenceId: 'com.apple.preference.spotlight'},
+  // {preferenceId: 'com.apple.preference.startupdisk'},
+  {name: 'Trackpad', preferenceId: 'com.apple.preference.trackpad'},
   {
     name: 'Universal Access',
-    preference: 'com.apple.preference.universalaccess',
+    preferenceId: 'com.apple.preference.universalaccess',
   },
-  {name: 'Apple ID', preference: 'com.apple.preferences.AppleIDPrefPane'},
-  {name: 'App Store', preference: 'com.apple.preferences.appstore'},
-  {name: 'Bluetooth', preference: 'com.apple.preferences.Bluetooth'},
+  {name: 'Apple ID', preferenceId: 'com.apple.preferences.AppleIDPrefPane'},
+  {name: 'App Store', preferenceId: 'com.apple.preferences.appstore'},
+  {name: 'Bluetooth', preferenceId: 'com.apple.preferences.Bluetooth'},
   {
     name: 'Configuration Profiles',
-    preference: 'com.apple.preferences.configurationprofiles',
+    preferenceId: 'com.apple.preferences.configurationprofiles',
   },
-  {preference: 'com.apple.preferences.extensions'},
+  {preferenceId: 'com.apple.preferences.extensions'},
   {
     name: 'Family Sharing',
-    preference: 'com.apple.preferences.FamilySharingPrefPane',
+    preferenceId: 'com.apple.preferences.FamilySharingPrefPane',
   },
-  {preference: 'com.apple.preferences.icloud'},
+  {preferenceId: 'com.apple.preferences.icloud'},
   {
     name: 'Internet Accounts',
-    preference: 'com.apple.preferences.internetaccounts',
+    preferenceId: 'com.apple.preferences.internetaccounts',
   },
   {
     name: 'Parental Controls',
-    preference: 'com.apple.preferences.parentalcontrols',
+    preferenceId: 'com.apple.preferences.parentalcontrols',
   },
-  {preference: 'com.apple.preferences.password'},
-  {preference: 'com.apple.preferences.sharing'},
+  {preferenceId: 'com.apple.preferences.password'},
+  {preferenceId: 'com.apple.preferences.sharing'},
   {
-    name: 'Software Updates',
-    preference: 'com.apple.preferences.softwareupdate',
+    name: 'Software Update',
+    preferenceId: 'com.apple.preferences.softwareupdate',
   },
-  {preference: 'com.apple.preferences.users'},
-  {preference: 'com.apple.preferences.wallet'},
-  // {preference: 'com.apple.prefpanel.fibrechannel'},
-  {preference: 'com.apple.prefs.backup'},
-  // {preference: 'com.apple.Xsan'},
+  {preferenceId: 'com.apple.preferences.users'},
+  {preferenceId: 'com.apple.preferences.wallet'},
+  // {preferenceId: 'com.apple.prefpanel.fibrechannel'},
+  {preferenceId: 'com.apple.prefs.backup'},
+  // {preferenceId: 'com.apple.Xsan'},
 ]
 
-export function buildSystemPreferenceItem(item: {
-  preference: string
+export function buildSystemPreferenceItem({
+  preferenceId,
+  icon,
+  name,
+}: {
+  preferenceId: string
   icon?: string
   name?: string
-}) {
-  const name = item.name || item.preference.split('.').pop()!
+}): Item {
+  name = name || preferenceId.split('.').pop()!
   return {
-    name: `${capitalize(name)} Preference`,
-    icon: item.icon || '⚙️',
+    name: `${capitalize(name)} Preferences`,
+    ...(icon ? {icon: icon} : {iconComponent: SystemPreferencesIcon}),
     type: ItemType.CONFIGURATION,
-    command: 'systemPreferences:open',
     callback: () => {
       solNative.executeAppleScript(`tell application "System Preferences"
       activate
-      set current pane to pane "${item.preference}"
+      set current pane to pane "${preferenceId}"
      end tell
      `)
     },
@@ -96,5 +100,5 @@ function capitalize(str: string) {
 }
 
 export function buildSystemPreferencesItems() {
-  return preferences.map(buildSystemPreferenceItem)
+  return preferences.map(x => buildSystemPreferenceItem(x))
 }
