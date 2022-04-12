@@ -983,6 +983,7 @@ export let createUIStore = (root: IRootStore) => {
           const tokens = pureUrl.split('/')
           const name = tokens[tokens.length - 2].replace('.app', '')
           // TODO: find a more i18n friendly way to find the system preferences app
+          // Find the system preferences app file url for the icon of the sub system preferences
           if (name === 'System Preferences') systemPreferencesUrl = pureUrl
           return {
             type: ItemType.APPLICATION as ItemType.APPLICATION,
