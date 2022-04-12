@@ -70,15 +70,20 @@ const preferences = [
   // {preference: 'com.apple.Xsan'},
 ]
 
-export function buildSystemPreferenceItem(item: {
-  preference: string
-  icon?: string
-  name?: string
-}) {
+export function buildSystemPreferenceItem(
+  item: {
+    preference: string
+    icon?: string
+    name?: string
+  },
+  systemPreferencesUrl: string | undefined,
+) {
   const name = item.name || item.preference.split('.').pop()!
   return {
-    name: `${capitalize(name)} Preference`,
-    icon: item.icon || '⚙️',
+    name: `${capitalize(name)} Preferences`,
+    ...(systemPreferencesUrl
+      ? {url: systemPreferencesUrl}
+      : {icon: item.icon || '⚙️'}),
     type: ItemType.CONFIGURATION,
     command: 'systemPreferences:open',
     callback: () => {
@@ -95,6 +100,10 @@ function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
-export function buildSystemPreferencesItems() {
-  return preferences.map(buildSystemPreferenceItem)
+export function buildSystemPreferencesItems(
+  systemPreferencesUrl: string | undefined,
+) {
+  return preferences.map(x =>
+    buildSystemPreferenceItem(x, systemPreferencesUrl),
+  )
 }

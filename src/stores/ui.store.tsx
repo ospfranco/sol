@@ -257,7 +257,6 @@ export let createUIStore = (root: IRootStore) => {
         )
       },
     },
-    ...buildSystemPreferencesItems(),
     {
       iconComponent: () => {
         const colorScheme = Appearance.getColorScheme()
@@ -965,16 +964,23 @@ export let createUIStore = (root: IRootStore) => {
       // })
 
       solNative.getApps().then(apps => {
+        let systemPreferencesUrl: string | undefined = undefined
+
         // Each "app" is a macOS file url, e.g. file:///Applications/SF%20Symbols
         const cleanApps = apps.map(url => {
           const pureUrl = decodeURI(url.replace('file://', ''))
           const tokens = pureUrl.split('/')
+          const name = tokens[tokens.length - 2].replace('.app', '')
+          // TODO: find a more i18n friendly way to find the system preferences app
+          if (name === 'System Preferences') systemPreferencesUrl = pureUrl
           return {
             type: ItemType.APPLICATION as ItemType.APPLICATION,
             url: pureUrl,
-            name: tokens[tokens.length - 2].replace('.app', ''),
+            name,
           }
         })
+
+        SETTING_ITEMS.push(...buildSystemPreferencesItems(systemPreferencesUrl))
 
         runInAction(() => {
           store.apps = cleanApps
