@@ -1,7 +1,8 @@
 import {Assets} from 'assets'
 import {Parser} from 'expr-eval'
 import Fuse from 'fuse.js'
-import {CONSTANTS} from 'lib/constants'
+import produce from 'immer'
+import {extractMeetingLink} from 'lib/calendar'
 import {
   CalendarAuthorizationStatus,
   INativeEvent,
@@ -40,18 +41,6 @@ const FUSE_OPTIONS = {
   keys: ['name'],
 }
 
-const MEETING_PROVIDERS_URLS = [
-  'https://us01web.zoom.us',
-  'https://us02web.zoom.us',
-  'https://us03web.zoom.us',
-  'https://us04web.zoom.us',
-  'https://us05web.zoom.us',
-  'https://us06web.zoom.us',
-  'https://meet.google.com',
-  'https://meet.ffmuc.net',
-  'https://teams.microsoft.com',
-]
-
 export enum FocusableWidget {
   ONBOARDING = 'ONBOARDING',
   SEARCH = 'SEARCH',
@@ -70,10 +59,11 @@ export enum ItemType {
   TEMPORARY_RESULT = 'TEMPORARY_RESULT',
 }
 
-interface IApp {
+interface IAppItem {
   url: string
   type: ItemType.APPLICATION
   name: string
+  isFavorite?: boolean // injected in UI array
 }
 
 interface ICustomItem {
@@ -83,6 +73,7 @@ interface ICustomItem {
   text: string
   type: ItemType.CUSTOM
   isApplescript: boolean
+  isFavorite?: boolean // injected in UI array
 }
 
 interface IPeriod {
@@ -108,25 +99,7 @@ interface IItem {
   callback?: () => void
   isApplescript?: boolean
   text?: string
-}
-
-function extractLinkFromDescription(text?: string, location?: string) {
-  let link = text
-    ?.replace(/\n/g, ' ')
-    .split(' ')
-    .filter(token => CONSTANTS.REGEX_VALID_URL.test(token))
-    .find(link =>
-      MEETING_PROVIDERS_URLS.some(baseUrl => link.includes(baseUrl)),
-    )
-
-  if (!link && !!location) {
-    const isLocationUrl = CONSTANTS.REGEX_VALID_URL.test(location)
-    if (isLocationUrl) {
-      link = location
-    }
-  }
-
-  return link
+  isFavorite?: boolean // injected in UI array
 }
 
 type OnboardingStep =
@@ -330,7 +303,7 @@ export let createUIStore = (root: IRootStore) => {
     currentTemp: 0 as number,
     nextHourForecast: null as null | string,
     customItems: [] as ICustomItem[],
-    apps: [] as IApp[],
+    apps: [] as IAppItem[],
     favorites: [] as string[],
     isLoading: false as boolean,
     translationResults: null as null | {
@@ -361,7 +334,7 @@ export let createUIStore = (root: IRootStore) => {
     //   \_____\___/|_| |_| |_| .__/ \__,_|\__\___|\__,_|
     //                        | |
     //                        |_|
-    get favoriteItems(): (IApp | ICustomItem)[] {
+    get favoriteItems(): (IAppItem | ICustomItem)[] {
       const items = [...store.apps, ...SETTING_ITEMS, ...store.customItems]
       const favorites = store.favorites
         .map(favName => items.find(i => i.name === favName))
@@ -398,18 +371,17 @@ export let createUIStore = (root: IRootStore) => {
       }
     },
     get items(): IItem[] {
+      const allItems = [...store.apps, ...SETTING_ITEMS, ...store.customItems]
+
       if (store.query) {
-        let results = new Fuse(
-          [...store.apps, ...SETTING_ITEMS, ...store.customItems],
-          {
-            ...FUSE_OPTIONS,
-            sortFn: (a: any, b: any) => {
-              const freqA = store.frequencies[a.item[0].v] ?? 0
-              const freqB = store.frequencies[b.item[0].v] ?? 0
-              return freqB - freqA
-            },
+        let results = new Fuse(allItems, {
+          ...FUSE_OPTIONS,
+          sortFn: (a: any, b: any) => {
+            const freqA = store.frequencies[a.item[0].v] ?? 0
+            const freqB = store.frequencies[b.item[0].v] ?? 0
+            return freqB - freqA
           },
-        )
+        })
           .search(store.query)
           .map(r => r.item)
 
@@ -451,13 +423,29 @@ export let createUIStore = (root: IRootStore) => {
           ...(shouldReturnFallback ? fallbackItems : []),
         ]
       } else {
-        return [...store.apps, ...SETTING_ITEMS, ...store.customItems]
-          .filter(i => !store.favorites.includes(i.name))
-          .sort((a, b) => {
-            const freqA = store.frequencies[a.name] ?? 0
-            const freqB = store.frequencies[b.name] ?? 0
-            return freqB - freqA
+        let items = allItems.sort((a, b) => {
+          const aIsFavorite = !!store.favorites.includes(a.name)
+          const bIsFavorite = !!store.favorites.includes(b.name)
+
+          if (aIsFavorite && !bIsFavorite) {
+            return -1
+          } else if (!aIsFavorite && bIsFavorite) {
+            return 1
+          }
+
+          const freqA = store.frequencies[a.name] ?? 0
+          const freqB = store.frequencies[b.name] ?? 0
+          return freqB - freqA
+        })
+
+        // Add extra props to favorites
+        items = produce(items, draft => {
+          store.favorites.forEach((_, index) => {
+            draft[index].isFavorite = true
           })
+        })
+
+        return items
       }
     },
     //                _   _
@@ -466,7 +454,7 @@ export let createUIStore = (root: IRootStore) => {
     //    / /\ \ / __| __| |/ _ \| '_ \/ __|
     //   / ____ \ (__| |_| | (_) | | | \__ \
     //  /_/    \_\___|\__|_|\___/|_| |_|___/
-    toggleFavorite: (item: ICustomItem | IApp) => {
+    toggleFavorite: (item: ICustomItem | IAppItem) => {
       if (store.favorites.includes(item.name)) {
         store.favorites = store.favorites.filter(v => v === item.name)
       } else {
@@ -711,7 +699,7 @@ export let createUIStore = (root: IRootStore) => {
               if (event) {
                 let eventLink = event.url
                 if (!eventLink && event.notes) {
-                  eventLink = extractLinkFromDescription(event.notes)
+                  eventLink = extractMeetingLink(event.notes)
                 }
                 if (eventLink) {
                   Linking.openURL(eventLink)
@@ -745,14 +733,6 @@ export let createUIStore = (root: IRootStore) => {
               }
 
               let item = store.items[store.selectedIndex]
-              if (!store.query) {
-                if (store.selectedIndex < store.favorites.length) {
-                  item = store.favoriteItems[store.selectedIndex]
-                } else {
-                  item =
-                    store.items[store.selectedIndex - store.favorites.length]
-                }
-              }
 
               // bump frequency
               store.frequencies[item.name] = store.frequencies[item.name]

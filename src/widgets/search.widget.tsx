@@ -5,8 +5,8 @@ import React, {FC, useEffect, useRef} from 'react'
 import {
   Animated,
   Appearance,
+  FlatList,
   Image,
-  SectionList,
   Text,
   TextInput,
   TouchableOpacity,
@@ -17,7 +17,6 @@ import {useStore} from 'store'
 import {FocusableWidget, ItemType} from 'stores'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
-import inbox from '../assets/inbox.png'
 
 interface Props {
   style?: ViewStyle
@@ -29,7 +28,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
   const store = useStore()
   const focused = store.ui.focusedWidget === FocusableWidget.SEARCH
   const inputRef = useRef<TextInput | null>(null)
-  const listRef = useRef<SectionList | null>(null)
+  const listRef = useRef<FlatList | null>(null)
   const animatedBorderRef = useRef(
     new Animated.Value(store.ui.isLoading ? 1 : 0),
   )
@@ -47,36 +46,12 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
 
   useEffect(() => {
     if (focused) {
-      listRef.current?.scrollToLocation({
-        sectionIndex:
-          !!store.ui.query || favoriteItems.length === 0
-            ? 0
-            : store.ui.selectedIndex < favoriteItems.length
-            ? 0
-            : 1,
-        itemIndex: !!store.ui.query
-          ? store.ui.selectedIndex
-          : store.ui.selectedIndex >= favoriteItems.length
-          ? store.ui.selectedIndex - favoriteItems.length
-          : store.ui.selectedIndex,
+      listRef.current?.scrollToIndex({
+        index: store.ui.selectedIndex,
         viewOffset: 80,
       })
     }
   }, [focused, favorites, favoriteItems, store.ui.selectedIndex])
-
-  let sections = [
-    {
-      data: store.ui.items,
-      key: 'all',
-    },
-  ]
-
-  if (!store.ui.query && favoriteItems.length) {
-    sections.unshift({
-      key: 'favorites',
-      data: [...favoriteItems],
-    })
-  }
 
   return (
     <View style={style}>
@@ -111,126 +86,99 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
         </Animated.View>
       </View>
 
-      <>
-        <SectionList
-          style={tw`flex-1`}
-          contentContainerStyle={tw`p-3 flex-grow-1`}
-          ref={listRef}
-          sections={sections}
-          keyExtractor={item => `${item.name}-${item.type}`}
-          showsVerticalScrollIndicator
-          persistentScrollbar
-          ListEmptyComponent={
-            <View style={tw`items-center justify-center flex-1`}>
-              <Image source={inbox} style={tw`h-10`} resizeMode="contain" />
-            </View>
-          }
-          renderSectionFooter={({section: {key}}) => {
-            if (key !== 'favorites') {
-              return null
-            }
-            return (
-              <View style={tw`mt-2`}>
-                {/* <View
-                  style={tw`w-full border-b border-lightBorder dark:border-darkBorder`}
-                /> */}
-              </View>
-            )
-          }}
-          renderItem={({item, index, section}) => {
-            const finalIndex =
-              !store.ui.query && section.key !== 'favorites'
-                ? store.ui.favoriteItems.length + index
-                : index
+      <FlatList
+        style={tw`flex-1`}
+        contentContainerStyle={tw`p-3 flex-grow-1`}
+        ref={listRef}
+        data={store.ui.items}
+        keyExtractor={item => `${item.name}-${item.type}`}
+        renderItem={({item, index}) => {
+          const isActive = index === store.ui.selectedIndex && focused
 
-            const isActive = store.ui.selectedIndex === finalIndex && focused
-
-            if (item.type === ItemType.TEMPORARY_RESULT) {
-              return (
-                <View
-                  key={index}
-                  style={tw.style(
-                    `bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-30 justify-center items-center rounded-lg p-3 mb-2`,
-                    {'bg-highlight dark:bg-highlight': isActive},
-                  )}>
-                  <Text
-                    style={tw.style(`text-xl`, {
-                      'text-white dark:text-white': isActive,
-                    })}>
-                    {store.ui.temporaryResult}
-                  </Text>
-                </View>
-              )
-            }
-
+          if (item.type === ItemType.TEMPORARY_RESULT) {
             return (
               <View
                 key={index}
-                style={tw.style(`flex-row items-center px-3 py-2 rounded`, {
-                  'bg-highlight': isActive,
-                })}>
-                {!!item.url && <FileIcon url={item.url} style={tw`w-4 h-4`} />}
-                {item.type !== ItemType.CUSTOM && !!item.icon && (
-                  <Text style={tw`text-xs`}>{item.icon}</Text>
-                )}
-                {item.type === ItemType.CUSTOM && (
-                  <View
-                    style={tw`h-4 w-4 bg-gray-800 rounded items-center justify-center`}>
-                    <Image
-                      // @ts-ignore
-                      source={Icons[item.icon]}
-                      style={tw.style({
-                        tintColor: item.color,
-                        height: 12,
-                        width: 12,
-                      })}
-                    />
-                  </View>
-                )}
-                {!!item.iconImage && (
-                  <Image source={item.iconImage} style={tw`w-4 h-4`} />
-                )}
-                {!!item.iconComponent && <item.iconComponent />}
+                style={tw.style(
+                  `justify-center items-center rounded-lg p-3 mb-2`,
+                  {'bg-highlight': isActive},
+                )}>
                 <Text
-                  style={tw.style('ml-3 text-sm flex-1', {
-                    'text-white': isActive,
+                  style={tw.style(`text-xl`, {
+                    'text-white dark:text-white': isActive,
                   })}>
-                  {item.name}
+                  {store.ui.temporaryResult}
                 </Text>
-                {store.ui.selectedIndex === finalIndex &&
-                  focused &&
-                  section.key !== 'favorites' && (
-                    <TouchableOpacity
-                      onPress={() => {
-                        store.ui.toggleFavorite(item)
-                      }}>
-                      <Image
-                        source={
-                          favorites[item.name] ? Assets.StarFilled : Assets.Star
-                        }
-                        style={tw.style('h-3 w-4', {
-                          tintColor: 'white',
-                        })}
-                        resizeMode="contain"
-                      />
-                    </TouchableOpacity>
-                  )}
-                {section.key === 'favorites' && (
-                  <Text
-                    style={tw.style(
-                      `text-gray-500 dark:text-gray-400 text-xs w-6`,
-                      {
-                        'text-white dark:text-white': isActive,
-                      },
-                    )}>
-                    ⌘ {index + 1}
-                  </Text>
-                )}
               </View>
             )
-          }}
-        />
-      </>
+          }
+
+          return (
+            <View
+              key={index}
+              style={tw.style(`flex-row items-center px-3 py-2 rounded`, {
+                'bg-highlight': isActive,
+                'mb-2': index === store.ui.favorites.length - 1,
+              })}>
+              {!!item.url && <FileIcon url={item.url} style={tw`w-4 h-4`} />}
+              {item.type !== ItemType.CUSTOM && !!item.icon && (
+                <Text style={tw`text-xs`}>{item.icon}</Text>
+              )}
+              {item.type === ItemType.CUSTOM && (
+                <View
+                  style={tw`h-4 w-4 bg-gray-800 rounded items-center justify-center`}>
+                  <Image
+                    // @ts-ignore
+                    source={Icons[item.icon]}
+                    style={tw.style({
+                      tintColor: item.color,
+                      height: 12,
+                      width: 12,
+                    })}
+                  />
+                </View>
+              )}
+              {!!item.iconImage && (
+                <Image source={item.iconImage} style={tw`w-4 h-4`} />
+              )}
+              {!!item.iconComponent && <item.iconComponent />}
+              <Text
+                style={tw.style('ml-3 text-sm flex-1', {
+                  'text-white': isActive,
+                })}>
+                {item.name}
+              </Text>
+              {store.ui.selectedIndex === index && focused && !item.isFavorite && (
+                <TouchableOpacity
+                  onPress={() => {
+                    store.ui.toggleFavorite(item)
+                  }}>
+                  <Image
+                    source={
+                      favorites[item.name] ? Assets.StarFilled : Assets.Star
+                    }
+                    style={tw.style('h-3 w-4', {
+                      tintColor: 'white',
+                    })}
+                    resizeMode="contain"
+                  />
+                </TouchableOpacity>
+              )}
+              {item.isFavorite && (
+                <Text
+                  style={tw.style(
+                    `text-gray-500 dark:text-gray-400 text-xs w-6`,
+                    {
+                      'text-white dark:text-white': isActive,
+                    },
+                  )}>
+                  ⌘ {index + 1}
+                </Text>
+              )}
+            </View>
+          )
+        }}
+      />
     </View>
   )
 })
