@@ -41,6 +41,18 @@ const FUSE_OPTIONS = {
   keys: ['name'],
 }
 
+interface IPeriod {
+  id: number
+  start: number
+  end?: number
+}
+
+interface ITrackingProject {
+  id: string
+  name: string
+  periods: IPeriod[]
+}
+
 export enum FocusableWidget {
   ONBOARDING = 'ONBOARDING',
   SEARCH = 'SEARCH',
@@ -59,39 +71,11 @@ export enum ItemType {
   TEMPORARY_RESULT = 'TEMPORARY_RESULT',
 }
 
-interface IAppItem {
-  url: string
-  type: ItemType.APPLICATION
-  name: string
-  isFavorite?: boolean // injected in UI array
-}
-
-interface ICustomItem {
-  name: string
-  icon: string
-  color: string
-  text: string
-  type: ItemType.CUSTOM
-  isApplescript: boolean
-  isFavorite?: boolean // injected in UI array
-}
-
-interface IPeriod {
-  id: number
-  start: number
-  end?: number
-}
-
-interface ITrackingProject {
-  id: string
-  name: string
-  periods: IPeriod[]
-}
-
-interface IItem {
+export interface Item {
   icon?: string
   iconImage?: ImageURISource | number | ImageURISource[]
   iconComponent?: ReactNode
+  color?: string
   url?: string
   preventClose?: boolean
   type: ItemType
@@ -151,7 +135,7 @@ export let createUIStore = (root: IRootStore) => {
     }
   }
 
-  const SETTING_ITEMS: IItem[] = [
+  const SETTING_ITEMS: Item[] = [
     {
       icon: '⏰',
       name: 'Track time',
@@ -302,8 +286,8 @@ export let createUIStore = (root: IRootStore) => {
     events: [] as INativeEvent[],
     currentTemp: 0 as number,
     nextHourForecast: null as null | string,
-    customItems: [] as ICustomItem[],
-    apps: [] as IAppItem[],
+    customItems: [] as Item[],
+    apps: [] as Item[],
     favorites: [] as string[],
     isLoading: false as boolean,
     translationResults: null as null | {
@@ -334,7 +318,7 @@ export let createUIStore = (root: IRootStore) => {
     //   \_____\___/|_| |_| |_| .__/ \__,_|\__\___|\__,_|
     //                        | |
     //                        |_|
-    get favoriteItems(): (IAppItem | ICustomItem)[] {
+    get favoriteItems(): Item[] {
       const items = [...store.apps, ...SETTING_ITEMS, ...store.customItems]
       const favorites = store.favorites
         .map(favName => items.find(i => i.name === favName))
@@ -370,7 +354,7 @@ export let createUIStore = (root: IRootStore) => {
         todayTime: Math.floor(todayTime),
       }
     },
-    get items(): IItem[] {
+    get items(): Item[] {
       const allItems = [...store.apps, ...SETTING_ITEMS, ...store.customItems]
 
       if (store.query) {
@@ -454,7 +438,7 @@ export let createUIStore = (root: IRootStore) => {
     //    / /\ \ / __| __| |/ _ \| '_ \/ __|
     //   / ____ \ (__| |_| | (_) | | | \__ \
     //  /_/    \_\___|\__|_|\___/|_| |_|___/
-    toggleFavorite: (item: ICustomItem | IAppItem) => {
+    toggleFavorite: (item: Item) => {
       if (store.favorites.includes(item.name)) {
         store.favorites = store.favorites.filter(v => v === item.name)
       } else {
@@ -465,7 +449,7 @@ export let createUIStore = (root: IRootStore) => {
         store.favorites.push(item.name)
       }
     },
-    createCustomItem: (item: ICustomItem) => {
+    createCustomItem: (item: Item) => {
       store.customItems.push(item)
     },
     translateQuery: async () => {
@@ -735,9 +719,8 @@ export let createUIStore = (root: IRootStore) => {
               let item = store.items[store.selectedIndex]
 
               // bump frequency
-              store.frequencies[item.name] = store.frequencies[item.name]
-                ? store.frequencies[item.name] + 1
-                : 1
+              store.frequencies[item.name] =
+                (store.frequencies[item.name] ?? 0) + 1
 
               // close window
               if (!item.preventClose) {

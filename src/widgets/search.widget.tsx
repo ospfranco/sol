@@ -128,7 +128,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
                 <View
                   style={tw`h-4 w-4 bg-gray-200 dark:bg-gray-800 rounded items-center justify-center`}>
                   <Image
-                    // @ts-ignore
+                    // @ts-expect-error
                     source={Icons[item.icon]}
                     style={tw.style({
                       tintColor: item.color,
