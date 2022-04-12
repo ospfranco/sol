@@ -100,9 +100,5 @@ function capitalize(str: string) {
 }
 
 export function buildSystemPreferencesItems() {
-  // TODO: find a more robust, region independent way of getting the system preferences url
-  const systemPreferencesUrl = '/System/Applications/System Preferences.app/'
-  return preferences.map(x =>
-    buildSystemPreferenceItem(x, systemPreferencesUrl),
-  )
+  return preferences.map(x => buildSystemPreferenceItem(x))
 }

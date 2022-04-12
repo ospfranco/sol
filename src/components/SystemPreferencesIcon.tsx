@@ -6,7 +6,7 @@ export const SystemPreferencesIcon = ({style}: {style?: ViewStyle} = {}) => {
   return (
     <FileIcon
       style={style || tw`w-4 h-4`}
-      url="/System/Applications/SystemPreferences.app"
+      url="/System/Applications/System Preferences.app/"
     />
   )
 }
