@@ -23,6 +23,7 @@ import {
 } from 'react-native'
 import {IRootStore} from 'Store'
 import tw from 'tailwind'
+import {buildSystemPreferencesItems} from './systemPreferences'
 
 const exprParser = new Parser()
 
@@ -249,18 +250,7 @@ export let createUIStore = (root: IRootStore) => {
         )
       },
     },
-    {
-      icon: '📺',
-      name: 'Display preferences',
-      type: ItemType.CONFIGURATION,
-      callback: () => {
-        solNative.executeAppleScript(`tell application "System Preferences"
-        activate
-        set current pane to pane "com.apple.preference.displays"
-       end tell
-       `)
-      },
-    },
+    ...buildSystemPreferencesItems(),
     {
       iconComponent: () => {
         const colorScheme = Appearance.getColorScheme()
