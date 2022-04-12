@@ -1,6 +1,6 @@
 import {SystemPreferencesIcon} from 'components/SystemPreferencesIcon'
 import {solNative} from 'lib/SolNative'
-import {IItem, ItemType} from './ui.store'
+import {Item, ItemType} from './ui.store'
 
 const preferences = [
   {name: 'Language & Region', preferenceId: 'com.apple.Localization'},
@@ -79,7 +79,7 @@ export function buildSystemPreferenceItem({
   preferenceId: string
   icon?: string
   name?: string
-}): IItem {
+}): Item {
   name = name || preferenceId.split('.').pop()!
   return {
     name: `${capitalize(name)} Preferences`,
