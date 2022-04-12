@@ -41,9 +41,6 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
     }).start()
   }, [store.ui.isLoading])
 
-  const favorites = store.ui.favorites
-  const favoriteItems = store.ui.favoriteItems
-
   useEffect(() => {
     if (focused) {
       listRef.current?.scrollToIndex({
@@ -51,7 +48,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
         viewOffset: 80,
       })
     }
-  }, [focused, favorites, favoriteItems, store.ui.selectedIndex])
+  }, [focused, store.ui.selectedIndex])
 
   return (
     <View style={style}>

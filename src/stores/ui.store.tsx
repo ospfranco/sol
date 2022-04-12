@@ -3,6 +3,7 @@ import {Parser} from 'expr-eval'
 import Fuse from 'fuse.js'
 import produce from 'immer'
 import {extractMeetingLink} from 'lib/calendar'
+import {CONSTANTS} from 'lib/constants'
 import {
   CalendarAuthorizationStatus,
   INativeEvent,
@@ -321,10 +322,9 @@ export let createUIStore = (root: IRootStore) => {
     get favoriteItems(): Item[] {
       const items = [...store.apps, ...SETTING_ITEMS, ...store.customItems]
       const favorites = store.favorites
-        .map(favName => items.find(i => i.name === favName))
+        .map(favName => items.find(i => i.name === favName)!)
         .filter(i => i)
 
-      // @ts-ignore
       return favorites
     },
     get currentlyTrackedProject(): {
@@ -369,7 +369,7 @@ export let createUIStore = (root: IRootStore) => {
           .search(store.query)
           .map(r => r.item)
 
-        const fallbackItems = [
+        const fallbackItems: Item[] = [
           {
             iconImage: Assets.googleLogo,
             name: 'Google Search',
@@ -400,6 +400,21 @@ export let createUIStore = (root: IRootStore) => {
         const temporaryResultItems = !!store.temporaryResult
           ? [{type: ItemType.TEMPORARY_RESULT, name: ''}]
           : []
+
+        if (CONSTANTS.LESS_VALID_URL.test(store.query)) {
+          fallbackItems.unshift({
+            type: ItemType.CONFIGURATION,
+            name: 'Open Url',
+            icon: '🌎',
+            callback: () => {
+              if (store.query.startsWith('https://')) {
+                Linking.openURL(store.query)
+              } else {
+                Linking.openURL(`http://${store.query}`)
+              }
+            },
+          })
+        }
 
         return [
           ...temporaryResultItems,
