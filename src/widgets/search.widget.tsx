@@ -14,7 +14,7 @@ import {
   ViewStyle,
 } from 'react-native'
 import {useStore} from 'store'
-import {FocusableWidget, ItemType} from 'stores'
+import {FocusableWidget, Item, ItemType} from 'stores'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
 
@@ -86,7 +86,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
         </Animated.View>
       </View>
 
-      <FlatList
+      <FlatList<Item>
         style={tw`flex-1`}
         contentContainerStyle={tw`p-3 flex-grow-1`}
         ref={listRef}
@@ -148,15 +148,13 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
                 })}>
                 {item.name}
               </Text>
-              {store.ui.selectedIndex === index && focused && !item.isFavorite && (
+              {store.ui.selectedIndex === index && focused && (
                 <TouchableOpacity
                   onPress={() => {
                     store.ui.toggleFavorite(item)
                   }}>
                   <Image
-                    source={
-                      favorites[item.name] ? Assets.StarFilled : Assets.Star
-                    }
+                    source={item.isFavorite ? Assets.StarFilled : Assets.Star}
                     style={tw.style('h-3 w-4', {
                       tintColor: 'white',
                     })}

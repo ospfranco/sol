@@ -12,7 +12,7 @@ import {doubleTranslate} from 'lib/translator'
 import {getWeather} from 'lib/weather'
 import {DateTime} from 'luxon'
 import {autorun, makeAutoObservable, runInAction, toJS} from 'mobx'
-import React, {ReactNode} from 'react'
+import React, {FC} from 'react'
 import {
   Alert,
   Appearance,
@@ -74,7 +74,7 @@ export enum ItemType {
 export interface Item {
   icon?: string
   iconImage?: ImageURISource | number | ImageURISource[]
-  iconComponent?: ReactNode
+  iconComponent?: FC<any>
   color?: string
   url?: string
   preventClose?: boolean
