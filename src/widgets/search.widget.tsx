@@ -169,9 +169,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
                 style={tw.style(`flex-row items-center px-3 py-2 rounded`, {
                   'bg-highlight': isActive,
                 })}>
-                {!!item.fileIconUrl && (
-                  <FileIcon url={item.fileIconUrl} style={tw`w-4 h-4`} />
-                )}
+                {!!item.url && <FileIcon url={item.url} style={tw`w-4 h-4`} />}
                 {item.type !== ItemType.CUSTOM && !!item.icon && (
                   <Text style={tw`text-xs`}>{item.icon}</Text>
                 )}

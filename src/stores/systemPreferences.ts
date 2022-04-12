@@ -1,5 +1,6 @@
+import {SystemPreferencesIcon} from 'components/SystemPreferencesIcon'
 import {solNative} from 'lib/SolNative'
-import {ItemType} from './ui.store'
+import {IItem, ItemType} from './ui.store'
 
 const preferences = [
   {name: 'Language & Region', preferenceId: 'com.apple.Localization'},
@@ -70,24 +71,24 @@ const preferences = [
   // {preferenceId: 'com.apple.Xsan'},
 ]
 
-export function buildSystemPreferenceItem(
-  item: {
-    preferenceId: string
-    icon?: string
-    name?: string
-  },
-  systemPreferencesUrl: string | undefined,
-) {
-  const name = item.name || item.preferenceId.split('.').pop()!
+export function buildSystemPreferenceItem({
+  preferenceId,
+  icon,
+  name,
+}: {
+  preferenceId: string
+  icon?: string
+  name?: string
+}): IItem {
+  name = name || preferenceId.split('.').pop()!
   return {
     name: `${capitalize(name)} Preferences`,
-    fileIconUrl: systemPreferencesUrl,
+    ...(icon ? {icon: icon} : {iconComponent: SystemPreferencesIcon}),
     type: ItemType.CONFIGURATION,
-    command: 'systemPreferences:open',
     callback: () => {
       solNative.executeAppleScript(`tell application "System Preferences"
       activate
-      set current pane to pane "${item.preferenceId}"
+      set current pane to pane "${preferenceId}"
      end tell
      `)
     },
