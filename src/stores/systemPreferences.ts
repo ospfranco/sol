@@ -81,9 +81,7 @@ export function buildSystemPreferenceItem(
   const name = item.name || item.preferenceId.split('.').pop()!
   return {
     name: `${capitalize(name)} Preferences`,
-    ...(systemPreferencesUrl
-      ? {fileIconUrl: systemPreferencesUrl}
-      : {icon: item.icon || '⚙️'}),
+    fileIconUrl: systemPreferencesUrl,
     type: ItemType.CONFIGURATION,
     command: 'systemPreferences:open',
     callback: () => {
@@ -100,9 +98,9 @@ function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
-export function buildSystemPreferencesItems(
-  systemPreferencesUrl: string | undefined,
-) {
+export function buildSystemPreferencesItems() {
+  // TODO: find a more robust, region independent way of getting the system preferences url
+  const systemPreferencesUrl = '/System/Applications/System Preferences.app/'
   return preferences.map(x =>
     buildSystemPreferenceItem(x, systemPreferencesUrl),
   )
