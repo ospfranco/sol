@@ -118,7 +118,8 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
               key={index}
               style={tw.style(`flex-row items-center px-3 py-2 rounded`, {
                 'bg-highlight': isActive,
-                'mb-2': index === store.ui.favorites.length - 1,
+                'mb-2':
+                  index === store.ui.favorites.length - 1 && !store.ui.query,
               })}>
               {!!item.url && <FileIcon url={item.url} style={tw`w-4 h-4`} />}
               {item.type !== ItemType.CUSTOM && !!item.icon && (
@@ -162,7 +163,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
                   />
                 </TouchableOpacity>
               )}
-              {item.isFavorite && (
+              {item.isFavorite && !store.ui.query && (
                 <Text
                   style={tw.style(
                     `text-gray-500 dark:text-gray-400 text-xs w-6`,
