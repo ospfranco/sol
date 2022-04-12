@@ -24,7 +24,7 @@ const preferences = [
   {name: 'Mouse', preferenceId: 'com.apple.preference.mouse'},
   {name: 'Network', preferenceId: 'com.apple.preference.network'},
   {name: 'Notifications', preferenceId: 'com.apple.preference.notifications'},
-  // {preferenceId: 'com.apple.preference.printfax'},
+  {name: 'Printers & Scanners', preferenceId: 'com.apple.preference.printfax'},
   {name: 'Screen Time', preferenceId: 'com.apple.preference.screentime'},
   {preferenceId: 'com.apple.preference.security'},
   {preferenceId: 'com.apple.preference.sidecar'},
@@ -32,7 +32,7 @@ const preferences = [
   {preferenceId: 'com.apple.preference.speech'},
   {preferenceId: 'com.apple.preference.spotlight'},
   // {preferenceId: 'com.apple.preference.startupdisk'},
-  {name: 'TrackPad', preferenceId: 'com.apple.preference.trackpad'},
+  {name: 'Trackpad', preferenceId: 'com.apple.preference.trackpad'},
   {
     name: 'Universal Access',
     preferenceId: 'com.apple.preference.universalaccess',
@@ -61,7 +61,7 @@ const preferences = [
   {preferenceId: 'com.apple.preferences.password'},
   {preferenceId: 'com.apple.preferences.sharing'},
   {
-    name: 'Software Updates',
+    name: 'Software Update',
     preferenceId: 'com.apple.preferences.softwareupdate',
   },
   {preferenceId: 'com.apple.preferences.users'},
