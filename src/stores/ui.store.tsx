@@ -969,12 +969,10 @@ export let createUIStore = (root: IRootStore) => {
         const cleanApps = apps.map(url => {
           const pureUrl = decodeURI(url.replace('file://', ''))
           const tokens = pureUrl.split('/')
-          const name = tokens[tokens.length - 2].replace('.app', '')
-          // Find the system preferences app file url for the icon of the system preferences items
           return {
             type: ItemType.APPLICATION as ItemType.APPLICATION,
             url: pureUrl,
-            name,
+            name: tokens[tokens.length - 2].replace('.app', ''),
           }
         })
 
