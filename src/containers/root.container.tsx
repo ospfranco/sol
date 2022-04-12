@@ -1,5 +1,5 @@
 import {observer} from 'mobx-react-lite'
-import React from 'react'
+import React, {useEffect} from 'react'
 import {View} from 'react-native'
 import {useStore} from 'store'
 import {FocusableWidget} from 'stores'
@@ -19,6 +19,12 @@ export const RootContainer = observer(() => {
   useDeviceContext(tw)
   const store = useStore()
   const mainStyle = tw`bg-white dark:bg-black bg-opacity-70 dark:bg-opacity-50 flex-1`
+
+  useEffect(() => {
+    return () => {
+      store.ui.cleanUp()
+    }
+  }, [])
 
   if (store.ui.focusedWidget === FocusableWidget.CREATE_ITEM) {
     return <CreateItemWidget style={mainStyle} />

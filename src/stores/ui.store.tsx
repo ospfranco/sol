@@ -17,13 +17,20 @@ import {
   Appearance,
   AsyncStorage,
   Clipboard,
+  EmitterSubscription,
   Image,
   ImageURISource,
   Linking,
+  NativeModules,
 } from 'react-native'
 import {IRootStore} from 'Store'
 import tw from 'tailwind'
 import {buildSystemPreferencesItems} from './systemPreferences'
+
+let keyDownListener: EmitterSubscription | undefined
+let keyUpListener: EmitterSubscription | undefined
+let onShowListener: EmitterSubscription | undefined
+let onHideListener: EmitterSubscription | undefined
 
 const exprParser = new Parser()
 
@@ -285,11 +292,21 @@ export let createUIStore = (root: IRootStore) => {
   if (__DEV__) {
     SETTING_ITEMS.push({
       icon: '🐣',
-      name: 'Restart onboarding',
+      name: '[DEV] Restart onboarding',
       type: ItemType.CONFIGURATION,
       callback: () => {
         store.onboardingStep = 'v1_start'
         store.focusWidget(FocusableWidget.ONBOARDING)
+      },
+      preventClose: true,
+    })
+
+    SETTING_ITEMS.push({
+      icon: '💥',
+      name: '[DEV] Reload',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        NativeModules.DevMenu.reload()
       },
       preventClose: true,
     })
@@ -433,8 +450,6 @@ export let createUIStore = (root: IRootStore) => {
           ...results,
           ...(shouldReturnFallback ? fallbackItems : []),
         ]
-
-        return results
       } else {
         return [...store.apps, ...SETTING_ITEMS, ...store.customItems]
           .filter(i => !store.favorites.includes(i.name))
@@ -978,6 +993,12 @@ export let createUIStore = (root: IRootStore) => {
       store.selectedIndex = 0
       store.translationResults = null
     },
+    cleanUp: () => {
+      keyDownListener?.remove()
+      keyUpListener?.remove()
+      onShowListener?.remove()
+      onHideListener?.remove()
+    },
   })
 
   hydrate().then(() => {
@@ -985,10 +1006,10 @@ export let createUIStore = (root: IRootStore) => {
     solNative.setGlobalShortcut(store.globalShorcut)
   })
 
-  solNative.addListener('keyDown', store.keyDown)
-  solNative.addListener('keyUp', store.keyUp)
-  solNative.addListener('onShow', store.onShow)
-  solNative.addListener('onHide', store.onHide)
+  keyDownListener = solNative.addListener('keyDown', store.keyDown)
+  keyUpListener = solNative.addListener('keyUp', store.keyUp)
+  onShowListener = solNative.addListener('onShow', store.onShow)
+  onHideListener = solNative.addListener('onHide', store.onHide)
 
   return store
 }
