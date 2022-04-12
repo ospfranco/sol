@@ -73,6 +73,7 @@ export enum ItemType {
 interface IApp {
   url: string
   type: ItemType.APPLICATION
+  fileIconUrl: string
   name: string
 }
 
@@ -98,6 +99,7 @@ interface ITrackingProject {
 }
 
 interface IItem {
+  fileIconUrl?: string
   icon?: string
   iconImage?: ImageURISource | number | ImageURISource[]
   iconComponent?: ReactNode
@@ -985,6 +987,7 @@ export let createUIStore = (root: IRootStore) => {
           return {
             type: ItemType.APPLICATION as ItemType.APPLICATION,
             url: pureUrl,
+            fileIconUrl: pureUrl,
             name,
           }
         })
