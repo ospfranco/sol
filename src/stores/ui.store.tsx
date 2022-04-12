@@ -288,6 +288,15 @@ export let createUIStore = (root: IRootStore) => {
     },
   ]
 
+  let hasAddedSystemPreferencesItems = false
+  function addSystemPreferencesItemsIfNotAlreadyAdded(
+    systemPreferencesUrl: string | undefined,
+  ) {
+    if (hasAddedSystemPreferencesItems) return
+    SETTING_ITEMS.push(...buildSystemPreferencesItems(systemPreferencesUrl))
+    hasAddedSystemPreferencesItems = true
+  }
+
   if (__DEV__) {
     SETTING_ITEMS.push({
       icon: '🐣',
@@ -980,7 +989,7 @@ export let createUIStore = (root: IRootStore) => {
           }
         })
 
-        SETTING_ITEMS.push(...buildSystemPreferencesItems(systemPreferencesUrl))
+        addSystemPreferencesItemsIfNotAlreadyAdded(systemPreferencesUrl)
 
         runInAction(() => {
           store.apps = cleanApps
