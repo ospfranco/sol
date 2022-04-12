@@ -11,6 +11,10 @@ interface Props {
 export const GeneralWidget: FC<Props> = observer(({style}) => {
   const store = useStore()
 
+  if (!store.ui.currentTemp && !store.ui.currentlyTrackedProject) {
+    return null
+  }
+
   return (
     <View
       style={tw.style(
@@ -37,9 +41,9 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
       )} */}
 
       {!!store.ui.currentTemp ? (
-        <Text style={tw``}>
+        <Text>
           <Text style={tw`text-xs`}>{store.ui.currentTemp}°</Text>{' '}
-          <Text style={tw`text-xs dark:text-gray-400 text-gray-500 capitalize`}>
+          <Text style={tw`text-xs capitalize`}>
             {store.ui.nextHourForecast}
           </Text>
         </Text>
