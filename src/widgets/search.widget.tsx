@@ -126,7 +126,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
               )}
               {item.type === ItemType.CUSTOM && (
                 <View
-                  style={tw`h-4 w-4 bg-gray-800 rounded items-center justify-center`}>
+                  style={tw`h-4 w-4 bg-gray-200 dark:bg-gray-800 rounded items-center justify-center`}>
                   <Image
                     // @ts-ignore
                     source={Icons[item.icon]}
