@@ -148,7 +148,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
                 })}>
                 {item.name}
               </Text>
-              {store.ui.selectedIndex === index && focused && (
+              {isActive && (
                 <TouchableOpacity
                   onPress={() => {
                     store.ui.toggleFavorite(item)
