@@ -7,6 +7,7 @@ import {
   Appearance,
   FlatList,
   Image,
+  Platform,
   Text,
   TextInput,
   TouchableOpacity,
@@ -139,7 +140,8 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
               {!!item.iconImage && (
                 <Image source={item.iconImage} style={tw`w-4 h-4`} />
               )}
-              {!!item.iconComponent && <item.iconComponent />}
+              {/* Somehow this component breaks windows build */}
+              {Platform.OS === 'macos' && !!item.iconComponent && <item.iconComponent />}
               <Text
                 style={tw.style('ml-3 text-sm flex-1', {
                   'text-white': isActive,

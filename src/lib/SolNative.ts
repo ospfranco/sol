@@ -34,7 +34,7 @@ class SolNative extends NativeEventEmitter {
   setLaunchAtLogin: (v: boolean) => void
 
   constructor(nativeModule: any) {
-    super(nativeModule)
+    super()
 
     this.getNextEvents = nativeModule.getNextEvents
     this.hideWindow = nativeModule.hideWindow
