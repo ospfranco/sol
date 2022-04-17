@@ -21,6 +21,9 @@ DerivedData
 *.ipa
 *.xcuserstate
 
+# Windows
+msbuild.binlog
+
 # Android/IntelliJ
 #
 build/

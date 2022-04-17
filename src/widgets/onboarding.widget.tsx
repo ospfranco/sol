@@ -79,6 +79,7 @@ export const OnboardingWidget: FC<Props> = observer(({style}) => {
             {SHORTCUTS.map((item, index) => {
               return (
                 <View
+                  key={index}
                   style={tw.style(
                     `flex-row items-center px-3 py-2 rounded border border-transparent`,
                     {

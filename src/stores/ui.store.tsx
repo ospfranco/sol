@@ -19,11 +19,12 @@ import {
   Appearance,
   AsyncStorage,
   Clipboard,
+  DevSettings,
   EmitterSubscription,
   Image,
   ImageURISource,
   Linking,
-  NativeModules,
+  Platform,
 } from 'react-native'
 import {IRootStore} from 'Store'
 import tw from 'tailwind'
@@ -136,116 +137,128 @@ export let createUIStore = (root: IRootStore) => {
     }
   }
 
-  const SETTING_ITEMS: Item[] = [
-    {
-      icon: '⏰',
-      name: 'Track time',
-      type: ItemType.CONFIGURATION,
-      preventClose: true,
-      callback: () => {
-        store.focusWidget(FocusableWidget.PROJECT_SELECT)
+  const SETTING_ITEMS: Item[] = Platform.select({
+    macos: [
+      {
+        icon: '⏰',
+        name: 'Track time',
+        type: ItemType.CONFIGURATION,
+        preventClose: true,
+        callback: () => {
+          store.focusWidget(FocusableWidget.PROJECT_SELECT)
+        },
       },
-    },
-    {
-      icon: '✋',
-      name: 'Stop Tracking Time',
-      type: ItemType.CONFIGURATION,
-      preventClose: true,
-      callback: () => {
-        store.stopTrackingProject()
+      {
+        icon: '✋',
+        name: 'Stop Tracking Time',
+        type: ItemType.CONFIGURATION,
+        preventClose: true,
+        callback: () => {
+          store.stopTrackingProject()
+        },
       },
-    },
-    {
-      icon: '➕',
-      name: 'Create Tracking Project',
-      type: ItemType.CONFIGURATION,
-      preventClose: true,
-      callback: () => {
-        store.showProjectCreationForm()
+      {
+        icon: '➕',
+        name: 'Create Tracking Project',
+        type: ItemType.CONFIGURATION,
+        preventClose: true,
+        callback: () => {
+          store.showProjectCreationForm()
+        },
       },
-    },
-    {
-      iconImage: Assets.DarkModeIcon,
-      name: 'Dark mode',
-      type: ItemType.CONFIGURATION,
-      callback: () => {
-        solNative.toggleDarkMode()
+      {
+        iconImage: Assets.DarkModeIcon,
+        name: 'Dark mode',
+        type: ItemType.CONFIGURATION,
+        callback: () => {
+          solNative.toggleDarkMode()
+        },
       },
-    },
-    {
-      iconImage: Assets.SleepIcon,
-      name: 'Sleep',
-      type: ItemType.CONFIGURATION,
-      callback: () => {
-        solNative.executeAppleScript('tell application "Finder" to sleep')
+      {
+        iconImage: Assets.SleepIcon,
+        name: 'Sleep',
+        type: ItemType.CONFIGURATION,
+        callback: () => {
+          solNative.executeAppleScript('tell application "Finder" to sleep')
+        },
       },
-    },
-    {
-      iconImage: Assets.Airdrop,
-      name: 'AirDrop',
-      type: ItemType.CONFIGURATION,
-      callback: () => {
-        solNative.executeAppleScript(`tell application "Finder"
-        if exists window "AirDrop" then
-                tell application "System Events" to ¬
-                        tell application process "Finder" to ¬
-                                perform action "AXRaise" of ¬
-                                        (windows whose title is "AirDrop")
-        else if (count Finder windows) > 0 then
-                make new Finder window
-                tell application "System Events" to ¬
-                        click menu item "AirDrop" of menu 1 of menu bar item ¬
-                                "Go" of menu bar 1 of application process "Finder"
-        else
-                tell application "System Events" to ¬
-                        click menu item "AirDrop" of menu 1 of menu bar item ¬
-                                "Go" of menu bar 1 of application process "Finder"
-        end if
-        activate
-      end tell`)
+      {
+        iconImage: Assets.Airdrop,
+        name: 'AirDrop',
+        type: ItemType.CONFIGURATION,
+        callback: () => {
+          solNative.executeAppleScript(`tell application "Finder"
+          if exists window "AirDrop" then
+                  tell application "System Events" to ¬
+                          tell application process "Finder" to ¬
+                                  perform action "AXRaise" of ¬
+                                          (windows whose title is "AirDrop")
+          else if (count Finder windows) > 0 then
+                  make new Finder window
+                  tell application "System Events" to ¬
+                          click menu item "AirDrop" of menu 1 of menu bar item ¬
+                                  "Go" of menu bar 1 of application process "Finder"
+          else
+                  tell application "System Events" to ¬
+                          click menu item "AirDrop" of menu 1 of menu bar item ¬
+                                  "Go" of menu bar 1 of application process "Finder"
+          end if
+          activate
+        end tell`)
+        },
       },
-    },
-    {
-      iconImage: Assets.LockIcon,
-      name: 'Lock',
-      type: ItemType.CONFIGURATION,
-      callback: () => {
-        solNative.executeAppleScript(
-          `tell application "System Events" to keystroke "q" using {control down, command down}`,
-        )
+      {
+        iconImage: Assets.LockIcon,
+        name: 'Lock',
+        type: ItemType.CONFIGURATION,
+        callback: () => {
+          solNative.executeAppleScript(
+            `tell application "System Events" to keystroke "q" using {control down, command down}`,
+          )
+        },
       },
-    },
-    ...buildSystemPreferencesItems(),
-    {
-      iconComponent: () => {
-        const colorScheme = Appearance.getColorScheme()
+      ...buildSystemPreferencesItems(),
+      {
+        iconComponent: () => {
+          const colorScheme = Appearance.getColorScheme()
 
-        return (
-          <Image
-            source={Assets.SolWhiteSmall}
-            style={tw.style('w-4 h-4', {
-              tintColor: colorScheme === 'dark' ? 'white' : 'black',
-            })}
-          />
-        )
+          return (
+            <Image
+              source={Assets.SolWhiteSmall}
+              style={tw.style('w-4 h-4', {
+                tintColor: colorScheme === 'dark' ? 'white' : 'black',
+              })}
+            />
+          )
+        },
+        name: 'Settings',
+        type: ItemType.CONFIGURATION,
+        callback: () => {
+          store.focusWidget(FocusableWidget.SETTINGS)
+        },
+        preventClose: true,
       },
-      name: 'Settings',
-      type: ItemType.CONFIGURATION,
-      callback: () => {
-        store.focusWidget(FocusableWidget.SETTINGS)
+      {
+        icon: '✳️',
+        name: 'Create shortcut',
+        type: ItemType.CONFIGURATION,
+        callback: () => {
+          store.focusWidget(FocusableWidget.CREATE_ITEM)
+        },
+        preventClose: true,
       },
-      preventClose: true,
-    },
-    {
-      icon: '✳️',
-      name: 'Create shortcut',
-      type: ItemType.CONFIGURATION,
-      callback: () => {
-        store.focusWidget(FocusableWidget.CREATE_ITEM)
+    ],
+    windows: [
+      {
+        iconImage: Assets.DarkModeIcon,
+        name: 'Dark mode',
+        type: ItemType.CONFIGURATION,
+        callback: () => {
+          solNative.toggleDarkMode()
+        },
       },
-      preventClose: true,
-    },
-  ]
+    ]
+  }) || []
 
   if (__DEV__) {
     SETTING_ITEMS.push({
@@ -264,7 +277,7 @@ export let createUIStore = (root: IRootStore) => {
       name: '[DEV] Reload',
       type: ItemType.CONFIGURATION,
       callback: () => {
-        NativeModules.DevMenu.reload()
+        DevSettings.reload()
       },
       preventClose: true,
     })

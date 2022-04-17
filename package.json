@@ -7,7 +7,8 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
-    "bump": "./bump-version.sh"
+    "bump": "./bump-version.sh",
+    "windows": "react-native run-windows"
   },
   "dependencies": {
     "@react-native-picker/picker": "^2.4.0",
@@ -27,7 +28,8 @@
     "react-native": "0.67.2",
     "react-native-macos": "^0.66.41",
     "twrnc": "^2.2.0",
-    "typescript": "^4.5.4"
+    "typescript": "^4.5.4",
+    "react-native-windows": "0.67.7"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
@@ -40,7 +42,8 @@
     "eslint": "7.14.0",
     "jest": "^26.6.3",
     "metro-react-native-babel-preset": "^0.66.2",
-    "react-test-renderer": "17.0.2"
+    "react-test-renderer": "17.0.2",
+    "metro-config": "^0.66.2"
   },
   "jest": {
     "preset": "react-native"
