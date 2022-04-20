@@ -1,7 +1,7 @@
-import {Assets, Icons} from 'assets'
-import {FileIcon} from 'components/FileIcon'
-import {observer} from 'mobx-react-lite'
-import React, {FC, useEffect, useRef} from 'react'
+import { Assets, Icons } from 'assets'
+import { FileIcon } from 'components/FileIcon'
+import { observer } from 'mobx-react-lite'
+import React, { FC, useEffect, useRef } from 'react'
 import {
   Animated,
   Appearance,
@@ -12,12 +12,12 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  ViewStyle,
+  ViewStyle
 } from 'react-native'
-import {useStore} from 'store'
-import {FocusableWidget, Item, ItemType} from 'stores'
+import { useStore } from 'store'
+import { FocusableWidget, Item, ItemType } from 'stores'
 import tw from 'tailwind'
-import {useDeviceContext} from 'twrnc'
+import { useDeviceContext } from 'twrnc'
 
 interface Props {
   style?: ViewStyle
@@ -152,7 +152,9 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
                 <TouchableOpacity
                   onPress={() => {
                     store.ui.toggleFavorite(item)
-                  }}>
+                  }}
+                  style={tw`pr-1`}
+                  >
                   <Image
                     source={item.isFavorite ? Assets.StarFilled : Assets.Star}
                     style={tw.style('h-3 w-4', {
