@@ -1,19 +1,19 @@
-import {Assets} from 'assets'
-import {Parser} from 'expr-eval'
+import { Assets } from 'assets'
+import { Parser } from 'expr-eval'
 import Fuse from 'fuse.js'
 import produce from 'immer'
-import {extractMeetingLink} from 'lib/calendar'
-import {CONSTANTS} from 'lib/constants'
+import { extractMeetingLink } from 'lib/calendar'
+import { CONSTANTS } from 'lib/constants'
 import {
   CalendarAuthorizationStatus,
   INativeEvent,
-  solNative,
+  solNative
 } from 'lib/SolNative'
-import {doubleTranslate} from 'lib/translator'
-import {getWeather} from 'lib/weather'
-import {DateTime} from 'luxon'
-import {autorun, makeAutoObservable, runInAction, toJS} from 'mobx'
-import React, {FC} from 'react'
+import { doubleTranslate } from 'lib/translator'
+import { getWeather } from 'lib/weather'
+import { DateTime } from 'luxon'
+import { autorun, makeAutoObservable, runInAction, toJS } from 'mobx'
+import React, { FC } from 'react'
 import {
   Alert,
   Appearance,
@@ -24,11 +24,11 @@ import {
   Image,
   ImageURISource,
   Linking,
-  Platform,
+  Platform
 } from 'react-native'
-import {IRootStore} from 'Store'
+import { IRootStore } from 'Store'
 import tw from 'tailwind'
-import {buildSystemPreferencesItems} from './systemPreferences'
+import { buildSystemPreferencesItems } from './systemPreferences'
 
 let keyDownListener: EmitterSubscription | undefined
 let keyUpListener: EmitterSubscription | undefined
@@ -443,6 +443,8 @@ export let createUIStore = (root: IRootStore) => {
             return -1
           } else if (!aIsFavorite && bIsFavorite) {
             return 1
+          } else if (aIsFavorite && bIsFavorite) {
+            return store.favorites.findIndex((v) => v === a.name) - store.favorites.findIndex((v) => v === b.name) 
           }
 
           const freqA = store.frequencies[a.name] ?? 0
@@ -468,12 +470,13 @@ export let createUIStore = (root: IRootStore) => {
     //  /_/    \_\___|\__|_|\___/|_| |_|___/
     toggleFavorite: (item: Item) => {
       if (store.favorites.includes(item.name)) {
-        store.favorites = store.favorites.filter(v => v === item.name)
+        store.favorites = store.favorites.filter(v => v !== item.name)
       } else {
         if (store.favorites.length === 5) {
           Alert.alert('Only 5 favorite items allowed.')
           return
         }
+        store.query = ""
         store.favorites.push(item.name)
       }
     },
