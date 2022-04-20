@@ -157,7 +157,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
                   >
                   <Image
                     source={item.isFavorite ? Assets.StarFilled : Assets.Star}
-                    style={tw.style('h-3 w-4', {
+                    style={tw.style('h-[2.5] w-4', {
                       tintColor: 'white',
                     })}
                     resizeMode="contain"
