@@ -38,7 +38,7 @@ Get the latest versions from the [releases page](https://github.com/ospfranco/so
 - [x] Customize language translation
 - [x] Onboarding tutorial
 - [x] Custom shortcuts/scripts
-- [ ] This being built on React Native means it is possible to make it compatible to Windows (and maybe Linux?), looking for help there
+- [-] Partial Windows support is there, the app builds but there are many missing features and incompatibilities
 - [ ] Window manager
 - [ ] Clipboard manager
 
