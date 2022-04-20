@@ -476,7 +476,7 @@ export let createUIStore = (root: IRootStore) => {
           Alert.alert('Only 5 favorite items allowed.')
           return
         }
-        store.query = ""
+        store.setQuery("")
         store.favorites.push(item.name)
       }
     },
