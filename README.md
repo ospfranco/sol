@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://raw.githubusercontent.com/ospfranco/sol/main/header.png" height="120" align="center"/>
+  <img src="https://raw.githubusercontent.com/ospfranco/sol/main/header.png" align="center"/>
 </div>
 
 <div align="center">
