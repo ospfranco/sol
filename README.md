@@ -1,12 +1,6 @@
-<h1 align="center" style="margin-top: 30px;">SOL</h1>
-
 <div align="center">
-  <img src="https://raw.githubusercontent.com/ospfranco/sol/main/logoRound.png" height="120" align="center"/>
+  <img src="https://raw.githubusercontent.com/ospfranco/sol/main/header.png" height="120" align="center"/>
 </div>
-
-<h3 align="center">A macOS launcher/command palette</h3>
-
-![screenshot](https://raw.githubusercontent.com/ospfranco/sol/main/s2.png)
 
 <div align="center">
   <a align="center" href="https://github.com/ospfranco?tab=followers">
