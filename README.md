@@ -1,7 +1,6 @@
-<div align="center">
-  <img src="https://raw.githubusercontent.com/ospfranco/sol/main/header.png" align="center"/>
-</div>
+<img src="https://raw.githubusercontent.com/ospfranco/sol/main/header.png" align="center"/>
 
+<br/>
 <div align="center">
   <a align="center" href="https://github.com/ospfranco?tab=followers">
     <img src="https://img.shields.io/github/followers/ospfranco?label=Follow%20%40ospfranco&style=social" />
