@@ -96,7 +96,7 @@ struct ClipboardTextItem {
   
   func saveMeta() {
     // Save the meta.json to the appropriate directory
-    let meta = ItemMeta.init(fileExtension: fileExtension, hash: hash, size: size, timesCopied: timesCopied, lastCopied: lastCopied)
+    let meta = SavedItemMeta.init(fileExtension: fileExtension, hash: hash, size: size, timesCopied: timesCopied, lastCopied: lastCopied)
     let metaData = try! JSONEncoder().encode(meta)
     let metaFile = itemDirectory.appendingPathComponent("meta.json")
     try! FileManager.default.createDirectory(atPath: self.itemDirectory.path, withIntermediateDirectories: true, attributes: nil)
@@ -104,7 +104,7 @@ struct ClipboardTextItem {
   }
 }
 
-struct ItemMeta: Codable {
+struct SavedItemMeta: Codable {
   var fileExtension: String
   var hash: String
   var size: Int
@@ -113,13 +113,14 @@ struct ItemMeta: Codable {
 }
 
 func handlePastedText(_ text: String, fileExtension: String) {
-  let itemDirectory = getClipboardDirectory().appendingPathComponent("\(getTimestamp())")
-  print("item000", itemDirectory.path)
+    // Create hash of content
+  let hash = text.sha256()
+  
+  let itemDirectory = getClipboardDirectory().appendingPathComponent(hash)
   let itemFile = itemDirectory.appendingPathComponent("file.\(fileExtension)")
   let itemMeta = itemDirectory.appendingPathComponent("meta.json")
   
-  // Create hash of text
-  let hash = text.sha256()
+
   // Get the existing item or construct a new one
   let existingItem = clipboardHistory.getItem(hash: hash)
   var item: ClipboardTextItem = existingItem ?? ClipboardTextItem.init(text: text, itemDirectory: itemDirectory, fileExtension: fileExtension, hash: hash, timesCopied: 0, lastCopied: Date())
@@ -196,7 +197,7 @@ class ClipboardHistoryObservable: ObservableObject {
       // Then for each subdirectory extract the clipboard item
       let metaFile = item.appendingPathComponent("meta.json")
       let metaData = try! Data(contentsOf: metaFile)
-      let meta = try! JSONDecoder().decode(ItemMeta.self, from: metaData)
+      let meta = try! JSONDecoder().decode(SavedItemMeta.self, from: metaData)
       let itemDirectory = item
       let itemFile = item.appendingPathComponent("file.\(meta.fileExtension)")
       let text = try! String(contentsOf: itemFile)
