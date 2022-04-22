@@ -2,6 +2,8 @@ import Foundation
 import Cocoa
 import HotKey
 import EventKit
+import SwiftUI
+import AppKit
 
 let handledKeys: [UInt16] = [53, 126, 125, 36, 48]
 let numberchars: [String] = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
@@ -63,8 +65,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
       return $0
     }
 
+    PasteboardWatcher()
+//    NotificationCenter.default.addObserver(self, selector: #selector(clipboardChanged),
+//                                               name: UIPasteboard.changedNotification, object: nil)
+
     showWindow()
   }
+  
+//  @objc func clipboardChanged(_ sender: UIPasteboard?) {
+//    print("pasted", sender)
+//    print("hi")
+//  }
 
   func toggleWindow() {
     if mainWindow != nil && mainWindow.isKeyWindow {
