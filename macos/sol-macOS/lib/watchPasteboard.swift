@@ -116,11 +116,6 @@ func handlePastedText(_ text: String, fileExtension: String) {
     // Create hash of content
   let hash = text.sha256()
   
-  let itemDirectory = getClipboardDirectory().appendingPathComponent(hash)
-  let itemFile = itemDirectory.appendingPathComponent("file.\(fileExtension)")
-  let itemMeta = itemDirectory.appendingPathComponent("meta.json")
-  
-
   // Get the existing item or construct a new one
   let existingItem = clipboardHistory.getItem(hash: hash)
   var item: ClipboardTextItem = existingItem ?? ClipboardTextItem.init(text: text, itemDirectory: itemDirectory, fileExtension: fileExtension, hash: hash, timesCopied: 0, lastCopied: Date())
@@ -134,6 +129,8 @@ func handlePastedText(_ text: String, fileExtension: String) {
   }
 
   do {
+    let itemDirectory = getClipboardDirectory().appendingPathComponent(hash)
+    let itemFile = itemDirectory.appendingPathComponent("file.\(fileExtension)")
     try text.write(to: itemFile, atomically: true, encoding: .utf8)
     // If the clipboard history size is greater than the history limit prune oldest items first
     
