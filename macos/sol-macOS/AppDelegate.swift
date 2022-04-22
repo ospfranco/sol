@@ -66,17 +66,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     }
 
     PasteboardWatcher()
-//    NotificationCenter.default.addObserver(self, selector: #selector(clipboardChanged),
-//                                               name: UIPasteboard.changedNotification, object: nil)
 
     showWindow()
   }
   
-//  @objc func clipboardChanged(_ sender: UIPasteboard?) {
-//    print("pasted", sender)
-//    print("hi")
-//  }
-
   func toggleWindow() {
     if mainWindow != nil && mainWindow.isKeyWindow {
       hideWindow()
