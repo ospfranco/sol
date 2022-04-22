@@ -187,17 +187,35 @@ class ClipboardHistoryObservable: ObservableObject {
   
   init() {
     // Restore clipboard history from clipboard directory
+    
     // First read the clipboard directory
     let directoryContents = try! FileManager.default.contentsOfDirectory(at: getClipboardDirectory(), includingPropertiesForKeys: [])
     
     var history: [ClipboardItem] = []
-    // Then for each item read the meta.json
-
+    for item in directoryContents {
+      // Then for each subdirectory extract the clipboard item
+      let metaFile = item.appendingPathComponent("meta.json")
+      let metaData = try! Data(contentsOf: metaFile)
+      let meta = try! JSONDecoder().decode(ItemMeta.self, from: metaData)
+      let itemDirectory = item
+      let itemFile = item.appendingPathComponent("file.\(meta.fileExtension)")
+      let text = try! String(contentsOf: itemFile)
+      let item = ClipboardTextItem.init(text: text, itemDirectory: itemDirectory, fileExtension: meta.fileExtension, hash: meta.hash, timesCopied: meta.timesCopied, lastCopied: meta.lastCopied)
+      history.append(.text(item))
+    }
     
     self.history = history
   }
   
   func getItem(hash: String) -> ClipboardTextItem? {
+    for item in history {
+      switch item {
+      case .text(let textItem):
+        if textItem.hash == hash {
+          return textItem
+        }
+      }
+    }
     return nil
   }
 }
