@@ -14,6 +14,7 @@
 		700A18DA279DC17F0096C830 /* FileIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700A18D9279DC17F0096C830 /* FileIcon.swift */; };
 		700A18DC279DC1F50096C830 /* FileIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 700A18DB279DC1F50096C830 /* FileIcon.m */; };
 		701086A727989798004C8CCD /* SolEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701086A627989798004C8CCD /* SolEmitter.swift */; };
+		7042A22A2815C06B00874743 /* NSColor.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7042A2292815C06B00874743 /* NSColor.extension.swift */; };
 		7047E80627D4D31400582E1B /* MediaHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7047E80527D4D31400582E1B /* MediaHelper.swift */; };
 		7047E80827D4DAEB00582E1B /* Sequence.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7047E80727D4DAEB00582E1B /* Sequence.extension.swift */; };
 		706CD89D27EAECBE00EC5F35 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 706CD89C27EAECBE00EC5F35 /* LaunchAtLogin */; };
@@ -46,6 +47,7 @@
 		700A18DB279DC1F50096C830 /* FileIcon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileIcon.m; sourceTree = "<group>"; };
 		701086A627989798004C8CCD /* SolEmitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolEmitter.swift; sourceTree = "<group>"; };
 		701086A82798C231004C8CCD /* sol-macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "sol-macOS.entitlements"; sourceTree = "<group>"; };
+		7042A2292815C06B00874743 /* NSColor.extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSColor.extension.swift; sourceTree = "<group>"; };
 		7047E80527D4D31400582E1B /* MediaHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaHelper.swift; sourceTree = "<group>"; };
 		7047E80727D4DAEB00582E1B /* Sequence.extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sequence.extension.swift; sourceTree = "<group>"; };
 		7071D43527B3211700F8A4DC /* DarkMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DarkMode.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 		5142014A2437B4B30078DB4F /* sol-macOS */ = {
 			isa = PBXGroup;
 			children = (
+				7042A2282815C05D00874743 /* extensions */,
 				701086A82798C231004C8CCD /* sol-macOS.entitlements */,
 				70F7EBEA2795A4BD00CED17A /* lib */,
 				38423A3E24576CBC00BC2EAC /* main.jsbundle */,
@@ -119,6 +122,16 @@
 				70EA99E82794967E008E54FD /* sol-macOS-Bridging-Header.h */,
 			);
 			path = "sol-macOS";
+			sourceTree = "<group>";
+		};
+		7042A2282815C05D00874743 /* extensions */ = {
+			isa = PBXGroup;
+			children = (
+				7047E80727D4DAEB00582E1B /* Sequence.extension.swift */,
+				70BED7CC27F4C23D00906E41 /* FileManager.extension.swift */,
+				7042A2292815C06B00874743 /* NSColor.extension.swift */,
+			);
+			path = extensions;
 			sourceTree = "<group>";
 		};
 		70F7EBEA2795A4BD00CED17A /* lib */ = {
@@ -135,9 +148,7 @@
 				700A18DB279DC1F50096C830 /* FileIcon.m */,
 				709D705127D1F42600081DD0 /* CalendarHelper.swift */,
 				7047E80527D4D31400582E1B /* MediaHelper.swift */,
-				7047E80727D4DAEB00582E1B /* Sequence.extension.swift */,
 				70BED7CA27F4C1A600906E41 /* FileConstants.swift */,
-				70BED7CC27F4C23D00906E41 /* FileManager.extension.swift */,
 			);
 			path = lib;
 			sourceTree = "<group>";
@@ -228,7 +239,7 @@
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			packageReferences = (
 				70F7EBEF2795A85200CED17A /* XCRemoteSwiftPackageReference "HotKey" */,
-				706CD89B27EAECBE00EC5F35 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */,
+				706CD89B27EAECBE00EC5F35 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
 			);
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
@@ -402,6 +413,7 @@
 				709D705227D1F42600081DD0 /* CalendarHelper.swift in Sources */,
 				700A18D8279DBBE40096C830 /* ApplicationSearcher.swift in Sources */,
 				700A18DC279DC1F50096C830 /* FileIcon.m in Sources */,
+				7042A22A2815C06B00874743 /* NSColor.extension.swift in Sources */,
 				700A18DA279DC17F0096C830 /* FileIcon.swift in Sources */,
 				70BED7CB27F4C1A600906E41 /* FileConstants.swift in Sources */,
 			);
@@ -631,7 +643,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		706CD89B27EAECBE00EC5F35 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */ = {
+		706CD89B27EAECBE00EC5F35 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "git@github.com:sindresorhus/LaunchAtLogin.git";
 			requirement = {
@@ -652,7 +664,7 @@
 /* Begin XCSwiftPackageProductDependency section */
 		706CD89C27EAECBE00EC5F35 /* LaunchAtLogin */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 706CD89B27EAECBE00EC5F35 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */;
+			package = 706CD89B27EAECBE00EC5F35 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */;
 			productName = LaunchAtLogin;
 		};
 		70F7EBF02795A85200CED17A /* HotKey */ = {

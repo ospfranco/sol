@@ -9,6 +9,12 @@ class SolNative: RCTEventEmitter {
     SolEmitter.sharedInstance.registerEmitter(emitter: self)
   }
 
+  @objc override func constantsToExport() -> [AnyHashable: Any]! {
+    return [
+      "accentColor": NSColor.controlAccentColor.usingColorSpace(.sRGB)!.hexString
+    ]
+  }
+
   @objc override func startObserving() {
     SolEmitter.sharedInstance.hasListeners = true
   }
