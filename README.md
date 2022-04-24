@@ -48,6 +48,14 @@ Get the latest versions from the [releases page](https://github.com/ospfranco/so
 - [Messer](https://messerapp.cc)
 - [CI Demon](https://cidemon.com)
 
+### Hard reset
+
+In some cases it you might want to complete reset all settings, you can delete this folder:
+
+```
+~/Library/Application\ Support/com.ospfranco.sol
+```
+
 ## License
 
 MIT License
