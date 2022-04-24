@@ -99,8 +99,8 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
               <View
                 key={index}
                 style={tw.style(
-                  `justify-center items-center rounded-lg p-3 mb-2`,
-                  {'bg-highlight': isActive},
+                  `justify-center items-center rounded-lg p-3 mb-2 bg-opacity-50 dark:bg-opacity-40 border transparent`,
+                  {'bg-highlight border-highlight': isActive},
                 )}>
                 <Text
                   style={tw.style(`text-xl`, {
@@ -115,8 +115,8 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
           return (
             <View
               key={index}
-              style={tw.style(`flex-row items-center px-3 py-2 rounded`, {
-                'bg-highlight': isActive,
+              style={tw.style(`flex-row items-center px-3 py-2 rounded bg-opacity-50 dark:bg-opacity-40 border border-transparent`, {
+                'bg-highlight border-highlight': isActive,
                 'mb-2':
                   index === store.ui.favorites.length - 1 && !store.ui.query,
               })}>

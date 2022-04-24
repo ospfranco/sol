@@ -1,6 +1,6 @@
 import languages from 'lib/languages.json'
-import {observer} from 'mobx-react-lite'
-import React, {FC, useEffect, useRef} from 'react'
+import { observer } from 'mobx-react-lite'
+import React, { FC, useEffect, useRef } from 'react'
 import {
   ActivityIndicator,
   Animated,
@@ -9,11 +9,11 @@ import {
   Text,
   TextInput,
   View,
-  ViewStyle,
+  ViewStyle
 } from 'react-native'
-import {useStore} from 'store'
+import { useStore } from 'store'
 import tw from 'tailwind'
-import {useDeviceContext} from 'twrnc'
+import { useDeviceContext } from 'twrnc'
 
 interface Props {
   style?: StyleProp<ViewStyle>
@@ -81,7 +81,7 @@ export const TranslationWidget: FC<Props> = observer(({style}) => {
               style={tw.style(
                 `flex-1 p-3 rounded flex-row items-center border border-transparent`,
                 {
-                  'bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-20 border-buttonBorder dark:border-darkBorder':
+                  'bg-highlight bg-opacity-50 dark:bg-opacity-20 border-buttonBorder dark:border-darkBorder':
                     store.ui.selectedIndex === 0,
                 },
               )}>
@@ -99,7 +99,7 @@ export const TranslationWidget: FC<Props> = observer(({style}) => {
               style={tw.style(
                 `flex-1 p-3 rounded flex-row items-center border border-transparent`,
                 {
-                  'bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-20 border-buttonBorder dark:border-darkBorder':
+                  'bg-highlight bg-opacity-50 dark:bg-opacity-20 border-buttonBorder dark:border-darkBorder':
                     store.ui.selectedIndex === 1,
                 },
               )}>

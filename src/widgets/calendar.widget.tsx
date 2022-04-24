@@ -68,9 +68,9 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
                   <View
                     key={index}
                     style={tw.style(
-                      `flex-row py-2 px-2 rounded items-center border border-transparent`,
+                      `flex-row py-2 px-2 rounded items-center border border-transparent bg-opacity-50 dark:bg-opacity-40`,
                       {
-                        'bg-highlight': highlighted,
+                        'bg-highlight border-highlight': highlighted,
                       },
                     )}>
                     <View
