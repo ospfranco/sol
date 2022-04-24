@@ -1,6 +1,7 @@
-import {useBoolean} from 'hooks'
-import React, {FC, MutableRefObject} from 'react'
-import {TextInput, TextInputProps, View, ViewStyle} from 'react-native'
+import { useBoolean } from 'hooks'
+import { solNative } from 'lib/SolNative'
+import React, { FC, MutableRefObject } from 'react'
+import { TextInput, TextInputProps, View, ViewStyle } from 'react-native'
 import tw from 'tailwind'
 
 interface Props extends TextInputProps {
@@ -33,7 +34,7 @@ export const Input: FC<Props> = ({
         // @ts-ignore
         enableFocusRing={false}
         ref={inputRef}
-        selectionColor="#0ea5e9"
+        selectionColor={solNative.accentColor}
         onFocus={focusOn}
         onBlur={focusOff}
         style={inputStyle}

@@ -1,5 +1,6 @@
 import { Assets, Icons } from 'assets'
 import { FileIcon } from 'components/FileIcon'
+import { solNative } from 'lib/SolNative'
 import { observer } from 'mobx-react-lite'
 import React, { FC, useEffect, useRef } from 'react'
 import {
@@ -77,7 +78,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
             onChangeText={store.ui.setQuery}
             ref={inputRef}
             style={tw`flex-1`}
-            selectionColor="#006ce1"
+            selectionColor={solNative.accentColor}
             placeholderTextColor={tw.color('text-gray-500')}
             placeholder="Type something..."
           />
