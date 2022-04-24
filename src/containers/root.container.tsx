@@ -1,19 +1,19 @@
-import {observer} from 'mobx-react-lite'
-import React, {useEffect} from 'react'
-import {View} from 'react-native'
-import {useStore} from 'store'
-import {FocusableWidget} from 'stores'
+import { observer } from 'mobx-react-lite'
+import React, { useEffect } from 'react'
+import { View } from 'react-native'
+import { useStore } from 'store'
+import { FocusableWidget } from 'stores'
 import tw from 'tailwind'
-import {useDeviceContext} from 'twrnc'
-import {CalendarWidget} from 'widgets/calendar.widget'
-import {CreateItemWidget} from 'widgets/createItem.widget'
-import {GeneralWidget} from 'widgets/general.widget'
-import {OnboardingWidget} from 'widgets/onboarding.widget'
-import {ProjectCreationWidget} from 'widgets/projectCreation.widget'
-import {ProjectSelectWidget} from 'widgets/projectSelect.widget'
-import {SearchWidget} from 'widgets/search.widget'
-import {SettingsWidget} from 'widgets/settings.widget'
-import {TranslationWidget} from 'widgets/translation.widget'
+import { useDeviceContext } from 'twrnc'
+import { CalendarWidget } from 'widgets/calendar.widget'
+import { CreateItemWidget } from 'widgets/createItem.widget'
+import { GeneralWidget } from 'widgets/general.widget'
+import { OnboardingWidget } from 'widgets/onboarding.widget'
+import { ProjectCreationWidget } from 'widgets/projectCreation.widget'
+import { ProjectSelectWidget } from 'widgets/projectSelect.widget'
+import { SearchWidget } from 'widgets/search.widget'
+import { SettingsWidget } from 'widgets/settings.widget'
+import { TranslationWidget } from 'widgets/translation.widget'
 
 export const RootContainer = observer(() => {
   useDeviceContext(tw)
@@ -53,16 +53,17 @@ export const RootContainer = observer(() => {
   return (
     <View style={tw`flex-1`}>
       <SearchWidget style={mainStyle} />
+      
+      <GeneralWidget
+        style={tw`border-t border-lightBorder dark:border-darkBorder bg-white dark:bg-black bg-opacity-80 dark:bg-opacity-60`}
+      />
 
       {(store.ui.calendarAuthorizationStatus === 'authorized' ||
         store.ui.calendarAuthorizationStatus === 'notDetermined') && (
         <CalendarWidget
-          style={tw`border-t w-full bg-white dark:bg-black bg-opacity-80 dark:bg-opacity-60 border-lightBorder dark:border-darkBorder`}
+          style={tw` bg-white dark:bg-black bg-opacity-80 dark:bg-opacity-60 `}
         />
       )}
-      <GeneralWidget
-        style={tw`border-t w-full bg-white dark:bg-black bg-opacity-90 dark:bg-opacity-70 border-lightBorder dark:border-darkBorder`}
-      />
     </View>
   )
 })

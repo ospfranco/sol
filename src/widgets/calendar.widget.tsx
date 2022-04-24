@@ -1,12 +1,12 @@
-import {INativeEvent} from 'lib/SolNative'
-import {DateTime} from 'luxon'
-import {observer} from 'mobx-react-lite'
-import React, {FC} from 'react'
-import {Text, View, ViewStyle} from 'react-native'
-import {useStore} from 'store'
-import {FocusableWidget} from 'stores'
+import { INativeEvent } from 'lib/SolNative'
+import { DateTime } from 'luxon'
+import { observer } from 'mobx-react-lite'
+import React, { FC } from 'react'
+import { Text, View, ViewStyle } from 'react-native'
+import { useStore } from 'store'
+import { FocusableWidget } from 'stores'
 import tw from 'tailwind'
-import {useDeviceContext} from 'twrnc'
+import { useDeviceContext } from 'twrnc'
 
 interface Props {
   style?: ViewStyle
@@ -34,7 +34,7 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
       {Object.entries(groups).map(([key, data]) => {
         return (
           <View key={key} style={tw`pb-2`}>
-            <View style={tw`flex-row pb-1 px-6`}>
+            <View style={tw`flex-row px-6`}>
               {key === 'tomorrow' || key === 'today' ? (
                 <Text
                   style={tw`capitalize dark:text-gray-400 text-gray-500 text-xs`}>
@@ -46,7 +46,7 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
                   {key !== 'today' && `${data.date.toFormat('cccc')} `}
                   <Text
                     style={tw`capitalize dark:text-gray-400 text-gray-500 text-xs`}>
-                    {' '}
+                    {'- '}
                     {data.date.toFormat('dd LLL')}
                   </Text>
                 </Text>
@@ -75,7 +75,7 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
                     )}>
                     <View
                       style={tw.style(
-                        `w-[13px] h-[13px] mr-2 rounded-full justify-center items-center`,
+                        `w-[12px] h-[12px] mr-2 rounded-full justify-center items-center`,
                         {
                           borderColor: event.color,
                           borderWidth: 1.5,
@@ -91,7 +91,7 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
                     </View>
                     <Text
                       numberOfLines={1}
-                      style={tw.style(`flex-1 text-sm`, {
+                      style={tw.style(`flex-1 text-xs`, {
                         'line-through': event.status === 2,
                         'text-white': highlighted,
                       })}>
@@ -99,7 +99,7 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
                     </Text>
                     <Text
                       style={tw.style(
-                        `text-gray-500 dark:text-gray-400 text-right text-sm`,
+                        `text-gray-500 dark:text-gray-400 text-right text-xs`,
                         {
                           'text-white': highlighted,
                         },

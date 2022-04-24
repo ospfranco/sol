@@ -9,8 +9,7 @@ final class Panel: NSPanel, NSWindowDelegate {
         defer: flag)
 
       self.level = .mainMenu
-      // Allow the pannel to appear in a fullscreen space
-      self.collectionBehavior.insert(.fullScreenAuxiliary)
+      self.collectionBehavior.insert(.fullScreenAuxiliary) // Allows the pannel to appear in a fullscreen space
       self.collectionBehavior.insert(.canJoinAllSpaces)
       self.titleVisibility = .hidden
       self.titlebarAppearsTransparent = true
@@ -21,7 +20,6 @@ final class Panel: NSPanel, NSWindowDelegate {
       self.standardWindowButton(.miniaturizeButton)?.isHidden = true
       self.standardWindowButton(.zoomButton)?.isHidden = true
       self.isOpaque = false
-//      self.alphaValue = 0.98
       let visualEffect = NSVisualEffectView(frame: frame)
       visualEffect.blendingMode = .behindWindow
       visualEffect.material = .fullScreenUI

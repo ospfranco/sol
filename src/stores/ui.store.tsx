@@ -952,11 +952,11 @@ export let createUIStore = (root: IRootStore) => {
         })
       }
 
-      // solNative.getMediaInfo().then(res => {
-      //   runInAction(() => {
-      //     store.track = res
-      //   })
-      // })
+      solNative.getMediaInfo().then(res => {
+        runInAction(() => {
+          store.track = res
+        })
+      })
 
       solNative.getApps().then(apps => {
         // Each "app" is a macOS file url, e.g. file:///Applications/SF%20Symbols
