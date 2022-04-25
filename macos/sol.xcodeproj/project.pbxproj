@@ -205,7 +205,6 @@
 				706CD89E27EAF41D00EC5F35 /* Copy “Launch at Login Helper” */,
 				381D8A6E24576A4E00465D17 /* Bundle React Native code and images */,
 				AB47F5B1B5458AA9DCA44477 /* [CP] Copy Pods Resources */,
-				8E13F5A6081B119AB305575A /* [CP] Embed Pods Frameworks */,
 				70A02FE027F25F110085E9C7 /* Swiftlint */,
 			);
 			buildRules = (
@@ -247,7 +246,7 @@
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			packageReferences = (
 				70F7EBEF2795A85200CED17A /* XCRemoteSwiftPackageReference "HotKey" */,
-				706CD89B27EAECBE00EC5F35 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
+				706CD89B27EAECBE00EC5F35 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */,
 			);
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
@@ -364,24 +363,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-		};
-		8E13F5A6081B119AB305575A /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-macOS/Pods-macOS-frameworks.sh",
-				"${PODS_ROOT}/hermes-engine/destroot/Library/Frameworks/macosx/hermes.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-macOS/Pods-macOS-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		AB47F5B1B5458AA9DCA44477 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -542,7 +523,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -604,7 +585,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -651,7 +632,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		706CD89B27EAECBE00EC5F35 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */ = {
+		706CD89B27EAECBE00EC5F35 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "git@github.com:sindresorhus/LaunchAtLogin.git";
 			requirement = {
@@ -672,7 +653,7 @@
 /* Begin XCSwiftPackageProductDependency section */
 		706CD89C27EAECBE00EC5F35 /* LaunchAtLogin */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 706CD89B27EAECBE00EC5F35 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */;
+			package = 706CD89B27EAECBE00EC5F35 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */;
 			productName = LaunchAtLogin;
 		};
 		70F7EBF02795A85200CED17A /* HotKey */ = {

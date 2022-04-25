@@ -4,9 +4,10 @@ final class Panel: NSPanel, NSWindowDelegate {
     init(contentRect: NSRect, backing: NSWindow.BackingStoreType, defer flag: Bool) {
       super.init(
         contentRect: contentRect,
-        styleMask: [.titled, .closable, .miniaturizable, .borderless, .fullSizeContentView, .nonactivatingPanel],
+        styleMask: [.titled, .closable, .miniaturizable, .fullSizeContentView, .nonactivatingPanel],
         backing: backing,
-        defer: flag)
+        defer: flag
+      )
 
       self.level = .mainMenu
       self.collectionBehavior.insert(.fullScreenAuxiliary) // Allows the pannel to appear in a fullscreen space

@@ -7,7 +7,7 @@ target 'macOS' do
 
   use_react_native!(
     :path => '../node_modules/react-native-macos',
-    :hermes_enabled => true
+    :hermes_enabled => false
   )
 
   post_install do |installer|

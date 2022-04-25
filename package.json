@@ -18,7 +18,6 @@
     "axios": "^0.25.0",
     "expr-eval": "^2.0.2",
     "fuse.js": "^6.5.3",
-    "hermes-engine": "0.9.0",
     "immer": "^9.0.12",
     "intl": "^1.2.5",
     "luxon": "^2.3.0",
