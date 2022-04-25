@@ -31,21 +31,12 @@ class CalendarHelper {
     let events = store.events(matching: predicate)
 
     return events.map { event -> Any in
-
-      let color = event.calendar.color
-      let hexColor = String(
-        format: "#%02X%02X%02X",
-        (Int) (color!.redComponent * 0xFF),
-        (Int) (color!.greenComponent * 0xFF),
-        (Int) (color!.blueComponent * 0xFF)
-      )
-
       return [
         "title": event.title,
         "url": event.url?.absoluteString,
         "notes": event.notes,
         "location": event.location,
-        "color": hexColor,
+        "color": event.calendar.color.hexString,
         "date": event.startDate != nil ? dateFormatter.string(from: event.startDate) : nil,
         "endDate": event.endDate != nil ? dateFormatter.string(from: event.endDate) : nil,
         "isAllDay": event.isAllDay,
