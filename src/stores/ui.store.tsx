@@ -1,19 +1,19 @@
-import { Assets } from 'assets'
-import { Parser } from 'expr-eval'
+import {Assets} from 'assets'
+import {Parser} from 'expr-eval'
 import Fuse from 'fuse.js'
 import produce from 'immer'
-import { extractMeetingLink } from 'lib/calendar'
-import { CONSTANTS } from 'lib/constants'
+import {extractMeetingLink} from 'lib/calendar'
+import {CONSTANTS} from 'lib/constants'
 import {
   CalendarAuthorizationStatus,
   INativeEvent,
-  solNative
+  solNative,
 } from 'lib/SolNative'
-import { doubleTranslate } from 'lib/translator'
-import { getWeather } from 'lib/weather'
-import { DateTime } from 'luxon'
-import { autorun, makeAutoObservable, runInAction, toJS } from 'mobx'
-import React, { FC } from 'react'
+import {doubleTranslate} from 'lib/translator'
+import {getWeather} from 'lib/weather'
+import {DateTime} from 'luxon'
+import {autorun, makeAutoObservable, runInAction, toJS} from 'mobx'
+import React, {FC} from 'react'
 import {
   Alert,
   Appearance,
@@ -24,11 +24,11 @@ import {
   Image,
   ImageURISource,
   Linking,
-  Platform
+  Platform,
 } from 'react-native'
-import { IRootStore } from 'Store'
+import {IRootStore} from 'Store'
 import tw from 'tailwind'
-import { buildSystemPreferencesItems } from './systemPreferences'
+import {buildSystemPreferencesItems} from './systemPreferences'
 
 let keyDownListener: EmitterSubscription | undefined
 let keyUpListener: EmitterSubscription | undefined
@@ -137,57 +137,58 @@ export let createUIStore = (root: IRootStore) => {
     }
   }
 
-  const SETTING_ITEMS: Item[] = Platform.select({
-    macos: [
-      {
-        icon: '⏰',
-        name: 'Track time',
-        type: ItemType.CONFIGURATION,
-        preventClose: true,
-        callback: () => {
-          store.focusWidget(FocusableWidget.PROJECT_SELECT)
+  const SETTING_ITEMS: Item[] =
+    Platform.select({
+      macos: [
+        {
+          icon: '⏰',
+          name: 'Track time',
+          type: ItemType.CONFIGURATION,
+          preventClose: true,
+          callback: () => {
+            store.focusWidget(FocusableWidget.PROJECT_SELECT)
+          },
         },
-      },
-      {
-        icon: '✋',
-        name: 'Stop Tracking Time',
-        type: ItemType.CONFIGURATION,
-        preventClose: true,
-        callback: () => {
-          store.stopTrackingProject()
+        {
+          icon: '✋',
+          name: 'Stop Tracking Time',
+          type: ItemType.CONFIGURATION,
+          preventClose: true,
+          callback: () => {
+            store.stopTrackingProject()
+          },
         },
-      },
-      {
-        icon: '➕',
-        name: 'Create Tracking Project',
-        type: ItemType.CONFIGURATION,
-        preventClose: true,
-        callback: () => {
-          store.showProjectCreationForm()
+        {
+          icon: '➕',
+          name: 'Create Tracking Project',
+          type: ItemType.CONFIGURATION,
+          preventClose: true,
+          callback: () => {
+            store.showProjectCreationForm()
+          },
         },
-      },
-      {
-        iconImage: Assets.DarkModeIcon,
-        name: 'Dark mode',
-        type: ItemType.CONFIGURATION,
-        callback: () => {
-          solNative.toggleDarkMode()
+        {
+          iconImage: Assets.DarkModeIcon,
+          name: 'Dark mode',
+          type: ItemType.CONFIGURATION,
+          callback: () => {
+            solNative.toggleDarkMode()
+          },
         },
-      },
-      {
-        iconImage: Assets.SleepIcon,
-        name: 'Sleep',
-        type: ItemType.CONFIGURATION,
-        callback: () => {
-          solNative.executeAppleScript('tell application "Finder" to sleep')
+        {
+          iconImage: Assets.SleepIcon,
+          name: 'Sleep',
+          type: ItemType.CONFIGURATION,
+          callback: () => {
+            solNative.executeAppleScript('tell application "Finder" to sleep')
+          },
         },
-      },
-      {
-        iconImage: Assets.Airdrop,
-        name: 'AirDrop',
-        type: ItemType.CONFIGURATION,
-        callback: () => {
-          solNative.executeAppleScript(`tell application "Finder"
+        {
+          iconImage: Assets.Airdrop,
+          name: 'AirDrop',
+          type: ItemType.CONFIGURATION,
+          callback: () => {
+            solNative.executeAppleScript(`tell application "Finder"
           if exists window "AirDrop" then
                   tell application "System Events" to ¬
                           tell application process "Finder" to ¬
@@ -205,60 +206,60 @@ export let createUIStore = (root: IRootStore) => {
           end if
           activate
         end tell`)
+          },
         },
-      },
-      {
-        iconImage: Assets.LockIcon,
-        name: 'Lock',
-        type: ItemType.CONFIGURATION,
-        callback: () => {
-          solNative.executeAppleScript(
-            `tell application "System Events" to keystroke "q" using {control down, command down}`,
-          )
+        {
+          iconImage: Assets.LockIcon,
+          name: 'Lock',
+          type: ItemType.CONFIGURATION,
+          callback: () => {
+            solNative.executeAppleScript(
+              `tell application "System Events" to keystroke "q" using {control down, command down}`,
+            )
+          },
         },
-      },
-      ...buildSystemPreferencesItems(),
-      {
-        iconComponent: () => {
-          const colorScheme = Appearance.getColorScheme()
+        ...buildSystemPreferencesItems(),
+        {
+          iconComponent: () => {
+            const colorScheme = Appearance.getColorScheme()
 
-          return (
-            <Image
-              source={Assets.SolWhiteSmall}
-              style={tw.style('w-4 h-4', {
-                tintColor: colorScheme === 'dark' ? 'white' : 'black',
-              })}
-            />
-          )
+            return (
+              <Image
+                source={Assets.SolWhiteSmall}
+                style={tw.style('w-4 h-4', {
+                  tintColor: colorScheme === 'dark' ? 'white' : 'black',
+                })}
+              />
+            )
+          },
+          name: 'Settings',
+          type: ItemType.CONFIGURATION,
+          callback: () => {
+            store.focusWidget(FocusableWidget.SETTINGS)
+          },
+          preventClose: true,
         },
-        name: 'Settings',
-        type: ItemType.CONFIGURATION,
-        callback: () => {
-          store.focusWidget(FocusableWidget.SETTINGS)
+        {
+          icon: '✳️',
+          name: 'Create shortcut',
+          type: ItemType.CONFIGURATION,
+          callback: () => {
+            store.focusWidget(FocusableWidget.CREATE_ITEM)
+          },
+          preventClose: true,
         },
-        preventClose: true,
-      },
-      {
-        icon: '✳️',
-        name: 'Create shortcut',
-        type: ItemType.CONFIGURATION,
-        callback: () => {
-          store.focusWidget(FocusableWidget.CREATE_ITEM)
+      ],
+      windows: [
+        {
+          iconImage: Assets.DarkModeIcon,
+          name: 'Dark mode',
+          type: ItemType.CONFIGURATION,
+          callback: () => {
+            solNative.toggleDarkMode()
+          },
         },
-        preventClose: true,
-      },
-    ],
-    windows: [
-      {
-        iconImage: Assets.DarkModeIcon,
-        name: 'Dark mode',
-        type: ItemType.CONFIGURATION,
-        callback: () => {
-          solNative.toggleDarkMode()
-        },
-      },
-    ]
-  }) || []
+      ],
+    }) || []
 
   if (__DEV__) {
     SETTING_ITEMS.push({
@@ -444,7 +445,10 @@ export let createUIStore = (root: IRootStore) => {
           } else if (!aIsFavorite && bIsFavorite) {
             return 1
           } else if (aIsFavorite && bIsFavorite) {
-            return store.favorites.findIndex((v) => v === a.name) - store.favorites.findIndex((v) => v === b.name) 
+            return (
+              store.favorites.findIndex(v => v === a.name) -
+              store.favorites.findIndex(v => v === b.name)
+            )
           }
 
           const freqA = store.frequencies[a.name] ?? 0
@@ -476,7 +480,7 @@ export let createUIStore = (root: IRootStore) => {
           Alert.alert('Only 5 favorite items allowed.')
           return
         }
-        store.setQuery("")
+        store.setQuery('')
         store.favorites.push(item.name)
       }
     },
@@ -724,6 +728,7 @@ export let createUIStore = (root: IRootStore) => {
               } else {
                 Linking.openURL('ical://')
               }
+              solNative.hideWindow()
               break
             }
 
