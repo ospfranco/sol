@@ -1,12 +1,12 @@
-import { INativeEvent } from 'lib/SolNative'
-import { DateTime } from 'luxon'
-import { observer } from 'mobx-react-lite'
-import React, { FC } from 'react'
-import { Text, View, ViewStyle } from 'react-native'
-import { useStore } from 'store'
-import { FocusableWidget } from 'stores'
+import {INativeEvent} from 'lib/SolNative'
+import {DateTime} from 'luxon'
+import {observer} from 'mobx-react-lite'
+import React, {FC} from 'react'
+import {Text, View, ViewStyle} from 'react-native'
+import {useStore} from 'store'
+import {FocusableWidget} from 'stores'
 import tw from 'tailwind'
-import { useDeviceContext } from 'twrnc'
+import {useDeviceContext} from 'twrnc'
 
 interface Props {
   style?: ViewStyle
@@ -68,7 +68,7 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
                   <View
                     key={index}
                     style={tw.style(
-                      `flex-row py-2 px-2 rounded items-center border border-transparent bg-opacity-50 dark:bg-opacity-40`,
+                      `flex-row py-2 px-2 rounded items-center border border-transparent bg-opacity-80 dark:bg-opacity-40`,
                       {
                         'bg-highlight border-highlight': highlighted,
                       },
@@ -108,7 +108,13 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
                         'All Day'
                       ) : (
                         <>
-                          <Text style={tw`text-gray-800 dark:text-gray-200`}>
+                          <Text
+                            style={tw.style(
+                              `text-gray-800 dark:text-gray-200`,
+                              {
+                                'text-white': highlighted,
+                              },
+                            )}>
                             {lDate.toFormat('HH:mm')}{' '}
                           </Text>
                           {lEndDate && !event.isAllDay

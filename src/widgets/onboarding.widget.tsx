@@ -1,10 +1,10 @@
-import {Assets} from 'assets'
-import {Fade} from 'components/Fade'
-import {observer} from 'mobx-react-lite'
-import React, {FC, useEffect, useState} from 'react'
-import {Appearance, Image, Switch, Text, View, ViewStyle} from 'react-native'
-import {useStore} from 'store'
-import {FocusableWidget} from 'stores'
+import { Assets } from 'assets'
+import { Fade } from 'components/Fade'
+import { observer } from 'mobx-react-lite'
+import React, { FC, useEffect, useState } from 'react'
+import { Appearance, Image, Switch, Text, View, ViewStyle } from 'react-native'
+import { useStore } from 'store'
+import { FocusableWidget } from 'stores'
 import tw from 'tailwind'
 
 interface Props {
@@ -13,18 +13,18 @@ interface Props {
 
 const SHORTCUTS = [
   {
-    label: (
-      <Text>
-        <Text style={tw`font-bold text-base`}>⌘</Text> then{' '}
-        <Text style={tw`font-bold`}>Space</Text>
+    label: ({style}: {style: ViewStyle}) => (
+      <Text style={tw.style(style)}>
+        <Text style={tw.style(`font-bold text-base`, style)}>⌘</Text> then{' '}
+        <Text style={tw.style(`font-bold`, style)}>Space</Text>
       </Text>
     ),
   },
   {
-    label: (
-      <Text>
-        <Text style={tw`font-bold text-base`}>⌥</Text> then{' '}
-        <Text style={tw`font-bold`}>Space</Text>
+    label: ({style}: {style: ViewStyle}) => (
+      <Text style={tw.style(style)}>
+        <Text style={tw.style(`font-bold text-base`, style)}>⌥</Text> then{' '}
+        <Text style={tw.style(`font-bold`, style)}>Space</Text>
       </Text>
     ),
   },
@@ -77,17 +77,20 @@ export const OnboardingWidget: FC<Props> = observer(({style}) => {
           <Text style={tw``}>Pick a global shortcut</Text>
           <View style={tw`mt-20`}>
             {SHORTCUTS.map((item, index) => {
+              const Label = item.label
               return (
                 <View
                   key={index}
                   style={tw.style(
                     `flex-row items-center px-3 py-2 rounded border border-transparent`,
                     {
-                      'bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-30 border-buttonBorder dark:border-darkBorder ':
+                      'bg-highlight bg-opacity-80 dark:bg-gray-500 dark:bg-opacity-30 border-buttonBorder dark:border-darkBorder':
                         store.ui.selectedIndex === index,
                     },
                   )}>
-                  {item.label}
+                  <Label style={tw.style({
+                    'text-white': store.ui.selectedIndex === index
+                  })}/>
                 </View>
               )
             })}
