@@ -85,15 +85,15 @@ class SolNative: RCTEventEmitter {
 
   @objc func getMediaInfo(_ resolve: @escaping  RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) {
     MediaHelper.getCurrentMedia(callback: { information in
-//      let bitmap: NSBitmapImageRep = NSBitmapImageRep(
-//    data: information["kMRMediaRemoteNowPlayingInfoArtworkData"] as! Data)!
-//      let data = bitmap.representation(using: .jpeg, properties: [:])
-//      let base64 = "data:image/jpeg;base64," + data!.base64EncodedString()
+      //      let bitmap: NSBitmapImageRep = NSBitmapImageRep(
+      //    data: information["kMRMediaRemoteNowPlayingInfoArtworkData"] as! Data)!
+      //      let data = bitmap.representation(using: .jpeg, properties: [:])
+      //      let base64 = "data:image/jpeg;base64," + data!.base64EncodedString()
 
       resolve([
         "title": information["kMRMediaRemoteNowPlayingInfoTitle"],
         "artist": information["kMRMediaRemoteNowPlayingInfoArtist"]
-//        "artwork": base64
+        //        "artwork": base64
       ])
     })
   }
