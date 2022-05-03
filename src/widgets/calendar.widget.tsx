@@ -30,117 +30,127 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
   }, {} as Record<string, {date: DateTime; events: Array<INativeEvent>}>)
 
   return (
-    <View style={tw.style(`pt-3`, style)}>
-      {Object.entries(groups).map(([key, data]) => {
-        return (
-          <View key={key} style={tw`pb-2`}>
-            <View style={tw`flex-row px-6`}>
-              {key === 'tomorrow' || key === 'today' ? (
-                <Text
-                  style={tw`capitalize dark:text-gray-400 text-gray-500 text-xs`}>
-                  {key}
-                </Text>
-              ) : (
-                <Text
-                  style={tw`capitalize dark:text-gray-400 text-gray-500 text-xs`}>
-                  {key !== 'today' && `${data.date.toFormat('cccc')} `}
+    <>
+      <View style={tw.style('pb-2', style)}>
+        <View style={tw`px-3`}>
+          <View
+            style={tw.style(
+              `w-full border-lightBorder dark:border-darkBorder border-t mb-2`,
+              style,
+            )}
+          />
+        </View>
+        {Object.entries(groups).map(([key, data]) => {
+          return (
+            <View key={key}>
+              <View style={tw`flex-row px-6`}>
+                {key === 'tomorrow' || key === 'today' ? (
                   <Text
                     style={tw`capitalize dark:text-gray-400 text-gray-500 text-xs`}>
-                    {'- '}
-                    {data.date.toFormat('dd LLL')}
+                    {key}
                   </Text>
-                </Text>
-              )}
-            </View>
-            <View style={tw`px-4`}>
-              {data.events.map((event, index) => {
-                const lDate = DateTime.fromISO(event.date)
-                const lEndDate = event.endDate
-                  ? DateTime.fromISO(event.endDate)
-                  : null
+                ) : (
+                  <Text
+                    style={tw`capitalize dark:text-gray-400 text-gray-500 text-xs`}>
+                    {key !== 'today' && `${data.date.toFormat('cccc')} `}
+                    <Text
+                      style={tw`capitalize dark:text-gray-400 text-gray-500 text-xs`}>
+                      {'- '}
+                      {data.date.toFormat('dd LLL')}
+                    </Text>
+                  </Text>
+                )}
+              </View>
+              <View style={tw`pl-8 pr-4`}>
+                {data.events.map((event, index) => {
+                  const lDate = DateTime.fromISO(event.date)
+                  const lEndDate = event.endDate
+                    ? DateTime.fromISO(event.endDate)
+                    : null
 
-                const highlighted =
-                  focused &&
-                  store.ui.selectedIndex ===
-                    store.ui.events.findIndex(e => e.title === event.title)
+                  const highlighted =
+                    focused &&
+                    store.ui.selectedIndex ===
+                      store.ui.events.findIndex(e => e.title === event.title)
 
-                return (
-                  <View
-                    key={index}
-                    style={tw.style(
-                      `flex-row py-2 px-2 rounded items-center border border-transparent bg-opacity-80 dark:bg-opacity-40`,
-                      {
-                        'bg-highlight border-highlight': highlighted,
-                      },
-                    )}>
+                  return (
                     <View
+                      key={index}
                       style={tw.style(
-                        `w-[12px] h-[12px] mr-2 rounded-full justify-center items-center`,
+                        `flex-row py-2 px-2 rounded items-center border border-transparent bg-opacity-80 dark:bg-opacity-40`,
                         {
-                          borderColor: event.color,
-                          borderWidth: 1.5,
+                          'bg-highlight border-highlight': highlighted,
                         },
                       )}>
-                      {event.status === 1 && (
-                        <View
-                          style={tw.style(`w-[7px] h-[7px] rounded-full`, {
-                            backgroundColor: event.color,
-                          })}
-                        />
-                      )}
-                    </View>
-                    <Text
-                      numberOfLines={1}
-                      style={tw.style(`flex-1 text-xs`, {
-                        'line-through': event.status === 2,
-                        'text-white': highlighted,
-                      })}>
-                      {event.title}
-                    </Text>
-                    <Text
-                      style={tw.style(
-                        `text-gray-500 dark:text-gray-400 text-right text-xs`,
-                        {
+                      <View
+                        style={tw.style(
+                          `w-[12px] h-[12px] mr-2 rounded-full justify-center items-center`,
+                          {
+                            borderColor: event.color,
+                            borderWidth: 1.5,
+                          },
+                        )}>
+                        {event.status === 1 && (
+                          <View
+                            style={tw.style(`w-[7px] h-[7px] rounded-full`, {
+                              backgroundColor: event.color,
+                            })}
+                          />
+                        )}
+                      </View>
+                      <Text
+                        numberOfLines={1}
+                        style={tw.style(`flex-1 text-xs`, {
+                          'line-through': event.status === 2,
                           'text-white': highlighted,
-                        },
-                      )}>
-                      {event.isAllDay ? (
-                        'All Day'
-                      ) : (
-                        <>
-                          <Text
-                            style={tw.style(
-                              `text-gray-800 dark:text-gray-200`,
-                              {
-                                'text-white': highlighted,
-                              },
-                            )}>
-                            {lDate.toFormat('HH:mm')}{' '}
-                          </Text>
-                          {lEndDate && !event.isAllDay
-                            ? `- ${lEndDate.toFormat('HH:mm')}`
-                            : null}
-                        </>
-                      )}
-                    </Text>
-                  </View>
-                )
-              })}
+                        })}>
+                        {event.title}
+                      </Text>
+                      <Text
+                        style={tw.style(
+                          `text-gray-500 dark:text-gray-400 text-right text-xs`,
+                          {
+                            'text-white': highlighted,
+                          },
+                        )}>
+                        {event.isAllDay ? (
+                          'All Day'
+                        ) : (
+                          <>
+                            <Text
+                              style={tw.style(
+                                `text-gray-800 dark:text-gray-200`,
+                                {
+                                  'text-white': highlighted,
+                                },
+                              )}>
+                              {lDate.toFormat('HH:mm')}{' '}
+                            </Text>
+                            {lEndDate && !event.isAllDay
+                              ? `- ${lEndDate.toFormat('HH:mm')}`
+                              : null}
+                          </>
+                        )}
+                      </Text>
+                    </View>
+                  )
+                })}
+              </View>
             </View>
-          </View>
-        )
-      })}
-      {store.ui.calendarAuthorizationStatus === 'notDetermined' && (
-        <Text style={tw`text-center pt-1 pb-4 text-gray-500 text-sm`}>
-          Grant Sol access to your Calendar under System Preferences
-        </Text>
-      )}
-      {store.ui.calendarAuthorizationStatus === 'authorized' &&
-        !store.ui.events.length && (
-          <Text style={tw`text-center pt-1 pb-4 text-gray-500 text-xs`}>
-            No upcoming events
+          )
+        })}
+        {store.ui.calendarAuthorizationStatus === 'notDetermined' && (
+          <Text style={tw`text-center pt-1 pb-4 text-gray-500 text-sm`}>
+            Grant Sol access to your Calendar under System Preferences
           </Text>
         )}
-    </View>
+        {store.ui.calendarAuthorizationStatus === 'authorized' &&
+          !store.ui.events.length && (
+            <Text style={tw`text-center pt-1 pb-4 text-gray-500 text-xs`}>
+              No upcoming events
+            </Text>
+          )}
+      </View>
+    </>
   )
 })

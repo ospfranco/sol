@@ -58,7 +58,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
       <View style={tw`pt-2`}>
         <Animated.View
           style={[
-            tw.style(`px-3 pb-3 border-b flex-row`, {
+            tw.style(`px-3 pb-1 flex-row`, {
               'pt-1 border-lightBorder dark:border-darkBorder':
                 theme === Theme.transparent,
               'pt-4 border-slate-100': theme === Theme.solid,
@@ -76,7 +76,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
             })}
             selectionColor={solNative.accentColor}
             placeholderTextColor={tw.color('text-gray-500')}
-            placeholder="Type something..."
+            placeholder="Type or search for something..."
           />
         </Animated.View>
       </View>
@@ -100,7 +100,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
                   `justify-center items-center p-3 m-3 border transparent`,
                   {
                     'bg-highlight border-highlight': isActive,
-                    'mb-2 rounded-lg bg-opacity-50 dark:bg-opacity-40':
+                    'mb-2 rounded bg-opacity-50 dark:bg-opacity-40':
                       theme === Theme.transparent,
                   },
                 )}>
@@ -118,12 +118,10 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
             <View
               key={index}
               style={tw.style(`flex-row items-center`, {
-                'px-3 rounded-lg bg-opacity-80 dark:bg-opacity-40 py-2 border border-transparent':
+                'px-3 rounded bg-opacity-80 dark:bg-opacity-40 py-2 border border-transparent':
                   theme === Theme.transparent,
                 'px-6 py-3 bg-opacity-10': theme === Theme.solid,
-                'bg-highlight border-highlight': isActive,
-                'mb-2':
-                  index === store.ui.favorites.length - 1 && !store.ui.query,
+                'bg-highlight border-highlightDim': isActive,
               })}>
               {!!item.url && <FileIcon url={item.url} style={tw`w-4 h-4`} />}
               {item.type !== ItemType.CUSTOM && !!item.icon && (

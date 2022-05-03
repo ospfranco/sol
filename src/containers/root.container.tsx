@@ -20,7 +20,7 @@ export const RootContainer = observer(() => {
   const store = useStore()
   const rootStyle =
     store.ui.theme === Theme.transparent ? null : `bg-white dark:bg-gray-900`
-  const mainStyle = tw`bg-white dark:bg-black bg-opacity-70 dark:bg-opacity-50 flex-1`
+  const mainStyle = tw`bg-white dark:bg-black bg-opacity-80 dark:bg-opacity-60 flex-1`
   const theme = store.ui.theme
 
   useEffect(() => {
@@ -59,7 +59,7 @@ export const RootContainer = observer(() => {
 
       <GeneralWidget
         style={tw.style(
-          `border-t bg-white dark:bg-black bg-opacity-80 dark:bg-opacity-60`,
+          `border-t bg-white dark:bg-black bg-opacity-70 dark:bg-opacity-30`,
           {
             'border-lightBorder dark:border-darkBorder':
               theme === Theme.transparent,
@@ -71,7 +71,7 @@ export const RootContainer = observer(() => {
       {(store.ui.calendarAuthorizationStatus === 'authorized' ||
         store.ui.calendarAuthorizationStatus === 'notDetermined') && (
         <CalendarWidget
-          style={tw` bg-white dark:bg-black bg-opacity-80 dark:bg-opacity-60 `}
+          style={tw` bg-white dark:bg-black bg-opacity-70 dark:bg-opacity-30`}
         />
       )}
     </View>
