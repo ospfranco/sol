@@ -16,7 +16,7 @@ import {
   ViewStyle,
 } from 'react-native'
 import {useStore} from 'store'
-import {FocusableWidget, Item, ItemType, Theme} from 'stores'
+import {FocusableWidget, Item, ItemType} from 'stores'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
 
@@ -34,7 +34,6 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
   const animatedBorderRef = useRef(
     new Animated.Value(store.ui.isLoading ? 1 : 0),
   )
-  const theme = store.ui.theme
 
   useEffect(() => {
     Animated.timing(animatedBorderRef.current, {
@@ -58,11 +57,9 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
       <View style={tw`pt-2`}>
         <Animated.View
           style={[
-            tw.style(`px-3 pb-1 flex-row`, {
-              'pt-1 border-lightBorder dark:border-darkBorder':
-                theme === Theme.transparent,
-              'pt-4 border-slate-100': theme === Theme.solid,
-            }),
+            tw.style(
+              `px-3 pb-1 flex-row pt-1 border-lightBorder dark:border-darkBorder`,
+            ),
           ]}>
           <TextInput
             autoFocus
@@ -71,9 +68,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
             value={store.ui.query}
             onChangeText={store.ui.setQuery}
             ref={inputRef}
-            style={tw.style(`flex-1`, {
-              'text-lg': store.ui.theme === Theme.solid,
-            })}
+            style={tw.style(`flex-1`)}
             selectionColor={solNative.accentColor}
             placeholderTextColor={tw.color('text-gray-500')}
             placeholder="Type or search for something..."
@@ -83,9 +78,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
 
       <FlatList<Item>
         style={tw`flex-1`}
-        contentContainerStyle={tw.style(`flex-grow-1`, {
-          'p-3': theme === Theme.transparent,
-        })}
+        contentContainerStyle={tw.style(`flex-grow-1 p-3`)}
         ref={listRef}
         data={store.ui.items}
         keyExtractor={item => `${item.name}-${item.type}`}
@@ -97,11 +90,9 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
               <View
                 key={index}
                 style={tw.style(
-                  `justify-center items-center p-3 m-3 border transparent`,
+                  `justify-center items-center p-3 m-3 border transparent mb-2 rounded bg-opacity-50 dark:bg-opacity-40`,
                   {
                     'bg-highlight border-highlight': isActive,
-                    'mb-2 rounded bg-opacity-50 dark:bg-opacity-40':
-                      theme === Theme.transparent,
                   },
                 )}>
                 <Text
@@ -117,12 +108,12 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
           return (
             <View
               key={index}
-              style={tw.style(`flex-row items-center`, {
-                'px-3 rounded bg-opacity-80 dark:bg-opacity-40 py-2 border border-transparent':
-                  theme === Theme.transparent,
-                'px-6 py-3 bg-opacity-10': theme === Theme.solid,
-                'bg-highlight border-highlightDim': isActive,
-              })}>
+              style={tw.style(
+                `flex-row items-center px-3 rounded bg-opacity-80 dark:bg-opacity-40 py-2 border border-transparent`,
+                {
+                  'bg-highlight border-highlightDim': isActive,
+                },
+              )}>
               {!!item.url && <FileIcon url={item.url} style={tw`w-4 h-4`} />}
               {item.type !== ItemType.CUSTOM && !!item.icon && (
                 <Text style={tw`text-xs`}>{item.icon}</Text>
@@ -150,9 +141,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
               )}
               <Text
                 style={tw.style('ml-3 flex-1 text-sm', {
-                  // '': theme === Theme.transparent,
-                  // '': theme === Theme.solid,
-                  'text-white': isActive && theme === Theme.transparent,
+                  'text-white': isActive,
                 })}>
                 {item.name}
               </Text>
@@ -176,8 +165,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
                   style={tw.style(
                     `text-gray-500 dark:text-gray-400 text-xs w-6`,
                     {
-                      'text-white dark:text-white':
-                        isActive && theme === Theme.transparent,
+                      'text-white dark:text-white': isActive,
                     },
                   )}>
                   ⌘ {index + 1}

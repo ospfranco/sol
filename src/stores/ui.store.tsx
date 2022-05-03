@@ -55,11 +55,6 @@ interface ITrackingProject {
   periods: IPeriod[]
 }
 
-export enum Theme {
-  transparent = 'transparent',
-  solid = 'solid',
-}
-
 export enum FocusableWidget {
   ONBOARDING = 'ONBOARDING',
   SEARCH = 'SEARCH',
@@ -134,7 +129,6 @@ export let createUIStore = (root: IRootStore) => {
         ) {
           store.focusedWidget = FocusableWidget.ONBOARDING
         }
-        store.theme = parsedStore.theme ?? Theme.transparent
       })
     } else {
       runInAction(() => {
@@ -297,7 +291,6 @@ export let createUIStore = (root: IRootStore) => {
     //  | |  | | '_ \/ __|/ _ \ '__\ \ / / _` | '_ \| |/ _ \/ __|
     //  | |__| | |_) \__ \  __/ |   \ V / (_| | |_) | |  __/\__ \
     //   \____/|_.__/|___/\___|_|    \_/ \__,_|_.__/|_|\___||___/
-    theme: Theme.transparent as Theme,
     calendarAuthorizationStatus: 'notDetermined' as CalendarAuthorizationStatus,
     onboardingStep: 'v1_start' as OnboardingStep,
     globalShortcut: 'command' as 'command' | 'option',
@@ -479,9 +472,6 @@ export let createUIStore = (root: IRootStore) => {
     //    / /\ \ / __| __| |/ _ \| '_ \/ __|
     //   / ____ \ (__| |_| | (_) | | | \__ \
     //  /_/    \_\___|\__|_|\___/|_| |_|___/
-    setTheme: (theme: Theme) => {
-      store.theme = theme
-    },
     toggleFavorite: (item: Item) => {
       if (store.favorites.includes(item.name)) {
         store.favorites = store.favorites.filter(v => v !== item.name)
