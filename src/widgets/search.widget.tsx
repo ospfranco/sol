@@ -1,8 +1,8 @@
-import { Assets, Icons } from 'assets'
-import { FileIcon } from 'components/FileIcon'
-import { solNative } from 'lib/SolNative'
-import { observer } from 'mobx-react-lite'
-import React, { FC, useEffect, useRef } from 'react'
+import {Assets, Icons} from 'assets'
+import {FileIcon} from 'components/FileIcon'
+import {solNative} from 'lib/SolNative'
+import {observer} from 'mobx-react-lite'
+import React, {FC, useEffect, useRef} from 'react'
 import {
   Animated,
   Appearance,
@@ -13,12 +13,12 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  ViewStyle
+  ViewStyle,
 } from 'react-native'
-import { useStore } from 'store'
-import { FocusableWidget, Item, ItemType } from 'stores'
+import {useStore} from 'store'
+import {FocusableWidget, Item, ItemType} from 'stores'
 import tw from 'tailwind'
-import { useDeviceContext } from 'twrnc'
+import {useDeviceContext} from 'twrnc'
 
 interface Props {
   style?: ViewStyle
@@ -115,18 +115,21 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
           return (
             <View
               key={index}
-              style={tw.style(`flex-row items-center px-3 py-2 rounded bg-opacity-80 dark:bg-opacity-40 border border-transparent`, {
-                'bg-highlight border-highlight': isActive,
-                'mb-2':
-                  index === store.ui.favorites.length - 1 && !store.ui.query,
-              })}>
+              style={tw.style(
+                `flex-row items-center px-3 py-2 rounded bg-opacity-80 dark:bg-opacity-40 border border-transparent`,
+                {
+                  'bg-highlight border-highlight': isActive,
+                  'mb-2':
+                    index === store.ui.favorites.length - 1 && !store.ui.query,
+                },
+              )}>
               {!!item.url && <FileIcon url={item.url} style={tw`w-4 h-4`} />}
               {item.type !== ItemType.CUSTOM && !!item.icon && (
                 <Text style={tw`text-xs`}>{item.icon}</Text>
               )}
               {item.type === ItemType.CUSTOM && (
                 <View
-                  style={tw`h-4 w-4 bg-gray-200 dark:bg-gray-800 rounded items-center justify-center`}>
+                  style={tw`h-4 w-4 bg-gray-600 dark:bg-gray-200 rounded items-center justify-center`}>
                   <Image
                     // @ts-expect-error
                     source={Icons[item.icon]}
@@ -142,7 +145,9 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
                 <Image source={item.iconImage} style={tw`w-4 h-4`} />
               )}
               {/* Somehow this component breaks windows build */}
-              {Platform.OS === 'macos' && !!item.iconComponent && <item.iconComponent />}
+              {Platform.OS === 'macos' && !!item.iconComponent && (
+                <item.iconComponent />
+              )}
               <Text
                 style={tw.style('ml-3 text-sm flex-1', {
                   'text-white': isActive,
@@ -154,8 +159,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
                   onPress={() => {
                     store.ui.toggleFavorite(item)
                   }}
-                  style={tw`pr-1`}
-                  >
+                  style={tw`pr-1`}>
                   <Image
                     source={item.isFavorite ? Assets.StarFilled : Assets.Star}
                     style={tw.style('h-[2.5] w-4', {
