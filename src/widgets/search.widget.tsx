@@ -16,7 +16,7 @@ import {
   ViewStyle,
 } from 'react-native'
 import {useStore} from 'store'
-import {FocusableWidget, Item, ItemType} from 'stores'
+import {FocusableWidget, Item, ItemType, Theme} from 'stores'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
 
@@ -34,6 +34,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
   const animatedBorderRef = useRef(
     new Animated.Value(store.ui.isLoading ? 1 : 0),
   )
+  const theme = store.ui.theme
 
   useEffect(() => {
     Animated.timing(animatedBorderRef.current, {
@@ -57,18 +58,11 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
       <View style={tw`pt-2`}>
         <Animated.View
           style={[
-            tw`px-3 pt-1 pb-3 flex-row border-b border-lightBorder dark:border-darkBorder relative`,
-            {
-              borderColor: animatedBorderRef.current.interpolate({
-                inputRange: [0, 1],
-                outputRange: [
-                  colorScheme === 'dark'
-                    ? 'rgba(255, 250, 250, .1)'
-                    : 'rgba(0, 0, 0, .1)',
-                  'rgba(14, 165, 233, 0.8)',
-                ],
-              }),
-            },
+            tw.style(`px-3 pb-3 border-b flex-row`, {
+              'pt-1 border-lightBorder dark:border-darkBorder':
+                theme === Theme.transparent,
+              'pt-4 border-slate-100': theme === Theme.solid,
+            }),
           ]}>
           <TextInput
             autoFocus
@@ -77,7 +71,9 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
             value={store.ui.query}
             onChangeText={store.ui.setQuery}
             ref={inputRef}
-            style={tw`flex-1`}
+            style={tw.style(`flex-1`, {
+              'text-lg': store.ui.theme === Theme.solid,
+            })}
             selectionColor={solNative.accentColor}
             placeholderTextColor={tw.color('text-gray-500')}
             placeholder="Type something..."
@@ -87,7 +83,9 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
 
       <FlatList<Item>
         style={tw`flex-1`}
-        contentContainerStyle={tw`p-3 flex-grow-1`}
+        contentContainerStyle={tw.style(`flex-grow-1`, {
+          'p-3': theme === Theme.transparent,
+        })}
         ref={listRef}
         data={store.ui.items}
         keyExtractor={item => `${item.name}-${item.type}`}
@@ -99,8 +97,12 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
               <View
                 key={index}
                 style={tw.style(
-                  `justify-center items-center rounded-lg p-3 mb-2 bg-opacity-50 dark:bg-opacity-40 border transparent`,
-                  {'bg-highlight border-highlight': isActive},
+                  `justify-center items-center p-3 m-3 border transparent`,
+                  {
+                    'bg-highlight border-highlight': isActive,
+                    'mb-2 rounded-lg bg-opacity-50 dark:bg-opacity-40':
+                      theme === Theme.transparent,
+                  },
                 )}>
                 <Text
                   style={tw.style(`text-xl`, {
@@ -115,14 +117,14 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
           return (
             <View
               key={index}
-              style={tw.style(
-                `flex-row items-center px-3 py-2 rounded bg-opacity-80 dark:bg-opacity-40 border border-transparent`,
-                {
-                  'bg-highlight border-highlight': isActive,
-                  'mb-2':
-                    index === store.ui.favorites.length - 1 && !store.ui.query,
-                },
-              )}>
+              style={tw.style(`flex-row items-center`, {
+                'px-3 rounded-lg bg-opacity-80 dark:bg-opacity-40 py-2 border border-transparent':
+                  theme === Theme.transparent,
+                'px-6 py-3 bg-opacity-10': theme === Theme.solid,
+                'bg-highlight border-highlight': isActive,
+                'mb-2':
+                  index === store.ui.favorites.length - 1 && !store.ui.query,
+              })}>
               {!!item.url && <FileIcon url={item.url} style={tw`w-4 h-4`} />}
               {item.type !== ItemType.CUSTOM && !!item.icon && (
                 <Text style={tw`text-xs`}>{item.icon}</Text>
@@ -149,8 +151,10 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
                 <item.iconComponent />
               )}
               <Text
-                style={tw.style('ml-3 text-sm flex-1', {
-                  'text-white': isActive,
+                style={tw.style('ml-3 flex-1 text-sm', {
+                  // '': theme === Theme.transparent,
+                  // '': theme === Theme.solid,
+                  'text-white': isActive && theme === Theme.transparent,
                 })}>
                 {item.name}
               </Text>
@@ -174,7 +178,8 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
                   style={tw.style(
                     `text-gray-500 dark:text-gray-400 text-xs w-6`,
                     {
-                      'text-white dark:text-white': isActive,
+                      'text-white dark:text-white':
+                        isActive && theme === Theme.transparent,
                     },
                   )}>
                   ⌘ {index + 1}
