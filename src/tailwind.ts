@@ -16,7 +16,6 @@ function hexToRgb(hex: string) {
 config.theme.extend.colors.highlight = solNative.accentColor
 const accentRbg = hexToRgb(solNative.accentColor)
 const dimAccent = `rgba(${accentRbg?.r},${accentRbg?.g},${accentRbg?.b}, 0.6)`
-console.warn('dim accent', dimAccent)
 
 config.theme.extend.colors.highlightDim = dimAccent
 
