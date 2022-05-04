@@ -56,14 +56,14 @@ export const RootContainer = observer(() => {
 
       <GeneralWidget
         style={tw.style(
-          `border-t bg-white dark:bg-black bg-opacity-70 dark:bg-opacity-30 border-lightBorder dark:border-darkBorder`,
+          `border-t bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30 border-lightBorder dark:border-darkBorder`,
         )}
       />
 
       {(store.ui.calendarAuthorizationStatus === 'authorized' ||
         store.ui.calendarAuthorizationStatus === 'notDetermined') && (
         <CalendarWidget
-          style={tw` bg-white dark:bg-black bg-opacity-70 dark:bg-opacity-30`}
+          style={tw` bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30`}
         />
       )}
     </View>
