@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@react-native-picker/picker": "^2.4.0",
+    "@sentry/react-native": "^3.4.2",
     "@types/node": "^17.0.8",
     "@types/react": "^17.0.38",
     "@types/react-native": "^0.66.12",
@@ -26,9 +27,9 @@
     "react": "17.0.2",
     "react-native": "0.67.2",
     "react-native-macos": "^0.66.46",
+    "react-native-windows": "0.67.7",
     "twrnc": "^3.3.0",
-    "typescript": "4.6.3",
-    "react-native-windows": "0.67.7"
+    "typescript": "4.6.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
@@ -40,9 +41,9 @@
     "babel-plugin-module-resolver": "^4.1.0",
     "eslint": "7.14.0",
     "jest": "^26.6.3",
+    "metro-config": "^0.66.2",
     "metro-react-native-babel-preset": "^0.66.2",
-    "react-test-renderer": "17.0.2",
-    "metro-config": "^0.66.2"
+    "react-test-renderer": "17.0.2"
   },
   "jest": {
     "preset": "react-native"

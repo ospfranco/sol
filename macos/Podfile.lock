@@ -277,6 +277,12 @@ PODS:
     - React-perflogger (= 0.66.46)
   - RNCPicker (2.4.0):
     - React-Core
+  - RNSentry (3.4.2):
+    - React-Core
+    - Sentry (= 7.11.0)
+  - Sentry (7.11.0):
+    - Sentry/Core (= 7.11.0)
+  - Sentry/Core (7.11.0)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -313,11 +319,13 @@ DEPENDENCIES:
   - React-runtimeexecutor (from `../node_modules/react-native-macos/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native-macos/ReactCommon`)
   - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
+  - "RNSentry (from `../node_modules/@sentry/react-native`)"
   - Yoga (from `../node_modules/react-native-macos/ReactCommon/yoga`)
 
 SPEC REPOS:
   trunk:
     - fmt
+    - Sentry
 
 EXTERNAL SOURCES:
   boost:
@@ -382,6 +390,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-macos/ReactCommon"
   RNCPicker:
     :path: "../node_modules/@react-native-picker/picker"
+  RNSentry:
+    :path: "../node_modules/@sentry/react-native"
   Yoga:
     :path: "../node_modules/react-native-macos/ReactCommon/yoga"
 
@@ -418,6 +428,8 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: ded1b01a8f701257920481859b8f155c8a974dda
   ReactCommon: 315991599ec7d825a4917e0dbe1e1a68145bd518
   RNCPicker: 6d5d64e7b90c240c779ee0938ec433c11e2dd758
+  RNSentry: 2cd1daa124b0d9fd0dfc2cb6094fdd168cb579bc
+  Sentry: 0c5cd63d714187b4a39c331c1f0eb04ba7868341
   Yoga: 1b2b15cf31891f0bb1497c4c656512a1311647da
 
 PODFILE CHECKSUM: 5083d948103f5ec919d83034781c4e666d4a19ca

@@ -29,6 +29,7 @@ import {
 import {IRootStore} from 'Store'
 import tw from 'tailwind'
 import {buildSystemPreferencesItems} from './systemPreferences'
+import * as Sentry from '@sentry/react-native'
 
 let keyDownListener: EmitterSubscription | undefined
 let keyUpListener: EmitterSubscription | undefined
@@ -218,7 +219,6 @@ export let createUIStore = (root: IRootStore) => {
             )
           },
         },
-        ...buildSystemPreferencesItems(),
         {
           iconComponent: () => {
             const colorScheme = Appearance.getColorScheme()
@@ -248,6 +248,7 @@ export let createUIStore = (root: IRootStore) => {
           },
           preventClose: true,
         },
+        ...buildSystemPreferencesItems(),
       ],
       windows: [
         {
@@ -281,6 +282,16 @@ export let createUIStore = (root: IRootStore) => {
         DevSettings.reload()
       },
       preventClose: true,
+    })
+
+    SETTING_ITEMS.push({
+      icon: '🧨',
+      name: 'Sentry Crash',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        Sentry.captureMessage('Hello sentry')
+        // Sentry.nativeCrash()
+      },
     })
   }
 
