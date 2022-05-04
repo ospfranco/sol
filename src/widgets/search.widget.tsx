@@ -90,7 +90,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
               <View
                 key={index}
                 style={tw.style(
-                  `justify-center items-center p-3 m-3 border transparent mb-2 rounded bg-opacity-50 dark:bg-opacity-40`,
+                  `justify-center items-center p-3 m-3 border border-transparent mb-2 rounded bg-opacity-50 dark:bg-opacity-40`,
                   {
                     'bg-highlight border-highlight': isActive,
                   },
