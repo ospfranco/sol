@@ -11,9 +11,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
   var mainWindow: Panel!
   var hotKey = HotKey(key: .space, modifiers: [.command])
+  let rightSideScreenHotKey = HotKey(key: .rightArrow, modifiers: [.option, .control])
+  let leftSideScreenHotKey = HotKey(key: .leftArrow, modifiers: [.option, .control])
 
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     hotKey.keyDownHandler = toggleWindow
+    rightSideScreenHotKey.keyDownHandler = moveRight
+    leftSideScreenHotKey.keyDownHandler = moveLeft
 
     let jsCodeLocation: URL = RCTBundleURLProvider
         .sharedSettings()
@@ -91,6 +95,38 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     mainWindow.orderOut(self)
     NSCursor.unhide()
     SolEmitter.sharedInstance.onHide()
+  }
+
+  func moveRight() {
+    guard let frontmostWindowElement = AccessibilityElement.frontmostWindow()
+//          let windowId = frontmostWindowElement.getIdentifier()
+    else {
+      NSSound.beep()
+      return
+    }
+    var resultingRect = frontmostWindowElement.rectOfElement()
+
+    print("resulting rect \(resultingRect)")
+
+    frontmostWindowElement.set(position: CGPoint(x: 200, y: 200))
+
+    resultingRect = frontmostWindowElement.rectOfElement()
+
+    print("resulting rect 2 \(resultingRect)")
+//    print("Should have moved window to the right")
+//    frontmostWindowElement.set(size: CGSize(width: 200, height: 200))
+
+//    var screens: UsableScreens?
+//    if let screen = parameters.screen {
+//      screens = UsableScreens(currentScreen: screen, numScreens: 1)
+//    } else {
+//      screens = screenDetection.detectScreens(using: frontmostWindowElement)
+//    }
+
+  }
+
+  func moveLeft() {
+    print("Should move window left")
   }
 
   func setGlobalShortcut(_ key: String) {

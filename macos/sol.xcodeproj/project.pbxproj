@@ -14,6 +14,8 @@
 		700A18DA279DC17F0096C830 /* FileIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700A18D9279DC17F0096C830 /* FileIcon.swift */; };
 		700A18DC279DC1F50096C830 /* FileIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 700A18DB279DC1F50096C830 /* FileIcon.m */; };
 		701086A727989798004C8CCD /* SolEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701086A627989798004C8CCD /* SolEmitter.swift */; };
+		701EC45F2822DEEC00597D99 /* AccessibilityAuthorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701EC45E2822DEEC00597D99 /* AccessibilityAuthorization.swift */; };
+		701EC4612822E33B00597D99 /* AccessibilityElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701EC4602822E33B00597D99 /* AccessibilityElement.swift */; };
 		7042A22A2815C06B00874743 /* NSColor.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7042A2292815C06B00874743 /* NSColor.extension.swift */; };
 		7047E80627D4D31400582E1B /* MediaHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7047E80527D4D31400582E1B /* MediaHelper.swift */; };
 		7047E80827D4DAEB00582E1B /* Sequence.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7047E80727D4DAEB00582E1B /* Sequence.extension.swift */; };
@@ -47,6 +49,8 @@
 		700A18DB279DC1F50096C830 /* FileIcon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileIcon.m; sourceTree = "<group>"; };
 		701086A627989798004C8CCD /* SolEmitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolEmitter.swift; sourceTree = "<group>"; };
 		701086A82798C231004C8CCD /* sol-macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "sol-macOS.entitlements"; sourceTree = "<group>"; };
+		701EC45E2822DEEC00597D99 /* AccessibilityAuthorization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityAuthorization.swift; sourceTree = "<group>"; };
+		701EC4602822E33B00597D99 /* AccessibilityElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityElement.swift; sourceTree = "<group>"; };
 		7042A2292815C06B00874743 /* NSColor.extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSColor.extension.swift; sourceTree = "<group>"; };
 		7047E80527D4D31400582E1B /* MediaHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaHelper.swift; sourceTree = "<group>"; };
 		7047E80727D4DAEB00582E1B /* Sequence.extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sequence.extension.swift; sourceTree = "<group>"; };
@@ -157,6 +161,8 @@
 				709D705127D1F42600081DD0 /* CalendarHelper.swift */,
 				7047E80527D4D31400582E1B /* MediaHelper.swift */,
 				70BED7CA27F4C1A600906E41 /* FileConstants.swift */,
+				701EC45E2822DEEC00597D99 /* AccessibilityAuthorization.swift */,
+				701EC4602822E33B00597D99 /* AccessibilityElement.swift */,
 			);
 			path = lib;
 			sourceTree = "<group>";
@@ -205,7 +211,6 @@
 				706CD89E27EAF41D00EC5F35 /* Copy “Launch at Login Helper” */,
 				381D8A6E24576A4E00465D17 /* Bundle React Native code and images */,
 				AB47F5B1B5458AA9DCA44477 /* [CP] Copy Pods Resources */,
-				70A02FE027F25F110085E9C7 /* Swiftlint */,
 			);
 			buildRules = (
 			);
@@ -346,24 +351,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${BUILT_PRODUCTS_DIR}/LaunchAtLogin_LaunchAtLogin.bundle/Contents/Resources/copy-helper-swiftpm.sh\"\n";
 		};
-		70A02FE027F25F110085E9C7 /* Swiftlint */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = Swiftlint;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftlint > /dev/null; then\n  swiftlint --fix\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-		};
 		AB47F5B1B5458AA9DCA44477 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -394,6 +381,7 @@
 				70B78361279BE866008660F5 /* Panel.swift in Sources */,
 				70969E1727966ECD00BE3F1C /* SolNative.swift in Sources */,
 				7071D43727B3211700F8A4DC /* DarkMode.swift in Sources */,
+				701EC4612822E33B00597D99 /* AccessibilityElement.swift in Sources */,
 				7047E80827D4DAEB00582E1B /* Sequence.extension.swift in Sources */,
 				701086A727989798004C8CCD /* SolEmitter.swift in Sources */,
 				7071D43827B3211700F8A4DC /* AppleScriptHelper.swift in Sources */,
@@ -401,6 +389,7 @@
 				70BED7CD27F4C23D00906E41 /* FileManager.extension.swift in Sources */,
 				709D705227D1F42600081DD0 /* CalendarHelper.swift in Sources */,
 				700A18D8279DBBE40096C830 /* ApplicationSearcher.swift in Sources */,
+				701EC45F2822DEEC00597D99 /* AccessibilityAuthorization.swift in Sources */,
 				700A18DC279DC1F50096C830 /* FileIcon.m in Sources */,
 				7042A22A2815C06B00874743 /* NSColor.extension.swift in Sources */,
 				700A18DA279DC17F0096C830 /* FileIcon.swift in Sources */,
