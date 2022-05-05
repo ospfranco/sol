@@ -572,7 +572,7 @@ export let createUIStore = (root: IRootStore) => {
         if (__DEV__) {
           store.events = [
             {
-              color: 'blue',
+              color: 'orange',
               date: DateTime.now().toISO(),
               endDate: DateTime.now().plus({hour: 1}).toISO(),
               isAllDay: false,
@@ -582,7 +582,7 @@ export let createUIStore = (root: IRootStore) => {
               title: 'Very important meeting',
             },
             {
-              color: 'blue',
+              color: 'orange',
               date: DateTime.now().toISO(),
               endDate: DateTime.now().plus({hour: 2}).toISO(),
               isAllDay: false,
@@ -592,7 +592,7 @@ export let createUIStore = (root: IRootStore) => {
               title: 'Not so important meeting',
             },
             {
-              color: 'green',
+              color: 'cyan',
               date: DateTime.now().plus({day: 1}).toISO(),
               endDate: DateTime.now().plus({hour: 2, day: 1}).toISO(),
               isAllDay: false,
