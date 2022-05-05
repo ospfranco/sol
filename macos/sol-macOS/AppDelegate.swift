@@ -12,8 +12,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   var mainWindow: Panel!
   var mainHotKey = HotKey(key: .space, modifiers: [.command])
   var debugHotKey = HotKey(key: .space, modifiers: [.command, .option])
-  let rightSideScreenHotKey = HotKey(key: .rightArrow, modifiers: [.option, .control])
-  let leftSideScreenHotKey = HotKey(key: .leftArrow, modifiers: [.option, .control])
+
   let windowManager = WindowManager()
 
   func applicationDidFinishLaunching(_ aNotification: Notification) {
@@ -52,8 +51,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     mainHotKey.keyDownHandler = toggleWindow
     debugHotKey.isPaused = true
 #endif
-    rightSideScreenHotKey.keyDownHandler = windowManager.moveRight
-    leftSideScreenHotKey.keyDownHandler = windowManager.moveLeft
 
     NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
       let metaPressed = $0.modifierFlags.contains(.command)
