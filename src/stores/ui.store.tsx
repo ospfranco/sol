@@ -302,6 +302,7 @@ export let createUIStore = (root: IRootStore) => {
     //  | |  | | '_ \/ __|/ _ \ '__\ \ / / _` | '_ \| |/ _ \/ __|
     //  | |__| | |_) \__ \  __/ |   \ V / (_| | |_) | |  __/\__ \
     //   \____/|_.__/|___/\___|_|    \_/ \__,_|_.__/|_|\___||___/
+    isAccessibilityTrusted: false,
     calendarAuthorizationStatus: 'notDetermined' as CalendarAuthorizationStatus,
     onboardingStep: 'v1_start' as OnboardingStep,
     globalShortcut: 'command' as 'command' | 'option',
@@ -1014,6 +1015,11 @@ export let createUIStore = (root: IRootStore) => {
   hydrate().then(() => {
     autorun(persist)
     solNative.setGlobalShortcut(store.globalShortcut)
+    solNative.getAccessibilityStatus().then(v => {
+      runInAction(() => {
+        store.isAccessibilityTrusted = v
+      })
+    })
   })
 
   keyDownListener = solNative.addListener('keyDown', store.keyDown)

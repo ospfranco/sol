@@ -10,12 +10,19 @@ let numberchars: [String] = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate {
 
   var mainWindow: Panel!
-  var hotKey = HotKey(key: .space, modifiers: [.command])
+  var mainHotKey = HotKey(key: .space, modifiers: [.command])
+  var debugHotKey = HotKey(key: .space, modifiers: [.command, .option])
   let rightSideScreenHotKey = HotKey(key: .rightArrow, modifiers: [.option, .control])
   let leftSideScreenHotKey = HotKey(key: .leftArrow, modifiers: [.option, .control])
 
   func applicationDidFinishLaunching(_ aNotification: Notification) {
-    hotKey.keyDownHandler = toggleWindow
+    #if DEBUG
+    debugHotKey.keyDownHandler = toggleWindow
+    mainHotKey.isPaused = true
+    #else
+    mainHotKey.keyDownHandler = toggleWindow
+    debugHotKey.isPaused = true
+    #endif
     rightSideScreenHotKey.keyDownHandler = moveRight
     leftSideScreenHotKey.keyDownHandler = moveLeft
 
@@ -108,7 +115,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
     print("resulting rect \(resultingRect)")
 
-    frontmostWindowElement.set(position: CGPoint(x: 200, y: 200))
+//    frontmostWindowElement.set(position: CGPoint(x: 200, y: 200))
 
     resultingRect = frontmostWindowElement.rectOfElement()
 
@@ -130,11 +137,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   }
 
   func setGlobalShortcut(_ key: String) {
-    self.hotKey.isPaused = true
+    #if !DEBUG
+    self.mainHotKey.isPaused = true
     if key == "command" {
-      self.hotKey = HotKey(key: .space, modifiers: [.command], keyDownHandler: toggleWindow)
+      self.mainHotKey = HotKey(key: .space, modifiers: [.command], keyDownHandler: toggleWindow)
     } else {
-      self.hotKey = HotKey(key: .space, modifiers: [.option], keyDownHandler: toggleWindow)
+      self.mainHotKey = HotKey(key: .space, modifiers: [.option], keyDownHandler: toggleWindow)
     }
+    #endif
   }
 }

@@ -1,4 +1,4 @@
-import { NativeEventEmitter, NativeModules } from 'react-native'
+import {NativeEventEmitter, NativeModules} from 'react-native'
 
 export type CalendarAuthorizationStatus =
   | 'notDetermined'
@@ -32,6 +32,7 @@ class SolNative extends NativeEventEmitter {
   setGlobalShortcut: (key: 'command' | 'option') => void
   getCalendarAuthorizationStatus: () => Promise<CalendarAuthorizationStatus>
   setLaunchAtLogin: (v: boolean) => void
+  getAccessibilityStatus: () => Promise<boolean>
   accentColor: string
 
   constructor(nativeModule: any) {
@@ -49,6 +50,7 @@ class SolNative extends NativeEventEmitter {
     this.getCalendarAuthorizationStatus =
       nativeModule.getCalendarAuthorizationStatus
     this.setLaunchAtLogin = nativeModule.setLaunchAtLogin
+    this.getAccessibilityStatus = nativeModule.getAccessibilityStatus
 
     const constants = NativeModules.SolNative.getConstants()
     this.accentColor = constants.accentColor

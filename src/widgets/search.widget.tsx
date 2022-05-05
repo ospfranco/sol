@@ -71,7 +71,11 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
             style={tw.style(`flex-1`)}
             selectionColor={solNative.accentColor}
             placeholderTextColor={tw.color('text-gray-500')}
-            placeholder="Type or search for something..."
+            placeholder={
+              __DEV__
+                ? `[DEBUG] accessibility: ${store.ui.isAccessibilityTrusted}`
+                : 'Type or search for something...'
+            }
           />
         </Animated.View>
       </View>
