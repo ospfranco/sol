@@ -107,7 +107,7 @@ class WindowManager {
     let normalizedScreenFrame = AccessibilityElement.normalizeCoordinatesOf(targetScreen.frame)
 
     let origin = CGPoint(x: normalizedScreenFrame.origin.x, y: normalizedScreenFrame.origin.y)
-    let size = CGSize(width: normalizedScreenFrame.width / 2, height: normalizedScreenFrame.height)
+    let size = CGSize(width: normalizedScreenFrame.width, height: normalizedScreenFrame.height)
 
     frontmostWindowElement.setRectOf(CGRect(origin: origin, size: size))
   }
@@ -135,7 +135,7 @@ class WindowManager {
     let normalizedScreenFrame = AccessibilityElement.normalizeCoordinatesOf(targetScreen.frame)
 
     let origin = CGPoint(x: normalizedScreenFrame.origin.x, y: normalizedScreenFrame.origin.y)
-    let size = CGSize(width: normalizedScreenFrame.width / 2, height: normalizedScreenFrame.height)
+    let size = CGSize(width: normalizedScreenFrame.width, height: normalizedScreenFrame.height)
 
     frontmostWindowElement.setRectOf(CGRect(origin: origin, size: size))
   }
