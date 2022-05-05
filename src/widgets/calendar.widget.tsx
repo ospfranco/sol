@@ -53,7 +53,7 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
                   </Text>
                 )}
               </View>
-              <View style={tw`pl-8 pr-4`}>
+              <View style={tw`pl-2 pr-4`}>
                 {data.events.map((event, index) => {
                   const lDate = DateTime.fromISO(event.date)
                   const lEndDate = event.endDate

@@ -564,6 +564,61 @@ export let createUIStore = (root: IRootStore) => {
     //    / /\ \ / __| __| |/ _ \| '_ \/ __|
     //   / ____ \ (__| |_| | (_) | | | \__ \
     //  /_/    \_\___|\__|_|\___/|_| |_|___/
+    fetchEvents: () => {
+      if (
+        store.calendarAuthorizationStatus ===
+        CalendarAuthorizationStatus.authorized
+      ) {
+        if (__DEV__) {
+          store.events = [
+            {
+              color: 'blue',
+              date: DateTime.now().toISO(),
+              endDate: DateTime.now().plus({hour: 1}).toISO(),
+              isAllDay: false,
+              location: '',
+              notes: '',
+              status: 0,
+              title: 'Very important meeting',
+            },
+            {
+              color: 'blue',
+              date: DateTime.now().toISO(),
+              endDate: DateTime.now().plus({hour: 2}).toISO(),
+              isAllDay: false,
+              location: '',
+              notes: '',
+              status: 1,
+              title: 'Not so important meeting',
+            },
+            {
+              color: 'green',
+              date: DateTime.now().plus({day: 1}).toISO(),
+              endDate: DateTime.now().plus({hour: 2, day: 1}).toISO(),
+              isAllDay: false,
+              location: '',
+              notes: '',
+              status: 0,
+              title: 'Call insurance',
+            },
+          ]
+          return
+        }
+
+        solNative
+          .getNextEvents(store.query)
+          .then(events => {
+            console.warn('events', events)
+
+            runInAction(() => {
+              store.events = events
+            })
+          })
+          .catch(e => {
+            console.warn('Error getting events', e)
+          })
+      }
+    },
     toggleFavorite: (item: Item) => {
       if (store.favorites.includes(item.name)) {
         store.favorites = store.favorites.filter(v => v !== item.name)
@@ -694,18 +749,7 @@ export let createUIStore = (root: IRootStore) => {
         store.temporaryResult = null
       }
 
-      solNative.getNextEvents(query).then(events => {
-        events = events.filter(
-          v =>
-            v.title?.toLowerCase().includes(store.query.toLowerCase()) ??
-            v.notes?.toLowerCase().includes(store.query.toLowerCase()) ??
-            false,
-        )
-
-        runInAction(() => {
-          store.events = events
-        })
-      })
+      store.fetchEvents()
     },
     runFavorite: (index: number) => {
       const item = store.favoriteItems[index]
@@ -1017,21 +1061,7 @@ export let createUIStore = (root: IRootStore) => {
         store.now = DateTime.now()
       })
 
-      if (
-        store.calendarAuthorizationStatus ===
-        CalendarAuthorizationStatus.authorized
-      ) {
-        solNative
-          .getNextEvents(store.query)
-          .then(events => {
-            runInAction(() => {
-              store.events = events
-            })
-          })
-          .catch(e => {
-            console.warn('Error getting events', e)
-          })
-      }
+      store.fetchEvents()
 
       if (store.weatherApiKey) {
         getWeather(
