@@ -40,7 +40,7 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
 
       {!!store.ui.track?.title && !!store.ui.currentTemp && (
         <View
-          style={tw`border-l border-lightBorder dark:border-darkBorder h-3 mx-4`}
+          style={tw`border-l border-lightBorder dark:border-darkBorder h-3 mx-4 mt-1`}
         />
       )}
 
@@ -55,7 +55,7 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
 
       {!!store.ui.currentTemp && !!store.ui.currentlyTrackedProject && (
         <View
-          style={tw`border-l border-lightBorder dark:border-darkBorder h-3 mx-4`}
+          style={tw`border-l border-lightBorder dark:border-darkBorder h-3 mx-4 mt-1`}
         />
       )}
 

@@ -53,7 +53,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
 
   return (
     <View style={style}>
-      <View style={tw`h-10 px-3 flex-row items-center`}>
+      <View style={tw`h-10 pt-2 px-3 flex-row items-center`}>
         <TextInput
           autoFocus
           // @ts-expect-error
