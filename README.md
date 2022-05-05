@@ -13,33 +13,25 @@
 
 <br/>
 
-## About
-
-If you ever liked tools like Raycast and Alfred, but wanted to own them and tweak them yourself, then SOL is the tool for you. All the affordances of complex tools now made open source.
-
 ## Download
 
 Get the latest versions from the [releases page](https://github.com/ospfranco/sol/releases)
 
 ## Features
 
-- Command + Space shortcut
-- Floating panel
+- Customable shortcut
 - Keyboard events
 - App search
-- Google translate
-- A basic calendar integration
-- A basic weather API integration
-- Some Applescript commands (sleep, dark mode, etc.)
+- Google translate integration
+- Calendar integration
+- OpenWeather API integration
+- AppleScript commands (sleep, lock, dark mode, etc.)
+- Custom links/Custom AppleScripts
+- Window Manager
 
 ## TODO
 
-- [x] Customize global shortcut
-- [x] Customize language translation
-- [x] Onboarding tutorial
-- [x] Custom shortcuts/scripts
 - [ ] Partial Windows support is there, the app builds but there are many missing features and incompatibilities
-- [ ] Window manager
 - [ ] Clipboard manager
 
 ## Other tools
