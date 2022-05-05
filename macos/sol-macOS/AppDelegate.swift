@@ -14,21 +14,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   var debugHotKey = HotKey(key: .space, modifiers: [.command, .option])
   let rightSideScreenHotKey = HotKey(key: .rightArrow, modifiers: [.option, .control])
   let leftSideScreenHotKey = HotKey(key: .leftArrow, modifiers: [.option, .control])
+  let windowManager = WindowManager()
 
   func applicationDidFinishLaunching(_ aNotification: Notification) {
-    #if DEBUG
-    debugHotKey.keyDownHandler = toggleWindow
-    mainHotKey.isPaused = true
-    #else
-    mainHotKey.keyDownHandler = toggleWindow
-    debugHotKey.isPaused = true
-    #endif
-    rightSideScreenHotKey.keyDownHandler = moveRight
-    leftSideScreenHotKey.keyDownHandler = moveLeft
-
     let jsCodeLocation: URL = RCTBundleURLProvider
-        .sharedSettings()
-        .jsBundleURL(forBundleRoot: "index", fallbackResource: "main")
+      .sharedSettings()
+      .jsBundleURL(forBundleRoot: "index", fallbackResource: "main")
 
     let rootView = RCTRootView(bundleURL: jsCodeLocation, moduleName: "sol", initialProperties: nil, launchOptions: nil)
 
@@ -48,6 +39,21 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     rootView.leadingAnchor.constraint(equalTo: mainWindow.contentView!.leadingAnchor).isActive = true
     rootView.trailingAnchor.constraint(equalTo: mainWindow.contentView!.trailingAnchor).isActive = true
     rootView.bottomAnchor.constraint(equalTo: mainWindow.contentView!.bottomAnchor).isActive = true
+
+    setupKeyboardListeners()
+    showWindow()
+  }
+
+  func setupKeyboardListeners() {
+#if DEBUG
+    debugHotKey.keyDownHandler = toggleWindow
+    mainHotKey.isPaused = true
+#else
+    mainHotKey.keyDownHandler = toggleWindow
+    debugHotKey.isPaused = true
+#endif
+    rightSideScreenHotKey.keyDownHandler = windowManager.moveRight
+    leftSideScreenHotKey.keyDownHandler = windowManager.moveLeft
 
     NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
       let metaPressed = $0.modifierFlags.contains(.command)
@@ -73,8 +79,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
       return $0
     }
-
-    showWindow()
   }
 
   func toggleWindow() {
@@ -104,46 +108,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     SolEmitter.sharedInstance.onHide()
   }
 
-  func moveRight() {
-    guard let frontmostWindowElement = AccessibilityElement.frontmostWindow()
-//          let windowId = frontmostWindowElement.getIdentifier()
-    else {
-      NSSound.beep()
-      return
-    }
-    var resultingRect = frontmostWindowElement.rectOfElement()
-
-    print("resulting rect \(resultingRect)")
-
-//    frontmostWindowElement.set(position: CGPoint(x: 200, y: 200))
-
-    resultingRect = frontmostWindowElement.rectOfElement()
-
-    print("resulting rect 2 \(resultingRect)")
-//    print("Should have moved window to the right")
-//    frontmostWindowElement.set(size: CGSize(width: 200, height: 200))
-
-//    var screens: UsableScreens?
-//    if let screen = parameters.screen {
-//      screens = UsableScreens(currentScreen: screen, numScreens: 1)
-//    } else {
-//      screens = screenDetection.detectScreens(using: frontmostWindowElement)
-//    }
-
-  }
-
-  func moveLeft() {
-    print("Should move window left")
-  }
-
   func setGlobalShortcut(_ key: String) {
-    #if !DEBUG
+#if !DEBUG
     self.mainHotKey.isPaused = true
     if key == "command" {
       self.mainHotKey = HotKey(key: .space, modifiers: [.command], keyDownHandler: toggleWindow)
     } else {
       self.mainHotKey = HotKey(key: .space, modifiers: [.option], keyDownHandler: toggleWindow)
     }
-    #endif
+#endif
   }
 }

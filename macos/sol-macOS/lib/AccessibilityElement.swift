@@ -150,9 +150,8 @@ class AccessibilityElement {
 
   func set(position: CGPoint) {
     if let value = AXValue.from(value: position, type: .cgPoint) {
+      //      print("AX position proposed: \(position.debugDescription), result: \(getPosition()?.debugDescription ?? "N/A")")
       AXUIElementSetAttributeValue(self.underlyingElement, kAXPositionAttribute as CFString, value)
-
-      print("AX position proposed: \(position.debugDescription), result: \(getPosition()?.debugDescription ?? "N/A")")
     }
   }
 
@@ -162,9 +161,8 @@ class AccessibilityElement {
 
   func set(size: CGSize) {
     if let value = AXValue.from(value: size, type: .cgSize) {
-      print("AX sizing proposed: \(size.debugDescription), result: \(getSize()?.debugDescription ?? "N/A")")
+//      print("AX sizing proposed: \(size.debugDescription), result: \(getSize()?.debugDescription ?? "N/A")")
       AXUIElementSetAttributeValue(self.underlyingElement, kAXSizeAttribute as CFString, value)
-//      Logger.log("AX sizing proposed: \(size.debugDescription), result: \(getSize()?.debugDescription ?? "N/A")")
     }
   }
 
@@ -192,6 +190,13 @@ class AccessibilityElement {
     }
 
     return nil
+  }
+
+  static func normalizeCoordinatesOf(_ rect: CGRect) -> CGRect {
+    var normalizedRect = rect
+    let frameOfScreenWithMenuBar = NSScreen.screens[0].frame as CGRect
+    normalizedRect.origin.y = frameOfScreenWithMenuBar.height - rect.maxY
+    return normalizedRect
   }
 }
 
