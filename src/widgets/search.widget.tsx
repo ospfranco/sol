@@ -4,6 +4,7 @@ import {solNative} from 'lib/SolNative'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect, useRef} from 'react'
 import {
+  ActivityIndicator,
   Animated,
   Appearance,
   FlatList,
@@ -54,30 +55,24 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
 
   return (
     <View style={style}>
-      <View style={tw`pt-2`}>
-        <Animated.View
-          style={[
-            tw.style(
-              `px-3 pb-1 flex-row pt-1 border-lightBorder dark:border-darkBorder`,
-            ),
-          ]}>
-          <TextInput
-            autoFocus
-            // @ts-expect-error
-            enableFocusRing={false}
-            value={store.ui.query}
-            onChangeText={store.ui.setQuery}
-            ref={inputRef}
-            style={tw.style(`flex-1`)}
-            selectionColor={solNative.accentColor}
-            placeholderTextColor={tw.color('text-gray-500')}
-            placeholder={
-              __DEV__
-                ? `[DEBUG] accessibility: ${store.ui.isAccessibilityTrusted}`
-                : 'Type or search for something...'
-            }
-          />
-        </Animated.View>
+      <View style={tw`h-10 px-3 flex-row items-center`}>
+        <TextInput
+          autoFocus
+          // @ts-expect-error
+          enableFocusRing={false}
+          value={store.ui.query}
+          onChangeText={store.ui.setQuery}
+          ref={inputRef}
+          style={tw.style(`flex-1`)}
+          selectionColor={solNative.accentColor}
+          placeholderTextColor={tw.color('text-gray-500')}
+          placeholder={
+            __DEV__
+              ? `[DEBUG] accessibility: ${store.ui.isAccessibilityTrusted}`
+              : 'Type or search for something...'
+          }
+        />
+        {store.ui.isLoading && <ActivityIndicator size="small" />}
       </View>
 
       <FlatList<Item>

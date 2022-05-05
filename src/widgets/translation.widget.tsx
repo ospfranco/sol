@@ -1,6 +1,6 @@
 import languages from 'lib/languages.json'
-import { observer } from 'mobx-react-lite'
-import React, { FC, useEffect, useRef } from 'react'
+import {observer} from 'mobx-react-lite'
+import React, {FC, useEffect, useRef} from 'react'
 import {
   ActivityIndicator,
   Animated,
@@ -9,11 +9,11 @@ import {
   Text,
   TextInput,
   View,
-  ViewStyle
+  ViewStyle,
 } from 'react-native'
-import { useStore } from 'store'
+import {useStore} from 'store'
 import tw from 'tailwind'
-import { useDeviceContext } from 'twrnc'
+import {useDeviceContext} from 'twrnc'
 
 interface Props {
   style?: StyleProp<ViewStyle>
@@ -42,36 +42,20 @@ export const TranslationWidget: FC<Props> = observer(({style}) => {
         //@ts-ignore
         style,
       )}>
-      <View style={tw`pt-2`}>
-        <Animated.View
-          style={[
-            tw`px-3 pt-2 pb-3 flex-row border-b border-lightBorder dark:border-darkBorder`,
-            {
-              borderColor: animatedBorderRef.current.interpolate({
-                inputRange: [0, 1],
-                outputRange: [
-                  colorScheme === 'dark'
-                    ? 'rgba(255, 250, 250, .1)'
-                    : 'rgba(0, 0, 0, .1)',
-                  'rgba(14, 165, 233, 0.8)',
-                ],
-              }),
-            },
-          ]}>
-          <TextInput
-            autoFocus
-            // @ts-ignore
-            enableFocusRing={false}
-            placeholder={`Type something...`}
-            value={store.ui.query}
-            onChangeText={store.ui.setQuery}
-            style={tw`flex-1`}
-            placeholderTextColor={tw.color('text-gray-500')}
-          />
-          {store.ui.isLoading && (
-            <ActivityIndicator size="small" style={tw`w-2 h-2`} />
-          )}
-        </Animated.View>
+      <View style={tw`pt-3 px-3 pb-1 flex-row`}>
+        <TextInput
+          autoFocus
+          // @ts-ignore
+          enableFocusRing={false}
+          placeholder={`Type something...`}
+          value={store.ui.query}
+          onChangeText={store.ui.setQuery}
+          style={tw`flex-1`}
+          placeholderTextColor={tw.color('text-gray-500')}
+        />
+        {store.ui.isLoading && (
+          <ActivityIndicator size="small" style={tw`w-2 h-2`} />
+        )}
       </View>
 
       {!!store.ui.translationResults && (
