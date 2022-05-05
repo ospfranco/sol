@@ -5,11 +5,14 @@ class WindowManager {
   private let rightSideScreenHotKey = HotKey(key: .rightArrow, modifiers: [.option, .control])
   private let leftSideScreenHotKey = HotKey(key: .leftArrow, modifiers: [.option, .control])
   private let fullScreenHotKey = HotKey(key: .return, modifiers: [.option, .control])
+  private let moveToNextScreenHotKey = HotKey(key: .rightArrow, modifiers: [.option, .control, .command])
+  private let moveToPrevScreenHotKey = HotKey(key: .leftArrow, modifiers: [.option, .control, .command])
 
   required init() {
     rightSideScreenHotKey.keyDownHandler = moveRight
     leftSideScreenHotKey.keyDownHandler = moveLeft
     fullScreenHotKey.keyDownHandler = fullscreen
+    moveToNextScreenHotKey.keyDownHandler = moveToNextScreen
   }
 
   public func moveRight() {
@@ -29,17 +32,14 @@ class WindowManager {
 
     let normalizedScreenFrame = AccessibilityElement.normalizeCoordinatesOf(usableScreens.frameOfCurrentScreen)
 
-    let halfPosition = CGPoint(x: normalizedScreenFrame.origin.x + normalizedScreenFrame.width / 2, y: normalizedScreenFrame.origin.y)
-    let halfSize = CGSize(width: normalizedScreenFrame.width / 2, height: normalizedScreenFrame.height)
+    let origin = CGPoint(x: normalizedScreenFrame.origin.x + normalizedScreenFrame.width / 2, y: normalizedScreenFrame.origin.y)
+    let size = CGSize(width: normalizedScreenFrame.width / 2, height: normalizedScreenFrame.height)
 
-    frontmostWindowElement.set(size: halfSize)
-    frontmostWindowElement.set(position: halfPosition)
-    frontmostWindowElement.set(size: halfSize)
+    frontmostWindowElement.setRectOf(CGRect(origin: origin, size: size))
   }
 
-  public func moveLeft() {
+  func moveLeft() {
     guard let frontmostWindowElement = AccessibilityElement.frontmostWindow()
-            //                      let windowId = frontmostWindowElement.getIdentifier()
     else {
       NSSound.beep()
       return
@@ -54,17 +54,14 @@ class WindowManager {
     }
     let normalizedScreenFrame = AccessibilityElement.normalizeCoordinatesOf(usableScreens.frameOfCurrentScreen)
 
-    let halfPosition = CGPoint(x: normalizedScreenFrame.origin.x, y: normalizedScreenFrame.origin.y)
-    let halfSize = CGSize(width: normalizedScreenFrame.width / 2, height: normalizedScreenFrame.height)
+    let origin = CGPoint(x: normalizedScreenFrame.origin.x, y: normalizedScreenFrame.origin.y)
+    let size = CGSize(width: normalizedScreenFrame.width / 2, height: normalizedScreenFrame.height)
 
-    frontmostWindowElement.set(size: halfSize)
-    frontmostWindowElement.set(position: halfPosition)
-    frontmostWindowElement.set(size: halfSize)
+    frontmostWindowElement.setRectOf(CGRect(origin: origin, size: size))
   }
 
-  public func fullscreen() {
+  func fullscreen() {
     guard let frontmostWindowElement = AccessibilityElement.frontmostWindow()
-            //                      let windowId = frontmostWindowElement.getIdentifier()
     else {
       NSSound.beep()
       return
@@ -79,12 +76,38 @@ class WindowManager {
     }
     let normalizedScreenFrame = AccessibilityElement.normalizeCoordinatesOf(usableScreens.frameOfCurrentScreen)
 
-    let halfPosition = CGPoint(x: normalizedScreenFrame.origin.x, y: normalizedScreenFrame.origin.y)
+    let origin = CGPoint(x: normalizedScreenFrame.origin.x, y: normalizedScreenFrame.origin.y)
     let size = CGSize(width: normalizedScreenFrame.width, height: normalizedScreenFrame.height)
 
-    frontmostWindowElement.set(size: size)
-    frontmostWindowElement.set(position: halfPosition)
-    frontmostWindowElement.set(size: size)
+    frontmostWindowElement.setRectOf(CGRect(origin: origin, size: size))
+  }
+
+  func moveToNextScreen() {
+    guard let frontmostWindowElement = AccessibilityElement.frontmostWindow()
+    else {
+      NSSound.beep()
+      return
+    }
+
+    let screens = screenDetector.detectScreens(using: frontmostWindowElement)
+
+    guard let usableScreens = screens else {
+      NSSound.beep()
+      print("Unable to obtain usable screens")
+      return
+    }
+
+    guard let nextScreen = usableScreens.adjacentScreens?.next else {
+      NSSound.beep()
+      return
+    }
+
+    let normalizedScreenFrame = AccessibilityElement.normalizeCoordinatesOf(nextScreen.frame)
+
+    let origin = CGPoint(x: normalizedScreenFrame.origin.x, y: normalizedScreenFrame.origin.y)
+    let size = CGSize(width: normalizedScreenFrame.width / 2, height: normalizedScreenFrame.height)
+
+    frontmostWindowElement.setRectOf(CGRect(origin: origin, size: size))
   }
 }
 

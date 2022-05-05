@@ -2,6 +2,8 @@ import Foundation
 import Cocoa
 import Carbon
 
+let kAXEnhancedUserInterface: String = "AXEnhancedUserInterface"
+
 class AccessibilityElement {
   static let systemWideElement = AccessibilityElement(AXUIElementCreateSystemWide())
 
@@ -197,6 +199,39 @@ class AccessibilityElement {
     let frameOfScreenWithMenuBar = NSScreen.screens[0].frame as CGRect
     normalizedRect.origin.y = frameOfScreenWithMenuBar.height - rect.maxY
     return normalizedRect
+  }
+
+  func setRectOf(_ rect: CGRect) {
+    let app = application()
+    var enhancedUserInterfaceEnabled: Bool? = nil
+
+    if let app = app {
+      enhancedUserInterfaceEnabled = app.isEnhancedUserInterfaceEnabled()
+      if enhancedUserInterfaceEnabled == true {
+        print("AXEnhancedUserInterface was enabled, will disable before resizing")
+        AXUIElementSetAttributeValue(app.underlyingElement, kAXEnhancedUserInterface as CFString, kCFBooleanFalse)
+      }
+    }
+
+    set(size: rect.size)
+    set(position: rect.origin)
+    set(size: rect.size)
+
+    // If "enhanced user interface" was originally enabled for the app, turn it back on
+    if let app = app, enhancedUserInterfaceEnabled == true {
+      AXUIElementSetAttributeValue(app.underlyingElement, kAXEnhancedUserInterface as CFString, kCFBooleanTrue)
+    }
+  }
+
+  func isEnhancedUserInterfaceEnabled() -> Bool? {
+    var rawValue: AnyObject?
+    let error = AXUIElementCopyAttributeValue(self.underlyingElement, kAXEnhancedUserInterface as CFString, &rawValue)
+
+    if error == .success && CFGetTypeID(rawValue) == CFBooleanGetTypeID() {
+      return CFBooleanGetValue((rawValue as! CFBoolean))
+    }
+
+    return nil
   }
 }
 
