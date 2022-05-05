@@ -39,7 +39,7 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
         </Text>
       )}
 
-      {!!store.ui.track && !!store.ui.currentTemp && (
+      {!!store.ui.track?.title && !!store.ui.currentTemp && (
         <View
           style={tw`border-l border-lightBorder dark:border-darkBorder h-3 mx-4`}
         />
