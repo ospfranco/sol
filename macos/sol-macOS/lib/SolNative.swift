@@ -112,16 +112,31 @@ class SolNative: RCTEventEmitter {
     resolve(CalendarHelper.sharedInstance.getCalendarAuthorizationStatus())
   }
 
+  @objc func requestCalendarAccess(
+    _ resolve: @escaping RCTPromiseResolveBlock,
+    rejecter: RCTPromiseRejectBlock
+  ) {
+    CalendarHelper.sharedInstance.requestCalendarAccess({
+      resolve(nil)
+    })
+  }
+
   @objc func getAccessibilityStatus(
     _ resolve: @escaping RCTPromiseResolveBlock,
     rejecter: RCTPromiseRejectBlock
   ) {
-    let options: NSDictionary = [
-      kAXTrustedCheckOptionPrompt.takeRetainedValue() as NSString: true
-    ]
-    let accessibilityEnabled = AXIsProcessTrustedWithOptions(options)
-    resolve(accessibilityEnabled)
+    resolve(AXIsProcessTrusted())
   }
+
+  @objc func requestAccessibilityAccess(
+    _ resolve: @escaping RCTPromiseResolveBlock,
+    rejecter: RCTPromiseRejectBlock) {
+      let options: NSDictionary = [
+        kAXTrustedCheckOptionPrompt.takeRetainedValue() as NSString: true
+      ]
+      let accessibilityEnabled = AXIsProcessTrustedWithOptions(options)
+      resolve(accessibilityEnabled)
+    }
 
   @objc func setLaunchAtLogin(_ launchAtLogin: Bool) {
     LaunchAtLogin.isEnabled = launchAtLogin

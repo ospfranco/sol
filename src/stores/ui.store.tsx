@@ -1017,24 +1017,21 @@ export let createUIStore = (root: IRootStore) => {
         store.now = DateTime.now()
       })
 
-      if (store.calendarAuthorizationStatus === 'notDetermined') {
-        solNative.getCalendarAuthorizationStatus().then(authorization => {
-          runInAction(() => {
-            store.calendarAuthorizationStatus = authorization
+      if (
+        store.calendarAuthorizationStatus ===
+        CalendarAuthorizationStatus.authorized
+      ) {
+        solNative
+          .getNextEvents(store.query)
+          .then(events => {
+            runInAction(() => {
+              store.events = events
+            })
           })
-        })
+          .catch(e => {
+            console.warn('Error getting events', e)
+          })
       }
-
-      solNative
-        .getNextEvents(store.query)
-        .then(events => {
-          runInAction(() => {
-            store.events = events
-          })
-        })
-        .catch(e => {
-          console.warn('Error getting events', e)
-        })
 
       if (store.weatherApiKey) {
         getWeather(
@@ -1047,6 +1044,10 @@ export let createUIStore = (root: IRootStore) => {
             store.nextHourForecast = res?.nextHourForecast ?? null
           })
         })
+      }
+
+      if (!store.isAccessibilityTrusted) {
+        store.checkAccessibilityStatus()
       }
 
       solNative.getMediaInfo().then(res => {
@@ -1090,16 +1091,29 @@ export let createUIStore = (root: IRootStore) => {
       onShowListener?.remove()
       onHideListener?.remove()
     },
+    checkCalendarAccess: () => {
+      solNative
+        .getCalendarAuthorizationStatus()
+        .then(calendarAuthorizationStatus => {
+          runInAction(() => {
+            store.calendarAuthorizationStatus = calendarAuthorizationStatus
+          })
+        })
+    },
+    checkAccessibilityStatus: () => {
+      solNative.getAccessibilityStatus().then(v => {
+        runInAction(() => {
+          store.isAccessibilityTrusted = v
+        })
+      })
+    },
   })
 
   hydrate().then(() => {
     autorun(persist)
     solNative.setGlobalShortcut(store.globalShortcut)
-    solNative.getAccessibilityStatus().then(v => {
-      runInAction(() => {
-        store.isAccessibilityTrusted = v
-      })
-    })
+    store.checkCalendarAccess()
+    store.checkAccessibilityStatus()
   })
 
   keyDownListener = solNative.addListener('keyDown', store.keyDown)

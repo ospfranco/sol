@@ -1,8 +1,8 @@
-import {INativeEvent} from 'lib/SolNative'
+import {INativeEvent, solNative} from 'lib/SolNative'
 import {DateTime} from 'luxon'
 import {observer} from 'mobx-react-lite'
 import React, {FC} from 'react'
-import {Text, View, ViewStyle} from 'react-native'
+import {Text, TouchableOpacity, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
 import {FocusableWidget} from 'stores'
 import tw from 'tailwind'
@@ -31,19 +31,11 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
 
   return (
     <>
-      <View style={tw.style('pb-2', style)}>
-        <View style={tw`px-3`}>
-          <View
-            style={tw.style(
-              `w-full border-lightBorder dark:border-darkBorder border-t mb-2`,
-              style,
-            )}
-          />
-        </View>
+      <View>
         {Object.entries(groups).map(([key, data]) => {
           return (
             <View key={key}>
-              <View style={tw`flex-row px-6`}>
+              <View style={tw`flex-row`}>
                 {key === 'tomorrow' || key === 'today' ? (
                   <Text
                     style={tw`capitalize dark:text-gray-400 text-gray-500 text-xs`}>
@@ -140,13 +132,20 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
           )
         })}
         {store.ui.calendarAuthorizationStatus === 'notDetermined' && (
-          <Text style={tw`text-center pt-1 pb-2 text-gray-500 text-sm`}>
-            Grant Sol access to your Calendar under System Preferences
-          </Text>
+          <TouchableOpacity
+            onPress={() => {
+              solNative.requestCalendarAccess().then(() => {
+                store.ui.checkCalendarAccess()
+              })
+            }}>
+            <Text style={tw`text-highlight text-xs`}>
+              Click to grant calendar access
+            </Text>
+          </TouchableOpacity>
         )}
         {store.ui.calendarAuthorizationStatus === 'authorized' &&
           !store.ui.events.length && (
-            <Text style={tw`text-center pt-1 pb-4 text-gray-500 text-xs`}>
+            <Text style={tw`text-center pb-4 text-gray-500 text-xs`}>
               No upcoming events
             </Text>
           )}

@@ -1,6 +1,7 @@
+import {solNative} from 'lib/SolNative'
 import {observer} from 'mobx-react-lite'
 import React, {useEffect} from 'react'
-import {View} from 'react-native'
+import {Text, TouchableOpacity, View} from 'react-native'
 import {useStore} from 'store'
 import {FocusableWidget} from 'stores'
 import tw from 'tailwind'
@@ -19,6 +20,13 @@ export const RootContainer = observer(() => {
   useDeviceContext(tw)
   const store = useStore()
   const mainStyle = tw`bg-white dark:bg-black bg-opacity-80 dark:bg-opacity-60 flex-1`
+  const calendarVisible =
+    store.ui.calendarAuthorizationStatus === 'authorized' ||
+    store.ui.calendarAuthorizationStatus === 'notDetermined'
+  const generalVisible =
+    store.ui.track?.title ||
+    store.ui.currentTemp ||
+    !!store.ui.currentlyTrackedProject
 
   useEffect(() => {
     return () => {
@@ -54,18 +62,38 @@ export const RootContainer = observer(() => {
     <View style={tw.style(`flex-1`)}>
       <SearchWidget style={mainStyle} />
 
-      <GeneralWidget
+      <View
         style={tw.style(
-          `border-t bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30 border-lightBorder dark:border-darkBorder`,
+          `border-t bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30 border-lightBorder dark:border-darkBorder px-6 py-1`,
+        )}>
+        <GeneralWidget />
+        {generalVisible && calendarVisible && (
+          <View
+            style={tw.style(
+              `w-full border-lightBorder dark:border-darkBorder border-t my-[7]`,
+            )}
+          />
         )}
-      />
-
-      {(store.ui.calendarAuthorizationStatus === 'authorized' ||
-        store.ui.calendarAuthorizationStatus === 'notDetermined') && (
-        <CalendarWidget
-          style={tw` bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30`}
-        />
-      )}
+        {calendarVisible && <CalendarWidget />}
+        {!store.ui.isAccessibilityTrusted && (
+          <>
+            <View
+              style={tw.style(
+                `w-full border-lightBorder dark:border-darkBorder border-t my-[7]`,
+              )}
+            />
+            <TouchableOpacity
+              onPress={() => {
+                solNative.requestAccessibilityAccess()
+                solNative.hideWindow()
+              }}>
+              <Text style={tw`text-highlight text-xs pb-1`}>
+                Click to grant accessibility access
+              </Text>
+            </TouchableOpacity>
+          </>
+        )}
+      </View>
     </View>
   )
 })

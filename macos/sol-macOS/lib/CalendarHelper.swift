@@ -2,16 +2,16 @@ import Foundation
 import EventKit
 
 class CalendarHelper {
+  public static let sharedInstance = CalendarHelper()
+  private let dateFormatter = ISO8601DateFormatter()
 
-  public static var sharedInstance = CalendarHelper()
-  private var dateFormatter = ISO8601DateFormatter()
-
-  init() {
+  func requestCalendarAccess(_ callback: @escaping () -> Void) {
     let store = EKEventStore()
     let eventAuthorizationStatus = EKEventStore.authorizationStatus(for: .event)
     if eventAuthorizationStatus == .notDetermined {
       store.requestAccess(to: .event) { granted, error in
         print("Event kit request access response, granted: \(granted), error: \(String(describing: error))")
+        callback()
       }
     }
   }

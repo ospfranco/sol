@@ -1,11 +1,11 @@
 import {NativeEventEmitter, NativeModules} from 'react-native'
 
-export type CalendarAuthorizationStatus =
-  | 'notDetermined'
-  | 'restricted'
-  | 'denied'
-  | 'authorized'
-
+export enum CalendarAuthorizationStatus {
+  notDetermined = 'notDetermined',
+  restricted = 'restricted',
+  denied = 'denied',
+  authorized = 'authorized',
+}
 export interface INativeEvent {
   title?: string
   url?: string
@@ -31,6 +31,8 @@ class SolNative extends NativeEventEmitter {
   >
   setGlobalShortcut: (key: 'command' | 'option') => void
   getCalendarAuthorizationStatus: () => Promise<CalendarAuthorizationStatus>
+  requestCalendarAccess: () => Promise<void>
+  requestAccessibilityAccess: () => Promise<void>
   setLaunchAtLogin: (v: boolean) => void
   getAccessibilityStatus: () => Promise<boolean>
   resizeFrontmostRightHalf: () => void
@@ -40,31 +42,32 @@ class SolNative extends NativeEventEmitter {
   moveFrontmostPrevScreen: () => void
   accentColor: string
 
-  constructor(nativeModule: any) {
-    super(nativeModule)
+  constructor(module: any) {
+    super(module)
 
-    this.getNextEvents = nativeModule.getNextEvents
-    this.hideWindow = nativeModule.hideWindow
-    this.getApps = nativeModule.getApps
-    this.openFile = nativeModule.openFile
-    this.toggleDarkMode = nativeModule.toggleDarkMode
-    this.executeAppleScript = nativeModule.executeAppleScript
-    this.openWithFinder = nativeModule.openWithFinder
-    this.getMediaInfo = nativeModule.getMediaInfo
-    this.setGlobalShortcut = nativeModule.setGlobalShortcut
-    this.getCalendarAuthorizationStatus =
-      nativeModule.getCalendarAuthorizationStatus
-    this.setLaunchAtLogin = nativeModule.setLaunchAtLogin
-    this.getAccessibilityStatus = nativeModule.getAccessibilityStatus
-    this.resizeFrontmostRightHalf = nativeModule.resizeFrontmostRightHalf
-    this.resizeFrontmostFullscreen = nativeModule.resizeFrontmostFullscreen
-    this.resizeFrontmostFullscreen = nativeModule.resizeFrontmostFullscreen
-    this.moveFrontmostNextScreen = nativeModule.moveFrontmostNextScreen
-    this.moveFrontmostNextScreen = nativeModule.moveFrontmostNextScreen
-    this.moveFrontmostPrevScreen = nativeModule.moveFrontmostPrevScreen
-    this.resizeFrontmostLeftHalf = nativeModule.resizeFrontmostLeftHalf
+    this.getNextEvents = module.getNextEvents
+    this.hideWindow = module.hideWindow
+    this.getApps = module.getApps
+    this.openFile = module.openFile
+    this.toggleDarkMode = module.toggleDarkMode
+    this.executeAppleScript = module.executeAppleScript
+    this.openWithFinder = module.openWithFinder
+    this.getMediaInfo = module.getMediaInfo
+    this.setGlobalShortcut = module.setGlobalShortcut
+    this.getCalendarAuthorizationStatus = module.getCalendarAuthorizationStatus
+    this.requestAccessibilityAccess = module.requestAccessibilityAccess
+    this.requestCalendarAccess = module.requestCalendarAccess
+    this.setLaunchAtLogin = module.setLaunchAtLogin
+    this.getAccessibilityStatus = module.getAccessibilityStatus
+    this.resizeFrontmostRightHalf = module.resizeFrontmostRightHalf
+    this.resizeFrontmostFullscreen = module.resizeFrontmostFullscreen
+    this.resizeFrontmostFullscreen = module.resizeFrontmostFullscreen
+    this.moveFrontmostNextScreen = module.moveFrontmostNextScreen
+    this.moveFrontmostNextScreen = module.moveFrontmostNextScreen
+    this.moveFrontmostPrevScreen = module.moveFrontmostPrevScreen
+    this.resizeFrontmostLeftHalf = module.resizeFrontmostLeftHalf
 
-    const constants = NativeModules.SolNative.getConstants()
+    const constants = module.getConstants()
     this.accentColor = constants.accentColor
   }
 }

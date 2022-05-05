@@ -20,8 +20,7 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
   }
 
   return (
-    <View
-      style={tw.style(`px-6 h-8 text-gray-200 flex-row items-center`, style)}>
+    <View style={tw.style(`text-gray-200 flex-row items-center`, style)}>
       {/* <Text style={tw`text-xs`}>🎵</Text> */}
       {/* <Image
         source={{uri: store.ui.track?.artwork}}

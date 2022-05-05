@@ -8,7 +8,8 @@
     "test": "jest",
     "lint": "eslint .",
     "bump": "./bump-version.sh",
-    "windows": "react-native run-windows"
+    "windows": "react-native run-windows",
+    "permissions:reset": "tccutil reset Calendar com.ospfranco.sol && tccutil reset Accessibility com.ospfranco.sol"
   },
   "dependencies": {
     "@react-native-picker/picker": "^2.4.0",

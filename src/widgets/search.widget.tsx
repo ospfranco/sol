@@ -6,7 +6,6 @@ import React, {FC, useEffect, useRef} from 'react'
 import {
   ActivityIndicator,
   Animated,
-  Appearance,
   FlatList,
   Image,
   Platform,
@@ -27,7 +26,6 @@ interface Props {
 
 export const SearchWidget: FC<Props> = observer(({style}) => {
   useDeviceContext(tw)
-  const colorScheme = Appearance.getColorScheme()
   const store = useStore()
   const focused = store.ui.focusedWidget === FocusableWidget.SEARCH
   const inputRef = useRef<TextInput | null>(null)
@@ -68,7 +66,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
           placeholderTextColor={tw.color('text-gray-500')}
           placeholder={
             __DEV__
-              ? `[DEBUG] accessibility: ${store.ui.isAccessibilityTrusted}`
+              ? `Running in DEBUG | accessibility: ${store.ui.isAccessibilityTrusted} | calendar: ${store.ui.calendarAuthorizationStatus}`
               : 'Type or search for something...'
           }
         />
@@ -119,7 +117,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
               )}
               {item.type === ItemType.CUSTOM && (
                 <View
-                  style={tw`h-4 w-4 bg-gray-600 dark:bg-gray-200 rounded items-center justify-center`}>
+                  style={tw`h-4 w-4 bg-gray-100 dark:bg-neutral-800 rounded items-center justify-center`}>
                   <Image
                     // @ts-expect-error
                     source={Icons[item.icon]}
