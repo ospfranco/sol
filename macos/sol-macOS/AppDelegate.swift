@@ -12,6 +12,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   var mainWindow: Panel!
   var mainHotKey = HotKey(key: .space, modifiers: [.command])
   var debugHotKey = HotKey(key: .space, modifiers: [.command, .option])
+  private let rightSideScreenHotKey = HotKey(key: .rightArrow, modifiers: [.option, .control])
+  private let leftSideScreenHotKey = HotKey(key: .leftArrow, modifiers: [.option, .control])
+  private let fullScreenHotKey = HotKey(key: .return, modifiers: [.option, .control])
+  private let moveToNextScreenHotKey = HotKey(key: .rightArrow, modifiers: [.option, .control, .command])
+  private let moveToPrevScreenHotKey = HotKey(key: .leftArrow, modifiers: [.option, .control, .command])
 
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     let jsCodeLocation: URL = RCTBundleURLProvider
@@ -42,6 +47,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   }
 
   func setupKeyboardListeners() {
+    rightSideScreenHotKey.keyDownHandler = WindowManager.sharedInstance.moveRight
+    leftSideScreenHotKey.keyDownHandler = WindowManager.sharedInstance.moveLeft
+    fullScreenHotKey.keyDownHandler = WindowManager.sharedInstance.fullscreen
+    moveToNextScreenHotKey.keyDownHandler = WindowManager.sharedInstance.moveToNextScreen
+    moveToPrevScreenHotKey.keyDownHandler = WindowManager.sharedInstance.moveToPrevScreen
+
 #if DEBUG
     debugHotKey.keyDownHandler = toggleWindow
     mainHotKey.isPaused = true

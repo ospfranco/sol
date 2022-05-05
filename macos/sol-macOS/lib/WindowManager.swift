@@ -1,23 +1,11 @@
 import HotKey
 
 class WindowManager {
-  public static var sharedInstance = WindowManager()
+  public static let sharedInstance = WindowManager()
 
   private let screenDetector = ScreenDetector()
-  private let rightSideScreenHotKey = HotKey(key: .rightArrow, modifiers: [.option, .control])
-  private let leftSideScreenHotKey = HotKey(key: .leftArrow, modifiers: [.option, .control])
-  private let fullScreenHotKey = HotKey(key: .return, modifiers: [.option, .control])
-  private let moveToNextScreenHotKey = HotKey(key: .rightArrow, modifiers: [.option, .control, .command])
-  private let moveToPrevScreenHotKey = HotKey(key: .leftArrow, modifiers: [.option, .control, .command])
 
-  required init() {
-    rightSideScreenHotKey.keyDownHandler = moveRight
-    leftSideScreenHotKey.keyDownHandler = moveLeft
-    fullScreenHotKey.keyDownHandler = fullscreen
-    moveToNextScreenHotKey.keyDownHandler = moveToNextScreen
-  }
-
-  public func moveRight() {
+  func moveRight() {
     guard let frontmostWindowElement = AccessibilityElement.frontmostWindow()
     else {
       NSSound.beep()
@@ -32,7 +20,9 @@ class WindowManager {
       return
     }
 
+    print("Original frame", usableScreens.frameOfCurrentScreen)
     let normalizedScreenFrame = AccessibilityElement.normalizeCoordinatesOf(usableScreens.frameOfCurrentScreen)
+    print("Normalized screen frame", normalizedScreenFrame)
 
     let origin = CGPoint(x: normalizedScreenFrame.origin.x + normalizedScreenFrame.width / 2, y: normalizedScreenFrame.origin.y)
     let size = CGSize(width: normalizedScreenFrame.width / 2, height: normalizedScreenFrame.height)
@@ -139,9 +129,4 @@ class WindowManager {
 
     frontmostWindowElement.setRectOf(CGRect(origin: origin, size: size))
   }
-}
-
-struct Window {
-  let id: Int
-  let rect: CGRect
 }
