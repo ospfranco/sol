@@ -175,6 +175,14 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
                   ⌘ {index + 1}
                 </Text>
               )}
+              {!!item.shortcut && (
+                <Text
+                  style={tw.style(`text-gray-500 dark:text-gray-400 text-xs`, {
+                    'text-white dark:text-white': isActive,
+                  })}>
+                  {item.shortcut}
+                </Text>
+              )}
             </View>
           )
         }}

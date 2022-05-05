@@ -13,8 +13,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   var mainHotKey = HotKey(key: .space, modifiers: [.command])
   var debugHotKey = HotKey(key: .space, modifiers: [.command, .option])
 
-  let windowManager = WindowManager()
-
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     let jsCodeLocation: URL = RCTBundleURLProvider
       .sharedSettings()

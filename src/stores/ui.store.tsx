@@ -25,6 +25,8 @@ import {
   ImageURISource,
   Linking,
   Platform,
+  Text,
+  View,
 } from 'react-native'
 import {IRootStore} from 'Store'
 import tw from 'tailwind'
@@ -86,6 +88,7 @@ export interface Item {
   callback?: () => void
   isApplescript?: boolean
   text?: string
+  shortcut?: string
   isFavorite?: boolean // injected in UI array
 }
 
@@ -247,6 +250,83 @@ export let createUIStore = (root: IRootStore) => {
             store.focusWidget(FocusableWidget.CREATE_ITEM)
           },
           preventClose: true,
+        },
+        {
+          iconComponent: () => {
+            return (
+              <View style={tw`w-4 h-4 p-[2] rounded items-end bg-black`}>
+                <View style={tw`w-1 h-3 p-1 rounded-sm bg-white`} />
+              </View>
+            )
+          },
+          name: 'Resize window to right-half',
+          type: ItemType.CONFIGURATION,
+          callback: () => {
+            solNative.resizeFrontmostRightHalf()
+          },
+          shortcut: '^ ⌥ →',
+        },
+        {
+          iconComponent: () => {
+            return (
+              <View style={tw`w-4 h-4 p-[2] rounded items-start bg-black`}>
+                <View style={tw`w-1 h-3 p-1 rounded-sm bg-white`} />
+              </View>
+            )
+          },
+          name: 'Resize window to left-half',
+          type: ItemType.CONFIGURATION,
+          callback: () => {
+            solNative.resizeFrontmostLeftHalf()
+          },
+          shortcut: '^ ⌥ ←',
+        },
+        {
+          iconComponent: () => {
+            return (
+              <View style={tw`w-4 h-4 p-[2] rounded items-start bg-black`}>
+                <View style={tw`w-3  h-3 p-1 rounded-sm bg-white`} />
+              </View>
+            )
+          },
+          name: 'Resize window to full-screen',
+          type: ItemType.CONFIGURATION,
+          callback: () => {
+            solNative.resizeFrontmostFullscreen()
+          },
+          shortcut: '^ ⌥ ↩',
+        },
+        {
+          iconComponent: () => {
+            return (
+              <View
+                style={tw`w-4 h-4 rounded items-center justify-center bg-black`}>
+                <Text style={tw`text-white`}>→</Text>
+              </View>
+            )
+          },
+          name: 'Move window to next screen',
+          type: ItemType.CONFIGURATION,
+          callback: () => {
+            solNative.moveFrontmostNextScreen()
+          },
+          shortcut: '^ ⌥ ⌘ →',
+        },
+        {
+          iconComponent: () => {
+            return (
+              <View
+                style={tw`w-4 h-4 rounded items-center justify-center bg-black`}>
+                <Text style={tw`text-white`}>←</Text>
+              </View>
+            )
+          },
+          name: 'Resize window to previous screen',
+          type: ItemType.CONFIGURATION,
+          callback: () => {
+            solNative.moveFrontmostPrevScreen()
+          },
+          shortcut: '^ ⌥ ⌘ ←',
         },
         ...buildSystemPreferencesItems(),
       ],

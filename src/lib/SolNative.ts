@@ -33,6 +33,11 @@ class SolNative extends NativeEventEmitter {
   getCalendarAuthorizationStatus: () => Promise<CalendarAuthorizationStatus>
   setLaunchAtLogin: (v: boolean) => void
   getAccessibilityStatus: () => Promise<boolean>
+  resizeFrontmostRightHalf: () => void
+  resizeFrontmostLeftHalf: () => void
+  resizeFrontmostFullscreen: () => void
+  moveFrontmostNextScreen: () => void
+  moveFrontmostPrevScreen: () => void
   accentColor: string
 
   constructor(nativeModule: any) {
@@ -51,6 +56,13 @@ class SolNative extends NativeEventEmitter {
       nativeModule.getCalendarAuthorizationStatus
     this.setLaunchAtLogin = nativeModule.setLaunchAtLogin
     this.getAccessibilityStatus = nativeModule.getAccessibilityStatus
+    this.resizeFrontmostRightHalf = nativeModule.resizeFrontmostRightHalf
+    this.resizeFrontmostFullscreen = nativeModule.resizeFrontmostFullscreen
+    this.resizeFrontmostFullscreen = nativeModule.resizeFrontmostFullscreen
+    this.moveFrontmostNextScreen = nativeModule.moveFrontmostNextScreen
+    this.moveFrontmostNextScreen = nativeModule.moveFrontmostNextScreen
+    this.moveFrontmostPrevScreen = nativeModule.moveFrontmostPrevScreen
+    this.resizeFrontmostLeftHalf = nativeModule.resizeFrontmostLeftHalf
 
     const constants = NativeModules.SolNative.getConstants()
     this.accentColor = constants.accentColor
