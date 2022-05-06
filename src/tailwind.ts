@@ -16,8 +16,10 @@ function hexToRgb(hex: string) {
 config.theme.extend.colors.accent = solNative.accentColor
 const accentRbg = hexToRgb(solNative.accentColor)
 const accentDim = `rgba(${accentRbg?.r},${accentRbg?.g},${accentRbg?.b}, 0.6)`
+const accentBg = `rgba(${accentRbg?.r},${accentRbg?.g},${accentRbg?.b}, 0.4)`
 
 config.theme.extend.colors.accentDim = accentDim
+config.theme.extend.colors.accentBg = accentBg
 
 const tw = create(config)
 
