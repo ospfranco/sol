@@ -23,6 +23,7 @@ Get the latest versions from the [releases page](https://github.com/ospfranco/so
 - Keyboard events
 - App search
 - Google translate integration
+- Google maps integration
 - Calendar integration
 - OpenWeather API integration
 - AppleScript commands (sleep, lock, dark mode, etc.)
