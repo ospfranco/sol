@@ -481,6 +481,7 @@ export let createUIStore = (root: IRootStore) => {
             iconImage: Assets.googleLogo,
             name: 'Google Search',
             type: ItemType.CONFIGURATION,
+            shortcut: '⌘ 1',
             callback: () => {
               Linking.openURL(
                 `https://google.com/search?q=${encodeURIComponent(
@@ -496,6 +497,7 @@ export let createUIStore = (root: IRootStore) => {
             callback: () => {
               store.translateQuery()
             },
+            shortcut: '⌘ 2',
             preventClose: true,
           },
           {
@@ -505,6 +507,7 @@ export let createUIStore = (root: IRootStore) => {
             callback: () => {
               store.focusedWidget = FocusableWidget.GOOGLE_MAP
             },
+            shortcut: '⌘ 3',
             preventClose: true,
           },
         ]
