@@ -66,7 +66,8 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
           placeholderTextColor={tw.color('text-gray-500')}
           placeholder={
             __DEV__
-              ? `Running in DEBUG | accessibility: ${store.ui.isAccessibilityTrusted} | calendar: ${store.ui.calendarAuthorizationStatus}`
+              ? // ? `Running in DEBUG | accessibility: ${store.ui.isAccessibilityTrusted} | calendar: ${store.ui.calendarAuthorizationStatus}`
+                `New SOL release...`
               : 'Type or search for something...'
           }
         />
