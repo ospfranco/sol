@@ -67,6 +67,7 @@ export enum FocusableWidget {
   TRANSLATION = 'TRANSLATION',
   SETTINGS = 'SETTINGS',
   CREATE_ITEM = 'CREATE_ITEM',
+  GOOGLE_MAP = 'GOOGLE_MAP',
 }
 
 export enum ItemType {
@@ -494,6 +495,15 @@ export let createUIStore = (root: IRootStore) => {
             type: ItemType.CONFIGURATION,
             callback: () => {
               store.translateQuery()
+            },
+            preventClose: true,
+          },
+          {
+            iconImage: Assets.GoogleMaps,
+            name: 'Google Maps Search',
+            type: ItemType.CONFIGURATION,
+            callback: () => {
+              store.focusedWidget = FocusableWidget.GOOGLE_MAP
             },
             preventClose: true,
           },
@@ -983,7 +993,8 @@ export let createUIStore = (root: IRootStore) => {
         case 18: {
           if (meta) {
             if (store.query) {
-              store.translateQuery()
+              Linking.openURL(`https://google.com/search?q=${store.query}`)
+              store.query = ''
             } else {
               store.runFavorite(0)
             }
@@ -995,8 +1006,7 @@ export let createUIStore = (root: IRootStore) => {
         case 19: {
           if (meta) {
             if (store.query) {
-              Linking.openURL(`https://google.com/search?q=${store.query}`)
-              store.query = ''
+              store.translateQuery()
             } else {
               store.runFavorite(1)
             }
@@ -1008,8 +1018,7 @@ export let createUIStore = (root: IRootStore) => {
         case 20: {
           if (meta) {
             if (store.query) {
-              Linking.openURL(`https://google.com/search?q=${store.query}`)
-              store.query = ''
+              store.focusedWidget = FocusableWidget.GOOGLE_MAP
             } else {
               store.runFavorite(2)
             }

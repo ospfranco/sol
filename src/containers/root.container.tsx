@@ -9,6 +9,7 @@ import {useDeviceContext} from 'twrnc'
 import {CalendarWidget} from 'widgets/calendar.widget'
 import {CreateItemWidget} from 'widgets/createItem.widget'
 import {GeneralWidget} from 'widgets/general.widget'
+import {GoogleMapWidget} from 'widgets/googleMap.widget'
 import {OnboardingWidget} from 'widgets/onboarding.widget'
 import {ProjectCreationWidget} from 'widgets/projectCreation.widget'
 import {ProjectSelectWidget} from 'widgets/projectSelect.widget'
@@ -33,6 +34,10 @@ export const RootContainer = observer(() => {
       store.ui.cleanUp()
     }
   }, [])
+
+  if (store.ui.focusedWidget === FocusableWidget.GOOGLE_MAP) {
+    return <GoogleMapWidget />
+  }
 
   if (store.ui.focusedWidget === FocusableWidget.CREATE_ITEM) {
     return <CreateItemWidget style={mainStyle} />

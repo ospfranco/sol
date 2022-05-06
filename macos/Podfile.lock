@@ -210,6 +210,8 @@ PODS:
   - React-jsinspector (0.66.46)
   - React-logger (0.66.46):
     - glog
+  - react-native-webview (11.18.2):
+    - React-Core
   - React-perflogger (0.66.46)
   - React-RCTActionSheet (0.66.46):
     - React-Core/RCTActionSheetHeaders (= 0.66.46)
@@ -306,6 +308,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native-macos/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native-macos/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native-macos/ReactCommon/logger`)
+  - react-native-webview (from `../node_modules/react-native-webview`)
   - React-perflogger (from `../node_modules/react-native-macos/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native-macos/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native-macos/Libraries/NativeAnimation`)
@@ -364,6 +367,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-macos/ReactCommon/jsinspector"
   React-logger:
     :path: "../node_modules/react-native-macos/ReactCommon/logger"
+  react-native-webview:
+    :path: "../node_modules/react-native-webview"
   React-perflogger:
     :path: "../node_modules/react-native-macos/ReactCommon/reactperflogger"
   React-RCTActionSheet:
@@ -415,6 +420,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 9454fb49aa78b23dc2d8ed97763548c9d3ae5363
   React-jsinspector: ab23579a2b7de5d71536c44a8bbe6cdbf89740d1
   React-logger: bf1b0a4d7a6fe94dd1d55b007fe35aea17198766
+  react-native-webview: 8ec7ddf9eb4ddcd92b32cee7907efec19a9ec7cb
   React-perflogger: 840bb89c153de3f26c0b70f46ba870bb33dd9a42
   React-RCTActionSheet: 544f1a881916bf78b28821b708075eeda2e15468
   React-RCTAnimation: 521dae0df7ec7d5bfad1783e2c5f001a1c644e91
@@ -428,7 +434,7 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: ded1b01a8f701257920481859b8f155c8a974dda
   ReactCommon: 315991599ec7d825a4917e0dbe1e1a68145bd518
   RNCPicker: 6d5d64e7b90c240c779ee0938ec433c11e2dd758
-  RNSentry: 534b02ff3586624b34c81d51d24bcae0c1b20aca
+  RNSentry: 2cd1daa124b0d9fd0dfc2cb6094fdd168cb579bc
   Sentry: 0c5cd63d714187b4a39c331c1f0eb04ba7868341
   Yoga: 1b2b15cf31891f0bb1497c4c656512a1311647da
 

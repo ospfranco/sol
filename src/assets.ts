@@ -123,6 +123,7 @@ import SolBlackSmall from './assets/SolBlackSmall.png'
 import SolWhiteSmall from './assets/SolWhiteSmall.png'
 import Star from './assets/star.png'
 import StarFilled from './assets/starFilled.png'
+import GoogleMaps from './assets/GoogleMapsIcon.png'
 
 export const Assets = {
   googleLogo,
@@ -136,6 +137,7 @@ export const Assets = {
   DarkModeIcon,
   SleepIcon,
   LockIcon,
+  GoogleMaps,
 }
 
 export const Icons = {

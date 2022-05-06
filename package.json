@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "bump": "./bump-version.sh",
     "windows": "react-native run-windows",
+    "postinstall": "patch-package",
     "permissions:reset": "tccutil reset Calendar com.ospfranco.sol && tccutil reset Accessibility com.ospfranco.sol"
   },
   "dependencies": {
@@ -29,6 +30,7 @@
     "react": "17.0.2",
     "react-native": "0.67.2",
     "react-native-macos": "^0.66.46",
+    "react-native-webview": "^11.18.2",
     "react-native-windows": "0.67.7",
     "twrnc": "^3.3.0",
     "typescript": "4.6.3"
