@@ -145,7 +145,7 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
         )}
         {store.ui.calendarAuthorizationStatus === 'authorized' &&
           !store.ui.events.length && (
-            <Text style={tw`text-center pb-4 text-gray-500 text-xs`}>
+            <Text style={tw`pb-1 text-gray-500 dark:text-gray-400 text-xs`}>
               No upcoming events
             </Text>
           )}
