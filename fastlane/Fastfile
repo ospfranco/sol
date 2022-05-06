@@ -3,7 +3,7 @@ update_fastlane
 default_platform(:mac)
 
 platform :mac do
-  lane :export do
+  lane :release do
     outputPath = "~/Desktop/"
     appFileName = outputPath + "/Sol.app"
     zipFileName = outputPath + "Sol.zip"
@@ -30,6 +30,18 @@ platform :mac do
     zip(
       path: appFileName,
       output_path: zipFileName
+    )
+  end
+
+  lane :dev do
+    outputPath = "~/Desktop/"
+    appFileName = outputPath + "/Sol.app"
+
+    build_mac_app(
+      scheme: "macOS",
+      workspace: "./macos/sol.xcworkspace",
+      output_directory: outputPath,
+      export_method: "package"
     )
   end
 end
