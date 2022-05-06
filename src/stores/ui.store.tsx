@@ -37,6 +37,7 @@ let keyDownListener: EmitterSubscription | undefined
 let keyUpListener: EmitterSubscription | undefined
 let onShowListener: EmitterSubscription | undefined
 let onHideListener: EmitterSubscription | undefined
+let showScratchPadListener: EmitterSubscription | undefined
 
 const exprParser = new Parser()
 
@@ -68,6 +69,7 @@ export enum FocusableWidget {
   SETTINGS = 'SETTINGS',
   CREATE_ITEM = 'CREATE_ITEM',
   GOOGLE_MAP = 'GOOGLE_MAP',
+  SCRATCHPAD = 'SCRATCHPAD',
 }
 
 export enum ItemType {
@@ -328,6 +330,15 @@ export let createUIStore = (root: IRootStore) => {
             solNative.moveFrontmostPrevScreen()
           },
           shortcut: '^ ⌥ ⌘ ←',
+        },
+        {
+          icon: '🖊',
+          name: 'Scratchpad',
+          preventClose: true,
+          type: ItemType.CONFIGURATION,
+          callback: () => {
+            store.focusWidget(FocusableWidget.SCRATCHPAD)
+          },
         },
         ...buildSystemPreferencesItems(),
       ],
@@ -1132,6 +1143,7 @@ export let createUIStore = (root: IRootStore) => {
       keyUpListener?.remove()
       onShowListener?.remove()
       onHideListener?.remove()
+      showScratchPadListener?.remove()
     },
     checkCalendarAccess: () => {
       solNative
@@ -1149,6 +1161,9 @@ export let createUIStore = (root: IRootStore) => {
         })
       })
     },
+    showScratchpad: () => {
+      store.focusWidget(FocusableWidget.SCRATCHPAD)
+    },
   })
 
   hydrate().then(() => {
@@ -1162,6 +1177,10 @@ export let createUIStore = (root: IRootStore) => {
   keyUpListener = solNative.addListener('keyUp', store.keyUp)
   onShowListener = solNative.addListener('onShow', store.onShow)
   onHideListener = solNative.addListener('onHide', store.onHide)
+  showScratchPadListener = solNative.addListener(
+    'showScratchpad',
+    store.showScratchpad,
+  )
 
   return store
 }

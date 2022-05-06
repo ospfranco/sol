@@ -1,25 +1,10 @@
-import {Assets, Icons} from 'assets'
-import {FileIcon} from 'components/FileIcon'
-import {solNative} from 'lib/SolNative'
 import {observer} from 'mobx-react-lite'
-import React, {FC, useEffect, useRef} from 'react'
-import {
-  ActivityIndicator,
-  Animated,
-  FlatList,
-  Image,
-  Platform,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-  ViewStyle,
-} from 'react-native'
+import React, {FC} from 'react'
+import {View, ViewStyle} from 'react-native'
+import {WebView} from 'react-native-webview'
 import {useStore} from 'store'
-import {FocusableWidget, Item, ItemType} from 'stores'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
-import {WebView} from 'react-native-webview'
 
 interface Props {
   style?: ViewStyle

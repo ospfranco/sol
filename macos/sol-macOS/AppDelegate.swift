@@ -17,6 +17,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   private let fullScreenHotKey = HotKey(key: .return, modifiers: [.option, .control])
   private let moveToNextScreenHotKey = HotKey(key: .rightArrow, modifiers: [.option, .control, .command])
   private let moveToPrevScreenHotKey = HotKey(key: .leftArrow, modifiers: [.option, .control, .command])
+  private let scratchpadHotKey = HotKey(key: .space, modifiers: [.command, .shift])
 
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     let jsCodeLocation: URL = RCTBundleURLProvider
@@ -52,6 +53,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     fullScreenHotKey.keyDownHandler = WindowManager.sharedInstance.fullscreen
     moveToNextScreenHotKey.keyDownHandler = WindowManager.sharedInstance.moveToNextScreen
     moveToPrevScreenHotKey.keyDownHandler = WindowManager.sharedInstance.moveToPrevScreen
+    scratchpadHotKey.keyDownHandler = showScratchpad
 
 #if DEBUG
     debugHotKey.keyDownHandler = toggleWindow
@@ -106,6 +108,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     SolEmitter.sharedInstance.onShow()
 
     NSCursor.setHiddenUntilMouseMoves(true)
+  }
+
+  func showScratchpad() {
+    showWindow()
+    SolEmitter.sharedInstance.showScratchPad()
   }
 
   func hideWindow() {

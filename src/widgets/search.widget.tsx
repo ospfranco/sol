@@ -51,7 +51,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
           ref={inputRef}
           style={tw.style(`flex-1`)}
           selectionColor={solNative.accentColor}
-          placeholderTextColor={tw.color('text-gray-500')}
+          placeholderTextColor={tw.color('dark:text-gray-400 text-gray-500')}
           placeholder={
             __DEV__
               ? // ? `Running in DEBUG | accessibility: ${store.ui.isAccessibilityTrusted} | calendar: ${store.ui.calendarAuthorizationStatus}`

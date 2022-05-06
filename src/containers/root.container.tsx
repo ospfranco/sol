@@ -13,6 +13,7 @@ import {GoogleMapWidget} from 'widgets/googleMap.widget'
 import {OnboardingWidget} from 'widgets/onboarding.widget'
 import {ProjectCreationWidget} from 'widgets/projectCreation.widget'
 import {ProjectSelectWidget} from 'widgets/projectSelect.widget'
+import {ScratchpadWidget} from 'widgets/scratchpad.widget'
 import {SearchWidget} from 'widgets/search.widget'
 import {SettingsWidget} from 'widgets/settings.widget'
 import {TranslationWidget} from 'widgets/translation.widget'
@@ -34,6 +35,10 @@ export const RootContainer = observer(() => {
       store.ui.cleanUp()
     }
   }, [])
+
+  if (store.ui.focusedWidget === FocusableWidget.SCRATCHPAD) {
+    return <ScratchpadWidget style={mainStyle} />
+  }
 
   if (store.ui.focusedWidget === FocusableWidget.GOOGLE_MAP) {
     return <GoogleMapWidget />

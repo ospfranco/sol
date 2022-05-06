@@ -38,7 +38,8 @@ class SolNative: RCTEventEmitter {
       "keyDown",
       "keyUp",
       "onShow",
-      "onHide"
+      "onHide",
+      "showScratchpad"
     ]
   }
 

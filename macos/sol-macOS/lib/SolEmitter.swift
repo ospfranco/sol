@@ -42,4 +42,8 @@ class SolEmitter {
   func onHide() {
     dispatch(name: "onHide", body: [])
   }
+
+  func showScratchPad() {
+    dispatch(name: "showScratchpad", body: [])
+  }
 }
