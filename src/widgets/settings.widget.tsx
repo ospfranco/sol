@@ -16,7 +16,7 @@ import {
   ViewStyle,
 } from 'react-native'
 import {useStore} from 'store'
-import {FocusableWidget, Theme} from 'stores'
+import {FocusableWidget} from 'stores'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
 
@@ -24,7 +24,7 @@ interface Props {
   style?: ViewStyle
 }
 
-type ITEM = 'ABOUT' | 'WEATHER' | 'GENERAL' | 'TRANSLATE' | 'THEME'
+type ITEM = 'ABOUT' | 'WEATHER' | 'GENERAL' | 'TRANSLATE'
 
 interface SelectableButtonProps extends TouchableOpacityProps {
   selected: boolean
@@ -44,7 +44,7 @@ const SelectableButton: FC<SelectableButtonProps> = ({
       style={tw.style(
         'rounded px-2 py-1 w-full border border-transparent',
         {
-          'bg-highlight border-highlight dark:bg-opacity-60 bg-opacity-80':
+          'bg-accent border-accentDim dark:bg-opacity-60 bg-opacity-80':
             selected,
         },
         style,
@@ -96,12 +96,6 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
             selected={selected === 'WEATHER'}
             style={tw`mt-1`}
             onPress={() => setSelected('WEATHER')}
-          />
-          <SelectableButton
-            title="Theme"
-            selected={selected === 'THEME'}
-            style={tw`mt-1`}
-            onPress={() => setSelected('THEME')}
           />
           <SelectableButton
             title="About"
@@ -230,22 +224,6 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
               })}
             </Picker>
           </View>
-        </View>
-      )}
-      {selected === 'THEME' && (
-        <View style={tw`flex-1 p-4 bg-white dark:bg-black bg-opacity-30`}>
-          <Text style={tw`font-medium text-lg`}>Theme</Text>
-          <Text style={tw`text-sm text-gray-700 dark:text-gray-400 pt-2`}>
-            Choose the SOL's theme
-          </Text>
-          <Picker
-            onValueChange={store.ui.setTheme}
-            selectedValue={store.ui.theme}
-            style={tw`w-32`}>
-            {Object.values(Theme).map((v, index) => {
-              return <Picker.Item label={v} value={v} key={index} />
-            })}
-          </Picker>
         </View>
       )}
     </View>

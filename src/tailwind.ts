@@ -13,11 +13,11 @@ function hexToRgb(hex: string) {
     : null
 }
 
-config.theme.extend.colors.highlight = solNative.accentColor
+config.theme.extend.colors.accent = solNative.accentColor
 const accentRbg = hexToRgb(solNative.accentColor)
-const dimAccent = `rgba(${accentRbg?.r},${accentRbg?.g},${accentRbg?.b}, 0.6)`
+const accentDim = `rgba(${accentRbg?.r},${accentRbg?.g},${accentRbg?.b}, 0.6)`
 
-config.theme.extend.colors.highlightDim = dimAccent
+config.theme.extend.colors.accentDim = accentDim
 
 const tw = create(config)
 

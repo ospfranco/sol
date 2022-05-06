@@ -71,7 +71,7 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
                       style={tw.style(
                         `flex-row py-2 px-2 rounded items-center border border-transparent bg-opacity-80 dark:bg-opacity-40`,
                         {
-                          'bg-highlight border-highlight': highlighted,
+                          'bg-accent border-accentDim': highlighted,
                         },
                       )}>
                       <View
@@ -138,7 +138,7 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
                 store.ui.checkCalendarAccess()
               })
             }}>
-            <Text style={tw`text-highlight text-xs`}>
+            <Text style={tw`text-accent text-xs`}>
               Click to grant calendar access
             </Text>
           </TouchableOpacity>

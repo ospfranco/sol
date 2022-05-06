@@ -68,7 +68,7 @@ export const CreateItemWidget: FC<Props> = observer(({style}) => {
   return (
     <View style={tw.style(`flex-1`, style)}>
       <TouchableOpacity
-        style={tw`border-b border-lightBorder dark:border-highlightDark p-3`}
+        style={tw`border-b border-lightBorder dark:border-accentDim p-3`}
         onPress={() => {
           store.ui.onHide()
         }}>
@@ -188,7 +188,7 @@ export const CreateItemWidget: FC<Props> = observer(({style}) => {
         )}
       </View>
       <View
-        style={tw`border-t border-lightBorder dark:border-highlightDark items-end px-3 py-2`}>
+        style={tw`border-t border-lightBorder dark:border-accentDark items-end px-3 py-2`}>
         <SolButton title="Create" onPress={commit} />
       </View>
     </View>

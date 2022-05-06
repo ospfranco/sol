@@ -1,10 +1,10 @@
-import { Assets } from 'assets'
-import { Fade } from 'components/Fade'
-import { observer } from 'mobx-react-lite'
-import React, { FC, useEffect, useState } from 'react'
-import { Appearance, Image, Switch, Text, View, ViewStyle } from 'react-native'
-import { useStore } from 'store'
-import { FocusableWidget } from 'stores'
+import {Assets} from 'assets'
+import {Fade} from 'components/Fade'
+import {observer} from 'mobx-react-lite'
+import React, {FC, useEffect, useState} from 'react'
+import {Appearance, Image, Switch, Text, View, ViewStyle} from 'react-native'
+import {useStore} from 'store'
+import {FocusableWidget} from 'stores'
 import tw from 'tailwind'
 
 interface Props {
@@ -84,13 +84,15 @@ export const OnboardingWidget: FC<Props> = observer(({style}) => {
                   style={tw.style(
                     `flex-row items-center px-3 py-2 rounded border border-transparent`,
                     {
-                      'bg-highlight bg-opacity-80 dark:bg-gray-500 dark:bg-opacity-30 border-buttonBorder dark:border-darkBorder':
+                      'bg-accent bg-opacity-80 dark:bg-gray-500 dark:bg-opacity-30 border-buttonBorder dark:border-darkBorder':
                         store.ui.selectedIndex === index,
                     },
                   )}>
-                  <Label style={tw.style({
-                    'text-white': store.ui.selectedIndex === index
-                  })}/>
+                  <Label
+                    style={tw.style({
+                      'text-white': store.ui.selectedIndex === index,
+                    })}
+                  />
                 </View>
               )
             })}

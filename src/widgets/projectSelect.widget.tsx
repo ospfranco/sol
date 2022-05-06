@@ -116,7 +116,7 @@ export const ProjectSelectWidget: FC<Props> = observer(({style}) => {
               style={tw.style(
                 `px-3 py-2 rounded w-full border border-transparent`,
                 {
-                  'bg-highlight bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-20 border-buttonBorder dark:border-darkBorder':
+                  'bg-accent bg-opacity-50 dark:bg-gray-500 dark:bg-opacity-20 border-buttonBorder dark:border-darkBorder':
                     selectedIndex === index,
                 },
               )}>

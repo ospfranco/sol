@@ -92,7 +92,7 @@ export const RootContainer = observer(() => {
                 solNative.requestAccessibilityAccess()
                 solNative.hideWindow()
               }}>
-              <Text style={tw`text-highlight text-xs pb-1`}>
+              <Text style={tw`text-accent text-xs pb-1`}>
                 Click to grant accessibility access
               </Text>
             </TouchableOpacity>
