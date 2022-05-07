@@ -32,7 +32,13 @@ import {IRootStore} from 'Store'
 import tw from 'tailwind'
 import {buildSystemPreferencesItems} from './systemPreferences'
 import * as Sentry from '@sentry/react-native'
-import {allEmojis, emojiFuse, emojis, groupEmojis} from 'lib/emoji'
+import {
+  allEmojis,
+  emojiFuse,
+  emojis,
+  EMOJIS_PER_ROW,
+  groupEmojis,
+} from 'lib/emoji'
 
 let keyDownListener: EmitterSubscription | undefined
 let keyUpListener: EmitterSubscription | undefined
@@ -1067,7 +1073,10 @@ export let createUIStore = (root: IRootStore) => {
         // up key
         case 126: {
           if (store.focusedWidget === FocusableWidget.EMOJIS) {
-            store.selectedIndex = Math.max(store.selectedIndex - 15, 0)
+            store.selectedIndex = Math.max(
+              store.selectedIndex - EMOJIS_PER_ROW,
+              0,
+            )
             break
           }
 
@@ -1079,7 +1088,7 @@ export let createUIStore = (root: IRootStore) => {
         case 125: {
           switch (store.focusedWidget) {
             case FocusableWidget.EMOJIS: {
-              store.selectedIndex = store.selectedIndex + 15
+              store.selectedIndex = store.selectedIndex + EMOJIS_PER_ROW
               break
             }
 
