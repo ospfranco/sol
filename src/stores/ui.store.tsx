@@ -32,6 +32,7 @@ import {IRootStore} from 'Store'
 import tw from 'tailwind'
 import {buildSystemPreferencesItems} from './systemPreferences'
 import * as Sentry from '@sentry/react-native'
+import {allEmojis, emojiFuse, emojis, groupEmojis} from 'lib/emoji'
 
 let keyDownListener: EmitterSubscription | undefined
 let keyUpListener: EmitterSubscription | undefined
@@ -886,6 +887,17 @@ export let createUIStore = (root: IRootStore) => {
         // Enter key
         case 36: {
           switch (store.focusedWidget) {
+            case FocusableWidget.EMOJIS: {
+              const data = !!store.query
+                ? emojiFuse.search(store.query).map(r => r.item)
+                : allEmojis
+
+              const emoji = data[store.selectedIndex]
+
+              solNative.pasteEmojiToFrontmostApp(emoji.emoji)
+              break
+            }
+
             case FocusableWidget.SCRATCHPAD: {
               if (shift) {
                 store.notes.unshift('')

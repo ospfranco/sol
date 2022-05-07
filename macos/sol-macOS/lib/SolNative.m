@@ -22,4 +22,5 @@ RCT_EXTERN_METHOD(resizeFrontmostLeftHalf)
 RCT_EXTERN_METHOD(resizeFrontmostFullscreen)
 RCT_EXTERN_METHOD(moveFrontmostNextScreen)
 RCT_EXTERN_METHOD(moveFrontmostPrevScreen)
+RCT_EXTERN_METHOD(pasteEmojiToFrontmostApp: (NSString)emoji)
 @end

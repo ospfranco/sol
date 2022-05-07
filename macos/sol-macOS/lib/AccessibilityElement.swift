@@ -32,13 +32,10 @@ class AccessibilityElement {
       return frontElement
     }
 
-    print("App windows \(appElement.allWindows())")
-
     if let firstWindow = appElement.allWindows().first {
       return firstWindow
     }
 
-    print("Failed to find frontmost window.")
     return nil
   }
 

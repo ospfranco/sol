@@ -162,4 +162,8 @@ class SolNative: RCTEventEmitter {
   @objc func moveFrontmostPrevScreen() {
     WindowManager.sharedInstance.moveToPrevScreen()
   }
+
+  @objc func pasteEmojiToFrontmostApp(_ emoji: String) {
+    EmojiHelper.pasteEmojiToFrontmostApp(emoji: emoji)
+  }
 }

@@ -15,6 +15,7 @@ const FUSE_OPTIONS = {
   keys: ['description'],
 }
 
+export const allEmojis = rawEmojis
 export const emojis = groupEmojis(rawEmojis)
 export const emojiFuse = new Fuse(rawEmojis, FUSE_OPTIONS)
 
