@@ -136,6 +136,7 @@ export let createUIStore = (root: IRootStore) => {
         ) {
           store.focusedWidget = FocusableWidget.ONBOARDING
         }
+        store.notes = parsedStore.notes ?? ['']
       })
     } else {
       runInAction(() => {
@@ -394,23 +395,7 @@ export let createUIStore = (root: IRootStore) => {
     //  | |  | | '_ \/ __|/ _ \ '__\ \ / / _` | '_ \| |/ _ \/ __|
     //  | |__| | |_) \__ \  __/ |   \ V / (_| | |_) | |  __/\__ \
     //   \____/|_.__/|___/\___|_|    \_/ \__,_|_.__/|_|\___||___/
-    notes: [
-      '',
-      'This is a test note',
-      'A third test note',
-      'A third test note',
-      'A third test note',
-      'A third test note',
-      'A third test note',
-      'A third test note',
-      'A third test note',
-      'A third test note',
-      'A third test note',
-      'A third test note',
-      'A third test note',
-      'A third test note',
-      'A third test note',
-    ] as string[],
+    notes: [''] as string[],
     isAccessibilityTrusted: false,
     calendarAuthorizationStatus: 'notDetermined' as CalendarAuthorizationStatus,
     onboardingStep: 'v1_start' as OnboardingStep,
@@ -858,10 +843,10 @@ export let createUIStore = (root: IRootStore) => {
 
             case FocusableWidget.SCRATCHPAD:
               if (shift) {
-                store.selectedIndex = Math.min(
-                  store.selectedIndex - 1,
-                  store.notes.length - 1,
-                )
+                store.selectedIndex =
+                  store.selectedIndex - 1 < 0
+                    ? store.notes.length - 1
+                    : store.selectedIndex - 1
               } else {
                 store.selectedIndex =
                   (store.selectedIndex + 1) % store.notes.length
@@ -878,7 +863,14 @@ export let createUIStore = (root: IRootStore) => {
         case 36: {
           switch (store.focusedWidget) {
             case FocusableWidget.SCRATCHPAD: {
+              if (shift) {
+                store.notes.unshift('')
+                store.selectedIndex = 0
+                return
+              }
+
               if (meta) {
+                Clipboard.setString(store.notes[store.selectedIndex])
                 store.removeNote(store.selectedIndex)
                 if (store.selectedIndex === 0) {
                   store.notes.unshift('')
