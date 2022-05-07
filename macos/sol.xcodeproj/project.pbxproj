@@ -118,10 +118,10 @@
 		5142014A2437B4B30078DB4F /* sol-macOS */ = {
 			isa = PBXGroup;
 			children = (
+				70F7EBEA2795A4BD00CED17A /* lib */,
 				7042A22B2815C48E00874743 /* views */,
 				7042A2282815C05D00874743 /* extensions */,
 				701086A82798C231004C8CCD /* sol-macOS.entitlements */,
-				70F7EBEA2795A4BD00CED17A /* lib */,
 				38423A3E24576CBC00BC2EAC /* main.jsbundle */,
 				514201512437B4B40078DB4F /* Assets.xcassets */,
 				514201532437B4B40078DB4F /* Main.storyboard */,

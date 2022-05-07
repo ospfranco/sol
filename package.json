@@ -10,7 +10,9 @@
     "bump": "./bump-version.sh",
     "windows": "react-native run-windows",
     "postinstall": "patch-package",
-    "permissions:reset": "tccutil reset Calendar com.ospfranco.sol && tccutil reset Accessibility com.ospfranco.sol"
+    "permissions:reset": "tccutil reset Calendar com.ospfranco.sol && tccutil reset Accessibility com.ospfranco.sol",
+    "release:dev": "bundle exec fastlane dev",
+    "release:id": "bundle exec fastlane release"
   },
   "dependencies": {
     "@react-native-picker/picker": "^2.4.0",
