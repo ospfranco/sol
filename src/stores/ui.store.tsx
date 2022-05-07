@@ -1034,9 +1034,14 @@ export let createUIStore = (root: IRootStore) => {
 
         // esc key
         case 53: {
-          if (store.focusedWidget === FocusableWidget.SEARCH) {
-            solNative.hideWindow()
-            return
+          switch (store.focusedWidget) {
+            case FocusableWidget.SEARCH:
+              solNative.hideWindow()
+              break
+
+            case FocusableWidget.EMOJIS:
+              solNative.hideWindow()
+              break
           }
 
           store.setQuery('')
