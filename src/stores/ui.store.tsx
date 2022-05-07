@@ -340,6 +340,7 @@ export let createUIStore = (root: IRootStore) => {
           callback: () => {
             store.focusWidget(FocusableWidget.SCRATCHPAD)
           },
+          shortcut: '⌘ + ⇧ + Space',
         },
         ...buildSystemPreferencesItems(),
       ],
@@ -399,7 +400,7 @@ export let createUIStore = (root: IRootStore) => {
     isAccessibilityTrusted: false,
     calendarAuthorizationStatus: 'notDetermined' as CalendarAuthorizationStatus,
     onboardingStep: 'v1_start' as OnboardingStep,
-    globalShortcut: 'command' as 'command' | 'option',
+    globalShortcut: 'option' as 'command' | 'option',
     now: DateTime.now() as DateTime,
     query: '' as string,
     selectedIndex: 0 as number,

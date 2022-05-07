@@ -15,7 +15,7 @@ const SHORTCUTS = [
   {
     label: ({style}: {style: ViewStyle}) => (
       <Text style={tw.style(style)}>
-        <Text style={tw.style(`font-bold text-base`, style)}>⌘</Text> then{' '}
+        <Text style={tw.style(`font-bold text-base`, style)}>⌥</Text> then{' '}
         <Text style={tw.style(`font-bold`, style)}>Space</Text>
       </Text>
     ),
@@ -23,10 +23,18 @@ const SHORTCUTS = [
   {
     label: ({style}: {style: ViewStyle}) => (
       <Text style={tw.style(style)}>
-        <Text style={tw.style(`font-bold text-base`, style)}>⌥</Text> then{' '}
+        <Text style={tw.style(`font-bold text-base`, style)}>⌘</Text> then{' '}
         <Text style={tw.style(`font-bold`, style)}>Space</Text>
       </Text>
     ),
+    subLabel: () => {
+      return (
+        <Text style={tw.style(`text-xs dark:text-gray-400 text-gray-500 mt-4`)}>
+          You will need to unbind Spotlight in System Preferences → Keyboard
+          Shortcuts
+        </Text>
+      )
+    },
   },
 ]
 
@@ -62,8 +70,10 @@ export const OnboardingWidget: FC<Props> = observer(({style}) => {
             })}
           />
           <Text style={tw`font-thin text-3xl`}>SOL</Text>
-          <Text style={tw`mt-20`}>Welcome to your new macOS launcher.</Text>
-          <Text style={tw`mt-20 font-bold`}>Press enter to continue</Text>
+          <View style={tw`flex-1 justify-center`}>
+            <Text>Welcome to your new macOS launcher</Text>
+          </View>
+          <Text style={tw`font-bold`}>Press ↩ to continue</Text>
         </Fade>
       )}
       {onboardingStep === 'v1_shortcut' && (
@@ -74,31 +84,37 @@ export const OnboardingWidget: FC<Props> = observer(({style}) => {
               tintColor: colorScheme === 'dark' ? 'white' : 'black',
             })}
           />
-          <Text style={tw``}>Pick a global shortcut</Text>
-          <View style={tw`mt-20`}>
+          <Text>Pick a global shortcut</Text>
+          <View style={tw`flex-1 justify-center`}>
             {SHORTCUTS.map((item, index) => {
               const Label = item.label
+              const SubLabel = item.subLabel
+
               return (
-                <View
-                  key={index}
-                  style={tw.style(
-                    `flex-row items-center px-3 py-2 rounded border border-transparent`,
-                    {
-                      'bg-accent bg-opacity-80 dark:bg-gray-500 dark:bg-opacity-30 border-buttonBorder dark:border-darkBorder':
-                        store.ui.selectedIndex === index,
-                    },
-                  )}>
-                  <Label
-                    style={tw.style({
-                      'text-white': store.ui.selectedIndex === index,
-                    })}
-                  />
+                <View key={index} style={tw`items-center`}>
+                  <View
+                    style={tw.style(
+                      `flex-row items-center px-3 py-2 rounded border border-transparent`,
+                      {
+                        'bg-accent bg-opacity-80 dark:bg-opacity-30 border-accentDim':
+                          store.ui.selectedIndex === index,
+                      },
+                    )}>
+                    <Label
+                      style={tw.style({
+                        'text-white': store.ui.selectedIndex === index,
+                      })}
+                    />
+                  </View>
+                  {!!SubLabel && store.ui.selectedIndex === index && (
+                    <SubLabel />
+                  )}
                 </View>
               )
             })}
           </View>
 
-          <Text style={tw`mt-20 font-bold`}>Press enter to continue</Text>
+          <Text style={tw`font-bold`}>Press ↩ to continue</Text>
         </Fade>
       )}
 
@@ -110,24 +126,27 @@ export const OnboardingWidget: FC<Props> = observer(({style}) => {
               tintColor: colorScheme === 'dark' ? 'white' : 'black',
             })}
           />
-          <Text style={tw`mt-20`}>
-            Press <Text style={tw`font-bold text-base`}>⌘</Text> at any time to
-            see quick actions.
-          </Text>
-          <Text style={tw`mt-2`}>
-            Then the corresponding number to execute them. E.g. ⌘ then 1
-          </Text>
-          <View
-            style={tw`border-b w-32 border-lightBorder dark:border-darkBorder my-8`}
-          />
-          <View style={tw`flex-row items-center`}>
-            <Text style={tw`pr-10`}>Launch at login</Text>
-            <Switch
-              value={store.ui.launchAtLogin}
-              onValueChange={store.ui.setLaunchAtLogin}
+          <View style={tw`flex-1 justify-center items-center`}>
+            <Text>
+              <Text style={tw`font-bold`}>⌘ + number</Text> executes quick
+              actions or favorites
+            </Text>
+            <Text style={tw`mt-2`}>
+              <Text style={tw`font-bold`}>⌘ + ⇧ + Space</Text> globally opens
+              the Scratchpad
+            </Text>
+            <View
+              style={tw`border-b w-32 border-lightBorder dark:border-darkBorder my-8`}
             />
+            <View style={tw`flex-row items-center`}>
+              <Text style={tw`pr-10`}>Launch at login</Text>
+              <Switch
+                value={store.ui.launchAtLogin}
+                onValueChange={store.ui.setLaunchAtLogin}
+              />
+            </View>
           </View>
-          <Text style={tw`mt-20 font-bold`}>Press enter to continue</Text>
+          <Text style={tw`font-bold`}>Press ↩ to continue</Text>
         </Fade>
       )}
     </View>
