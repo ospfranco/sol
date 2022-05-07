@@ -394,7 +394,23 @@ export let createUIStore = (root: IRootStore) => {
     //  | |  | | '_ \/ __|/ _ \ '__\ \ / / _` | '_ \| |/ _ \/ __|
     //  | |__| | |_) \__ \  __/ |   \ V / (_| | |_) | |  __/\__ \
     //   \____/|_.__/|___/\___|_|    \_/ \__,_|_.__/|_|\___||___/
-    notes: ['', 'This is a test note', 'A third test note'] as string[],
+    notes: [
+      '',
+      'This is a test note',
+      'A third test note',
+      'A third test note',
+      'A third test note',
+      'A third test note',
+      'A third test note',
+      'A third test note',
+      'A third test note',
+      'A third test note',
+      'A third test note',
+      'A third test note',
+      'A third test note',
+      'A third test note',
+      'A third test note',
+    ] as string[],
     isAccessibilityTrusted: false,
     calendarAuthorizationStatus: 'notDetermined' as CalendarAuthorizationStatus,
     onboardingStep: 'v1_start' as OnboardingStep,

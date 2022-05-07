@@ -46,10 +46,19 @@ export const ScratchpadWidget: FC<Props> = observer(({style}) => {
   useDeviceContext(tw)
   const store = useStore()
   const selectedIndex = store.ui.selectedIndex
+  const listRef = useRef<FlatList | null>(null)
+
+  useEffect(() => {
+    listRef.current?.scrollToIndex({
+      index: store.ui.selectedIndex,
+      viewOffset: 80,
+    })
+  }, [selectedIndex])
 
   return (
     <>
       <FlatList
+        ref={listRef}
         data={[...store.ui.notes]}
         style={tw.style('flex-1', style)}
         contentContainerStyle={tw`px-6`}
@@ -78,7 +87,9 @@ export const ScratchpadWidget: FC<Props> = observer(({style}) => {
           )
         }}
         ItemSeparatorComponent={() => (
-          <View style={tw`w-full border-b dark:border-darkBorder mt-2 mb-4`} />
+          <View
+            style={tw`w-full border-b border-lightBorder dark:border-darkBorder mt-2 mb-4`}
+          />
         )}
       />
     </>
