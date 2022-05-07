@@ -8,7 +8,7 @@ let numberchars: [String] = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate {
-
+  var shiftPressed = false
   var mainWindow: Panel!
   var mainHotKey = HotKey(key: .space, modifiers: [.command])
   var debugHotKey = HotKey(key: .space, modifiers: [.command, .option])
@@ -65,7 +65,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
     NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
       let metaPressed = $0.modifierFlags.contains(.command)
-      SolEmitter.sharedInstance.keyDown(key: $0.characters, keyCode: $0.keyCode, meta: metaPressed)
+      let shiftPressed = $0.modifierFlags.contains(.shift)
+      SolEmitter.sharedInstance.keyDown(key: $0.characters, keyCode: $0.keyCode, meta: metaPressed, shift: shiftPressed)
 
       if handledKeys.contains($0.keyCode) {
         return nil
@@ -80,9 +81,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
     NSEvent.addLocalMonitorForEvents(matching: .flagsChanged) {
       if $0.modifierFlags.contains(.command) {
-        SolEmitter.sharedInstance.keyDown(key: "command", keyCode: 55, meta: true)
+        SolEmitter.sharedInstance.keyDown(key: "command", keyCode: 55, meta: true, shift: self.shiftPressed)
       } else {
-        SolEmitter.sharedInstance.keyUp(key: "command", keyCode: 55, meta: false)
+        SolEmitter.sharedInstance.keyUp(key: "command", keyCode: 55, meta: false, shift: self.shiftPressed)
+      }
+
+      if($0.modifierFlags.contains(.shift)) {
+        self.shiftPressed = true
+      } else {
+        self.shiftPressed = false
       }
 
       return $0

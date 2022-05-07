@@ -605,6 +605,9 @@ export let createUIStore = (root: IRootStore) => {
     //    / /\ \ / __| __| |/ _ \| '_ \/ __|
     //   / ____ \ (__| |_| | (_) | | | \__ \
     //  /_/    \_\___|\__|_|\___/|_| |_|___/
+    removeNote: (idx: number) => {
+      store.notes = store.notes.filter((_, index) => index !== idx)
+    },
     setSelectedIndex: (idx: number) => {
       store.selectedIndex = idx
     },
@@ -816,10 +819,12 @@ export let createUIStore = (root: IRootStore) => {
     keyDown: async ({
       keyCode,
       meta,
+      shift,
     }: {
       key: string
       keyCode: number
       meta: boolean
+      shift: boolean
     }) => {
       // esc = "\u{1B}" or 53
       // arrow up = "" or 126
@@ -852,8 +857,15 @@ export let createUIStore = (root: IRootStore) => {
               break
 
             case FocusableWidget.SCRATCHPAD:
-              store.selectedIndex =
-                (store.selectedIndex + 1) % store.notes.length
+              if (shift) {
+                store.selectedIndex = Math.min(
+                  store.selectedIndex - 1,
+                  store.notes.length - 1,
+                )
+              } else {
+                store.selectedIndex =
+                  (store.selectedIndex + 1) % store.notes.length
+              }
               return
           }
 
@@ -865,6 +877,20 @@ export let createUIStore = (root: IRootStore) => {
         // Enter key
         case 36: {
           switch (store.focusedWidget) {
+            case FocusableWidget.SCRATCHPAD: {
+              if (meta) {
+                store.removeNote(store.selectedIndex)
+                if (store.selectedIndex === 0) {
+                  store.notes.unshift('')
+                }
+              } else {
+                store.updateNote(
+                  store.selectedIndex,
+                  store.notes[store.selectedIndex] + '\n',
+                )
+              }
+            }
+
             case FocusableWidget.ONBOARDING: {
               switch (store.onboardingStep) {
                 case 'v1_start': {
