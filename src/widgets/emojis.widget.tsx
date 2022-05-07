@@ -5,7 +5,7 @@ import {useStore} from 'store'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
 import {solNative} from 'lib/SolNative'
-import {emojiFuse, emojis, EMOJIS_PER_ROW, groupEmojis} from 'lib/emoji'
+import {Emoji, emojiFuse, emojis, EMOJIS_PER_ROW, groupEmojis} from 'lib/emoji'
 
 interface Props {
   style?: ViewStyle
@@ -45,7 +45,7 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
           placeholder="Search for an emoji..."
         />
       </View>
-      <FlatList
+      <FlatList<Emoji[]>
         ref={listRef}
         style={tw`flex-1 mt-2`}
         contentContainerStyle={tw`px-3 pb-3`}

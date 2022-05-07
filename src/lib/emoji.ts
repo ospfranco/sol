@@ -1,7 +1,7 @@
 import Fuse from 'fuse.js'
 import rawEmojis from './emojis.json'
 
-interface Emoji {
+export interface Emoji {
   emoji: string
   description: string
   category: string
