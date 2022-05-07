@@ -52,21 +52,26 @@ export let createClipboardStore = (root: IRootStore) => {
     // Construct the ClipboardItem and add it to the `clipboardEntries` array
     // Then sort the entries by lastCopied
     const directories = await getDirectories(clipboardDirectory)
-    const clipboardEntries = await Promise.all(
+    const optionalClipboardEntries = await Promise.all(
       directories.map(async directory => {
-        const metaFile = await readFile(`${directory}/meta.json`)
-        const meta = JSON.parse(metaFile) as SavedItemMeta
-        const dataFile = await readFile(
-          `${directory}/data.${meta.fileExtension}`,
-        )
-        const item: ClipboardItem = {preview: dataFile, ...meta}
-        return item
+        try {
+          const metaFile = await readFile(`${directory}/meta.json`)
+          const meta = JSON.parse(metaFile) as SavedItemMeta
+          const dataFile = await readFile(
+            `${directory}/data.${meta.fileExtension}`,
+          )
+          const item: ClipboardItem = {preview: dataFile, ...meta}
+          return item
+        } catch (e) {
+          console.error('Failed to parse directory', e, directory)
+        }
       }),
     )
+    const clipboardEntries = optionalClipboardEntries.filter(isNotNil)
 
     // Sort the entries by lastCopied
     clipboardEntries.sort(
-      (a, b) => a.lastCopied.valueOf() - b.lastCopied.valueOf(),
+      (a, b) => b.lastCopied.valueOf() - a.lastCopied.valueOf(),
     )
 
     runInAction(() => {
@@ -80,19 +85,14 @@ export let createClipboardStore = (root: IRootStore) => {
     /** Indexed by hash of contents */
     clipboardItems: new Map<string, ClipboardItem>(),
     onCopy: async (event: {hash: string; contents: string}) => {
-      // Get or create the clipboard item
-      // If it already exists:
-      //   * increment the timesCopied and update the lastCopied
-      //   * save the meta.json
-      // Otherwise, create a new clipboard item
-      //   * save the meta.json and data.{fileExtension}
-      // Finally set the clipboardItems.set(hash, item)
       let item = store.clipboardItems.get(event.hash)
       if (item) {
+        // Item already copied
         item.timesCopied++
         item.lastCopied = new Date()
         await saveItemMeta(item)
       } else {
+        // New item
         item = {
           preview: event.contents.slice(0, 500),
           fileExtension: 'txt',
@@ -131,4 +131,8 @@ async function saveItemMeta(item: ClipboardItem) {
   const directory = `${clipboardDirectory}/${item.hash}`
   // Save the meta.json
   await writeFile(`${directory}/meta.json`, JSON.stringify(item))
+}
+
+function isNotNil<T>(value: T): value is Exclude<T, null | undefined> {
+  return value !== null && value !== undefined
 }
