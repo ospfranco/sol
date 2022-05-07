@@ -137,10 +137,7 @@ func handlePastedText(_ text: String, fileExtension: String) {
   } catch {
     print(error.localizedDescription)
   }
-
-  
 }
-
 
 
 func getTimestamp() -> String {
