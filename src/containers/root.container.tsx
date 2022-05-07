@@ -8,6 +8,7 @@ import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
 import {CalendarWidget} from 'widgets/calendar.widget'
 import {CreateItemWidget} from 'widgets/createItem.widget'
+import {EmojisWidget} from 'widgets/emojis.widget'
 import {GeneralWidget} from 'widgets/general.widget'
 import {GoogleMapWidget} from 'widgets/googleMap.widget'
 import {OnboardingWidget} from 'widgets/onboarding.widget'
@@ -35,6 +36,10 @@ export const RootContainer = observer(() => {
       store.ui.cleanUp()
     }
   }, [])
+
+  if (store.ui.focusedWidget === FocusableWidget.EMOJIS) {
+    return <EmojisWidget style={mainStyle} />
+  }
 
   if (store.ui.focusedWidget === FocusableWidget.SCRATCHPAD) {
     return <ScratchpadWidget style={mainStyle} />

@@ -70,6 +70,7 @@ export enum FocusableWidget {
   CREATE_ITEM = 'CREATE_ITEM',
   GOOGLE_MAP = 'GOOGLE_MAP',
   SCRATCHPAD = 'SCRATCHPAD',
+  EMOJIS = 'EMOJIS',
 }
 
 export enum ItemType {
@@ -342,6 +343,16 @@ export let createUIStore = (root: IRootStore) => {
           },
           shortcut: '⌘ + ⇧ + Space',
         },
+        {
+          icon: '😎',
+          name: 'Emoji Picker',
+          preventClose: true,
+          type: ItemType.CONFIGURATION,
+          callback: () => {
+            store.openEmojiPicker()
+          },
+          shortcut: '⌘ + ^ + Space',
+        },
         ...buildSystemPreferencesItems(),
       ],
       windows: [
@@ -591,6 +602,10 @@ export let createUIStore = (root: IRootStore) => {
     //    / /\ \ / __| __| |/ _ \| '_ \/ __|
     //   / ____ \ (__| |_| | (_) | | | \__ \
     //  /_/    \_\___|\__|_|\___/|_| |_|___/
+    openEmojiPicker: () => {
+      store.focusWidget(FocusableWidget.EMOJIS)
+      store.query = ''
+    },
     removeNote: (idx: number) => {
       store.notes = store.notes.filter((_, index) => index !== idx)
     },
@@ -770,6 +785,12 @@ export let createUIStore = (root: IRootStore) => {
       store.focusedWidget = widget
     },
     setQuery: (query: string) => {
+      if (store.focusedWidget === FocusableWidget.EMOJIS) {
+        store.query = query
+        store.selectedIndex = 0
+        return
+      }
+
       store.focusedWidget = FocusableWidget.SEARCH
       store.query = query
       store.selectedIndex = 0
@@ -813,8 +834,10 @@ export let createUIStore = (root: IRootStore) => {
       shift: boolean
     }) => {
       // esc = "\u{1B}" or 53
-      // arrow up = "" or 126
+      // arrow left = "" or 123
+      // arrow right = "" or 124
       // arrow down = "" or 125
+      // arrow up = "" or 126
       // tab = "\t" or 48
       // enter = "\r" or 36
       // command = "command" or 55
@@ -1008,8 +1031,28 @@ export let createUIStore = (root: IRootStore) => {
           break
         }
 
+        // left key
+        case 123: {
+          if (store.focusedWidget === FocusableWidget.EMOJIS) {
+            store.selectedIndex = Math.max(store.selectedIndex - 1, 0)
+            break
+          }
+        }
+
+        case 124: {
+          if (store.focusedWidget === FocusableWidget.EMOJIS) {
+            store.selectedIndex = store.selectedIndex + 1
+            break
+          }
+        }
+
         // up key
         case 126: {
+          if (store.focusedWidget === FocusableWidget.EMOJIS) {
+            store.selectedIndex = Math.max(store.selectedIndex - 15, 0)
+            break
+          }
+
           store.selectedIndex = Math.max(0, store.selectedIndex - 1)
           break
         }
@@ -1017,6 +1060,11 @@ export let createUIStore = (root: IRootStore) => {
         // down key
         case 125: {
           switch (store.focusedWidget) {
+            case FocusableWidget.EMOJIS: {
+              store.selectedIndex = store.selectedIndex + 15
+              break
+            }
+
             case FocusableWidget.ONBOARDING: {
               switch (store.onboardingStep) {
                 case 'v1_shortcut': {

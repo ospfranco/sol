@@ -3,7 +3,7 @@ import Cocoa
 import HotKey
 import EventKit
 
-let handledKeys: [UInt16] = [53, 126, 125, 36, 48]
+let handledKeys: [UInt16] = [53, 123, 124, 126, 125, 36, 48]
 let numberchars: [String] = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
 @NSApplicationMain
@@ -64,6 +64,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 #endif
 
     NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
+//      print("pressed", $0.characters)
+//      123 arrow left
+//      124 arrow right
+//      125 arrow down
+//      126 arrow up
       let metaPressed = $0.modifierFlags.contains(.command)
       let shiftPressed = $0.modifierFlags.contains(.shift)
       SolEmitter.sharedInstance.keyDown(key: $0.characters, keyCode: $0.keyCode, meta: metaPressed, shift: shiftPressed)
