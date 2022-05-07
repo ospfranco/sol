@@ -394,6 +394,7 @@ export let createUIStore = (root: IRootStore) => {
     //  | |  | | '_ \/ __|/ _ \ '__\ \ / / _` | '_ \| |/ _ \/ __|
     //  | |__| | |_) \__ \  __/ |   \ V / (_| | |_) | |  __/\__ \
     //   \____/|_.__/|___/\___|_|    \_/ \__,_|_.__/|_|\___||___/
+    notes: ['', 'This is a test note', 'A third test note'] as string[],
     isAccessibilityTrusted: false,
     calendarAuthorizationStatus: 'notDetermined' as CalendarAuthorizationStatus,
     onboardingStep: 'v1_start' as OnboardingStep,
@@ -588,6 +589,12 @@ export let createUIStore = (root: IRootStore) => {
     //    / /\ \ / __| __| |/ _ \| '_ \/ __|
     //   / ____ \ (__| |_| | (_) | | | \__ \
     //  /_/    \_\___|\__|_|\___/|_| |_|___/
+    setSelectedIndex: (idx: number) => {
+      store.selectedIndex = idx
+    },
+    updateNote: (idx: number, note: string) => {
+      store.notes[idx] = note
+    },
     fetchEvents: () => {
       if (
         store.calendarAuthorizationStatus ===
@@ -807,9 +814,10 @@ export let createUIStore = (root: IRootStore) => {
       // console.warn('key pressed', keyCode)
 
       switch (keyCode) {
-        // tab
+        // tab key
         case 48: {
           let nextWidget = store.focusedWidget
+
           switch (store.focusedWidget) {
             case FocusableWidget.SEARCH:
               if (!!store.events.length) {
@@ -821,10 +829,16 @@ export let createUIStore = (root: IRootStore) => {
                 nextWidget = FocusableWidget.CALENDAR
               }
               break
+
             case FocusableWidget.CALENDAR:
               store.selectedIndex = 0
               nextWidget = FocusableWidget.SEARCH
               break
+
+            case FocusableWidget.SCRATCHPAD:
+              store.selectedIndex =
+                (store.selectedIndex + 1) % store.notes.length
+              return
           }
 
           store.focusedWidget = nextWidget

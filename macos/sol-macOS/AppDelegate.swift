@@ -116,9 +116,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   }
 
   func hideWindow() {
+    #if !DEBUG
     mainWindow.orderOut(self)
     NSCursor.unhide()
     SolEmitter.sharedInstance.onHide()
+    #endif
   }
 
   func setGlobalShortcut(_ key: String) {

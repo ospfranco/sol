@@ -15,9 +15,6 @@
   "dependencies": {
     "@react-native-picker/picker": "^2.4.0",
     "@sentry/react-native": "^3.4.2",
-    "@types/node": "^17.0.8",
-    "@types/react": "^17.0.38",
-    "@types/react-native": "^0.66.12",
     "axios": "^0.25.0",
     "expr-eval": "^2.0.2",
     "fuse.js": "^6.5.3",
@@ -28,14 +25,17 @@
     "mobx-react-lite": "^3.2.3",
     "patch-package": "^6.4.7",
     "react": "17.0.2",
-    "react-native": "0.67.2",
-    "react-native-macos": "^0.66.46",
+    "react-native": "0.68.1",
+    "react-native-macos": "^0.66.48",
     "react-native-webview": "^11.18.2",
     "react-native-windows": "0.67.7",
     "twrnc": "^3.3.0",
-    "typescript": "4.6.3"
+    "typescript": "4.6.4"
   },
   "devDependencies": {
+    "@types/node": "^17.0.8",
+    "@types/react": "^17.0.38",
+    "@types/react-native": "^0.66.12",
     "@babel/core": "^7.12.9",
     "@babel/runtime": "^7.12.5",
     "@react-native-community/eslint-config": "^2.0.0",
@@ -43,16 +43,12 @@
     "@types/luxon": "^2.0.9",
     "babel-jest": "^26.6.3",
     "babel-plugin-module-resolver": "^4.1.0",
-    "eslint": "7.14.0",
+    "eslint": "7.32.0",
     "jest": "^26.6.3",
-    "metro-config": "^0.66.2",
-    "metro-react-native-babel-preset": "^0.66.2",
+    "metro-react-native-babel-preset": "^0.67.0",
     "react-test-renderer": "17.0.2"
   },
   "jest": {
     "preset": "react-native"
-  },
-  "resolutions": {
-    "hermes-engine": "0.11.0"
   }
 }
