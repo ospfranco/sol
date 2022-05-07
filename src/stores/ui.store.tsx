@@ -39,6 +39,7 @@ let keyUpListener: EmitterSubscription | undefined
 let onShowListener: EmitterSubscription | undefined
 let onHideListener: EmitterSubscription | undefined
 let showScratchPadListener: EmitterSubscription | undefined
+let showEmojiPickerListener: EmitterSubscription | undefined
 
 const exprParser = new Parser()
 
@@ -350,7 +351,7 @@ export let createUIStore = (root: IRootStore) => {
           preventClose: true,
           type: ItemType.CONFIGURATION,
           callback: () => {
-            store.openEmojiPicker()
+            store.showEmojiPicker()
           },
           shortcut: '⌘ + ^ + Space',
         },
@@ -603,7 +604,7 @@ export let createUIStore = (root: IRootStore) => {
     //    / /\ \ / __| __| |/ _ \| '_ \/ __|
     //   / ____ \ (__| |_| | (_) | | | \__ \
     //  /_/    \_\___|\__|_|\___/|_| |_|___/
-    openEmojiPicker: () => {
+    showEmojiPicker: () => {
       store.focusWidget(FocusableWidget.EMOJIS)
       store.query = ''
     },
@@ -1254,6 +1255,7 @@ export let createUIStore = (root: IRootStore) => {
       onShowListener?.remove()
       onHideListener?.remove()
       showScratchPadListener?.remove()
+      showEmojiPickerListener?.remove()
     },
     checkCalendarAccess: () => {
       solNative
@@ -1290,6 +1292,10 @@ export let createUIStore = (root: IRootStore) => {
   showScratchPadListener = solNative.addListener(
     'showScratchpad',
     store.showScratchpad,
+  )
+  showEmojiPickerListener = solNative.addListener(
+    'showEmojiPicker',
+    store.showEmojiPicker,
   )
 
   return store

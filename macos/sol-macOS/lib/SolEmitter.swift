@@ -48,4 +48,8 @@ class SolEmitter {
   func showScratchPad() {
     dispatch(name: "showScratchpad", body: [])
   }
+
+  func showEmojiPicker() {
+    dispatch(name: "showEmojiPicker", body: [])
+  }
 }

@@ -18,6 +18,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   private let moveToNextScreenHotKey = HotKey(key: .rightArrow, modifiers: [.option, .control, .command])
   private let moveToPrevScreenHotKey = HotKey(key: .leftArrow, modifiers: [.option, .control, .command])
   private let scratchpadHotKey = HotKey(key: .space, modifiers: [.command, .shift])
+  private let emojiPickerHotKey = HotKey(key: .space, modifiers: [.control, .command])
 
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     let jsCodeLocation: URL = RCTBundleURLProvider
@@ -54,6 +55,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     moveToNextScreenHotKey.keyDownHandler = WindowManager.sharedInstance.moveToNextScreen
     moveToPrevScreenHotKey.keyDownHandler = WindowManager.sharedInstance.moveToPrevScreen
     scratchpadHotKey.keyDownHandler = showScratchpad
+    emojiPickerHotKey.keyDownHandler = showEmojiPicker
 
 #if DEBUG
     debugHotKey.keyDownHandler = toggleWindow
@@ -125,6 +127,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   func showScratchpad() {
     showWindow()
     SolEmitter.sharedInstance.showScratchPad()
+  }
+
+  func showEmojiPicker() {
+    showWindow()
+    SolEmitter.sharedInstance.showEmojiPicker()
   }
 
   func hideWindow() {

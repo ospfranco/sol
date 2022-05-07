@@ -8,6 +8,14 @@ class EmojiHelper {
       let appDelegate = NSApp.delegate as? AppDelegate
       appDelegate?.hideWindow()
 
+//      guard let frontmostApplication: NSRunningApplication = NSWorkspace.shared.frontmostApplication else {
+//        return
+//      }
+//
+//      guard let appName = frontmostApplication.localizedName else {
+//        return
+//      }
+
       let pasteboard = NSPasteboard.general
       pasteboard.declareTypes([.string], owner: nil)
 
