@@ -146,7 +146,10 @@ export let createUIStore = (root: IRootStore) => {
           store.focusedWidget = FocusableWidget.ONBOARDING
         }
         store.notes = parsedStore.notes ?? ['']
+        store.globalShortcut = parsedStore.globalShortcut
       })
+
+      solNative.setGlobalShortcut(parsedStore.globalShortcut)
     } else {
       runInAction(() => {
         store.focusedWidget = FocusableWidget.ONBOARDING
