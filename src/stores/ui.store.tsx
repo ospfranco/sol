@@ -893,9 +893,9 @@ export let createUIStore = (root: IRootStore) => {
 
                 case 'v1_shortcut': {
                   if (store.selectedIndex === 0) {
-                    store.setGlobalShortcut('command')
-                  } else {
                     store.setGlobalShortcut('option')
+                  } else {
+                    store.setGlobalShortcut('command')
                   }
                   store.onboardingStep = 'v1_quick_actions'
                   break
