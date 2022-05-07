@@ -903,6 +903,7 @@ export let createUIStore = (root: IRootStore) => {
 
                 case 'v1_quick_actions': {
                   store.onboardingStep = 'v1_completed'
+                  store.setLaunchAtLogin(true)
                   break
                 }
               }

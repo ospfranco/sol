@@ -127,24 +127,26 @@ export const OnboardingWidget: FC<Props> = observer(({style}) => {
             })}
           />
           <View style={tw`flex-1 justify-center items-center`}>
-            <Text>
-              <Text style={tw`font-bold`}>⌘ + number</Text> executes quick
-              actions or favorites
-            </Text>
-            <Text style={tw`mt-2`}>
-              <Text style={tw`font-bold`}>⌘ + ⇧ + Space</Text> globally opens
-              the Scratchpad
+            <Text style={tw``}>
+              <Text style={tw`font-bold`}>⌘ + ⇧ + Space</Text> opens the
+              Scratchpad
             </Text>
             <View
               style={tw`border-b w-32 border-lightBorder dark:border-darkBorder my-8`}
             />
-            <View style={tw`flex-row items-center`}>
-              <Text style={tw`pr-10`}>Launch at login</Text>
-              <Switch
-                value={store.ui.launchAtLogin}
-                onValueChange={store.ui.setLaunchAtLogin}
-              />
-            </View>
+            <Text style={tw`font-bold`}>Window Management</Text>
+            <Text style={tw`mt-4`}>
+              <Text style={tw`font-bold`}>^ ⌥ ↩</Text> fullscreen front-most
+              window
+            </Text>
+            <Text style={tw`mt-4`}>
+              <Text style={tw`font-bold`}>^ ⌥ →</Text> resize front-most window
+              to the right
+            </Text>
+            <Text style={tw`mt-4`}>
+              <Text style={tw`font-bold`}>^ ⌥ ←</Text> resize front-most window
+              to the left
+            </Text>
           </View>
           <Text style={tw`font-bold`}>Press ↩ to continue</Text>
         </Fade>
