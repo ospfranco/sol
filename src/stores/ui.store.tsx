@@ -44,8 +44,6 @@ let keyDownListener: EmitterSubscription | undefined
 let keyUpListener: EmitterSubscription | undefined
 let onShowListener: EmitterSubscription | undefined
 let onHideListener: EmitterSubscription | undefined
-let showScratchPadListener: EmitterSubscription | undefined
-let showEmojiPickerListener: EmitterSubscription | undefined
 
 const exprParser = new Parser()
 
@@ -1207,10 +1205,16 @@ export let createUIStore = (root: IRootStore) => {
           break
       }
     },
-    onShow: () => {
-      runInAction(() => {
-        store.now = DateTime.now()
-      })
+    onShow: ({target}: {target?: string}) => {
+      if (target === FocusableWidget.SCRATCHPAD) {
+        store.showScratchpad()
+      }
+
+      if (target === FocusableWidget.EMOJIS) {
+        store.showEmojiPicker()
+      }
+
+      store.now = DateTime.now()
 
       store.fetchEvents()
 
@@ -1271,8 +1275,6 @@ export let createUIStore = (root: IRootStore) => {
       keyUpListener?.remove()
       onShowListener?.remove()
       onHideListener?.remove()
-      showScratchPadListener?.remove()
-      showEmojiPickerListener?.remove()
     },
     checkCalendarAccess: () => {
       solNative
@@ -1297,7 +1299,6 @@ export let createUIStore = (root: IRootStore) => {
 
   hydrate().then(() => {
     autorun(persist)
-    solNative.setGlobalShortcut(store.globalShortcut)
     store.checkCalendarAccess()
     store.checkAccessibilityStatus()
   })
@@ -1306,14 +1307,6 @@ export let createUIStore = (root: IRootStore) => {
   keyUpListener = solNative.addListener('keyUp', store.keyUp)
   onShowListener = solNative.addListener('onShow', store.onShow)
   onHideListener = solNative.addListener('onHide', store.onHide)
-  showScratchPadListener = solNative.addListener(
-    'showScratchpad',
-    store.showScratchpad,
-  )
-  showEmojiPickerListener = solNative.addListener(
-    'showEmojiPicker',
-    store.showEmojiPicker,
-  )
 
   return store
 }

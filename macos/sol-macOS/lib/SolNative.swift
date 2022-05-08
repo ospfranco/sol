@@ -38,9 +38,7 @@ class SolNative: RCTEventEmitter {
       "keyDown",
       "keyUp",
       "onShow",
-      "onHide",
-      "showScratchpad",
-      "showEmojiPicker"
+      "onHide"
     ]
   }
 

@@ -31,45 +31,47 @@ export const RootContainer = observer(() => {
     store.ui.currentTemp ||
     !!store.ui.currentlyTrackedProject
 
+  const widget = store.ui.focusedWidget
+
   useEffect(() => {
     return () => {
       store.ui.cleanUp()
     }
   }, [])
 
-  if (store.ui.focusedWidget === FocusableWidget.EMOJIS) {
+  if (widget === FocusableWidget.EMOJIS) {
     return <EmojisWidget style={mainStyle} />
   }
 
-  if (store.ui.focusedWidget === FocusableWidget.SCRATCHPAD) {
+  if (widget === FocusableWidget.SCRATCHPAD) {
     return <ScratchpadWidget style={mainStyle} />
   }
 
-  if (store.ui.focusedWidget === FocusableWidget.GOOGLE_MAP) {
+  if (widget === FocusableWidget.GOOGLE_MAP) {
     return <GoogleMapWidget />
   }
 
-  if (store.ui.focusedWidget === FocusableWidget.CREATE_ITEM) {
+  if (widget === FocusableWidget.CREATE_ITEM) {
     return <CreateItemWidget style={mainStyle} />
   }
 
-  if (store.ui.focusedWidget === FocusableWidget.ONBOARDING) {
+  if (widget === FocusableWidget.ONBOARDING) {
     return <OnboardingWidget style={mainStyle} />
   }
 
-  if (store.ui.focusedWidget === FocusableWidget.PROJECT_CREATION) {
+  if (widget === FocusableWidget.PROJECT_CREATION) {
     return <ProjectCreationWidget style={mainStyle} />
   }
 
-  if (store.ui.focusedWidget === FocusableWidget.PROJECT_SELECT) {
+  if (widget === FocusableWidget.PROJECT_SELECT) {
     return <ProjectSelectWidget style={mainStyle} />
   }
 
-  if (store.ui.focusedWidget === FocusableWidget.TRANSLATION) {
+  if (widget === FocusableWidget.TRANSLATION) {
     return <TranslationWidget style={mainStyle} />
   }
 
-  if (store.ui.focusedWidget === FocusableWidget.SETTINGS) {
+  if (widget === FocusableWidget.SETTINGS) {
     return <SettingsWidget style={mainStyle} />
   }
 

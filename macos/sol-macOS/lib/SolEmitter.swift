@@ -37,19 +37,13 @@ class SolEmitter {
     ])
   }
 
-  func onShow() {
-    dispatch(name: "onShow", body: [])
+  func onShow(target: String?) {
+    dispatch(name: "onShow", body: [
+      "target": target
+    ])
   }
 
   func onHide() {
     dispatch(name: "onHide", body: [])
-  }
-
-  func showScratchPad() {
-    dispatch(name: "showScratchpad", body: [])
-  }
-
-  func showEmojiPicker() {
-    dispatch(name: "showEmojiPicker", body: [])
   }
 }

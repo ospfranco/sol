@@ -111,7 +111,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     }
   }
 
-  func showWindow() {
+  func showWindow(target: String? = nil) {
+    SolEmitter.sharedInstance.onShow(target: target)
+
     mainWindow.setIsVisible(false)
     mainWindow.center()
 
@@ -119,19 +121,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
     mainWindow.setIsVisible(true)
 
-    SolEmitter.sharedInstance.onShow()
-
     NSCursor.setHiddenUntilMouseMoves(true)
   }
 
   func showScratchpad() {
-    showWindow()
-    SolEmitter.sharedInstance.showScratchPad()
+    showWindow(target: "SCRATCHPAD")
   }
 
   func showEmojiPicker() {
-    showWindow()
-    SolEmitter.sharedInstance.showEmojiPicker()
+    showWindow(target: "EMOJIS")
   }
 
   func hideWindow() {

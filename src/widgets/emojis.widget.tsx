@@ -48,8 +48,9 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
       <FlatList<Emoji[]>
         ref={listRef}
         style={tw`flex-1 mt-2`}
-        contentContainerStyle={tw`px-3 pb-3`}
+        contentContainerStyle={tw`pb-3 px-3`}
         data={data}
+        initialNumToRender={6}
         renderItem={({item: emojiRow, index: rowIndex}) => {
           return (
             <View style={tw`flex-row justify-around`}>
@@ -58,12 +59,12 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
                   index === storeSubIndex && rowIndex === storeRowIndex
                 return (
                   <View
-                    style={tw.style(`p-3 rounded border border-transparent`, {
+                    style={tw.style(`p-4 rounded border border-transparent`, {
                       'bg-accent bg-opacity-50 dark:bg-opacity-40 border-accentDim':
                         isSelected,
                     })}
                     key={emoji.description}>
-                    <Text style={tw`text-xl`}>{emoji.emoji}</Text>
+                    <Text style={tw`text-3xl`}>{emoji.emoji}</Text>
                   </View>
                 )
               })}
