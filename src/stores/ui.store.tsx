@@ -1,9 +1,11 @@
+import * as Sentry from '@sentry/react-native'
 import {Assets} from 'assets'
 import {Parser} from 'expr-eval'
 import Fuse from 'fuse.js'
 import produce from 'immer'
 import {extractMeetingLink} from 'lib/calendar'
 import {CONSTANTS} from 'lib/constants'
+import {allEmojis, emojiFuse, EMOJIS_PER_ROW} from 'lib/emoji'
 import {
   CalendarAuthorizationStatus,
   INativeEvent,
@@ -31,14 +33,6 @@ import {
 import {IRootStore} from 'Store'
 import tw from 'tailwind'
 import {buildSystemPreferencesItems} from './systemPreferences'
-import * as Sentry from '@sentry/react-native'
-import {
-  allEmojis,
-  emojiFuse,
-  emojis,
-  EMOJIS_PER_ROW,
-  groupEmojis,
-} from 'lib/emoji'
 
 let keyDownListener: EmitterSubscription | undefined
 let keyUpListener: EmitterSubscription | undefined
@@ -416,6 +410,7 @@ export let createUIStore = (root: IRootStore) => {
     //  | |  | | '_ \/ __|/ _ \ '__\ \ / / _` | '_ \| |/ _ \/ __|
     //  | |__| | |_) \__ \  __/ |   \ V / (_| | |_) | |  __/\__ \
     //   \____/|_.__/|___/\___|_|    \_/ \__,_|_.__/|_|\___||___/
+    // frequentlyUsedEmojis: {} as Record<string, number>,
     notes: [''] as string[],
     isAccessibilityTrusted: false,
     calendarAuthorizationStatus: 'notDetermined' as CalendarAuthorizationStatus,

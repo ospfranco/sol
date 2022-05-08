@@ -5,22 +5,12 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000212">
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000274">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="1: build_mac_app" time="107.979241">
-        
-      </testcase>
-    
-      
-      <testcase classname="fastlane.lanes" name="2: notarize" time="32.762296">
-        
-      </testcase>
-    
-      
-      <testcase classname="fastlane.lanes" name="3: zip" time="0.29363">
+      <testcase classname="fastlane.lanes" name="1: build_mac_app" time="105.381194">
         
       </testcase>
     

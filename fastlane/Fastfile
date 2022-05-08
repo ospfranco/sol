@@ -30,8 +30,8 @@ platform :mac do
   end
 
   lane :dev do
-    outputPath = "~/Desktop/"
-    appFileName = outputPath + "/Sol.app"
+    outputPath = "/Applications/"
+    appFileName = outputPath + "Sol.app"
 
     build_mac_app(
       scheme: "macOS",

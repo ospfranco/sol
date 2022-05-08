@@ -127,7 +127,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
       NSCursor.setHiddenUntilMouseMoves(true)
     }
-
   }
 
   func showScratchpad() {
