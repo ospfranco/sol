@@ -1,6 +1,6 @@
 {
   "name": "sol",
-  "version": "1.1.9",
+  "version": "1.1.10",
   "private": true,
   "scripts": {
     "mac": "react-native run-macos --scheme macOS",
@@ -11,8 +11,8 @@
     "windows": "react-native run-windows",
     "postinstall": "patch-package",
     "permissions:reset": "tccutil reset Calendar com.ospfranco.sol && tccutil reset Accessibility com.ospfranco.sol",
-    "release:dev": "bundle exec fastlane dev",
-    "release:id": "bundle exec fastlane release"
+    "release:dev": "bundle exec fastlane dev && pingme",
+    "release:id": "bundle exec fastlane release && pingme"
   },
   "dependencies": {
     "@react-native-picker/picker": "^2.4.0",

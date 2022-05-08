@@ -76,6 +76,7 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
         contentContainerStyle={tw`pb-3 px-3`}
         data={data}
         initialNumToRender={7}
+        keyExtractor={(_, index) => index.toString()}
         renderItem={({item: emojiRow, index: rowIndex}) => {
           // avoid function allocation for more speeeeed
           let res = []
