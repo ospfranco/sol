@@ -50,7 +50,7 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
         style={tw`flex-1 mt-2`}
         contentContainerStyle={tw`pb-3 px-3`}
         data={data}
-        initialNumToRender={6}
+        initialNumToRender={7}
         renderItem={({item: emojiRow, index: rowIndex}) => {
           return (
             <View style={tw`flex-row justify-around`}>

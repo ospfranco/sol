@@ -114,14 +114,20 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   func showWindow(target: String? = nil) {
     SolEmitter.sharedInstance.onShow(target: target)
 
-    mainWindow.setIsVisible(false)
-    mainWindow.center()
+    // Give react native event listener a bit of time to react
+    // and switch components
+    let delay = target != nil ? 0.3 : 0 // in seconds
+    DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+      self.mainWindow.setIsVisible(false)
+      self.mainWindow.center()
 
-    mainWindow.makeKeyAndOrderFront(self)
+      self.mainWindow.makeKeyAndOrderFront(self)
 
-    mainWindow.setIsVisible(true)
+      self.mainWindow.setIsVisible(true)
 
-    NSCursor.setHiddenUntilMouseMoves(true)
+      NSCursor.setHiddenUntilMouseMoves(true)
+    }
+
   }
 
   func showScratchpad() {
