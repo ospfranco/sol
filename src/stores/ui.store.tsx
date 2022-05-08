@@ -139,6 +139,7 @@ export let createUIStore = (root: IRootStore) => {
         }
         store.notes = parsedStore.notes ?? ['']
         store.globalShortcut = parsedStore.globalShortcut
+        store.frequentlyUsedEmojis = parsedStore.frequentlyUsedEmojis ?? {}
       })
 
       solNative.setGlobalShortcut(parsedStore.globalShortcut)
@@ -410,7 +411,7 @@ export let createUIStore = (root: IRootStore) => {
     //  | |  | | '_ \/ __|/ _ \ '__\ \ / / _` | '_ \| |/ _ \/ __|
     //  | |__| | |_) \__ \  __/ |   \ V / (_| | |_) | |  __/\__ \
     //   \____/|_.__/|___/\___|_|    \_/ \__,_|_.__/|_|\___||___/
-    // frequentlyUsedEmojis: {} as Record<string, number>,
+    frequentlyUsedEmojis: {} as Record<string, number>,
     notes: [''] as string[],
     isAccessibilityTrusted: false,
     calendarAuthorizationStatus: 'notDetermined' as CalendarAuthorizationStatus,
@@ -891,13 +892,46 @@ export let createUIStore = (root: IRootStore) => {
         case 36: {
           switch (store.focusedWidget) {
             case FocusableWidget.EMOJIS: {
+              const favorites = Object.entries(store.frequentlyUsedEmojis).sort(
+                ([_, freq1], [_2, freq2]) => freq2 - freq1,
+              )
+
               const data = !!store.query
                 ? emojiFuse.search(store.query).map(r => r.item)
                 : allEmojis
 
-              const emoji = data[store.selectedIndex]
+              let emojiChar = data[store.selectedIndex].emoji
+              if (favorites.length) {
+                if (store.selectedIndex < EMOJIS_PER_ROW) {
+                  emojiChar = favorites[store.selectedIndex]?.[0]
+                  if (!emojiChar) {
+                    return
+                  }
+                } else {
+                  emojiChar = data[store.selectedIndex - EMOJIS_PER_ROW].emoji
+                }
+              }
 
-              solNative.pasteEmojiToFrontmostApp(emoji.emoji)
+              if (store.frequentlyUsedEmojis[emojiChar]) {
+                store.frequentlyUsedEmojis[emojiChar] += 1
+              } else {
+                if (favorites.length === EMOJIS_PER_ROW) {
+                  let leastUsed = favorites[0]
+                  favorites.forEach(([emoji, frequency]) => {
+                    if (frequency < leastUsed[1]) {
+                      leastUsed = [emoji, frequency]
+                    }
+                  })
+
+                  delete store.frequentlyUsedEmojis[leastUsed[0]]
+
+                  store.frequentlyUsedEmojis[emojiChar] = 1
+                } else {
+                  store.frequentlyUsedEmojis[emojiChar] = 1
+                }
+              }
+
+              solNative.pasteEmojiToFrontmostApp(emojiChar)
               break
             }
 
