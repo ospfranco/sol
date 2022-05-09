@@ -901,7 +901,7 @@ export let createUIStore = (root: IRootStore) => {
                 : allEmojis
 
               let emojiChar = data[store.selectedIndex].emoji
-              if (favorites.length) {
+              if (favorites.length && !store.query) {
                 if (store.selectedIndex < EMOJIS_PER_ROW) {
                   emojiChar = favorites[store.selectedIndex]?.[0]
                   if (!emojiChar) {
