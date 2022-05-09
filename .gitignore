@@ -61,3 +61,6 @@ buck-out/
 # CocoaPods
 /ios/Pods/
 env.json
+
+# Fastlane
+/fastlane/report.xml
