@@ -648,7 +648,7 @@ export let createUIStore = (root: IRootStore) => {
               title: 'Not so important meeting',
             },
             {
-              color: 'cyan',
+              color: tw.color('accent')!,
               date: DateTime.now().plus({day: 1}).toISO(),
               endDate: DateTime.now().plus({hour: 2, day: 1}).toISO(),
               isAllDay: false,
