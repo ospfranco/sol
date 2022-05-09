@@ -12,7 +12,7 @@ export interface Emoji {
 const FUSE_OPTIONS = {
   threshold: 0.2,
   ignoreLocation: true,
-  keys: ['description'],
+  keys: ['description', 'category'],
 }
 
 export const EMOJIS_PER_ROW = 10

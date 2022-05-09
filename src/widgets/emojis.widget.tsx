@@ -101,7 +101,7 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
           return (
             <>
               <View style={tw.style(`flex-row`)}>{res}</View>
-              {rowIndex === 0 && !!favorites.length && (
+              {rowIndex === 0 && !!favorites.length && !store.ui.query && (
                 <View
                   style={tw`border-b border-lightBorder dark:border-darkBorder my-2`}
                 />

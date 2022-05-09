@@ -16598,5 +16598,41 @@
     "tags": [],
     "unicode_version": "11.0",
     "ios_version": "12.1"
+  },
+  {
+    "emoji": "⌘",
+    "description": "command",
+    "category": "Apple",
+    "aliases": [],
+    "tags": [],
+    "unicode_version": "11.0",
+    "ios_version": "12.1"
+  },
+  {
+    "emoji": "⌥",
+    "description": "option",
+    "category": "Apple",
+    "aliases": [],
+    "tags": [],
+    "unicode_version": "11.0",
+    "ios_version": "12.1"
+  },
+  {
+    "emoji": "⌃",
+    "description": "control",
+    "category": "Apple",
+    "aliases": [],
+    "tags": [],
+    "unicode_version": "11.0",
+    "ios_version": "12.1"
+  },
+  {
+    "emoji": "⇧",
+    "description": "shift",
+    "category": "Apple",
+    "aliases": [],
+    "tags": [],
+    "unicode_version": "11.0",
+    "ios_version": "12.1"
   }
 ]
