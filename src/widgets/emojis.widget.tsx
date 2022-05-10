@@ -21,6 +21,13 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
   const listRef = useRef<FlatList | null>(null)
 
   useEffect(() => {
+    solNative.turnOnHorizontalArrowListeners()
+    return () => {
+      solNative.turnOffHorizontalArrowListeners()
+    }
+  }, [])
+
+  useEffect(() => {
     listRef.current?.scrollToIndex({
       index: storeRowIndex,
       viewOffset: 80,

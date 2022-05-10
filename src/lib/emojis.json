@@ -16634,5 +16634,59 @@
     "tags": [],
     "unicode_version": "11.0",
     "ios_version": "12.1"
+  },
+  {
+    "emoji": "♫",
+    "description": "music",
+    "category": "Apple",
+    "aliases": [],
+    "tags": [],
+    "unicode_version": "11.0",
+    "ios_version": "12.1"
+  },
+  {
+    "emoji": "⎋",
+    "description": "escape",
+    "category": "Apple",
+    "aliases": [],
+    "tags": [],
+    "unicode_version": "11.0",
+    "ios_version": "12.1"
+  },
+  {
+    "emoji": "™",
+    "description": "trademark",
+    "category": "Apple",
+    "aliases": [],
+    "tags": [],
+    "unicode_version": "11.0",
+    "ios_version": "12.1"
+  },
+  {
+    "emoji": "⌦",
+    "description": "trademark",
+    "category": "Apple",
+    "aliases": [],
+    "tags": [],
+    "unicode_version": "11.0",
+    "ios_version": "12.1"
+  },
+  {
+    "emoji": "⏏︎",
+    "description": "eject",
+    "category": "Apple",
+    "aliases": [],
+    "tags": [],
+    "unicode_version": "11.0",
+    "ios_version": "12.1"
+  },
+  {
+    "emoji": "▲",
+    "description": "triangle",
+    "category": "Apple",
+    "aliases": [],
+    "tags": [],
+    "unicode_version": "11.0",
+    "ios_version": "12.1"
   }
 ]

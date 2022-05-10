@@ -42,6 +42,8 @@ class SolNative extends NativeEventEmitter {
   moveFrontmostPrevScreen: () => void
   pasteEmojiToFrontmostApp: (emoji: string) => void
   accentColor: string
+  turnOnHorizontalArrowListeners: () => void
+  turnOffHorizontalArrowListeners: () => void
 
   constructor(module: any) {
     super(module)
@@ -68,6 +70,9 @@ class SolNative extends NativeEventEmitter {
     this.moveFrontmostPrevScreen = module.moveFrontmostPrevScreen
     this.resizeFrontmostLeftHalf = module.resizeFrontmostLeftHalf
     this.pasteEmojiToFrontmostApp = module.pasteEmojiToFrontmostApp
+    this.turnOnHorizontalArrowListeners = module.turnOnHorizontalArrowListeners
+    this.turnOffHorizontalArrowListeners =
+      module.turnOffHorizontalArrowListeners
 
     const constants = module.getConstants()
     this.accentColor = constants.accentColor

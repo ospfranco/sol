@@ -3,6 +3,7 @@ import LaunchAtLogin
 
 @objc(SolNative)
 class SolNative: RCTEventEmitter {
+  let appDelegate = NSApp.delegate as? AppDelegate
 
   override init() {
     super.init()
@@ -100,8 +101,7 @@ class SolNative: RCTEventEmitter {
 
   @objc func setGlobalShortcut(_ key: String) {
     DispatchQueue.main.async {
-      let appDelegate = NSApp.delegate as? AppDelegate
-      appDelegate?.setGlobalShortcut(key)
+      self.appDelegate?.setGlobalShortcut(key)
     }
   }
 
@@ -164,5 +164,13 @@ class SolNative: RCTEventEmitter {
 
   @objc func pasteEmojiToFrontmostApp(_ emoji: String) {
     EmojiHelper.pasteEmojiToFrontmostApp(emoji: emoji)
+  }
+
+  @objc func turnOnHorizontalArrowListeners() {
+    self.appDelegate?.setHorizontalArrowCatch(catchHorizontalArrowPress: true)
+  }
+
+  @objc func turnOffHorizontalArrowListeners() {
+    self.appDelegate?.setHorizontalArrowCatch(catchHorizontalArrowPress: false)
   }
 }

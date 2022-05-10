@@ -12,6 +12,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   var mainWindow: Panel!
   var mainHotKey = HotKey(key: .space, modifiers: [.command])
   var debugHotKey = HotKey(key: .space, modifiers: [.command, .option])
+  var catchHorizontalArrowsPress = false
   private let rightSideScreenHotKey = HotKey(key: .rightArrow, modifiers: [.option, .control])
   private let leftSideScreenHotKey = HotKey(key: .leftArrow, modifiers: [.option, .control])
   private let fullScreenHotKey = HotKey(key: .return, modifiers: [.option, .control])
@@ -74,6 +75,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
       let metaPressed = $0.modifierFlags.contains(.command)
       let shiftPressed = $0.modifierFlags.contains(.shift)
       SolEmitter.sharedInstance.keyDown(key: $0.characters, keyCode: $0.keyCode, meta: metaPressed, shift: shiftPressed)
+
+      if(($0.keyCode == 123 || $0.keyCode == 124) && !self.catchHorizontalArrowsPress ) {
+        return $0
+      }
 
       if handledKeys.contains($0.keyCode) {
         return nil
@@ -143,6 +148,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     NSCursor.unhide()
     SolEmitter.sharedInstance.onHide()
 //    #endif
+  }
+
+  func setHorizontalArrowCatch(catchHorizontalArrowPress: Bool) {
+    self.catchHorizontalArrowsPress = catchHorizontalArrowPress
   }
 
   func setGlobalShortcut(_ key: String) {
