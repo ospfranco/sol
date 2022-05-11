@@ -70,9 +70,10 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
                     <View
                       key={index}
                       style={tw.style(
-                        `flex-row py-2 px-2 rounded items-center border border-transparent bg-opacity-80 dark:bg-opacity-40`,
+                        `flex-row py-2 px-2 items-center border border-transparent`,
                         {
-                          'bg-accent border-accentDim': highlighted,
+                          'bg-accent border-accentDim bg-opacity-80 dark:bg-opacity-40 rounded':
+                            highlighted,
                         },
                       )}>
                       {event.status !== 1 && (
@@ -93,7 +94,8 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
                           style={tw.style('h-[12px] w-[12px] mr-2', {
                             tintColor: event.color,
                           })}
-                          resizeMode="contain"
+                          resizeMode="cover"
+                          resizeMethod="resize"
                         />
                       )}
                       <Text
