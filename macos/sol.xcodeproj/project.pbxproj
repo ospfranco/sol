@@ -20,6 +20,7 @@
 		7042A22A2815C06B00874743 /* NSColor.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7042A2292815C06B00874743 /* NSColor.extension.swift */; };
 		7047E80627D4D31400582E1B /* MediaHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7047E80527D4D31400582E1B /* MediaHelper.swift */; };
 		7047E80827D4DAEB00582E1B /* Sequence.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7047E80727D4DAEB00582E1B /* Sequence.extension.swift */; };
+		70501C6C282B8ECB000FACAE /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 70501C6B282B8ECB000FACAE /* Sparkle */; };
 		706CD89D27EAECBE00EC5F35 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 706CD89C27EAECBE00EC5F35 /* LaunchAtLogin */; };
 		7071D43727B3211700F8A4DC /* DarkMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7071D43527B3211700F8A4DC /* DarkMode.swift */; };
 		7071D43827B3211700F8A4DC /* AppleScriptHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7071D43627B3211700F8A4DC /* AppleScriptHelper.swift */; };
@@ -82,6 +83,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				706CD89D27EAECBE00EC5F35 /* LaunchAtLogin in Frameworks */,
+				70501C6C282B8ECB000FACAE /* Sparkle in Frameworks */,
 				70F7EBF12795A85200CED17A /* HotKey in Frameworks */,
 				1DAB47A1C5202375AB34B232 /* libPods-macOS.a in Frameworks */,
 			);
@@ -226,6 +228,7 @@
 			packageProductDependencies = (
 				70F7EBF02795A85200CED17A /* HotKey */,
 				706CD89C27EAECBE00EC5F35 /* LaunchAtLogin */,
+				70501C6B282B8ECB000FACAE /* Sparkle */,
 			);
 			productName = sol;
 			productReference = 514201492437B4B30078DB4F /* sol.app */;
@@ -257,7 +260,8 @@
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			packageReferences = (
 				70F7EBEF2795A85200CED17A /* XCRemoteSwiftPackageReference "HotKey" */,
-				706CD89B27EAECBE00EC5F35 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */,
+				706CD89B27EAECBE00EC5F35 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
+				70501C6A282B8ECB000FACAE /* XCRemoteSwiftPackageReference "Sparkle" */,
 			);
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
@@ -630,7 +634,15 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		706CD89B27EAECBE00EC5F35 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */ = {
+		70501C6A282B8ECB000FACAE /* XCRemoteSwiftPackageReference "Sparkle" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sparkle-project/Sparkle";
+			requirement = {
+				branch = 2.x;
+				kind = branch;
+			};
+		};
+		706CD89B27EAECBE00EC5F35 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "git@github.com:sindresorhus/LaunchAtLogin.git";
 			requirement = {
@@ -649,9 +661,14 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		70501C6B282B8ECB000FACAE /* Sparkle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70501C6A282B8ECB000FACAE /* XCRemoteSwiftPackageReference "Sparkle" */;
+			productName = Sparkle;
+		};
 		706CD89C27EAECBE00EC5F35 /* LaunchAtLogin */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 706CD89B27EAECBE00EC5F35 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */;
+			package = 706CD89B27EAECBE00EC5F35 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */;
 			productName = LaunchAtLogin;
 		};
 		70F7EBF02795A85200CED17A /* HotKey */ = {

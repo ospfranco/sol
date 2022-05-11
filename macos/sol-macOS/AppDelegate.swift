@@ -2,6 +2,7 @@ import Foundation
 import Cocoa
 import HotKey
 import EventKit
+import Sparkle
 
 let handledKeys: [UInt16] = [53, 123, 124, 126, 125, 36, 48]
 let numberchars: [String] = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
@@ -15,6 +16,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
   private var mainHotKey = HotKey(key: .space, modifiers: [.command])
   private var debugHotKey = HotKey(key: .space, modifiers: [.command, .option])
+  var updaterController: SPUStandardUpdaterController
   private let rightSideScreenHotKey = HotKey(key: .rightArrow, modifiers: [.option, .control])
   private let leftSideScreenHotKey = HotKey(key: .leftArrow, modifiers: [.option, .control])
   private let fullScreenHotKey = HotKey(key: .return, modifiers: [.option, .control])
@@ -23,6 +25,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   private var scratchpadHotKey = HotKey(key: .space, modifiers: [.command, .shift])
   private let emojiPickerHotKey = HotKey(key: .space, modifiers: [.control, .command])
   private let clipboardManagerHotKey = HotKey(key: .v, modifiers: [.command, .shift])
+
+  override init() {
+    updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: nil, userDriverDelegate: nil)
+  }
 
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     let jsCodeLocation: URL = RCTBundleURLProvider
