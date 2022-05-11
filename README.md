@@ -29,6 +29,7 @@ Get the latest versions from the [releases page](https://github.com/ospfranco/so
 - AppleScript commands (sleep, lock, dark mode, etc.)
 - Custom links/Custom AppleScripts
 - Window Manager
+- Emoji picker
 
 ## TODO
 
