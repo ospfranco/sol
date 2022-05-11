@@ -1,8 +1,9 @@
+import {Assets} from 'assets'
 import {INativeEvent, solNative} from 'lib/SolNative'
 import {DateTime} from 'luxon'
 import {observer} from 'mobx-react-lite'
 import React, {FC} from 'react'
-import {Text, TouchableOpacity, View, ViewStyle} from 'react-native'
+import {Image, Text, TouchableOpacity, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
 import {FocusableWidget} from 'stores'
 import tw from 'tailwind'
@@ -74,22 +75,27 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
                           'bg-accent border-accentDim': highlighted,
                         },
                       )}>
-                      <View
-                        style={tw.style(
-                          `w-[12px] h-[12px] mr-2 rounded-full justify-center items-center`,
-                          {
-                            borderColor: event.color,
-                            borderWidth: 1.5,
-                          },
-                        )}>
-                        {event.status === 1 && (
-                          <View
-                            style={tw.style(`w-[7px] h-[7px] rounded-full`, {
-                              backgroundColor: event.color,
-                            })}
-                          />
-                        )}
-                      </View>
+                      {event.status !== 1 && (
+                        <View
+                          style={tw.style(
+                            `w-[12px] h-[12px] mr-2 rounded-full justify-center items-center`,
+                            {
+                              borderColor: event.color,
+                              borderWidth: 1.5,
+                            },
+                          )}
+                        />
+                      )}
+                      {/* Event is accepted */}
+                      {event.status === 1 && (
+                        <Image
+                          source={Assets.CheckCircleIcon}
+                          style={tw.style('h-[12px] w-[12px] mr-2', {
+                            tintColor: event.color,
+                          })}
+                          resizeMode="contain"
+                        />
+                      )}
                       <Text
                         numberOfLines={1}
                         style={tw.style(`flex-1 text-xs`, {
