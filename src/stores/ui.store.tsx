@@ -36,6 +36,7 @@ import {buildSystemPreferencesItems} from './systemPreferences'
 import {GiphyFetch} from '@giphy/js-fetch-api'
 
 const gf = new GiphyFetch('Ot4kWfqWddVroUVh73v4Apocs8Dek86j')
+const GIFS_PER_ROW = 5
 
 let keyDownListener: EmitterSubscription | undefined
 let keyUpListener: EmitterSubscription | undefined
@@ -825,6 +826,12 @@ export let createUIStore = (root: IRootStore) => {
       store.focusedWidget = widget
     },
     setQuery: (query: string) => {
+      if (store.focusedWidget === FocusableWidget.GIFS) {
+        store.query = query
+        store.selectedIndex = 0
+        return
+      }
+
       if (store.focusedWidget === FocusableWidget.EMOJIS) {
         store.query = query
         store.selectedIndex = 0
@@ -926,6 +933,12 @@ export let createUIStore = (root: IRootStore) => {
         // Enter key
         case 36: {
           switch (store.focusedWidget) {
+            case FocusableWidget.GIFS: {
+              const gif = store.gifs[store.selectedIndex]
+              solNative.pasteEmojiToFrontmostApp(gif.images.original.url)
+              break
+            }
+
             case FocusableWidget.EMOJIS: {
               const favorites = Object.entries(store.frequentlyUsedEmojis).sort(
                 ([_, freq1], [_2, freq2]) => freq2 - freq1,
@@ -1122,36 +1135,57 @@ export let createUIStore = (root: IRootStore) => {
 
         // left key
         case 123: {
-          if (store.focusedWidget === FocusableWidget.EMOJIS) {
-            store.selectedIndex = Math.max(store.selectedIndex - 1, 0)
-            break
+          switch (store.focusedWidget) {
+            case FocusableWidget.GIFS:
+            case FocusableWidget.EMOJIS:
+              store.selectedIndex = Math.max(store.selectedIndex - 1, 0)
+              break
           }
+          break
         }
 
+        // right key
         case 124: {
-          if (store.focusedWidget === FocusableWidget.EMOJIS) {
-            store.selectedIndex = store.selectedIndex + 1
-            break
+          switch (store.focusedWidget) {
+            case FocusableWidget.GIFS:
+            case FocusableWidget.EMOJIS:
+              store.selectedIndex += 1
+              break
           }
+          break
         }
 
         // up key
         case 126: {
-          if (store.focusedWidget === FocusableWidget.EMOJIS) {
-            store.selectedIndex = Math.max(
-              store.selectedIndex - EMOJIS_PER_ROW,
-              0,
-            )
-            break
-          }
+          switch (store.focusedWidget) {
+            case FocusableWidget.EMOJIS:
+              store.selectedIndex = Math.max(
+                store.selectedIndex - EMOJIS_PER_ROW,
+                0,
+              )
+              break
 
-          store.selectedIndex = Math.max(0, store.selectedIndex - 1)
+            case FocusableWidget.GIFS:
+              store.selectedIndex = Math.max(
+                store.selectedIndex - GIFS_PER_ROW,
+                0,
+              )
+              break
+
+            default:
+              store.selectedIndex = Math.max(0, store.selectedIndex - 1)
+          }
           break
         }
 
         // down key
         case 125: {
           switch (store.focusedWidget) {
+            case FocusableWidget.GIFS: {
+              store.selectedIndex = store.selectedIndex + GIFS_PER_ROW
+              break
+            }
+
             case FocusableWidget.EMOJIS: {
               store.selectedIndex = store.selectedIndex + EMOJIS_PER_ROW
               break
