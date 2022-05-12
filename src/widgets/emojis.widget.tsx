@@ -81,7 +81,7 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
       </View>
       <FlatList<Emoji[]>
         ref={listRef}
-        style={{height: 20}}
+        // style={{height: 20}}
         contentContainerStyle={tw`pb-3 px-3 flex-grow-1`}
         data={data}
         ListEmptyComponent={

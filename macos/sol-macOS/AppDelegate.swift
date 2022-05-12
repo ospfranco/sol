@@ -126,7 +126,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
     // Give react native event listener a bit of time to react
     // and switch components
-    let delay = target != nil ? 0.05 : 0 // in seconds
+    let delay = target != nil ? 0.1 : 0 // in seconds
     DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
       self.mainWindow.setIsVisible(false)
       self.mainWindow.center()
