@@ -880,14 +880,6 @@ export let createUIStore = (root: IRootStore) => {
       meta: boolean
       shift: boolean
     }) => {
-      // esc = "\u{1B}" or 53
-      // arrow left = "" or 123
-      // arrow right = "" or 124
-      // arrow down = "" or 125
-      // arrow up = "" or 126
-      // tab = "\t" or 48
-      // enter = "\r" or 36
-      // command = "command" or 55
       // console.warn('key pressed', keyCode)
 
       switch (keyCode) {

@@ -80,9 +80,16 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
       <FlatList<Emoji[]>
         ref={listRef}
         style={tw`flex-1 mt-2`}
-        contentContainerStyle={tw`pb-3 px-3`}
+        contentContainerStyle={tw`pb-3 px-3 flex-grow-1`}
         data={data}
         initialNumToRender={7}
+        ListEmptyComponent={
+          <View style={tw`flex-1 justify-center items-center`}>
+            <Text style={tw`dark:text-gray-400 text-gray-500 text-sm`}>
+              No emoji found
+            </Text>
+          </View>
+        }
         keyExtractor={(_, index) => index.toString()}
         renderItem={({item: emojiRow, index: rowIndex}) => {
           // avoid function allocation for more speeeeed
