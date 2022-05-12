@@ -1,6 +1,6 @@
 {
   "name": "sol",
-  "version": "1.1.12",
+  "version": "1.1.13",
   "private": true,
   "scripts": {
     "mac": "react-native run-macos --scheme macOS",
