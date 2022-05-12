@@ -10,6 +10,7 @@ import {CalendarWidget} from 'widgets/calendar.widget'
 import {CreateItemWidget} from 'widgets/createItem.widget'
 import {EmojisWidget} from 'widgets/emojis.widget'
 import {GeneralWidget} from 'widgets/general.widget'
+import {GifsWidget} from 'widgets/gifs.widget'
 import {GoogleMapWidget} from 'widgets/googleMap.widget'
 import {OnboardingWidget} from 'widgets/onboarding.widget'
 import {ProjectCreationWidget} from 'widgets/projectCreation.widget'
@@ -38,6 +39,10 @@ export const RootContainer = observer(() => {
       store.ui.cleanUp()
     }
   }, [])
+
+  if (widget === FocusableWidget.GIFS) {
+    return <GifsWidget style={mainStyle} />
+  }
 
   if (widget === FocusableWidget.EMOJIS) {
     return <EmojisWidget style={mainStyle} />

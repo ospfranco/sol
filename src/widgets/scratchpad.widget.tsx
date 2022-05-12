@@ -1,17 +1,8 @@
 import {solNative} from 'lib/SolNative'
 import {observer} from 'mobx-react-lite'
-import React, {
-  createRef,
-  FC,
-  MutableRefObject,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
+import React, {FC, useEffect, useRef} from 'react'
 import {
-  Button,
   FlatList,
-  ScrollView,
   Text,
   TextInput,
   TextInputProps,
@@ -32,6 +23,14 @@ interface WrappedInputProps extends TextInputProps {
 
 const WrappedInput: FC<WrappedInputProps> = ({focused, ...props}) => {
   const ref = useRef<TextInput | null>(null)
+
+  useEffect(() => {
+    solNative.turnOffVerticalArrowsListeners()
+
+    return () => {
+      solNative.turnOnVerticalArrowsListeners()
+    }
+  }, [])
 
   useEffect(() => {
     if (focused) {

@@ -33,6 +33,9 @@ import {
 import {IRootStore} from 'Store'
 import tw from 'tailwind'
 import {buildSystemPreferencesItems} from './systemPreferences'
+import {GiphyFetch} from '@giphy/js-fetch-api'
+
+const gf = new GiphyFetch('Ot4kWfqWddVroUVh73v4Apocs8Dek86j')
 
 let keyDownListener: EmitterSubscription | undefined
 let keyUpListener: EmitterSubscription | undefined
@@ -71,6 +74,7 @@ export enum FocusableWidget {
   GOOGLE_MAP = 'GOOGLE_MAP',
   SCRATCHPAD = 'SCRATCHPAD',
   EMOJIS = 'EMOJIS',
+  GIFS = 'GIFS',
 }
 
 export enum ItemType {
@@ -357,6 +361,16 @@ export let createUIStore = (root: IRootStore) => {
           },
           shortcut: '⌘ + ^ + Space',
         },
+        {
+          icon: '😂',
+          name: 'Search Gif',
+          preventClose: true,
+          type: ItemType.CONFIGURATION,
+          callback: () => {
+            store.showGifPicker()
+          },
+          // shortcut: '⌘ + ^ + Space',
+        },
         ...buildSystemPreferencesItems(),
       ],
       windows: [
@@ -448,6 +462,7 @@ export let createUIStore = (root: IRootStore) => {
     launchAtLogin: false as boolean,
     firstTranslationLanguage: 'en' as string,
     secondTranslationLanguage: 'de' as string,
+    gifs: [] as any[],
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -607,6 +622,26 @@ export let createUIStore = (root: IRootStore) => {
     //    / /\ \ / __| __| |/ _ \| '_ \/ __|
     //   / ____ \ (__| |_| | (_) | | | \__ \
     //  /_/    \_\___|\__|_|\___/|_| |_|___/
+    showGifPicker: () => {
+      store.focusWidget(FocusableWidget.GIFS)
+      store.query = ''
+      store.searchGifs()
+    },
+    searchGifs: async () => {
+      let gifs: any[] = []
+
+      if (store.query) {
+        const {data} = await gf.search(store.query, {limit: 15})
+        gifs = data
+      } else {
+        const {data} = await gf.trending({limit: 15})
+        gifs = data
+      }
+
+      runInAction(() => {
+        store.gifs = gifs
+      })
+    },
     showEmojiPicker: () => {
       store.focusWidget(FocusableWidget.EMOJIS)
       store.query = ''

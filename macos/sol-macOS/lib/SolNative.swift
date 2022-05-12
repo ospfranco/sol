@@ -173,4 +173,12 @@ class SolNative: RCTEventEmitter {
   @objc func turnOffHorizontalArrowListeners() {
     self.appDelegate?.setHorizontalArrowCatch(catchHorizontalArrowPress: false)
   }
+
+  @objc func turnOnVerticalArrowsListeners() {
+    self.appDelegate?.setVerticalArrowCatch(catchVerticalArrowPress: true)
+  }
+
+  @objc func turnOffVerticalArrowsListeners() {
+    self.appDelegate?.setVerticalArrowCatch(catchVerticalArrowPress: false)
+  }
 }

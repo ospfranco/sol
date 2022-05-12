@@ -1012,6 +1012,29 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@giphy/js-fetch-api@^4.1.2":
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/@giphy/js-fetch-api/-/js-fetch-api-4.1.2.tgz#0c4a975567efa6591fd47d04d5d7f7012a2c527f"
+  integrity sha512-wDfDQu8HiVkLb+YXcZf8QFbznmMHWbg86ZBydYmnp2mfuHyaHKsz9n9PnxdH3RorMS9YM/Ca/zqAM5y89Qj+Hw==
+  dependencies:
+    "@giphy/js-types" "^4.1.0"
+    "@giphy/js-util" "^4.0.1"
+    qs "^6.9.4"
+
+"@giphy/js-types@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@giphy/js-types/-/js-types-4.1.0.tgz#987b184bf848c81092ba61ab10895096eefa78de"
+  integrity sha512-+qSN4Mx4TmrjLQm4SC0I/ZBkb5eWM94sljXwfjIlqn0GMSR3geqEqwmE9Uf/ldgzFh+XMMCasQjIdUl2nWc++Q==
+
+"@giphy/js-util@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@giphy/js-util/-/js-util-4.0.1.tgz#dc1987465cf69267a1aa92ae027c7de3d3dab3b2"
+  integrity sha512-46wXgt5Y+MxZjuzjE6JlvMLE+6Vlag+PYxbyTxpsunhmOKNoYK99d51E09iynmXTFuZWYgWJR9LcfnzqsWHy+Q==
+  dependencies:
+    "@giphy/js-types" "^4.1.0"
+    dompurify "^2.2.2"
+    uuid "^8.3.0"
+
 "@hapi/hoek@^9.0.0":
   version "9.2.1"
   resolved "https://registry.yarnpkg.com/@hapi/hoek/-/hoek-9.2.1.tgz#9551142a1980503752536b5050fd99f4a7f13b17"
@@ -3346,6 +3369,11 @@ domexception@^2.0.1:
   integrity sha512-yxJ2mFy/sibVQlu5qHjOkf9J3K6zgmCxgJ94u2EdvDOV09H+32LtRswEcUsmUWN72pVLOEnTSRaIVVzVQgS0dg==
   dependencies:
     webidl-conversions "^5.0.0"
+
+dompurify@^2.2.2:
+  version "2.3.7"
+  resolved "https://registry.yarnpkg.com/dompurify/-/dompurify-2.3.7.tgz#30aa7feddc1420f3e554b1b3fe9e2f318a28066e"
+  integrity sha512-fsVZLywBd3awZIG3qU4JEdw7DCb0uUCajTfWRrLhsgKjTBd5CIIluPoAkNfco05GuNYQGj4/+bQIhlq96eT9eQ==
 
 ee-first@1.1.1:
   version "1.1.1"
@@ -7053,6 +7081,13 @@ punycode@^2.1.0, punycode@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
+
+qs@^6.9.4:
+  version "6.10.3"
+  resolved "https://registry.yarnpkg.com/qs/-/qs-6.10.3.tgz#d6cde1b2ffca87b5aa57889816c5f81535e22e8e"
+  integrity sha512-wr7M2E0OFRfIfJZjKGieI8lBKb7fRCH4Fv5KNPEs7gJ8jadvotdsS08PzOKR7opXhZ/Xkjtt3WF9g38drmyRqQ==
+  dependencies:
+    side-channel "^1.0.4"
 
 queue-microtask@^1.2.2:
   version "1.2.3"

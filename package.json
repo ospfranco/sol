@@ -15,6 +15,7 @@
     "release:id": "bundle exec fastlane release && pingme"
   },
   "dependencies": {
+    "@giphy/js-fetch-api": "^4.1.2",
     "@react-native-picker/picker": "^2.4.0",
     "@sentry/react-native": "^3.4.2",
     "axios": "^0.25.0",
