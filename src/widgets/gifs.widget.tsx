@@ -1,19 +1,10 @@
+import {solNative} from 'lib/SolNative'
 import {observer} from 'mobx-react-lite'
-import React, {FC, useEffect, useRef} from 'react'
-import {
-  FlatList,
-  Image,
-  ScrollView,
-  Text,
-  TextInput,
-  View,
-  ViewStyle,
-} from 'react-native'
+import React, {FC, useEffect} from 'react'
+import {Image, ScrollView, TextInput, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
-import {solNative} from 'lib/SolNative'
-import {Emoji, emojiFuse, emojis, EMOJIS_PER_ROW, groupEmojis} from 'lib/emoji'
 
 interface Props {
   style?: ViewStyle
@@ -22,11 +13,6 @@ interface Props {
 export const GifsWidget: FC<Props> = observer(({style}) => {
   useDeviceContext(tw)
   const store = useStore()
-  const query = store.ui.query
-  const selectedIndex = store.ui.selectedIndex
-  const storeRowIndex = Math.floor(selectedIndex / EMOJIS_PER_ROW)
-  const storeSubIndex = selectedIndex % EMOJIS_PER_ROW
-  const listRef = useRef<FlatList | null>(null)
 
   useEffect(() => {
     solNative.turnOnHorizontalArrowListeners()
@@ -34,13 +20,6 @@ export const GifsWidget: FC<Props> = observer(({style}) => {
       solNative.turnOffHorizontalArrowListeners()
     }
   }, [])
-
-  useEffect(() => {
-    listRef.current?.scrollToIndex({
-      index: storeRowIndex,
-      viewOffset: 80,
-    })
-  }, [storeRowIndex])
 
   useEffect(() => {
     store.ui.searchGifs()
