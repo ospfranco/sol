@@ -11,6 +11,8 @@ interface Props {
   style?: ViewStyle
 }
 
+const ROW_HEIGHT = 72
+
 export const EmojisWidget: FC<Props> = observer(({style}) => {
   useDeviceContext(tw)
   const store = useStore()
@@ -64,7 +66,7 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
   }
 
   return (
-    <View style={tw.style(`flex-1`, style)}>
+    <View style={style}>
       <View style={tw`h-10 pt-2 px-3 justify-center`}>
         <TextInput
           autoFocus
@@ -79,10 +81,9 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
       </View>
       <FlatList<Emoji[]>
         ref={listRef}
-        style={tw`flex-1 mt-2`}
+        style={{height: 20}}
         contentContainerStyle={tw`pb-3 px-3 flex-grow-1`}
         data={data}
-        initialNumToRender={7}
         ListEmptyComponent={
           <View style={tw`flex-1 justify-center items-center`}>
             <Text style={tw`dark:text-gray-400 text-gray-500 text-sm`}>
@@ -90,9 +91,14 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
             </Text>
           </View>
         }
+        getItemLayout={(_, index) => ({
+          length: ROW_HEIGHT,
+          offset: ROW_HEIGHT * index,
+          index,
+        })}
+        windowSize={1}
         keyExtractor={(_, index) => index.toString()}
         renderItem={({item: emojiRow, index: rowIndex}) => {
-          // avoid function allocation for more speeeeed
           let res = []
           for (let i = 0; i < emojiRow.length; i++) {
             const isSelected = i === storeSubIndex && rowIndex === storeRowIndex
@@ -100,7 +106,7 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
             res.push(
               <View
                 style={tw.style(
-                  `h-18 w-18 items-center justify-center rounded border border-transparent`,
+                  `h-[${ROW_HEIGHT}px] w-18 items-center justify-center rounded border border-transparent`,
                   {
                     'bg-accent bg-opacity-50 dark:bg-opacity-40 border-accentDim':
                       isSelected,
