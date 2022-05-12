@@ -913,6 +913,7 @@ export let createUIStore = (root: IRootStore) => {
 
         // Enter key
         case 36: {
+          // console.warn('presed enter', store.focusedWidget)
           switch (store.focusedWidget) {
             case FocusableWidget.GIFS: {
               const gif = store.gifs[store.selectedIndex]
@@ -983,6 +984,7 @@ export let createUIStore = (root: IRootStore) => {
                   store.notes[store.selectedIndex] + '\n',
                 )
               }
+              break
             }
 
             case FocusableWidget.ONBOARDING: {
@@ -1093,7 +1095,6 @@ export let createUIStore = (root: IRootStore) => {
               break
             }
           }
-
           break
         }
 
@@ -1109,6 +1110,7 @@ export let createUIStore = (root: IRootStore) => {
 
             default:
               store.setQuery('')
+              break
           }
           break
         }
