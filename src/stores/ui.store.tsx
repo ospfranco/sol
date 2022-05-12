@@ -826,34 +826,23 @@ export let createUIStore = (root: IRootStore) => {
       store.focusedWidget = widget
     },
     setQuery: (query: string) => {
-      if (store.focusedWidget === FocusableWidget.GIFS) {
-        store.query = query
-        store.selectedIndex = 0
-        return
-      }
-
-      if (store.focusedWidget === FocusableWidget.EMOJIS) {
-        store.query = query
-        store.selectedIndex = 0
-        return
-      }
-
-      store.focusedWidget = FocusableWidget.SEARCH
       store.query = query
       store.selectedIndex = 0
 
-      try {
-        const res = exprParser.evaluate(store.query)
-        if (res) {
-          store.temporaryResult = res.toString()
-        } else {
+      if (store.focusedWidget === FocusableWidget.SEARCH) {
+        try {
+          const res = exprParser.evaluate(store.query)
+          if (res) {
+            store.temporaryResult = res.toString()
+          } else {
+            store.temporaryResult = null
+          }
+        } catch (e) {
           store.temporaryResult = null
         }
-      } catch (e) {
-        store.temporaryResult = null
-      }
 
-      store.fetchEvents()
+        store.fetchEvents()
+      }
     },
     runFavorite: (index: number) => {
       const item = store.favoriteItems[index]
@@ -1112,20 +1101,15 @@ export let createUIStore = (root: IRootStore) => {
         case 53: {
           switch (store.focusedWidget) {
             case FocusableWidget.SEARCH:
-              solNative.hideWindow()
-              break
-
             case FocusableWidget.GIFS:
-              solNative.hideWindow()
-              break
-
             case FocusableWidget.EMOJIS:
+            case FocusableWidget.SCRATCHPAD:
               solNative.hideWindow()
               break
+
+            default:
+              store.setQuery('')
           }
-
-          store.setQuery('')
-
           break
         }
 
