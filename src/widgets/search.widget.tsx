@@ -64,6 +64,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
 
       <FlatList<Item>
         style={tw`flex-1`}
+        windowSize={8}
         contentContainerStyle={tw.style(`flex-grow-1 px-3 py-1`)}
         ref={listRef}
         data={store.ui.items}
