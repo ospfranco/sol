@@ -1123,6 +1123,10 @@ export let createUIStore = (root: IRootStore) => {
               solNative.hideWindow()
               break
 
+            case FocusableWidget.GIFS:
+              solNative.hideWindow()
+              break
+
             case FocusableWidget.EMOJIS:
               solNative.hideWindow()
               break
