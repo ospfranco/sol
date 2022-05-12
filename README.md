@@ -30,6 +30,7 @@ Get the latest versions from the [releases page](https://github.com/ospfranco/so
 - Custom links/Custom AppleScripts
 - Window Manager
 - Emoji picker
+- Giphy explorer
 
 ## TODO
 
