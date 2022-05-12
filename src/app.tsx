@@ -11,11 +11,18 @@ configure({
   useProxies: 'never',
 })
 
-LogBox.ignoreLogs(['AsyncStorage ', 'Clipboard ', 'Component'])
+LogBox.ignoreLogs([
+  'AsyncStorage ',
+  'Clipboard ',
+  'Component',
+  'Require cycle:',
+])
 
-Sentry.init({
-  dsn: 'https://51f61feb4c66446e88e4211a6aebf0b7@o386747.ingest.sentry.io/6377873',
-})
+if (!__DEV__) {
+  Sentry.init({
+    dsn: 'https://51f61feb4c66446e88e4211a6aebf0b7@o386747.ingest.sentry.io/6377873',
+  })
+}
 
 export const App = () => {
   return (
