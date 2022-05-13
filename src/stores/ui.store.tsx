@@ -1029,6 +1029,8 @@ export let createUIStore = (root: IRootStore) => {
             case FocusableWidget.CALENDAR: {
               const event = store.events[store.selectedIndex]
               if (event) {
+                console.warn('event url', event.url || event.notes)
+
                 let eventLink = event.url
                 if (!eventLink && event.notes) {
                   eventLink = extractMeetingLink(event.notes)

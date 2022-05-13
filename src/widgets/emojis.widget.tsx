@@ -29,16 +29,18 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
     }
   }, [])
 
-  useEffect(() => {
-    listRef.current?.scrollToIndex({
-      index: storeRowIndex,
-      viewOffset: 80,
-    })
-  }, [storeRowIndex])
-
   let data = !!query
     ? groupEmojis(emojiFuse.search(query).map(r => r.item))
     : emojis
+
+  useEffect(() => {
+    if (data.length) {
+      listRef.current?.scrollToIndex({
+        index: storeRowIndex,
+        viewOffset: 80,
+      })
+    }
+  }, [storeRowIndex])
 
   const favorites = Object.entries(store.ui.frequentlyUsedEmojis)
   if (favorites.length && !query) {
