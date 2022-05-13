@@ -664,6 +664,7 @@ export let createUIStore = (root: IRootStore) => {
         if (__DEV__) {
           store.events = [
             {
+              id: 'blah1',
               color: 'orange',
               date: DateTime.now().toISO(),
               endDate: DateTime.now().plus({hour: 1}).toISO(),
@@ -674,6 +675,7 @@ export let createUIStore = (root: IRootStore) => {
               title: 'Very important meeting',
             },
             {
+              id: 'blah2',
               color: 'orange',
               date: DateTime.now().toISO(),
               endDate: DateTime.now().plus({hour: 2}).toISO(),
@@ -684,6 +686,7 @@ export let createUIStore = (root: IRootStore) => {
               title: 'Not so important meeting',
             },
             {
+              id: 'blah3',
               color: tw.color('accent')!,
               date: DateTime.now().plus({day: 1}).toISO(),
               endDate: DateTime.now().plus({hour: 2, day: 1}).toISO(),
@@ -700,8 +703,6 @@ export let createUIStore = (root: IRootStore) => {
         solNative
           .getNextEvents(store.query)
           .then(events => {
-            console.warn('events', events)
-
             runInAction(() => {
               store.events = events
             })
@@ -913,7 +914,6 @@ export let createUIStore = (root: IRootStore) => {
 
         // Enter key
         case 36: {
-          // console.warn('presed enter', store.focusedWidget)
           switch (store.focusedWidget) {
             case FocusableWidget.GIFS: {
               const gif = store.gifs[store.selectedIndex]
@@ -1029,11 +1029,9 @@ export let createUIStore = (root: IRootStore) => {
             case FocusableWidget.CALENDAR: {
               const event = store.events[store.selectedIndex]
               if (event) {
-                console.warn('event url', event.url || event.notes)
-
                 let eventLink = event.url
-                if (!eventLink && event.notes) {
-                  eventLink = extractMeetingLink(event.notes)
+                if (!eventLink) {
+                  eventLink = extractMeetingLink(event.notes, event.location)
                 }
                 if (eventLink) {
                   Linking.openURL(eventLink)

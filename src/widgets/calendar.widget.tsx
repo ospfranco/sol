@@ -64,7 +64,9 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
                   const highlighted =
                     focused &&
                     store.ui.selectedIndex ===
-                      store.ui.events.findIndex(e => e.title === event.title)
+                      store.ui.events.findIndex(
+                        e => e.id === event.id && e.date === event.date,
+                      )
 
                   return (
                     <View

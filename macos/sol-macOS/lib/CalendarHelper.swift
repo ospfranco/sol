@@ -32,6 +32,7 @@ class CalendarHelper {
 
     return events.map { event -> Any in
       return [
+        "id": event.eventIdentifier,
         "title": event.title,
         "url": event.url?.absoluteString,
         "notes": event.notes,

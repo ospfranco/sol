@@ -7,6 +7,7 @@ export enum CalendarAuthorizationStatus {
   authorized = 'authorized',
 }
 export interface INativeEvent {
+  id: string
   title?: string
   url?: string
   date: string
