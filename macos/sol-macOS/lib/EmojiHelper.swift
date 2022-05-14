@@ -27,4 +27,18 @@ class EmojiHelper {
       eventKeyUp?.post(tap: CGEventTapLocation.cghidEventTap)
     }
   }
+  
+  static func pasteToFronMostApp(content: String) {
+    DispatchQueue.main.async {
+      let appDelegate = NSApp.delegate as? AppDelegate
+      appDelegate?.hideWindow()
+
+      let pasteboard = NSPasteboard.general
+      pasteboard.declareTypes([.string], owner: nil)
+
+      pasteboard.setString(content, forType: .string)
+
+      AppleScriptHelper.runAppleScript("tell application \"System Events\" to keystroke \"v\" using command down");
+    }
+  }
 }

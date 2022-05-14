@@ -166,6 +166,10 @@ class SolNative: RCTEventEmitter {
     EmojiHelper.pasteEmojiToFrontmostApp(emoji: emoji)
   }
 
+  @objc func pasteToFrontmostApp(_ content: String) {
+    EmojiHelper.pasteToFronMostApp(content: content)
+  }
+
   @objc func turnOnHorizontalArrowListeners() {
     self.appDelegate?.setHorizontalArrowCatch(catchHorizontalArrowPress: true)
   }

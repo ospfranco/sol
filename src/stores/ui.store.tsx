@@ -917,7 +917,12 @@ export let createUIStore = (root: IRootStore) => {
           switch (store.focusedWidget) {
             case FocusableWidget.GIFS: {
               const gif = store.gifs[store.selectedIndex]
-              solNative.pasteEmojiToFrontmostApp(gif.images.original.url)
+
+              solNative.pasteToFrontmostApp(
+                gif.images.downsized.url
+                  .replace('media1.giphy.com', 'media.giphy.com')
+                  .replace('media3.giphy.com', 'media.giphy.com'),
+              )
               break
             }
 
