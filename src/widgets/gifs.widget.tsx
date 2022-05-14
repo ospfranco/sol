@@ -1,7 +1,7 @@
 import {solNative} from 'lib/SolNative'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect} from 'react'
-import {Image, ScrollView, TextInput, View, ViewStyle} from 'react-native'
+import {Image, ScrollView, Text, TextInput, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
@@ -39,9 +39,7 @@ export const GifsWidget: FC<Props> = observer(({style}) => {
           placeholder="Search gifs..."
         />
       </View>
-      <ScrollView
-        style={tw``}
-        contentContainerStyle={tw`flex-row flex-wrap px-3`}>
+      <View style={tw`flex-row flex-wrap px-3`}>
         {store.ui.gifs.map((gif, index) => {
           return (
             <View
@@ -56,7 +54,13 @@ export const GifsWidget: FC<Props> = observer(({style}) => {
             </View>
           )
         })}
-      </ScrollView>
+
+        {!store.ui.gifs.length && (
+          <Text style={tw`text-gray-500 dark:text-gray-400 text-xs`}>
+            No results
+          </Text>
+        )}
+      </View>
     </View>
   )
 })
