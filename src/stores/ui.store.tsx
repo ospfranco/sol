@@ -76,6 +76,7 @@ export enum FocusableWidget {
   SCRATCHPAD = 'SCRATCHPAD',
   EMOJIS = 'EMOJIS',
   GIFS = 'GIFS',
+  CLIPBOARD = 'CLIPBOARD',
 }
 
 export enum ItemType {
@@ -108,7 +109,7 @@ type OnboardingStep =
   | 'v1_skipped'
   | 'v1_completed'
 
-export let createUIStore = (root: IRootStore) => {
+export const createUIStore = (root: IRootStore) => {
   const persist = async () => {
     const plainState = toJS(store)
 
@@ -915,6 +916,24 @@ export let createUIStore = (root: IRootStore) => {
         // Enter key
         case 36: {
           switch (store.focusedWidget) {
+            case FocusableWidget.CLIPBOARD: {
+              const entry = root.clipboard.items[store.selectedIndex]
+
+              if (entry) {
+                if (meta) {
+                  try {
+                    Linking.openURL(entry)
+                  } catch (e) {
+                    console.warn('could not open in browser')
+                  }
+                  solNative.hideWindow()
+                } else {
+                  solNative.pasteEmojiToFrontmostApp(entry)
+                }
+              }
+              break
+            }
+
             case FocusableWidget.GIFS: {
               const gif = store.gifs[store.selectedIndex]
 
@@ -1110,6 +1129,7 @@ export let createUIStore = (root: IRootStore) => {
             case FocusableWidget.GIFS:
             case FocusableWidget.EMOJIS:
             case FocusableWidget.SCRATCHPAD:
+            case FocusableWidget.CLIPBOARD:
               solNative.hideWindow()
               break
 
@@ -1168,6 +1188,14 @@ export let createUIStore = (root: IRootStore) => {
         // down key
         case 125: {
           switch (store.focusedWidget) {
+            case FocusableWidget.CLIPBOARD: {
+              store.selectedIndex = Math.min(
+                store.selectedIndex + 1,
+                root.clipboard.items.length - 1,
+              )
+              break
+            }
+
             case FocusableWidget.GIFS: {
               store.selectedIndex = store.selectedIndex + GIFS_PER_ROW
               break
@@ -1291,12 +1319,19 @@ export let createUIStore = (root: IRootStore) => {
       }
     },
     onShow: ({target}: {target?: string}) => {
+      if (target === FocusableWidget.CLIPBOARD) {
+        store.showClipboardManager()
+        return
+      }
+
       if (target === FocusableWidget.SCRATCHPAD) {
         store.showScratchpad()
+        return
       }
 
       if (target === FocusableWidget.EMOJIS) {
         store.showEmojiPicker()
+        return
       }
 
       store.now = DateTime.now()
@@ -1379,6 +1414,9 @@ export let createUIStore = (root: IRootStore) => {
     },
     showScratchpad: () => {
       store.focusWidget(FocusableWidget.SCRATCHPAD)
+    },
+    showClipboardManager: () => {
+      store.focusWidget(FocusableWidget.CLIPBOARD)
     },
   })
 

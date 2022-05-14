@@ -126,6 +126,7 @@ import StarFilled from './assets/starFilled.png'
 import GoogleMaps from './assets/GoogleMapsIcon.png'
 import CheckIcon from './assets/Check.png'
 import CheckCircleIcon from './assets/CheckCircleIcon.png'
+import DocumentIcon from './assets/DocumentIcon.png'
 
 export const Assets = {
   googleLogo,
@@ -142,6 +143,7 @@ export const Assets = {
   GoogleMaps,
   CheckIcon,
   CheckCircleIcon,
+  DocumentIcon,
 }
 
 export const Icons = {

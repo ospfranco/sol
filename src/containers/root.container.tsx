@@ -7,6 +7,7 @@ import {FocusableWidget} from 'stores'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
 import {CalendarWidget} from 'widgets/calendar.widget'
+import {ClipboardWidget} from 'widgets/clipboard.widget'
 import {CreateItemWidget} from 'widgets/createItem.widget'
 import {EmojisWidget} from 'widgets/emojis.widget'
 import {GeneralWidget} from 'widgets/general.widget'
@@ -39,6 +40,10 @@ export const RootContainer = observer(() => {
       store.ui.cleanUp()
     }
   }, [])
+
+  if (widget === FocusableWidget.CLIPBOARD) {
+    return <ClipboardWidget style={mainStyle} />
+  }
 
   if (widget === FocusableWidget.GIFS) {
     return <GifsWidget style={mainStyle} />

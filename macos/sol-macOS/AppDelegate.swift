@@ -14,6 +14,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   var debugHotKey = HotKey(key: .space, modifiers: [.command, .option])
   var catchHorizontalArrowsPress = false
   var catchVerticalArrowsPress = true
+  
   private let rightSideScreenHotKey = HotKey(key: .rightArrow, modifiers: [.option, .control])
   private let leftSideScreenHotKey = HotKey(key: .leftArrow, modifiers: [.option, .control])
   private let fullScreenHotKey = HotKey(key: .return, modifiers: [.option, .control])
@@ -21,6 +22,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   private let moveToPrevScreenHotKey = HotKey(key: .leftArrow, modifiers: [.option, .control, .command])
   private let scratchpadHotKey = HotKey(key: .space, modifiers: [.command, .shift])
   private let emojiPickerHotKey = HotKey(key: .space, modifiers: [.control, .command])
+  private let clipboardManagerHotKey = HotKey(key: .v, modifiers: [.command, .shift])
 
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     let jsCodeLocation: URL = RCTBundleURLProvider
@@ -47,7 +49,25 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     rootView.bottomAnchor.constraint(equalTo: mainWindow.contentView!.bottomAnchor).isActive = true
 
     setupKeyboardListeners()
+    setupPasteboardListener()
     showWindow()
+  }
+
+  func setupPasteboardListener() {
+    PasteboardHelper.addOnPasteListener {
+      let txt = $0.string(forType: .string)
+      if txt != nil {
+        SolEmitter.sharedInstance.textPasted(txt!)
+      }
+//      let url = $0.string(forType: .URL)
+//      if url != nil {
+//        handlePastedText(url!, fileExtension: "url")
+//      }
+//      let html = $0.string(forType: .html)
+//      if html != nil {
+//        handlePastedText(html!, fileExtension: "html")
+//      }
+    }
   }
 
   func setupKeyboardListeners() {
@@ -58,6 +78,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     moveToPrevScreenHotKey.keyDownHandler = WindowManager.sharedInstance.moveToPrevScreen
     scratchpadHotKey.keyDownHandler = showScratchpad
     emojiPickerHotKey.keyDownHandler = showEmojiPicker
+    clipboardManagerHotKey.keyDownHandler = showClipboardManager
 
 #if DEBUG
     debugHotKey.keyDownHandler = toggleWindow
@@ -145,6 +166,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
   func showEmojiPicker() {
     showWindow(target: "EMOJIS")
+  }
+
+  func showClipboardManager() {
+    showWindow(target: "CLIPBOARD")
   }
 
   func hideWindow() {

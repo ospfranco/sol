@@ -46,4 +46,10 @@ class SolEmitter {
   func onHide() {
     dispatch(name: "onHide", body: [])
   }
+
+  func textPasted(_ txt: String) {
+    dispatch(name: "onTextPasted", body: [
+      "text": txt
+    ])
+  }
 }

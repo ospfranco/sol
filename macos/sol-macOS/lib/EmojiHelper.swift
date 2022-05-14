@@ -5,7 +5,6 @@ class EmojiHelper {
 
   static func pasteEmojiToFrontmostApp(emoji: String) {
     DispatchQueue.main.async {
-      let appDelegate = NSApp.delegate as? AppDelegate
       appDelegate?.hideWindow()
 
       let source = CGEventSource(stateID: .hidSystemState)
@@ -30,7 +29,6 @@ class EmojiHelper {
   
   static func pasteToFronMostApp(content: String) {
     DispatchQueue.main.async {
-      let appDelegate = NSApp.delegate as? AppDelegate
       appDelegate?.hideWindow()
 
       let pasteboard = NSPasteboard.general
