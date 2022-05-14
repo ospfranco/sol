@@ -985,7 +985,7 @@ export const createUIStore = (root: IRootStore) => {
                 }
               }
 
-              solNative.pasteToFrontmostApp(emojiChar)
+              solNative.insertToFrontmostApp(emojiChar)
               break
             }
 
