@@ -92,6 +92,7 @@ func handlePastedText(_ text: String, fileExtension: String) {
   print("emitting item: \(item)")
 }
 
+// TODO: move this to a different file, this is a good place for storing clipboard entries
 func getClipboardDirectory() -> URL {
   let solDirectory = Bundle.main.resourceURL!.appendingPathComponent("clipboard")
   // Check if the directory exists, if not create it

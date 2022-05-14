@@ -2,7 +2,6 @@ import Foundation
 import Cocoa
 import HotKey
 import EventKit
-import SwiftUI
 import AppKit
 
 let handledKeys: [UInt16] = [53, 126, 125, 36, 48]
