@@ -53,11 +53,10 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
           }
           renderItem={({item, index}) => {
             const isSelected = index === selectedIndex
-            const Icon = Assets.DocumentIcon
             return (
               <View
                 style={tw.style(
-                  `p-3 rounded border border-transparent flex-row items-center`,
+                  `p-3 rounded border border-transparent flex-row`,
                   {
                     'bg-accent bg-opacity-50 dark:bg-opacity-40 border-accentDim':
                       isSelected,
@@ -70,7 +69,7 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
                   })}
                   resizeMode="contain"
                 />
-                <Text style={tw`text-sm ml-3`}>{item}</Text>
+                <Text style={tw`text-sm ml-3`}>{item.substring(0, 256)}</Text>
               </View>
             )
           }}

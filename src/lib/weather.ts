@@ -18,7 +18,7 @@ export async function getWeather(
       nextHourForecast: res.data.hourly[0].weather[0].description,
     }
   } catch (e) {
-    console.warn('weather error', e)
+    // console.warn('weather error', e)
     return null
   }
 }
