@@ -928,7 +928,7 @@ export const createUIStore = (root: IRootStore) => {
                   }
                   solNative.hideWindow()
                 } else {
-                  solNative.pasteEmojiToFrontmostApp(entry)
+                  solNative.insertToFrontmostApp(entry)
                 }
               }
               break
@@ -985,7 +985,7 @@ export const createUIStore = (root: IRootStore) => {
                 }
               }
 
-              solNative.pasteEmojiToFrontmostApp(emojiChar)
+              solNative.pasteToFrontmostApp(emojiChar)
               break
             }
 

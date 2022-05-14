@@ -1,9 +1,19 @@
 import Foundation
 
-class EmojiHelper {
-  static let sharedInstace = EmojiHelper()
+class ClipboardHelper {
 
-  static func pasteEmojiToFrontmostApp(emoji: String) {
+  static func addOnPasteListener(_ onPaste: @escaping (_ pasteboard:NSPasteboard) -> Void) {
+    let pasteboard = NSPasteboard.general
+    var changeCount = NSPasteboard.general.changeCount
+    Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true) { _ in
+      if pasteboard.changeCount != changeCount {
+        onPaste(pasteboard)
+        changeCount = pasteboard.changeCount
+      }
+    }
+  }
+
+  static func insertToFrontmostApp(_ content: String) {
     DispatchQueue.main.async {
       appDelegate?.hideWindow()
 
@@ -14,7 +24,7 @@ class EmojiHelper {
       let eventKeyUp = CGEvent(keyboardEventSource: source, virtualKey: 0, keyDown: false)
 
       // split the emoji into an array:
-      var utf16array = Array(emoji.utf16)
+      var utf16array = Array(content.utf16)
 
       // set the emoji for the key down event:
       eventKey?.keyboardSetUnicodeString(stringLength: utf16array.count, unicodeString: &utf16array)
@@ -27,7 +37,7 @@ class EmojiHelper {
     }
   }
   
-  static func pasteToFronMostApp(content: String) {
+  static func pasteToFrontmostApp(_ content: String) {
     DispatchQueue.main.async {
       appDelegate?.hideWindow()
 

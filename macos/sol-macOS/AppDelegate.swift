@@ -54,7 +54,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   }
 
   func setupPasteboardListener() {
-    PasteboardHelper.addOnPasteListener {
+    ClipboardHelper.addOnPasteListener {
       let txt = $0.string(forType: .string)
       if txt != nil {
         SolEmitter.sharedInstance.textPasted(txt!)

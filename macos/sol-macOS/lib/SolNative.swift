@@ -163,12 +163,12 @@ class SolNative: RCTEventEmitter {
     WindowManager.sharedInstance.moveToPrevScreen()
   }
 
-  @objc func pasteEmojiToFrontmostApp(_ emoji: String) {
-    EmojiHelper.pasteEmojiToFrontmostApp(emoji: emoji)
+  @objc func pasteToFrontmostApp(_ content: String) {
+    ClipboardHelper.pasteToFrontmostApp(content)
   }
 
-  @objc func pasteToFrontmostApp(_ content: String) {
-    EmojiHelper.pasteToFronMostApp(content: content)
+  @objc func insertToFrontmostApp(_ content: String) {
+    ClipboardHelper.insertToFrontmostApp(content)
   }
 
   @objc func turnOnHorizontalArrowListeners() {
