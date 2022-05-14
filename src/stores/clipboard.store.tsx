@@ -18,6 +18,12 @@ export const createClipboardStore = (root: IRootStore) => {
       newItems.unshift(obj.text)
       store.items = newItems
     },
+    unshift: (index: number) => {
+      const newItems = [...store.items]
+      const item = newItems.splice(index, 1)
+      newItems.unshift(item[0])
+      store.items = newItems
+    },
   })
 
   onTextPastedListener = solNative.addListener(

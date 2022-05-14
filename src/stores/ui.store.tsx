@@ -919,6 +919,8 @@ export const createUIStore = (root: IRootStore) => {
             case FocusableWidget.CLIPBOARD: {
               const entry = root.clipboard.items[store.selectedIndex]
 
+              root.clipboard.unshift(store.selectedIndex)
+
               if (entry) {
                 if (meta) {
                   try {
