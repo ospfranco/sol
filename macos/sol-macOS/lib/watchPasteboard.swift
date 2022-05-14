@@ -73,81 +73,23 @@ struct PasteboardWatcher {
   }
 }
 
+enum ClipboardItem {
+  case text(ClipboardTextItem)
+}
+
 struct ClipboardTextItem {
-  let preview: String
-  var itemDirectory: URL
+  let contents: String
   var fileExtension: String
   var hash: String
-  var size: Int
-  var timesCopied: Int
-  var lastCopied: Date
-
-  init(text: String, itemDirectory: URL, fileExtension: String, hash: String, timesCopied: Int, lastCopied: Date) {
-    // Clip the text to a reasonable size for preview
-    let preview = String(text.prefix(100))
-    self.preview = preview
-    self.itemDirectory = itemDirectory
-    self.fileExtension = fileExtension
-    self.hash = hash
-    self.size = text.count
-    self.timesCopied = timesCopied
-    self.lastCopied = lastCopied
-  }
-  
-  func saveMeta() {
-    // Save the meta.json to the appropriate directory
-    let meta = SavedItemMeta.init(fileExtension: fileExtension, hash: hash, size: size, timesCopied: timesCopied, lastCopied: lastCopied)
-    let metaData = try! JSONEncoder().encode(meta)
-    let metaFile = itemDirectory.appendingPathComponent("meta.json")
-    try! FileManager.default.createDirectory(atPath: self.itemDirectory.path, withIntermediateDirectories: true, attributes: nil)
-    try! metaData.write(to: metaFile, options: [])
-  }
 }
 
-struct SavedItemMeta: Codable {
-  var fileExtension: String
-  var hash: String
-  var size: Int
-  var timesCopied: Int
-  var lastCopied: Date
-}
 
 func handlePastedText(_ text: String, fileExtension: String) {
-    // Create hash of content
+  // Create hash of content
   let hash = text.sha256()
-  
-  // Get the existing item or construct a new one
-  let existingItem = clipboardHistory.getItem(hash: hash)
-  var item: ClipboardTextItem = existingItem ?? ClipboardTextItem.init(text: text, itemDirectory: itemDirectory, fileExtension: fileExtension, hash: hash, timesCopied: 0, lastCopied: Date())
-  // Increment the timesCopied and save it
-  item.timesCopied += 1
-  item.lastCopied = Date()
-  item.saveMeta()
-
-  if existingItem != nil {
-    return
-  }
-
-  do {
-    let itemDirectory = getClipboardDirectory().appendingPathComponent(hash)
-    let itemFile = itemDirectory.appendingPathComponent("file.\(fileExtension)")
-    try text.write(to: itemFile, atomically: true, encoding: .utf8)
-    // If the clipboard history size is greater than the history limit prune oldest items first
-    
-  } catch {
-    print(error.localizedDescription)
-  }
-}
-
-
-func getTimestamp() -> String {
-  let formatter = ISO8601DateFormatter()
-  formatter.formatOptions = [.withFullDate,
-                             .withTime,
-                             .withDashSeparatorInDate,
-                             .withColonSeparatorInTime,
-                             .withFractionalSeconds]
-  return formatter.string(from: Date())
+  let item = ClipboardTextItem(contents: text, fileExtension: fileExtension, hash: hash)
+  // TODO: now emit the item to the JS thread
+  print("emitting item: \(item)")
 }
 
 func getClipboardDirectory() -> URL {
@@ -171,48 +113,114 @@ func getClipboardDirectory() -> URL {
   return solDirectory
 }
 
-let clipboardHistory = ClipboardHistoryObservable()
+// class ClipboardHistoryObservable: ObservableObject {
+//   @Published var history: [ClipboardItem]
+  
+//   init() {
+//     // Restore clipboard history from clipboard directory
+    
+//     // First read the clipboard directory
+//     let directoryContents = try! FileManager.default.contentsOfDirectory(at: getClipboardDirectory(), includingPropertiesForKeys: [])
+    
+//     var history: [ClipboardItem] = []
+//     for item in directoryContents {
+//       // Then for each subdirectory extract the clipboard item
+//       let metaFile = item.appendingPathComponent("meta.json")
+//       let metaData = try! Data(contentsOf: metaFile)
+//       let meta = try! JSONDecoder().decode(SavedItemMeta.self, from: metaData)
+//       let itemDirectory = item
+//       let itemFile = item.appendingPathComponent("file.\(meta.fileExtension)")
+//       let text = try! String(contentsOf: itemFile)
+//       let item = ClipboardTextItem.init(text: text, itemDirectory: itemDirectory, fileExtension: meta.fileExtension, hash: meta.hash, timesCopied: meta.timesCopied, lastCopied: meta.lastCopied)
+//       history.append(.text(item))
+//     }
+    
+//     self.history = history
+//   }
+  
+//   func getItem(hash: String) -> ClipboardTextItem? {
+//     for item in history {
+//       switch item {
+//       case .text(let textItem):
+//         if textItem.hash == hash {
+//           return textItem
+//         }
+//       }
+//     }
+//     return nil
+//   }
+// }
 
-enum ClipboardItem {
-  case text(ClipboardTextItem)
+
+// struct ClipboardTextItem {
+//   let preview: String
+//   var itemDirectory: URL
+//   var fileExtension: String
+//   var hash: String
+//   var size: Int
+//   var timesCopied: Int
+//   var lastCopied: Date
+
+//   init(text: String, itemDirectory: URL, fileExtension: String, hash: String, timesCopied: Int, lastCopied: Date) {
+//     // Clip the text to a reasonable size for preview
+//     let preview = String(text.prefix(100))
+//     self.preview = preview
+//     self.itemDirectory = itemDirectory
+//     self.fileExtension = fileExtension
+//     self.hash = hash
+//     self.size = text.count
+//     self.timesCopied = timesCopied
+//     self.lastCopied = lastCopied
+//   }
+  
+//   func saveMeta() {
+//     // Save the meta.json to the appropriate directory
+//     let meta = SavedItemMeta.init(fileExtension: fileExtension, hash: hash, size: size, timesCopied: timesCopied, lastCopied: lastCopied)
+//     let metaData = try! JSONEncoder().encode(meta)
+//     let metaFile = itemDirectory.appendingPathComponent("meta.json")
+//     try! FileManager.default.createDirectory(atPath: self.itemDirectory.path, withIntermediateDirectories: true, attributes: nil)
+//     try! metaData.write(to: metaFile, options: [])
+//   }
+// }
+
+// struct SavedItemMeta: Codable {
+//   var fileExtension: String
+//   var hash: String
+//   var size: Int
+//   var timesCopied: Int
+//   var lastCopied: Date
+// }
+
+// // Get the existing item or construct a new one
+  // let existingItem = clipboardHistory.getItem(hash: hash)
+  // var item: ClipboardTextItem = existingItem ?? ClipboardTextItem.init(text: text, itemDirectory: itemDirectory, fileExtension: fileExtension, hash: hash, timesCopied: 0, lastCopied: Date())
+  // // Increment the timesCopied and save it
+  // item.timesCopied += 1
+  // item.lastCopied = Date()
+  // item.saveMeta()
+
+  // if existingItem != nil {
+  //   return
+  // }
+
+  // do {
+  //   let itemDirectory = getClipboardDirectory().appendingPathComponent(hash)
+  //   let itemFile = itemDirectory.appendingPathComponent("file.\(fileExtension)")
+  //   try text.write(to: itemFile, atomically: true, encoding: .utf8)
+  //   // If the clipboard history size is greater than the history limit prune oldest items first
+    
+  // } catch {
+  //   print(error.localizedDescription)
+  // }
 }
 
-class ClipboardHistoryObservable: ObservableObject {
-  @Published var history: [ClipboardItem]
-  
-  init() {
-    // Restore clipboard history from clipboard directory
-    
-    // First read the clipboard directory
-    let directoryContents = try! FileManager.default.contentsOfDirectory(at: getClipboardDirectory(), includingPropertiesForKeys: [])
-    
-    var history: [ClipboardItem] = []
-    for item in directoryContents {
-      // Then for each subdirectory extract the clipboard item
-      let metaFile = item.appendingPathComponent("meta.json")
-      let metaData = try! Data(contentsOf: metaFile)
-      let meta = try! JSONDecoder().decode(SavedItemMeta.self, from: metaData)
-      let itemDirectory = item
-      let itemFile = item.appendingPathComponent("file.\(meta.fileExtension)")
-      let text = try! String(contentsOf: itemFile)
-      let item = ClipboardTextItem.init(text: text, itemDirectory: itemDirectory, fileExtension: meta.fileExtension, hash: meta.hash, timesCopied: meta.timesCopied, lastCopied: meta.lastCopied)
-      history.append(.text(item))
-    }
-    
-    self.history = history
-  }
-  
-  func getItem(hash: String) -> ClipboardTextItem? {
-    for item in history {
-      switch item {
-      case .text(let textItem):
-        if textItem.hash == hash {
-          return textItem
-        }
-      }
-    }
-    return nil
-  }
-}
 
-
+// func getTimestamp() -> String {
+//   let formatter = ISO8601DateFormatter()
+//   formatter.formatOptions = [.withFullDate,
+//                              .withTime,
+//                              .withDashSeparatorInDate,
+//                              .withColonSeparatorInTime,
+//                              .withFractionalSeconds]
+//   return formatter.string(from: Date())
+// }

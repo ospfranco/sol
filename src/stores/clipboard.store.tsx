@@ -71,7 +71,7 @@ export let createClipboardStore = (root: IRootStore) => {
 
     // Sort the entries by lastCopied
     clipboardEntries.sort(
-      (a, b) => b.lastCopied.valueOf() - a.lastCopied.valueOf(),
+      (a, b) => a.lastCopied.valueOf() - b.lastCopied.valueOf(),
     )
 
     runInAction(() => {
@@ -105,6 +105,7 @@ export let createClipboardStore = (root: IRootStore) => {
       }
 
       runInAction(() => {
+        // Maps are ordered so this moves it to the top
         store.clipboardItems.set(event.hash, item!)
       })
     },
