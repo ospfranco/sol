@@ -1137,6 +1137,7 @@ export const createUIStore = (root: IRootStore) => {
 
             default:
               store.setQuery('')
+              store.focusWidget(FocusableWidget.SEARCH)
               break
           }
           break
