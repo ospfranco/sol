@@ -31,11 +31,12 @@ Get the latest versions from the [releases page](https://github.com/ospfranco/so
 - Window Manager
 - Emoji picker
 - Giphy explorer
+- Clipboard manager
 
 ## TODO
 
-- [ ] Partial Windows support is there, the app builds but there are many missing features and incompatibilities
-- [ ] Clipboard manager
+- Windows Support (Already partially implemented, looking for someone to take over)
+- Plugin System
 
 ## Other tools
 
