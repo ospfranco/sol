@@ -662,44 +662,44 @@ export const createUIStore = (root: IRootStore) => {
         store.calendarAuthorizationStatus ===
         CalendarAuthorizationStatus.authorized
       ) {
-        if (__DEV__) {
-          store.events = [
-            {
-              id: 'blah1',
-              color: 'orange',
-              date: DateTime.now().toISO(),
-              endDate: DateTime.now().plus({hour: 1}).toISO(),
-              isAllDay: false,
-              location: '',
-              notes: '',
-              status: 0,
-              title: 'Very important meeting',
-            },
-            {
-              id: 'blah2',
-              color: 'orange',
-              date: DateTime.now().toISO(),
-              endDate: DateTime.now().plus({hour: 2}).toISO(),
-              isAllDay: false,
-              location: '',
-              notes: '',
-              status: 1,
-              title: 'Not so important meeting',
-            },
-            {
-              id: 'blah3',
-              color: tw.color('accent')!,
-              date: DateTime.now().plus({day: 1}).toISO(),
-              endDate: DateTime.now().plus({hour: 2, day: 1}).toISO(),
-              isAllDay: false,
-              location: '',
-              notes: '',
-              status: 0,
-              title: 'Call insurance',
-            },
-          ]
-          return
-        }
+        // if (__DEV__) {
+        //   store.events = [
+        //     {
+        //       id: 'blah1',
+        //       color: 'orange',
+        //       date: DateTime.now().toISO(),
+        //       endDate: DateTime.now().plus({hour: 1}).toISO(),
+        //       isAllDay: false,
+        //       location: '',
+        //       notes: '',
+        //       status: 0,
+        //       title: 'Very important meeting',
+        //     },
+        //     {
+        //       id: 'blah2',
+        //       color: 'orange',
+        //       date: DateTime.now().toISO(),
+        //       endDate: DateTime.now().plus({hour: 2}).toISO(),
+        //       isAllDay: false,
+        //       location: '',
+        //       notes: '',
+        //       status: 1,
+        //       title: 'Not so important meeting',
+        //     },
+        //     {
+        //       id: 'blah3',
+        //       color: tw.color('accent')!,
+        //       date: DateTime.now().plus({day: 1}).toISO(),
+        //       endDate: DateTime.now().plus({hour: 2, day: 1}).toISO(),
+        //       isAllDay: false,
+        //       location: '',
+        //       notes: '',
+        //       status: 0,
+        //       title: 'Call insurance',
+        //     },
+        //   ]
+        //   return
+        // }
 
         solNative
           .getNextEvents(store.query)
@@ -913,8 +913,10 @@ export const createUIStore = (root: IRootStore) => {
           break
         }
 
-        // Enter key
+        // enter key
         case 36: {
+          console.warn('enter pressed', store.focusedWidget)
+
           switch (store.focusedWidget) {
             case FocusableWidget.CLIPBOARD: {
               const entry = root.clipboard.items[store.selectedIndex]
@@ -1053,12 +1055,18 @@ export const createUIStore = (root: IRootStore) => {
             }
 
             case FocusableWidget.CALENDAR: {
+              console.warn('ENTER CALENDAR')
+
               const event = store.events[store.selectedIndex]
               if (event) {
-                let eventLink = event.url
+                console.warn('event url', event.url)
+
+                let eventLink: string | null | undefined = event.url
+
                 if (!eventLink) {
                   eventLink = extractMeetingLink(event.notes, event.location)
                 }
+
                 if (eventLink) {
                   Linking.openURL(eventLink)
                 } else {
