@@ -24,8 +24,6 @@ export function extractMeetingLink(
     }
   }
 
-  console.warn('TExt', text)
-
   if (!link && !!text) {
     link =
       text

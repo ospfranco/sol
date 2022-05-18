@@ -915,8 +915,6 @@ export const createUIStore = (root: IRootStore) => {
 
         // enter key
         case 36: {
-          console.warn('enter pressed', store.focusedWidget)
-
           switch (store.focusedWidget) {
             case FocusableWidget.CLIPBOARD: {
               const entry = root.clipboard.items[store.selectedIndex]
@@ -1055,12 +1053,8 @@ export const createUIStore = (root: IRootStore) => {
             }
 
             case FocusableWidget.CALENDAR: {
-              console.warn('ENTER CALENDAR')
-
               const event = store.events[store.selectedIndex]
               if (event) {
-                console.warn('event url', event.url)
-
                 let eventLink: string | null | undefined = event.url
 
                 if (!eventLink) {
