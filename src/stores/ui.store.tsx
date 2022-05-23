@@ -993,9 +993,12 @@ export const createUIStore = (root: IRootStore) => {
 
             case FocusableWidget.SCRATCHPAD: {
               if (shift) {
+                if (store.notes[0] === '') {
+                  break
+                }
                 store.notes.unshift('')
                 store.selectedIndex = 0
-                return
+                break
               }
 
               if (meta) {
@@ -1003,6 +1006,9 @@ export const createUIStore = (root: IRootStore) => {
                 store.removeNote(store.selectedIndex)
                 if (store.selectedIndex === 0) {
                   store.notes.unshift('')
+                }
+                if (store.selectedIndex >= store.notes.length) {
+                  store.selectedIndex = store.notes.length - 1
                 }
               } else {
                 store.updateNote(
