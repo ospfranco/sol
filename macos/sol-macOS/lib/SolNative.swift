@@ -106,6 +106,12 @@ class SolNative: RCTEventEmitter {
     }
   }
 
+  @objc func setScratchpadShortcut(_ key: String) {
+    DispatchQueue.main.async {
+      self.appDelegate?.setScratchpadShortcut(key)
+    }
+  }
+
   @objc func getCalendarAuthorizationStatus(
     _ resolve: @escaping  RCTPromiseResolveBlock,
     rejecter: RCTPromiseRejectBlock

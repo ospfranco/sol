@@ -31,6 +31,7 @@ class SolNative extends NativeEventEmitter {
     {title: string; artist: string; artwork: string} | null | undefined
   >
   setGlobalShortcut: (key: 'command' | 'option') => void
+  setScratchpadShortcut: (key: 'command' | 'option') => void
   getCalendarAuthorizationStatus: () => Promise<CalendarAuthorizationStatus>
   requestCalendarAccess: () => Promise<void>
   requestAccessibilityAccess: () => Promise<void>
@@ -61,6 +62,7 @@ class SolNative extends NativeEventEmitter {
     this.openWithFinder = module.openWithFinder
     this.getMediaInfo = module.getMediaInfo
     this.setGlobalShortcut = module.setGlobalShortcut
+    this.setScratchpadShortcut = module.setScratchpadShortcut
     this.getCalendarAuthorizationStatus = module.getCalendarAuthorizationStatus
     this.requestAccessibilityAccess = module.requestAccessibilityAccess
     this.requestCalendarAccess = module.requestCalendarAccess

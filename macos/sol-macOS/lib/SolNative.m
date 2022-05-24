@@ -28,4 +28,5 @@ RCT_EXTERN_METHOD(turnOnHorizontalArrowListeners)
 RCT_EXTERN_METHOD(turnOffHorizontalArrowListeners)
 RCT_EXTERN_METHOD(turnOnVerticalArrowsListeners)
 RCT_EXTERN_METHOD(turnOffVerticalArrowsListeners)
+RCT_EXTERN_METHOD(setScratchpadShortcut: (NSString)key)
 @end

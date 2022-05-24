@@ -107,19 +107,16 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
       </View>
       {selected === 'ABOUT' && (
         <View
-          style={tw`flex-1 flex-row justify-center items-center bg-white dark:bg-black bg-opacity-30`}>
+          style={tw`flex-1 justify-center items-center bg-white dark:bg-black bg-opacity-30`}>
           <Image
             source={Assets.Logo}
-            style={tw.style(`h-32 w-32`, {
+            style={tw.style(`h-20 w-32`, {
               tintColor: colorScheme === 'dark' ? 'white' : 'black',
             })}
           />
-          <View style={tw`pl-3`}>
-            <Text style={tw`font-thin text-3xl`}>SOL</Text>
-            <Text style={tw``}>Beta Version</Text>
-            <Text style={tw`text-xs pt-2`}>Oscar Franco</Text>
-            <Text style={tw`text-xs`}>All rights reserved 2022</Text>
-          </View>
+          <Text style={tw`font-thin text-3xl`}>SOL</Text>
+          <Text style={tw`text-xs pt-2`}>By Oscar Franco</Text>
+          <Text style={tw`text-xs`}>MIT Licensed</Text>
         </View>
       )}
       {selected === 'WEATHER' && (
@@ -174,7 +171,7 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
         <View style={tw`flex-1 p-4 bg-white dark:bg-black bg-opacity-30`}>
           <Text style={tw`font-medium text-lg`}>General configuration</Text>
           <Text style={tw`text-sm text-gray-700 dark:text-gray-400 pt-2`}>
-            Manage general settings for Sol
+            Manage general settings
           </Text>
 
           <View style={tw`flex-row mt-8 items-center`}>
@@ -183,8 +180,18 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
               selectedValue={store.ui.globalShortcut}
               style={tw`w-32`}
               onValueChange={v => store.ui.setGlobalShortcut(v)}>
-              <Picker.Item label="Command then space" value="command" />
-              <Picker.Item label="Option then space" value="option" />
+              <Picker.Item label="⌘ then Space" value="command" />
+              <Picker.Item label="⌥ then space" value="option" />
+            </Picker>
+          </View>
+          <View style={tw`flex-row mt-3 items-center`}>
+            <Text style={tw`flex-1`}>Scratchpad shortcut</Text>
+            <Picker
+              selectedValue={store.ui.scratchpadShortcut}
+              style={tw`w-32`}
+              onValueChange={v => store.ui.setScratchpadShortcut(v)}>
+              <Picker.Item label="⌘ ⇧ Space" value="command" />
+              <Picker.Item label="⇧ ⌥ Space" value="option" />
             </Picker>
           </View>
           <View style={tw`flex-row mt-3 items-center`}>

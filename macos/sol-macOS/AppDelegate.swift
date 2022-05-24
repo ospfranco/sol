@@ -10,17 +10,17 @@ let numberchars: [String] = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate {
   var shiftPressed = false
   var mainWindow: Panel!
-  var mainHotKey = HotKey(key: .space, modifiers: [.command])
-  var debugHotKey = HotKey(key: .space, modifiers: [.command, .option])
   var catchHorizontalArrowsPress = false
   var catchVerticalArrowsPress = true
-  
+
+  private var mainHotKey = HotKey(key: .space, modifiers: [.command])
+  private var debugHotKey = HotKey(key: .space, modifiers: [.command, .option])
   private let rightSideScreenHotKey = HotKey(key: .rightArrow, modifiers: [.option, .control])
   private let leftSideScreenHotKey = HotKey(key: .leftArrow, modifiers: [.option, .control])
   private let fullScreenHotKey = HotKey(key: .return, modifiers: [.option, .control])
   private let moveToNextScreenHotKey = HotKey(key: .rightArrow, modifiers: [.option, .control, .command])
   private let moveToPrevScreenHotKey = HotKey(key: .leftArrow, modifiers: [.option, .control, .command])
-  private let scratchpadHotKey = HotKey(key: .space, modifiers: [.command, .shift])
+  private var scratchpadHotKey = HotKey(key: .space, modifiers: [.command, .shift])
   private let emojiPickerHotKey = HotKey(key: .space, modifiers: [.control, .command])
   private let clipboardManagerHotKey = HotKey(key: .v, modifiers: [.command, .shift])
 
@@ -161,6 +161,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   }
 
   func showScratchpad() {
+    print("Should show scratchpad")
     showWindow(target: "SCRATCHPAD")
   }
 
@@ -173,11 +174,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   }
 
   func hideWindow() {
-//    #if !DEBUG
+//   #if !DEBUG
     mainWindow.orderOut(self)
     NSCursor.unhide()
     SolEmitter.sharedInstance.onHide()
-//    #endif
+//   #endif
   }
 
   func setHorizontalArrowCatch(catchHorizontalArrowPress: Bool) {
@@ -197,5 +198,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
       self.mainHotKey = HotKey(key: .space, modifiers: [.option], keyDownHandler: toggleWindow)
     }
 #endif
+  }
+
+  func setScratchpadShortcut(_ key: String) {
+    print("setting scratchpadShortcut")
+    self.scratchpadHotKey.isPaused = true
+
+    if key == "command" {
+      self.scratchpadHotKey = HotKey(key: .space, modifiers: [.command, .shift], keyDownHandler: showScratchpad)
+    } else {
+      self.scratchpadHotKey = HotKey(key: .space, modifiers: [.shift, .option], keyDownHandler: showScratchpad)
+    }
   }
 }
