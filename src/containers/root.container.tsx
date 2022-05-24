@@ -1,3 +1,4 @@
+import {Fade} from 'components/Fade'
 import {solNative} from 'lib/SolNative'
 import {observer} from 'mobx-react-lite'
 import React, {useEffect} from 'react'
@@ -86,7 +87,7 @@ export const RootContainer = observer(() => {
   }
 
   return (
-    <View style={tw.style(`flex-1`)}>
+    <Fade style={tw.style(`flex-1`)} visible duration={100}>
       <SearchWidget style={mainStyle} />
 
       <View
@@ -121,6 +122,6 @@ export const RootContainer = observer(() => {
           </>
         )}
       </View>
-    </View>
+    </Fade>
   )
 })

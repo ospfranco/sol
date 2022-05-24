@@ -48,7 +48,7 @@ export const OnboardingWidget: FC<Props> = observer(({style}) => {
     if (store.ui.onboardingStep === 'v1_completed') {
       setTimeout(() => {
         store.ui.focusWidget(FocusableWidget.SEARCH)
-      }, 500)
+      }, 350)
     }
     if (store.ui.onboardingStep !== 'v1_start') {
       setVisible(false)
@@ -56,16 +56,16 @@ export const OnboardingWidget: FC<Props> = observer(({style}) => {
     setTimeout(() => {
       setVisible(true)
       setOnboardingStep(store.ui.onboardingStep)
-    }, 1000)
+    }, 500)
   }, [store.ui.onboardingStep])
 
   return (
     <View style={tw.style(`flex-1 items-center p-6 justify-center`, style)}>
       {onboardingStep === 'v1_start' && (
-        <Fade visible={visible} style={tw`items-center`} duration={500}>
+        <Fade visible={visible} style={tw`items-center`} duration={250}>
           <Image
             source={Assets.Logo}
-            style={tw.style(`h-32 w-32`, {
+            style={tw.style(`mt-16 h-16 w-32`, {
               tintColor: colorScheme === 'dark' ? 'white' : 'black',
             })}
           />
@@ -77,14 +77,8 @@ export const OnboardingWidget: FC<Props> = observer(({style}) => {
         </Fade>
       )}
       {onboardingStep === 'v1_shortcut' && (
-        <Fade visible={visible} style={tw`items-center`} duration={500}>
-          <Image
-            source={Assets.Logo}
-            style={tw.style(`h-32 w-32`, {
-              tintColor: colorScheme === 'dark' ? 'white' : 'black',
-            })}
-          />
-          <Text>Pick a global shortcut</Text>
+        <Fade visible={visible} style={tw`items-center`} duration={250}>
+          <Text style={tw`mt-16`}>Pick a global shortcut</Text>
           <View style={tw`flex-1 justify-center`}>
             {SHORTCUTS.map((item, index) => {
               const Label = item.label
@@ -119,32 +113,32 @@ export const OnboardingWidget: FC<Props> = observer(({style}) => {
       )}
 
       {onboardingStep === 'v1_quick_actions' && (
-        <Fade visible={visible} style={tw`items-center`} duration={500}>
-          <Image
-            source={Assets.Logo}
-            style={tw.style(`h-32 w-32`, {
-              tintColor: colorScheme === 'dark' ? 'white' : 'black',
-            })}
-          />
+        <Fade visible={visible} style={tw`items-center`} duration={250}>
           <View style={tw`flex-1 justify-center items-center`}>
-            <Text style={tw``}>
-              <Text style={tw`font-bold`}>⌘ + ⇧ + Space</Text> opens the
-              Scratchpad
+            <Text>
+              <Text style={tw`font-bold`}>⌘ ⇧ V</Text> Clipboard manager
             </Text>
+            <Text style={tw`mt-4`}>
+              <Text style={tw`font-bold`}>⌘ ⌃ Space</Text> Emoji picker
+            </Text>
+            <Text style={tw`mt-4`}>
+              <Text style={tw`font-bold`}>⌘ ⇧ Space</Text> Scratchpad
+            </Text>
+
             <View
               style={tw`border-b w-32 border-lightBorder dark:border-darkBorder my-8`}
             />
-            <Text style={tw`font-bold`}>Window Management</Text>
-            <Text style={tw`mt-4`}>
-              <Text style={tw`font-bold`}>^ ⌥ ↩</Text> fullscreen front-most
+
+            <Text>
+              <Text style={tw`font-bold`}>^ ⌥ ↩</Text> Fullscreen front-most
               window
             </Text>
             <Text style={tw`mt-4`}>
-              <Text style={tw`font-bold`}>^ ⌥ →</Text> resize front-most window
+              <Text style={tw`font-bold`}>^ ⌥ →</Text> Resize front-most window
               to the right
             </Text>
             <Text style={tw`mt-4`}>
-              <Text style={tw`font-bold`}>^ ⌥ ←</Text> resize front-most window
+              <Text style={tw`font-bold`}>^ ⌥ ←</Text> Resize front-most window
               to the left
             </Text>
           </View>
