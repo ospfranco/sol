@@ -23,7 +23,6 @@ class ClipboardHelper {
       // event for key up event:
       let eventKeyUp = CGEvent(keyboardEventSource: source, virtualKey: 0, keyDown: false)
 
-      // split the emoji into an array:
       var utf16array = Array(content.utf16)
 
       // set the emoji for the key down event:
@@ -46,7 +45,13 @@ class ClipboardHelper {
 
       pasteboard.setString(content, forType: .string)
 
-      AppleScriptHelper.runAppleScript("tell application \"System Events\" to keystroke \"v\" using command down");
+      let event1 = CGEvent(keyboardEventSource: nil, virtualKey: 0x09, keyDown: true); // cmd-v down
+      event1?.flags = CGEventFlags.maskCommand;
+      event1?.post(tap: CGEventTapLocation.cghidEventTap);
+
+      let event2 = CGEvent(keyboardEventSource: nil, virtualKey: 0x09, keyDown: false) // cmd-v up
+                                                                                       //    event2?.flags = CGEventFlags.maskCommand
+      event2?.post(tap: CGEventTapLocation.cghidEventTap)
     }
   }
 }

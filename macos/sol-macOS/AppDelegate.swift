@@ -201,7 +201,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   }
 
   func setScratchpadShortcut(_ key: String) {
-    print("setting scratchpadShortcut")
     self.scratchpadHotKey.isPaused = true
 
     if key == "command" {

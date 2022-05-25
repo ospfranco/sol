@@ -926,6 +926,8 @@ export const createUIStore = (root: IRootStore) => {
             case FocusableWidget.CLIPBOARD: {
               const entry = root.clipboard.items[store.selectedIndex]
 
+              console.warn('should paste entry', entry)
+
               root.clipboard.unshift(store.selectedIndex)
 
               if (entry) {
@@ -937,7 +939,7 @@ export const createUIStore = (root: IRootStore) => {
                   }
                   solNative.hideWindow()
                 } else {
-                  solNative.insertToFrontmostApp(entry)
+                  solNative.pasteToFrontmostApp(entry)
                 }
               }
               break
