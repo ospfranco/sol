@@ -1,6 +1,6 @@
 {
   "name": "sol",
-  "version": "1.1.23",
+  "version": "1.1.24",
   "private": true,
   "scripts": {
     "macos": "react-native run-macos --scheme macOS",
@@ -12,7 +12,8 @@
     "postinstall": "patch-package",
     "permissions:reset": "tccutil reset Calendar com.ospfranco.sol && tccutil reset Accessibility com.ospfranco.sol",
     "release:dev": "bundle exec fastlane dev && rimraf ./releases/Sol.app && open /Applications/Sol.app",
-    "release:id": "bundle exec fastlane release && rimraf ./releases/Sol.app && rimraf ./releases/Sol.app.zip && ./macos/Pods/Sparkle/bin/generate_appcast ./releases && pingme"
+    "release:id": "bundle exec fastlane release && rimraf ./releases/Sol.app && rimraf ./releases/Sol.app.zip && ./macos/Pods/Sparkle/bin/generate_appcast ./releases && pingme",
+    "release:appcast": "./macos/Pods/Sparkle/bin/generate_appcast ./releases"
   },
   "dependencies": {
     "@giphy/js-fetch-api": "^4.1.2",
