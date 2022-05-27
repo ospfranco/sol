@@ -1,0 +1,22 @@
+<?xml version="1.0" standalone="yes"?>
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+    <channel>
+        <title>sol</title>
+        <item>
+            <title>1.1.20</title>
+            <pubDate>Fri, 27 May 2022 16:28:24 +0200</pubDate>
+            <sparkle:version>44</sparkle:version>
+            <sparkle:shortVersionString>1.1.20</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>10.15</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/blob/main/releases/Sol.app.zip" length="4622510" type="application/octet-stream" sparkle:edSignature="ZQxOQ8ZE9LvSe1vL0IqV1uzNG0vJ1++mDulcF9tGMgX+pKp/1KPcUeUaudX2S/cxSUdhTag/k12/h/5nf+nsBA=="/>
+        </item>
+        <item>
+            <title>1.1.20</title>
+            <pubDate>Fri, 27 May 2022 16:28:56 +0200</pubDate>
+            <sparkle:version>44</sparkle:version>
+            <sparkle:shortVersionString>1.1.20</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>10.15</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/blob/main/releases/1.1.20.zip" length="7518810" type="application/octet-stream" sparkle:edSignature="x3ZwKTdKbCgpl+7HmIxoBFK5Ljc907I1N6J7/Xp+qDDAWmORvYmVs+oGmmO/FQRG1sjZFr+I/GZtA72Y51+pCQ=="/>
+        </item>
+    </channel>
+</rss>

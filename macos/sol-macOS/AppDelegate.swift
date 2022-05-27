@@ -59,6 +59,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     showWindow()
   }
 
+  func checkForUpdates() {
+    updaterController.checkForUpdates(self)
+  }
+
   func setupPasteboardListener() {
     ClipboardHelper.addOnPasteListener {
       let txt = $0.string(forType: .string)

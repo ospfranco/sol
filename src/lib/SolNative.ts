@@ -49,6 +49,7 @@ class SolNative extends NativeEventEmitter {
   turnOffHorizontalArrowListeners: () => void
   turnOnVerticalArrowsListeners: () => void
   turnOffVerticalArrowsListeners: () => void
+  checkForUpdates: () => void
 
   constructor(module: any) {
     super(module)
@@ -82,6 +83,7 @@ class SolNative extends NativeEventEmitter {
       module.turnOffHorizontalArrowListeners
     this.turnOnVerticalArrowsListeners = module.turnOnVerticalArrowsListeners
     this.turnOffVerticalArrowsListeners = module.turnOffVerticalArrowsListeners
+    this.checkForUpdates = module.checkForUpdates
 
     const constants = module.getConstants()
     this.accentColor = constants.accentColor

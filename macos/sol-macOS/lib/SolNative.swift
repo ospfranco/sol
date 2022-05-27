@@ -192,4 +192,8 @@ class SolNative: RCTEventEmitter {
   @objc func turnOffVerticalArrowsListeners() {
     self.appDelegate?.setVerticalArrowCatch(catchVerticalArrowPress: false)
   }
+
+  @objc func checkForUpdates() {
+    self.appDelegate?.checkForUpdates()
+  }
 }

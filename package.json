@@ -12,7 +12,7 @@
     "postinstall": "patch-package",
     "permissions:reset": "tccutil reset Calendar com.ospfranco.sol && tccutil reset Accessibility com.ospfranco.sol",
     "release:dev": "bundle exec fastlane dev && pingme && open /Applications/Sol.app",
-    "release:id": "bundle exec fastlane release && pingme"
+    "release:id": "bundle exec fastlane release && rimraf ./releases/Sol.app.zip && ./macos/Pods/Sparkle/bin/generate_appcast && pingme"
   },
   "dependencies": {
     "@giphy/js-fetch-api": "^4.1.2",
@@ -51,7 +51,8 @@
     "eslint": "7.32.0",
     "jest": "^26.6.3",
     "metro-react-native-babel-preset": "^0.67.0",
-    "react-test-renderer": "17.0.2"
+    "react-test-renderer": "17.0.2",
+    "rimraf": "^3.0.2"
   },
   "jest": {
     "preset": "react-native"

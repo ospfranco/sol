@@ -285,6 +285,7 @@ PODS:
   - Sentry (7.11.0):
     - Sentry/Core (= 7.11.0)
   - Sentry/Core (7.11.0)
+  - Sparkle (2.1.0)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -323,12 +324,14 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native-macos/ReactCommon`)
   - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
   - "RNSentry (from `../node_modules/@sentry/react-native`)"
+  - Sparkle
   - Yoga (from `../node_modules/react-native-macos/ReactCommon/yoga`)
 
 SPEC REPOS:
   trunk:
     - fmt
     - Sentry
+    - Sparkle
 
 EXTERNAL SOURCES:
   boost:
@@ -436,8 +439,9 @@ SPEC CHECKSUMS:
   RNCPicker: 6d5d64e7b90c240c779ee0938ec433c11e2dd758
   RNSentry: 2cd1daa124b0d9fd0dfc2cb6094fdd168cb579bc
   Sentry: 0c5cd63d714187b4a39c331c1f0eb04ba7868341
+  Sparkle: 7f5f6d4328458515e23272f4138e610c1fa3e32d
   Yoga: 17315212b64f9a42d6dd13ba8bcd97cb7cf36ca9
 
-PODFILE CHECKSUM: 5083d948103f5ec919d83034781c4e666d4a19ca
+PODFILE CHECKSUM: 4896d2f3bacdf83f9e8bbbff7a5565193e4f7a0d
 
 COCOAPODS: 1.11.3

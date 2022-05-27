@@ -64,3 +64,7 @@ env.json
 
 # Fastlane
 /fastlane/report.xml
+
+# Built binaries
+**/Sol.app
+**/Sol.app.zip

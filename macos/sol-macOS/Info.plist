@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>SUFeedURL</key>
+	<string>https://github.com/ospfranco/sol/blob/main/releases/appcast.xml</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -51,5 +53,7 @@
 	<false/>
 	<key>NSSupportsSuddenTermination</key>
 	<true/>
+	<key>SUPublicEDKey</key>
+	<string>C+Tp2eaQDZojXNP+iWJf5w68HiUVptpvazsnNXTJ5w4=</string>
 </dict>
 </plist>

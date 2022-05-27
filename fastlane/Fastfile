@@ -4,9 +4,11 @@ default_platform(:mac)
 
 platform :mac do
   lane :release do
-    outputPath = "/Users/osp/Developer/"
+    version = get_version_number(xcodeproj: "./macos/sol.xcodeproj")
+
+    outputPath = "/Users/osp/Developer/sol/releases/"
     appFileName = outputPath + "Sol.app"
-    zipFileName = outputPath + "Sol.zip"
+    zipFileName = outputPath + version + ".zip"
     
     build_mac_app(
       scheme: "macOS",
@@ -31,7 +33,7 @@ platform :mac do
 
   lane :dev do
     outputPath = "/Applications/"
-    appFileName = outputPath + "Sol.app"
+    appFileName = appFileName
 
     build_mac_app(
       scheme: "macOS",

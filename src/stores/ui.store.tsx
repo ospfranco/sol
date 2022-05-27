@@ -375,6 +375,14 @@ export const createUIStore = (root: IRootStore) => {
           },
           // shortcut: '⌘ + ^ + Space',
         },
+        {
+          icon: '🆙',
+          name: 'Check for updates',
+          type: ItemType.CONFIGURATION,
+          callback: () => {
+            solNative.checkForUpdates()
+          },
+        },
         ...buildSystemPreferencesItems(),
       ],
       windows: [
