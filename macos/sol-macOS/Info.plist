@@ -52,7 +52,7 @@
 	<key>NSSupportsSuddenTermination</key>
 	<true/>
 	<key>SUFeedURL</key>
-	<string>https://github.com/ospfranco/sol/blob/main/releases/appcast.xml</string>
+	<string>https://raw.githubusercontent.com/ospfranco/sol/main/releases/appcast.xml</string>
 	<key>SUPublicEDKey</key>
 	<string>C+Tp2eaQDZojXNP+iWJf5w68HiUVptpvazsnNXTJ5w4=</string>
 </dict>
