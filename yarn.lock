@@ -6324,10 +6324,10 @@ mkdirp@^0.5.5:
   dependencies:
     minimist "^1.2.6"
 
-mobx-react-lite@^3.2.3:
-  version "3.2.3"
-  resolved "https://registry.yarnpkg.com/mobx-react-lite/-/mobx-react-lite-3.2.3.tgz#83d2b32ebf4383cd0dc0d397acbf53a8e9c66765"
-  integrity sha512-7exWp1FV0M9dP08H9PIeHlJqDw4IdkQVRMfLYaZFMmlbzSS6ZU6p/kx392KN+rVf81hH3IQYewvRGQ70oiwmbw==
+mobx-react-lite@3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/mobx-react-lite/-/mobx-react-lite-3.4.0.tgz#d59156a96889cdadad751e5e4dab95f28926dfff"
+  integrity sha512-bRuZp3C0itgLKHu/VNxi66DN/XVkQG7xtoBVWxpvC5FhAqbOCP21+nPhULjnzEqd7xBMybp6KwytdUpZKEgpIQ==
 
 mobx@^6.3.12:
   version "6.3.12"
@@ -7180,10 +7180,10 @@ react-native-gradle-plugin@^0.0.6:
   resolved "https://registry.yarnpkg.com/react-native-gradle-plugin/-/react-native-gradle-plugin-0.0.6.tgz#b61a9234ad2f61430937911003cddd7e15c72b45"
   integrity sha512-eIlgtsmDp1jLC24dRn43hB3kEcZVqx6DUQbR0N1ABXGnMEafm9I3V3dUUeD1vh+Dy5WqijSoEwLNUPLgu5zDMg==
 
-react-native-macos@^0.66.48:
-  version "0.66.48"
-  resolved "https://registry.yarnpkg.com/react-native-macos/-/react-native-macos-0.66.48.tgz#74b3611b034486b55abfd825bce90bf7d8d9c7a2"
-  integrity sha512-28YewjWQsqt9fltJfC72PsXICck2IOolM50mUAfWeXFGuk3aG/xmEvCq/MdyxGt0zqoa0TMteNlRn9JkMhiktw==
+react-native-macos@0.66.57:
+  version "0.66.57"
+  resolved "https://registry.yarnpkg.com/react-native-macos/-/react-native-macos-0.66.57.tgz#236a59866a33ae56280344cceb1a049209077f15"
+  integrity sha512-ZWMWszoOadyMzoTwgidnKtYHJkM13zNrQTwgDzZx5LbQ1x58E5itY84V1k+Zcy3Ikie3cHVSWxB22LNw+/BI6A==
   dependencies:
     "@jest/create-cache-key-function" "^27.0.1"
     "@react-native-community/cli" "^6.0.0"
