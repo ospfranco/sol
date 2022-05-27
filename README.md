@@ -15,7 +15,7 @@
 
 ## Download
 
-Get the latest versions from the [releases page](https://github.com/ospfranco/sol/releases)
+Get the latest version from the [releases folder](https://github.com/ospfranco/sol/tree/main/releases), once installed the app can auto-update itself.
 
 ## Features
 
