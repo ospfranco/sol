@@ -11,8 +11,8 @@
     "windows": "react-native run-windows",
     "postinstall": "patch-package",
     "permissions:reset": "tccutil reset Calendar com.ospfranco.sol && tccutil reset Accessibility com.ospfranco.sol",
-    "release:dev": "bundle exec fastlane dev && pingme && open /Applications/Sol.app",
-    "release:id": "bundle exec fastlane release && rimraf ./releases/Sol.app.zip && ./macos/Pods/Sparkle/bin/generate_appcast && pingme"
+    "release:dev": "bundle exec fastlane dev && rimraf ./releases/Sol.app && open /Applications/Sol.app",
+    "release:id": "bundle exec fastlane release && rimraf ./releases/Sol.app && rimraf ./releases/Sol.app.zip && ./macos/Pods/Sparkle/bin/generate_appcast ./releases && pingme"
   },
   "dependencies": {
     "@giphy/js-fetch-api": "^4.1.2",

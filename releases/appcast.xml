@@ -3,12 +3,23 @@
     <channel>
         <title>sol</title>
         <item>
+            <title>1.1.21</title>
+            <pubDate>Fri, 27 May 2022 16:51:49 +0200</pubDate>
+            <sparkle:version>45</sparkle:version>
+            <sparkle:shortVersionString>1.1.21</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>10.15</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/blob/main/releases/1.1.21.zip" length="7518896" type="application/octet-stream" sparkle:edSignature="ubU5I0nKC+wyjg5ZVN+zV5qnuUEbTE0CfqoRZkqRCgD1AvP7plJO81bazo1p4WUbkvzX73quOwi+ubuib8bCAw=="/>
+            <sparkle:deltas>
+                <enclosure url="https://github.com/ospfranco/sol/blob/main/releases/Sol45-44.delta" sparkle:deltaFrom="44" length="17142" type="application/octet-stream" sparkle:edSignature="93wVFBDrUQ6T+I2BQuBttG3n4oINhXAhT88nfvN7HvnHKW/4dkUik4Jf/OrFJ/mtw2rqMEeLaWikPN9yIOnECA=="/>
+            </sparkle:deltas>
+        </item>
+        <item>
             <title>1.1.20</title>
             <pubDate>Fri, 27 May 2022 16:28:24 +0200</pubDate>
             <sparkle:version>44</sparkle:version>
             <sparkle:shortVersionString>1.1.20</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>10.15</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/ospfranco/sol/blob/main/releases/Sol.app.zip" length="4622510" type="application/octet-stream" sparkle:edSignature="ZQxOQ8ZE9LvSe1vL0IqV1uzNG0vJ1++mDulcF9tGMgX+pKp/1KPcUeUaudX2S/cxSUdhTag/k12/h/5nf+nsBA=="/>
+            <enclosure url="https://github.com/ospfranco/sol/blob/main/releases/1.1.20.zip" length="7518866" type="application/octet-stream" sparkle:edSignature="F/XCl5ZkodXngkssjttwwTtY+jsRN/gOO/9e1s4cgXlwExG1YxNKGZ/EZ+ykCn+YlCop4/6Cq9nn5aNwTnDbAg=="/>
         </item>
         <item>
             <title>1.1.20</title>
