@@ -3,6 +3,19 @@
     <channel>
         <title>sol</title>
         <item>
+            <title>1.1.23</title>
+            <pubDate>Fri, 27 May 2022 17:03:42 +0200</pubDate>
+            <sparkle:version>47</sparkle:version>
+            <sparkle:shortVersionString>1.1.23</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>10.15</sparkle:minimumSystemVersion>
+            <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/1.1.23.zip" length="7518899" type="application/octet-stream" sparkle:edSignature="NlcvGVu6Aheq5EwAFy/QY2xw/SwGlXhrIxn5Uwj+NlUgo06oniulZMaztMSL46PklLZlB8DTUz8XoInyq+aIDw=="/>
+            <sparkle:deltas>
+                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/Sol47-46.delta" sparkle:deltaFrom="46" length="16626" type="application/octet-stream" sparkle:edSignature="AIN4vx/hOQj9lHiLEGlHUXKt799eixB8TTl7V54a5UtDcsEoKWqwk38sxnUXrYhXTo+P86CKJ5Ru3WK9+m8rCg=="/>
+                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/Sol47-45.delta" sparkle:deltaFrom="45" length="17254" type="application/octet-stream" sparkle:edSignature="bCBg3eRjjdtGTF6UTDcv4DlXF/HCwoZ2gT8U+jyFZ++NSNbhh9RgggS11+e566eQm5vobq+TkmLgeCm+scUjBg=="/>
+                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/Sol47-44.delta" sparkle:deltaFrom="44" length="17154" type="application/octet-stream" sparkle:edSignature="6ZzCPswDmkCiBoYbZDdIKA7kbJfkCl3rc8vvhXlZbmRYiDTwQnjDsni4mNC4n+lW8i0WD3nOfiR2D1xs9cDvDA=="/>
+            </sparkle:deltas>
+        </item>
+        <item>
             <title>1.1.22</title>
             <pubDate>Fri, 27 May 2022 16:58:11 +0200</pubDate>
             <sparkle:version>46</sparkle:version>
