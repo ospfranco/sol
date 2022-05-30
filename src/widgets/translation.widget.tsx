@@ -62,14 +62,14 @@ export const TranslationWidget: FC<Props> = observer(({style}) => {
         <View style={tw`flex-1 p-3`}>
           <View style={tw`flex-1`}>
             <View
-              style={tw.style(
-                `flex-1 p-3 rounded flex-row items-center border border-transparent`,
-                {
-                  'bg-accent bg-opacity-50 dark:bg-opacity-20 border-buttonBorder dark:border-darkBorder':
-                    store.ui.selectedIndex === 0,
-                },
-              )}>
-              <Text style={tw`flex-1 pt-2 text-base`}>
+              style={tw.style(`flex-1 p-3 rounded flex-row items-center`, {
+                'bg-accent bg-opacity-50 dark:bg-opacity-20 border-buttonBorder dark:border-darkBorder':
+                  store.ui.selectedIndex === 0,
+              })}>
+              <Text
+                style={tw.style(`flex-1 pt-2 text-base`, {
+                  'text-white': store.ui.selectedIndex === 0,
+                })}>
                 {store.ui.translationResults.en}
               </Text>
               <Text style={tw`text-3xl`}>
@@ -80,14 +80,14 @@ export const TranslationWidget: FC<Props> = observer(({style}) => {
           </View>
           <View style={tw`flex-1`}>
             <View
-              style={tw.style(
-                `flex-1 p-3 rounded flex-row items-center border border-transparent`,
-                {
-                  'bg-accent bg-opacity-50 dark:bg-opacity-20 border-buttonBorder dark:border-darkBorder':
-                    store.ui.selectedIndex === 1,
-                },
-              )}>
-              <Text style={tw`flex-1 pt-2 text-base`}>
+              style={tw.style(`flex-1 p-3 rounded flex-row items-center`, {
+                'bg-accent bg-opacity-50 dark:bg-opacity-20 border-buttonBorder dark:border-darkBorder':
+                  store.ui.selectedIndex === 1,
+              })}>
+              <Text
+                style={tw.style(`flex-1 pt-2 text-base`, {
+                  'text-white': store.ui.selectedIndex === 1,
+                })}>
                 {store.ui.translationResults.de}
               </Text>
               <Text style={tw`text-3xl`}>
