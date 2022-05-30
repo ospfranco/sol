@@ -31,13 +31,14 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
   const listRef = useRef<FlatList | null>(null)
 
   useEffect(() => {
-    if (focused) {
+    if (focused && store.ui.items.length) {
       listRef.current?.scrollToIndex({
         index: store.ui.selectedIndex,
         viewOffset: 80,
       })
     }
   }, [focused, store.ui.selectedIndex])
+  const items = store.ui.items
 
   return (
     <View style={style}>
@@ -67,7 +68,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
         windowSize={8}
         contentContainerStyle={tw.style(`flex-grow-1 px-3 py-1`)}
         ref={listRef}
-        data={store.ui.items}
+        data={items}
         keyExtractor={item => `${item.name}-${item.type}`}
         renderItem={({item, index}) => {
           const isActive = index === store.ui.selectedIndex && focused
@@ -123,9 +124,8 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
                 <Image source={item.iconImage} style={tw`w-4 h-4`} />
               )}
               {/* Somehow this component breaks windows build */}
-              {Platform.OS === 'macos' && !!item.iconComponent && (
-                <item.iconComponent />
-              )}
+              {(Platform.OS === 'macos' || Platform.OS === 'ios') &&
+                !!item.iconComponent && <item.iconComponent />}
               <Text
                 style={tw.style('ml-3 flex-1 text-sm', {
                   'text-white': isActive,

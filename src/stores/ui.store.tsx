@@ -158,58 +158,56 @@ export const createUIStore = (root: IRootStore) => {
     }
   }
 
-  const SETTING_ITEMS: Item[] =
-    Platform.select({
-      macos: [
-        {
-          icon: '⏰',
-          name: 'Track time',
-          type: ItemType.CONFIGURATION,
-          preventClose: true,
-          callback: () => {
-            store.focusWidget(FocusableWidget.PROJECT_SELECT)
-          },
-        },
-        {
-          icon: '✋',
-          name: 'Stop Tracking Time',
-          type: ItemType.CONFIGURATION,
-          preventClose: true,
-          callback: () => {
-            store.stopTrackingProject()
-          },
-        },
-        {
-          icon: '➕',
-          name: 'Create Tracking Project',
-          type: ItemType.CONFIGURATION,
-          preventClose: true,
-          callback: () => {
-            store.showProjectCreationForm()
-          },
-        },
-        {
-          iconImage: Assets.DarkModeIcon,
-          name: 'Dark mode',
-          type: ItemType.CONFIGURATION,
-          callback: () => {
-            solNative.toggleDarkMode()
-          },
-        },
-        {
-          iconImage: Assets.SleepIcon,
-          name: 'Sleep',
-          type: ItemType.CONFIGURATION,
-          callback: () => {
-            solNative.executeAppleScript('tell application "Finder" to sleep')
-          },
-        },
-        {
-          iconImage: Assets.Airdrop,
-          name: 'AirDrop',
-          type: ItemType.CONFIGURATION,
-          callback: () => {
-            solNative.executeAppleScript(`tell application "Finder"
+  let SETTING_ITEMS: Item[] = [
+    {
+      icon: '⏰',
+      name: 'Track time',
+      type: ItemType.CONFIGURATION,
+      preventClose: true,
+      callback: () => {
+        store.focusWidget(FocusableWidget.PROJECT_SELECT)
+      },
+    },
+    {
+      icon: '✋',
+      name: 'Stop Tracking Time',
+      type: ItemType.CONFIGURATION,
+      preventClose: true,
+      callback: () => {
+        store.stopTrackingProject()
+      },
+    },
+    {
+      icon: '➕',
+      name: 'Create Tracking Project',
+      type: ItemType.CONFIGURATION,
+      preventClose: true,
+      callback: () => {
+        store.showProjectCreationForm()
+      },
+    },
+    {
+      iconImage: Assets.DarkModeIcon,
+      name: 'Dark mode',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.toggleDarkMode()
+      },
+    },
+    {
+      iconImage: Assets.SleepIcon,
+      name: 'Sleep',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.executeAppleScript('tell application "Finder" to sleep')
+      },
+    },
+    {
+      iconImage: Assets.Airdrop,
+      name: 'AirDrop',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.executeAppleScript(`tell application "Finder"
           if exists window "AirDrop" then
                   tell application "System Events" to ¬
                           tell application process "Finder" to ¬
@@ -227,175 +225,177 @@ export const createUIStore = (root: IRootStore) => {
           end if
           activate
         end tell`)
-          },
-        },
-        {
-          iconImage: Assets.LockIcon,
-          name: 'Lock',
-          type: ItemType.CONFIGURATION,
-          callback: () => {
-            solNative.executeAppleScript(
-              `tell application "System Events" to keystroke "q" using {control down, command down}`,
-            )
-          },
-        },
-        {
-          iconComponent: () => {
-            const colorScheme = Appearance.getColorScheme()
+      },
+    },
+    {
+      iconImage: Assets.LockIcon,
+      name: 'Lock',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.executeAppleScript(
+          `tell application "System Events" to keystroke "q" using {control down, command down}`,
+        )
+      },
+    },
+    {
+      iconComponent: () => {
+        const colorScheme = Appearance.getColorScheme()
 
-            return (
-              <Image
-                source={Assets.SolWhiteSmall}
-                style={tw.style('w-4 h-4', {
-                  tintColor: colorScheme === 'dark' ? 'white' : 'black',
-                })}
-              />
-            )
-          },
-          name: 'Settings',
-          type: ItemType.CONFIGURATION,
-          callback: () => {
-            store.focusWidget(FocusableWidget.SETTINGS)
-          },
-          preventClose: true,
+        return (
+          <Image
+            source={Assets.SolWhiteSmall}
+            style={tw.style('w-4 h-4', {
+              tintColor: colorScheme === 'dark' ? 'white' : 'black',
+            })}
+          />
+        )
+      },
+      name: 'Settings',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        store.focusWidget(FocusableWidget.SETTINGS)
+      },
+      preventClose: true,
+    },
+    {
+      icon: '✳️',
+      name: 'Create shortcut',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        store.focusWidget(FocusableWidget.CREATE_ITEM)
+      },
+      preventClose: true,
+    },
+    {
+      iconComponent: () => {
+        return (
+          <View style={tw`w-4 h-4 p-[2] rounded items-end bg-black`}>
+            <View style={tw`w-1 h-3 p-1 rounded-sm bg-white`} />
+          </View>
+        )
+      },
+      name: 'Resize window to right-half',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.resizeFrontmostRightHalf()
+      },
+      shortcut: '^ ⌥ →',
+    },
+    {
+      iconComponent: () => {
+        return (
+          <View style={tw`w-4 h-4 p-[2] rounded items-start bg-black`}>
+            <View style={tw`w-1 h-3 p-1 rounded-sm bg-white`} />
+          </View>
+        )
+      },
+      name: 'Resize window to left-half',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.resizeFrontmostLeftHalf()
+      },
+      shortcut: '^ ⌥ ←',
+    },
+    {
+      iconComponent: () => {
+        return (
+          <View style={tw`w-4 h-4 p-[2] rounded items-start bg-black`}>
+            <View style={tw`w-3  h-3 p-1 rounded-sm bg-white`} />
+          </View>
+        )
+      },
+      name: 'Resize window to full-screen',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.resizeFrontmostFullscreen()
+      },
+      shortcut: '^ ⌥ ↩',
+    },
+    {
+      iconComponent: () => {
+        return (
+          <View
+            style={tw`w-4 h-4 rounded items-center justify-center bg-black`}>
+            <Text style={tw`text-white`}>→</Text>
+          </View>
+        )
+      },
+      name: 'Move window to next screen',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.moveFrontmostNextScreen()
+      },
+      shortcut: '^ ⌥ ⌘ →',
+    },
+    {
+      iconComponent: () => {
+        return (
+          <View
+            style={tw`w-4 h-4 rounded items-center justify-center bg-black`}>
+            <Text style={tw`text-white`}>←</Text>
+          </View>
+        )
+      },
+      name: 'Move window to previous screen',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.moveFrontmostPrevScreen()
+      },
+      shortcut: '^ ⌥ ⌘ ←',
+    },
+    {
+      icon: '🖊',
+      name: 'Scratchpad',
+      preventClose: true,
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        store.focusWidget(FocusableWidget.SCRATCHPAD)
+      },
+      shortcut: '⌘ + ⇧ + Space',
+    },
+    {
+      icon: '😎',
+      name: 'Emoji Picker',
+      preventClose: true,
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        store.showEmojiPicker()
+      },
+      shortcut: '⌘ + ^ + Space',
+    },
+    {
+      icon: '😂',
+      name: 'Search Gif',
+      preventClose: true,
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        store.showGifPicker()
+      },
+      // shortcut: '⌘ + ^ + Space',
+    },
+    {
+      icon: '🆙',
+      name: 'Check for updates',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.checkForUpdates()
+      },
+    },
+    ...buildSystemPreferencesItems(),
+  ]
+
+  if (Platform.OS === 'windows') {
+    SETTING_ITEMS = [
+      {
+        iconImage: Assets.DarkModeIcon,
+        name: 'Dark mode',
+        type: ItemType.CONFIGURATION,
+        callback: () => {
+          solNative.toggleDarkMode()
         },
-        {
-          icon: '✳️',
-          name: 'Create shortcut',
-          type: ItemType.CONFIGURATION,
-          callback: () => {
-            store.focusWidget(FocusableWidget.CREATE_ITEM)
-          },
-          preventClose: true,
-        },
-        {
-          iconComponent: () => {
-            return (
-              <View style={tw`w-4 h-4 p-[2] rounded items-end bg-black`}>
-                <View style={tw`w-1 h-3 p-1 rounded-sm bg-white`} />
-              </View>
-            )
-          },
-          name: 'Resize window to right-half',
-          type: ItemType.CONFIGURATION,
-          callback: () => {
-            solNative.resizeFrontmostRightHalf()
-          },
-          shortcut: '^ ⌥ →',
-        },
-        {
-          iconComponent: () => {
-            return (
-              <View style={tw`w-4 h-4 p-[2] rounded items-start bg-black`}>
-                <View style={tw`w-1 h-3 p-1 rounded-sm bg-white`} />
-              </View>
-            )
-          },
-          name: 'Resize window to left-half',
-          type: ItemType.CONFIGURATION,
-          callback: () => {
-            solNative.resizeFrontmostLeftHalf()
-          },
-          shortcut: '^ ⌥ ←',
-        },
-        {
-          iconComponent: () => {
-            return (
-              <View style={tw`w-4 h-4 p-[2] rounded items-start bg-black`}>
-                <View style={tw`w-3  h-3 p-1 rounded-sm bg-white`} />
-              </View>
-            )
-          },
-          name: 'Resize window to full-screen',
-          type: ItemType.CONFIGURATION,
-          callback: () => {
-            solNative.resizeFrontmostFullscreen()
-          },
-          shortcut: '^ ⌥ ↩',
-        },
-        {
-          iconComponent: () => {
-            return (
-              <View
-                style={tw`w-4 h-4 rounded items-center justify-center bg-black`}>
-                <Text style={tw`text-white`}>→</Text>
-              </View>
-            )
-          },
-          name: 'Move window to next screen',
-          type: ItemType.CONFIGURATION,
-          callback: () => {
-            solNative.moveFrontmostNextScreen()
-          },
-          shortcut: '^ ⌥ ⌘ →',
-        },
-        {
-          iconComponent: () => {
-            return (
-              <View
-                style={tw`w-4 h-4 rounded items-center justify-center bg-black`}>
-                <Text style={tw`text-white`}>←</Text>
-              </View>
-            )
-          },
-          name: 'Resize window to previous screen',
-          type: ItemType.CONFIGURATION,
-          callback: () => {
-            solNative.moveFrontmostPrevScreen()
-          },
-          shortcut: '^ ⌥ ⌘ ←',
-        },
-        {
-          icon: '🖊',
-          name: 'Scratchpad',
-          preventClose: true,
-          type: ItemType.CONFIGURATION,
-          callback: () => {
-            store.focusWidget(FocusableWidget.SCRATCHPAD)
-          },
-          shortcut: '⌘ + ⇧ + Space',
-        },
-        {
-          icon: '😎',
-          name: 'Emoji Picker',
-          preventClose: true,
-          type: ItemType.CONFIGURATION,
-          callback: () => {
-            store.showEmojiPicker()
-          },
-          shortcut: '⌘ + ^ + Space',
-        },
-        {
-          icon: '😂',
-          name: 'Search Gif',
-          preventClose: true,
-          type: ItemType.CONFIGURATION,
-          callback: () => {
-            store.showGifPicker()
-          },
-          // shortcut: '⌘ + ^ + Space',
-        },
-        {
-          icon: '🆙',
-          name: 'Check for updates',
-          type: ItemType.CONFIGURATION,
-          callback: () => {
-            solNative.checkForUpdates()
-          },
-        },
-        ...buildSystemPreferencesItems(),
-      ],
-      windows: [
-        {
-          iconImage: Assets.DarkModeIcon,
-          name: 'Dark mode',
-          type: ItemType.CONFIGURATION,
-          callback: () => {
-            solNative.toggleDarkMode()
-          },
-        },
-      ],
-    }) || []
+      },
+    ]
+  }
 
   if (__DEV__) {
     SETTING_ITEMS.push({
