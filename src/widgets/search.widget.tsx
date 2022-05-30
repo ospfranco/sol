@@ -78,9 +78,9 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
               <View
                 key={index}
                 style={tw.style(
-                  `justify-center items-center p-3 m-3 border border-transparent mb-2 rounded bg-opacity-50 dark:bg-opacity-40`,
+                  `justify-center items-center p-3 m-3 mb-2 rounded bg-opacity-50 dark:bg-opacity-40`,
                   {
-                    'bg-accent border-accentDim': isActive,
+                    'bg-accent': isActive,
                   },
                 )}>
                 <Text
@@ -97,9 +97,9 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
             <View
               key={index}
               style={tw.style(
-                `flex-row items-center px-3 rounded bg-opacity-80 dark:bg-opacity-40 py-2 border border-transparent`,
+                `flex-row items-center px-3 rounded bg-opacity-80 dark:bg-opacity-40 py-2`,
                 {
-                  'bg-accent border-accentDim': isActive,
+                  'bg-accent': isActive,
                 },
               )}>
               {!!item.url && <FileIcon url={item.url} style={tw`w-4 h-4`} />}

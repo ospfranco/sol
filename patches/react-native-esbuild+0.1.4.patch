@@ -1,0 +1,103 @@
+diff --git a/node_modules/react-native-esbuild/src/plugins/asset-destination.js b/node_modules/react-native-esbuild/src/plugins/asset-destination.js
+index 1ebc308..56a7f8c 100644
+--- a/node_modules/react-native-esbuild/src/plugins/asset-destination.js
++++ b/node_modules/react-native-esbuild/src/plugins/asset-destination.js
+@@ -1,4 +1,4 @@
+-const path = require('path');
++const path = require('path')
+ 
+ const scaleAssetSuffixMap = {
+   0.75: 'ldpi',
+@@ -7,7 +7,7 @@ const scaleAssetSuffixMap = {
+   2: 'xhdpi',
+   3: 'xxhdpi',
+   4: 'xxxhdpi',
+-};
++}
+ 
+ const drawableExtensions = new Set([
+   '.gif',
+@@ -16,62 +16,63 @@ const drawableExtensions = new Set([
+   '.png',
+   '.webp',
+   '.xml',
+-]);
++])
+ 
+ function getAndroidResourceFolderName(asset, scale) {
+   if (!drawableExtensions.has(asset.extension)) {
+-    return 'raw';
++    return 'raw'
+   }
+-  const suffix = scaleAssetSuffixMap[scale];
++  const suffix = scaleAssetSuffixMap[scale]
+   if (!suffix) {
+     throw new Error(
+       `Don't know which android drawable suffix to use for asset: ${JSON.stringify(
+-        asset
+-      )}`
+-    );
++        asset,
++      )}`,
++    )
+   }
+-  return `drawable-${suffix}`;
++  return `drawable-${suffix}`
+ }
+ 
+ function getAndroidResourceIdentifier(asset) {
+-  const folderPath = getBasePath(asset);
++  const folderPath = getBasePath(asset)
+   return `${folderPath}/${asset.basename}`
+     .toLowerCase()
+     .replace(/\//g, '_')
+     .replace(/([^a-z0-9_])/g, '')
+-    .replace(/^assets_/, '');
++    .replace(/^assets_/, '')
+ }
+ 
+ function getBasePath(asset) {
+-  const basePath = asset.httpServerLocation;
++  const basePath = asset.httpServerLocation
+   if (basePath[0] === '/') {
+-    return basePath.substr(1);
++    return basePath.substr(1)
+   }
+-  return basePath;
++  return basePath
+ }
+ 
+ function getAssetDestinationPath(asset, scale, platform) {
+   switch (platform) {
++    case 'macos':
+     case 'ios': {
+       const iosFolder = asset.httpServerLocation
+         .substr(1)
+-        .replace(/\.\.\//g, '_');
++        .replace(/\.\.\//g, '_')
+       return path.join(
+         iosFolder,
+         `${asset.basename}${scale === '1' ? '' : `@${scale}x`}${
+           asset.extension
+-        }`
+-      );
++        }`,
++      )
+     }
+     case 'android': {
+-      const androidFolder = getAndroidResourceFolderName(asset, scale);
+-      const fileName = getAndroidResourceIdentifier(asset);
+-      return path.join(androidFolder, `${fileName}${asset.extension}`);
++      const androidFolder = getAndroidResourceFolderName(asset, scale)
++      const fileName = getAndroidResourceIdentifier(asset)
++      return path.join(androidFolder, `${fileName}${asset.extension}`)
+     }
+   }
+-  throw new Error(`Unsupported platform "${platform}"`);
++  throw new Error(`Unsupported platform "${platform}"`)
+ }
+ 
+ module.exports = {
+   getAssetDestinationPath,
+-};
++}
