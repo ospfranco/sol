@@ -71,17 +71,14 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
                   return (
                     <View
                       key={index}
-                      style={tw.style(
-                        `flex-row py-2 px-2 items-center border border-transparent`,
-                        {
-                          'bg-accent border-accentDim bg-opacity-80 dark:bg-opacity-40 rounded':
-                            highlighted,
-                        },
-                      )}>
+                      style={tw.style(`flex-row py-2 px-2 items-center`, {
+                        'bg-accent bg-opacity-80 dark:bg-opacity-40 rounded':
+                          highlighted,
+                      })}>
                       {event.status !== 1 && (
                         <View
                           style={tw.style(
-                            `w-[12px] h-[12px] mr-2 rounded-full justify-center items-center`,
+                            `w-[12px] h-[12px] rounded-full justify-center items-center`,
                             {
                               borderColor: event.color,
                               borderWidth: 1.5,
@@ -93,7 +90,7 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
                       {event.status === 1 && (
                         <Image
                           source={Assets.CheckCircleIcon}
-                          style={tw.style('h-[12px] w-[12px] mr-2', {
+                          style={tw.style('h-[12px] w-[12px]', {
                             tintColor: event.color,
                           })}
                           resizeMode="cover"
@@ -102,7 +99,7 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
                       )}
                       <Text
                         numberOfLines={1}
-                        style={tw.style(`flex-1 text-xs`, {
+                        style={tw.style(`ml-2 flex-1 text-xs`, {
                           'line-through': event.status === 2,
                           'text-white': highlighted,
                         })}>
