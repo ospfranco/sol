@@ -3,6 +3,17 @@
     <channel>
         <title>sol</title>
         <item>
+            <title>1.1.26</title>
+            <pubDate>Thu, 02 Jun 2022 08:00:25 +0200</pubDate>
+            <sparkle:version>50</sparkle:version>
+            <sparkle:shortVersionString>1.1.26</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>10.15</sparkle:minimumSystemVersion>
+            <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/1.1.26.zip" length="4579376" type="application/octet-stream" sparkle:edSignature="ozqpPytfD3ym7W6rGj3x4oFTVWx+yHd53xVSJoiIr4JLck6fEpCaEOwT2zDsQnGkbRfqJcy6zz/8OUpz8xmpBg=="/>
+            <sparkle:deltas>
+                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/sol50-47.delta" sparkle:deltaFrom="47" length="367950" type="application/octet-stream" sparkle:edSignature="hINyLNLNJPIsO0XKYP8tRGY9bfrnF2hKXQpiUFVkNZy7BgU5phUZlQXOnKATRXqz/n/svgdG63yGjaJUDJlJAQ=="/>
+            </sparkle:deltas>
+        </item>
+        <item>
             <title>1.1.23</title>
             <pubDate>Fri, 27 May 2022 17:23:28 +0200</pubDate>
             <sparkle:version>47</sparkle:version>
