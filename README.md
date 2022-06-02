@@ -15,9 +15,15 @@ Sol is a command palette, focused on simplicity and speed. It’s open source, f
 
 [Visit official site](https://solapp.io)
 
-## Download
+## Get it
 
 Get the latest version from the [releases folder](https://github.com/ospfranco/sol/tree/main/releases), once installed the app can auto-update itself.
+
+You can also install it via Brew
+
+```
+brew install --cask sol
+```
 
 ## Features
 
