@@ -2,18 +2,13 @@
 
 <br/>
 <div align="center">
-  <a align="center" href="https://github.com/ospfranco?tab=followers">
-    <img src="https://img.shields.io/github/followers/ospfranco?label=Follow%20%40ospfranco&style=social" />
-  </a>
-  <br />
   <a align="center" href="https://twitter.com/ospfranco">
     <img src="https://img.shields.io/twitter/follow/ospfranco?label=Follow%20%40ospfranco&style=social" />
   </a>
+  <a align="center" href="https://www.producthunt.com/posts/sol-2?utm_source=badge-top-post-badge&utm_medium=badge&utm_souce=badge-sol&#0045;2" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=336659&theme=dark&period=daily" alt="Sol - Open&#0032;source&#0032;macOS&#0032;command&#0032;palette | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 </div>
 
 <br/>
-
-<a href="https://www.producthunt.com/posts/sol-2?utm_source=badge-top-post-badge&utm_medium=badge&utm_souce=badge-sol&#0045;2" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=336659&theme=dark&period=daily" alt="Sol - Open&#0032;source&#0032;macOS&#0032;command&#0032;palette | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 
 Sol is a command palette, focused on simplicity and speed. It’s open source, free and 100% local.
 
