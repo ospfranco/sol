@@ -13,44 +13,43 @@
 
 <br/>
 
+<a href="https://www.producthunt.com/posts/sol-2?utm_source=badge-top-post-badge&utm_medium=badge&utm_souce=badge-sol&#0045;2" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=336659&theme=dark&period=daily" alt="Sol - Open&#0032;source&#0032;macOS&#0032;command&#0032;palette | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
+
+Sol is a command palette, focused on simplicity and speed. It’s open source, free and 100% local.
+
+[Visit official site](https://solapp.io)
+
 ## Download
 
 Get the latest version from the [releases folder](https://github.com/ospfranco/sol/tree/main/releases), once installed the app can auto-update itself.
 
 ## Features
 
-- Customable shortcut
-- Keyboard events
+- Customizable shortcut
 - App search
-- Google translate integration
-- Google maps integration
-- Calendar integration
-- OpenWeather API integration
+- Google translate
+- Google maps
+- Calendar
+- OpenWeather API support
 - AppleScript commands (sleep, lock, dark mode, etc.)
-- Custom links/Custom AppleScripts
+- Custom links
+- Custom AppleScripts
 - Window Manager
 - Emoji picker
-- Giphy explorer
+- Gif Picker
 - Clipboard manager
+- Note Scratchpad
 
 ## TODO
 
 - Windows Support (Already partially implemented, looking for someone to take over)
 - Plugin System
 
-## Other tools
+## Other
 
 - [About me](https://ospfranco.com)
 - [Messer](https://messerapp.cc)
 - [CI Demon](https://cidemon.com)
-
-### Hard reset
-
-In some cases it you might want to complete reset all settings, you can delete this folder:
-
-```
-~/Library/Application\ Support/com.ospfranco.sol
-```
 
 ## License
 
