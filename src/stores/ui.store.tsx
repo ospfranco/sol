@@ -466,6 +466,7 @@ export const createUIStore = (root: IRootStore) => {
       | null
       | undefined,
     commandPressed: false as boolean,
+    shiftPressed: false as boolean,
     projects: [] as ITrackingProject[],
     tempProjectName: '' as string,
     currentlyTrackedProjectId: null as string | null,
@@ -476,6 +477,7 @@ export const createUIStore = (root: IRootStore) => {
     firstTranslationLanguage: 'en' as string,
     secondTranslationLanguage: 'de' as string,
     gifs: [] as any[],
+    temporaryTextInputSelection: 0 as number,
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -635,6 +637,37 @@ export const createUIStore = (root: IRootStore) => {
     //    / /\ \ / __| __| |/ _ \| '_ \/ __|
     //   / ____ \ (__| |_| | (_) | | | \__ \
     //  /_/    \_\___|\__|_|\___/|_| |_|___/
+    handleDeletePressOnScrachpad: (): boolean => {
+      if(store.shiftPressed) {
+        Clipboard.setString(store.notes[store.selectedIndex])
+        store.removeNote(store.selectedIndex)
+
+        if (store.selectedIndex === 0) {
+          store.notes.unshift('')
+        }
+
+        if (store.selectedIndex >= store.notes.length) {
+          store.selectedIndex = store.notes.length - 1
+        }
+
+        return true
+      }
+
+      return false
+    },
+    handleEnterPressOnScratchpad: (): boolean => {
+      if (store.shiftPressed) {
+        if (store.notes[0] === '') {
+          return true
+        }
+
+        store.notes.unshift('')
+        store.selectedIndex = 0
+        return true
+      }
+
+      return false
+    },
     showGifPicker: () => {
       store.focusWidget(FocusableWidget.GIFS)
       store.query = ''
@@ -660,7 +693,10 @@ export const createUIStore = (root: IRootStore) => {
       store.query = ''
     },
     removeNote: (idx: number) => {
-      store.notes = store.notes.filter((_, index) => index !== idx)
+      const newNotes = [...store.notes]
+      newNotes.splice(idx, 1)
+
+      store.notes = newNotes
     },
     setSelectedIndex: (idx: number) => {
       store.selectedIndex = idx
@@ -886,8 +922,6 @@ export const createUIStore = (root: IRootStore) => {
       meta: boolean
       shift: boolean
     }) => {
-      // console.warn('key pressed', keyCode)
-
       switch (keyCode) {
         // tab key
         case 48: {
@@ -933,8 +967,6 @@ export const createUIStore = (root: IRootStore) => {
           switch (store.focusedWidget) {
             case FocusableWidget.CLIPBOARD: {
               const entry = root.clipboard.items[store.selectedIndex]
-
-              console.warn('should paste entry', entry)
 
               root.clipboard.unshift(store.selectedIndex)
 
@@ -1008,31 +1040,8 @@ export const createUIStore = (root: IRootStore) => {
               break
             }
 
+            // Enter listener is disabled while using the scratch pad
             case FocusableWidget.SCRATCHPAD: {
-              if (shift) {
-                if (store.notes[0] === '') {
-                  break
-                }
-                store.notes.unshift('')
-                store.selectedIndex = 0
-                break
-              }
-
-              if (meta) {
-                Clipboard.setString(store.notes[store.selectedIndex])
-                store.removeNote(store.selectedIndex)
-                if (store.selectedIndex === 0) {
-                  store.notes.unshift('')
-                }
-                if (store.selectedIndex >= store.notes.length) {
-                  store.selectedIndex = store.notes.length - 1
-                }
-              } else {
-                store.updateNote(
-                  store.selectedIndex,
-                  store.notes[store.selectedIndex] + '\n',
-                )
-              }
               break
             }
 
@@ -1325,8 +1334,15 @@ export const createUIStore = (root: IRootStore) => {
           break
         }
 
+        // meta key
         case 55: {
           store.commandPressed = true
+          break
+        }
+
+        // shift key
+        case 60: {
+          store.shiftPressed = true
           break
         }
       }
@@ -1343,6 +1359,11 @@ export const createUIStore = (root: IRootStore) => {
         case 55:
           store.commandPressed = false
           break
+
+        case 60: {
+          store.shiftPressed = false
+          break
+          }
 
         default:
           break

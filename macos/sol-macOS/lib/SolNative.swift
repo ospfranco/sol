@@ -193,6 +193,14 @@ class SolNative: RCTEventEmitter {
     self.appDelegate?.setVerticalArrowCatch(catchVerticalArrowPress: false)
   }
 
+  @objc func turnOffEnterListener() {
+    self.appDelegate?.setEnterCatch(catchEnter: false)
+  }
+
+  @objc func turnOnEnterListener() {
+    self.appDelegate?.setEnterCatch(catchEnter: true)
+  }
+
   @objc func checkForUpdates() {
     self.appDelegate?.checkForUpdates()
   }

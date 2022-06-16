@@ -1,17 +1,17 @@
-import {solNative} from 'lib/SolNative'
-import {observer} from 'mobx-react-lite'
-import React, {FC, useEffect, useRef} from 'react'
+import { solNative } from 'lib/SolNative'
+import { observer } from 'mobx-react-lite'
+import React, { FC, useEffect, useRef } from 'react'
 import {
   FlatList,
   Text,
   TextInput,
   TextInputProps,
   View,
-  ViewStyle,
+  ViewStyle
 } from 'react-native'
-import {useStore} from 'store'
+import { useStore } from 'store'
 import tw from 'tailwind'
-import {useDeviceContext} from 'twrnc'
+import { useDeviceContext } from 'twrnc'
 
 interface Props {
   style?: ViewStyle
@@ -21,16 +21,8 @@ interface WrappedInputProps extends TextInputProps {
   focused: boolean
 }
 
-const WrappedInput: FC<WrappedInputProps> = ({focused, ...props}) => {
+const WrappedInput: FC<WrappedInputProps> = ({focused, value, ...props}) => {
   const ref = useRef<TextInput | null>(null)
-
-  useEffect(() => {
-    solNative.turnOffVerticalArrowsListeners()
-
-    return () => {
-      solNative.turnOnVerticalArrowsListeners()
-    }
-  }, [])
 
   useEffect(() => {
     if (focused) {
@@ -38,7 +30,7 @@ const WrappedInput: FC<WrappedInputProps> = ({focused, ...props}) => {
     }
   }, [focused])
 
-  return <TextInput ref={ref} selectTextOnFocus={false} {...props} />
+  return <TextInput ref={ref} selectTextOnFocus={false} value={value} {...props} />
 }
 
 export const ScratchpadWidget: FC<Props> = observer(({style}) => {
@@ -49,7 +41,9 @@ export const ScratchpadWidget: FC<Props> = observer(({style}) => {
 
   useEffect(() => {
     solNative.turnOffVerticalArrowsListeners()
+    solNative.turnOffEnterListener()
     return () => {
+      solNative.turnOnEnterListener()
       solNative.turnOnVerticalArrowsListeners()
     }
   }, [])
@@ -67,24 +61,43 @@ export const ScratchpadWidget: FC<Props> = observer(({style}) => {
         <FlatList
           ref={listRef}
           data={[...store.ui.notes]}
-          style={tw.style('flex-1')}
-          contentContainerStyle={tw`px-6`}
+          style={tw.style('flex-1 -mt-3')}
+          contentContainerStyle={tw`px-5`}
           renderItem={({item, index}) => {
+            const focused = selectedIndex === index
             return (
               <WrappedInput
                 value={item}
                 onChangeText={v => {
+                  const oldBreakCount = (item.match(/\n/g) || []).length
+                  const newBreakCount = (v.match(/\n/g) || []).length
+                  const newLineInserted = newBreakCount > oldBreakCount
+                  
+                  if(newLineInserted) {
+                    const handled = store.ui.handleEnterPressOnScratchpad()
+                    if(handled) {
+                      return
+                    }
+                  }
+
+                  // character was deleted
+                  if(item.length -1 === v.length) {
+                    const handled = store.ui.handleDeletePressOnScrachpad()
+                    if(handled) {
+                      return
+                    }
+                  }
+
                   store.ui.updateNote(index, v)
                 }}
-                focused={index === selectedIndex}
-                autoFocus={index === 0}
+                scrollEnabled={false}
+                focused={focused}
                 // @ts-expect-error
                 enableFocusRing={false}
-                // selectionColor={solNative.accentColor}
-                placeholderTextColor={tw.color('text-gray-500')}
+                placeholderTextColor={tw.color('text-gray-400')}
                 placeholder="Write something..."
-                style={tw.style('border-b border-lightBorder dark:border-darkBorder pb-4 mb-2', {
-                  'border-accent': selectedIndex === index,
+                style={tw.style('border-b border-lightBorder dark:border-darkBorder pb-2 mb-4', {
+                  'border-accent dark:border-accent': focused,
                 })}
                 onFocus={() => {
                   store.ui.setSelectedIndex(index)
@@ -116,7 +129,7 @@ export const ScratchpadWidget: FC<Props> = observer(({style}) => {
           style={tw`border-r border-lightBorder dark:border-darkBorder h-3 mx-4`}
         />
         <Text style={tw`text-xs dark:text-gray-400 text-gray-500`}>
-          <Text style={tw`text-xs`}>⌘ + ↩</Text> copy & delete
+          <Text style={tw`text-xs`}>⇧ + delete</Text> copy & delete
         </Text>
       </View>
     </View>

@@ -13,6 +13,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   var mainWindow: Panel!
   var catchHorizontalArrowsPress = false
   var catchVerticalArrowsPress = true
+  var catchEnterPress = true
 
   private var mainHotKey = HotKey(key: .space, modifiers: [.command])
   private var debugHotKey = HotKey(key: .space, modifiers: [.command, .option])
@@ -99,15 +100,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 #endif
 
     NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
-//      print("pressed", $0.characters)
+//      36 enter
 //      123 arrow left
 //      124 arrow right
 //      125 arrow down
 //      126 arrow up
-      let metaPressed = $0.modifierFlags.contains(.command)
-      let shiftPressed = $0.modifierFlags.contains(.shift)
-      SolEmitter.sharedInstance.keyDown(key: $0.characters, keyCode: $0.keyCode, meta: metaPressed, shift: shiftPressed)
-
       if(($0.keyCode == 123 || $0.keyCode == 124) && !self.catchHorizontalArrowsPress ) {
         return $0
       }
@@ -115,6 +112,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
       if(($0.keyCode == 125 || $0.keyCode == 126) && !self.catchVerticalArrowsPress) {
         return $0
       }
+
+      if($0.keyCode == 36 && !self.catchEnterPress) {
+        return $0
+      }
+
+      let metaPressed = $0.modifierFlags.contains(.command)
+      let shiftPressed = $0.modifierFlags.contains(.shift)
+      SolEmitter.sharedInstance.keyDown(key: $0.characters, keyCode: $0.keyCode, meta: metaPressed, shift: shiftPressed)
 
       if handledKeys.contains($0.keyCode) {
         return nil
@@ -136,8 +141,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
       if($0.modifierFlags.contains(.shift)) {
         self.shiftPressed = true
+        SolEmitter.sharedInstance.keyDown(key: "shift", keyCode: 60, meta: false, shift: self.shiftPressed)
       } else {
         self.shiftPressed = false
+        SolEmitter.sharedInstance.keyUp(key: "shift", keyCode: 60, meta: false, shift: self.shiftPressed)
       }
 
       return $0
@@ -171,7 +178,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   }
 
   func showScratchpad() {
-    print("Should show scratchpad")
     showWindow(target: "SCRATCHPAD")
   }
 
@@ -197,6 +203,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
   func setVerticalArrowCatch(catchVerticalArrowPress: Bool) {
     self.catchVerticalArrowsPress = catchVerticalArrowPress
+  }
+
+  func setEnterCatch(catchEnter: Bool) {
+    self.catchEnterPress = catchEnter
   }
 
   func setGlobalShortcut(_ key: String) {
