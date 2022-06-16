@@ -15,9 +15,9 @@ export const GifsWidget: FC<Props> = observer(({style}) => {
   const store = useStore()
 
   useEffect(() => {
-    solNative.turnOnHorizontalArrowListeners()
+    solNative.turnOnHorizontalArrowsListeners()
     return () => {
-      solNative.turnOffHorizontalArrowListeners()
+      solNative.turnOffHorizontalArrowsListeners()
     }
   }, [])
 

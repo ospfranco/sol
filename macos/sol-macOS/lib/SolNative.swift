@@ -177,11 +177,11 @@ class SolNative: RCTEventEmitter {
     ClipboardHelper.insertToFrontmostApp(content)
   }
 
-  @objc func turnOnHorizontalArrowListeners() {
+  @objc func turnOnHorizontalArrowsListeners() {
     self.appDelegate?.setHorizontalArrowCatch(catchHorizontalArrowPress: true)
   }
 
-  @objc func turnOffHorizontalArrowListeners() {
+  @objc func turnOffHorizontalArrowsListeners() {
     self.appDelegate?.setHorizontalArrowCatch(catchHorizontalArrowPress: false)
   }
 

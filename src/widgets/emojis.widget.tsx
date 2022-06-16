@@ -23,9 +23,9 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
   const listRef = useRef<FlatList | null>(null)
 
   useEffect(() => {
-    solNative.turnOnHorizontalArrowListeners()
+    solNative.turnOnHorizontalArrowsListeners()
     return () => {
-      solNative.turnOffHorizontalArrowListeners()
+      solNative.turnOffHorizontalArrowsListeners()
     }
   }, [])
 

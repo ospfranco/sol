@@ -45,8 +45,8 @@ class SolNative extends NativeEventEmitter {
   pasteToFrontmostApp: (content: string) => void
   insertToFrontmostApp: (content: string) => void
   accentColor: string
-  turnOnHorizontalArrowListeners: () => void
-  turnOffHorizontalArrowListeners: () => void
+  turnOnHorizontalArrowsListeners: () => void
+  turnOffHorizontalArrowsListeners: () => void
   turnOnVerticalArrowsListeners: () => void
   turnOffVerticalArrowsListeners: () => void
   checkForUpdates: () => void
@@ -78,9 +78,9 @@ class SolNative extends NativeEventEmitter {
     this.resizeFrontmostLeftHalf = module.resizeFrontmostLeftHalf
     this.pasteToFrontmostApp = module.pasteToFrontmostApp
     this.insertToFrontmostApp = module.insertToFrontmostApp
-    this.turnOnHorizontalArrowListeners = module.turnOnHorizontalArrowListeners
-    this.turnOffHorizontalArrowListeners =
-      module.turnOffHorizontalArrowListeners
+    this.turnOnHorizontalArrowsListeners = module.turnOnHorizontalArrowsListeners
+    this.turnOffHorizontalArrowsListeners =
+      module.turnOffHorizontalArrowsListeners
     this.turnOnVerticalArrowsListeners = module.turnOnVerticalArrowsListeners
     this.turnOffVerticalArrowsListeners = module.turnOffVerticalArrowsListeners
     this.checkForUpdates = module.checkForUpdates

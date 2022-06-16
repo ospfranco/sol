@@ -38,6 +38,13 @@ const WrappedInput: FC<WrappedInputProps> = ({focused, ...props}) => {
     }
   }, [focused])
 
+  useEffect(() => {
+    solNative.turnOffVerticalArrowsListeners()
+    return () => {
+      solNative.turnOnVerticalArrowsListeners()
+    }
+  }, [])
+
   return <TextInput ref={ref} selectTextOnFocus={false} {...props} />
 }
 

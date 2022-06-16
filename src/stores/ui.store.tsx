@@ -1193,6 +1193,8 @@ export const createUIStore = (root: IRootStore) => {
         // up key
         case 126: {
           switch (store.focusedWidget) {
+            case FocusableWidget.SCRATCHPAD:
+              return
             case FocusableWidget.EMOJIS:
               store.selectedIndex = Math.max(
                 store.selectedIndex - EMOJIS_PER_ROW,
