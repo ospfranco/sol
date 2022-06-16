@@ -38,13 +38,6 @@ const WrappedInput: FC<WrappedInputProps> = ({focused, ...props}) => {
     }
   }, [focused])
 
-  useEffect(() => {
-    solNative.turnOffVerticalArrowsListeners()
-    return () => {
-      solNative.turnOnVerticalArrowsListeners()
-    }
-  }, [])
-
   return <TextInput ref={ref} selectTextOnFocus={false} {...props} />
 }
 
@@ -53,6 +46,13 @@ export const ScratchpadWidget: FC<Props> = observer(({style}) => {
   const store = useStore()
   const selectedIndex = store.ui.selectedIndex
   const listRef = useRef<FlatList | null>(null)
+
+  useEffect(() => {
+    solNative.turnOffVerticalArrowsListeners()
+    return () => {
+      solNative.turnOnVerticalArrowsListeners()
+    }
+  }, [])
 
   useEffect(() => {
     listRef.current?.scrollToIndex({
@@ -80,11 +80,11 @@ export const ScratchpadWidget: FC<Props> = observer(({style}) => {
                 autoFocus={index === 0}
                 // @ts-expect-error
                 enableFocusRing={false}
-                selectionColor={solNative.accentColor}
+                // selectionColor={solNative.accentColor}
                 placeholderTextColor={tw.color('text-gray-500')}
                 placeholder="Write something..."
-                style={tw.style('', {
-                  'text-gray-500 dark:text-gray-400': selectedIndex !== index,
+                style={tw.style('border-b border-lightBorder dark:border-darkBorder pb-4 mb-2', {
+                  'border-accent': selectedIndex === index,
                 })}
                 onFocus={() => {
                   store.ui.setSelectedIndex(index)
@@ -93,11 +93,6 @@ export const ScratchpadWidget: FC<Props> = observer(({style}) => {
               />
             )
           }}
-          ItemSeparatorComponent={() => (
-            <View
-              style={tw`w-full border-b border-lightBorder dark:border-darkBorder mt-2 mb-4`}
-            />
-          )}
         />
       </View>
       <View
