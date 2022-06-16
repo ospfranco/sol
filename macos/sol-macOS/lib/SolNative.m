@@ -46,5 +46,6 @@ RCT_EXTERN_METHOD(turnOnEnterListener)
 RCT_EXTERN_METHOD(turnOnVerticalArrowsListeners)
 RCT_EXTERN_METHOD(turnOffVerticalArrowsListeners)
 RCT_EXTERN_METHOD(setScratchpadShortcut : (NSString)key)
+RCT_EXTERN_METHOD(setClipboardManagerShortcut: (NSString)key)
 RCT_EXTERN_METHOD(checkForUpdates)
 @end

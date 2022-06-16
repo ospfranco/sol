@@ -32,6 +32,7 @@ class SolNative extends NativeEventEmitter {
   >
   setGlobalShortcut: (key: 'command' | 'option') => void
   setScratchpadShortcut: (key: 'command' | 'option') => void
+  setClipboardManagerShortcut: (key: 'shift' | 'option') => void
   getCalendarAuthorizationStatus: () => Promise<CalendarAuthorizationStatus>
   requestCalendarAccess: () => Promise<void>
   requestAccessibilityAccess: () => Promise<void>
@@ -88,6 +89,7 @@ class SolNative extends NativeEventEmitter {
     this.checkForUpdates = module.checkForUpdates
     this.turnOnEnterListener = module.turnOnEnterListener
     this.turnOffEnterListener = module.turnOffEnterListener
+    this.setClipboardManagerShortcut = module.setClipboardManagerShortcut
 
     const constants = module.getConstants()
     this.accentColor = constants.accentColor

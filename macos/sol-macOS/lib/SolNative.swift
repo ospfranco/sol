@@ -112,6 +112,12 @@ class SolNative: RCTEventEmitter {
     }
   }
 
+  @objc func setClipboardManagerShortcut(_ key: String) {
+    DispatchQueue.main.async {
+      self.appDelegate?.setClipboardManagerShortcut(key)
+    }
+  }
+
   @objc func getCalendarAuthorizationStatus(
     _ resolve: @escaping  RCTPromiseResolveBlock,
     rejecter: RCTPromiseRejectBlock

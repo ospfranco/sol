@@ -146,11 +146,13 @@ export const createUIStore = (root: IRootStore) => {
         store.notes = parsedStore.notes ?? ['']
         store.globalShortcut = parsedStore.globalShortcut
         store.scratchpadShortcut = parsedStore.scratchpadShortcut ?? 'command'
+        store.clipboardManagerShortcut = parsedStore.clipboardManagerShortcut ?? 'shift'
         store.frequentlyUsedEmojis = parsedStore.frequentlyUsedEmojis ?? {}
       })
 
       solNative.setGlobalShortcut(parsedStore.globalShortcut)
       solNative.setScratchpadShortcut(parsedStore.scratchpadShortcut)
+      solNative.setClipboardManagerShortcut(parsedStore.clipboardManagerShortcut)
     } else {
       runInAction(() => {
         store.focusedWidget = FocusableWidget.ONBOARDING
@@ -444,6 +446,7 @@ export const createUIStore = (root: IRootStore) => {
     onboardingStep: 'v1_start' as OnboardingStep,
     globalShortcut: 'option' as 'command' | 'option',
     scratchpadShortcut: 'command' as 'command' | 'option',
+    clipboardManagerShortcut: 'shift' as 'shift' | 'option',
     now: DateTime.now() as DateTime,
     query: '' as string,
     selectedIndex: 0 as number,
@@ -815,6 +818,10 @@ export const createUIStore = (root: IRootStore) => {
     setScratchpadShortcut: (key: 'command' | 'option') => {
       solNative.setScratchpadShortcut(key)
       store.scratchpadShortcut = key
+    },
+    setClipboardManagerShortcut: (key: 'shift' | 'option') => {
+      solNative.setClipboardManagerShortcut(key)
+      store.clipboardManagerShortcut = key
     },
     setWeatherLat: (lat: string) => {
       store.weatherLat = lat

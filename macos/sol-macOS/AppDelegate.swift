@@ -25,7 +25,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   private let moveToPrevScreenHotKey = HotKey(key: .leftArrow, modifiers: [.option, .control, .command])
   private var scratchpadHotKey = HotKey(key: .space, modifiers: [.command, .shift])
   private let emojiPickerHotKey = HotKey(key: .space, modifiers: [.control, .command])
-  private let clipboardManagerHotKey = HotKey(key: .v, modifiers: [.command, .shift])
+  private var clipboardManagerHotKey = HotKey(key: .v, modifiers: [.command, .shift])
 
   override init() {
     updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: nil, userDriverDelegate: nil)
@@ -227,6 +227,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
       self.scratchpadHotKey = HotKey(key: .space, modifiers: [.command, .shift], keyDownHandler: showScratchpad)
     } else {
       self.scratchpadHotKey = HotKey(key: .space, modifiers: [.shift, .option], keyDownHandler: showScratchpad)
+    }
+  }
+
+  func setClipboardManagerShortcut(_ key: String) {
+    self.clipboardManagerHotKey.isPaused = true
+
+    if key == "shift" {
+      self.clipboardManagerHotKey = HotKey(key: .v, modifiers: [.command, .shift], keyDownHandler: showClipboardManager)
+    } else {
+      self.clipboardManagerHotKey = HotKey(key: .v, modifiers: [.command, .option], keyDownHandler: showClipboardManager)
     }
   }
 }
