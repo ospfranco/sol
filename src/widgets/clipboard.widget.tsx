@@ -28,10 +28,12 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
   const listRef = useRef<FlatList | null>(null)
 
   useEffect(() => {
-    listRef.current?.scrollToIndex({
-      index: store.ui.selectedIndex,
-      viewOffset: 80,
-    })
+    if(data.length > 0) {
+      listRef.current?.scrollToIndex({
+        index: store.ui.selectedIndex,
+        viewOffset: 80,
+      })
+    }
   }, [selectedIndex])
 
   return (

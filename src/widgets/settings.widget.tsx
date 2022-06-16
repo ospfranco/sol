@@ -41,10 +41,12 @@ const SelectableButton: FC<SelectableButtonProps> = ({
   return (
     <TouchableOpacity
       {...props}
+      // @ts-ignore
+      focusRingEnabled={false}
       style={tw.style(
-        'rounded px-2 py-1 w-full border border-transparent',
+        'rounded px-2 py-1 w-full',
         {
-          'bg-accent border-accentDim dark:bg-opacity-60 bg-opacity-80':
+          'bg-accent dark:bg-opacity-60 bg-opacity-80':
             selected,
         },
         style,
@@ -66,7 +68,7 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
   const [selected, setSelected] = useState<ITEM>('GENERAL')
 
   return (
-    <View style={tw.style(`flex-1 flex-row`, style)}>
+    <View style={tw.style(`flex-row`, style)}>
       <View
         style={tw`p-4 w-44 border-r border-lightBorder dark:border-darkBorder`}>
         <TouchableOpacity
@@ -174,17 +176,17 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
             Manage general settings
           </Text>
 
-          <View style={tw`flex-row mt-8 items-center`}>
+          <View style={tw`flex-row mt-8 h-6 items-center`}>
             <Text style={tw`flex-1`}>Global shortcut</Text>
             <Picker
               selectedValue={store.ui.globalShortcut}
               style={tw`w-32`}
               onValueChange={v => store.ui.setGlobalShortcut(v)}>
-              <Picker.Item label="⌘ then Space" value="command" />
-              <Picker.Item label="⌥ then space" value="option" />
+              <Picker.Item label="⌘ Space" value="command" />
+              <Picker.Item label="⌥ space" value="option" />
             </Picker>
           </View>
-          <View style={tw`flex-row mt-3 items-center`}>
+          <View style={tw`flex-row mt-3 h-6 items-center`}>
             <Text style={tw`flex-1`}>Scratchpad shortcut</Text>
             <Picker
               selectedValue={store.ui.scratchpadShortcut}
@@ -194,7 +196,7 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
               <Picker.Item label="⇧ ⌥ Space" value="option" />
             </Picker>
           </View>
-          <View style={tw`flex-row mt-3 items-center`}>
+          <View style={tw`flex-row mt-3 h-6 items-center`}>
             <Text style={tw`flex-1`}>Clipboard manager shortcut</Text>
             <Picker
               selectedValue={store.ui.clipboardManagerShortcut}
@@ -204,7 +206,7 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
               <Picker.Item label="⌘ ⌥ V" value="option" />
             </Picker>
           </View>
-          <View style={tw`flex-row mt-3 items-center`}>
+          <View style={tw`flex-row mt-3 h-6 items-center`}>
             <Text style={tw`flex-1`}>Launch at login</Text>
             <Switch
               value={store.ui.launchAtLogin}
@@ -219,7 +221,7 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
           <Text style={tw`text-sm text-gray-700 dark:text-gray-400 pt-2`}>
             Configure the languages to translate
           </Text>
-          <View style={tw`flex-row items-center mt-4`}>
+          <View style={tw`flex-row items-center mt-4 h-6`}>
             <Text style={tw`flex-1`}>First language</Text>
             <Picker
               onValueChange={store.ui.setFirstTranslationLanguage}
@@ -230,7 +232,7 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
               })}
             </Picker>
           </View>
-          <View style={tw`flex-row items-center mt-2`}>
+          <View style={tw`flex-row items-center mt-2 h-6`}>
             <Text style={tw`flex-1`}>Second language</Text>
             <Picker
               onValueChange={store.ui.setSecondTranslationLanguage}
