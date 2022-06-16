@@ -1,7 +1,7 @@
 import {Assets} from 'assets'
 import {solNative} from 'lib/SolNative'
 import {observer} from 'mobx-react-lite'
-import React, {FC} from 'react'
+import React, {FC, useEffect, useRef} from 'react'
 import {
   FlatList,
   Image,
@@ -25,6 +25,14 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
   const store = useStore()
   const data = store.clipboard.items
   const selectedIndex = store.ui.selectedIndex
+  const listRef = useRef<FlatList | null>(null)
+
+  useEffect(() => {
+    listRef.current?.scrollToIndex({
+      index: store.ui.selectedIndex,
+      viewOffset: 80,
+    })
+  }, [selectedIndex])
 
   return (
     <View style={tw`flex-1`}>
@@ -44,6 +52,7 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
         <FlatList
           data={data}
           contentContainerStyle={tw`flex-grow-1 pb-3 px-3`}
+          ref={listRef}
           ListEmptyComponent={
             <View style={tw`flex-1 justify-center items-center`}>
               <Text style={tw`dark:text-gray-400 text-sm text-gray-500`}>
@@ -56,9 +65,9 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
             return (
               <View
                 style={tw.style(
-                  `p-3 rounded border border-transparent flex-row`,
+                  `p-3 rounded flex-row`,
                   {
-                    'bg-accent bg-opacity-50 dark:bg-opacity-40 border-accentDim':
+                    'bg-accent bg-opacity-50 dark:bg-opacity-40':
                       isSelected,
                   },
                 )}>
