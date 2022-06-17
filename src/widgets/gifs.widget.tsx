@@ -61,6 +61,7 @@ export const GifsWidget: FC<Props> = observer(({style}) => {
           </Text>
         )}
       </View>
+      <Text style={tw`text-xs px-3 text-gray-400 dark:text-gray-500`}>Powered by Giphy</Text>
     </View>
   )
 })
