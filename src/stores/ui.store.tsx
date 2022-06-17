@@ -383,6 +383,15 @@ export const createUIStore = (root: IRootStore) => {
         solNative.checkForUpdates()
       },
     },
+    {
+      icon: '📋',
+      name: 'Clipboard manager',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        store.showClipboardManager()
+      },
+      preventClose: true
+    },
     ...buildSystemPreferencesItems(),
   ]
 
@@ -1474,6 +1483,7 @@ export const createUIStore = (root: IRootStore) => {
       store.focusWidget(FocusableWidget.SCRATCHPAD)
     },
     showClipboardManager: () => {
+      store.query = ''
       store.focusWidget(FocusableWidget.CLIPBOARD)
     },
   })
