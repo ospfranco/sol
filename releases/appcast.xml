@@ -3,6 +3,20 @@
     <channel>
         <title>sol</title>
         <item>
+            <title>1.1.29</title>
+            <pubDate>Fri, 17 Jun 2022 07:44:54 +0200</pubDate>
+            <sparkle:version>53</sparkle:version>
+            <sparkle:shortVersionString>1.1.29</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>10.15</sparkle:minimumSystemVersion>
+            <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/1.1.29.zip" length="4580354" type="application/octet-stream" sparkle:edSignature="TZW1Kc2W0SjJHdpQaLDrFD7XpoYTcn4UtDYzwWJihG2U0U/ovL6ipmJzOpX5GCKBp8GydTmBlqo0hVyo6hFLBQ=="/>
+            <sparkle:deltas>
+                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/sol53-52.delta" sparkle:deltaFrom="52" length="27838" type="application/octet-stream" sparkle:edSignature="9Rc9dEZ9bk43Bo3yxapAnhIKOBgdLrFqXx1BjJQ8o+Q9XeejcCmjMPrj77UoA+yLQLz0OuWTChnri19ufdiCDg=="/>
+                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/sol53-51.delta" sparkle:deltaFrom="51" length="27630" type="application/octet-stream" sparkle:edSignature="jpBV3aPInHU26kEvrSrcDuYaJYpszgOEiekmHRWoxI2aS8j8n23YwOKS/bvJ5ihfCDP0VyAl6AQl98E/Fgo1Cg=="/>
+                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/sol53-50.delta" sparkle:deltaFrom="50" length="256334" type="application/octet-stream" sparkle:edSignature="D4nS+JI9sifAfQhbvV6mA5APXtwgnxX/f2tD6h8qao9F1k1wUkGapq9zTV78THSapzk+36L+2bk0NVTnGe4UDQ=="/>
+                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/sol53-47.delta" sparkle:deltaFrom="47" length="593154" type="application/octet-stream" sparkle:edSignature="rE+mv9ezXNrii+ixUdmGbanK0nzOpbv+/XshIXZVPSPj0mtepskw7ak7uCcPtvEK4seD0jkdZNdH4s8WMELCAQ=="/>
+            </sparkle:deltas>
+        </item>
+        <item>
             <title>1.1.28</title>
             <pubDate>Thu, 16 Jun 2022 16:00:31 +0200</pubDate>
             <sparkle:version>52</sparkle:version>
