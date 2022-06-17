@@ -50,13 +50,11 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
           value={store.ui.query}
           onChangeText={store.ui.setQuery}
           ref={inputRef}
-          style={tw.style(`flex-1`)}
-          selectionColor={solNative.accentColor}
+          style={tw.style(`flex-1 text-lg`)}
           placeholderTextColor={tw.color('dark:text-gray-400 text-gray-500')}
           placeholder={
             __DEV__
-              ? // ? `Running in DEBUG | accessibility: ${store.ui.isAccessibilityTrusted} | calendar: ${store.ui.calendarAuthorizationStatus}`
-                `New SOL release...`
+              ? `Running in debug...`
               : 'Type or search for something...'
           }
         />
