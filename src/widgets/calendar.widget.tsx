@@ -45,12 +45,7 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
                 ) : (
                   <Text
                     style={tw`capitalize dark:text-gray-400 text-gray-500 text-xs`}>
-                    {key !== 'today' && `${data.date.toFormat('cccc')} `}
-                    <Text
-                      style={tw`capitalize dark:text-gray-400 text-gray-500 text-xs`}>
-                      {'- '}
-                      {data.date.toFormat('dd LLL')}
-                    </Text>
+                    {`${data.date.toFormat('cccc')}, ${data.date.toFormat('dd LLL')}`}
                   </Text>
                 )}
               </View>
@@ -60,6 +55,7 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
                   const lEndDate = event.endDate
                     ? DateTime.fromISO(event.endDate)
                     : null
+                  const minutesToEvent = Math.round(lDate.diff(DateTime.now(), 'minutes').minutes)
 
                   const highlighted =
                     focused &&
@@ -71,7 +67,7 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
                   return (
                     <View
                       key={index}
-                      style={tw.style(`flex-row py-2 px-2 items-center`, {
+                      style={tw.style(`flex-row py-2 pl-2 items-center`, {
                         'bg-accent bg-opacity-80 dark:bg-opacity-40 rounded':
                           highlighted,
                       })}>
@@ -99,12 +95,16 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
                       )}
                       <Text
                         numberOfLines={1}
-                        style={tw.style(`ml-2 flex-1 text-xs`, {
+                        style={tw.style(`ml-2 text-xs`, {
                           'line-through': event.status === 2,
                           'text-white': highlighted,
                         })}>
                         {event.title}
                       </Text>
+                      {minutesToEvent >= 0 && minutesToEvent <= 20 &&
+                        <Text style={tw`pl-2 dark:text-gray-500 text-gray-400 text-xs`}>Starts in {minutesToEvent} minutes</Text>
+                      }
+                      <View style={tw`flex-1`}/>
                       <Text
                         style={tw.style(
                           `text-gray-500 dark:text-gray-400 text-right text-xs`,
