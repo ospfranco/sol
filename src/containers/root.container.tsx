@@ -24,7 +24,7 @@ import {TranslationWidget} from 'widgets/translation.widget'
 export const RootContainer = observer(() => {
   useDeviceContext(tw)
   const store = useStore()
-  const mainStyle = tw`bg-white dark:bg-black`
+  const mainStyle = tw`rounded-lg bg-white dark:bg-black border border-lightBorder dark:border-darkBorder overflow-hidden`
   const calendarVisible =
     store.ui.calendarAuthorizationStatus === 'authorized' ||
     store.ui.calendarAuthorizationStatus === 'notDetermined'
@@ -88,10 +88,10 @@ export const RootContainer = observer(() => {
 
   return (
     <View
-      style={tw.style(`rounded-lg bg-white dark:bg-black`, {
+      style={tw.style(mainStyle, {
         'flex-1': !!store.ui.query,
       })}>
-      <SearchWidget style={mainStyle} />
+      <SearchWidget />
 
       {!!store.ui.items.length && (
         <View

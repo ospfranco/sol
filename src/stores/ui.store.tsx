@@ -137,7 +137,6 @@ export const createUIStore = (root: IRootStore) => {
           parsedStore.secondTranslationLanguage ?? 'de'
         store.customItems = parsedStore.customItems ?? []
         store.favorites = parsedStore.favorites ?? []
-        console.warn('parsed store favorites', parsedStore.favorites)
         if (
           store.onboardingStep !== 'v1_completed' &&
           store.onboardingStep !== 'v1_skipped'
@@ -783,16 +782,11 @@ export const createUIStore = (root: IRootStore) => {
       }
     },
     toggleFavorite: (item: Item) => {
-      console.warn('toggle called', store.favorites)
       const favorites = [...store.favorites]
 
       if (favorites.includes(item.name)) {
         const foundIndex = favorites.indexOf(item.name)
         favorites.splice(foundIndex, 1)
-        // const newFavorites = favorites.filter(v => v !== item.name)
-        console.warn(
-          `should remove ${item.name} from ${favorites}, newFavorites ${favorites}`,
-        )
         store.favorites = favorites
       } else {
         if (favorites.length === 5) {

@@ -161,8 +161,10 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
       </View>
 
       {!store.ui.query && !!store.ui.items.length && (
-        <View style={tw`px-3 py-1`}>
-          {items.map((item, index) => renderItem({item, index}))}
+        <View style={tw`px-3 pt-1 pb-2`}>
+          {items.map((item, index) =>
+            renderItem({item: {...item, isFavorite: true}, index}),
+          )}
         </View>
       )}
 
