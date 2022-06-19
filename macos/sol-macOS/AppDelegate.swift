@@ -190,11 +190,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   }
 
   func hideWindow() {
-//   #if !DEBUG
+//  #if !DEBUG
     mainWindow.orderOut(self)
     NSCursor.unhide()
     SolEmitter.sharedInstance.onHide()
-//   #endif
+//  #endif
   }
 
   func setHorizontalArrowCatch(catchHorizontalArrowPress: Bool) {

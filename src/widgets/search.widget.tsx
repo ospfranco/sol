@@ -1,6 +1,5 @@
 import {Assets, Icons} from 'assets'
 import {FileIcon} from 'components/FileIcon'
-import {solNative} from 'lib/SolNative'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect, useRef} from 'react'
 import {
@@ -38,11 +37,113 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
       })
     }
   }, [focused, store.ui.selectedIndex])
+
   const items = store.ui.items
 
+  const renderItem = ({item, index}: {item: Item; index: number}) => {
+    const isActive = index === store.ui.selectedIndex && focused
+
+    if (item.type === ItemType.TEMPORARY_RESULT) {
+      return (
+        <View
+          key={index}
+          style={tw.style(
+            `justify-center items-center p-3 m-3 mb-2 rounded bg-opacity-50 dark:bg-opacity-40`,
+            {
+              'bg-accent': isActive,
+            },
+          )}>
+          <Text
+            style={tw.style(`text-xl`, {
+              'text-white dark:text-white': isActive,
+            })}>
+            {store.ui.temporaryResult}
+          </Text>
+        </View>
+      )
+    }
+
+    return (
+      <View
+        key={index}
+        style={tw.style(
+          `flex-row items-center px-3 rounded bg-opacity-80 dark:bg-opacity-40 py-2`,
+          {
+            'bg-accent': isActive,
+          },
+        )}>
+        {!!item.url && <FileIcon url={item.url} style={tw`w-4 h-4`} />}
+        {item.type !== ItemType.CUSTOM && !!item.icon && (
+          <Text style={tw`text-xs`}>{item.icon}</Text>
+        )}
+        {item.type === ItemType.CUSTOM && (
+          <View
+            style={tw`h-4 w-4 bg-gray-100 dark:bg-neutral-800 rounded items-center justify-center`}>
+            <Image
+              // @ts-expect-error
+              source={Icons[item.icon]}
+              style={tw.style({
+                tintColor: item.color,
+                height: 12,
+                width: 12,
+              })}
+            />
+          </View>
+        )}
+        {!!item.iconImage && (
+          <Image source={item.iconImage} style={tw`w-4 h-4`} />
+        )}
+        {/* Somehow this component breaks windows build */}
+        {(Platform.OS === 'macos' || Platform.OS === 'ios') &&
+          !!item.iconComponent && <item.iconComponent />}
+        <Text
+          style={tw.style('ml-3 flex-1 text-sm', {
+            'text-white': isActive,
+          })}>
+          {item.name}
+        </Text>
+        {isActive && (
+          <TouchableOpacity
+            onPress={() => {
+              store.ui.toggleFavorite(item)
+            }}
+            style={tw`pr-1`}>
+            <Image
+              source={item.isFavorite ? Assets.StarFilled : Assets.Star}
+              style={tw.style('h-[2.5] w-4', {
+                tintColor: 'white',
+              })}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
+        )}
+        {item.isFavorite && !store.ui.query && (
+          <Text
+            style={tw.style(`text-gray-500 dark:text-gray-400 text-xs w-6`, {
+              'text-white dark:text-white': isActive,
+            })}>
+            ⌘ {index + 1}
+          </Text>
+        )}
+        {!!item.shortcut && (
+          <Text
+            style={tw.style(`text-gray-500 dark:text-gray-400 text-xs`, {
+              'text-white dark:text-white': isActive,
+            })}>
+            {item.shortcut}
+          </Text>
+        )}
+      </View>
+    )
+  }
+
   return (
-    <View style={style}>
-      <View style={tw`h-10 pt-2 px-3 flex-row items-center`}>
+    <View
+      style={tw.style(style, {
+        'flex-1': !!store.ui.query,
+      })}>
+      <View
+        style={tw`h-10 mb-1 mt-1 px-3 flex-row items-center border-b border-lightBorder dark:border-darkBorder`}>
         <TextInput
           autoFocus
           // @ts-expect-error
@@ -53,121 +154,29 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
           style={tw.style(`flex-1 text-lg`)}
           placeholderTextColor={tw.color('dark:text-gray-400 text-gray-500')}
           placeholder={
-            __DEV__
-              ? `Running in debug...`
-              : 'Type or search for something...'
+            __DEV__ ? `Running in debug...` : 'Type or search for something...'
           }
         />
         {store.ui.isLoading && <ActivityIndicator size="small" />}
       </View>
 
-      <FlatList<Item>
-        style={tw`flex-1`}
-        windowSize={8}
-        contentContainerStyle={tw.style(`flex-grow-1 px-3 py-1`)}
-        ref={listRef}
-        data={items}
-        keyExtractor={item => `${item.name}-${item.type}`}
-        renderItem={({item, index}) => {
-          const isActive = index === store.ui.selectedIndex && focused
+      {!store.ui.query && !!store.ui.items.length && (
+        <View style={tw`px-3 py-1`}>
+          {items.map((item, index) => renderItem({item, index}))}
+        </View>
+      )}
 
-          if (item.type === ItemType.TEMPORARY_RESULT) {
-            return (
-              <View
-                key={index}
-                style={tw.style(
-                  `justify-center items-center p-3 m-3 mb-2 rounded bg-opacity-50 dark:bg-opacity-40`,
-                  {
-                    'bg-accent': isActive,
-                  },
-                )}>
-                <Text
-                  style={tw.style(`text-xl`, {
-                    'text-white dark:text-white': isActive,
-                  })}>
-                  {store.ui.temporaryResult}
-                </Text>
-              </View>
-            )
-          }
-
-          return (
-            <View
-              key={index}
-              style={tw.style(
-                `flex-row items-center px-3 rounded bg-opacity-80 dark:bg-opacity-40 py-2`,
-                {
-                  'bg-accent': isActive,
-                },
-              )}>
-              {!!item.url && <FileIcon url={item.url} style={tw`w-4 h-4`} />}
-              {item.type !== ItemType.CUSTOM && !!item.icon && (
-                <Text style={tw`text-xs`}>{item.icon}</Text>
-              )}
-              {item.type === ItemType.CUSTOM && (
-                <View
-                  style={tw`h-4 w-4 bg-gray-100 dark:bg-neutral-800 rounded items-center justify-center`}>
-                  <Image
-                    // @ts-expect-error
-                    source={Icons[item.icon]}
-                    style={tw.style({
-                      tintColor: item.color,
-                      height: 12,
-                      width: 12,
-                    })}
-                  />
-                </View>
-              )}
-              {!!item.iconImage && (
-                <Image source={item.iconImage} style={tw`w-4 h-4`} />
-              )}
-              {/* Somehow this component breaks windows build */}
-              {(Platform.OS === 'macos' || Platform.OS === 'ios') &&
-                !!item.iconComponent && <item.iconComponent />}
-              <Text
-                style={tw.style('ml-3 flex-1 text-sm', {
-                  'text-white': isActive,
-                })}>
-                {item.name}
-              </Text>
-              {isActive && (
-                <TouchableOpacity
-                  onPress={() => {
-                    store.ui.toggleFavorite(item)
-                  }}
-                  style={tw`pr-1`}>
-                  <Image
-                    source={item.isFavorite ? Assets.StarFilled : Assets.Star}
-                    style={tw.style('h-[2.5] w-4', {
-                      tintColor: 'white',
-                    })}
-                    resizeMode="contain"
-                  />
-                </TouchableOpacity>
-              )}
-              {item.isFavorite && !store.ui.query && (
-                <Text
-                  style={tw.style(
-                    `text-gray-500 dark:text-gray-400 text-xs w-6`,
-                    {
-                      'text-white dark:text-white': isActive,
-                    },
-                  )}>
-                  ⌘ {index + 1}
-                </Text>
-              )}
-              {!!item.shortcut && (
-                <Text
-                  style={tw.style(`text-gray-500 dark:text-gray-400 text-xs`, {
-                    'text-white dark:text-white': isActive,
-                  })}>
-                  {item.shortcut}
-                </Text>
-              )}
-            </View>
-          )
-        }}
-      />
+      {!!store.ui.query && (
+        <FlatList<Item>
+          style={tw`flex-1`}
+          windowSize={8}
+          contentContainerStyle={tw.style(`flex-grow-1 px-3 py-1`)}
+          ref={listRef}
+          data={items}
+          keyExtractor={item => `${item.name}-${item.type}`}
+          renderItem={renderItem}
+        />
+      )}
     </View>
   )
 })

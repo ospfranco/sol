@@ -24,11 +24,12 @@ final class Panel: NSPanel, NSWindowDelegate {
     self.standardWindowButton(.miniaturizeButton)?.isHidden = true
     self.standardWindowButton(.zoomButton)?.isHidden = true
     self.isOpaque = false
-    let visualEffect = NSVisualEffectView(frame: frame)
-    visualEffect.blendingMode = .behindWindow
-    visualEffect.material = .fullScreenUI
-    visualEffect.state = .active
-    self.contentView!.addSubview(visualEffect)
+    self.backgroundColor = .clear
+//    let visualEffect = NSVisualEffectView(frame: frame)
+//    visualEffect.blendingMode = .behindWindow
+//    visualEffect.material = .fullScreenUI
+//    visualEffect.state = .active
+//    self.contentView!.addSubview(visualEffect)
     self.delegate = self
   }
 

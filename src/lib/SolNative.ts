@@ -28,7 +28,7 @@ class SolNative extends NativeEventEmitter {
   toggleDarkMode: () => void
   executeAppleScript: (source: string) => void
   getMediaInfo: () => Promise<
-    {title: string; artist: string; artwork: string} | null | undefined
+    {title: string; artist: string; artwork: string, bundleIdentifier: string, url: string} | null | undefined
   >
   setGlobalShortcut: (key: 'command' | 'option') => void
   setScratchpadShortcut: (key: 'command' | 'option') => void

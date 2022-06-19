@@ -137,6 +137,7 @@ export const createUIStore = (root: IRootStore) => {
           parsedStore.secondTranslationLanguage ?? 'de'
         store.customItems = parsedStore.customItems ?? []
         store.favorites = parsedStore.favorites ?? []
+        console.warn('parsed store favorites', parsedStore.favorites)
         if (
           store.onboardingStep !== 'v1_completed' &&
           store.onboardingStep !== 'v1_skipped'
@@ -146,13 +147,16 @@ export const createUIStore = (root: IRootStore) => {
         store.notes = parsedStore.notes ?? ['']
         store.globalShortcut = parsedStore.globalShortcut
         store.scratchpadShortcut = parsedStore.scratchpadShortcut ?? 'command'
-        store.clipboardManagerShortcut = parsedStore.clipboardManagerShortcut ?? 'shift'
+        store.clipboardManagerShortcut =
+          parsedStore.clipboardManagerShortcut ?? 'shift'
         store.frequentlyUsedEmojis = parsedStore.frequentlyUsedEmojis ?? {}
       })
 
       solNative.setGlobalShortcut(parsedStore.globalShortcut)
       solNative.setScratchpadShortcut(parsedStore.scratchpadShortcut)
-      solNative.setClipboardManagerShortcut(parsedStore.clipboardManagerShortcut)
+      solNative.setClipboardManagerShortcut(
+        parsedStore.clipboardManagerShortcut,
+      )
     } else {
       runInAction(() => {
         store.focusedWidget = FocusableWidget.ONBOARDING
@@ -390,7 +394,7 @@ export const createUIStore = (root: IRootStore) => {
       callback: () => {
         store.showClipboardManager()
       },
-      preventClose: true
+      preventClose: true,
     },
     ...buildSystemPreferencesItems(),
   ]
@@ -474,7 +478,7 @@ export const createUIStore = (root: IRootStore) => {
     frequencies: {} as Record<string, number>,
     temporaryResult: null as string | null,
     track: null as
-      | {title: string; artist: string; artwork: string}
+      | {title: string; artist: string; artwork: string; url: string}
       | null
       | undefined,
     commandPressed: false as boolean,
@@ -534,6 +538,10 @@ export const createUIStore = (root: IRootStore) => {
       }
     },
     get items(): Item[] {
+      if (!store.query) {
+        return store.favoriteItems
+      }
+
       const allItems = [...store.apps, ...SETTING_ITEMS, ...store.customItems]
 
       if (store.query) {
@@ -633,12 +641,14 @@ export const createUIStore = (root: IRootStore) => {
           return freqB - freqA
         })
 
+        // const favorites = store.favorites
+
         // Add extra props to favorites
-        items = produce(items, draft => {
-          store.favorites.forEach((_, index) => {
-            draft[index].isFavorite = true
-          })
-        })
+        // items = produce(items, draft => {
+        //   favorites.forEach((_, index) => {
+        //     draft[index].isFavorite = true
+        //   })
+        // })
 
         return items
       }
@@ -650,7 +660,7 @@ export const createUIStore = (root: IRootStore) => {
     //   / ____ \ (__| |_| | (_) | | | \__ \
     //  /_/    \_\___|\__|_|\___/|_| |_|___/
     handleDeletePressOnScrachpad: (): boolean => {
-      if(store.shiftPressed) {
+      if (store.shiftPressed) {
         Clipboard.setString(store.notes[store.selectedIndex])
         store.removeNote(store.selectedIndex)
 
@@ -773,10 +783,19 @@ export const createUIStore = (root: IRootStore) => {
       }
     },
     toggleFavorite: (item: Item) => {
-      if (store.favorites.includes(item.name)) {
-        store.favorites = store.favorites.filter(v => v !== item.name)
+      console.warn('toggle called', store.favorites)
+      const favorites = [...store.favorites]
+
+      if (favorites.includes(item.name)) {
+        const foundIndex = favorites.indexOf(item.name)
+        favorites.splice(foundIndex, 1)
+        // const newFavorites = favorites.filter(v => v !== item.name)
+        console.warn(
+          `should remove ${item.name} from ${favorites}, newFavorites ${favorites}`,
+        )
+        store.favorites = favorites
       } else {
-        if (store.favorites.length === 5) {
+        if (favorites.length === 5) {
           Alert.alert('Only 5 favorite items allowed.')
           return
         }
@@ -1379,7 +1398,7 @@ export const createUIStore = (root: IRootStore) => {
         case 60: {
           store.shiftPressed = false
           break
-          }
+        }
 
         default:
           break

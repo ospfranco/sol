@@ -86,17 +86,31 @@ class SolNative: RCTEventEmitter {
   }
 
   @objc func getMediaInfo(_ resolve: @escaping  RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) {
-    MediaHelper.getCurrentMedia(callback: { information in
-      //      let bitmap: NSBitmapImageRep = NSBitmapImageRep(
-      //    data: information["kMRMediaRemoteNowPlayingInfoArtworkData"] as! Data)!
-      //      let data = bitmap.representation(using: .jpeg, properties: [:])
-      //      let base64 = "data:image/jpeg;base64," + data!.base64EncodedString()
 
+    MediaHelper.getCurrentMedia(callback: { information in
+      let pathUrl = NSWorkspace.shared.urlForApplication(withBundleIdentifier: information["bundleIdentifier"]! as! String)?.path
+
+      guard let bitmap: NSBitmapImageRep = NSBitmapImageRep(
+        data: information["kMRMediaRemoteNowPlayingInfoArtworkData"] as! Data) else {
+        resolve([
+          "title": information["kMRMediaRemoteNowPlayingInfoTitle"],
+          "artist": information["kMRMediaRemoteNowPlayingInfoArtist"],
+          "bundleIdentifier": information["bundleIdentifier"],
+          "url": pathUrl
+        ])
+        return
+      }
+      
+      let data = bitmap.representation(using: .jpeg, properties: [:])
+      let base64 = "data:image/jpeg;base64," + data!.base64EncodedString()
       resolve([
         "title": information["kMRMediaRemoteNowPlayingInfoTitle"],
-        "artist": information["kMRMediaRemoteNowPlayingInfoArtist"]
-        //        "artwork": base64
+        "artist": information["kMRMediaRemoteNowPlayingInfoArtist"],
+        "artwork": base64,
+        "bundleIdentifier": information["bundleIdentifier"],
+        "url": pathUrl
       ])
+
     })
   }
 

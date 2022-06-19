@@ -1,4 +1,3 @@
-import {Fade} from 'components/Fade'
 import {solNative} from 'lib/SolNative'
 import {observer} from 'mobx-react-lite'
 import React, {useEffect} from 'react'
@@ -25,14 +24,15 @@ import {TranslationWidget} from 'widgets/translation.widget'
 export const RootContainer = observer(() => {
   useDeviceContext(tw)
   const store = useStore()
-  const mainStyle = tw`bg-white dark:bg-black bg-opacity-80 dark:bg-opacity-60 flex-1`
+  const mainStyle = tw`bg-white dark:bg-black`
   const calendarVisible =
     store.ui.calendarAuthorizationStatus === 'authorized' ||
     store.ui.calendarAuthorizationStatus === 'notDetermined'
   const generalVisible =
-    store.ui.track?.title ||
-    store.ui.currentTemp ||
-    !!store.ui.currentlyTrackedProject
+    (store.ui.track?.title ||
+      store.ui.currentTemp ||
+      !!store.ui.currentlyTrackedProject) &&
+    !store.ui.query
 
   const widget = store.ui.focusedWidget
 
@@ -87,41 +87,37 @@ export const RootContainer = observer(() => {
   }
 
   return (
-    <Fade style={tw.style(`flex-1`)} visible duration={100}>
+    <View
+      style={tw.style(`rounded-lg bg-white dark:bg-black`, {
+        'flex-1': !!store.ui.query,
+      })}>
       <SearchWidget style={mainStyle} />
 
-      <View
-        style={tw.style(
-          `border-t bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30 border-lightBorder dark:border-darkBorder px-6 py-1`,
-        )}>
-        <GeneralWidget />
-        {generalVisible && calendarVisible && (
+      {!!store.ui.items.length && (
+        <View
+          style={tw`border-t border-lightBorder dark:border-darkBorder mx-3`}
+        />
+      )}
+      {calendarVisible && <CalendarWidget />}
+      {generalVisible && <GeneralWidget />}
+      {!store.ui.isAccessibilityTrusted && (
+        <>
           <View
             style={tw.style(
               `w-full border-lightBorder dark:border-darkBorder border-t my-[7]`,
             )}
           />
-        )}
-        {calendarVisible && <CalendarWidget />}
-        {!store.ui.isAccessibilityTrusted && (
-          <>
-            <View
-              style={tw.style(
-                `w-full border-lightBorder dark:border-darkBorder border-t my-[7]`,
-              )}
-            />
-            <TouchableOpacity
-              onPress={() => {
-                solNative.requestAccessibilityAccess()
-                solNative.hideWindow()
-              }}>
-              <Text style={tw`text-accent text-xs pb-1`}>
-                Click to grant accessibility access
-              </Text>
-            </TouchableOpacity>
-          </>
-        )}
-      </View>
-    </Fade>
+          <TouchableOpacity
+            onPress={() => {
+              solNative.requestAccessibilityAccess()
+              solNative.hideWindow()
+            }}>
+            <Text style={tw`text-accent text-xs pb-1`}>
+              Click to grant accessibility access
+            </Text>
+          </TouchableOpacity>
+        </>
+      )}
+    </View>
   )
 })
