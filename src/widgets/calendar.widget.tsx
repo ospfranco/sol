@@ -31,12 +31,12 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
   }, {} as Record<string, {date: DateTime; events: Array<INativeEvent>}>)
 
   return (
-    <View style={tw`mx-3 p-3`}>
+    <View style={tw`mx-3 py-3`}>
       {Object.entries(groups).map(([key, data], index) => {
         return (
           <View key={key}>
             <View
-              style={tw.style(`flex-row`, {
+              style={tw.style(`flex-row px-3`, {
                 'mt-2': index !== 0,
               })}>
               {key === 'tomorrow' || key === 'today' ? (
@@ -73,13 +73,13 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
                 return (
                   <View
                     key={index}
-                    style={tw.style(`flex-row py-2 items-center`, {
+                    style={tw.style(`flex-row py-2 items-center px-3`, {
                       'bg-accent bg-opacity-80 dark:bg-opacity-40 rounded':
                         highlighted,
                     })}>
                     <View
                       style={tw.style(
-                        `w-[12px] h-[12px] rounded-full justify-center items-center`,
+                        `w-[13px] h-[13px] rounded-full justify-center items-center`,
                         {
                           borderColor: event.color,
                           borderWidth: 1.5,
@@ -92,7 +92,7 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
 
                     <Text
                       numberOfLines={1}
-                      style={tw.style(`ml-2 text-sm`, {
+                      style={tw.style(`ml-3 text-sm`, {
                         'line-through': event.status === 2,
                         'text-white': highlighted,
                       })}>
