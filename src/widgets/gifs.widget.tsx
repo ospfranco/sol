@@ -1,7 +1,8 @@
+import {Assets} from 'assets'
 import {solNative} from 'lib/SolNative'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect} from 'react'
-import {Image, ScrollView, Text, TextInput, View, ViewStyle} from 'react-native'
+import {Image, Text, TextInput, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
@@ -27,7 +28,7 @@ export const GifsWidget: FC<Props> = observer(({style}) => {
 
   return (
     <View style={tw.style(`flex-1`, style)}>
-      <View style={tw`h-10 pt-2 px-3 justify-center`}>
+      <View style={tw`h-10 pt-3 px-3 justify-center flex-row`}>
         <TextInput
           autoFocus
           // @ts-expect-error
@@ -37,6 +38,12 @@ export const GifsWidget: FC<Props> = observer(({style}) => {
           selectionColor={solNative.accentColor}
           placeholderTextColor={tw.color('dark:text-gray-400 text-gray-500')}
           placeholder="Search gifs..."
+          style={tw`flex-1`}
+        />
+        <Image
+          source={Assets.Giphy}
+          style={tw`h-8 w-32`}
+          resizeMode="contain"
         />
       </View>
       <View style={tw`flex-row flex-wrap px-3`}>
@@ -61,7 +68,6 @@ export const GifsWidget: FC<Props> = observer(({style}) => {
           </Text>
         )}
       </View>
-      <Text style={tw`text-xs px-3 text-gray-400 dark:text-gray-500`}>Powered by Giphy</Text>
     </View>
   )
 })

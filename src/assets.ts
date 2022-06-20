@@ -127,6 +127,7 @@ import GoogleMaps from './assets/GoogleMapsIcon.png'
 import CheckIcon from './assets/Check.png'
 import CheckCircleIcon from './assets/CheckCircleIcon.png'
 import DocumentIcon from './assets/DocumentIcon.png'
+import Giphy from './assets/Giphy.png'
 
 export const Assets = {
   googleLogo,
@@ -144,6 +145,7 @@ export const Assets = {
   CheckIcon,
   CheckCircleIcon,
   DocumentIcon,
+  Giphy
 }
 
 export const Icons = {
