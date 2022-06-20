@@ -660,15 +660,15 @@ export const createUIStore = (root: IRootStore) => {
     //  /_/    \_\___|\__|_|\___/|_| |_|___/
     handleDeletePressOnScrachpad: (): boolean => {
       if (store.shiftPressed) {
+        if (store.selectedIndex >= store.notes.length) {
+          store.selectedIndex = store.notes.length - 1
+        }
+
         Clipboard.setString(store.notes[store.selectedIndex])
         store.removeNote(store.selectedIndex)
 
         if (store.selectedIndex === 0) {
           store.notes.unshift('')
-        }
-
-        if (store.selectedIndex >= store.notes.length) {
-          store.selectedIndex = store.notes.length - 1
         }
 
         return true
@@ -951,7 +951,15 @@ export const createUIStore = (root: IRootStore) => {
       meta: boolean
       shift: boolean
     }) => {
+      // console.warn('keyCode', keyCode)
       switch (keyCode) {
+        // delete key
+        case 51: {
+          if (store.focusedWidget === FocusableWidget.SCRATCHPAD) {
+            store.handleDeletePressOnScrachpad()
+          }
+          break
+        }
         // tab key
         case 48: {
           let nextWidget = store.focusedWidget

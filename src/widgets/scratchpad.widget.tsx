@@ -1,17 +1,17 @@
-import { solNative } from 'lib/SolNative'
-import { observer } from 'mobx-react-lite'
-import React, { FC, useEffect, useRef } from 'react'
+import {solNative} from 'lib/SolNative'
+import {observer} from 'mobx-react-lite'
+import React, {FC, useEffect, useRef} from 'react'
 import {
   FlatList,
   Text,
   TextInput,
   TextInputProps,
   View,
-  ViewStyle
+  ViewStyle,
 } from 'react-native'
-import { useStore } from 'store'
+import {useStore} from 'store'
 import tw from 'tailwind'
-import { useDeviceContext } from 'twrnc'
+import {useDeviceContext} from 'twrnc'
 
 interface Props {
   style?: ViewStyle
@@ -30,7 +30,9 @@ const WrappedInput: FC<WrappedInputProps> = ({focused, value, ...props}) => {
     }
   }, [focused])
 
-  return <TextInput ref={ref} selectTextOnFocus={false} value={value} {...props} />
+  return (
+    <TextInput ref={ref} selectTextOnFocus={false} value={value} {...props} />
+  )
 }
 
 export const ScratchpadWidget: FC<Props> = observer(({style}) => {
@@ -56,13 +58,13 @@ export const ScratchpadWidget: FC<Props> = observer(({style}) => {
   }, [selectedIndex])
 
   return (
-    <View style={tw`flex-1`}>
-      <View style={tw.style('flex-1', style)}>
+    <View style={tw.style(`flex-1`, style)}>
+      <View style={tw.style('flex-1')}>
         <FlatList
           ref={listRef}
           data={[...store.ui.notes]}
           style={tw.style('flex-1 -mt-3')}
-          contentContainerStyle={tw`px-5`}
+          // contentContainerStyle={tw`px-5`}
           renderItem={({item, index}) => {
             const focused = selectedIndex === index
             return (
@@ -72,18 +74,18 @@ export const ScratchpadWidget: FC<Props> = observer(({style}) => {
                   const oldBreakCount = (item.match(/\n/g) || []).length
                   const newBreakCount = (v.match(/\n/g) || []).length
                   const newLineInserted = newBreakCount > oldBreakCount
-                  
-                  if(newLineInserted) {
+
+                  if (newLineInserted) {
                     const handled = store.ui.handleEnterPressOnScratchpad()
-                    if(handled) {
+                    if (handled) {
                       return
                     }
                   }
 
                   // character was deleted
-                  if(item.length -1 === v.length) {
+                  if (item.length - 1 === v.length) {
                     const handled = store.ui.handleDeletePressOnScrachpad()
-                    if(handled) {
+                    if (handled) {
                       return
                     }
                   }
@@ -96,9 +98,12 @@ export const ScratchpadWidget: FC<Props> = observer(({style}) => {
                 enableFocusRing={false}
                 placeholderTextColor={tw.color('text-gray-400')}
                 placeholder="Write something..."
-                style={tw.style('border-b border-lightBorder dark:border-darkBorder pb-2 mb-4', {
-                  'border-accent dark:border-accent': focused,
-                })}
+                style={tw.style(
+                  'border-b border-lightBorder dark:border-darkBorder pb-4 mb-4 px-5',
+                  {
+                    'border-accent dark:border-accent': focused,
+                  },
+                )}
                 onFocus={() => {
                   store.ui.setSelectedIndex(index)
                 }}
@@ -109,7 +114,7 @@ export const ScratchpadWidget: FC<Props> = observer(({style}) => {
         />
       </View>
       <View
-        style={tw`border-t bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30 border-lightBorder dark:border-darkBorder px-6 pt-1 pb-2 flex-row items-center`}>
+        style={tw`border-t bg-gray-100 dark:bg-neutral-800 border-lightBorder dark:border-darkBorder px-6 pt-1 pb-2 flex-row items-center`}>
         <Text style={tw`text-xs dark:text-gray-400 text-gray-500`}>
           <Text style={tw`text-xs`}>⇧ + ↩</Text> new
         </Text>
