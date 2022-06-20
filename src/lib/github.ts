@@ -126,9 +126,9 @@ export async function searchGithubRepos(query: string, token?: string | null): P
     headers['Authorization'] = `token ${token}`
   }
 
-  const res = await axios.get(
-    `https://api.github.com/search/repositories\?q=${query}&per_page=5`,
-    headers,
+  const res = await axios.get<GithubQueryResult>(
+    `https://api.github.com/search/repositories?q=${query}`,
+    {headers}
   )
 
   return res.data

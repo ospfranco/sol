@@ -152,6 +152,7 @@ export const createUIStore = (root: IRootStore) => {
           parsedStore.clipboardManagerShortcut ?? 'shift'
         store.frequentlyUsedEmojis = parsedStore.frequentlyUsedEmojis ?? {}
         store.githubSearchEnabled = parsedStore.githubSearchEnabled ?? true
+        store.githubToken = parsedStore.githubToken ?? null
       })
 
       solNative.setGlobalShortcut(parsedStore.globalShortcut)
