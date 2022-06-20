@@ -10,6 +10,7 @@ import {
   Image,
   Switch,
   Text,
+  TextInput,
   TouchableOpacity,
   TouchableOpacityProps,
   View,
@@ -46,8 +47,7 @@ const SelectableButton: FC<SelectableButtonProps> = ({
       style={tw.style(
         'rounded px-2 py-1 w-full',
         {
-          'bg-accent dark:bg-opacity-60 bg-opacity-80':
-            selected,
+          'bg-accent dark:bg-opacity-60 bg-opacity-80': selected,
         },
         style,
       )}>
@@ -212,6 +212,29 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
               value={store.ui.launchAtLogin}
               onValueChange={store.ui.setLaunchAtLogin}
             />
+          </View>
+
+          <View style={tw`flex-row mt-3 h-6 items-center`}>
+            <Text style={tw`flex-1`}>Search Github repositories</Text>
+            <Switch
+              value={store.ui.githubSearchEnabled}
+              onValueChange={store.ui.setGithubSearchEnabled}
+            />
+          </View>
+
+          <View style={tw`flex-row mt-3 h-6 items-center`}>
+            <Text style={tw`flex-1`}>Github token (search private repos)</Text>
+            <View
+              style={tw`rounded border border-lightBorder dark:border-darkBorder px-2`}>
+              <TextInput
+                value={store.ui.githubToken ?? ''}
+                onChangeText={store.ui.setGithubToken}
+                placeholder="Token..."
+                // @ts-ignore
+                enableFocusRing={false}
+                style={tw`max-w-32`}
+              />
+            </View>
           </View>
         </View>
       )}

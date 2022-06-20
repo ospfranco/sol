@@ -28,7 +28,7 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
   const listRef = useRef<FlatList | null>(null)
 
   useEffect(() => {
-    if(data.length > 0) {
+    if (data.length > 0) {
       listRef.current?.scrollToIndex({
         index: store.ui.selectedIndex,
         viewOffset: 80,
@@ -37,8 +37,8 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
   }, [selectedIndex])
 
   return (
-    <View style={tw`flex-1`}>
-      <View style={style}>
+    <View style={tw.style(`flex-1`, style)}>
+      <View style={tw`flex-1`}>
         <View style={tw`h-10 pt-2 px-3 justify-center`}>
           <TextInput
             autoFocus
@@ -66,13 +66,9 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
             const isSelected = index === selectedIndex
             return (
               <View
-                style={tw.style(
-                  `p-3 rounded flex-row`,
-                  {
-                    'bg-accent bg-opacity-50 dark:bg-opacity-40':
-                      isSelected,
-                  },
-                )}>
+                style={tw.style(`p-3 rounded flex-row`, {
+                  'bg-accent bg-opacity-50 dark:bg-opacity-40': isSelected,
+                })}>
                 <Image
                   source={Assets.DocumentIcon}
                   style={tw.style(`h-4 w-4`, {

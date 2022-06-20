@@ -68,7 +68,7 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
   }
 
   return (
-    <View style={style}>
+    <View style={tw.style('flex-1', style)}>
       <View style={tw`h-10 pt-2 px-3 justify-center`}>
         <TextInput
           autoFocus

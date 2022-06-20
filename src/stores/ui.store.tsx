@@ -2,7 +2,6 @@ import * as Sentry from '@sentry/react-native'
 import {Assets} from 'assets'
 import {Parser} from 'expr-eval'
 import Fuse from 'fuse.js'
-import produce from 'immer'
 import {extractMeetingLink} from 'lib/calendar'
 import {CONSTANTS} from 'lib/constants'
 import {allEmojis, emojiFuse, EMOJIS_PER_ROW} from 'lib/emoji'
@@ -34,6 +33,9 @@ import {IRootStore} from 'Store'
 import tw from 'tailwind'
 import {buildSystemPreferencesItems} from './systemPreferences'
 import {GiphyFetch} from '@giphy/js-fetch-api'
+import axios from 'axios'
+import {debounce} from 'lodash'
+import {GithubRepo, searchGithubRepos} from 'lib/github'
 
 const gf = new GiphyFetch('Ot4kWfqWddVroUVh73v4Apocs8Dek86j')
 const GIFS_PER_ROW = 5
@@ -149,6 +151,7 @@ export const createUIStore = (root: IRootStore) => {
         store.clipboardManagerShortcut =
           parsedStore.clipboardManagerShortcut ?? 'shift'
         store.frequentlyUsedEmojis = parsedStore.frequentlyUsedEmojis ?? {}
+        store.githubSearchEnabled = parsedStore.githubSearchEnabled ?? true
       })
 
       solNative.setGlobalShortcut(parsedStore.globalShortcut)
@@ -493,6 +496,10 @@ export const createUIStore = (root: IRootStore) => {
     secondTranslationLanguage: 'de' as string,
     gifs: [] as any[],
     temporaryTextInputSelection: 0 as number,
+    githubSearchEnabled: true as boolean,
+    githubSearchResults: [] as GithubRepo[],
+    // TODO(osp) this token should be placed in secure storage, but too lazy to do it right now
+    githubToken: null as string | null,
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -618,38 +625,20 @@ export const createUIStore = (root: IRootStore) => {
           ...temporaryResultItems,
           ...results,
           ...(shouldReturnFallback ? fallbackItems : []),
+          ...store.githubSearchResults.map(
+            (s): Item => ({
+              name: `${s.owner?.login}/${s.name}`,
+              type: ItemType.CUSTOM,
+              icon: 'Github',
+              color: 'white',
+              callback: () => {
+                Linking.openURL(s.html_url)
+              },
+            }),
+          ),
         ]
       } else {
-        let items = allItems.sort((a, b) => {
-          const aIsFavorite = !!store.favorites.includes(a.name)
-          const bIsFavorite = !!store.favorites.includes(b.name)
-
-          if (aIsFavorite && !bIsFavorite) {
-            return -1
-          } else if (!aIsFavorite && bIsFavorite) {
-            return 1
-          } else if (aIsFavorite && bIsFavorite) {
-            return (
-              store.favorites.findIndex(v => v === a.name) -
-              store.favorites.findIndex(v => v === b.name)
-            )
-          }
-
-          const freqA = store.frequencies[a.name] ?? 0
-          const freqB = store.frequencies[b.name] ?? 0
-          return freqB - freqA
-        })
-
-        // const favorites = store.favorites
-
-        // Add extra props to favorites
-        // items = produce(items, draft => {
-        //   favorites.forEach((_, index) => {
-        //     draft[index].isFavorite = true
-        //   })
-        // })
-
-        return items
+        return allItems
       }
     },
     //                _   _
@@ -658,6 +647,12 @@ export const createUIStore = (root: IRootStore) => {
     //    / /\ \ / __| __| |/ _ \| '_ \/ __|
     //   / ____ \ (__| |_| | (_) | | | \__ \
     //  /_/    \_\___|\__|_|\___/|_| |_|___/
+    setGithubToken: (token: string) => {
+      store.githubToken = token
+    },
+    setGithubSearchEnabled: (v: boolean) => {
+      store.githubSearchEnabled = v
+    },
     handleDeletePressOnScrachpad: (): boolean => {
       if (store.shiftPressed) {
         if (store.selectedIndex >= store.notes.length) {
@@ -923,9 +918,26 @@ export const createUIStore = (root: IRootStore) => {
           store.temporaryResult = null
         }
 
+        if (store.githubSearchEnabled) {
+          store.searchGithubRepos()
+        }
+
         store.fetchEvents()
       }
     },
+    searchGithubRepos: debounce(async () => {
+      if (store.query) {
+        runInAction(() => {
+          store.githubSearchResults = []
+          store.isLoading = true
+        })
+        const repos = await searchGithubRepos(store.query, store.githubToken)
+        runInAction(() => {
+          store.isLoading = false
+          store.githubSearchResults = repos.items
+        })
+      }
+    }, 500),
     runFavorite: (index: number) => {
       const item = store.favoriteItems[index]
 

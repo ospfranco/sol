@@ -38,6 +38,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
     }
   }, [focused, store.ui.selectedIndex])
 
+  // assignment to get mobx to update the component
   const items = store.ui.items
 
   const renderItem = ({item, index}: {item: Item; index: number}) => {
