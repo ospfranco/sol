@@ -6,7 +6,7 @@ final class Panel: NSPanel, NSWindowDelegate {
   init(contentRect: NSRect, backing: NSWindow.BackingStoreType, defer flag: Bool) {
     super.init(
       contentRect: contentRect,
-      styleMask: [.titled, .closable, .miniaturizable, .fullSizeContentView, .nonactivatingPanel],
+      styleMask: [.titled, .fullSizeContentView, .nonactivatingPanel],
       backing: backing,
       defer: flag
     )
@@ -15,21 +15,12 @@ final class Panel: NSPanel, NSWindowDelegate {
     self.collectionBehavior.insert(.fullScreenAuxiliary) // Allows the pannel to appear in a fullscreen space
     self.collectionBehavior.insert(.canJoinAllSpaces)
     self.titleVisibility = .hidden
-//    self.hidesOnDeactivate = true
     self.titlebarAppearsTransparent = true
     self.isMovable = false
     self.isMovableByWindowBackground = false
     self.isReleasedWhenClosed = false
-    self.standardWindowButton(.closeButton)?.isHidden = true
-    self.standardWindowButton(.miniaturizeButton)?.isHidden = true
-    self.standardWindowButton(.zoomButton)?.isHidden = true
     self.isOpaque = false
     self.backgroundColor = .clear
-//    let visualEffect = NSVisualEffectView(frame: frame)
-//    visualEffect.blendingMode = .behindWindow
-//    visualEffect.material = .fullScreenUI
-//    visualEffect.state = .active
-//    self.contentView!.addSubview(visualEffect)
     self.delegate = self
   }
 

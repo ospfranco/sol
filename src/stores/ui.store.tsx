@@ -1216,6 +1216,7 @@ export const createUIStore = (root: IRootStore) => {
             case FocusableWidget.EMOJIS:
             case FocusableWidget.SCRATCHPAD:
             case FocusableWidget.CLIPBOARD:
+            case FocusableWidget.GOOGLE_MAP:
               solNative.hideWindow()
               break
 
