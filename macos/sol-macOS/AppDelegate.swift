@@ -4,6 +4,7 @@ import HotKey
 import EventKit
 import Sparkle
 
+let baseSize = CGSize(width: 750, height: 500)
 let handledKeys: [UInt16] = [53, 123, 124, 126, 125, 36, 48]
 let numberchars: [String] = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
@@ -43,17 +44,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
       backing: .buffered, defer: false)
 
     let origin = CGPoint(x: 0, y: 0)
-    let size = CGSize(width: 750, height: 500)
-    let frame = NSRect(origin: origin, size: size)
+    let frame = NSRect(origin: origin, size: baseSize)
     mainWindow.setFrame(frame, display: false)
+    mainWindow.contentView = rootView
 
-    mainWindow.contentView!.addSubview(rootView)
-
-    rootView.translatesAutoresizingMaskIntoConstraints = false
-    rootView.topAnchor.constraint(equalTo: mainWindow.contentView!.topAnchor).isActive = true
-    rootView.leadingAnchor.constraint(equalTo: mainWindow.contentView!.leadingAnchor).isActive = true
-    rootView.trailingAnchor.constraint(equalTo: mainWindow.contentView!.trailingAnchor).isActive = true
-    rootView.bottomAnchor.constraint(equalTo: mainWindow.contentView!.bottomAnchor).isActive = true
+//    mainWindow.contentView!.addSubview(rootView)
+//
+//    rootView.translatesAutoresizingMaskIntoConstraints = false
+//    rootView.topAnchor.constraint(equalTo: mainWindow.contentView!.topAnchor).isActive = true
+//    rootView.leadingAnchor.constraint(equalTo: mainWindow.contentView!.leadingAnchor).isActive = true
+//    rootView.trailingAnchor.constraint(equalTo: mainWindow.contentView!.trailingAnchor).isActive = true
+//    rootView.bottomAnchor.constraint(equalTo: mainWindow.contentView!.bottomAnchor).isActive = true
 
     setupKeyboardListeners()
     setupPasteboardListener()
@@ -238,5 +239,26 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     } else {
       self.clipboardManagerHotKey = HotKey(key: .v, modifiers: [.command, .option], keyDownHandler: showClipboardManager)
     }
+  }
+
+  func setRelativeSize(_ proportion: Double) {
+    guard let screenSize = NSScreen.main?.frame.size else {
+      return
+    }
+
+    let origin = CGPoint(x: 0, y: 0)
+    let size = CGSize(width: screenSize.width * CGFloat(proportion), height: screenSize.height * CGFloat(proportion))
+
+    let frame = NSRect(origin: origin, size: size)
+    mainWindow.setFrame(frame, display: false)
+    mainWindow.center()
+  }
+
+  func resetSize() {
+    let origin = CGPoint(x: 0, y: 0)
+    let size = baseSize
+    let frame = NSRect(origin: origin, size: size)
+    mainWindow.setFrame(frame, display: false)
+    mainWindow.center()
   }
 }

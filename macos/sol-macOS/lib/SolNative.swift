@@ -63,7 +63,6 @@ class SolNative: RCTEventEmitter {
     let searcher = ApplicationSearcher()
     let apps = searcher.getAllApplications()
     let res = apps.map { app in
-      
       app.url
     }
 
@@ -224,5 +223,17 @@ class SolNative: RCTEventEmitter {
 
   @objc func checkForUpdates() {
     self.appDelegate?.checkForUpdates()
+  }
+
+  @objc func setWindowRelativeSize(_ relative: NSNumber) {
+    DispatchQueue.main.async {
+      self.appDelegate?.setRelativeSize(relative as! Double)
+    }
+  }
+
+  @objc func resetWindowSize() {
+    DispatchQueue.main.async {
+      self.appDelegate?.resetSize()
+    }
   }
 }

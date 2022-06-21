@@ -53,6 +53,8 @@ class SolNative extends NativeEventEmitter {
   turnOnEnterListener: () => void
   turnOffEnterListener: () => void
   checkForUpdates: () => void
+  setWindowRelativeSize: (relativeSize: number) => void
+  resetWindowSize: () => void
 
   constructor(module: any) {
     super(module)
@@ -90,6 +92,8 @@ class SolNative extends NativeEventEmitter {
     this.turnOnEnterListener = module.turnOnEnterListener
     this.turnOffEnterListener = module.turnOffEnterListener
     this.setClipboardManagerShortcut = module.setClipboardManagerShortcut
+    this.setWindowRelativeSize = module.setWindowRelativeSize
+    this.resetWindowSize = module.resetWindowSize
 
     const constants = module.getConstants()
     this.accentColor = constants.accentColor
