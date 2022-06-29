@@ -153,6 +153,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
           onChangeText={store.ui.setQuery}
           ref={inputRef}
           style={tw.style(`flex-1 text-lg`)}
+          // selectionColor={'white'}
           placeholderTextColor={tw.color('dark:text-gray-400 text-gray-500')}
           placeholder={
             __DEV__ ? `Running in debug...` : 'Type or search for something...'

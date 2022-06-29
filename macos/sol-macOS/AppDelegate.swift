@@ -92,13 +92,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     emojiPickerHotKey.keyDownHandler = showEmojiPicker
     clipboardManagerHotKey.keyDownHandler = showClipboardManager
 
-#if DEBUG
-    debugHotKey.keyDownHandler = toggleWindow
-    mainHotKey.isPaused = true
-#else
+//#if DEBUG
+//    debugHotKey.keyDownHandler = toggleWindow
+//    mainHotKey.isPaused = true
+//#else
     mainHotKey.keyDownHandler = toggleWindow
     debugHotKey.isPaused = true
-#endif
+//#endif
 
     NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
 //      36 enter

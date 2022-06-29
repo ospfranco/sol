@@ -26,27 +26,32 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
         `text-gray-200 flex-row items-center border-t border-lightBorder dark:border-darkBorder mx-3 p-3`,
         style,
       )}>
-      {!!store.ui.track?.artwork ? (
-        <Image
-          source={{uri: store.ui.track?.artwork}}
-          style={tw`h-10 w-10 rounded-lg`}
-        />
-      ) : (
-        <FileIcon url={store.ui.track?.url!} style={tw`h-10 w-10 rounded-lg`} />
-      )}
-
       {!!store.ui.track?.title && (
-        <View style={tw`pl-1`}>
-          <Text style={tw`text-sm max-w-42`} numberOfLines={1}>
-            {store.ui.track?.title}{' '}
-          </Text>
-          {!!store.ui.track?.artist && (
-            <Text
-              style={tw`dark:text-gray-400 text-gray-500 text-sm`}
-              numberOfLines={1}>
-              {store.ui.track?.artist}
-            </Text>
+        <View style={tw`flex-row items-center`}>
+          {!!store.ui.track?.artwork ? (
+            <Image
+              source={{uri: store.ui.track?.artwork}}
+              style={tw`h-10 w-10 rounded-lg`}
+            />
+          ) : (
+            <FileIcon
+              url={store.ui.track?.url!}
+              style={tw`h-10 w-10 rounded-lg`}
+            />
           )}
+
+          <View style={tw`pl-1`}>
+            <Text style={tw`text-sm max-w-42`} numberOfLines={1}>
+              {store.ui.track?.title}{' '}
+            </Text>
+            {!!store.ui.track?.artist && (
+              <Text
+                style={tw`dark:text-gray-400 text-gray-500 text-sm`}
+                numberOfLines={1}>
+                {store.ui.track?.artist}
+              </Text>
+            )}
+          </View>
         </View>
       )}
 
