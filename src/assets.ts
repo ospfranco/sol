@@ -128,6 +128,7 @@ import CheckIcon from './assets/Check.png'
 import CheckCircleIcon from './assets/CheckCircleIcon.png'
 import DocumentIcon from './assets/DocumentIcon.png'
 import Giphy from './assets/Giphy.png'
+import SearchIcon from './assets/SearchIcon.png'
 
 export const Assets = {
   googleLogo,
@@ -145,7 +146,8 @@ export const Assets = {
   CheckIcon,
   CheckCircleIcon,
   DocumentIcon,
-  Giphy
+  Giphy,
+  SearchIcon,
 }
 
 export const Icons = {

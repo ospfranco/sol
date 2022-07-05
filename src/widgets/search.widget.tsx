@@ -145,6 +145,10 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
       })}>
       <View
         style={tw`h-10 mb-1 mt-1 px-3 flex-row items-center border-b border-lightBorder dark:border-darkBorder`}>
+        <Image
+          source={Assets.SolWhiteSmall}
+          style={tw.style('h-4 w-4 mr-1', {tintColor: 'gray'})}
+        />
         <TextInput
           autoFocus
           // @ts-expect-error
@@ -152,7 +156,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
           value={store.ui.query}
           onChangeText={store.ui.setQuery}
           ref={inputRef}
-          style={tw.style(`flex-1 text-lg`)}
+          style={tw.style(`flex-1`)}
           // selectionColor={'white'}
           placeholderTextColor={tw.color('dark:text-gray-400 text-gray-500')}
           placeholder={
