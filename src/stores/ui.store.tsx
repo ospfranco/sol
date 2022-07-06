@@ -1,5 +1,5 @@
 import * as Sentry from '@sentry/react-native'
-import {Assets} from 'assets'
+import {Assets, Icons} from 'assets'
 import {Parser} from 'expr-eval'
 import Fuse from 'fuse.js'
 import {extractMeetingLink} from 'lib/calendar'
@@ -630,8 +630,18 @@ export const createUIStore = (root: IRootStore) => {
             (s): Item => ({
               name: `${s.owner?.login}/${s.name}`,
               type: ItemType.CUSTOM,
-              icon: 'Github',
-              color: 'white',
+              iconComponent: () => {
+                const colorScheme = Appearance.getColorScheme()
+
+                return (
+                  <Image
+                    source={Icons.Github}
+                    style={tw.style('w-3 h-3 p-1 mr-1', {
+                      tintColor: colorScheme === 'dark' ? 'white' : 'black',
+                    })}
+                  />
+                )
+              },
               callback: () => {
                 Linking.openURL(s.html_url)
               },

@@ -77,7 +77,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
         {item.type !== ItemType.CUSTOM && !!item.icon && (
           <Text style={tw`text-xs`}>{item.icon}</Text>
         )}
-        {item.type === ItemType.CUSTOM && (
+        {item.type === ItemType.CUSTOM && !!item.icon && (
           <View
             style={tw`h-4 w-4 bg-gray-100 dark:bg-neutral-800 rounded items-center justify-center`}>
             <Image
@@ -146,8 +146,8 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
       <View
         style={tw`h-10 mb-1 mt-1 px-3 flex-row items-center border-b border-lightBorder dark:border-darkBorder`}>
         <Image
-          source={Assets.SolWhiteSmall}
-          style={tw.style('h-4 w-4 mr-1', {tintColor: 'gray'})}
+          source={Assets.SearchIcon}
+          style={tw.style('h-4 w-4 mx-1', {tintColor: 'gray'})}
         />
         <TextInput
           autoFocus

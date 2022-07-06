@@ -31,7 +31,7 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
   }, {} as Record<string, {date: DateTime; events: Array<INativeEvent>}>)
 
   return (
-    <View style={tw`mx-3 py-3`}>
+    <View style={tw`mx-1 py-3`}>
       {Object.entries(groups).map(([key, data], index) => {
         return (
           <View key={key}>
