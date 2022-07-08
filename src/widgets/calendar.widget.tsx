@@ -31,131 +31,135 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
   }, {} as Record<string, {date: DateTime; events: Array<INativeEvent>}>)
 
   return (
-    <View style={tw`mx-1 py-3`}>
-      {Object.entries(groups).map(([key, data], index) => {
-        return (
-          <View key={key}>
-            <View
-              style={tw.style(`flex-row px-3`, {
-                'mt-2': index !== 0,
-              })}>
-              {key === 'tomorrow' || key === 'today' ? (
-                <Text
-                  style={tw`capitalize dark:text-gray-400 text-gray-500 text-xs`}>
-                  {key}
-                </Text>
-              ) : (
-                <Text
-                  style={tw`capitalize dark:text-gray-400 text-gray-500 text-xs`}>
-                  {`${data.date.toFormat('cccc')}, ${data.date.toFormat(
-                    'dd LLL',
-                  )}`}
-                </Text>
-              )}
-            </View>
-            <View>
-              {data.events.map((event, index) => {
-                const lDate = DateTime.fromISO(event.date)
-                const lEndDate = event.endDate
-                  ? DateTime.fromISO(event.endDate)
-                  : null
-                const minutesToEvent = Math.round(
-                  lDate.diff(DateTime.now(), 'minutes').minutes,
-                )
+    <>
+      <View style={tw`mx-1 py-2`}>
+        {Object.entries(groups).map(([key, data], index) => {
+          return (
+            <View key={key}>
+              <View
+                style={tw.style(`flex-row px-3`, {
+                  'mt-2': index !== 0,
+                })}>
+                {key === 'tomorrow' || key === 'today' ? (
+                  <Text
+                    style={tw`capitalize dark:text-gray-400 text-gray-500 text-xs`}>
+                    {key}
+                  </Text>
+                ) : (
+                  <Text
+                    style={tw`capitalize dark:text-gray-400 text-gray-500 text-xs`}>
+                    {`${data.date.toFormat('cccc')}, ${data.date.toFormat(
+                      'dd LLL',
+                    )}`}
+                  </Text>
+                )}
+              </View>
+              <View>
+                {data.events.map((event, index) => {
+                  const lDate = DateTime.fromISO(event.date)
+                  const lEndDate = event.endDate
+                    ? DateTime.fromISO(event.endDate)
+                    : null
+                  const minutesToEvent = Math.round(
+                    lDate.diff(DateTime.now(), 'minutes').minutes,
+                  )
 
-                const highlighted =
-                  focused &&
-                  store.ui.selectedIndex ===
-                    store.ui.events.findIndex(
-                      e => e.id === event.id && e.date === event.date,
-                    )
+                  const highlighted =
+                    focused &&
+                    store.ui.selectedIndex ===
+                      store.ui.events.findIndex(
+                        e => e.id === event.id && e.date === event.date,
+                      )
 
-                return (
-                  <View
-                    key={index}
-                    style={tw.style(`flex-row py-2 items-center px-3`, {
-                      'bg-accent bg-opacity-80 dark:bg-opacity-40 rounded':
-                        highlighted,
-                    })}>
+                  return (
                     <View
-                      style={tw.style(
-                        `w-[13px] h-[13px] rounded-full justify-center items-center`,
-                        {
-                          borderColor: event.color,
-                          borderWidth: 1.5,
-                          // 1 event accepted
-                          backgroundColor:
-                            event.status === 1 ? event.color : 'transparent',
-                        },
-                      )}
-                    />
-
-                    <Text
-                      numberOfLines={1}
-                      style={tw.style(`ml-3 text-sm`, {
-                        'line-through': event.status === 2,
-                        'text-white': highlighted,
+                      key={index}
+                      style={tw.style(`flex-row py-2 items-center px-3`, {
+                        'bg-accent bg-opacity-80 dark:bg-opacity-40 rounded':
+                          highlighted,
                       })}>
-                      {event.title}
-                    </Text>
-                    {minutesToEvent >= 0 && minutesToEvent <= 20 && (
+                      <View
+                        style={tw.style(
+                          `w-[13px] h-[13px] rounded-full justify-center items-center`,
+                          {
+                            borderColor: event.color,
+                            borderWidth: 1.5,
+                            // 1 event accepted
+                            backgroundColor:
+                              event.status === 1 ? event.color : 'transparent',
+                          },
+                        )}
+                      />
+
                       <Text
-                        style={tw`pl-2 dark:text-gray-500 text-gray-400 text-sm`}>
-                        Starts in {minutesToEvent} minutes
-                      </Text>
-                    )}
-                    <View style={tw`flex-1`} />
-                    <Text
-                      style={tw.style(
-                        `text-gray-500 dark:text-gray-400 text-right text-sm`,
-                        {
+                        numberOfLines={1}
+                        style={tw.style(`ml-3 text-sm`, {
+                          'line-through': event.status === 2,
                           'text-white': highlighted,
-                        },
-                      )}>
-                      {event.isAllDay ? (
-                        'All Day'
-                      ) : (
-                        <>
-                          <Text
-                            style={tw.style(
-                              `text-gray-800 dark:text-gray-200`,
-                              {
-                                'text-white': highlighted,
-                              },
-                            )}>
-                            {lDate.toFormat('HH:mm')}{' '}
-                          </Text>
-                          {lEndDate && !event.isAllDay
-                            ? `- ${lEndDate.toFormat('HH:mm')}`
-                            : null}
-                        </>
+                        })}>
+                        {event.title}
+                      </Text>
+                      {minutesToEvent >= 0 && minutesToEvent <= 20 && (
+                        <Text
+                          style={tw`pl-2 dark:text-gray-500 text-gray-400 text-sm`}>
+                          Starts in {minutesToEvent} minutes
+                        </Text>
                       )}
-                    </Text>
-                  </View>
-                )
-              })}
+                      <View style={tw`flex-1`} />
+                      <Text
+                        style={tw.style(
+                          `text-gray-500 dark:text-gray-400 text-right text-sm`,
+                          {
+                            'text-white': highlighted,
+                          },
+                        )}>
+                        {event.isAllDay ? (
+                          'All Day'
+                        ) : (
+                          <>
+                            <Text
+                              style={tw.style(
+                                `text-gray-800 dark:text-gray-200`,
+                                {
+                                  'text-white': highlighted,
+                                },
+                              )}>
+                              {lDate.toFormat('HH:mm')}{' '}
+                            </Text>
+                            {lEndDate && !event.isAllDay
+                              ? `- ${lEndDate.toFormat('HH:mm')}`
+                              : null}
+                          </>
+                        )}
+                      </Text>
+                    </View>
+                  )
+                })}
+              </View>
             </View>
+          )
+        })}
+        {store.ui.calendarAuthorizationStatus === 'notDetermined' && (
+          <View style={tw`mx-1 py-3`}>
+            <TouchableOpacity
+              onPress={() => {
+                solNative.requestCalendarAccess().then(() => {
+                  store.ui.checkCalendarAccess()
+                })
+              }}>
+              <Text style={tw`text-accent text-sm`}>
+                Click to grant calendar access
+              </Text>
+            </TouchableOpacity>
           </View>
-        )
-      })}
-      {store.ui.calendarAuthorizationStatus === 'notDetermined' && (
-        <TouchableOpacity
-          onPress={() => {
-            solNative.requestCalendarAccess().then(() => {
-              store.ui.checkCalendarAccess()
-            })
-          }}>
-          <Text style={tw`text-accent text-sm`}>
-            Click to grant calendar access
-          </Text>
-        </TouchableOpacity>
-      )}
-      {store.ui.calendarAuthorizationStatus === 'authorized' &&
-        !store.ui.events.length && (
-          <Text style={tw`text-gray-500 dark:text-gray-400 text-sm mx-3`}>
-            No upcoming events
-          </Text>
         )}
-    </View>
+        {store.ui.calendarAuthorizationStatus === 'authorized' &&
+          !store.ui.events.length && (
+            <Text style={tw`text-gray-400 dark:text-gray-500 text-sm mx-4`}>
+              No upcoming events
+            </Text>
+          )}
+      </View>
+    </>
   )
 })
