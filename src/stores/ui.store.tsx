@@ -658,6 +658,49 @@ export const createUIStore = (root: IRootStore) => {
     //    / /\ \ / __| __| |/ _ \| '_ \/ __|
     //   / ____ \ (__| |_| | (_) | | | \__ \
     //  /_/    \_\___|\__|_|\___/|_| |_|___/
+    insertEmojiAt(index: number) {
+      console.warn('inserting emoji at', index)
+      const favorites = Object.entries(store.frequentlyUsedEmojis).sort(
+        ([_, freq1], [_2, freq2]) => freq2 - freq1,
+      )
+
+      const data = !!store.query
+        ? emojiFuse.search(store.query).map(r => r.item)
+        : allEmojis
+
+      let emojiChar = data[index].emoji
+      if (favorites.length && !store.query) {
+        if (index < EMOJIS_PER_ROW) {
+          emojiChar = favorites[index]?.[0]
+          if (!emojiChar) {
+            return
+          }
+        } else {
+          emojiChar = data[index - EMOJIS_PER_ROW].emoji
+        }
+      }
+
+      if (store.frequentlyUsedEmojis[emojiChar]) {
+        store.frequentlyUsedEmojis[emojiChar] += 1
+      } else {
+        if (favorites.length === EMOJIS_PER_ROW) {
+          let leastUsed = favorites[0]
+          favorites.forEach(([emoji, frequency]) => {
+            if (frequency < leastUsed[1]) {
+              leastUsed = [emoji, frequency]
+            }
+          })
+
+          delete store.frequentlyUsedEmojis[leastUsed[0]]
+
+          store.frequentlyUsedEmojis[emojiChar] = 1
+        } else {
+          store.frequentlyUsedEmojis[emojiChar] = 1
+        }
+      }
+
+      solNative.insertToFrontmostApp(emojiChar)
+    },
     setGithubToken: (token: string) => {
       store.githubToken = token
     },
@@ -1057,46 +1100,7 @@ export const createUIStore = (root: IRootStore) => {
             }
 
             case FocusableWidget.EMOJIS: {
-              const favorites = Object.entries(store.frequentlyUsedEmojis).sort(
-                ([_, freq1], [_2, freq2]) => freq2 - freq1,
-              )
-
-              const data = !!store.query
-                ? emojiFuse.search(store.query).map(r => r.item)
-                : allEmojis
-
-              let emojiChar = data[store.selectedIndex].emoji
-              if (favorites.length && !store.query) {
-                if (store.selectedIndex < EMOJIS_PER_ROW) {
-                  emojiChar = favorites[store.selectedIndex]?.[0]
-                  if (!emojiChar) {
-                    return
-                  }
-                } else {
-                  emojiChar = data[store.selectedIndex - EMOJIS_PER_ROW].emoji
-                }
-              }
-
-              if (store.frequentlyUsedEmojis[emojiChar]) {
-                store.frequentlyUsedEmojis[emojiChar] += 1
-              } else {
-                if (favorites.length === EMOJIS_PER_ROW) {
-                  let leastUsed = favorites[0]
-                  favorites.forEach(([emoji, frequency]) => {
-                    if (frequency < leastUsed[1]) {
-                      leastUsed = [emoji, frequency]
-                    }
-                  })
-
-                  delete store.frequentlyUsedEmojis[leastUsed[0]]
-
-                  store.frequentlyUsedEmojis[emojiChar] = 1
-                } else {
-                  store.frequentlyUsedEmojis[emojiChar] = 1
-                }
-              }
-
-              solNative.insertToFrontmostApp(emojiChar)
+              store.insertEmojiAt(store.selectedIndex)
               break
             }
 

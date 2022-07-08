@@ -1,6 +1,13 @@
 import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect, useRef} from 'react'
-import {FlatList, Text, TextInput, View, ViewStyle} from 'react-native'
+import {
+  FlatList,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native'
 import {useStore} from 'store'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
@@ -105,7 +112,10 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
             const isSelected = i === storeSubIndex && rowIndex === storeRowIndex
             const emoji = emojiRow[i]
             res.push(
-              <View
+              <TouchableOpacity
+                onPress={() => {
+                  store.ui.insertEmojiAt(rowIndex * EMOJIS_PER_ROW + i)
+                }}
                 style={tw.style(
                   `h-[${ROW_HEIGHT}px] w-18 items-center justify-center rounded border border-transparent`,
                   {
@@ -115,7 +125,7 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
                 )}
                 key={`${emoji.emoji}-${i}_${rowIndex}`}>
                 <Text style={tw`text-3xl`}>{emoji.emoji}</Text>
-              </View>,
+              </TouchableOpacity>,
             )
           }
 
