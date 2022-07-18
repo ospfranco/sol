@@ -659,7 +659,6 @@ export const createUIStore = (root: IRootStore) => {
     //   / ____ \ (__| |_| | (_) | | | \__ \
     //  /_/    \_\___|\__|_|\___/|_| |_|___/
     insertEmojiAt(index: number) {
-      console.warn('inserting emoji at', index)
       const favorites = Object.entries(store.frequentlyUsedEmojis).sort(
         ([_, freq1], [_2, freq2]) => freq2 - freq1,
       )
