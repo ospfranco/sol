@@ -48,6 +48,7 @@ RCT_EXTERN_METHOD(turnOffVerticalArrowsListeners)
 RCT_EXTERN_METHOD(setScratchpadShortcut : (NSString)key)
 RCT_EXTERN_METHOD(setClipboardManagerShortcut: (NSString)key)
 RCT_EXTERN_METHOD(checkForUpdates)
+RCT_EXTERN_METHOD(setWindowHeight: (nonnull NSNumber)height)
 RCT_EXTERN_METHOD(setWindowRelativeSize: (nonnull NSNumber)relative)
 RCT_EXTERN_METHOD(resetWindowSize)
 @end

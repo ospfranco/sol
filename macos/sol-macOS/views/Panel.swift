@@ -20,7 +20,6 @@ final class Panel: NSPanel, NSWindowDelegate {
     self.isMovableByWindowBackground = false
     self.isReleasedWhenClosed = false
     self.isOpaque = false
-    self.backgroundColor = .clear
     self.delegate = self
   }
 

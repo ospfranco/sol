@@ -43,18 +43,27 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
       contentRect: NSRect(x: 0, y: 0, width: 750, height: 500),
       backing: .buffered, defer: false)
 
-    let origin = CGPoint(x: 0, y: 0)
-    let frame = NSRect(origin: origin, size: baseSize)
-    mainWindow.setFrame(frame, display: false)
-    mainWindow.contentView = rootView
+    let visualEffect = NSVisualEffectView(frame: mainWindow.frame)
+    visualEffect.blendingMode = .behindWindow
+    visualEffect.material = .fullScreenUI
+    visualEffect.state = .active
+
+    mainWindow.contentView = visualEffect
+    visualEffect.addSubview(rootView)
+    rootView.frame = mainWindow.frame
+//    rootView.autoresizingMask = [.width, .height]
+
+
+//    mainWindow.contentView.addSubview(visualEffect)
 
 //    mainWindow.contentView!.addSubview(rootView)
-//
+
 //    rootView.translatesAutoresizingMaskIntoConstraints = false
-//    rootView.topAnchor.constraint(equalTo: mainWindow.contentView!.topAnchor).isActive = true
-//    rootView.leadingAnchor.constraint(equalTo: mainWindow.contentView!.leadingAnchor).isActive = true
-//    rootView.trailingAnchor.constraint(equalTo: mainWindow.contentView!.trailingAnchor).isActive = true
-//    rootView.bottomAnchor.constraint(equalTo: mainWindow.contentView!.bottomAnchor).isActive = true
+//    rootView.topAnchor.constraint(equalTo: visualEffect.topAnchor).isActive = true
+//    rootView.leadingAnchor.constraint(equalTo: visualEffect.leadingAnchor).isActive = true
+//    rootView.trailingAnchor.constraint(equalTo: visualEffect.trailingAnchor).isActive = true
+//    rootView.bottomAnchor.constraint(equalTo: visualEffect.bottomAnchor).isActive = true
+
 
     setupKeyboardListeners()
     setupPasteboardListener()
@@ -239,6 +248,19 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     } else {
       self.clipboardManagerHotKey = HotKey(key: .v, modifiers: [.command, .option], keyDownHandler: showClipboardManager)
     }
+  }
+
+  func setHeight(_ height: Int) {
+    print("Should set height to \(height)")
+    var finalHeight = height
+    if(height == 0) {
+      finalHeight = 300
+    }
+    var frame = mainWindow.frame
+    frame.origin.y += (frame.size.height - CGFloat(finalHeight))
+    frame.size = NSSize(width: 750, height: finalHeight)
+
+    mainWindow.setFrame(frame, display: false)
   }
 
   func setRelativeSize(_ proportion: Double) {

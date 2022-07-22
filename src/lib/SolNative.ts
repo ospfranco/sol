@@ -28,7 +28,15 @@ class SolNative extends NativeEventEmitter {
   toggleDarkMode: () => void
   executeAppleScript: (source: string) => void
   getMediaInfo: () => Promise<
-    {title: string; artist: string; artwork: string, bundleIdentifier: string, url: string} | null | undefined
+    | {
+        title: string
+        artist: string
+        artwork: string
+        bundleIdentifier: string
+        url: string
+      }
+    | null
+    | undefined
   >
   setGlobalShortcut: (key: 'command' | 'option') => void
   setScratchpadShortcut: (key: 'command' | 'option') => void
@@ -55,6 +63,7 @@ class SolNative extends NativeEventEmitter {
   checkForUpdates: () => void
   setWindowRelativeSize: (relativeSize: number) => void
   resetWindowSize: () => void
+  setWindowHeight: (height: number) => void
 
   constructor(module: any) {
     super(module)
@@ -83,7 +92,8 @@ class SolNative extends NativeEventEmitter {
     this.resizeFrontmostLeftHalf = module.resizeFrontmostLeftHalf
     this.pasteToFrontmostApp = module.pasteToFrontmostApp
     this.insertToFrontmostApp = module.insertToFrontmostApp
-    this.turnOnHorizontalArrowsListeners = module.turnOnHorizontalArrowsListeners
+    this.turnOnHorizontalArrowsListeners =
+      module.turnOnHorizontalArrowsListeners
     this.turnOffHorizontalArrowsListeners =
       module.turnOffHorizontalArrowsListeners
     this.turnOnVerticalArrowsListeners = module.turnOnVerticalArrowsListeners
@@ -94,6 +104,7 @@ class SolNative extends NativeEventEmitter {
     this.setClipboardManagerShortcut = module.setClipboardManagerShortcut
     this.setWindowRelativeSize = module.setWindowRelativeSize
     this.resetWindowSize = module.resetWindowSize
+    this.setWindowHeight = module.setWindowHeight
 
     const constants = module.getConstants()
     this.accentColor = constants.accentColor
