@@ -759,8 +759,7 @@ export const createUIStore = (root: IRootStore) => {
     },
     removeNote: (idx: number) => {
       let newNotes = [...store.notes]
-      const deleteed = newNotes.splice(idx, 1)
-      console.warn('deleted items', deleteed)
+      newNotes.splice(idx, 1)
 
       if (newNotes.length === 0) {
         newNotes = []
