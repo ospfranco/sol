@@ -24,7 +24,7 @@ import {TranslationWidget} from 'widgets/translation.widget'
 export const RootContainer = observer(() => {
   useDeviceContext(tw)
   const store = useStore()
-  const mainStyle = tw`rounded-[3] bg-white dark:bg-black dark:bg-opacity-30 overflow-hidden`
+  const mainStyle = tw`rounded-[3] bg-white dark:bg-black dark:bg-opacity-40 bg-opacity-70 overflow-hidden`
   const calendarVisible =
     store.ui.calendarAuthorizationStatus === 'authorized' ||
     store.ui.calendarAuthorizationStatus === 'notDetermined'
@@ -93,7 +93,11 @@ export const RootContainer = observer(() => {
       })}
       onLayout={e => {
         if (e.nativeEvent.layout.height !== 0) {
-          solNative.setWindowHeight(Math.round(e.nativeEvent.layout.height))
+          if (!!store.ui.query) {
+            solNative.setWindowHeight(500)
+          } else {
+            solNative.setWindowHeight(Math.round(e.nativeEvent.layout.height))
+          }
         }
       }}>
       <SearchWidget />

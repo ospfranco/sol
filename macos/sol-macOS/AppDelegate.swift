@@ -12,6 +12,7 @@ let numberchars: [String] = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate {
   var shiftPressed = false
   var mainWindow: Panel!
+  var rootView: RCTRootView!
   var catchHorizontalArrowsPress = false
   var catchVerticalArrowsPress = true
   var catchEnterPress = true
@@ -37,7 +38,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
       .sharedSettings()
       .jsBundleURL(forBundleRoot: "index", fallbackResource: "main")
 
-    let rootView = RCTRootView(bundleURL: jsCodeLocation, moduleName: "sol", initialProperties: nil, launchOptions: nil)
+    rootView = RCTRootView(bundleURL: jsCodeLocation, moduleName: "sol", initialProperties: nil, launchOptions: nil)
 
     mainWindow = Panel(
       contentRect: NSRect(x: 0, y: 0, width: 750, height: 500),
@@ -50,6 +51,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
     mainWindow.contentView = visualEffect
     visualEffect.addSubview(rootView)
+//    print("setting frame", mainWindow.frame)
     rootView.frame = mainWindow.frame
 //    rootView.autoresizingMask = [.width, .height]
 
@@ -257,10 +259,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
       finalHeight = 300
     }
     var frame = mainWindow.frame
+    let size = NSSize(width: 750, height: finalHeight)
     frame.origin.y += (frame.size.height - CGFloat(finalHeight))
-    frame.size = NSSize(width: 750, height: finalHeight)
+    frame.size = size
 
     mainWindow.setFrame(frame, display: false)
+    rootView.setFrameSize(size)
   }
 
   func setRelativeSize(_ proportion: Double) {
