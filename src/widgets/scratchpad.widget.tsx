@@ -1,3 +1,4 @@
+import {useFullSize} from 'hooks/useFullSize'
 import {solNative} from 'lib/SolNative'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect, useRef} from 'react'
@@ -23,6 +24,7 @@ interface WrappedInputProps extends TextInputProps {
 
 const WrappedInput: FC<WrappedInputProps> = ({focused, value, ...props}) => {
   const ref = useRef<TextInput | null>(null)
+  useFullSize()
 
   useEffect(() => {
     if (focused) {
@@ -83,11 +85,8 @@ export const ScratchpadWidget: FC<Props> = observer(({style}) => {
                   }
 
                   // character was deleted
-                  if (item.length - 1 === v.length) {
-                    const handled = store.ui.handleDeletePressOnScrachpad()
-                    if (handled) {
-                      return
-                    }
+                  if (item.length - 1 === v.length && store.ui.shiftPressed) {
+                    return
                   }
 
                   store.ui.updateNote(index, v)
@@ -134,7 +133,7 @@ export const ScratchpadWidget: FC<Props> = observer(({style}) => {
           style={tw`border-r border-lightBorder dark:border-darkBorder h-3 mx-4`}
         />
         <Text style={tw`text-xs dark:text-gray-400 text-gray-500`}>
-          <Text style={tw`text-xs`}>⇧ + delete</Text> copy & delete
+          <Text style={tw`text-xs`}>⇧ + delete</Text> remove
         </Text>
       </View>
     </View>

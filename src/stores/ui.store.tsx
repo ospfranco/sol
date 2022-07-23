@@ -708,16 +708,12 @@ export const createUIStore = (root: IRootStore) => {
     },
     handleDeletePressOnScrachpad: (): boolean => {
       if (store.shiftPressed) {
-        if (store.selectedIndex >= store.notes.length) {
-          store.selectedIndex = store.notes.length - 1
-        }
+        // if (store.selectedIndex >= store.notes.length) {
+        //   store.selectedIndex = store.notes.length - 1
+        // }
 
-        Clipboard.setString(store.notes[store.selectedIndex])
+        // Clipboard.setString(store.notes[store.selectedIndex])
         store.removeNote(store.selectedIndex)
-
-        if (store.selectedIndex === 0) {
-          store.notes.unshift('')
-        }
 
         return true
       }
@@ -762,8 +758,13 @@ export const createUIStore = (root: IRootStore) => {
       store.query = ''
     },
     removeNote: (idx: number) => {
-      const newNotes = [...store.notes]
-      newNotes.splice(idx, 1)
+      let newNotes = [...store.notes]
+      const deleteed = newNotes.splice(idx, 1)
+      console.warn('deleted items', deleteed)
+
+      if (newNotes.length === 0) {
+        newNotes = []
+      }
 
       store.notes = newNotes
     },
