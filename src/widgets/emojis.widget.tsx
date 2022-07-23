@@ -13,6 +13,7 @@ import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
 import {solNative} from 'lib/SolNative'
 import {Emoji, emojiFuse, emojis, EMOJIS_PER_ROW, groupEmojis} from 'lib/emoji'
+import {useFullSize} from 'hooks/useFullSize'
 
 interface Props {
   style?: ViewStyle
@@ -22,6 +23,7 @@ const ROW_HEIGHT = 72
 
 export const EmojisWidget: FC<Props> = observer(({style}) => {
   useDeviceContext(tw)
+  useFullSize()
   const store = useStore()
   const query = store.ui.query
   const selectedIndex = store.ui.selectedIndex

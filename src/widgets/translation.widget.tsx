@@ -1,3 +1,4 @@
+import {useFullSize} from 'hooks/useFullSize'
 import languages from 'lib/languages.json'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect, useRef} from 'react'
@@ -21,6 +22,7 @@ interface Props {
 
 export const TranslationWidget: FC<Props> = observer(({style}) => {
   useDeviceContext(tw)
+  useFullSize()
   const store = useStore()
   const colorScheme = Appearance.getColorScheme()
   const animatedBorderRef = useRef(

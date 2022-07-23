@@ -1,5 +1,6 @@
 import {Assets} from 'assets'
 import {Fade} from 'components/Fade'
+import {useFullSize} from 'hooks/useFullSize'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect, useState} from 'react'
 import {Appearance, Image, Switch, Text, View, ViewStyle} from 'react-native'
@@ -40,6 +41,7 @@ const SHORTCUTS = [
 
 export const OnboardingWidget: FC<Props> = observer(({style}) => {
   const store = useStore()
+  useFullSize()
   const colorScheme = Appearance.getColorScheme()
   const [visible, setVisible] = useState(true)
   const [onboardingStep, setOnboardingStep] = useState(store.ui.onboardingStep)

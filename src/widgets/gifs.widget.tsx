@@ -1,4 +1,5 @@
 import {Assets} from 'assets'
+import {useFullSize} from 'hooks/useFullSize'
 import {solNative} from 'lib/SolNative'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect} from 'react'
@@ -14,6 +15,7 @@ interface Props {
 export const GifsWidget: FC<Props> = observer(({style}) => {
   useDeviceContext(tw)
   const store = useStore()
+  useFullSize()
 
   useEffect(() => {
     solNative.turnOnHorizontalArrowsListeners()

@@ -1,6 +1,7 @@
 import {Picker} from '@react-native-picker/picker'
 import {Assets} from 'assets'
 import {Input} from 'components/Input'
+import {useFullSize} from 'hooks/useFullSize'
 import languages from 'lib/languages.json'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useState} from 'react'
@@ -63,12 +64,13 @@ const SelectableButton: FC<SelectableButtonProps> = ({
 
 export const SettingsWidget: FC<Props> = observer(({style}) => {
   const store = useStore()
+  useFullSize()
   const colorScheme = Appearance.getColorScheme()
   useDeviceContext(tw)
   const [selected, setSelected] = useState<ITEM>('GENERAL')
 
   return (
-    <View style={tw.style(`flex-row`, style)}>
+    <View style={tw.style(`flex-row flex-1`, style)}>
       <View
         style={tw`p-4 w-44 border-r border-lightBorder dark:border-darkBorder`}>
         <TouchableOpacity

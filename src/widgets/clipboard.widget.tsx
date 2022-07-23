@@ -1,4 +1,5 @@
 import {Assets} from 'assets'
+import {useFullSize} from 'hooks/useFullSize'
 import {solNative} from 'lib/SolNative'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect, useRef} from 'react'
@@ -21,6 +22,7 @@ interface Props {
 
 export const ClipboardWidget: FC<Props> = observer(({style}) => {
   useDeviceContext(tw)
+  useFullSize()
   const scheme = useColorScheme()
   const store = useStore()
   const data = store.clipboard.items
