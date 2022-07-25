@@ -36,6 +36,7 @@ import {GiphyFetch} from '@giphy/js-fetch-api'
 import axios from 'axios'
 import {debounce} from 'lodash'
 import {GithubRepo, searchGithubRepos} from 'lib/github'
+import {FileIcon} from 'components/FileIcon'
 
 const gf = new GiphyFetch('Ot4kWfqWddVroUVh73v4Apocs8Dek86j')
 const GIFS_PER_ROW = 5
@@ -398,6 +399,14 @@ export const createUIStore = (root: IRootStore) => {
         store.showClipboardManager()
       },
       preventClose: true,
+    },
+    {
+      iconComponent: () => <FileIcon url="~/Downloads" style={tw`w-4 h-4`} />,
+      name: 'Downloads',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        Linking.openURL('~/Downloads')
+      },
     },
     ...buildSystemPreferencesItems(),
   ]

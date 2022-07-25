@@ -242,4 +242,8 @@ class SolNative: RCTEventEmitter {
       self.appDelegate?.resetSize()
     }
   }
+
+  @objc func openFinderAt(_ path: String) {
+    NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: path)
+  }
 }

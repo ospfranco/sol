@@ -253,7 +253,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   }
 
   func setHeight(_ height: Int) {
-    print("Should set height to \(height)")
     var finalHeight = height
     if(height == 0) {
       finalHeight = 300

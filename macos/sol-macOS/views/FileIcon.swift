@@ -17,7 +17,9 @@ class FileIcon: NSView {
   }
 
   private func setupView() {
-    let icon = NSWorkspace.shared.icon(forFile: self.url as String)
+    let url = URL(fileURLWithPath: (self.url as String).replacingOccurrences(of: "~", with: FileManager.default.homeDirectoryForCurrentUser.path))
+
+    let icon = NSWorkspace.shared.icon(forFile: url.path)
     self.image.image = icon
     image.autoresizingMask = [.height, .width]
     self.addSubview(image)
