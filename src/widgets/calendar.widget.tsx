@@ -140,14 +140,14 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
           )
         })}
         {store.ui.calendarAuthorizationStatus === 'notDetermined' && (
-          <View style={tw`mx-1 py-3`}>
+          <View style={tw`px-2`}>
             <TouchableOpacity
               onPress={() => {
                 solNative.requestCalendarAccess().then(() => {
                   store.ui.checkCalendarAccess()
                 })
               }}>
-              <Text style={tw`text-accent text-sm`}>
+              <Text style={tw`text-accent text-xs`}>
                 Click to grant calendar access
               </Text>
             </TouchableOpacity>
