@@ -44,6 +44,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
       contentRect: NSRect(x: 0, y: 0, width: 750, height: 500),
       backing: .buffered, defer: false)
 
+    // Blurry background effect is created here to attach root view sub-view
     let visualEffect = NSVisualEffectView(frame: mainWindow.frame)
     visualEffect.blendingMode = .behindWindow
     visualEffect.material = .fullScreenUI
@@ -51,25 +52,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
     mainWindow.contentView = visualEffect
     visualEffect.addSubview(rootView)
-//    print("setting frame", mainWindow.frame)
     rootView.frame = mainWindow.frame
-//    rootView.autoresizingMask = [.width, .height]
-
-
-//    mainWindow.contentView.addSubview(visualEffect)
-
-//    mainWindow.contentView!.addSubview(rootView)
-
-//    rootView.translatesAutoresizingMaskIntoConstraints = false
-//    rootView.topAnchor.constraint(equalTo: visualEffect.topAnchor).isActive = true
-//    rootView.leadingAnchor.constraint(equalTo: visualEffect.leadingAnchor).isActive = true
-//    rootView.trailingAnchor.constraint(equalTo: visualEffect.trailingAnchor).isActive = true
-//    rootView.bottomAnchor.constraint(equalTo: visualEffect.bottomAnchor).isActive = true
-
 
     setupKeyboardListeners()
     setupPasteboardListener()
-    showWindow()
+//    showWindow()
   }
 
   func checkForUpdates() {
@@ -262,7 +249,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     frame.origin.y += (frame.size.height - CGFloat(finalHeight))
     frame.size = size
 
-    mainWindow.setFrame(frame, display: false)
+    mainWindow.setFrame(frame, display: true)
     rootView.setFrameSize(size)
   }
 
