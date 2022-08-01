@@ -231,10 +231,10 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
               <TextInput
                 value={store.ui.githubToken ?? ''}
                 onChangeText={store.ui.setGithubToken}
-                placeholder="Token..."
+                placeholder="Enter github token..."
                 // @ts-ignore
                 enableFocusRing={false}
-                style={tw`max-w-32`}
+                style={tw`w-64`}
               />
             </View>
           </View>
