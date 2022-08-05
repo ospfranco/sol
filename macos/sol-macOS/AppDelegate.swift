@@ -52,6 +52,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
     mainWindow.contentView = visualEffect
     visualEffect.addSubview(rootView)
+        
+    // set constraints in rootview
+    rootView.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint(item: rootView!, attribute: .bottom, relatedBy: .equal, toItem: visualEffect, attribute: .bottom, multiplier: 1, constant: 0).isActive = true
+    NSLayoutConstraint(item: rootView!, attribute: .top, relatedBy: .equal, toItem: visualEffect, attribute: .top, multiplier: 1, constant: 0).isActive = true
+    NSLayoutConstraint(item: rootView!, attribute: .left, relatedBy: .equal, toItem: visualEffect, attribute: .left, multiplier: 1, constant: 0).isActive = true
+    NSLayoutConstraint(item: rootView!, attribute: .right, relatedBy: .equal, toItem: visualEffect, attribute: .right, multiplier: 1, constant: 0).isActive = true
+
     rootView.frame = mainWindow.frame
 
     setupKeyboardListeners()
