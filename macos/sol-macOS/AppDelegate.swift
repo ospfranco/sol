@@ -11,6 +11,7 @@ let numberchars: [String] = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate {
   var shiftPressed = false
+  var visualEffect: NSVisualEffectView!
   var mainWindow: Panel!
   var rootView: RCTRootView!
   var catchHorizontalArrowsPress = false
@@ -45,26 +46,37 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
       backing: .buffered, defer: false)
 
     // Blurry background effect is created here to attach root view sub-view
-    let visualEffect = NSVisualEffectView(frame: mainWindow.frame)
+    visualEffect = NSVisualEffectView()
     visualEffect.blendingMode = .behindWindow
     visualEffect.material = .fullScreenUI
     visualEffect.state = .active
+    visualEffect.autoresizingMask = .maxYMargin
+    visualEffect.translatesAutoresizingMaskIntoConstraints = true
+
+//    visualEffect.tras
+//    rootView.translatesAutoresizingMaskIntoConstraints = false
+//    NSLayoutConstraint(item: visualEffect, attribute: .bottom, relatedBy: .equal, toItem: mainWindow, attribute: .bottom, multiplier: 1, constant: 0).isActive = true
+//    NSLayoutConstraint(item: visualEffect, attribute: .top, relatedBy: .equal, toItem: mainWindow, attribute: .bottom, multiplier: 1, constant: 0).isActive = true
+//    NSLayoutConstraint(item: visualEffect, attribute: .left, relatedBy: .equal, toItem: mainWindow, attribute: .bottom, multiplier: 1, constant: 0).isActive = true
+//    NSLayoutConstraint(item: visualEffect, attribute: .right, relatedBy: .equal, toItem: mainWindow, attribute: .bottom, multiplier: 1, constant: 0).isActive = true
 
     mainWindow.contentView = visualEffect
     visualEffect.addSubview(rootView)
         
     // set constraints in rootview
-    rootView.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint(item: rootView!, attribute: .bottom, relatedBy: .equal, toItem: visualEffect, attribute: .bottom, multiplier: 1, constant: 0).isActive = true
-    NSLayoutConstraint(item: rootView!, attribute: .top, relatedBy: .equal, toItem: visualEffect, attribute: .top, multiplier: 1, constant: 0).isActive = true
-    NSLayoutConstraint(item: rootView!, attribute: .left, relatedBy: .equal, toItem: visualEffect, attribute: .left, multiplier: 1, constant: 0).isActive = true
-    NSLayoutConstraint(item: rootView!, attribute: .right, relatedBy: .equal, toItem: visualEffect, attribute: .right, multiplier: 1, constant: 0).isActive = true
+    rootView.autoresizingMask = .maxYMargin
+    rootView.translatesAutoresizingMaskIntoConstraints = true
+//    rootView.translatesAutoresizingMaskIntoConstraints = false
+//    NSLayoutConstraint(item: rootView!, attribute: .bottom, relatedBy: .equal, toItem: visualEffect, attribute: .bottom, multiplier: 1, constant: 0).isActive = true
+//    NSLayoutConstraint(item: rootView!, attribute: .top, relatedBy: .equal, toItem: visualEffect, attribute: .top, multiplier: 1, constant: 0).isActive = true
+//    NSLayoutConstraint(item: rootView!, attribute: .left, relatedBy: .equal, toItem: visualEffect, attribute: .left, multiplier: 1, constant: 0).isActive = true
+//    NSLayoutConstraint(item: rootView!, attribute: .right, relatedBy: .equal, toItem: visualEffect, attribute: .right, multiplier: 1, constant: 0).isActive = true
 
     rootView.frame = mainWindow.frame
 
     setupKeyboardListeners()
     setupPasteboardListener()
-//    showWindow()
+    showWindow()
   }
 
   func checkForUpdates() {
@@ -252,10 +264,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     if(height == 0) {
       finalHeight = 300
     }
+
     var frame = mainWindow.frame
     let size = NSSize(width: 750, height: finalHeight)
     frame.origin.y += (frame.size.height - CGFloat(finalHeight))
     frame.size = size
+
+//    visualEffect.setFrameSize(frame.size)
+//    visualEffect.
 
     mainWindow.setFrame(frame, display: true)
     rootView.setFrameSize(size)
