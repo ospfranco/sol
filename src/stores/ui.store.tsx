@@ -408,6 +408,38 @@ export const createUIStore = (root: IRootStore) => {
         Linking.openURL('~/Downloads')
       },
     },
+    {
+      iconComponent: () => <FileIcon url="/Applications" style={tw`w-4 h-4`} />,
+      name: 'Applications',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        Linking.openURL('/Applications')
+      },
+    },
+    {
+      iconComponent: () => <FileIcon url="~/Pictures" style={tw`w-4 h-4`} />,
+      name: 'Pictures',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        Linking.openURL('~/Pictures')
+      },
+    },
+    {
+      iconComponent: () => <FileIcon url="~/Developer" style={tw`w-4 h-4`} />,
+      name: 'Developer',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        Linking.openURL('~/Developer')
+      },
+    },
+    {
+      iconComponent: () => <FileIcon url="~/Documents" style={tw`w-4 h-4`} />,
+      name: 'Documents',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        Linking.openURL('~/Documents')
+      },
+    },
     ...buildSystemPreferencesItems(),
   ]
 
