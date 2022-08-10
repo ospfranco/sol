@@ -1,4 +1,4 @@
-# update_fastlane
+update_fastlane
 
 default_platform(:mac)
 
