@@ -4,7 +4,7 @@ import HotKey
 import EventKit
 import Sparkle
 
-let baseSize = CGSize(width: 750, height: 500)
+let baseSize = NSSize(width: 750, height: 500)
 let handledKeys: [UInt16] = [53, 123, 124, 126, 125, 36, 48]
 let numberchars: [String] = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
@@ -46,34 +46,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
       backing: .buffered, defer: false)
 
     // Blurry background effect is created here to attach root view sub-view
-//    visualEffect = NSVisualEffectView()
-//    visualEffect.blendingMode = .behindWindow
-//    visualEffect.material = .fullScreenUI
-//    visualEffect.state = .active
-//    visualEffect.autoresizingMask = .maxYMargin
-//    visualEffect.translatesAutoresizingMaskIntoConstraints = true
+    visualEffect = NSVisualEffectView()
+    visualEffect.blendingMode = .behindWindow
+    visualEffect.material = .fullScreenUI
+    visualEffect.state = .active
+    visualEffect.autoresizingMask = .maxYMargin
+    visualEffect.translatesAutoresizingMaskIntoConstraints = true
 
-//    visualEffect.tras
-//    rootView.translatesAutoresizingMaskIntoConstraints = false
-//    NSLayoutConstraint(item: visualEffect, attribute: .bottom, relatedBy: .equal, toItem: mainWindow, attribute: .bottom, multiplier: 1, constant: 0).isActive = true
-//    NSLayoutConstraint(item: visualEffect, attribute: .top, relatedBy: .equal, toItem: mainWindow, attribute: .bottom, multiplier: 1, constant: 0).isActive = true
-//    NSLayoutConstraint(item: visualEffect, attribute: .left, relatedBy: .equal, toItem: mainWindow, attribute: .bottom, multiplier: 1, constant: 0).isActive = true
-//    NSLayoutConstraint(item: visualEffect, attribute: .right, relatedBy: .equal, toItem: mainWindow, attribute: .bottom, multiplier: 1, constant: 0).isActive = true
-
-//    mainWindow.contentView = visualEffect
-//    visualEffect.addSubview(rootView)
-
-    mainWindow.contentView = rootView
-        
-    // set constraints in rootview
-//    rootView.autoresizingMask = .maxYMargin
-//    rootView.translatesAutoresizingMaskIntoConstraints = true
-//    rootView.translatesAutoresizingMaskIntoConstraints = false
-//    NSLayoutConstraint(item: rootView!, attribute: .bottom, relatedBy: .equal, toItem: visualEffect, attribute: .bottom, multiplier: 1, constant: 0).isActive = true
-//    NSLayoutConstraint(item: rootView!, attribute: .top, relatedBy: .equal, toItem: visualEffect, attribute: .top, multiplier: 1, constant: 0).isActive = true
-//    NSLayoutConstraint(item: rootView!, attribute: .left, relatedBy: .equal, toItem: visualEffect, attribute: .left, multiplier: 1, constant: 0).isActive = true
-//    NSLayoutConstraint(item: rootView!, attribute: .right, relatedBy: .equal, toItem: visualEffect, attribute: .right, multiplier: 1, constant: 0).isActive = true
-
+    mainWindow.contentView = visualEffect
+    visualEffect.addSubview(rootView)
     rootView.frame = mainWindow.frame
 
     setupKeyboardListeners()
@@ -264,7 +245,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   func setHeight(_ height: Int) {
     var finalHeight = height
     if(height == 0) {
-      finalHeight = 300
+      finalHeight = 500
     }
 
     var frame = mainWindow.frame
@@ -272,11 +253,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     frame.origin.y += (frame.size.height - CGFloat(finalHeight))
     frame.size = size
 
-//    visualEffect.setFrameSize(frame.size)
-//    visualEffect.
-
-    mainWindow.setFrame(frame, display: true)
     rootView.setFrameSize(size)
+    rootView.setFrameOrigin(NSPoint(x: 0, y: 0))
+    mainWindow.setFrame(frame, display: false)
   }
 
   func setRelativeSize(_ proportion: Double) {
@@ -293,6 +272,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   }
 
   func resetSize() {
+    print("reset size called")
     let origin = CGPoint(x: 0, y: 0)
     let size = baseSize
     let frame = NSRect(origin: origin, size: size)
