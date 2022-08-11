@@ -9,6 +9,7 @@ export const MEETING_PROVIDERS_URLS = [
   'https://us06web.zoom.us',
   'https://meet.google.com',
   'https://meet.ffmuc.net',
+  'https://meet.jit.si',
   'https://teams.microsoft.com',
 ]
 
