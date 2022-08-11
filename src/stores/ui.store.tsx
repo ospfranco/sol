@@ -147,6 +147,9 @@ export const createUIStore = (root: IRootStore) => {
           store.focusedWidget = FocusableWidget.ONBOARDING
         }
         store.notes = parsedStore.notes ?? ['']
+        if (store.notes.length === 0) {
+          store.notes = ['']
+        }
         store.globalShortcut = parsedStore.globalShortcut
         store.scratchpadShortcut = parsedStore.scratchpadShortcut ?? 'command'
         store.clipboardManagerShortcut =
@@ -803,7 +806,7 @@ export const createUIStore = (root: IRootStore) => {
       newNotes.splice(idx, 1)
 
       if (newNotes.length === 0) {
-        newNotes = []
+        newNotes = ['']
       }
 
       store.notes = newNotes
