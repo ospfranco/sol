@@ -253,9 +253,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     frame.origin.y += (frame.size.height - CGFloat(finalHeight))
     frame.size = size
 
+
+    mainWindow.setFrame(frame, display: false)
     rootView.setFrameSize(size)
     rootView.setFrameOrigin(NSPoint(x: 0, y: 0))
-    mainWindow.setFrame(frame, display: false)
   }
 
   func setRelativeSize(_ proportion: Double) {
