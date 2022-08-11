@@ -46,12 +46,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
       backing: .buffered, defer: false)
 
     // Blurry background effect is created here to attach root view sub-view
-    visualEffect = NSVisualEffectView()
-    visualEffect.blendingMode = .behindWindow
-    visualEffect.material = .fullScreenUI
-    visualEffect.state = .active
-    visualEffect.autoresizingMask = .maxYMargin
-    visualEffect.translatesAutoresizingMaskIntoConstraints = true
+//    visualEffect = NSVisualEffectView()
+//    visualEffect.blendingMode = .behindWindow
+//    visualEffect.material = .fullScreenUI
+//    visualEffect.state = .active
+//    visualEffect.autoresizingMask = .maxYMargin
+//    visualEffect.translatesAutoresizingMaskIntoConstraints = true
 
 //    visualEffect.tras
 //    rootView.translatesAutoresizingMaskIntoConstraints = false
@@ -60,12 +60,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 //    NSLayoutConstraint(item: visualEffect, attribute: .left, relatedBy: .equal, toItem: mainWindow, attribute: .bottom, multiplier: 1, constant: 0).isActive = true
 //    NSLayoutConstraint(item: visualEffect, attribute: .right, relatedBy: .equal, toItem: mainWindow, attribute: .bottom, multiplier: 1, constant: 0).isActive = true
 
-    mainWindow.contentView = visualEffect
-    visualEffect.addSubview(rootView)
+//    mainWindow.contentView = visualEffect
+//    visualEffect.addSubview(rootView)
+
+    mainWindow.contentView = rootView
         
     // set constraints in rootview
-    rootView.autoresizingMask = .maxYMargin
-    rootView.translatesAutoresizingMaskIntoConstraints = true
+//    rootView.autoresizingMask = .maxYMargin
+//    rootView.translatesAutoresizingMaskIntoConstraints = true
 //    rootView.translatesAutoresizingMaskIntoConstraints = false
 //    NSLayoutConstraint(item: rootView!, attribute: .bottom, relatedBy: .equal, toItem: visualEffect, attribute: .bottom, multiplier: 1, constant: 0).isActive = true
 //    NSLayoutConstraint(item: rootView!, attribute: .top, relatedBy: .equal, toItem: visualEffect, attribute: .top, multiplier: 1, constant: 0).isActive = true
