@@ -153,6 +153,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     }
   }
 
+  func getScreenWithMouse() -> NSScreen? {
+    let mouseLocation = NSEvent.mouseLocation
+    let screens = NSScreen.screens
+    let screenWithMouse = (screens.first { NSMouseInRect(mouseLocation, $0.frame, false) })
+    return screenWithMouse
+  }
+
   func toggleWindow() {
     if mainWindow != nil && mainWindow.isKeyWindow {
       hideWindow()
@@ -169,13 +176,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     let delay = target != nil ? 0.1 : 0 // in seconds
     DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
       self.mainWindow.setIsVisible(false)
-      self.mainWindow.center()
+      let screen = self.getScreenWithMouse()
+      self.mainWindow.setFrameOrigin(NSPoint(x: screen!.visibleFrame.midX - baseSize.width / 2, y: screen!.visibleFrame.midY))
+//      self.mainWindow.center()
 
       self.mainWindow.makeKeyAndOrderFront(self)
 
       self.mainWindow.setIsVisible(true)
-
-      NSCursor.setHiddenUntilMouseMoves(true)
     }
   }
 
