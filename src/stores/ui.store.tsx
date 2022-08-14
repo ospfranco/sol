@@ -1,10 +1,13 @@
+import {GiphyFetch} from '@giphy/js-fetch-api'
 import * as Sentry from '@sentry/react-native'
 import {Assets, Icons} from 'assets'
+import {FileIcon} from 'components/FileIcon'
 import {Parser} from 'expr-eval'
 import Fuse from 'fuse.js'
 import {extractMeetingLink} from 'lib/calendar'
 import {CONSTANTS} from 'lib/constants'
 import {allEmojis, emojiFuse, EMOJIS_PER_ROW} from 'lib/emoji'
+import {GithubRepo, searchGithubRepos} from 'lib/github'
 import {
   CalendarAuthorizationStatus,
   INativeEvent,
@@ -12,6 +15,7 @@ import {
 } from 'lib/SolNative'
 import {doubleTranslate} from 'lib/translator'
 import {getWeather} from 'lib/weather'
+import {debounce} from 'lodash'
 import {DateTime} from 'luxon'
 import {autorun, makeAutoObservable, runInAction, toJS} from 'mobx'
 import React, {FC} from 'react'
@@ -32,11 +36,6 @@ import {
 import {IRootStore} from 'Store'
 import tw from 'tailwind'
 import {buildSystemPreferencesItems} from './systemPreferences'
-import {GiphyFetch} from '@giphy/js-fetch-api'
-import axios from 'axios'
-import {debounce} from 'lodash'
-import {GithubRepo, searchGithubRepos} from 'lib/github'
-import {FileIcon} from 'components/FileIcon'
 
 const gf = new GiphyFetch('Ot4kWfqWddVroUVh73v4Apocs8Dek86j')
 const GIFS_PER_ROW = 5
@@ -171,7 +170,41 @@ export const createUIStore = (root: IRootStore) => {
     }
   }
 
-  let SETTING_ITEMS: Item[] = [
+  const FALLBACK_ITEMS: Item[] = [
+    {
+      iconImage: Assets.googleLogo,
+      name: 'Google Search',
+      type: ItemType.CONFIGURATION,
+      shortcut: '⌘ 1',
+      callback: () => {
+        Linking.openURL(
+          `https://google.com/search?q=${encodeURIComponent(store.query)}`,
+        )
+      },
+    },
+    {
+      iconImage: Assets.googleTranslateLogo,
+      name: 'Google Translate',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        store.translateQuery()
+      },
+      shortcut: '⌘ 2',
+      preventClose: true,
+    },
+    {
+      iconImage: Assets.GoogleMaps,
+      name: 'Google Maps Search',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        store.focusedWidget = FocusableWidget.GOOGLE_MAP
+      },
+      shortcut: '⌘ 3',
+      preventClose: true,
+    },
+  ]
+
+  let ITEMS: Item[] = [
     {
       icon: '⏰',
       name: 'Track time',
@@ -396,7 +429,7 @@ export const createUIStore = (root: IRootStore) => {
     },
     {
       icon: '📋',
-      name: 'Clipboard manager',
+      name: 'Clipboard Manager',
       type: ItemType.CONFIGURATION,
       callback: () => {
         store.showClipboardManager()
@@ -447,7 +480,7 @@ export const createUIStore = (root: IRootStore) => {
   ]
 
   if (Platform.OS === 'windows') {
-    SETTING_ITEMS = [
+    ITEMS = [
       {
         iconImage: Assets.DarkModeIcon,
         name: 'Dark mode',
@@ -460,7 +493,7 @@ export const createUIStore = (root: IRootStore) => {
   }
 
   if (__DEV__) {
-    SETTING_ITEMS.push({
+    ITEMS.push({
       icon: '🐣',
       name: '[DEV] Restart onboarding',
       type: ItemType.CONFIGURATION,
@@ -471,7 +504,7 @@ export const createUIStore = (root: IRootStore) => {
       preventClose: true,
     })
 
-    SETTING_ITEMS.push({
+    ITEMS.push({
       icon: '💥',
       name: '[DEV] Reload',
       type: ItemType.CONFIGURATION,
@@ -481,7 +514,7 @@ export const createUIStore = (root: IRootStore) => {
       preventClose: true,
     })
 
-    SETTING_ITEMS.push({
+    ITEMS.push({
       icon: '🧨',
       name: 'Sentry Crash',
       type: ItemType.CONFIGURATION,
@@ -554,7 +587,7 @@ export const createUIStore = (root: IRootStore) => {
     //                        | |
     //                        |_|
     get favoriteItems(): Item[] {
-      const items = [...store.apps, ...SETTING_ITEMS, ...store.customItems]
+      const items = [...store.apps, ...ITEMS, ...store.customItems]
       const favorites = store.favorites
         .map(favName => items.find(i => i.name === favName)!)
         .filter(i => i)
@@ -593,7 +626,23 @@ export const createUIStore = (root: IRootStore) => {
         return store.favoriteItems
       }
 
-      const allItems = [...store.apps, ...SETTING_ITEMS, ...store.customItems]
+      const allItems = [
+        ...store.apps,
+        ...ITEMS.map(i => {
+          if (i.name === 'Clipboard Manager') {
+            return {
+              ...i,
+              shortcut:
+                store.clipboardManagerShortcut === 'option'
+                  ? '⌘ + ⌥ + V'
+                  : '⌘ + ⇧ + V',
+            }
+          }
+
+          return i
+        }),
+        ...store.customItems,
+      ]
 
       if (store.query) {
         let results = new Fuse(allItems, {
@@ -607,42 +656,6 @@ export const createUIStore = (root: IRootStore) => {
           .search(store.query)
           .map(r => r.item)
 
-        const fallbackItems: Item[] = [
-          {
-            iconImage: Assets.googleLogo,
-            name: 'Google Search',
-            type: ItemType.CONFIGURATION,
-            shortcut: '⌘ 1',
-            callback: () => {
-              Linking.openURL(
-                `https://google.com/search?q=${encodeURIComponent(
-                  store.query,
-                )}`,
-              )
-            },
-          },
-          {
-            iconImage: Assets.googleTranslateLogo,
-            name: 'Google Translate',
-            type: ItemType.CONFIGURATION,
-            callback: () => {
-              store.translateQuery()
-            },
-            shortcut: '⌘ 2',
-            preventClose: true,
-          },
-          {
-            iconImage: Assets.GoogleMaps,
-            name: 'Google Maps Search',
-            type: ItemType.CONFIGURATION,
-            callback: () => {
-              store.focusedWidget = FocusableWidget.GOOGLE_MAP
-            },
-            shortcut: '⌘ 3',
-            preventClose: true,
-          },
-        ]
-
         // Return the fallback if we have a temporary result or no results
         const shouldReturnFallback =
           results.length === 0 || !!store.temporaryResult
@@ -652,7 +665,7 @@ export const createUIStore = (root: IRootStore) => {
           : []
 
         if (CONSTANTS.LESS_VALID_URL.test(store.query)) {
-          fallbackItems.unshift({
+          FALLBACK_ITEMS.unshift({
             type: ItemType.CONFIGURATION,
             name: 'Open Url',
             icon: '🌎',
@@ -669,7 +682,7 @@ export const createUIStore = (root: IRootStore) => {
         return [
           ...temporaryResultItems,
           ...results,
-          ...(shouldReturnFallback ? fallbackItems : []),
+          ...(shouldReturnFallback ? FALLBACK_ITEMS : []),
           ...store.githubSearchResults.map(
             (s): Item => ({
               name: `${s.owner?.login}/${s.name}`,
@@ -1006,7 +1019,7 @@ export const createUIStore = (root: IRootStore) => {
       if (store.focusedWidget === FocusableWidget.SEARCH) {
         try {
           const res = exprParser.evaluate(store.query)
-          if (res) {
+          if (res && typeof res !== 'function') {
             store.temporaryResult = res.toString()
           } else {
             store.temporaryResult = null
