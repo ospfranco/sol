@@ -40,7 +40,7 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
             />
           )}
 
-          <View style={tw`pl-1`}>
+          <View style={tw`pl-2`}>
             <Text style={tw`text-sm max-w-42`} numberOfLines={1}>
               {store.ui.track?.title}{' '}
             </Text>
