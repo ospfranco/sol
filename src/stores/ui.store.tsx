@@ -709,6 +709,25 @@ export const createUIStore = (root: IRootStore) => {
         return allItems
       }
     },
+    get groupedEvents(): Record<
+      string,
+      {date: DateTime; events: Array<INativeEvent>}
+    > {
+      return store.events
+        .filter(e => !e.isAllDay)
+        .slice(0, 3)
+        .reduce((acc, event) => {
+          const lDate = DateTime.fromISO(event.date)
+          const relativeDate = lDate.toRelativeCalendar()!
+
+          if (!acc[relativeDate]) {
+            acc[relativeDate] = {date: lDate, events: [event]}
+          } else {
+            acc[relativeDate].events.push(event)
+          }
+          return acc
+        }, {} as Record<string, {date: DateTime; events: Array<INativeEvent>}>)
+    },
     //                _   _
     //      /\       | | (_)
     //     /  \   ___| |_ _  ___  _ __  ___

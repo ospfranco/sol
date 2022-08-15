@@ -18,22 +18,10 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
   const store = useStore()
   const focused = store.ui.focusedWidget === FocusableWidget.CALENDAR
 
-  const groups = store.ui.events.slice(0, 3).reduce((acc, event) => {
-    const lDate = DateTime.fromISO(event.date)
-    const relativeDate = lDate.toRelativeCalendar()!
-
-    if (!acc[relativeDate]) {
-      acc[relativeDate] = {date: lDate, events: [event]}
-    } else {
-      acc[relativeDate].events.push(event)
-    }
-    return acc
-  }, {} as Record<string, {date: DateTime; events: Array<INativeEvent>}>)
-
   return (
     <>
       <View style={tw`mx-1 py-2`}>
-        {Object.entries(groups).map(([key, data], index) => {
+        {Object.entries(store.ui.groupedEvents).map(([key, data], index) => {
           return (
             <View key={key}>
               <View
