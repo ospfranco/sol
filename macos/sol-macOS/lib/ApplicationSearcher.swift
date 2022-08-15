@@ -10,14 +10,14 @@ class ApplicationSearcher: NSObject {
 
     let localApplicationUrls = getApplicationUrlsAt(directory: .applicationDirectory, domain: .localDomainMask)
     let systemApplicationsUrls = getApplicationUrlsAt(directory: .applicationDirectory, domain: .systemDomainMask)
-    let systemUtilitiesUrls = getApplicationUrlsAt(
-      directory: .applicationDirectory,
-      domain: .systemDomainMask,
-      subpath: "/Utilities")
+//    let systemUtilitiesUrls = getApplicationUrlsAt(
+//      directory: .applicationDirectory,
+//      domain: .systemDomainMask,
+//      subpath: "/Utilities")
     let personalApplicationUrls = getApplicationUrlsAt(directory: .applicationDirectory, domain: .userDomainMask)
 
     let allApplicationUrls =
-      localApplicationUrls + systemApplicationsUrls + systemUtilitiesUrls + personalApplicationUrls + fixedApps
+      localApplicationUrls + systemApplicationsUrls + personalApplicationUrls + fixedApps
 
     var applications = [Application]()
 
@@ -47,15 +47,29 @@ class ApplicationSearcher: NSObject {
       let folderUrl = try FileManager.default.url(for: directory, in: domain, appropriateFor: nil, create: false)
       let folderUrlWithSubpath = NSURL.init(string: folderUrl.path + subpath)! as URL
 
-      let applicationUrls = try fileManager.contentsOfDirectory(
+      var urls = try fileManager.contentsOfDirectory(
         at: folderUrlWithSubpath,
         includingPropertiesForKeys: [],
         options: [
           FileManager.DirectoryEnumerationOptions.skipsPackageDescendants,
-          FileManager.DirectoryEnumerationOptions.skipsSubdirectoryDescendants
+//          FileManager.DirectoryEnumerationOptions.skipsSubdirectoryDescendants
         ])
 
-      return applicationUrls
+      try urls.forEach {
+        if(!$0.path.contains(".app") && $0.hasDirectoryPath) {
+          let subUrls = try fileManager.contentsOfDirectory(
+            at: NSURL.init(string: $0.path)! as URL,
+            includingPropertiesForKeys: [],
+            options: [
+              FileManager.DirectoryEnumerationOptions.skipsPackageDescendants,
+              FileManager.DirectoryEnumerationOptions.skipsSubdirectoryDescendants
+            ])
+
+          urls.append(contentsOf: subUrls)
+        }
+      }
+
+      return urls
     } catch {
       return []
     }
