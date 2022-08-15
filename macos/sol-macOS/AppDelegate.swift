@@ -177,7 +177,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
       self.mainWindow.setIsVisible(false)
       let screen = self.getScreenWithMouse()
-      self.mainWindow.setFrameOrigin(NSPoint(x: screen!.visibleFrame.midX - baseSize.width / 2, y: screen!.visibleFrame.midY + 100))
+      self.mainWindow.setFrameOrigin(NSPoint(x: screen!.visibleFrame.midX - baseSize.width / 2, y: screen!.visibleFrame.midY - self.mainWindow.frame.height + 300))
 
       self.mainWindow.makeKeyAndOrderFront(self)
 
