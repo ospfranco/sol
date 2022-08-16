@@ -218,6 +218,7 @@
 				381D8A6E24576A4E00465D17 /* Bundle React Native code and images */,
 				AB47F5B1B5458AA9DCA44477 /* [CP] Copy Pods Resources */,
 				4FE7AB1EF98C4566317BE768 /* [CP] Embed Pods Frameworks */,
+				708FF25F28AC12E900F1A1B6 /* Upload debug symbols */,
 			);
 			buildRules = (
 			);
@@ -320,7 +321,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native-macos/scripts/react-native-xcode.sh\n";
+			shellScript = "export NODE_BINARY=node\nexport EXTRA_PACKAGER_ARGS=\"--sourcemap-output $DERIVED_FILE_DIR/main.jsbundle.map\"\nexport SENTRY_PROPERTIES=../sentry.properties\n\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode \n  #../node_modules/react-native/packager/react-native-xcode.sh\n../node_modules/react-native-macos/scripts/react-native-xcode.sh\n";
 		};
 		381D8A6F24576A6C00465D17 /* Start Packager */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -375,6 +376,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${BUILT_PRODUCTS_DIR}/LaunchAtLogin_LaunchAtLogin.bundle/Contents/Resources/copy-helper-swiftpm.sh\"\n";
+		};
+		708FF25F28AC12E900F1A1B6 /* Upload debug symbols */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Upload debug symbols";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nexport SENTRY_PROPERTIES=../sentry.properties\n\n../node_modules/@sentry/cli/bin/sentry-cli upload-dif \"$DWARF_DSYM_FOLDER_PATH\"\n";
 		};
 		AB47F5B1B5458AA9DCA44477 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;

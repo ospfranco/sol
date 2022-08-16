@@ -68,3 +68,6 @@ env.json
 # Built binaries
 **/Sol.app
 **/Sol.app.zip
+
+# sentry credentials
+sentry.properties
