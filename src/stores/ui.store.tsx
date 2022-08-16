@@ -1056,15 +1056,21 @@ export const createUIStore = (root: IRootStore) => {
     },
     searchGithubRepos: debounce(async () => {
       if (store.query) {
-        runInAction(() => {
-          store.githubSearchResults = []
-          store.isLoading = true
-        })
-        const repos = await searchGithubRepos(store.query, store.githubToken)
-        runInAction(() => {
-          store.isLoading = false
-          store.githubSearchResults = repos.items
-        })
+        try {
+          runInAction(() => {
+            store.githubSearchResults = []
+            store.isLoading = true
+          })
+          const repos = await searchGithubRepos(store.query, store.githubToken)
+          runInAction(() => {
+            store.isLoading = false
+            store.githubSearchResults = repos.items
+          })
+        } catch (e) {
+          runInAction(() => {
+            store.isLoading = false
+          })
+        }
       }
     }, 500),
     runFavorite: (index: number) => {
