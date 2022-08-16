@@ -4,10 +4,7 @@
   "private": true,
   "scripts": {
     "macos": "react-native run-macos --scheme macOS",
-    "macos_no": "react-native run-macos --scheme macOS --no-packager",
-    "start": "react-native esbuild-start",
     "test": "jest",
-    "lint": "eslint .",
     "bump": "./bump-version.sh",
     "windows": "react-native run-windows",
     "postinstall": "patch-package",
