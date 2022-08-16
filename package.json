@@ -19,9 +19,9 @@
   "dependencies": {
     "@giphy/js-fetch-api": "^4.1.2",
     "@react-native-picker/picker": "^2.4.0",
-    "@sentry/react-native": "^3.4.2",
+    "@sentry/react-native": "^4.2.3",
     "axios": "^0.25.0",
-    "esbuild": "^0.14.40",
+    "esbuild": "^0.15.3",
     "expr-eval": "^2.0.2",
     "fuse.js": "^6.5.3",
     "immer": "^9.0.12",
@@ -34,11 +34,11 @@
     "react": "17.0.2",
     "react-native": "0.68.1",
     "react-native-esbuild": "^0.1.4",
-    "react-native-macos": "0.66.68",
+    "react-native-macos": "0.66.70",
     "react-native-webview": "^11.18.2",
     "react-native-windows": "0.67.7",
     "twrnc": "^3.3.0",
-    "typescript": "4.6.4"
+    "typescript": "4.7.4"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
