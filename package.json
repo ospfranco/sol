@@ -1,6 +1,6 @@
 {
   "name": "sol",
-  "version": "1.1.45",
+  "version": "1.1.46",
   "private": true,
   "scripts": {
     "macos": "react-native run-macos --scheme macOS",
@@ -12,16 +12,14 @@
     "windows": "react-native run-windows",
     "postinstall": "patch-package",
     "permissions:reset": "tccutil reset Calendar com.ospfranco.sol && tccutil reset Accessibility com.ospfranco.sol",
-    "release:dev": "bundle exec fastlane dev && rimraf ./releases/Sol.app && open /Applications/Sol.app",
-    "release:id": "bundle exec fastlane release && rimraf ./releases/Sol.app && rimraf ./releases/Sol.app.zip && ./macos/Pods/Sparkle/bin/generate_appcast ./releases && pingme",
-    "release:appcast": "./macos/Pods/Sparkle/bin/generate_appcast ./releases"
+    "dev": "bundle exec fastlane dev && rimraf ./releases/Sol.app && open /Applications/Sol.app",
+    "appcast": "./macos/Pods/Sparkle/bin/generate_appcast ./releases"
   },
   "dependencies": {
     "@giphy/js-fetch-api": "^4.1.2",
     "@react-native-picker/picker": "^2.4.0",
     "@sentry/react-native": "^4.2.3",
     "axios": "^0.25.0",
-    "esbuild": "^0.15.3",
     "expr-eval": "^2.0.2",
     "fuse.js": "^6.5.3",
     "immer": "^9.0.12",
@@ -33,7 +31,6 @@
     "patch-package": "^6.4.7",
     "react": "17.0.2",
     "react-native": "0.68.1",
-    "react-native-esbuild": "^0.1.4",
     "react-native-macos": "0.66.70",
     "react-native-webview": "^11.18.2",
     "react-native-windows": "0.67.7",
