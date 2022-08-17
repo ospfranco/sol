@@ -10,10 +10,6 @@ class ApplicationSearcher: NSObject {
 
     let localApplicationUrls = getApplicationUrlsAt(directory: .applicationDirectory, domain: .localDomainMask)
     let systemApplicationsUrls = getApplicationUrlsAt(directory: .applicationDirectory, domain: .systemDomainMask)
-//    let systemUtilitiesUrls = getApplicationUrlsAt(
-//      directory: .applicationDirectory,
-//      domain: .systemDomainMask,
-//      subpath: "/Utilities")
     let personalApplicationUrls = getApplicationUrlsAt(directory: .applicationDirectory, domain: .userDomainMask)
 
     let allApplicationUrls =
@@ -38,27 +34,27 @@ class ApplicationSearcher: NSObject {
 
   private func getApplicationUrlsAt(
     directory: FileManager.SearchPathDirectory,
-    domain: FileManager.SearchPathDomainMask,
-    subpath: String = ""
+    domain: FileManager.SearchPathDomainMask
   ) -> [URL] {
     let fileManager = FileManager()
 
     do {
       let folderUrl = try FileManager.default.url(for: directory, in: domain, appropriateFor: nil, create: false)
-      let folderUrlWithSubpath = NSURL.init(string: folderUrl.path + subpath)! as URL
-
       var urls = try fileManager.contentsOfDirectory(
-        at: folderUrlWithSubpath,
+        at: folderUrl,
         includingPropertiesForKeys: [],
         options: [
           FileManager.DirectoryEnumerationOptions.skipsPackageDescendants,
-//          FileManager.DirectoryEnumerationOptions.skipsSubdirectoryDescendants
         ])
 
       try urls.forEach {
+        guard let subUrl = URL(string: $0.path) else {
+          return
+        }
+
         if(!$0.path.contains(".app") && $0.hasDirectoryPath) {
           let subUrls = try fileManager.contentsOfDirectory(
-            at: NSURL.init(string: $0.path)! as URL,
+            at: subUrl,
             includingPropertiesForKeys: [],
             options: [
               FileManager.DirectoryEnumerationOptions.skipsPackageDescendants,
