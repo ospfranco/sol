@@ -7,18 +7,21 @@ class ApplicationSearcher: NSObject {
   ]
 
   public func getAllApplications() -> [Application] {
+    do {
+      let localApplicationUrl = try FileManager.default.url(for: .applicationDirectory, in: .localDomainMask, appropriateFor: nil, create: false)
+      let localApplicationUrls = getApplicationUrlsAt(localApplicationUrl)
+      let systemApplicationUrl = try FileManager.default.url(for: .applicationDirectory, in: .systemDomainMask, appropriateFor: nil, create: false)
+      let systemApplicationsUrls = getApplicationUrlsAt(systemApplicationUrl)
+      let userApplicationUrl = try FileManager.default.url(for: .applicationDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+      let personalApplicationUrls = getApplicationUrlsAt(userApplicationUrl)
 
-    let localApplicationUrls = getApplicationUrlsAt(directory: .applicationDirectory, domain: .localDomainMask)
-    let systemApplicationsUrls = getApplicationUrlsAt(directory: .applicationDirectory, domain: .systemDomainMask)
-    let personalApplicationUrls = getApplicationUrlsAt(directory: .applicationDirectory, domain: .userDomainMask)
-
-    let allApplicationUrls =
+      let allApplicationUrls =
       localApplicationUrls + systemApplicationsUrls + personalApplicationUrls + fixedApps
 
-    var applications = [Application]()
+      var applications = [Application]()
 
-    for url in allApplicationUrls {
-      do {
+      for url in allApplicationUrls {
+
         let resourceKeys: [URLResourceKey] = [.isExecutableKey, .isApplicationKey]
         let resourceValues = try url.resourceValues(forKeys: Set(resourceKeys))
         if resourceValues.isApplication! && resourceValues.isExecutable! {
@@ -26,49 +29,43 @@ class ApplicationSearcher: NSObject {
           let urlStr = url.absoluteString
           applications.append(Application(name: name, url: urlStr))
         }
-      } catch {}
-    }
-
-    return applications
-  }
-
-  private func getApplicationUrlsAt(
-    directory: FileManager.SearchPathDirectory,
-    domain: FileManager.SearchPathDomainMask
-  ) -> [URL] {
-    let fileManager = FileManager()
-
-    do {
-      let folderUrl = try FileManager.default.url(for: directory, in: domain, appropriateFor: nil, create: false)
-      var urls = try fileManager.contentsOfDirectory(
-        at: folderUrl,
-        includingPropertiesForKeys: [],
-        options: [
-          FileManager.DirectoryEnumerationOptions.skipsPackageDescendants,
-        ])
-
-      try urls.forEach {
-        guard let subUrl = URL(string: $0.path) else {
-          return
-        }
-
-        if(!$0.path.contains(".app") && $0.hasDirectoryPath) {
-          let subUrls = try fileManager.contentsOfDirectory(
-            at: subUrl,
-            includingPropertiesForKeys: [],
-            options: [
-              FileManager.DirectoryEnumerationOptions.skipsPackageDescendants,
-              FileManager.DirectoryEnumerationOptions.skipsSubdirectoryDescendants
-            ])
-
-          urls.append(contentsOf: subUrls)
-        }
       }
 
-      return urls
+      return applications
+    } catch {
+      print("Could not get applications! \(error)")
+      return []
+    }
+
+  }
+
+  private func getApplicationUrlsAt(_ url: URL) -> [URL] {
+    let fileManager = FileManager()
+    do {
+      if(!url.path.contains(".app") && url.hasDirectoryPath) {
+        var urls = try fileManager.contentsOfDirectory(
+          at: url,
+          includingPropertiesForKeys: [],
+          options: [
+            FileManager.DirectoryEnumerationOptions.skipsPackageDescendants,
+          ])
+
+        urls.forEach {
+          if(!$0.path.contains(".app") && $0.hasDirectoryPath) {
+            let subUrls = getApplicationUrlsAt($0)
+
+            urls.append(contentsOf: subUrls)
+          }
+        }
+
+        return urls
+      } else {
+        return [url]
+      }
     } catch {
       return []
     }
+
   }
 }
 
