@@ -315,6 +315,21 @@ export const createUIStore = (root: IRootStore) => {
     {
       iconComponent: () => {
         return (
+          <View style={tw`w-4 h-4 p-[2] rounded items-start bg-black`}>
+            <View style={tw`w-3  h-3 p-1 rounded-sm bg-white`} />
+          </View>
+        )
+      },
+      name: 'Resize window to full-screen',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.resizeFrontmostFullscreen()
+      },
+      shortcut: '^ ⌥ ↩',
+    },
+    {
+      iconComponent: () => {
+        return (
           <View style={tw`w-4 h-4 p-[2] rounded items-end bg-black`}>
             <View style={tw`w-1 h-3 p-1 rounded-sm bg-white`} />
           </View>
@@ -346,16 +361,63 @@ export const createUIStore = (root: IRootStore) => {
       iconComponent: () => {
         return (
           <View style={tw`w-4 h-4 p-[2] rounded items-start bg-black`}>
-            <View style={tw`w-3  h-3 p-1 rounded-sm bg-white`} />
+            <View style={tw`w-1 h-1 p-1 rounded-sm bg-white`} />
           </View>
         )
       },
-      name: 'Resize window to full-screen',
+      name: 'Resize window to top-left',
       type: ItemType.CONFIGURATION,
       callback: () => {
-        solNative.resizeFrontmostFullscreen()
+        solNative.resizeTopLeft()
       },
-      shortcut: '^ ⌥ ↩',
+      shortcut: '^ ⌥ U',
+    },
+    {
+      iconComponent: () => {
+        return (
+          <View style={tw`w-4 h-4 p-[2] rounded items-end bg-black`}>
+            <View style={tw`w-1 h-1 p-1 rounded-sm bg-white`} />
+          </View>
+        )
+      },
+      name: 'Resize window to top-right',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.resizeTopRight()
+      },
+      shortcut: '^ ⌥ I',
+    },
+    {
+      iconComponent: () => {
+        return (
+          <View
+            style={tw`w-4 h-4 p-[2] rounded items-start justify-end bg-black`}>
+            <View style={tw`w-1 h-1 p-1 rounded-sm bg-white`} />
+          </View>
+        )
+      },
+      name: 'Resize window to bottom-left',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.resizeBottomLeft()
+      },
+      shortcut: '^ ⌥ J',
+    },
+    {
+      iconComponent: () => {
+        return (
+          <View
+            style={tw`w-4 h-4 p-[2] rounded items-end justify-end bg-black`}>
+            <View style={tw`w-1 h-1 p-1 rounded-sm bg-white`} />
+          </View>
+        )
+      },
+      name: 'Resize window to bottom-right',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.resizeBottomRight()
+      },
+      shortcut: '^ ⌥ K',
     },
     {
       iconComponent: () => {

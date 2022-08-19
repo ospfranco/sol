@@ -65,6 +65,10 @@ class SolNative extends NativeEventEmitter {
   resetWindowSize: () => void
   setWindowHeight: (height: number) => void
   openFinderAt: (path: string) => void
+  resizeTopLeft: () => void
+  resizeTopRight: () => void
+  resizeBottomLeft: () => void
+  resizeBottomRight: () => void
 
   constructor(module: any) {
     super(module)
@@ -107,6 +111,10 @@ class SolNative extends NativeEventEmitter {
     this.resetWindowSize = module.resetWindowSize
     this.setWindowHeight = module.setWindowHeight
     this.openFinderAt = module.openFinderAt
+    this.resizeTopLeft = module.resizeTopLeft
+    this.resizeTopRight = module.resizeTopRight
+    this.resizeBottomLeft = module.resizeBottomLeft
+    this.resizeBottomRight = module.resizeBottomRight
 
     const constants = module.getConstants()
     this.accentColor = constants.accentColor

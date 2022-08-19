@@ -1,9 +1,49 @@
 import HotKey
 
+enum Quarter {
+  case topLeft
+  case topRight
+  case bottomLeft
+  case bottomRight
+}
+
 class WindowManager {
   public static let sharedInstance = WindowManager()
 
   private let screenDetector = ScreenDetector()
+
+  func moveQuarter(_ corner: Quarter) {
+    guard let frontmostWindowElement = AccessibilityElement.frontmostWindow()
+    else {
+      NSSound.beep()
+      return
+    }
+
+    let screens = screenDetector.detectScreens(using: frontmostWindowElement)
+
+    guard let usableScreens = screens else {
+      NSSound.beep()
+      print("Unable to obtain usable screens")
+      return
+    }
+
+    let normalizedScreenFrame = AccessibilityElement.normalizeCoordinatesOf(usableScreens.frameOfCurrentScreen)
+
+    var origin = CGPoint(x: normalizedScreenFrame.origin.x, y: normalizedScreenFrame.origin.y)
+    switch(corner) {
+      case .bottomLeft:
+        origin = CGPoint(x: normalizedScreenFrame.origin.x, y: normalizedScreenFrame.origin.y + normalizedScreenFrame.height / 2)
+      case .bottomRight:
+        origin = CGPoint(x: normalizedScreenFrame.origin.x + normalizedScreenFrame.width / 2, y: normalizedScreenFrame.origin.y + normalizedScreenFrame.height / 2)
+      case .topLeft:
+        origin = CGPoint(x: normalizedScreenFrame.origin.x, y: normalizedScreenFrame.origin.y)
+      case .topRight:
+        origin = CGPoint(x: normalizedScreenFrame.origin.x + normalizedScreenFrame.width / 2, y: normalizedScreenFrame.origin.y)
+    }
+    let size = CGSize(width: normalizedScreenFrame.width / 2, height: normalizedScreenFrame.height / 2)
+
+    frontmostWindowElement.setRectOf(CGRect(origin: origin, size: size))
+  }
 
   func moveRight() {
     guard let frontmostWindowElement = AccessibilityElement.frontmostWindow()
@@ -20,9 +60,7 @@ class WindowManager {
       return
     }
 
-    print("Original frame", usableScreens.frameOfCurrentScreen)
     let normalizedScreenFrame = AccessibilityElement.normalizeCoordinatesOf(usableScreens.frameOfCurrentScreen)
-    print("Normalized screen frame", normalizedScreenFrame)
 
     let origin = CGPoint(x: normalizedScreenFrame.origin.x + normalizedScreenFrame.width / 2, y: normalizedScreenFrame.origin.y)
     let size = CGSize(width: normalizedScreenFrame.width / 2, height: normalizedScreenFrame.height)

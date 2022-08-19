@@ -21,6 +21,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   private var mainHotKey = HotKey(key: .space, modifiers: [.command])
   private var debugHotKey = HotKey(key: .space, modifiers: [.command, .option])
   var updaterController: SPUStandardUpdaterController
+  private let topLeftScreenHotKey = HotKey(key: .u, modifiers: [.option, .control])
+  private let topRightScreenHotKey = HotKey(key: .i, modifiers: [.option, .control])
+  private let bottomLeftScreenHotKey = HotKey(key: .j, modifiers: [.option, .control])
+  private let bottomRightScreenHotKey = HotKey(key: .k, modifiers: [.option, .control])
   private let rightSideScreenHotKey = HotKey(key: .rightArrow, modifiers: [.option, .control])
   private let leftSideScreenHotKey = HotKey(key: .leftArrow, modifiers: [.option, .control])
   private let fullScreenHotKey = HotKey(key: .return, modifiers: [.option, .control])
@@ -89,6 +93,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     fullScreenHotKey.keyDownHandler = WindowManager.sharedInstance.fullscreen
     moveToNextScreenHotKey.keyDownHandler = WindowManager.sharedInstance.moveToNextScreen
     moveToPrevScreenHotKey.keyDownHandler = WindowManager.sharedInstance.moveToPrevScreen
+    topLeftScreenHotKey.keyDownHandler = { WindowManager.sharedInstance.moveQuarter(.topLeft) }
+    topRightScreenHotKey.keyDownHandler = { WindowManager.sharedInstance.moveQuarter(.topRight) }
+    bottomLeftScreenHotKey.keyDownHandler = { WindowManager.sharedInstance.moveQuarter(.bottomLeft) }
+    bottomRightScreenHotKey.keyDownHandler = { WindowManager.sharedInstance.moveQuarter(.bottomRight) }
     scratchpadHotKey.keyDownHandler = showScratchpad
     emojiPickerHotKey.keyDownHandler = showEmojiPicker
     clipboardManagerHotKey.keyDownHandler = showClipboardManager

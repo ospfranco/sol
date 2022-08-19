@@ -181,6 +181,22 @@ class SolNative: RCTEventEmitter {
     WindowManager.sharedInstance.fullscreen()
   }
 
+  @objc func resizeTopLeft() {
+    WindowManager.sharedInstance.moveQuarter(.topLeft)
+  }
+
+  @objc func resizeTopRight() {
+    WindowManager.sharedInstance.moveQuarter(.topRight)
+  }
+
+  @objc func resizeBottomLeft() {
+    WindowManager.sharedInstance.moveQuarter(.bottomLeft)
+  }
+
+  @objc func resizeBottomRight() {
+    WindowManager.sharedInstance.moveQuarter(.bottomRight)
+  }
+
   @objc func moveFrontmostNextScreen() {
     WindowManager.sharedInstance.moveToNextScreen()
   }
