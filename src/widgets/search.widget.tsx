@@ -161,7 +161,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
           style={tw.style(`flex-1`)}
           // selectionColor={'white'}
           placeholderTextColor={tw.color('dark:text-gray-400 text-gray-500')}
-          placeholder={'Search for something...'}
+          placeholder={'Sol Search...'}
         />
         {store.ui.isLoading && <ActivityIndicator size="small" />}
       </View>

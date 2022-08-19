@@ -25,7 +25,7 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
   useFullSize()
   const scheme = useColorScheme()
   const store = useStore()
-  const data = store.clipboard.items
+  const data = store.ui.clipboardItems
   const selectedIndex = store.ui.selectedIndex
   const listRef = useRef<FlatList | null>(null)
 
@@ -41,7 +41,8 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
   return (
     <View style={tw.style(`flex-1`, style)}>
       <View style={tw`flex-1`}>
-        <View style={tw`h-10 pt-2 px-3 justify-center`}>
+        <View
+          style={tw`h-10 pt-2 px-3 justify-center border-b border-lightBorder dark:border-darkBorder`}>
           <TextInput
             autoFocus
             // @ts-expect-error
@@ -50,17 +51,17 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
             onChangeText={store.ui.setQuery}
             selectionColor={solNative.accentColor}
             placeholderTextColor={tw.color('dark:text-gray-400 text-gray-500')}
-            placeholder="Search clipboard history..."
+            placeholder="Search clipboard..."
           />
         </View>
         <FlatList
           data={data}
-          contentContainerStyle={tw`flex-grow-1 pb-3 px-3`}
+          contentContainerStyle={tw`flex-grow-1 p-3`}
           ref={listRef}
           ListEmptyComponent={
             <View style={tw`flex-1 justify-center items-center`}>
-              <Text style={tw`dark:text-gray-400 text-sm text-gray-500`}>
-                No items in history
+              <Text style={tw`dark:text-gray-700 text-sm text-gray-500`}>
+                No items
               </Text>
             </View>
           }

@@ -621,6 +621,16 @@ export const createUIStore = (root: IRootStore) => {
         todayTime: Math.floor(todayTime),
       }
     },
+    get clipboardItems(): string[] {
+      if (!store.query || store.focusedWidget !== FocusableWidget.CLIPBOARD) {
+        return root.clipboard.items
+      }
+
+      let results = new Fuse(root.clipboard.items, FUSE_OPTIONS)
+        .search(store.query)
+        .map(r => r.item)
+      return results
+    },
     get items(): Item[] {
       if (!store.query) {
         return store.favoriteItems
