@@ -13,7 +13,7 @@ interface Props {
   style?: ViewStyle
 }
 
-export const CalendarWidget: FC<Props> = observer(({style}) => {
+export const CalendarWidget: FC<Props> = observer(() => {
   useDeviceContext(tw)
   const store = useStore()
   const focused = store.ui.focusedWidget === FocusableWidget.CALENDAR
@@ -42,7 +42,7 @@ export const CalendarWidget: FC<Props> = observer(({style}) => {
                   </Text>
                 )}
               </View>
-              <View>
+              <View style={tw`mt-1`}>
                 {data.events.map((event, index) => {
                   const lDate = DateTime.fromISO(event.date)
                   const lEndDate = event.endDate
