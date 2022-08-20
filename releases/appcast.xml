@@ -3,6 +3,26 @@
     <channel>
         <title>sol</title>
         <item>
+            <title>1.1.49</title>
+            <pubDate>Sat, 20 Aug 2022 08:10:32 +0200</pubDate>
+            <sparkle:version>73</sparkle:version>
+            <sparkle:shortVersionString>1.1.49</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>10.15</sparkle:minimumSystemVersion>
+            <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/1.1.49.zip" length="4782374" type="application/octet-stream" sparkle:edSignature="FEhi4xmIkyA17WD5LtKK7//THFipws9fM4Uf5+tWh7z5yIYiBKxJEW+LGnYSnYNypE7HiS3n0Dd513mD49Y0Cw=="/>
+            <description><![CDATA[
+                <h2>New Features</h2>
+                <p>Added resize to screen quarters and recursively crawl for applications</p>
+            ]]>
+            </description>
+            <sparkle:deltas>
+                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/sol73-72.delta" sparkle:deltaFrom="72" length="302650" type="application/octet-stream" sparkle:edSignature="Qf6ODDVoy8ZFju8guxDhaq2QPIOKu0jpD6JyhuGN15R4dhcrKTtJQkk36NErHf+Bq2+xIXRsn5epIuJuwi6WAw=="/>
+                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/sol73-71.delta" sparkle:deltaFrom="71" length="275910" type="application/octet-stream" sparkle:edSignature="lPttXqUzQ0ItJXc6Ipkgd8F6m30AN9oi1y8wWfrp5taREUp6TJbbsWar7wEXF0Bp/YgWArmyqSMWuT0uEjvuCA=="/>
+                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/sol73-70.delta" sparkle:deltaFrom="70" length="276358" type="application/octet-stream" sparkle:edSignature="q683M2JGDrRzAhemHEExfVwVjJi10tYV3yf25zXxQZ6Jm+862O0P8hjjXwYBsiBIyxK7QYWFCYX568vpOqtEBw=="/>
+                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/sol73-69.delta" sparkle:deltaFrom="69" length="1125030" type="application/octet-stream" sparkle:edSignature="0jnMlr2E6lTutHmLLnmQ0cQR1kTG2wpn2hEriBnX6Y/6y5WgmcivxBrbS49J+Dln4P0KHjc6DzSrN9m8U6ElAg=="/>
+                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/sol73-68.delta" sparkle:deltaFrom="68" length="1124406" type="application/octet-stream" sparkle:edSignature="HPE80jt7eP2htePTa6kEt+NAVW0c+fOZpWzNwcWvLbm5tDxBYOmgqvYa/c/wWT+INuJ9bXZaxSF1IjqgCBoIBA=="/>
+            </sparkle:deltas>
+        </item>
+        <item>
             <title>1.1.48</title>
             <pubDate>Wed, 17 Aug 2022 07:08:54 +0200</pubDate>
             <sparkle:version>72</sparkle:version>
