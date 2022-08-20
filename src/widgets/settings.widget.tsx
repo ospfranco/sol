@@ -185,7 +185,9 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
       {selected === 'GENERAL' && (
         <View style={tw`flex-1 p-4 bg-white dark:bg-black bg-opacity-30`}>
           <Text style={tw`text-lg`}>General</Text>
-
+          <Text style={tw`text-sm text-gray-700 dark:text-gray-400 pt-2`}>
+            General app settings
+          </Text>
           <View
             style={tw`w-full h-1 border-b border-lightBorder dark:border-darkBorder mt-3 mb-5`}
           />
@@ -237,7 +239,7 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
               onChangeText={store.ui.setGithubToken}
               placeholder="GitHub token..."
               bordered
-              style={tw`mt-2`}
+              style={tw`mt-2 w-92`}
             />
           </View>
         </View>

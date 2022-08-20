@@ -19,16 +19,21 @@ export const Input: FC<Props> = ({
   ...props
 }) => {
   const [focused, focusOn, focusOff] = useBoolean(autoFocus)
+  const [hovered, hoverOn, hoverOff] = useBoolean(false)
   return (
     <View
+      //@ts-ignore
+      onMouseEnter={hoverOn}
+      //@ts-ignore
+      onMouseLeave={hoverOff}
       style={tw.style(
         'w-full rounded bg-transparent px-2 h-8 justify-center',
         {
           'border border-lightBorder dark:border-darkBorder':
-            !!bordered && !focused,
+            !!bordered && !focused && !hovered,
           'border border-blue-500': !!bordered && !!focused,
+          'border border-blue-300': !!bordered && !focused && !!hovered,
         },
-
         style,
       )}>
       <TextInput
