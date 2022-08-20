@@ -905,6 +905,9 @@ export const createUIStore = (root: IRootStore) => {
       store.focusWidget(FocusableWidget.EMOJIS)
       store.query = ''
     },
+    showSettings: () => {
+      store.focusWidget(FocusableWidget.SETTINGS)
+    },
     removeNote: (idx: number) => {
       let newNotes = [...store.notes]
       newNotes.splice(idx, 1)
@@ -926,45 +929,6 @@ export const createUIStore = (root: IRootStore) => {
         store.calendarAuthorizationStatus ===
         CalendarAuthorizationStatus.authorized
       ) {
-        // if (__DEV__) {
-        //   store.events = [
-        //     {
-        //       id: 'blah1',
-        //       color: 'orange',
-        //       date: DateTime.now().toISO(),
-        //       endDate: DateTime.now().plus({hour: 1}).toISO(),
-        //       isAllDay: false,
-        //       location: '',
-        //       notes: '',
-        //       status: 0,
-        //       title: 'Very important meeting',
-        //     },
-        //     {
-        //       id: 'blah2',
-        //       color: 'orange',
-        //       date: DateTime.now().toISO(),
-        //       endDate: DateTime.now().plus({hour: 2}).toISO(),
-        //       isAllDay: false,
-        //       location: '',
-        //       notes: '',
-        //       status: 1,
-        //       title: 'Not so important meeting',
-        //     },
-        //     {
-        //       id: 'blah3',
-        //       color: tw.color('accent')!,
-        //       date: DateTime.now().plus({day: 1}).toISO(),
-        //       endDate: DateTime.now().plus({hour: 2, day: 1}).toISO(),
-        //       isAllDay: false,
-        //       location: '',
-        //       notes: '',
-        //       status: 0,
-        //       title: 'Call insurance',
-        //     },
-        //   ]
-        //   return
-        // }
-
         solNative
           .getNextEvents(store.query)
           .then(events => {
@@ -1600,6 +1564,11 @@ export const createUIStore = (root: IRootStore) => {
 
       if (target === FocusableWidget.EMOJIS) {
         store.showEmojiPicker()
+        return
+      }
+
+      if (target === FocusableWidget.SETTINGS) {
+        store.showSettings()
         return
       }
 

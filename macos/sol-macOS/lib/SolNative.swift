@@ -54,8 +54,7 @@ class SolNative: RCTEventEmitter {
 
   @objc func hideWindow() {
     DispatchQueue.main.async {
-      let appDelegate = NSApp.delegate as? AppDelegate
-      appDelegate?.hideWindow()
+      self.appDelegate?.hideWindow()
     }
   }
 

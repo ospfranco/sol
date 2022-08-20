@@ -20,7 +20,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
   private var mainHotKey = HotKey(key: .space, modifiers: [.command])
   private var debugHotKey = HotKey(key: .space, modifiers: [.command, .option])
-  var updaterController: SPUStandardUpdaterController
+  private var updaterController: SPUStandardUpdaterController
   private let topLeftScreenHotKey = HotKey(key: .u, modifiers: [.option, .control])
   private let topRightScreenHotKey = HotKey(key: .i, modifiers: [.option, .control])
   private let bottomLeftScreenHotKey = HotKey(key: .j, modifiers: [.option, .control])
@@ -33,6 +33,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   private var scratchpadHotKey = HotKey(key: .space, modifiers: [.command, .shift])
   private let emojiPickerHotKey = HotKey(key: .space, modifiers: [.control, .command])
   private var clipboardManagerHotKey = HotKey(key: .v, modifiers: [.command, .shift])
+  private let settingsHotKey = HotKey(key: .comma, modifiers: [.command])
 
   override init() {
     updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: nil, userDriverDelegate: nil)
@@ -76,14 +77,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
       if txt != nil {
         SolEmitter.sharedInstance.textPasted(txt!)
       }
-//      let url = $0.string(forType: .URL)
-//      if url != nil {
-//        handlePastedText(url!, fileExtension: "url")
-//      }
-//      let html = $0.string(forType: .html)
-//      if html != nil {
-//        handlePastedText(html!, fileExtension: "html")
-//      }
+      //      let url = $0.string(forType: .URL)
+      //      if url != nil {
+      //        handlePastedText(url!, fileExtension: "url")
+      //      }
+      //      let html = $0.string(forType: .html)
+      //      if html != nil {
+      //        handlePastedText(html!, fileExtension: "html")
+      //      }
     }
   }
 
@@ -100,21 +101,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     scratchpadHotKey.keyDownHandler = showScratchpad
     emojiPickerHotKey.keyDownHandler = showEmojiPicker
     clipboardManagerHotKey.keyDownHandler = showClipboardManager
-
-//#if DEBUG
-//    debugHotKey.keyDownHandler = toggleWindow
-//    mainHotKey.isPaused = true
-//#else
+    settingsHotKey.keyDownHandler = showSettings
     mainHotKey.keyDownHandler = toggleWindow
     debugHotKey.isPaused = true
-//#endif
 
     NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
-//      36 enter
-//      123 arrow left
-//      124 arrow right
-//      125 arrow down
-//      126 arrow up
+      //      36 enter
+      //      123 arrow left
+      //      124 arrow right
+      //      125 arrow down
+      //      126 arrow up
       if(($0.keyCode == 123 || $0.keyCode == 124) && !self.catchHorizontalArrowsPress ) {
         return $0
       }
@@ -183,6 +179,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     // and switch components
     let delay = target != nil ? 0.1 : 0 // in seconds
     DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+      self.settingsHotKey.isPaused = false
       self.mainWindow.setIsVisible(false)
       let screen = self.getScreenWithMouse()
       let yOffset = screen!.visibleFrame.height * 0.3
@@ -192,6 +189,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
       self.mainWindow.setIsVisible(true)
     }
+
   }
 
   func showScratchpad() {
@@ -206,12 +204,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     showWindow(target: "CLIPBOARD")
   }
 
+  func showSettings() {
+    SolEmitter.sharedInstance.onShow(target: "SETTINGS")
+  }
+
   func hideWindow() {
-//  #if !DEBUG
-    mainWindow.orderOut(self)
-    NSCursor.unhide()
-    SolEmitter.sharedInstance.onHide()
-//  #endif
+    if(mainWindow.isVisible) {
+      mainWindow.orderOut(self)
+      NSCursor.unhide()
+      SolEmitter.sharedInstance.onHide()
+      settingsHotKey.isPaused = true
+    }
   }
 
   func setHorizontalArrowCatch(catchHorizontalArrowPress: Bool) {
@@ -288,7 +291,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   }
 
   func resetSize() {
-    print("reset size called")
     let origin = CGPoint(x: 0, y: 0)
     let size = baseSize
     let frame = NSRect(origin: origin, size: size)

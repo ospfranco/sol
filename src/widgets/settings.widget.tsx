@@ -48,12 +48,12 @@ const SelectableButton: FC<SelectableButtonProps> = ({
       style={tw.style(
         'rounded px-2 py-1 w-full',
         {
-          'bg-accent dark:bg-opacity-60 bg-opacity-80': selected,
+          'bg-accent dark:bg-opacity-40 bg-opacity-80': selected,
         },
         style,
       )}>
       <Text
-        style={tw.style(`font-medium`, {
+        style={tw.style(``, {
           'text-white': selected,
         })}>
         {title}
@@ -77,10 +77,16 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
           onPress={() => {
             store.ui.focusWidget(FocusableWidget.SEARCH)
           }}>
-          <Text style={tw`text-lg font-medium`}>
-            <Text style={tw`text-lg text-gray-500`}>←</Text>
-            {'  '}Settings
-          </Text>
+          <View style={tw`flex-row items-center`}>
+            <Image
+              source={Assets.ChevronLeft}
+              style={tw.style(`h-5 w-5`, {
+                tintColor: tw.color('text-gray-400')!,
+              })}
+            />
+
+            <Text style={tw`text-lg`}> Settings</Text>
+          </View>
         </TouchableOpacity>
         <View style={tw`w-full pl-4`}>
           <SelectableButton
@@ -125,11 +131,16 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
       )}
       {selected === 'WEATHER' && (
         <View style={tw`flex-1 p-4 bg-white dark:bg-black bg-opacity-30`}>
-          <Text style={tw`font-medium text-lg`}>Weather configuration</Text>
+          <Text style={tw`text-lg`}>Weather configuration</Text>
           <Text style={tw`text-sm text-gray-700 dark:text-gray-400 pt-2`}>
             OpenWeatherMap params which allow to show local weather data
           </Text>
-          <Text style={tw`pt-8`}>Api Key</Text>
+
+          <View
+            style={tw`w-full h-1 border-b border-lightBorder dark:border-darkBorder mt-3 mb-5`}
+          />
+
+          <Text style={tw``}>Api Key</Text>
 
           <Input
             autoFocus
@@ -173,12 +184,13 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
       )}
       {selected === 'GENERAL' && (
         <View style={tw`flex-1 p-4 bg-white dark:bg-black bg-opacity-30`}>
-          <Text style={tw`font-medium text-lg`}>General configuration</Text>
-          <Text style={tw`text-sm text-gray-700 dark:text-gray-400 pt-2`}>
-            Manage general settings
-          </Text>
+          <Text style={tw`text-lg`}>General</Text>
 
-          <View style={tw`flex-row mt-8 h-6 items-center`}>
+          <View
+            style={tw`w-full h-1 border-b border-lightBorder dark:border-darkBorder mt-3 mb-5`}
+          />
+
+          <View style={tw`flex-row h-8 items-center`}>
             <Text style={tw`flex-1`}>Global shortcut</Text>
             <Picker
               selectedValue={store.ui.globalShortcut}
@@ -188,7 +200,7 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
               <Picker.Item label="⌥ space" value="option" />
             </Picker>
           </View>
-          <View style={tw`flex-row mt-3 h-6 items-center`}>
+          <View style={tw`flex-row h-8 items-center`}>
             <Text style={tw`flex-1`}>Scratchpad shortcut</Text>
             <Picker
               selectedValue={store.ui.scratchpadShortcut}
@@ -198,7 +210,7 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
               <Picker.Item label="⇧ ⌥ Space" value="option" />
             </Picker>
           </View>
-          <View style={tw`flex-row mt-3 h-6 items-center`}>
+          <View style={tw`flex-row h-8 items-center`}>
             <Text style={tw`flex-1`}>Clipboard manager shortcut</Text>
             <Picker
               selectedValue={store.ui.clipboardManagerShortcut}
@@ -208,33 +220,25 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
               <Picker.Item label="⌘ ⌥ V" value="option" />
             </Picker>
           </View>
-          <View style={tw`flex-row mt-3 h-6 items-center`}>
-            <Text style={tw`flex-1`}>Launch at login</Text>
-            <Switch
-              value={store.ui.launchAtLogin}
-              onValueChange={store.ui.setLaunchAtLogin}
-            />
-          </View>
 
-          <View style={tw`flex-row mt-3 h-6 items-center`}>
-            <Text style={tw`flex-1`}>Search Github repositories</Text>
+          <View style={tw`flex-row h-8 items-center`}>
+            <Text style={tw`flex-1`}>Search GitHub</Text>
             <Switch
               value={store.ui.githubSearchEnabled}
               onValueChange={store.ui.setGithubSearchEnabled}
             />
           </View>
 
-          <View style={tw`flex-row mt-3 h-6 items-center`}>
-            <Text style={tw`flex-1`}>Github token (search private repos)</Text>
+          <View style={tw`mt-2`}>
+            <Text>GitHub Token</Text>
             <View
-              style={tw`rounded border border-lightBorder dark:border-darkBorder px-2`}>
+              style={tw`rounded border border-lightBorder dark:border-darkBorder px-2 py-2 w-92 mt-3`}>
               <TextInput
                 value={store.ui.githubToken ?? ''}
                 onChangeText={store.ui.setGithubToken}
-                placeholder="Enter github token..."
+                placeholder="GitHub token..."
                 // @ts-ignore
                 enableFocusRing={false}
-                style={tw`w-64`}
               />
             </View>
           </View>
@@ -242,11 +246,16 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
       )}
       {selected === 'TRANSLATE' && (
         <View style={tw`flex-1 p-4 bg-white dark:bg-black bg-opacity-30`}>
-          <Text style={tw`font-medium text-lg`}>Translation</Text>
+          <Text style={tw`text-lg`}>Translation</Text>
           <Text style={tw`text-sm text-gray-700 dark:text-gray-400 pt-2`}>
             Configure the languages to translate
           </Text>
-          <View style={tw`flex-row items-center mt-4 h-6`}>
+
+          <View
+            style={tw`w-full h-1 border-b border-lightBorder dark:border-darkBorder mt-3 mb-5`}
+          />
+
+          <View style={tw`flex-row items-center h-6`}>
             <Text style={tw`flex-1`}>First language</Text>
             <Picker
               onValueChange={store.ui.setFirstTranslationLanguage}
