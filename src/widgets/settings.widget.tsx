@@ -53,7 +53,7 @@ const SelectableButton: FC<SelectableButtonProps> = ({
         style,
       )}>
       <Text
-        style={tw.style(``, {
+        style={tw.style(`pl-1`, {
           'text-white': selected,
         })}>
         {title}
@@ -231,16 +231,14 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
 
           <View style={tw`mt-2`}>
             <Text>GitHub Token</Text>
-            <View
-              style={tw`rounded border border-lightBorder dark:border-darkBorder px-2 py-2 w-92 mt-3`}>
-              <TextInput
-                value={store.ui.githubToken ?? ''}
-                onChangeText={store.ui.setGithubToken}
-                placeholder="GitHub token..."
-                // @ts-ignore
-                enableFocusRing={false}
-              />
-            </View>
+
+            <Input
+              value={store.ui.githubToken ?? ''}
+              onChangeText={store.ui.setGithubToken}
+              placeholder="GitHub token..."
+              bordered
+              style={tw`mt-2`}
+            />
           </View>
         </View>
       )}
