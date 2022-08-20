@@ -4,9 +4,18 @@ import {Image, Text, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
 import tw from 'tailwind'
 import {FileIcon} from 'components/FileIcon'
+import {FocusableWidget} from 'stores'
 
 interface Props {
   style?: ViewStyle
+}
+
+const Key: FC<{title: string}> = ({title}) => {
+  return (
+    <View style={tw`py-1 px-2 rounded-sm bg-neutral-700`}>
+      <Text style={tw`text-xxs text-neutral-400`}>{title}</Text>
+    </View>
+  )
 }
 
 export const GeneralWidget: FC<Props> = observer(({style}) => {
@@ -88,6 +97,20 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
         </View>
       ) : (
         <View />
+      )}
+
+      <View style={tw`flex-1`} />
+      {store.ui.focusedWidget !== FocusableWidget.CALENDAR && (
+        <>
+          <Text style={tw`text-xs mr-2`}>Next Event</Text>
+          <Key title="tab" />
+        </>
+      )}
+      {store.ui.focusedWidget === FocusableWidget.CALENDAR && (
+        <>
+          <Text style={tw`text-xs mr-2`}>Join Event</Text>
+          <Key title="⏎" />
+        </>
       )}
     </View>
   )
