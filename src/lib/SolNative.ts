@@ -48,6 +48,8 @@ class SolNative extends NativeEventEmitter {
   getAccessibilityStatus: () => Promise<boolean>
   resizeFrontmostRightHalf: () => void
   resizeFrontmostLeftHalf: () => void
+  resizeFrontmostTopHalf: () => void
+  resizeFrontmostBottomHalf: () => void
   resizeFrontmostFullscreen: () => void
   moveFrontmostNextScreen: () => void
   moveFrontmostPrevScreen: () => void
@@ -89,12 +91,13 @@ class SolNative extends NativeEventEmitter {
     this.setLaunchAtLogin = module.setLaunchAtLogin
     this.getAccessibilityStatus = module.getAccessibilityStatus
     this.resizeFrontmostRightHalf = module.resizeFrontmostRightHalf
-    this.resizeFrontmostFullscreen = module.resizeFrontmostFullscreen
+    this.resizeFrontmostLeftHalf = module.resizeFrontmostLeftHalf
+    this.resizeFrontmostTopHalf = module.resizeFrontmostTopHalf
+    this.resizeFrontmostBottomHalf = module.resizeFrontmostBottomHalf
     this.resizeFrontmostFullscreen = module.resizeFrontmostFullscreen
     this.moveFrontmostNextScreen = module.moveFrontmostNextScreen
     this.moveFrontmostNextScreen = module.moveFrontmostNextScreen
     this.moveFrontmostPrevScreen = module.moveFrontmostPrevScreen
-    this.resizeFrontmostLeftHalf = module.resizeFrontmostLeftHalf
     this.pasteToFrontmostApp = module.pasteToFrontmostApp
     this.insertToFrontmostApp = module.insertToFrontmostApp
     this.turnOnHorizontalArrowsListeners =

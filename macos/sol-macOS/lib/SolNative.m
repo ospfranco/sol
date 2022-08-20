@@ -34,6 +34,8 @@ RCT_EXTERN_METHOD(requestAccessibilityAccess
                   : (RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(resizeFrontmostRightHalf)
 RCT_EXTERN_METHOD(resizeFrontmostLeftHalf)
+RCT_EXTERN_METHOD(resizeFrontmostTopHalf)
+RCT_EXTERN_METHOD(resizeFrontmostBottomHalf)
 RCT_EXTERN_METHOD(resizeFrontmostFullscreen)
 RCT_EXTERN_METHOD(resizeTopLeft)
 RCT_EXTERN_METHOD(resizeTopRight)

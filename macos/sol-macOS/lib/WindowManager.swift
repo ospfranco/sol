@@ -7,10 +7,55 @@ enum Quarter {
   case bottomRight
 }
 
+enum ScreenHalf {
+  case top
+  case bottom
+  case left
+  case right
+}
+
 class WindowManager {
   public static let sharedInstance = WindowManager()
 
   private let screenDetector = ScreenDetector()
+
+  func moveHalf(_ half: ScreenHalf) {
+    guard let frontmostWindowElement = AccessibilityElement.frontmostWindow()
+    else {
+      NSSound.beep()
+      return
+    }
+
+    let screens = screenDetector.detectScreens(using: frontmostWindowElement)
+
+    guard let usableScreens = screens else {
+      NSSound.beep()
+      print("Unable to obtain usable screens")
+      return
+    }
+
+    let normalizedScreenFrame = AccessibilityElement.normalizeCoordinatesOf(usableScreens.frameOfCurrentScreen)
+
+    var origin = CGPoint(x: normalizedScreenFrame.origin.x + normalizedScreenFrame.width / 2, y: normalizedScreenFrame.origin.y)
+    var size = CGSize(width: normalizedScreenFrame.width / 2, height: normalizedScreenFrame.height)
+
+    switch(half) {
+      case .top:
+        origin = CGPoint(x: normalizedScreenFrame.origin.x, y: normalizedScreenFrame.origin.y)
+        size = CGSize(width: normalizedScreenFrame.width, height: normalizedScreenFrame.height / 2)
+      case .bottom:
+        origin = CGPoint(x: normalizedScreenFrame.origin.x, y: normalizedScreenFrame.origin.y + normalizedScreenFrame.size.height / 2)
+        size = CGSize(width: normalizedScreenFrame.width, height: normalizedScreenFrame.height / 2)
+      case .right:
+        origin = CGPoint(x: normalizedScreenFrame.origin.x + normalizedScreenFrame.width / 2, y: normalizedScreenFrame.origin.y)
+        size = CGSize(width: normalizedScreenFrame.width / 2, height: normalizedScreenFrame.height)
+      case .left:
+        origin = CGPoint(x: normalizedScreenFrame.origin.x, y: normalizedScreenFrame.origin.y)
+        size = CGSize(width: normalizedScreenFrame.width / 2, height: normalizedScreenFrame.height)
+    }
+
+    frontmostWindowElement.setRectOf(CGRect(origin: origin, size: size))
+  }
 
   func moveQuarter(_ corner: Quarter) {
     guard let frontmostWindowElement = AccessibilityElement.frontmostWindow()
@@ -41,51 +86,6 @@ class WindowManager {
         origin = CGPoint(x: normalizedScreenFrame.origin.x + normalizedScreenFrame.width / 2, y: normalizedScreenFrame.origin.y)
     }
     let size = CGSize(width: normalizedScreenFrame.width / 2, height: normalizedScreenFrame.height / 2)
-
-    frontmostWindowElement.setRectOf(CGRect(origin: origin, size: size))
-  }
-
-  func moveRight() {
-    guard let frontmostWindowElement = AccessibilityElement.frontmostWindow()
-    else {
-      NSSound.beep()
-      return
-    }
-
-    let screens = screenDetector.detectScreens(using: frontmostWindowElement)
-
-    guard let usableScreens = screens else {
-      NSSound.beep()
-      print("Unable to obtain usable screens")
-      return
-    }
-
-    let normalizedScreenFrame = AccessibilityElement.normalizeCoordinatesOf(usableScreens.frameOfCurrentScreen)
-
-    let origin = CGPoint(x: normalizedScreenFrame.origin.x + normalizedScreenFrame.width / 2, y: normalizedScreenFrame.origin.y)
-    let size = CGSize(width: normalizedScreenFrame.width / 2, height: normalizedScreenFrame.height)
-
-    frontmostWindowElement.setRectOf(CGRect(origin: origin, size: size))
-  }
-
-  func moveLeft() {
-    guard let frontmostWindowElement = AccessibilityElement.frontmostWindow()
-    else {
-      NSSound.beep()
-      return
-    }
-
-    let screens = screenDetector.detectScreens(using: frontmostWindowElement)
-
-    guard let usableScreens = screens else {
-      NSSound.beep()
-      print("Unable to obtain usable screens")
-      return
-    }
-    let normalizedScreenFrame = AccessibilityElement.normalizeCoordinatesOf(usableScreens.frameOfCurrentScreen)
-
-    let origin = CGPoint(x: normalizedScreenFrame.origin.x, y: normalizedScreenFrame.origin.y)
-    let size = CGSize(width: normalizedScreenFrame.width / 2, height: normalizedScreenFrame.height)
 
     frontmostWindowElement.setRectOf(CGRect(origin: origin, size: size))
   }

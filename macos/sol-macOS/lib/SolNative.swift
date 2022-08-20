@@ -168,12 +168,20 @@ class SolNative: RCTEventEmitter {
     LaunchAtLogin.isEnabled = launchAtLogin
   }
 
+  @objc func resizeFrontmostTopHalf() {
+    WindowManager.sharedInstance.moveHalf(.top)
+  }
+
+  @objc func resizeFrontmostBottomHalf() {
+    WindowManager.sharedInstance.moveHalf(.bottom)
+  }
+
   @objc func resizeFrontmostRightHalf() {
-    WindowManager.sharedInstance.moveRight()
+    WindowManager.sharedInstance.moveHalf(.right)
   }
 
   @objc func resizeFrontmostLeftHalf() {
-    WindowManager.sharedInstance.moveLeft()
+    WindowManager.sharedInstance.moveHalf(.left)
   }
 
   @objc func resizeFrontmostFullscreen() {

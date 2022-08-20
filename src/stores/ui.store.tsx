@@ -361,6 +361,36 @@ export const createUIStore = (root: IRootStore) => {
       iconComponent: () => {
         return (
           <View style={tw`w-4 h-4 p-[2] rounded items-start bg-black`}>
+            <View style={tw`w-1 h-3 p-1 rounded-sm bg-white`} />
+          </View>
+        )
+      },
+      name: 'Resize window to top-half',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.resizeFrontmostTopHalf()
+      },
+      shortcut: '^ ⌥ ↑',
+    },
+    {
+      iconComponent: () => {
+        return (
+          <View style={tw`w-4 h-4 p-[2] rounded items-start bg-black`}>
+            <View style={tw`w-1 h-3 p-1 rounded-sm bg-white`} />
+          </View>
+        )
+      },
+      name: 'Resize window to bottom-half',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.resizeFrontmostBottomHalf()
+      },
+      shortcut: '^ ⌥ ↓',
+    },
+    {
+      iconComponent: () => {
+        return (
+          <View style={tw`w-4 h-4 p-[2] rounded items-start bg-black`}>
             <View style={tw`w-1 h-1 p-1 rounded-sm bg-white`} />
           </View>
         )

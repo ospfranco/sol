@@ -25,6 +25,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   private let topRightScreenHotKey = HotKey(key: .i, modifiers: [.option, .control])
   private let bottomLeftScreenHotKey = HotKey(key: .j, modifiers: [.option, .control])
   private let bottomRightScreenHotKey = HotKey(key: .k, modifiers: [.option, .control])
+  private let topSideScreenHotKey = HotKey(key: .upArrow, modifiers: [.option, .control])
+  private let bottomSideScreenHotKey = HotKey(key: .downArrow, modifiers: [.option, .control])
   private let rightSideScreenHotKey = HotKey(key: .rightArrow, modifiers: [.option, .control])
   private let leftSideScreenHotKey = HotKey(key: .leftArrow, modifiers: [.option, .control])
   private let fullScreenHotKey = HotKey(key: .return, modifiers: [.option, .control])
@@ -89,8 +91,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   }
 
   func setupKeyboardListeners() {
-    rightSideScreenHotKey.keyDownHandler = WindowManager.sharedInstance.moveRight
-    leftSideScreenHotKey.keyDownHandler = WindowManager.sharedInstance.moveLeft
+    rightSideScreenHotKey.keyDownHandler = {WindowManager.sharedInstance.moveHalf(.right)}
+    leftSideScreenHotKey.keyDownHandler = {WindowManager.sharedInstance.moveHalf(.left)}
+    topSideScreenHotKey.keyDownHandler = {WindowManager.sharedInstance.moveHalf(.top) }
+    bottomSideScreenHotKey.keyDownHandler = {WindowManager.sharedInstance.moveHalf(.bottom) }
     fullScreenHotKey.keyDownHandler = WindowManager.sharedInstance.fullscreen
     moveToNextScreenHotKey.keyDownHandler = WindowManager.sharedInstance.moveToNextScreen
     moveToPrevScreenHotKey.keyDownHandler = WindowManager.sharedInstance.moveToPrevScreen
