@@ -23,7 +23,7 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
   return (
     <View
       style={tw.style(
-        `text-gray-200 flex-row items-center border-t border-lightBorder dark:border-darkBorder mx-1 px-3 py-2`,
+        `text-gray-200 flex-row items-center border-t border-lightBorder dark:border-darkBorder px-3 py-1 bg-gray-100 dark:bg-neutral-800 bg-opacity-30`,
         style,
       )}>
       {!!store.ui.track?.title && (
