@@ -40,7 +40,8 @@ class SolNative: RCTEventEmitter {
       "keyUp",
       "onShow",
       "onHide",
-      "onTextPasted"
+      "onTextPasted",
+      "onFileSearch"
     ]
   }
 

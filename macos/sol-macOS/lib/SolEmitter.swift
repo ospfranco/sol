@@ -52,4 +52,6 @@ class SolEmitter {
       "text": txt
     ])
   }
+
+//  func fileSearchResult(_ results: )
 }

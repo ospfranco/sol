@@ -98,11 +98,17 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
         {(Platform.OS === 'macos' || Platform.OS === 'ios') &&
           !!item.iconComponent && <item.iconComponent />}
         <Text
-          style={tw.style('ml-3 flex-1 text-sm', {
+          style={tw.style('ml-3 text-sm', {
             'text-white': isActive,
           })}>
           {item.name}
         </Text>
+        {!!item.subName && (
+          <Text style={tw.style('ml-3 text-sm text-gray-500')}>
+            {item.subName}
+          </Text>
+        )}
+        <View style={tw`flex-1`} />
         {isActive && (
           <TouchableOpacity
             onPress={() => {
@@ -181,7 +187,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
           contentContainerStyle={tw.style(`flex-grow-1 pl-3 py-1`)}
           ref={listRef}
           data={items}
-          keyExtractor={item => `${item.name}-${item.type}`}
+          keyExtractor={(item, i) => `${item.name}-${item.type}-${i}`}
           renderItem={renderItem}
           showsVerticalScrollIndicator={false}
           // automaticallyAdjustContentInsets={false}

@@ -44,6 +44,7 @@ let keyDownListener: EmitterSubscription | undefined
 let keyUpListener: EmitterSubscription | undefined
 let onShowListener: EmitterSubscription | undefined
 let onHideListener: EmitterSubscription | undefined
+let onFileSearchListener: EmitterSubscription | undefined
 
 const exprParser = new Parser()
 
@@ -57,6 +58,12 @@ interface IPeriod {
   id: number
   start: number
   end?: number
+}
+
+interface FileDescription {
+  filename: string
+  path: string
+  kind: string
 }
 
 interface ITrackingProject {
@@ -97,6 +104,7 @@ export interface Item {
   preventClose?: boolean
   type: ItemType
   name: string
+  subName?: string
   callback?: () => void
   isApplescript?: boolean
   text?: string
@@ -670,6 +678,7 @@ export const createUIStore = (root: IRootStore) => {
     githubSearchResults: [] as GithubRepo[],
     // TODO(osp) this token should be placed in secure storage, but too lazy to do it right now
     githubToken: null as string | null,
+    fileResults: [] as FileDescription[],
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -766,25 +775,38 @@ export const createUIStore = (root: IRootStore) => {
           ? [{type: ItemType.TEMPORARY_RESULT, name: ''}]
           : []
 
-        if (CONSTANTS.LESS_VALID_URL.test(store.query)) {
-          FALLBACK_ITEMS.unshift({
-            type: ItemType.CONFIGURATION,
-            name: 'Open Url',
-            icon: '🌎',
-            callback: () => {
-              if (store.query.startsWith('https://')) {
-                Linking.openURL(store.query)
-              } else {
-                Linking.openURL(`http://${store.query}`)
-              }
-            },
-          })
-        }
-
         return [
+          ...(CONSTANTS.LESS_VALID_URL.test(store.query)
+            ? [
+                {
+                  type: ItemType.CONFIGURATION,
+                  name: 'Open Url',
+                  icon: '🌎',
+                  callback: () => {
+                    if (store.query.startsWith('https://')) {
+                      Linking.openURL(store.query)
+                    } else {
+                      Linking.openURL(`http://${store.query}`)
+                    }
+                  },
+                },
+              ]
+            : []),
           ...temporaryResultItems,
           ...results,
           ...(shouldReturnFallback ? FALLBACK_ITEMS : []),
+          ...store.fileResults.map(f => ({
+            name: f.filename,
+            subName:
+              f.path.length > 60
+                ? `...${f.path.substring(f.path.length - 60, f.path.length)}`
+                : f.path,
+            type: ItemType.CUSTOM,
+            iconComponent: () => <FileIcon url={f.path} style={tw`w-4 h-4`} />,
+            callback: () => {
+              Linking.openURL(f.path)
+            },
+          })),
           ...store.githubSearchResults.map(
             (s): Item => ({
               name: `${s.owner?.login}/${s.name}`,
@@ -1119,7 +1141,11 @@ export const createUIStore = (root: IRootStore) => {
 
         store.fetchEvents()
 
-        solNative.searchFiles(query)
+        if (!query) {
+          store.fileResults = []
+        } else {
+          solNative.searchFiles(query)
+        }
       }
     },
     searchGithubRepos: debounce(async () => {
@@ -1665,6 +1691,7 @@ export const createUIStore = (root: IRootStore) => {
       keyUpListener?.remove()
       onShowListener?.remove()
       onHideListener?.remove()
+      onFileSearchListener?.remove()
     },
     checkCalendarAccess: () => {
       solNative
@@ -1689,6 +1716,9 @@ export const createUIStore = (root: IRootStore) => {
       store.query = ''
       store.focusWidget(FocusableWidget.CLIPBOARD)
     },
+    onFileSearch: (files: FileDescription[]) => {
+      store.fileResults = files
+    },
   })
 
   hydrate().then(() => {
@@ -1701,6 +1731,10 @@ export const createUIStore = (root: IRootStore) => {
   keyUpListener = solNative.addListener('keyUp', store.keyUp)
   onShowListener = solNative.addListener('onShow', store.onShow)
   onHideListener = solNative.addListener('onHide', store.onHide)
+  onFileSearchListener = solNative.addListener(
+    'onFileSearch',
+    store.onFileSearch,
+  )
 
   return store
 }
