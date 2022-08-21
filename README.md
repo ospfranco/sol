@@ -26,6 +26,7 @@ brew install --cask sol
 
 ## Features
 
+- File search
 - Customizable shortcut
 - App search
 - Google translate
@@ -49,7 +50,6 @@ brew install --cask sol
 ## Other
 
 - [About me](https://ospfranco.com)
-- [Messer](https://messerapp.cc)
 - [CI Demon](https://cidemon.com)
 
 ## License
