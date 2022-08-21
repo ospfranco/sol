@@ -20,12 +20,12 @@
 		7042A22A2815C06B00874743 /* NSColor.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7042A2292815C06B00874743 /* NSColor.extension.swift */; };
 		7047E80627D4D31400582E1B /* MediaHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7047E80527D4D31400582E1B /* MediaHelper.swift */; };
 		7047E80827D4DAEB00582E1B /* Sequence.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7047E80727D4DAEB00582E1B /* Sequence.extension.swift */; };
-		706CD89D27EAECBE00EC5F35 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 706CD89C27EAECBE00EC5F35 /* LaunchAtLogin */; };
 		7071D43727B3211700F8A4DC /* DarkMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7071D43527B3211700F8A4DC /* DarkMode.swift */; };
 		7071D43827B3211700F8A4DC /* AppleScriptHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7071D43627B3211700F8A4DC /* AppleScriptHelper.swift */; };
 		70969E1727966ECD00BE3F1C /* SolNative.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70969E1627966ECD00BE3F1C /* SolNative.swift */; };
 		70969E192796719100BE3F1C /* SolNative.m in Sources */ = {isa = PBXBuildFile; fileRef = 70969E182796719100BE3F1C /* SolNative.m */; };
 		709D705227D1F42600081DD0 /* CalendarHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709D705127D1F42600081DD0 /* CalendarHelper.swift */; };
+		70ADD54628B22C1300AAAFD7 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 70ADD54528B22C1300AAAFD7 /* LaunchAtLogin */; };
 		70B2D5902824254B0005D80A /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B2D58F2824254B0005D80A /* WindowManager.swift */; };
 		70B78361279BE866008660F5 /* Panel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B78360279BE866008660F5 /* Panel.swift */; };
 		70BED7CB27F4C1A600906E41 /* FileConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BED7CA27F4C1A600906E41 /* FileConstants.swift */; };
@@ -80,7 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				706CD89D27EAECBE00EC5F35 /* LaunchAtLogin in Frameworks */,
+				70ADD54628B22C1300AAAFD7 /* LaunchAtLogin in Frameworks */,
 				1DAB47A1C5202375AB34B232 /* libPods-macOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -224,7 +224,7 @@
 			);
 			name = macOS;
 			packageProductDependencies = (
-				706CD89C27EAECBE00EC5F35 /* LaunchAtLogin */,
+				70ADD54528B22C1300AAAFD7 /* LaunchAtLogin */,
 			);
 			productName = sol;
 			productReference = 514201492437B4B30078DB4F /* sol.app */;
@@ -240,6 +240,7 @@
 				TargetAttributes = {
 					514201482437B4B30078DB4F = {
 						CreatedOnToolsVersion = 11.4;
+						DevelopmentTeam = 24CMR7378R;
 						LastSwiftMigration = 1320;
 						ProvisioningStyle = Automatic;
 					};
@@ -255,7 +256,7 @@
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			packageReferences = (
-				706CD89B27EAECBE00EC5F35 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */,
+				70ADD54428B22C1300AAAFD7 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
 			);
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
@@ -664,7 +665,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		706CD89B27EAECBE00EC5F35 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */ = {
+		70ADD54428B22C1300AAAFD7 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "git@github.com:sindresorhus/LaunchAtLogin.git";
 			requirement = {
@@ -675,9 +676,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		706CD89C27EAECBE00EC5F35 /* LaunchAtLogin */ = {
+		70ADD54528B22C1300AAAFD7 /* LaunchAtLogin */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 706CD89B27EAECBE00EC5F35 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */;
+			package = 70ADD54428B22C1300AAAFD7 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */;
 			productName = LaunchAtLogin;
 		};
 /* End XCSwiftPackageProductDependency section */
