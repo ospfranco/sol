@@ -12,8 +12,10 @@ interface Props {
 
 const Key: FC<{title: string}> = ({title}) => {
   return (
-    <View style={tw`py-1 px-2 rounded-sm bg-neutral-700`}>
-      <Text style={tw`text-xxs text-neutral-400`}>{title}</Text>
+    <View style={tw`py-1 px-2 rounded-sm dark:bg-neutral-700 bg-neutral-200`}>
+      <Text style={tw`text-xxs dark:text-neutral-400 text-neutral-600`}>
+        {title}
+      </Text>
     </View>
   )
 }
