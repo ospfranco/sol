@@ -71,6 +71,7 @@ class SolNative extends NativeEventEmitter {
   resizeTopRight: () => void
   resizeBottomLeft: () => void
   resizeBottomRight: () => void
+  searchFiles: (query: string) => void
 
   constructor(module: any) {
     super(module)
@@ -118,6 +119,7 @@ class SolNative extends NativeEventEmitter {
     this.resizeTopRight = module.resizeTopRight
     this.resizeBottomLeft = module.resizeBottomLeft
     this.resizeBottomRight = module.resizeBottomRight
+    this.searchFiles = module.searchFiles
 
     const constants = module.getConstants()
     this.accentColor = constants.accentColor

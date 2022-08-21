@@ -58,4 +58,5 @@ RCT_EXTERN_METHOD(setWindowHeight : (nonnull NSNumber)height)
 RCT_EXTERN_METHOD(setWindowRelativeSize : (nonnull NSNumber)relative)
 RCT_EXTERN_METHOD(resetWindowSize)
 RCT_EXTERN_METHOD(openFinderAt : (NSString)path)
+RCT_EXTERN_METHOD(searchFiles : (NSString)query)
 @end

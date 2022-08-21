@@ -1118,6 +1118,8 @@ export const createUIStore = (root: IRootStore) => {
         }
 
         store.fetchEvents()
+
+        solNative.searchFiles(query)
       }
     },
     searchGithubRepos: debounce(async () => {

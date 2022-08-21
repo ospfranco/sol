@@ -269,4 +269,8 @@ class SolNative: RCTEventEmitter {
   @objc func openFinderAt(_ path: String) {
     NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: path)
   }
+
+  @objc func searchFiles(_ query: String) {
+    FileSearcher.sharedInstance.searchFile(query)
+  }
 }
