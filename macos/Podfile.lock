@@ -12,6 +12,7 @@ PODS:
     - ReactCommon/turbomodule/core (= 0.66.70)
   - fmt (6.2.1)
   - glog (0.3.5)
+  - HotKey (0.1.2)
   - RCT-Folly (2021.06.28.00-v2):
     - boost
     - DoubleConversion
@@ -295,6 +296,7 @@ DEPENDENCIES:
   - FBLazyVector (from `../node_modules/react-native-macos/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native-macos/React/FBReactNativeSpec`)
   - glog (from `../node_modules/react-native-macos/third-party-podspecs/glog.podspec`)
+  - HotKey
   - RCT-Folly (from `../node_modules/react-native-macos/third-party-podspecs/RCT-Folly.podspec`)
   - RCTRequired (from `../node_modules/react-native-macos/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native-macos/Libraries/TypeSafety`)
@@ -330,6 +332,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - fmt
+    - HotKey
     - Sentry
     - Sparkle
 
@@ -411,6 +414,7 @@ SPEC CHECKSUMS:
   FBReactNativeSpec: d75b765dd9455039dd6c6dd87611634662c5cc8a
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: 42c4bf47024808486e90b25ea9e5ac3959047641
+  HotKey: ad59450195936c10992438c4210f673de5aee43e
   RCT-Folly: 43adc9ce880eb76792f88c011773cb5c664c1419
   RCTRequired: aa2485007164faa9b69990ada5694a27cdb63dcb
   RCTTypeSafety: 302e2f89ce3ac073e0ad632bc95204b232fd53a5
@@ -442,6 +446,6 @@ SPEC CHECKSUMS:
   Sparkle: 7f5f6d4328458515e23272f4138e610c1fa3e32d
   Yoga: 0f7335fe2480ff375c653f44a94d58831b2bb3dc
 
-PODFILE CHECKSUM: 4896d2f3bacdf83f9e8bbbff7a5565193e4f7a0d
+PODFILE CHECKSUM: 4cd71f2ea9dcb22b0fa0b12f32bd793ce5cb1723
 
 COCOAPODS: 1.11.3

@@ -31,7 +31,6 @@
 		70BED7CB27F4C1A600906E41 /* FileConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BED7CA27F4C1A600906E41 /* FileConstants.swift */; };
 		70BED7CD27F4C23D00906E41 /* FileManager.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BED7CC27F4C23D00906E41 /* FileManager.extension.swift */; };
 		70EA99EA2794967E008E54FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70EA99E92794967E008E54FD /* AppDelegate.swift */; };
-		70F7EBF12795A85200CED17A /* HotKey in Frameworks */ = {isa = PBXBuildFile; productRef = 70F7EBF02795A85200CED17A /* HotKey */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -82,7 +81,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				706CD89D27EAECBE00EC5F35 /* LaunchAtLogin in Frameworks */,
-				70F7EBF12795A85200CED17A /* HotKey in Frameworks */,
 				1DAB47A1C5202375AB34B232 /* libPods-macOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -226,7 +224,6 @@
 			);
 			name = macOS;
 			packageProductDependencies = (
-				70F7EBF02795A85200CED17A /* HotKey */,
 				706CD89C27EAECBE00EC5F35 /* LaunchAtLogin */,
 			);
 			productName = sol;
@@ -258,8 +255,7 @@
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			packageReferences = (
-				70F7EBEF2795A85200CED17A /* XCRemoteSwiftPackageReference "HotKey" */,
-				706CD89B27EAECBE00EC5F35 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
+				706CD89B27EAECBE00EC5F35 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */,
 			);
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
@@ -668,19 +664,11 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		706CD89B27EAECBE00EC5F35 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */ = {
+		706CD89B27EAECBE00EC5F35 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "git@github.com:sindresorhus/LaunchAtLogin.git";
 			requirement = {
 				branch = main;
-				kind = branch;
-			};
-		};
-		70F7EBEF2795A85200CED17A /* XCRemoteSwiftPackageReference "HotKey" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/soffes/HotKey";
-			requirement = {
-				branch = master;
 				kind = branch;
 			};
 		};
@@ -689,13 +677,8 @@
 /* Begin XCSwiftPackageProductDependency section */
 		706CD89C27EAECBE00EC5F35 /* LaunchAtLogin */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 706CD89B27EAECBE00EC5F35 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */;
+			package = 706CD89B27EAECBE00EC5F35 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */;
 			productName = LaunchAtLogin;
-		};
-		70F7EBF02795A85200CED17A /* HotKey */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 70F7EBEF2795A85200CED17A /* XCRemoteSwiftPackageReference "HotKey" */;
-			productName = HotKey;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
