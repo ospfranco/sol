@@ -43,6 +43,9 @@ export const CalendarWidget: FC<Props> = observer(() => {
               </View>
               <View style={tw`mt-1`}>
                 {data.events.map((event, index) => {
+                  if (event.status === 0 /* none */ || event.status === 2 /* canceled */) {
+                    return;
+                  }
                   const lDate = DateTime.fromISO(event.date)
                   const lEndDate = event.endDate
                     ? DateTime.fromISO(event.endDate)
