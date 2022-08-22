@@ -10,7 +10,7 @@ class CalendarHelper {
     let eventAuthorizationStatus = EKEventStore.authorizationStatus(for: .event)
     if eventAuthorizationStatus == .notDetermined {
       store.requestAccess(to: .event) { granted, error in
-        print("Event kit request access response, granted: \(granted), error: \(String(describing: error))")
+//        print("Event kit request access response, granted: \(granted), error: \(String(describing: error))")
         callback()
       }
     }
@@ -42,6 +42,7 @@ class CalendarHelper {
         "endDate": event.endDate != nil ? dateFormatter.string(from: event.endDate) : nil,
         "isAllDay": event.isAllDay,
         "status": event.status.rawValue, // 0 none, 1 confirmed, 2 tentative, 3 cancelled
+//        "blah": event.attendees?.first(where: event.calendar.)
         "attendeesLength": event.attendees?.count ?? 0
       ]
     }

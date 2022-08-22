@@ -838,7 +838,7 @@ export const createUIStore = (root: IRootStore) => {
       {date: DateTime; events: Array<INativeEvent>}
     > {
       return store.events
-        .filter(e => !e.isAllDay)
+        .filter(e => !e.isAllDay && e.status !== 3)
         .slice(0, 3)
         .reduce((acc, event) => {
           const lDate = DateTime.fromISO(event.date)
