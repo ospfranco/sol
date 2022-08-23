@@ -81,7 +81,6 @@ export const CalendarWidget: FC<Props> = observer(() => {
                       <Text
                         numberOfLines={1}
                         style={tw.style(`ml-3 text-sm`, {
-                          'line-through': event.status === 2,
                           'text-white': highlighted,
                         })}>
                         {event.title}
