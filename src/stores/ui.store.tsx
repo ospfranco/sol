@@ -2,6 +2,7 @@ import {GiphyFetch} from '@giphy/js-fetch-api'
 import * as Sentry from '@sentry/react-native'
 import {Assets, Icons} from 'assets'
 import {FileIcon} from 'components/FileIcon'
+import {FUSE_OPTIONS} from 'config'
 import {Parser} from 'expr-eval'
 import Fuse from 'fuse.js'
 import {extractMeetingLink} from 'lib/calendar'
@@ -47,12 +48,6 @@ let onHideListener: EmitterSubscription | undefined
 let onFileSearchListener: EmitterSubscription | undefined
 
 const exprParser = new Parser()
-
-const FUSE_OPTIONS = {
-  threshold: 0.2,
-  ignoreLocation: true,
-  keys: ['name'],
-}
 
 interface IPeriod {
   id: number
@@ -722,16 +717,6 @@ export const createUIStore = (root: IRootStore) => {
         todayTime: Math.floor(todayTime),
       }
     },
-    get clipboardItems(): string[] {
-      if (!store.query || store.focusedWidget !== FocusableWidget.CLIPBOARD) {
-        return root.clipboard.items
-      }
-
-      let results = new Fuse(root.clipboard.items, FUSE_OPTIONS)
-        .search(store.query)
-        .map(r => r.item)
-      return results
-    },
     get items(): Item[] {
       if (!store.query) {
         return store.favoriteItems
@@ -1244,9 +1229,12 @@ export const createUIStore = (root: IRootStore) => {
         case 36: {
           switch (store.focusedWidget) {
             case FocusableWidget.CLIPBOARD: {
-              const entry = root.clipboard.items[store.selectedIndex]
+              const entry = root.clipboard.clipboardItems[store.selectedIndex]
 
-              root.clipboard.unshift(store.selectedIndex)
+              const originalIndex = root.clipboard.clipboardItems.findIndex(
+                e => entry === e,
+              )
+              root.clipboard.unshift(originalIndex)
 
               if (entry) {
                 if (meta) {
@@ -1260,6 +1248,7 @@ export const createUIStore = (root: IRootStore) => {
                   solNative.pasteToFrontmostApp(entry)
                 }
               }
+
               break
             }
 

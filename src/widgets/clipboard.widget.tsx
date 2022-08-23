@@ -25,7 +25,7 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
   useFullSize()
   const scheme = useColorScheme()
   const store = useStore()
-  const data = store.ui.clipboardItems
+  const data = store.clipboard.clipboardItems
   const selectedIndex = store.ui.selectedIndex
   const listRef = useRef<FlatList | null>(null)
 

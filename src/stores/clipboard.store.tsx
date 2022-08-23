@@ -1,7 +1,10 @@
+import {FUSE_OPTIONS} from 'config'
+import Fuse from 'fuse.js'
 import {solNative} from 'lib/SolNative'
 import {makeAutoObservable} from 'mobx'
 import {EmitterSubscription} from 'react-native'
 import {IRootStore} from 'store'
+import {FocusableWidget} from './ui.store'
 
 let onTextPastedListener: EmitterSubscription | undefined
 
@@ -17,6 +20,19 @@ export const createClipboardStore = (root: IRootStore) => {
 
       newItems.unshift(obj.text)
       store.items = newItems
+    },
+    get clipboardItems(): string[] {
+      if (
+        !root.ui.query ||
+        root.ui.focusedWidget !== FocusableWidget.CLIPBOARD
+      ) {
+        return root.clipboard.items
+      }
+
+      let results = new Fuse(root.clipboard.items, FUSE_OPTIONS)
+        .search(root.ui.query)
+        .map(r => r.item)
+      return results
     },
     unshift: (index: number) => {
       const newItems = [...store.items]
