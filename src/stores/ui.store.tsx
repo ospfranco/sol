@@ -59,6 +59,7 @@ interface FileDescription {
   filename: string
   path: string
   kind: string
+  location: string
 }
 
 interface ITrackingProject {
@@ -101,6 +102,7 @@ export interface Item {
   name: string
   subName?: string
   callback?: () => void
+  metaCallback?: () => void
   isApplescript?: boolean
   text?: string
   shortcut?: string
@@ -791,6 +793,11 @@ export const createUIStore = (root: IRootStore) => {
             callback: () => {
               Linking.openURL(f.path)
             },
+            metaCallback: () => {
+              if (f.kind !== 'Folder') {
+                Linking.openURL(f.location)
+              }
+            },
           })),
           ...store.githubSearchResults.map(
             (s): Item => ({
@@ -1364,7 +1371,9 @@ export const createUIStore = (root: IRootStore) => {
                 solNative.hideWindow()
               }
 
-              if (item.url) {
+              if (store.commandPressed && item.metaCallback) {
+                item.metaCallback()
+              } else if (item.url) {
                 solNative.openFile(item.url)
               } else if (item.callback) {
                 item.callback()
