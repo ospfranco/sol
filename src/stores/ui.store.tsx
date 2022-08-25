@@ -15,6 +15,7 @@ import {
   solNative,
 } from 'lib/SolNative'
 import {doubleTranslate} from 'lib/translator'
+import {sleep} from 'lib/various'
 import {getWeather} from 'lib/weather'
 import {debounce} from 'lodash'
 import {DateTime} from 'luxon'
@@ -586,11 +587,14 @@ export const createUIStore = (root: IRootStore) => {
       name: 'Start Google Meet',
       type: ItemType.CONFIGURATION,
       callback: async () => {
-        await Linking.openURL(`http://meet.google.com/new`)
-        solNative.executeAppleScript(`tell application "Safari"
-          set meetingUrl to URL of front document as string
-          set the clipboard to meetingUrl
-        end tell`)
+        await Linking.openURL(`https://meet.google.com/new`)
+        await sleep(2000)
+        solNative.executeAppleScript(`if application "Safari" is running then
+          tell application "Safari"
+            set the clipboard to URL of front document as string
+          end tell
+        end if
+        `)
       },
     },
     ...buildSystemPreferencesItems(),
