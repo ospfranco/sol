@@ -254,6 +254,14 @@ export const createUIStore = (root: IRootStore) => {
       },
     },
     {
+      icon: '☀️',
+      name: 'Restart',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.executeAppleScript('tell application "Finder" to restart')
+      },
+    },
+    {
       iconImage: Assets.Airdrop,
       name: 'AirDrop',
       type: ItemType.CONFIGURATION,
@@ -571,6 +579,18 @@ export const createUIStore = (root: IRootStore) => {
       type: ItemType.CONFIGURATION,
       callback: () => {
         Linking.openURL('~/Documents')
+      },
+    },
+    {
+      iconImage: Assets.googleLogo,
+      name: 'Start Google Meet',
+      type: ItemType.CONFIGURATION,
+      callback: async () => {
+        await Linking.openURL(`http://meet.google.com/new`)
+        solNative.executeAppleScript(`tell application "Safari"
+          set meetingUrl to URL of front document as string
+          set the clipboard to meetingUrl
+        end tell`)
       },
     },
     ...buildSystemPreferencesItems(),
