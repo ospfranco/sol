@@ -30,7 +30,7 @@ export const Dropdown = ({
         isOpen ? close() : open()
       }}
       style={tw.style(
-        `w-32 rounded justify-center items-center border flex-row px-2 py-1 items-center relative`,
+        `w-32 rounded justify-center items-center border flex-row px-2 py-1 items-center relative z-1000`,
         {
           'border-gray-400': isOpen,
           'border-gray-500': !isOpen,
@@ -41,17 +41,18 @@ export const Dropdown = ({
         {options.find(o => o.value === value)?.label ?? ''}
       </Text>
       <Image
-        source={Assets.ChevronDown}
+        source={isOpen ? Assets.ChevronUp : Assets.ChevronDown}
         style={tw.style('h-4 w-4 dark:tint-white')}
       />
       {isOpen && (
         <View
           style={tw.style(
-            `w-32 rounded justify-center items-center border border-gray-500 absolute top-7 dark:bg-black bg-red`,
+            `w-32 rounded justify-center items-center border border-gray-500 absolute top-7 dark:bg-black bg-red-500`,
           )}>
-          {options.map(o => (
+          {options.map((o, i) => (
             <TouchableOpacity
               style={tw`py-1`}
+              key={`option-${i}`}
               onPress={() => {
                 onValueChange(o.value)
               }}>

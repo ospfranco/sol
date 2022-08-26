@@ -71,3 +71,4 @@ env.json
 
 # sentry credentials
 sentry.properties
+vendor
