@@ -130,6 +130,7 @@ import DocumentIcon from './assets/DocumentIcon.png'
 import Giphy from './assets/Giphy.png'
 import SearchIcon from './assets/SearchIcon.png'
 import ChevronLeft from './assets/ChevronLeft.png'
+import ChevronDown from './assets/ChevronDown.png'
 
 export const Assets = {
   googleLogo,
@@ -150,6 +151,7 @@ export const Assets = {
   Giphy,
   SearchIcon,
   ChevronLeft,
+  ChevronDown,
 }
 
 export const Icons = {

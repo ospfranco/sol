@@ -1,5 +1,6 @@
 import {Picker} from '@react-native-picker/picker'
 import {Assets} from 'assets'
+import {Dropdown} from 'components/Dropdown'
 import {Input} from 'components/Input'
 import {MySwitch} from 'components/MySwitch'
 import {useFullSize} from 'hooks/useFullSize'
@@ -199,13 +200,15 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
                 Global shortcut
               </Text>
               <View style={tw`flex-1`}>
-                <Picker
-                  selectedValue={store.ui.globalShortcut}
-                  style={tw`w-32`}
-                  onValueChange={v => store.ui.setGlobalShortcut(v)}>
-                  <Picker.Item label="⌘ Space" value="command" />
-                  <Picker.Item label="⌥ space" value="option" />
-                </Picker>
+                <Dropdown
+                  value={store.ui.globalShortcut}
+                  onValueChange={v => store.ui.setGlobalShortcut(v as any)}
+                  options={[
+                    {label: '⌘ Space', value: 'command'},
+                    {label: '⌥ Space', value: 'option'},
+                  ]}
+                  style={{zIndex: 1000}}
+                />
               </View>
             </View>
             <View style={tw`flex-row h-10 items-center`}>
@@ -213,13 +216,15 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
                 Scratchpad shortcut
               </Text>
               <View style={tw`flex-1`}>
-                <Picker
-                  selectedValue={store.ui.scratchpadShortcut}
-                  style={tw`w-32`}
-                  onValueChange={v => store.ui.setScratchpadShortcut(v)}>
-                  <Picker.Item label="⌘ ⇧ Space" value="command" />
-                  <Picker.Item label="⇧ ⌥ Space" value="option" />
-                </Picker>
+                <Dropdown
+                  value={store.ui.scratchpadShortcut}
+                  onValueChange={v => store.ui.setScratchpadShortcut(v as any)}
+                  options={[
+                    {label: '⌘ ⇧ Space', value: 'command'},
+                    {label: '⇧ ⌥ Space', value: 'option'},
+                  ]}
+                  style={{zIndex: 100}}
+                />
               </View>
             </View>
             <View style={tw`flex-row h-10 items-center`}>
