@@ -1,6 +1,7 @@
 import {Picker} from '@react-native-picker/picker'
 import {Assets} from 'assets'
 import {Input} from 'components/Input'
+import {MySwitch} from 'components/MySwitch'
 import {useFullSize} from 'hooks/useFullSize'
 import languages from 'lib/languages.json'
 import {observer} from 'mobx-react-lite'
@@ -44,7 +45,7 @@ const SelectableButton: FC<SelectableButtonProps> = ({
     <TouchableOpacity
       {...props}
       // @ts-ignore
-      focusRingEnabled={false}
+      enableFocusRing={false}
       style={tw.style(
         'rounded px-2 py-1 w-full',
         {
@@ -72,7 +73,7 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
   return (
     <View style={tw.style(`flex-row flex-1`, style)}>
       <View
-        style={tw`p-4 w-44 border-r border-lightBorder dark:border-darkBorder`}>
+        style={tw`p-4 w-40 border-r border-lightBorder dark:border-darkBorder`}>
         <TouchableOpacity
           onPress={() => {
             store.ui.focusWidget(FocusableWidget.SEARCH)
@@ -192,55 +193,77 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
             style={tw`w-full h-1 border-b border-lightBorder dark:border-darkBorder mt-3 mb-5`}
           />
 
-          <View style={tw`flex-row h-8 items-center`}>
-            <Text style={tw`flex-1`}>Global shortcut</Text>
-            <Picker
-              selectedValue={store.ui.globalShortcut}
-              style={tw`w-32`}
-              onValueChange={v => store.ui.setGlobalShortcut(v)}>
-              <Picker.Item label="⌘ Space" value="command" />
-              <Picker.Item label="⌥ space" value="option" />
-            </Picker>
-          </View>
-          <View style={tw`flex-row h-8 items-center`}>
-            <Text style={tw`flex-1`}>Scratchpad shortcut</Text>
-            <Picker
-              selectedValue={store.ui.scratchpadShortcut}
-              style={tw`w-32`}
-              onValueChange={v => store.ui.setScratchpadShortcut(v)}>
-              <Picker.Item label="⌘ ⇧ Space" value="command" />
-              <Picker.Item label="⇧ ⌥ Space" value="option" />
-            </Picker>
-          </View>
-          <View style={tw`flex-row h-8 items-center`}>
-            <Text style={tw`flex-1`}>Clipboard manager shortcut</Text>
-            <Picker
-              selectedValue={store.ui.clipboardManagerShortcut}
-              style={tw`w-32`}
-              onValueChange={v => store.ui.setClipboardManagerShortcut(v)}>
-              <Picker.Item label="⌘ ⇧ V" value="shift" />
-              <Picker.Item label="⌘ ⌥ V" value="option" />
-            </Picker>
-          </View>
+          <View style={tw`flex-1 pt-8`}>
+            <View style={tw`flex-row h-10 items-center`}>
+              <Text style={tw`flex-1 text-right pr-3 text-sm`}>
+                Global shortcut
+              </Text>
+              <View style={tw`flex-1`}>
+                <Picker
+                  selectedValue={store.ui.globalShortcut}
+                  style={tw`w-32`}
+                  onValueChange={v => store.ui.setGlobalShortcut(v)}>
+                  <Picker.Item label="⌘ Space" value="command" />
+                  <Picker.Item label="⌥ space" value="option" />
+                </Picker>
+              </View>
+            </View>
+            <View style={tw`flex-row h-10 items-center`}>
+              <Text style={tw`flex-1 text-right pr-3 text-sm`}>
+                Scratchpad shortcut
+              </Text>
+              <View style={tw`flex-1`}>
+                <Picker
+                  selectedValue={store.ui.scratchpadShortcut}
+                  style={tw`w-32`}
+                  onValueChange={v => store.ui.setScratchpadShortcut(v)}>
+                  <Picker.Item label="⌘ ⇧ Space" value="command" />
+                  <Picker.Item label="⇧ ⌥ Space" value="option" />
+                </Picker>
+              </View>
+            </View>
+            <View style={tw`flex-row h-10 items-center`}>
+              <Text style={tw`flex-1 text-right pr-3 text-sm`}>
+                Clipboard manager shortcut
+              </Text>
+              <View style={tw`flex-1`}>
+                <Picker
+                  selectedValue={store.ui.clipboardManagerShortcut}
+                  style={tw`w-32`}
+                  onValueChange={v => store.ui.setClipboardManagerShortcut(v)}>
+                  <Picker.Item label="⌘ ⇧ V" value="shift" />
+                  <Picker.Item label="⌘ ⌥ V" value="option" />
+                </Picker>
+              </View>
+            </View>
 
-          <View style={tw`flex-row h-8 items-center`}>
-            <Text style={tw`flex-1`}>Search GitHub</Text>
-            <Switch
-              value={store.ui.githubSearchEnabled}
-              onValueChange={store.ui.setGithubSearchEnabled}
-            />
-          </View>
+            <View style={tw`flex-row h-10 items-center`}>
+              <Text style={tw`flex-1 text-right pr-3 text-sm`}>
+                Search GitHub
+              </Text>
+              <View style={tw`flex-1`}>
+                <MySwitch
+                  value={store.ui.githubSearchEnabled}
+                  onValueChange={store.ui.setGithubSearchEnabled}
+                />
+              </View>
+            </View>
 
-          <View style={tw`mt-2`}>
-            <Text>GitHub Token</Text>
+            <View style={tw`flex-row h-10 items-center`}>
+              <Text style={tw`flex-1 text-right pr-3 text-sm`}>
+                GitHub Token
+              </Text>
 
-            <Input
-              value={store.ui.githubToken ?? ''}
-              onChangeText={store.ui.setGithubToken}
-              placeholder="GitHub token..."
-              bordered
-              style={tw`mt-2 w-92`}
-            />
+              <View style={tw`flex-1 flex-row`}>
+                <Input
+                  value={store.ui.githubToken ?? ''}
+                  onChangeText={store.ui.setGithubToken}
+                  placeholder="GitHub token..."
+                  bordered
+                  style={tw`flex-1`}
+                />
+              </View>
+            </View>
           </View>
         </View>
       )}

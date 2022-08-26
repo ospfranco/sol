@@ -27,12 +27,12 @@ export const Input: FC<Props> = ({
       //@ts-ignore
       onMouseLeave={hoverOff}
       style={tw.style(
-        'w-full rounded bg-transparent px-2 h-8 justify-center',
+        'w-full rounded bg-transparent px-2 h-7 justify-center',
         {
           'border border-lightBorder dark:border-darkBorder':
             !!bordered && !focused && !hovered,
           'border border-blue-500': !!bordered && !!focused,
-          'border border-blue-300': !!bordered && !focused && !!hovered,
+          'border border-gray-500': !!bordered && !focused && !!hovered,
         },
         style,
       )}>
@@ -42,7 +42,7 @@ export const Input: FC<Props> = ({
         ref={inputRef}
         onFocus={focusOn}
         onBlur={focusOff}
-        style={inputStyle}
+        style={[tw`text-sm`, inputStyle]}
         autoFocus={autoFocus}
         placeholderTextColor={tw.color('text-gray-400')}
         {...props}

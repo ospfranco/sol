@@ -1,5 +1,6 @@
+import {Assets} from 'assets'
 import React, {FC} from 'react'
-import {TouchableOpacity, View} from 'react-native'
+import {Image, TouchableOpacity, View} from 'react-native'
 import tw from 'tailwind'
 
 interface Props {
@@ -10,19 +11,21 @@ interface Props {
 export const MySwitch: FC<Props> = ({value, onValueChange}) => {
   return (
     <TouchableOpacity
+      // @ts-expect-error
+      enableFocusRing={false}
       onPress={() => {
         onValueChange(!value)
       }}
-      style={tw.style(`w-7 h-4 rounded-full justify-center`, {
-        'bg-blue-500': value,
-        'bg-gray-300 dark:bg-gray-700': !value,
+      style={tw.style(`w-3 h-3 rounded justify-center items-center border`, {
+        'border-gray-400': value,
+        'border-gray-500': !value,
       })}>
-      <View
-        style={tw.style('w-3 h-3 rounded-full', {
-          'ml-1 bg-gray-100 dark:bg-gray-800': !value,
-          'ml-3 bg-white': value,
-        })}
-      />
+      {!!value && (
+        <Image
+          source={Assets.CheckIcon}
+          style={tw.style('h-3 w-3', {tintColor: 'white'})}
+        />
+      )}
     </TouchableOpacity>
   )
 }
