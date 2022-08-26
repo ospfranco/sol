@@ -1,3 +1,4 @@
+import {Portal} from '@gorhom/portal'
 import {Assets} from 'assets'
 import {useBoolean} from 'hooks'
 import React, {FC} from 'react'
@@ -30,7 +31,7 @@ export const Dropdown = ({
         isOpen ? close() : open()
       }}
       style={tw.style(
-        `w-32 rounded justify-center items-center border flex-row px-2 py-1 items-center relative z-1000`,
+        `w-32 rounded justify-center items-center border flex-row px-2 py-1 items-center relative`,
         {
           'border-gray-400': isOpen,
           'border-gray-500': !isOpen,
@@ -45,21 +46,23 @@ export const Dropdown = ({
         style={tw.style('h-4 w-4 dark:tint-white')}
       />
       {isOpen && (
-        <View
-          style={tw.style(
-            `w-32 rounded justify-center items-center border border-gray-500 absolute top-7 dark:bg-black bg-red-500`,
-          )}>
-          {options.map((o, i) => (
-            <TouchableOpacity
-              style={tw`py-1`}
-              key={`option-${i}`}
-              onPress={() => {
-                onValueChange(o.value)
-              }}>
-              <Text>{o.label}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+        <Portal hostName="CustomPortalHost">
+          <View
+            style={tw.style(
+              `w-32 rounded justify-center items-center border border-gray-500 absolute top-7 dark:bg-black bg-red-500`,
+            )}>
+            {options.map((o, i) => (
+              <TouchableOpacity
+                style={tw`py-1`}
+                key={`option-${i}`}
+                onPress={() => {
+                  onValueChange(o.value)
+                }}>
+                <Text>{o.label}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </Portal>
       )}
     </TouchableOpacity>
   )

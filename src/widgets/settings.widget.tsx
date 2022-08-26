@@ -1,3 +1,4 @@
+import {PortalHost} from '@gorhom/portal'
 import {Picker} from '@react-native-picker/picker'
 import {Assets} from 'assets'
 import {Dropdown} from 'components/Dropdown'
@@ -207,7 +208,6 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
                     {label: '⌘ Space', value: 'command'},
                     {label: '⌥ Space', value: 'option'},
                   ]}
-                  style={{zIndex: 1000}}
                 />
               </View>
             </View>
@@ -223,7 +223,6 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
                     {label: '⌘ ⇧ Space', value: 'command'},
                     {label: '⇧ ⌥ Space', value: 'option'},
                   ]}
-                  style={{zIndex: 100}}
                 />
               </View>
             </View>
@@ -307,6 +306,7 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
           </View>
         </View>
       )}
+      <PortalHost name="CustomPortalHost" />
     </View>
   )
 })
