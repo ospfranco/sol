@@ -588,11 +588,52 @@ export const createUIStore = (root: IRootStore) => {
       type: ItemType.CONFIGURATION,
       callback: async () => {
         await Linking.openURL(`https://meet.google.com/new`)
-        await sleep(2000)
+
         solNative.executeAppleScript(`if application "Safari" is running then
+          delay 3
           tell application "Safari"
-            set the clipboard to URL of front document as string
+            set myurl to URL of front document as string
           end tell
+
+          if (url = "https://meet.google.com/new") then
+            delay 3
+            tell application "Safari"
+              set myurl to URL of front document as string
+            end tell
+          else
+            set the clipboard to myurl as string
+            display notification "Google Meet link copied to clipboard" with title "Link Copied" sound name "Frog"
+            return
+          end if
+
+          if (url = "https://meet.google.com/new") then
+            delay 3
+            tell application "Safari"
+              set myurl to URL of front document as string
+            end tell
+          else
+            set the clipboard to myurl as string
+            display notification "Google Meet link copied to clipboard" with title "Link Copied" sound name "Frog"
+            return
+          end if
+
+          if (url = "https://meet.google.com/new") then
+            delay 3
+            tell application "Safari"
+              set myurl to URL of front document as string
+            end tell
+          else
+            set the clipboard to myurl as string
+            display notification "Google Meet link copied to clipboard" with title "Link Copied" sound name "Frog"
+            return
+          end if
+          
+          if (url = "https://meet.google.com/new") then
+            display notification "Google Meet could not be copied" with title "Couldn't copy Google Meet link" sound name "Frog"
+          else
+            set the clipboard to myurl as string
+            display notification "Google Meet link copied to clipboard" with title "Link Copied" sound name "Frog"
+          end if
         end if
         `)
       },
