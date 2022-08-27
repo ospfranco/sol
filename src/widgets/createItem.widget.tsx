@@ -1,4 +1,4 @@
-import {Icons} from 'assets'
+import {Assets, Icons} from 'assets'
 import {Input} from 'components/Input'
 import {MySwitch} from 'components/MySwitch'
 import {SolButton} from 'components/SolButton'
@@ -68,127 +68,140 @@ export const CreateItemWidget: FC<Props> = observer(({style}) => {
   return (
     <View style={tw.style(`flex-1`, style)}>
       <TouchableOpacity
-        style={tw`border-b border-lightBorder dark:border-accentDim p-3`}
+        style={tw` p-3 flex-row items-center`}
         onPress={() => {
           store.ui.onHide()
         }}>
-        <Text style={tw``}>
-          <Text style={tw`text-gray-500`}>←</Text> Create Link/Shortcut
-        </Text>
+        <Image
+          source={Assets.ChevronLeft}
+          style={tw`dark:tint-white h-5 w-5`}
+        />
+        <Text style={tw``}>Create Shortcut</Text>
       </TouchableOpacity>
-      <View style={tw`flex-row py-3 px-6 flex-1`}>
-        <View style={tw`pt-1`}>
-          <TouchableOpacity
-            onPress={() => setIconSelectorOpen(!iconSelectorOpen)}
-            style={tw.style(
-              `h-6 w-6 justify-center items-center border border-lightBorder dark:border-darkBorder rounded`,
-              {
-                'bg-blue-500': iconSelectorOpen,
-              },
-            )}>
-            {!!icon ? (
-              <Image
-                // @ts-ignore
-                source={Icons[icon]}
-                style={tw.style(`h-4 w-4`, {
-                  tintColor: color,
-                })}
-              />
-            ) : (
-              <View style={tw`h-2 w-2 bg-white`} />
-            )}
-          </TouchableOpacity>
-        </View>
-        {iconSelectorOpen && (
-          <View style={tw.style(`ml-3`)}>
-            <View
-              style={tw`w-full border-lightBorder dark:border-darkBorder flex-row px-2`}>
-              {USER_COLOR_PALETTE.map(c => (
-                <TouchableOpacity
-                  onPress={() => {
-                    setColor(c)
-                  }}
-                  style={tw.style(
-                    'p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700',
-                    {
-                      'bg-gray-100 dark:bg-gray-700': c === 'blah',
-                    },
-                  )}
-                  key={c}>
-                  <View
-                    style={tw.style(`w-4 h-4 rounded-full`, {
-                      backgroundColor: c,
+      {!iconSelectorOpen && (
+        <View
+          style={tw.style(`flex-1`, {
+            'pt-10': isApplescript,
+            'justify-center': !isApplescript,
+          })}>
+          <View style={tw`flex-row items-center py-2`}>
+            <Text style={tw`mr-2 flex-1 text-right`}>Icon</Text>
+            <View style={tw`flex-1.5`}>
+              <TouchableOpacity
+                onPress={() => setIconSelectorOpen(!iconSelectorOpen)}
+                style={tw.style(
+                  `h-6 w-6 justify-center items-center border border-lightBorder dark:border-darkBorder rounded`,
+                  {
+                    'bg-blue-500': iconSelectorOpen,
+                  },
+                )}>
+                {!!icon ? (
+                  <Image
+                    // @ts-ignore
+                    source={Icons[icon]}
+                    style={tw.style(`h-4 w-4`, {
+                      tintColor: color,
                     })}
                   />
-                </TouchableOpacity>
-              ))}
-            </View>
-            <View style={tw`w-[120] flex-wrap flex-row p-2`}>
-              {Object.entries(Icons).map(([key, icon], idx) => {
-                return (
-                  <TouchableOpacity
-                    key={idx}
-                    onPress={() => {
-                      setIconSelectorOpen(false)
-                      setIcon(key)
-                    }}
-                    style={tw`p-1`}>
-                    <Image
-                      source={icon}
-                      style={tw.style(`h-4 w-4`, {
-                        tintColor: color,
-                      })}
-                    />
-                  </TouchableOpacity>
-                )
-              })}
+                ) : (
+                  <View style={tw`h-2 w-2 bg-white`} />
+                )}
+              </TouchableOpacity>
             </View>
           </View>
-        )}
-        {!iconSelectorOpen && (
-          <View style={tw.style(`flex-1 ml-2`)}>
-            <Input
-              autoFocus
-              value={name}
-              onChangeText={setName}
-              placeholder="Item name..."
-              inputStyle={tw`text-lg`}
-            />
-
-            <View style={tw`flex-row items-start`}>
+          <View style={tw`flex-row items-center py-2`}>
+            <Text style={tw`mr-2 flex-1 text-right`}>Name</Text>
+            <View style={tw`flex-1.5`}>
               <Input
+                placeholder="My favorite shortcut..."
+                bordered
+                style={tw`w-64`}
+                value={name}
+                onChangeText={setName}
+              />
+            </View>
+          </View>
+          <View style={tw`flex-row items-center py-2`}>
+            <Text style={tw`mr-2 flex-1 text-right`}>Applescript</Text>
+            <View style={tw`flex-1.5`}>
+              <MySwitch
+                value={isApplescript}
+                onValueChange={setIsAppleScript}
+              />
+            </View>
+          </View>
+          <View
+            style={tw.style(`flex-row py-2`, {
+              'items-start': isApplescript,
+              'items-center': !isApplescript,
+            })}>
+            <Text style={tw`mr-2 flex-1 text-right`}>
+              {isApplescript ? 'Script' : 'Link'}
+            </Text>
+            <View style={tw`flex-1.5`}>
+              <Input
+                placeholder="Link or script..."
+                bordered
+                multiline={isApplescript}
+                style={tw.style(`w-64`, {
+                  'h-48': isApplescript,
+                })}
                 value={text}
                 onChangeText={setText}
-                placeholder={
-                  isApplescript
-                    ? 'Type your Applescript...'
-                    : 'Type your link (https or app protocol)...'
-                }
-                numberOfLines={isApplescript ? 1000 : 1}
-                multiline={isApplescript}
-                style={tw.style('flex-1', {
-                  'h-40': isApplescript,
-                })}
-                inputStyle={tw.style({
-                  'h-38': isApplescript,
-                })}
-                blurOnSubmit={false}
               />
-              <View style={tw`flex-row items-center flex-shrink-0 pt-2`}>
-                <MySwitch
-                  value={isApplescript}
-                  onValueChange={setIsAppleScript}
-                />
-                <Text style={tw`ml-1 text-gray-400 text-xs`}>Applescript</Text>
-              </View>
             </View>
-
-            <View style={tw`flex-row`}></View>
           </View>
-        )}
-      </View>
+        </View>
+      )}
+      {iconSelectorOpen && (
+        <View style={tw.style(`flex-1 px-10 items-center justify-center`)}>
+          <View
+            style={tw`w-full border-lightBorder dark:border-darkBorder flex-row px-2`}>
+            {USER_COLOR_PALETTE.map(c => (
+              <TouchableOpacity
+                onPress={() => {
+                  setColor(c)
+                }}
+                style={tw.style(
+                  'p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700',
+                  {
+                    'bg-gray-100 dark:bg-gray-700': c === 'blah',
+                  },
+                )}
+                key={c}>
+                <View
+                  style={tw.style(`w-4 h-4 rounded-full`, {
+                    backgroundColor: c,
+                  })}
+                />
+              </TouchableOpacity>
+            ))}
+          </View>
+          <View style={tw` flex-wrap flex-row p-2`}>
+            {Object.entries(Icons).map(([key, icon], idx) => {
+              return (
+                <TouchableOpacity
+                  key={idx}
+                  onPress={() => {
+                    setIconSelectorOpen(false)
+                    setIcon(key)
+                  }}
+                  style={tw`p-2`}>
+                  <Image
+                    source={icon}
+                    style={tw.style(`h-6 w-6`, {
+                      tintColor: color,
+                    })}
+                    resizeMode="contain"
+                  />
+                </TouchableOpacity>
+              )
+            })}
+          </View>
+        </View>
+      )}
       <View
-        style={tw`border-t border-lightBorder dark:border-accentDark items-end px-3 py-2`}>
+        style={tw`border-t border-lightBorder dark:border-darkBorder items-end px-3 py-2 bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30`}>
         <SolButton title="Create" onPress={commit} />
       </View>
     </View>

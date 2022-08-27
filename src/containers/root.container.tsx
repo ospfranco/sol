@@ -29,10 +29,9 @@ export const RootContainer = observer(() => {
     store.ui.calendarAuthorizationStatus === 'authorized' ||
     store.ui.calendarAuthorizationStatus === 'notDetermined'
   const generalVisible =
-    (store.ui.track?.title ||
-      store.ui.currentTemp ||
-      !!store.ui.currentlyTrackedProject) &&
-    !store.ui.query
+    store.ui.track?.title ||
+    store.ui.currentTemp ||
+    !!store.ui.currentlyTrackedProject
 
   const widget = store.ui.focusedWidget
 

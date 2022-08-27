@@ -4,7 +4,7 @@ import {Image, Text, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
 import tw from 'tailwind'
 import {FileIcon} from 'components/FileIcon'
-import {FocusableWidget} from 'stores'
+import {FocusableWidget, ItemType} from 'stores'
 
 interface Props {
   style?: ViewStyle
@@ -102,12 +102,20 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
       )}
 
       <View style={tw`flex-1`} />
-      {store.ui.focusedWidget !== FocusableWidget.CALENDAR && (
+      {store.ui.focusedWidget !== FocusableWidget.CALENDAR && !store.ui.query && (
         <>
           <Text style={tw`text-xs mr-2`}>Next Event</Text>
           <Key title="tab" />
         </>
       )}
+      {store.ui.focusedWidget === FocusableWidget.SEARCH &&
+        !!store.ui.query &&
+        store.ui.currentItem.type === ItemType.CUSTOM && (
+          <>
+            <Text style={tw`text-xs mr-2`}>Delete Shortcut</Text>
+            <Key title="⇧ ⌦" />
+          </>
+        )}
       {store.ui.focusedWidget === FocusableWidget.CALENDAR && (
         <>
           <Text style={tw`text-xs mr-2`}>Join Event</Text>

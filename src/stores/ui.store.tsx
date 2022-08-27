@@ -909,6 +909,9 @@ export const createUIStore = (root: IRootStore) => {
           return acc
         }, {} as Record<string, {date: DateTime; events: Array<INativeEvent>}>)
     },
+    get currentItem(): Item {
+      return store.items[store.selectedIndex]
+    },
     //                _   _
     //      /\       | | (_)
     //     /  \   ___| |_ _  ___  _ __  ___
@@ -1255,6 +1258,17 @@ export const createUIStore = (root: IRootStore) => {
         case 51: {
           if (store.focusedWidget === FocusableWidget.SCRATCHPAD) {
             store.handleDeletePressOnScrachpad()
+          }
+
+          if (
+            store.focusedWidget === FocusableWidget.SEARCH &&
+            store.currentItem.type === ItemType.CUSTOM &&
+            store.shiftPressed
+          ) {
+            const newItems = store.customItems.filter(
+              c => c.name !== store.currentItem.name,
+            )
+            store.customItems = newItems
           }
           break
         }
