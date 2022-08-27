@@ -6,7 +6,6 @@ import React from 'react'
 import {LogBox} from 'react-native'
 import {root, StoreProvider} from 'store'
 import * as Sentry from '@sentry/react-native'
-import {PortalProvider} from '@gorhom/portal'
 
 configure({
   useProxies: 'never',
@@ -28,9 +27,7 @@ if (!__DEV__) {
 export const App = () => {
   return (
     <StoreProvider value={root}>
-      <PortalProvider>
-        <RootContainer />
-      </PortalProvider>
+      <RootContainer />
     </StoreProvider>
   )
 }

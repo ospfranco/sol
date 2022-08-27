@@ -1,5 +1,3 @@
-import {PortalHost} from '@gorhom/portal'
-import {Picker} from '@react-native-picker/picker'
 import {Assets} from 'assets'
 import {Dropdown} from 'components/Dropdown'
 import {Input} from 'components/Input'
@@ -285,7 +283,6 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
           </View>
         </View>
       )}
-      <PortalHost name="CustomPortalHost" />
     </View>
   )
 })

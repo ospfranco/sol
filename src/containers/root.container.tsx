@@ -24,7 +24,7 @@ import {TranslationWidget} from 'widgets/translation.widget'
 export const RootContainer = observer(() => {
   useDeviceContext(tw)
   const store = useStore()
-  const mainStyle = tw`rounded-[3] bg-white dark:bg-dark dark:bg-opacity-60 bg-opacity-70 overflow-hidden`
+  const mainStyle = tw`bg-white dark:bg-dark dark:bg-opacity-60 bg-opacity-70`
   const calendarVisible =
     store.ui.calendarAuthorizationStatus === 'authorized' ||
     store.ui.calendarAuthorizationStatus === 'notDetermined'
@@ -88,7 +88,7 @@ export const RootContainer = observer(() => {
   return (
     <View
       style={tw.style(mainStyle, {
-        'flex-1': !!store.ui.query,
+        'h-[125]': !!store.ui.query,
       })}
       onLayout={e => {
         if (e.nativeEvent.layout.height !== 0) {

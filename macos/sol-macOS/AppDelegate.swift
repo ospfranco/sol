@@ -44,7 +44,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     let jsCodeLocation: URL = RCTBundleURLProvider
       .sharedSettings()
-      .jsBundleURL(forBundleRoot: "index", fallbackResource: "main")
+      .jsBundleURL(forBundleRoot: "index")
 
     rootView = RCTRootView(bundleURL: jsCodeLocation, moduleName: "sol", initialProperties: nil, launchOptions: nil)
 
@@ -55,14 +55,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     // Blurry background effect is created here to attach root view sub-view
     visualEffect = NSVisualEffectView()
     visualEffect.blendingMode = .behindWindow
-    visualEffect.material = .fullScreenUI
-    visualEffect.state = .active
-    visualEffect.autoresizingMask = .maxYMargin
-    visualEffect.translatesAutoresizingMaskIntoConstraints = true
+    visualEffect.material = .hudWindow
+    visualEffect.autoresizingMask = [.minXMargin, .maxXMargin, .minYMargin, .maxYMargin, .width, .height]
+//    visualEffect.translatesAutoresizingMaskIntoConstraints = true
 
     mainWindow.contentView = visualEffect
     visualEffect.addSubview(rootView)
-    rootView.frame = mainWindow.frame
+    rootView.frame = visualEffect.bounds
+    rootView.autoresizingMask = [.minXMargin, .maxXMargin, .minYMargin, .maxYMargin, .width, .height]
 
     setupKeyboardListeners()
     setupPasteboardListener()
@@ -215,7 +215,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   func hideWindow() {
     if(mainWindow.isVisible) {
       mainWindow.orderOut(self)
-      NSCursor.unhide()
       SolEmitter.sharedInstance.onHide()
       settingsHotKey.isPaused = true
     }

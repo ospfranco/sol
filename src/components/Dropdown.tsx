@@ -1,4 +1,3 @@
-import {Portal} from '@gorhom/portal'
 import {Assets} from 'assets'
 import {useBoolean} from 'hooks'
 import React, {FC} from 'react'
@@ -60,7 +59,6 @@ export const Dropdown = ({
         />
       </TouchableOpacity>
       {isOpen && (
-        // <Portal hostName="CustomPortalHost">
         <ScrollView
           style={tw.style(
             `w-32 rounded border dark:border-gray-700 dark:bg-neutral-800 max-h-32`,
@@ -79,7 +77,6 @@ export const Dropdown = ({
             />
           ))}
         </ScrollView>
-        // </Portal>
       )}
     </>
   )
