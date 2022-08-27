@@ -4,19 +4,17 @@ import {Assets} from 'assets'
 import {Dropdown} from 'components/Dropdown'
 import {Input} from 'components/Input'
 import {MySwitch} from 'components/MySwitch'
+import {SelectableButton} from 'components/SelectableButton'
 import {useFullSize} from 'hooks/useFullSize'
-import languages from 'lib/languages.json'
+import {languages} from 'lib/languages'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useState} from 'react'
 import {
   Appearance,
   Button,
   Image,
-  Switch,
   Text,
-  TextInput,
   TouchableOpacity,
-  TouchableOpacityProps,
   View,
   ViewStyle,
 } from 'react-native'
@@ -31,40 +29,6 @@ interface Props {
 
 type ITEM = 'ABOUT' | 'WEATHER' | 'GENERAL' | 'TRANSLATE'
 
-interface SelectableButtonProps extends TouchableOpacityProps {
-  selected: boolean
-  title: string
-  style?: ViewStyle
-}
-
-const SelectableButton: FC<SelectableButtonProps> = ({
-  selected,
-  title,
-  style,
-  ...props
-}) => {
-  return (
-    <TouchableOpacity
-      {...props}
-      // @ts-ignore
-      enableFocusRing={false}
-      style={tw.style(
-        'rounded px-2 py-1 w-full',
-        {
-          'bg-accent dark:bg-opacity-40 bg-opacity-80': selected,
-        },
-        style,
-      )}>
-      <Text
-        style={tw.style(`pl-1`, {
-          'text-white': selected,
-        })}>
-        {title}
-      </Text>
-    </TouchableOpacity>
-  )
-}
-
 export const SettingsWidget: FC<Props> = observer(({style}) => {
   const store = useStore()
   useFullSize()
@@ -75,7 +39,7 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
   return (
     <View style={tw.style(`flex-row flex-1`, style)}>
       <View
-        style={tw`p-4 w-40 border-r border-lightBorder dark:border-darkBorder`}>
+        style={tw`p-6 w-40 border-r border-lightBorder dark:border-darkBorder`}>
         <TouchableOpacity
           onPress={() => {
             store.ui.focusWidget(FocusableWidget.SEARCH)
@@ -133,7 +97,7 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
         </View>
       )}
       {selected === 'WEATHER' && (
-        <View style={tw`flex-1 p-4 bg-white dark:bg-black bg-opacity-30`}>
+        <View style={tw`flex-1 p-6 bg-white dark:bg-black bg-opacity-30`}>
           <Text style={tw`text-lg`}>Weather configuration</Text>
           <Text style={tw`text-sm text-gray-700 dark:text-gray-400 pt-2`}>
             OpenWeatherMap params which allow to show local weather data
@@ -186,7 +150,7 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
         </View>
       )}
       {selected === 'GENERAL' && (
-        <View style={tw`flex-1 p-4 bg-white dark:bg-black bg-opacity-30`}>
+        <View style={tw`flex-1 p-6 bg-white dark:bg-black bg-opacity-30`}>
           <Text style={tw`text-lg`}>General</Text>
           <Text style={tw`text-sm text-gray-700 dark:text-gray-400 pt-2`}>
             General app settings
@@ -196,11 +160,11 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
           />
 
           <View style={tw`flex-1 pt-8`}>
-            <View style={tw`flex-row h-10 items-center`}>
+            <View style={tw`flex-row items-center py-2`}>
               <Text style={tw`flex-1 text-right pr-3 text-sm`}>
                 Global shortcut
               </Text>
-              <View style={tw`flex-1`}>
+              <View style={tw`flex-1.3`}>
                 <Dropdown
                   value={store.ui.globalShortcut}
                   onValueChange={v => store.ui.setGlobalShortcut(v as any)}
@@ -211,11 +175,11 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
                 />
               </View>
             </View>
-            <View style={tw`flex-row h-10 items-center`}>
+            <View style={tw`flex-row items-center py-2`}>
               <Text style={tw`flex-1 text-right pr-3 text-sm`}>
                 Scratchpad shortcut
               </Text>
-              <View style={tw`flex-1`}>
+              <View style={tw`flex-1.3`}>
                 <Dropdown
                   value={store.ui.scratchpadShortcut}
                   onValueChange={v => store.ui.setScratchpadShortcut(v as any)}
@@ -226,26 +190,29 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
                 />
               </View>
             </View>
-            <View style={tw`flex-row h-10 items-center`}>
+            <View style={tw`flex-row items-center py-2`}>
               <Text style={tw`flex-1 text-right pr-3 text-sm`}>
                 Clipboard manager shortcut
               </Text>
-              <View style={tw`flex-1`}>
-                <Picker
-                  selectedValue={store.ui.clipboardManagerShortcut}
-                  style={tw`w-32`}
-                  onValueChange={v => store.ui.setClipboardManagerShortcut(v)}>
-                  <Picker.Item label="⌘ ⇧ V" value="shift" />
-                  <Picker.Item label="⌘ ⌥ V" value="option" />
-                </Picker>
+              <View style={tw`flex-1.3`}>
+                <Dropdown
+                  value={store.ui.clipboardManagerShortcut}
+                  onValueChange={v =>
+                    store.ui.setClipboardManagerShortcut(v as any)
+                  }
+                  options={[
+                    {label: '⌘ ⇧ V', value: 'shift'},
+                    {label: '⌘ ⌥ V', value: 'option'},
+                  ]}
+                />
               </View>
             </View>
 
-            <View style={tw`flex-row h-10 items-center`}>
+            <View style={tw`flex-row items-center py-2`}>
               <Text style={tw`flex-1 text-right pr-3 text-sm`}>
                 Search GitHub
               </Text>
-              <View style={tw`flex-1`}>
+              <View style={tw`flex-1.3`}>
                 <MySwitch
                   value={store.ui.githubSearchEnabled}
                   onValueChange={store.ui.setGithubSearchEnabled}
@@ -253,18 +220,18 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
               </View>
             </View>
 
-            <View style={tw`flex-row h-10 items-center`}>
+            <View style={tw`flex-row items-center py-2`}>
               <Text style={tw`flex-1 text-right pr-3 text-sm`}>
                 GitHub Token
               </Text>
 
-              <View style={tw`flex-1 flex-row`}>
+              <View style={tw`flex-1.3 flex-row`}>
                 <Input
                   value={store.ui.githubToken ?? ''}
                   onChangeText={store.ui.setGithubToken}
                   placeholder="GitHub token..."
                   bordered
-                  style={tw`flex-1`}
+                  style={tw`w-64`}
                 />
               </View>
             </View>
@@ -272,7 +239,7 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
         </View>
       )}
       {selected === 'TRANSLATE' && (
-        <View style={tw`flex-1 p-4 bg-white dark:bg-black bg-opacity-30`}>
+        <View style={tw`flex-1 p-6 bg-white dark:bg-black bg-opacity-30`}>
           <Text style={tw`text-lg`}>Translation</Text>
           <Text style={tw`text-sm text-gray-700 dark:text-gray-400 pt-2`}>
             Configure the languages to translate
@@ -282,27 +249,39 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
             style={tw`w-full h-1 border-b border-lightBorder dark:border-darkBorder mt-3 mb-5`}
           />
 
-          <View style={tw`flex-row items-center h-6`}>
-            <Text style={tw`flex-1`}>First language</Text>
-            <Picker
-              onValueChange={store.ui.setFirstTranslationLanguage}
-              selectedValue={store.ui.firstTranslationLanguage}
-              style={tw`w-32`}>
-              {Object.values(languages).map((v, index) => {
-                return <Picker.Item label={v.name} value={v.code} key={index} />
-              })}
-            </Picker>
-          </View>
-          <View style={tw`flex-row items-center mt-2 h-6`}>
-            <Text style={tw`flex-1`}>Second language</Text>
-            <Picker
-              onValueChange={store.ui.setSecondTranslationLanguage}
-              selectedValue={store.ui.secondTranslationLanguage}
-              style={tw`w-32`}>
-              {Object.values(languages).map((v, index) => {
-                return <Picker.Item label={v.name} value={v.code} key={index} />
-              })}
-            </Picker>
+          <View style={tw`flex-1 pt-8`}>
+            <View style={tw`flex-row items-center py-2`}>
+              <Text style={tw`flex-1 text-right mr-2`}>First language</Text>
+              <View style={tw`flex-1.3`}>
+                <Dropdown
+                  value={store.ui.firstTranslationLanguage}
+                  onValueChange={v =>
+                    store.ui.setFirstTranslationLanguage(v as any)
+                  }
+                  options={Object.values(languages).map(v => ({
+                    // @ts-expect-error
+                    label: `${v.flag ?? ' '} ${v.name}`,
+                    value: v.code,
+                  }))}
+                />
+              </View>
+            </View>
+            <View style={tw`flex-row items-center py-2`}>
+              <Text style={tw`flex-1 text-right mr-2`}>Second language</Text>
+              <View style={tw`flex-1.3`}>
+                <Dropdown
+                  value={store.ui.secondTranslationLanguage}
+                  onValueChange={v =>
+                    store.ui.setSecondTranslationLanguage(v as any)
+                  }
+                  options={Object.values(languages).map((v, index) => ({
+                    // @ts-expect-error
+                    label: `${v.flag ?? '  '} ${v.name}`,
+                    value: v.code,
+                  }))}
+                />
+              </View>
+            </View>
           </View>
         </View>
       )}

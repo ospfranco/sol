@@ -32,7 +32,8 @@ export const Input: FC<Props> = ({
           'border border-lightBorder dark:border-darkBorder':
             !!bordered && !focused && !hovered,
           'border border-blue-500': !!bordered && !!focused,
-          'border border-gray-500': !!bordered && !focused && !!hovered,
+          'border dark:border-white border-gray-500':
+            !!bordered && !focused && !!hovered,
         },
         style,
       )}>

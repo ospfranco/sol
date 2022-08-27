@@ -2,8 +2,16 @@ import {Portal} from '@gorhom/portal'
 import {Assets} from 'assets'
 import {useBoolean} from 'hooks'
 import React, {FC} from 'react'
-import {Image, Text, TouchableOpacity, View, ViewStyle} from 'react-native'
+import {
+  Image,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native'
 import tw from 'tailwind'
+import {SelectableButton} from './SelectableButton'
 
 interface Props<T> {
   value: T
@@ -22,48 +30,57 @@ export const Dropdown = ({
   onValueChange,
 }: Props<string | number>) => {
   const [isOpen, open, close] = useBoolean()
+  const [isHovered, hoverOn, hoverOff] = useBoolean()
 
   return (
-    <TouchableOpacity
-      // @ts-expect-error
-      enableFocusRing={false}
-      onPress={() => {
-        isOpen ? close() : open()
-      }}
-      style={tw.style(
-        `w-32 rounded justify-center items-center border flex-row px-2 py-1 items-center relative`,
-        {
-          'border-gray-400': isOpen,
-          'border-gray-500': !isOpen,
-        },
-        style,
-      )}>
-      <Text style={tw`flex-1 text-sm`}>
-        {options.find(o => o.value === value)?.label ?? ''}
-      </Text>
-      <Image
-        source={isOpen ? Assets.ChevronUp : Assets.ChevronDown}
-        style={tw.style('h-4 w-4 dark:tint-white')}
-      />
+    <>
+      <TouchableOpacity
+        // @ts-expect-error
+        onMouseEnter={hoverOn}
+        onMouseLeave={hoverOff}
+        enableFocusRing={false}
+        onPress={() => {
+          isOpen ? close() : open()
+        }}
+        style={tw.style(
+          `w-32 rounded justify-center items-center border flex-row py-1`,
+          {
+            'border-accent': isOpen,
+            'dark:border-white': isHovered,
+            'border-gray-500': !isOpen,
+          },
+          style,
+        )}>
+        <Text style={tw`flex-1 text-sm ml-2`}>
+          {options.find(o => o.value === value)?.label ?? ''}
+        </Text>
+        <Image
+          source={isOpen ? Assets.ChevronUp : Assets.ChevronDown}
+          style={tw.style('h-4 w-4 dark:tint-white mr-2')}
+        />
+      </TouchableOpacity>
       {isOpen && (
-        <Portal hostName="CustomPortalHost">
-          <View
-            style={tw.style(
-              `w-32 rounded justify-center items-center border border-gray-500 absolute top-7 dark:bg-black bg-red-500`,
-            )}>
-            {options.map((o, i) => (
-              <TouchableOpacity
-                style={tw`py-1`}
-                key={`option-${i}`}
-                onPress={() => {
-                  onValueChange(o.value)
-                }}>
-                <Text>{o.label}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-        </Portal>
+        // <Portal hostName="CustomPortalHost">
+        <ScrollView
+          style={tw.style(
+            `w-32 rounded border dark:border-gray-700 dark:bg-neutral-800 max-h-32`,
+          )}
+          contentContainerStyle={tw`justify-center items-center -ml-4`}
+          showsVerticalScrollIndicator={false}>
+          {options.map((o, i) => (
+            <SelectableButton
+              title={o.label}
+              key={`option-${i}`}
+              selected={false}
+              onPress={() => {
+                onValueChange(o.value)
+                close()
+              }}
+            />
+          ))}
+        </ScrollView>
+        // </Portal>
       )}
-    </TouchableOpacity>
+    </>
   )
 }

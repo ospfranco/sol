@@ -1,5 +1,5 @@
 import {useFullSize} from 'hooks/useFullSize'
-import languages from 'lib/languages.json'
+import {languages} from 'lib/languages'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect, useRef} from 'react'
 import {
