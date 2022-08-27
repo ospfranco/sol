@@ -896,6 +896,13 @@ export const createUIStore = (root: IRootStore) => {
     > {
       return store.events
         .filter(e => !e.isAllDay && e.status !== 3)
+        .filter(e => {
+          if (!!store.query) {
+            return e.title?.includes(store.query)
+          }
+
+          return true
+        })
         .slice(0, 3)
         .reduce((acc, event) => {
           const lDate = DateTime.fromISO(event.date)

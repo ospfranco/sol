@@ -26,8 +26,8 @@ class CalendarHelper {
     let calendars = store.calendars(for: .event)
 
     let now = Date()
-    let aWeekFromNow = Date(timeIntervalSinceNow: query != nil ?  6 * 7 * 24 * 3600 : 7*24*3600)
-    let predicate = store.predicateForEvents(withStart: now, end: aWeekFromNow, calendars: calendars)
+    let endDate = Date(timeIntervalSinceNow: query != nil ?  6 * 7 * 24 * 3600 : 7 * 24 * 3600)
+    let predicate = store.predicateForEvents(withStart: now, end: endDate, calendars: calendars)
     let events = store.events(matching: predicate)
 
     return events.map { event -> Any in
@@ -42,7 +42,6 @@ class CalendarHelper {
         "endDate": event.endDate != nil ? dateFormatter.string(from: event.endDate) : nil,
         "isAllDay": event.isAllDay,
         "status": event.status.rawValue, // 0 none, 1 confirmed, 2 tentative, 3 cancelled
-//        "blah": event.attendees?.first(where: event.calendar.)
         "attendeesLength": event.attendees?.count ?? 0
       ]
     }
