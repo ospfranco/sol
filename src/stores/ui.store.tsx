@@ -255,8 +255,8 @@ export const createUIStore = (root: IRootStore) => {
       },
     },
     {
-      icon: '☀️',
-      name: 'Restart',
+      icon: '🖥️',
+      name: 'Restart Mac',
       type: ItemType.CONFIGURATION,
       callback: () => {
         solNative.executeAppleScript('tell application "Finder" to restart')
