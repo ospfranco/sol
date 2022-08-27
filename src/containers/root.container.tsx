@@ -101,11 +101,12 @@ export const RootContainer = observer(() => {
       }}>
       <SearchWidget />
 
-      {!!store.ui.items.length && (
-        <View
-          style={tw`border-t border-lightBorder dark:border-darkBorder mx-3`}
-        />
-      )}
+      {!!store.ui.items.length &&
+        !!Object.entries(store.ui.groupedEvents).length && (
+          <View
+            style={tw`border-t border-lightBorder dark:border-darkBorder`}
+          />
+        )}
       {calendarVisible && <CalendarWidget />}
       {generalVisible && <GeneralWidget />}
       {!store.ui.isAccessibilityTrusted && (
