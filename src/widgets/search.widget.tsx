@@ -3,13 +3,14 @@ import {FileIcon} from 'components/FileIcon'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect, useRef} from 'react'
 import {
-  ActivityIndicator,
+  Animated,
   FlatList,
   Image,
   Platform,
   Text,
   TextInput,
   TouchableOpacity,
+  useColorScheme,
   View,
   ViewStyle,
 } from 'react-native'
@@ -22,9 +23,46 @@ interface Props {
   style?: ViewStyle
 }
 
+const LoadingBar = observer(() => {
+  const colorScheme = useColorScheme()
+  const store = useStore()
+  const animatedBorderRef = useRef(
+    new Animated.Value(store.ui.isLoading ? 1 : 0),
+  )
+  const accentColor = tw.color('text-accent')!
+
+  useEffect(() => {
+    Animated.timing(animatedBorderRef.current, {
+      toValue: store.ui.isLoading ? 1 : 0,
+      duration: store.ui.isLoading ? 500 : 100,
+      useNativeDriver: false,
+    }).start()
+  }, [store.ui.isLoading])
+
+  return (
+    <Animated.View
+      style={[
+        tw.style(`border-b mb-1`),
+        {
+          borderColor: animatedBorderRef.current.interpolate({
+            inputRange: [0, 1],
+            outputRange: [
+              colorScheme === 'dark'
+                ? 'rgba(255, 255, 255, .2)'
+                : 'rgba(0, 0, 0, .1)',
+              accentColor,
+            ],
+          }),
+        },
+      ]}
+    />
+  )
+})
+
 export const SearchWidget: FC<Props> = observer(({style}) => {
   useDeviceContext(tw)
   const store = useStore()
+  const colorScheme = useColorScheme()
   const focused = store.ui.focusedWidget === FocusableWidget.SEARCH
   const inputRef = useRef<TextInput | null>(null)
   const listRef = useRef<FlatList | null>(null)
@@ -149,8 +187,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
       style={tw.style(style, {
         'flex-1': !!store.ui.query,
       })}>
-      <View
-        style={tw`h-10 mb-1 mt-1 px-3 flex-row items-center border-b border-lightBorder dark:border-darkBorder`}>
+      <View style={tw`h-12 mt-1 mx-3 flex-row items-center`}>
         <TextInput
           autoFocus
           // @ts-expect-error
@@ -158,12 +195,19 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
           value={store.ui.query}
           onChangeText={store.ui.setQuery}
           ref={inputRef}
-          style={tw.style(`flex-1`)}
-          placeholderTextColor={tw.color('dark:text-gray-400 text-gray-500')}
-          placeholder={'Sol Search...'}
+          style={tw.style(`flex-1 text-lg`)}
+          caretHidden
+          placeholderTextColor={
+            colorScheme === 'dark'
+              ? tw.color('text-gray-500')
+              : tw.color('text-gray-400')
+          }
+          placeholder={'Start searching...'}
+          selectionColor={tw.color('text-accent')}
         />
-        {store.ui.isLoading && <ActivityIndicator size="small" />}
       </View>
+
+      <LoadingBar />
 
       {!store.ui.query && !!store.ui.items.length && (
         <View style={tw`px-3 pt-1 pb-2`}>

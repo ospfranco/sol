@@ -12,8 +12,9 @@ interface Props {
 
 const Key: FC<{title: string}> = ({title}) => {
   return (
-    <View style={tw`py-1 px-2 rounded-sm dark:bg-neutral-700 bg-neutral-200`}>
-      <Text style={tw`text-xxs dark:text-neutral-400 text-neutral-600`}>
+    <View
+      style={tw`py-1 px-2 rounded dark:bg-neutral-700 bg-neutral-200 bg-opacity-70`}>
+      <Text style={tw`text-xxs dark:text-neutral-300 text-neutral-600`}>
         {title}
       </Text>
     </View>
@@ -57,7 +58,7 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
             </Text>
             {!!store.ui.track?.artist && (
               <Text
-                style={tw`dark:text-gray-400 text-gray-500 text-sm`}
+                style={tw`dark:text-gray-400 text-gray-500 text-sm mt-1`}
                 numberOfLines={1}>
                 {store.ui.track?.artist}
               </Text>
