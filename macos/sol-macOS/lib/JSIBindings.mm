@@ -33,7 +33,7 @@ void install(jsi::Runtime &rt) {
   jsi::Object module = jsi::Object(rt);
 
   module.setProperty(rt, "setHeight", std::move(setHeight));
-  module.setProperty(rt, "resetWindowSize", std::move(resetWindowSize);
+  module.setProperty(rt, "resetWindowSize", std::move(resetWindowSize));
 
   rt.global().setProperty(rt, "__SolProxy", std::move(module));
 }
