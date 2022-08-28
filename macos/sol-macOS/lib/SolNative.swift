@@ -225,8 +225,6 @@ class SolNative: RCTEventEmitter {
   }
 
   @objc func setShowWindowOn(_ on: String) {
-    DispatchQueue.main.async {
       self.appDelegate?.setShowWindowOn(on)
-    }
   }
 }
