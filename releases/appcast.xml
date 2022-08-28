@@ -3,6 +3,21 @@
     <channel>
         <title>sol</title>
         <item>
+            <title>1.1.59</title>
+            <pubDate>Sun, 28 Aug 2022 18:45:03 +0200</pubDate>
+            <sparkle:version>83</sparkle:version>
+            <sparkle:shortVersionString>1.1.59</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>10.15</sparkle:minimumSystemVersion>
+            <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/1.1.59.zip" length="4787493" type="application/octet-stream" sparkle:edSignature="xSZvUY8ouwXzfzukPqubmGFaJ3Mqmy/F9AusqgbuCynEjwvFU4w6EVt8Z4PamgwAAo0w0VzwcbZbahdznomjAw=="/>
+            <sparkle:deltas>
+                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/sol83-82.delta" sparkle:deltaFrom="82" length="230842" type="application/octet-stream" sparkle:edSignature="4VSRY/OrsBpZtbH/64aWVCBREfdERPNq+yj26lXdBUfCu6xdbcChjwUFdfddskK60hf6DLX3vyulLZ2BC6oJBA=="/>
+                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/sol83-81.delta" sparkle:deltaFrom="81" length="617614" type="application/octet-stream" sparkle:edSignature="dDsRDZLdVP8JPk0EAnsMiF/Uq4ixzVZLn7RMT8nlA8dEIPJ+XItJAl9jz306rin/wIbiVt93rxt1uXXGEJipDA=="/>
+                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/sol83-80.delta" sparkle:deltaFrom="80" length="621274" type="application/octet-stream" sparkle:edSignature="qvmpJ7ojhsEI/ZS7zvMg2PrecToo1GClvpmqjDZcoAhPbJR9/L5Fu/pICqBfeGiZRy9h7QOCGwXkYA/Sji68Dg=="/>
+                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/sol83-79.delta" sparkle:deltaFrom="79" length="623382" type="application/octet-stream" sparkle:edSignature="ahjdSZ+DbM7hLRdTXQKW8fytrIjE6sviylV5H3eZ5sGKYsj2qsFxGiwgfl+fogme5gMOl+URuOgmtM5zJ1o8Cw=="/>
+                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/sol83-78.delta" sparkle:deltaFrom="78" length="623434" type="application/octet-stream" sparkle:edSignature="f89vJf1utS4RGorMNoQg54szlqVgZVSDFseYVi9OhYGJSDILB7Qb+HexAtzYv3zI3XzIphKeJQ3o9GERDx0YAA=="/>
+            </sparkle:deltas>
+        </item>
+        <item>
             <title>1.1.58</title>
             <pubDate>Sun, 28 Aug 2022 11:05:45 +0200</pubDate>
             <sparkle:version>82</sparkle:version>
