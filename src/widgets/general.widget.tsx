@@ -43,22 +43,22 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
           {!!store.ui.track?.artwork ? (
             <Image
               source={{uri: store.ui.track?.artwork}}
-              style={tw`h-10 w-10 rounded-lg`}
+              style={tw`h-6 w-6 rounded-lg`}
             />
           ) : (
             <FileIcon
               url={store.ui.track?.url!}
-              style={tw`h-10 w-10 rounded-lg`}
+              style={tw`h-6 w-6 rounded-lg`}
             />
           )}
 
-          <View style={tw`pl-2`}>
-            <Text style={tw`text-sm max-w-42`} numberOfLines={1}>
+          <View style={tw`pl-2 flex-row items-center`}>
+            <Text style={tw`text-sm max-w-60`} numberOfLines={1}>
               {store.ui.track?.title}{' '}
             </Text>
             {!!store.ui.track?.artist && (
               <Text
-                style={tw`dark:text-gray-400 text-gray-500 text-sm mt-1`}
+                style={tw`dark:text-gray-400 text-gray-400 text-sm`}
                 numberOfLines={1}>
                 {store.ui.track?.artist}
               </Text>
@@ -105,7 +105,7 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
       <View style={tw`flex-1`} />
       {store.ui.focusedWidget !== FocusableWidget.CALENDAR && !store.ui.query && (
         <>
-          <Text style={tw`text-xs mr-2`}>Next Event</Text>
+          <Text style={tw`text-xs font-semibold mr-2`}>Appointments</Text>
           <Key title="tab" />
         </>
       )}
@@ -113,13 +113,13 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
         !!store.ui.query &&
         store.ui.currentItem.type === ItemType.CUSTOM && (
           <>
-            <Text style={tw`text-xs mr-2`}>Delete Shortcut</Text>
+            <Text style={tw`text-xs font-semibold mr-2`}>Delete Shortcut</Text>
             <Key title="⇧ ⌦" />
           </>
         )}
       {store.ui.focusedWidget === FocusableWidget.CALENDAR && (
         <>
-          <Text style={tw`text-xs mr-2`}>Join Event</Text>
+          <Text style={tw`text-xs font-semibold mr-2`}>Join</Text>
           <Key title="⏎" />
         </>
       )}
