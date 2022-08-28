@@ -18,6 +18,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   var catchHorizontalArrowsPress = false
   var catchVerticalArrowsPress = true
   var catchEnterPress = true
+  var showWindowOn = "windowWithFrontmost"
 
   private var mainHotKey = HotKey(key: .space, modifiers: [.command])
   private var debugHotKey = HotKey(key: .space, modifiers: [.command, .option])
@@ -186,9 +187,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
       self.settingsHotKey.isPaused = false
       self.mainWindow.setIsVisible(false)
-      let screen = self.getScreenWithMouse()
-      let yOffset = screen!.visibleFrame.height * 0.3
-      self.mainWindow.setFrameOrigin(NSPoint(x: screen!.visibleFrame.midX - baseSize.width / 2, y: screen!.visibleFrame.midY - self.mainWindow.frame.height + yOffset))
+      if(self.showWindowOn == "screenWithFrontmost") {
+        self.mainWindow.center()
+      } else {
+        let screen = self.getScreenWithMouse()
+        let yOffset = screen!.visibleFrame.height * 0.3
+        self.mainWindow.setFrameOrigin(NSPoint(x: screen!.visibleFrame.midX - baseSize.width / 2, y: screen!.visibleFrame.midY - self.mainWindow.frame.height + yOffset))
+      }
 
       self.mainWindow.makeKeyAndOrderFront(self)
 
@@ -252,6 +257,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     } else {
       self.scratchpadHotKey = HotKey(key: .space, modifiers: [.shift, .option], keyDownHandler: showScratchpad)
     }
+  }
+
+  func setShowWindowOn(_ on: String) {
+    self.showWindowOn = on
   }
 
   func setClipboardManagerShortcut(_ key: String) {

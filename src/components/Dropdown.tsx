@@ -62,6 +62,7 @@ export const Dropdown = ({
         <ScrollView
           style={tw.style(
             `w-32 rounded border dark:border-gray-700 dark:bg-neutral-800 max-h-32`,
+            style,
           )}
           contentContainerStyle={tw`justify-center items-center -ml-4`}
           showsVerticalScrollIndicator={false}>

@@ -223,4 +223,10 @@ class SolNative: RCTEventEmitter {
   @objc func openFinderAt(_ path: String) {
     NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: path)
   }
+
+  @objc func setShowWindowOn(_ on: String) {
+    DispatchQueue.main.async {
+      self.appDelegate?.setShowWindowOn(on)
+    }
+  }
 }

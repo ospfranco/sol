@@ -208,6 +208,26 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
 
             <View style={tw`flex-row items-center py-2`}>
               <Text style={tw`flex-1 text-right pr-3 text-sm`}>
+                Show window on
+              </Text>
+              <View style={tw`flex-1.3`}>
+                <Dropdown
+                  value={store.ui.showWindowOn}
+                  onValueChange={v => store.ui.setShowWindowOn(v as any)}
+                  options={[
+                    {
+                      label: 'Frontmost window screen',
+                      value: 'screenWithFrontmost',
+                    },
+                    {label: 'Screen with cursor', value: 'screenWithCursor'},
+                  ]}
+                  style={tw`w-64`}
+                />
+              </View>
+            </View>
+
+            <View style={tw`flex-row items-center py-2`}>
+              <Text style={tw`flex-1 text-right pr-3 text-sm`}>
                 Search GitHub
               </Text>
               <View style={tw`flex-1.3`}>

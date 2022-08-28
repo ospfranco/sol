@@ -62,14 +62,15 @@ class SolNative extends NativeEventEmitter {
   resizeBottomLeft: () => void
   resizeBottomRight: () => void
   searchFiles: typeof global.__SolProxy.searchFiles
+  setShowWindowOn: (on: 'screenWithFrontmost' | 'screenWithCursor') => void
 
   constructor(module: any) {
     super(module)
 
     if (global.__SolProxy == null) {
-      module.install()
+      const installed = module.install()
 
-      if (global.__SolProxy == null) {
+      if (!installed || global.__SolProxy == null) {
         throw new Error('Error installing JSI bindings!')
       }
     }
@@ -121,6 +122,7 @@ class SolNative extends NativeEventEmitter {
     this.setWindowHeight = global.__SolProxy.setHeight
     this.resetWindowSize = global.__SolProxy.resetWindowSize
     this.hideWindow = global.__SolProxy.hideWindow
+    this.setShowWindowOn = module.setShowWindowOn
 
     const constants = module.getConstants()
     this.accentColor = constants.accentColor

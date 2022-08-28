@@ -162,12 +162,16 @@ export const createUIStore = (root: IRootStore) => {
         store.frequentlyUsedEmojis = parsedStore.frequentlyUsedEmojis ?? {}
         store.githubSearchEnabled = parsedStore.githubSearchEnabled ?? true
         store.githubToken = parsedStore.githubToken ?? null
+        store.showWindowOn = parsedStore.showWindowOn ?? 'screenWithFrontmost'
       })
 
       solNative.setGlobalShortcut(parsedStore.globalShortcut)
       solNative.setScratchpadShortcut(parsedStore.scratchpadShortcut)
       solNative.setClipboardManagerShortcut(
         parsedStore.clipboardManagerShortcut,
+      )
+      solNative.setShowWindowOn(
+        parsedStore.showWindowOn ?? 'screenWithFrontmost',
       )
     } else {
       runInAction(() => {
@@ -701,6 +705,9 @@ export const createUIStore = (root: IRootStore) => {
     onboardingStep: 'v1_start' as OnboardingStep,
     globalShortcut: 'option' as 'command' | 'option',
     scratchpadShortcut: 'command' as 'command' | 'option',
+    showWindowOn: 'screenWithFrontmost' as
+      | 'screenWithFrontmost'
+      | 'screenWithCursor',
     clipboardManagerShortcut: 'shift' as 'shift' | 'option',
     now: DateTime.now() as DateTime,
     query: '' as string,
@@ -741,6 +748,7 @@ export const createUIStore = (root: IRootStore) => {
     // TODO(osp) this token should be placed in secure storage, but too lazy to do it right now
     githubToken: null as string | null,
     fileResults: [] as FileDescription[],
+
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -1119,6 +1127,10 @@ export const createUIStore = (root: IRootStore) => {
     setScratchpadShortcut: (key: 'command' | 'option') => {
       solNative.setScratchpadShortcut(key)
       store.scratchpadShortcut = key
+    },
+    setShowWindowOn: (on: 'screenWithFrontmost' | 'screenWithCursor') => {
+      solNative.setShowWindowOn(on)
+      store.showWindowOn = on
     },
     setClipboardManagerShortcut: (key: 'shift' | 'option') => {
       solNative.setClipboardManagerShortcut(key)

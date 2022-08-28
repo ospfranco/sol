@@ -74,4 +74,5 @@ RCT_EXTERN_METHOD(setClipboardManagerShortcut : (NSString)key)
 RCT_EXTERN_METHOD(checkForUpdates)
 RCT_EXTERN_METHOD(setWindowRelativeSize : (nonnull NSNumber)relative)
 RCT_EXTERN_METHOD(openFinderAt : (NSString)path)
+RCT_EXTERN_METHOD(setShowWindowOn : (NSString)on)
 @end
