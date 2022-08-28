@@ -213,7 +213,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     SolEmitter.sharedInstance.onShow(target: "SETTINGS")
   }
 
-  func hideWindow() {
+  @objc func hideWindow() {
     if(mainWindow.isVisible) {
       mainWindow.orderOut(self)
       SolEmitter.sharedInstance.onHide()

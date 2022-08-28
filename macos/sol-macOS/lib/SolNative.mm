@@ -1,6 +1,7 @@
-#import "React/RCTBridgeModule.h"
 #import "React/RCTEventEmitter.h"
 #import <React/RCTBridge+Private.h>
+//#import <React/RCTTurboModule.h>
+#import <ReactCommon/RCTTurboModule.h>
 #import <jsi/jsi.h>
 #import "JSIBindings.hpp"
 
@@ -13,20 +14,14 @@ RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(install) {
     return @false;
   }
 
-  using namespace facebook;
-
-  auto jsiRuntime = (jsi::Runtime *)cxxBridge.runtime;
+  auto jsiRuntime = (facebook::jsi::Runtime *)cxxBridge.runtime;
   if (jsiRuntime == nil) {
     return @false;
   }
   auto &runtime = *jsiRuntime;
-//  auto callInvoker = bridge.jsCallInvoker;
+  auto callInvoker = bridge.jsCallInvoker;
 
-  // Get iOS app's document directory (to safely store database .sqlite3 file)
-  //  NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true);
-  //  NSString *documentPath = [paths objectAtIndex:0];
-
-  sol::install(runtime);
+  sol::install(runtime, callInvoker);
   return @true;
 }
 
@@ -35,7 +30,6 @@ RCT_EXTERN_METHOD(getNextEvents
                   : (NSString)query resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
-RCT_EXTERN_METHOD(hideWindow)
 RCT_EXTERN_METHOD(getApps
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)

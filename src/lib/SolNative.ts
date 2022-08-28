@@ -22,7 +22,7 @@ export interface INativeEvent {
 class SolNative extends NativeEventEmitter {
   openFile: (path: string) => void
   openWithFinder: (path: string) => void
-  hideWindow: () => void
+  hideWindow: typeof global.__SolProxy.hideWindow
   getNextEvents: (query?: string) => Promise<INativeEvent[]>
   getApps: () => Promise<string[]>
   toggleDarkMode: () => void
@@ -85,7 +85,7 @@ class SolNative extends NativeEventEmitter {
     }
 
     this.getNextEvents = module.getNextEvents
-    this.hideWindow = module.hideWindow
+
     this.getApps = module.getApps
     this.openFile = module.openFile
     this.toggleDarkMode = module.toggleDarkMode
@@ -130,6 +130,7 @@ class SolNative extends NativeEventEmitter {
 
     this.setWindowHeight = global.__SolProxy.setHeight
     this.resetWindowSize = global.__SolProxy.resetWindowSize
+    this.hideWindow = global.__SolProxy.hideWindow
 
     const constants = module.getConstants()
     this.accentColor = constants.accentColor

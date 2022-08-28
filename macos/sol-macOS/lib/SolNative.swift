@@ -53,12 +53,6 @@ class SolNative: RCTEventEmitter {
     resolve(CalendarHelper.sharedInstance.getNextEvents(query))
   }
 
-  @objc func hideWindow() {
-    DispatchQueue.main.async {
-      self.appDelegate?.hideWindow()
-    }
-  }
-
   @objc func getApps(_ resolve: @escaping  RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) {
     let searcher = ApplicationSearcher()
     let apps = searcher.getAllApplications()
