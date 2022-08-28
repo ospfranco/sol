@@ -1,7 +1,35 @@
 #import "React/RCTBridgeModule.h"
 #import "React/RCTEventEmitter.h"
+#import <React/RCTBridge+Private.h>
+#import <jsi/jsi.h>
+#import "JSIBindings.hpp"
 
 @interface RCT_EXTERN_MODULE (SolNative, RCTEventEmitter)
+
+RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(install) {
+  RCTBridge *bridge = [RCTBridge currentBridge];
+  RCTCxxBridge *cxxBridge = (RCTCxxBridge *)bridge;
+  if (cxxBridge == nil) {
+    return @false;
+  }
+
+  using namespace facebook;
+
+  auto jsiRuntime = (jsi::Runtime *)cxxBridge.runtime;
+  if (jsiRuntime == nil) {
+    return @false;
+  }
+  auto &runtime = *jsiRuntime;
+//  auto callInvoker = bridge.jsCallInvoker;
+
+  // Get iOS app's document directory (to safely store database .sqlite3 file)
+  //  NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true);
+  //  NSString *documentPath = [paths objectAtIndex:0];
+
+  sol::install(runtime);
+  return @true;
+}
+
 RCT_EXTERN_METHOD(supportedEvents)
 RCT_EXTERN_METHOD(getNextEvents
                   : (NSString)query resolver
@@ -54,7 +82,6 @@ RCT_EXTERN_METHOD(turnOffVerticalArrowsListeners)
 RCT_EXTERN_METHOD(setScratchpadShortcut : (NSString)key)
 RCT_EXTERN_METHOD(setClipboardManagerShortcut : (NSString)key)
 RCT_EXTERN_METHOD(checkForUpdates)
-RCT_EXTERN_METHOD(setWindowHeight : (nonnull NSNumber)height)
 RCT_EXTERN_METHOD(setWindowRelativeSize : (nonnull NSNumber)relative)
 RCT_EXTERN_METHOD(resetWindowSize)
 RCT_EXTERN_METHOD(openFinderAt : (NSString)path)

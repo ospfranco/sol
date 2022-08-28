@@ -255,12 +255,6 @@ class SolNative: RCTEventEmitter {
     }
   }
 
-  @objc func setWindowHeight(_ height: NSNumber) {
-    DispatchQueue.main.async {
-      self.appDelegate?.setHeight(height as! Int)
-    }
-  }
-
   @objc func resetWindowSize() {
     DispatchQueue.main.async {
       self.appDelegate?.resetSize()

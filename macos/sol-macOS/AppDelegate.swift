@@ -9,6 +9,7 @@ let handledKeys: [UInt16] = [53, 123, 124, 126, 125, 36, 48]
 let numberchars: [String] = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
 @NSApplicationMain
+@objc
 class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate {
   var shiftPressed = false
   var visualEffect: NSVisualEffectView!
@@ -263,7 +264,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     }
   }
 
-  func setHeight(_ height: Int) {
+  @objc func setHeight(_ height: Int) {
     var finalHeight = height
     if(height == 0) {
       finalHeight = 500
@@ -278,6 +279,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     mainWindow.setFrame(frame, display: false)
     rootView.setFrameSize(size)
     rootView.setFrameOrigin(NSPoint(x: 0, y: 0))
+  }
+
+  @objc func getSomething() -> String {
+    return "hello"
   }
 
   func setRelativeSize(_ proportion: Double) {

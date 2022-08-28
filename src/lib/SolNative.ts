@@ -76,6 +76,14 @@ class SolNative extends NativeEventEmitter {
   constructor(module: any) {
     super(module)
 
+    if (global.__SolProxy == null) {
+      module.install()
+
+      if (global.__SolProxy == null) {
+        throw new Error('Error installing JSI bindings!')
+      }
+    }
+
     this.getNextEvents = module.getNextEvents
     this.hideWindow = module.hideWindow
     this.getApps = module.getApps
@@ -120,6 +128,8 @@ class SolNative extends NativeEventEmitter {
     this.resizeBottomLeft = module.resizeBottomLeft
     this.resizeBottomRight = module.resizeBottomRight
     this.searchFiles = module.searchFiles
+
+    this.setWindowHeight = global.__SolProxy.setHeight
 
     const constants = module.getConstants()
     this.accentColor = constants.accentColor
