@@ -13,5 +13,16 @@ declare var global: {
     setHeight: (height: number) => void
     resetWindowSize: () => void
     hideWindow: () => void
+    getMediaInfo: () => Promise<
+      | {
+          title: string
+          artist: string
+          artwork: string
+          bundleIdentifier: string
+          url: string
+        }
+      | null
+      | undefined
+    >
   }
 }

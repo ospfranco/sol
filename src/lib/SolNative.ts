@@ -27,17 +27,7 @@ class SolNative extends NativeEventEmitter {
   getApps: () => Promise<string[]>
   toggleDarkMode: () => void
   executeAppleScript: (source: string) => void
-  getMediaInfo: () => Promise<
-    | {
-        title: string
-        artist: string
-        artwork: string
-        bundleIdentifier: string
-        url: string
-      }
-    | null
-    | undefined
-  >
+  getMediaInfo: typeof global.__SolProxy.getMediaInfo
   setGlobalShortcut: (key: 'command' | 'option') => void
   setScratchpadShortcut: (key: 'command' | 'option') => void
   setClipboardManagerShortcut: (key: 'shift' | 'option') => void
@@ -91,7 +81,7 @@ class SolNative extends NativeEventEmitter {
     this.toggleDarkMode = module.toggleDarkMode
     this.executeAppleScript = module.executeAppleScript
     this.openWithFinder = module.openWithFinder
-    this.getMediaInfo = module.getMediaInfo
+    this.getMediaInfo = global.__SolProxy.getMediaInfo
     this.setGlobalShortcut = module.setGlobalShortcut
     this.setScratchpadShortcut = module.setScratchpadShortcut
     this.getCalendarAuthorizationStatus = module.getCalendarAuthorizationStatus

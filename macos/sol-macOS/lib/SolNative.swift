@@ -79,34 +79,34 @@ class SolNative: RCTEventEmitter {
     AppleScriptHelper.runAppleScript(source)
   }
 
-  @objc func getMediaInfo(_ resolve: @escaping  RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) {
+//  @objc func getMediaInfo(_ resolve: @escaping  RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) {
 
-    MediaHelper.getCurrentMedia(callback: { information in
-      let pathUrl = NSWorkspace.shared.urlForApplication(withBundleIdentifier: information["bundleIdentifier"]! as! String)?.path
-      let imageData = information["kMRMediaRemoteNowPlayingInfoArtworkData"] as? Data
-
-      if(imageData == nil) {
-        resolve([
-          "title": information["kMRMediaRemoteNowPlayingInfoTitle"],
-          "artist": information["kMRMediaRemoteNowPlayingInfoArtist"],
-          "bundleIdentifier": information["bundleIdentifier"],
-          "url": pathUrl
-        ])
-      } else {
-        let bitmap = NSBitmapImageRep(data: imageData!)
-        let data = bitmap?.representation(using: .jpeg, properties: [:])
-        let base64 = data != nil ? "data:image/jpeg;base64," + data!.base64EncodedString() : nil
-        resolve([
-          "title": information["kMRMediaRemoteNowPlayingInfoTitle"],
-          "artist": information["kMRMediaRemoteNowPlayingInfoArtist"],
-          "artwork": base64,
-          "bundleIdentifier": information["bundleIdentifier"],
-          "url": pathUrl
-        ])
-      }
-
-    })
-  }
+//    MediaHelper.getCurrentMedia(callback: { information in
+//      let pathUrl = NSWorkspace.shared.urlForApplication(withBundleIdentifier: information["bundleIdentifier"]! as! String)?.path
+//      let imageData = information["kMRMediaRemoteNowPlayingInfoArtworkData"] as? Data
+//
+//      if(imageData == nil) {
+//        resolve([
+//          "title": information["kMRMediaRemoteNowPlayingInfoTitle"],
+//          "artist": information["kMRMediaRemoteNowPlayingInfoArtist"],
+//          "bundleIdentifier": information["bundleIdentifier"],
+//          "url": pathUrl
+//        ])
+//      } else {
+//        let bitmap = NSBitmapImageRep(data: imageData!)
+//        let data = bitmap?.representation(using: .jpeg, properties: [:])
+//        let base64 = data != nil ? "data:image/jpeg;base64," + data!.base64EncodedString() : nil
+//        resolve([
+//          "title": information["kMRMediaRemoteNowPlayingInfoTitle"],
+//          "artist": information["kMRMediaRemoteNowPlayingInfoArtist"],
+//          "artwork": base64,
+//          "bundleIdentifier": information["bundleIdentifier"],
+//          "url": pathUrl
+//        ])
+//      }
+//
+//    })
+//  }
 
   @objc func setGlobalShortcut(_ key: String) {
     DispatchQueue.main.async {
