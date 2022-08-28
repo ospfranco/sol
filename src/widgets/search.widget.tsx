@@ -1,5 +1,6 @@
 import {Assets, Icons} from 'assets'
 import {FileIcon} from 'components/FileIcon'
+import {Key} from 'components/Key'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect, useRef} from 'react'
 import {
@@ -104,7 +105,6 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
 
     return (
       <View
-        key={index}
         style={tw.style(
           `flex-row items-center px-3 rounded bg-opacity-80 dark:bg-opacity-40 py-2`,
           {
@@ -162,21 +162,22 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
             />
           </TouchableOpacity>
         )}
-        {item.isFavorite && !store.ui.query && (
+        {/* {item.isFavorite && !store.ui.query && (
           <Text
             style={tw.style(`text-gray-500 dark:text-gray-400 text-xs w-6`, {
               'text-white dark:text-white': isActive,
             })}>
             ⌘ {index + 1}
           </Text>
-        )}
+        )} */}
         {!!item.shortcut && (
-          <Text
-            style={tw.style(`text-gray-500 dark:text-gray-400 text-xs`, {
-              'text-white dark:text-white': isActive,
-            })}>
-            {item.shortcut}
-          </Text>
+          <View style={tw.style(`flex-row`)}>
+            {item.shortcut.split(' ').map((char, i) => (
+              <View key={`shorcut-${item.shortcut}-${i}`} style={tw`mr-1`}>
+                <Key title={char} />
+              </View>
+            ))}
+          </View>
         )}
       </View>
     )

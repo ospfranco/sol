@@ -5,20 +5,10 @@ import {useStore} from 'store'
 import tw from 'tailwind'
 import {FileIcon} from 'components/FileIcon'
 import {FocusableWidget, ItemType} from 'stores'
+import {Key} from 'components/Key'
 
 interface Props {
   style?: ViewStyle
-}
-
-const Key: FC<{title: string}> = ({title}) => {
-  return (
-    <View
-      style={tw`py-1 px-2 rounded dark:bg-neutral-700 bg-neutral-200 bg-opacity-70`}>
-      <Text style={tw`text-xxs dark:text-neutral-300 text-neutral-600`}>
-        {title}
-      </Text>
-    </View>
-  )
 }
 
 export const GeneralWidget: FC<Props> = observer(({style}) => {
@@ -111,16 +101,22 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
       )}
       {store.ui.focusedWidget === FocusableWidget.SEARCH &&
         !!store.ui.query &&
-        store.ui.currentItem.type === ItemType.CUSTOM && (
+        store.ui.currentItem?.type === ItemType.CUSTOM && (
           <>
             <Text style={tw`text-xs font-semibold mr-2`}>Delete Shortcut</Text>
             <Key title="⇧ ⌦" />
           </>
         )}
+      {store.ui.focusedWidget === FocusableWidget.SEARCH && !!store.ui.query && (
+        <>
+          <Text style={tw`text-xs font-semibold mx-2`}>Open</Text>
+          <Key title="⏎" primary />
+        </>
+      )}
       {store.ui.focusedWidget === FocusableWidget.CALENDAR && (
         <>
           <Text style={tw`text-xs font-semibold mr-2`}>Join</Text>
-          <Key title="⏎" />
+          <Key title="⏎" primary />
         </>
       )}
     </View>
