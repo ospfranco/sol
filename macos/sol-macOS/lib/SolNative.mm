@@ -83,7 +83,6 @@ RCT_EXTERN_METHOD(setScratchpadShortcut : (NSString)key)
 RCT_EXTERN_METHOD(setClipboardManagerShortcut : (NSString)key)
 RCT_EXTERN_METHOD(checkForUpdates)
 RCT_EXTERN_METHOD(setWindowRelativeSize : (nonnull NSNumber)relative)
-RCT_EXTERN_METHOD(resetWindowSize)
 RCT_EXTERN_METHOD(openFinderAt : (NSString)path)
 RCT_EXTERN_METHOD(searchFiles : (NSString)query)
 @end

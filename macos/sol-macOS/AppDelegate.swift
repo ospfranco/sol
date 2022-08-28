@@ -281,10 +281,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     rootView.setFrameOrigin(NSPoint(x: 0, y: 0))
   }
 
-  @objc func getSomething() -> String {
-    return "hello"
-  }
-
   func setRelativeSize(_ proportion: Double) {
     guard let screenSize = NSScreen.main?.frame.size else {
       return
@@ -298,7 +294,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     mainWindow.center()
   }
 
-  func resetSize() {
+  @objc func resetSize() {
     let origin = CGPoint(x: 0, y: 0)
     let size = baseSize
     let frame = NSRect(origin: origin, size: size)

@@ -64,8 +64,8 @@ class SolNative extends NativeEventEmitter {
   turnOffEnterListener: () => void
   checkForUpdates: () => void
   setWindowRelativeSize: (relativeSize: number) => void
-  resetWindowSize: () => void
-  setWindowHeight: (height: number) => void
+  resetWindowSize: typeof global.__SolProxy.resetWindowSize
+  setWindowHeight: typeof global.__SolProxy.setHeight
   openFinderAt: (path: string) => void
   resizeTopLeft: () => void
   resizeTopRight: () => void
@@ -120,7 +120,6 @@ class SolNative extends NativeEventEmitter {
     this.turnOffEnterListener = module.turnOffEnterListener
     this.setClipboardManagerShortcut = module.setClipboardManagerShortcut
     this.setWindowRelativeSize = module.setWindowRelativeSize
-    this.resetWindowSize = module.resetWindowSize
     this.setWindowHeight = module.setWindowHeight
     this.openFinderAt = module.openFinderAt
     this.resizeTopLeft = module.resizeTopLeft
@@ -130,6 +129,7 @@ class SolNative extends NativeEventEmitter {
     this.searchFiles = module.searchFiles
 
     this.setWindowHeight = global.__SolProxy.setHeight
+    this.resetWindowSize = global.__SolProxy.resetWindowSize
 
     const constants = module.getConstants()
     this.accentColor = constants.accentColor

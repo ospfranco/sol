@@ -255,12 +255,6 @@ class SolNative: RCTEventEmitter {
     }
   }
 
-  @objc func resetWindowSize() {
-    DispatchQueue.main.async {
-      self.appDelegate?.resetSize()
-    }
-  }
-
   @objc func openFinderAt(_ path: String) {
     NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: path)
   }

@@ -11,5 +11,6 @@ declare module '*.jpeg' {
 declare var global: {
   __SolProxy: {
     setHeight: (height: number) => void
+    resetWindowSize: () => void
   }
 }
