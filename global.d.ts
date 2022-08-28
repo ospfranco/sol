@@ -24,5 +24,6 @@ declare var global: {
       | null
       | undefined
     >
+    searchFiles: (query: string) => void
   }
 }

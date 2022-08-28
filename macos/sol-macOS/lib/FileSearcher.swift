@@ -2,9 +2,10 @@ import Foundation
 
 let nf = NotificationCenter.default
 
-class FileSearcher {
+@objc
+class FileSearcher: NSObject {
 
-  public static let sharedInstance = FileSearcher()
+//  public static let sharedInstance = FileSearcher()
   
   var query: NSMetadataQuery? {
     willSet {
@@ -14,7 +15,8 @@ class FileSearcher {
     }
   }
 
-  init() {
+  override init() {
+    super.init();
 
     nf.addObserver(forName: .NSMetadataQueryDidUpdate, object: nil, queue: .main, using: {_ in
 
@@ -45,7 +47,7 @@ class FileSearcher {
   }
 
 
-  func searchFile(_ oq: String) {
+  @objc func searchFile(_ oq: String) {
     if(!oq.isEmpty) {
       query = NSMetadataQuery()
       let predicate = NSPredicate(format: "%K ==[cd] %@", NSMetadataItemFSNameKey, oq)

@@ -1,6 +1,5 @@
 #import "React/RCTEventEmitter.h"
 #import <React/RCTBridge+Private.h>
-//#import <React/RCTTurboModule.h>
 #import <ReactCommon/RCTTurboModule.h>
 #import <jsi/jsi.h>
 #import "JSIBindings.hpp"
@@ -37,9 +36,6 @@ RCT_EXTERN_METHOD(openFile : (NSString)path)
 RCT_EXTERN_METHOD(openWithFinder : (NSString)path)
 RCT_EXTERN_METHOD(toggleDarkMode)
 RCT_EXTERN_METHOD(executeAppleScript : (NSString)source)
-//RCT_EXTERN_METHOD(getMediaInfo
-//                  : (RCTPromiseResolveBlock)resolve rejecter
-//                  : (RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(setGlobalShortcut : (NSString)key)
 RCT_EXTERN_METHOD(getCalendarAuthorizationStatus
                   : (RCTPromiseResolveBlock)resolve rejecter
@@ -78,5 +74,4 @@ RCT_EXTERN_METHOD(setClipboardManagerShortcut : (NSString)key)
 RCT_EXTERN_METHOD(checkForUpdates)
 RCT_EXTERN_METHOD(setWindowRelativeSize : (nonnull NSNumber)relative)
 RCT_EXTERN_METHOD(openFinderAt : (NSString)path)
-RCT_EXTERN_METHOD(searchFiles : (NSString)query)
 @end

@@ -12,10 +12,12 @@ namespace jsi = facebook::jsi;
 namespace react = facebook::react;
 
 std::shared_ptr<react::CallInvoker> invoker;
+FileSearcher* fileSearcher;
 
 void install(jsi::Runtime &rt,
              std::shared_ptr<react::CallInvoker> callInvoker) {
   invoker = callInvoker;
+  fileSearcher = [[FileSearcher alloc] init];
 
   auto setHeight = HOSTFN("setHeight", 1, []) {
     int height = static_cast<int>(arguments[0].asNumber());
@@ -45,6 +47,12 @@ void install(jsi::Runtime &rt,
       [appDelegate hideWindow];
     });
 
+    return {};
+  });
+
+  auto searchFiles = HOSTFN("searchFiles", 1, []) {
+    auto queryStr = arguments[0].asString(rt).utf8(rt);
+    [fileSearcher searchFile: [NSString stringWithUTF8String:queryStr.c_str()]];
     return {};
   });
 
@@ -104,6 +112,7 @@ void install(jsi::Runtime &rt,
   module.setProperty(rt, "resetWindowSize", std::move(resetWindowSize));
   module.setProperty(rt, "hideWindow", std::move(hideWindow));
   module.setProperty(rt, "getMediaInfo", std::move(getMediaInfo));
+  module.setProperty(rt, "searchFiles", std::move(searchFiles));
 
   rt.global().setProperty(rt, "__SolProxy", std::move(module));
 }

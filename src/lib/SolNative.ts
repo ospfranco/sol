@@ -61,7 +61,7 @@ class SolNative extends NativeEventEmitter {
   resizeTopRight: () => void
   resizeBottomLeft: () => void
   resizeBottomRight: () => void
-  searchFiles: (query: string) => void
+  searchFiles: typeof global.__SolProxy.searchFiles
 
   constructor(module: any) {
     super(module)
@@ -116,7 +116,7 @@ class SolNative extends NativeEventEmitter {
     this.resizeTopRight = module.resizeTopRight
     this.resizeBottomLeft = module.resizeBottomLeft
     this.resizeBottomRight = module.resizeBottomRight
-    this.searchFiles = module.searchFiles
+    this.searchFiles = global.__SolProxy.searchFiles
 
     this.setWindowHeight = global.__SolProxy.setHeight
     this.resetWindowSize = global.__SolProxy.resetWindowSize
