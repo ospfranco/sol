@@ -1,8 +1,8 @@
+#import "JSIBindings.hpp"
 #import "React/RCTEventEmitter.h"
 #import <React/RCTBridge+Private.h>
 #import <ReactCommon/RCTTurboModule.h>
 #import <jsi/jsi.h>
-#import "JSIBindings.hpp"
 
 @interface RCT_EXTERN_MODULE (SolNative, RCTEventEmitter)
 
@@ -36,6 +36,9 @@ RCT_EXTERN_METHOD(openFile : (NSString)path)
 RCT_EXTERN_METHOD(openWithFinder : (NSString)path)
 RCT_EXTERN_METHOD(toggleDarkMode)
 RCT_EXTERN_METHOD(executeAppleScript : (NSString)source)
+RCT_EXTERN_METHOD(getMediaInfo
+                  : (RCTPromiseResolveBlock)resolve rejecter
+                  : (RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(setGlobalShortcut : (NSString)key)
 RCT_EXTERN_METHOD(getCalendarAuthorizationStatus
                   : (RCTPromiseResolveBlock)resolve rejecter

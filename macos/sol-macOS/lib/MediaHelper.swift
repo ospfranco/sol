@@ -1,10 +1,9 @@
 import Foundation
 import MediaPlayer
 
-
-@objc class MediaHelper: NSObject {
+struct MediaHelper {
   // This is an internal framework and it's bound to break itself as macOS updates...
-  @objc static func getCurrentMedia(_ callback: @escaping (Dictionary<String, String>) -> Void) {
+  static func getCurrentMedia(callback: @escaping ([String: Any?]) -> Void) {
     // Load MediaRemote framework
     let bundle = CFBundleCreate(
       kCFAllocatorDefault,
@@ -47,22 +46,11 @@ import MediaPlayer
       bundleIdentifier = MRNowPlayingClientGetBundleIdentifier(object)
       dlclose(handle)
 
-      var base64 = ""
-      let imageData = information["kMRMediaRemoteNowPlayingInfoArtworkData"] as? Data
-      if(imageData != nil) {
-        let bitmap = NSBitmapImageRep(data: imageData!)
-        let data = bitmap?.representation(using: .jpeg, properties: [:])
-        base64 = data != nil ? "data:image/jpeg;base64," + data!.base64EncodedString() : ""
-      }
-
-      let pathUrl = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleIdentifier!)?.path ?? ""
-
       callback([
-        "artist": information["kMRMediaRemoteNowPlayingInfoArtist"] as! String,
-        "title": information["kMRMediaRemoteNowPlayingInfoTitle"] as! String,
-        "artwork": base64,
-        "bundleIdentifier": bundleIdentifier ?? "",
-        "url": pathUrl
+        "kMRMediaRemoteNowPlayingInfoArtist": information["kMRMediaRemoteNowPlayingInfoArtist"],
+        "kMRMediaRemoteNowPlayingInfoTitle": information["kMRMediaRemoteNowPlayingInfoTitle"],
+        "kMRMediaRemoteNowPlayingInfoArtworkData": information["kMRMediaRemoteNowPlayingInfoArtworkData"],
+        "bundleIdentifier": bundleIdentifier
       ])
 
     })
