@@ -17,8 +17,6 @@ void install(jsi::Runtime &rt,
              std::shared_ptr<react::CallInvoker> callInvoker) {
   invoker = callInvoker;
   fileSearcher = [[FileSearcher alloc] init];
-  void install(jsi::Runtime & rt,
-               std::shared_ptr<react::CallInvoker> callInvoker) {
 
     auto setHeight = HOSTFN("setHeight", 1, []) {
       int height = static_cast<int>(arguments[0].asNumber());
