@@ -1,9 +1,10 @@
 import {Assets} from 'assets'
 import {Fade} from 'components/Fade'
+import {Key} from 'components/Key'
 import {useFullSize} from 'hooks/useFullSize'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect, useState} from 'react'
-import {Appearance, Image, Switch, Text, View, ViewStyle} from 'react-native'
+import {Appearance, Image, Text, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
 import {FocusableWidget} from 'stores'
 import tw from 'tailwind'
@@ -62,26 +63,37 @@ export const OnboardingWidget: FC<Props> = observer(({style}) => {
   }, [store.ui.onboardingStep])
 
   return (
-    <View style={tw.style(`flex-1 items-center p-6 justify-center`, style)}>
+    <View style={tw.style(`flex-1`, style)}>
       {onboardingStep === 'v1_start' && (
-        <Fade visible={visible} style={tw`items-center`} duration={250}>
-          <Image
-            source={Assets.Logo}
-            style={tw.style(`mt-16 h-16 w-32`, {
-              tintColor: colorScheme === 'dark' ? 'white' : 'black',
-            })}
-          />
-          <Text style={tw`font-thin text-3xl`}>SOL</Text>
-          <View style={tw`flex-1 justify-center`}>
+        <Fade visible={visible} style={tw`items-center flex-1`} duration={250}>
+          <View style={tw`flex-1`} />
+          <View style={tw`flex-row items-center`}>
+            <Text style={tw`font-thin text-3xl`}>S</Text>
+            <Image
+              source={Assets.Logo}
+              style={tw.style(`h-16 w-32`, {
+                tintColor: colorScheme === 'dark' ? 'white' : 'black',
+              })}
+            />
+            <Text style={tw`font-thin text-3xl`}>L</Text>
+          </View>
+          <View style={tw`justify-center mt-3`}>
             <Text>Welcome to your new macOS launcher</Text>
           </View>
-          <Text style={tw`font-bold`}>Press ↩ to continue</Text>
+          <View style={tw`flex-1`} />
+          <View
+            style={tw`w-full flex-row items-center justify-end border-t border-lightBorder dark:border-darkBorder px-3 py-2 bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30`}>
+            <Text style={tw`font-bold text-sm`}>Continue</Text>
+            <Key title="⏎" primary style={tw`mx-2`} />
+          </View>
         </Fade>
       )}
+
       {onboardingStep === 'v1_shortcut' && (
-        <Fade visible={visible} style={tw`items-center`} duration={250}>
-          <Text style={tw`mt-16`}>Pick a global shortcut</Text>
-          <View style={tw`flex-1 justify-center`}>
+        <Fade visible={visible} style={tw`items-center flex-1`} duration={250}>
+          <View style={tw`flex-1`} />
+          <Text>Pick a global shortcut</Text>
+          <View style={tw`mt-3 justify-center`}>
             {SHORTCUTS.map((item, index) => {
               const Label = item.label
               const SubLabel = item.subLabel
@@ -110,41 +122,99 @@ export const OnboardingWidget: FC<Props> = observer(({style}) => {
             })}
           </View>
 
-          <Text style={tw`font-bold`}>Press ↩ to continue</Text>
+          <View style={tw`flex-1`} />
+
+          <View
+            style={tw`w-full flex-row items-center justify-end border-t border-lightBorder dark:border-darkBorder px-3 py-2 bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30`}>
+            <Text style={tw`font-bold text-sm`}>Select & Continue</Text>
+            <Key title="⏎" primary style={tw`mx-2`} />
+          </View>
         </Fade>
       )}
 
       {onboardingStep === 'v1_quick_actions' && (
-        <Fade visible={visible} style={tw`items-center`} duration={250}>
-          <View style={tw`flex-1 justify-center items-center`}>
+        <Fade visible={visible} style={tw`items-center flex-1`} duration={250}>
+          <View style={tw`flex-1`} />
+          <View style={tw`flex-1 justify-center items-center p-12`}>
             <Text>
-              <Text style={tw`font-bold`}>⌘ ⇧ V</Text> Clipboard manager
+              Simply search for apps, commands and the web from the main window.
             </Text>
-            <Text style={tw`mt-4`}>
-              <Text style={tw`font-bold`}>⌘ ⌃ Space</Text> Emoji picker
-            </Text>
-            <Text style={tw`mt-4`}>
-              <Text style={tw`font-bold`}>⌘ ⇧ Space</Text> Scratchpad
+            <Text style={tw`mt-10`}>
+              Sol also offers many more functionalities, here are some shortcuts
+              to get you started:
             </Text>
 
-            <View
-              style={tw`border-b w-32 border-lightBorder dark:border-darkBorder my-8`}
-            />
+            <View style={tw`flex-row mt-4 items-center`}>
+              <Text style={tw`font-bold flex-1 text-right`}>
+                Clipboard Manager
+              </Text>
+              <View style={tw`flex-1 flex-row items-center`}>
+                <Key title="⌘" style={tw`ml-2`} />
+                <Key title="⇧" style={tw`ml-1`} />
+                <Key title="V" style={tw`ml-1`} />
+              </View>
+            </View>
 
-            <Text>
-              <Text style={tw`font-bold`}>^ ⌥ ↩</Text> Fullscreen front-most
-              window
-            </Text>
-            <Text style={tw`mt-4`}>
-              <Text style={tw`font-bold`}>^ ⌥ →</Text> Resize front-most window
-              to the right
-            </Text>
-            <Text style={tw`mt-4`}>
-              <Text style={tw`font-bold`}>^ ⌥ ←</Text> Resize front-most window
-              to the left
-            </Text>
+            <View style={tw`flex-row mt-4 items-center`}>
+              <Text style={tw`font-bold flex-1 text-right`}>Emoji Picker</Text>
+              <View style={tw`flex-1 flex-row items-center`}>
+                <Key title="⌘" style={tw`ml-2`} />
+                <Key title="⌃" style={tw`ml-1`} />
+                <Key title="Space" style={tw`ml-1`} />
+              </View>
+            </View>
+
+            <View style={tw`flex-row mt-4 items-center`}>
+              <Text style={tw`font-bold flex-1 text-right`}>
+                Note Scratchpad
+              </Text>
+              <View style={tw`flex-1 flex-row items-center`}>
+                <Key title="⌘" style={tw`ml-2`} />
+                <Key title="⇧" style={tw`ml-1`} />
+                <Key title="Space" style={tw`ml-1`} />
+              </View>
+            </View>
+
+            <View style={tw`flex-row mt-4 items-center`}>
+              <Text style={tw`font-bold flex-1 text-right`}>
+                Fullscreen front-most window
+              </Text>
+              <View style={tw`flex-1 flex-row items-center`}>
+                <Key title="^" style={tw`ml-2`} />
+                <Key title="⌥" style={tw`ml-1`} />
+                <Key title="⏎" style={tw`ml-1`} />
+              </View>
+            </View>
+
+            <View style={tw`flex-row mt-4 items-center`}>
+              <Text style={tw`font-bold flex-1 text-right`}>
+                Resize front-most window to the right
+              </Text>
+              <View style={tw`flex-1 flex-row items-center`}>
+                <Key title="^" style={tw`ml-2`} />
+                <Key title="⌥" style={tw`ml-1`} />
+                <Key title="→" style={tw`ml-1`} />
+              </View>
+            </View>
+
+            <View style={tw`flex-row mt-4 items-center`}>
+              <Text style={tw`font-bold flex-1 text-right`}>
+                Resize front-most window to the left
+              </Text>
+              <View style={tw`flex-1 flex-row items-center`}>
+                <Key title="^" style={tw`ml-2`} />
+                <Key title="⌥" style={tw`ml-1`} />
+                <Key title="←" style={tw`ml-1`} />
+              </View>
+            </View>
           </View>
-          <Text style={tw`font-bold`}>Press ↩ to continue</Text>
+          <View style={tw`flex-1`} />
+
+          <View
+            style={tw`w-full flex-row items-center justify-end border-t border-lightBorder dark:border-darkBorder px-3 py-2 bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30`}>
+            <Text style={tw`font-bold text-sm`}>Continue</Text>
+            <Key title="⏎" primary style={tw`mx-2`} />
+          </View>
         </Fade>
       )}
     </View>
