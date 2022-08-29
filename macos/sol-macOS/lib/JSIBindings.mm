@@ -69,36 +69,39 @@ void install(jsi::Runtime &rt,
                         size_t count) -> jsi::Value {
                       auto resolve =
                           std::make_shared<jsi::Value>(rt, promiseArgs[0]);
-                      [MediaHelper
-                          getCurrentMedia:^(
-                              NSDictionary<NSString *, NSString *> *mediaInfo) {
-                            invoker->invokeAsync([&rt, mediaInfo, resolve] {
-                              auto res = jsi::Object(rt);
-                              res.setProperty(
-                                  rt, "title",
-                                  std::string([[mediaInfo objectForKey:@"title"]
-                                      UTF8String]));
-                              res.setProperty(
-                                  rt, "artist",
-                                  std::string([[mediaInfo
-                                      objectForKey:@"artist"] UTF8String]));
-                              res.setProperty(
-                                  rt, "artwork",
-                                  std::string([[mediaInfo
-                                      objectForKey:@"artwork"] UTF8String]));
-                              res.setProperty(
-                                  rt, "bundleIdentifier",
-                                  std::string([[mediaInfo
-                                      objectForKey:@"bundleIdentifier"]
-                                      UTF8String]));
-                              res.setProperty(
-                                  rt, "url",
-                                  std::string([[mediaInfo objectForKey:@"url"]
-                                      UTF8String]));
-                              resolve->asObject(rt).asFunction(rt).call(
-                                  rt, std::move(res));
-                            });
-                          }];
+                          dispatch_async(dispatch_get_main_queue(), ^{
+
+                            [MediaHelper
+                             getCurrentMedia:^(
+                                               NSDictionary<NSString *, NSString *> *mediaInfo) {
+                                                 invoker->invokeAsync([&rt, mediaInfo, resolve] {
+                                                   auto res = jsi::Object(rt);
+                                                   res.setProperty(
+                                                                   rt, "title",
+                                                                   std::string([[mediaInfo objectForKey:@"title"]
+                                                                                UTF8String]));
+                                                   res.setProperty(
+                                                                   rt, "artist",
+                                                                   std::string([[mediaInfo
+                                                                                 objectForKey:@"artist"] UTF8String]));
+                                                   res.setProperty(
+                                                                   rt, "artwork",
+                                                                   std::string([[mediaInfo
+                                                                                 objectForKey:@"artwork"] UTF8String]));
+                                                   res.setProperty(
+                                                                   rt, "bundleIdentifier",
+                                                                   std::string([[mediaInfo
+                                                                                 objectForKey:@"bundleIdentifier"]
+                                                                                UTF8String]));
+                                                   res.setProperty(
+                                                                   rt, "url",
+                                                                   std::string([[mediaInfo objectForKey:@"url"]
+                                                                                UTF8String]));
+                                                   resolve->asObject(rt).asFunction(rt).call(
+                                                                                             rt, std::move(res));
+                                                 });
+                                               }];
+                          });
 
                       return {};
                     }));
