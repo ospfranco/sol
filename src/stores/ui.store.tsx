@@ -15,7 +15,6 @@ import {
   solNative,
 } from 'lib/SolNative'
 import {doubleTranslate} from 'lib/translator'
-import {sleep} from 'lib/various'
 import {getWeather} from 'lib/weather'
 import {debounce} from 'lodash'
 import {DateTime} from 'luxon'
@@ -160,7 +159,7 @@ export const createUIStore = (root: IRootStore) => {
         store.clipboardManagerShortcut =
           parsedStore.clipboardManagerShortcut ?? 'shift'
         store.frequentlyUsedEmojis = parsedStore.frequentlyUsedEmojis ?? {}
-        store.githubSearchEnabled = parsedStore.githubSearchEnabled ?? true
+        store.githubSearchEnabled = parsedStore.githubSearchEnabled ?? false
         store.githubToken = parsedStore.githubToken ?? null
         store.showWindowOn = parsedStore.showWindowOn ?? 'screenWithFrontmost'
       })
@@ -719,7 +718,7 @@ export const createUIStore = (root: IRootStore) => {
     customItems: [] as Item[],
     apps: [] as Item[],
     favorites: [] as string[],
-    isLoading: false as boolean,
+    isLoading: false,
     translationResults: null as null | {
       en: string | undefined
       de: string | undefined
@@ -730,20 +729,20 @@ export const createUIStore = (root: IRootStore) => {
       | {title: string; artist: string; artwork: string; url: string}
       | null
       | undefined,
-    commandPressed: false as boolean,
-    shiftPressed: false as boolean,
+    commandPressed: false,
+    shiftPressed: false,
     projects: [] as ITrackingProject[],
     tempProjectName: '' as string,
     currentlyTrackedProjectId: null as string | null,
     weatherApiKey: '' as string,
     weatherLat: '' as string,
     weatherLon: '' as string,
-    launchAtLogin: false as boolean,
+    launchAtLogin: false,
     firstTranslationLanguage: 'en' as string,
     secondTranslationLanguage: 'de' as string,
     gifs: [] as any[],
     temporaryTextInputSelection: 0 as number,
-    githubSearchEnabled: true as boolean,
+    githubSearchEnabled: false,
     githubSearchResults: [] as GithubRepo[],
     // TODO(osp) this token should be placed in secure storage, but too lazy to do it right now
     githubToken: null as string | null,
