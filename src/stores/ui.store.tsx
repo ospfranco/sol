@@ -9,11 +9,7 @@ import {extractMeetingLink} from 'lib/calendar'
 import {CONSTANTS} from 'lib/constants'
 import {allEmojis, emojiFuse, EMOJIS_PER_ROW} from 'lib/emoji'
 import {GithubRepo, searchGithubRepos} from 'lib/github'
-import {
-  CalendarAuthorizationStatus,
-  INativeEvent,
-  solNative,
-} from 'lib/SolNative'
+import {solNative} from 'lib/SolNative'
 import {doubleTranslate} from 'lib/translator'
 import {getWeather} from 'lib/weather'
 import {debounce} from 'lodash'
@@ -1079,20 +1075,9 @@ export const createUIStore = (root: IRootStore) => {
       store.notes[idx] = note
     },
     fetchEvents: () => {
-      if (
-        store.calendarAuthorizationStatus ===
-        CalendarAuthorizationStatus.authorized
-      ) {
-        solNative
-          .getNextEvents(store.query)
-          .then(events => {
-            runInAction(() => {
-              store.events = events
-            })
-          })
-          .catch(e => {
-            console.warn('Error getting events', e)
-          })
+      if (store.calendarAuthorizationStatus === 'authorized') {
+        const events = solNative.getEvents()
+        store.events = events
       }
     },
     toggleFavorite: (item: Item) => {
@@ -1817,13 +1802,8 @@ export const createUIStore = (root: IRootStore) => {
       onFileSearchListener?.remove()
     },
     checkCalendarAccess: () => {
-      solNative
-        .getCalendarAuthorizationStatus()
-        .then(calendarAuthorizationStatus => {
-          runInAction(() => {
-            store.calendarAuthorizationStatus = calendarAuthorizationStatus
-          })
-        })
+      store.calendarAuthorizationStatus =
+        solNative.getCalendarAuthorizationStatus()
     },
     checkAccessibilityStatus: () => {
       solNative.getAccessibilityStatus().then(v => {

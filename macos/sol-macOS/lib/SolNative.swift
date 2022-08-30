@@ -45,14 +45,6 @@ class SolNative: RCTEventEmitter {
     ]
   }
 
-  @objc func getNextEvents(
-    _ query: String?,
-    resolver resolve: @escaping  RCTPromiseResolveBlock,
-    rejecter: RCTPromiseRejectBlock
-  ) {
-    resolve(CalendarHelper.sharedInstance.getNextEvents(query))
-  }
-
   @objc func getApps(_ resolve: @escaping  RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) {
     let searcher = ApplicationSearcher()
     let apps = searcher.getAllApplications()
@@ -126,21 +118,21 @@ class SolNative: RCTEventEmitter {
     }
   }
 
-  @objc func getCalendarAuthorizationStatus(
-    _ resolve: @escaping  RCTPromiseResolveBlock,
-    rejecter: RCTPromiseRejectBlock
-  ) {
-    resolve(CalendarHelper.sharedInstance.getCalendarAuthorizationStatus())
-  }
-
-  @objc func requestCalendarAccess(
-    _ resolve: @escaping RCTPromiseResolveBlock,
-    rejecter: RCTPromiseRejectBlock
-  ) {
-    CalendarHelper.sharedInstance.requestCalendarAccess({
-      resolve(nil)
-    })
-  }
+//  @objc func getCalendarAuthorizationStatus(
+//    _ resolve: @escaping  RCTPromiseResolveBlock,
+//    rejecter: RCTPromiseRejectBlock
+//  ) {
+//    resolve(CalendarHelper.sharedInstance.getCalendarAuthorizationStatus())
+//  }
+//
+//  @objc func requestCalendarAccess(
+//    _ resolve: @escaping RCTPromiseResolveBlock,
+//    rejecter: RCTPromiseRejectBlock
+//  ) {
+//    CalendarHelper.sharedInstance.requestCalendarAccess({
+//      resolve(nil)
+//    })
+//  }
 
   @objc func getAccessibilityStatus(
     _ resolve: @escaping RCTPromiseResolveBlock,

@@ -25,10 +25,6 @@ RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(install) {
 }
 
 RCT_EXTERN_METHOD(supportedEvents)
-RCT_EXTERN_METHOD(getNextEvents
-                  : (NSString)query resolver
-                  : (RCTPromiseResolveBlock)resolve rejecter
-                  : (RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(getApps
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
@@ -40,12 +36,12 @@ RCT_EXTERN_METHOD(getMediaInfo
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(setGlobalShortcut : (NSString)key)
-RCT_EXTERN_METHOD(getCalendarAuthorizationStatus
-                  : (RCTPromiseResolveBlock)resolve rejecter
-                  : (RCTPromiseRejectBlock)reject)
-RCT_EXTERN_METHOD(requestCalendarAccess
-                  : (RCTPromiseResolveBlock)resolve rejecter
-                  : (RCTPromiseRejectBlock)reject)
+// RCT_EXTERN_METHOD(getCalendarAuthorizationStatus
+//                   : (RCTPromiseResolveBlock)resolve rejecter
+//                   : (RCTPromiseRejectBlock)reject)
+// RCT_EXTERN_METHOD(requestCalendarAccess
+//                   : (RCTPromiseResolveBlock)resolve rejecter
+//                   : (RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(setLaunchAtLogin : (BOOL)launchAtLogin)
 RCT_EXTERN_METHOD(getAccessibilityStatus
                   : (RCTPromiseResolveBlock)resolve rejecter

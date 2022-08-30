@@ -22,10 +22,10 @@
 		7047E80827D4DAEB00582E1B /* Sequence.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7047E80727D4DAEB00582E1B /* Sequence.extension.swift */; };
 		7071D43727B3211700F8A4DC /* DarkMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7071D43527B3211700F8A4DC /* DarkMode.swift */; };
 		7071D43827B3211700F8A4DC /* AppleScriptHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7071D43627B3211700F8A4DC /* AppleScriptHelper.swift */; };
+		7074A3A228BDCB6B0032ADD7 /* CalendarHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7074A3A128BDCB6B0032ADD7 /* CalendarHelper.mm */; };
 		70911D4E28BB22620005FD0E /* JSIBindings.mm in Sources */ = {isa = PBXBuildFile; fileRef = 70911D4C28BB22620005FD0E /* JSIBindings.mm */; };
 		70969E1727966ECD00BE3F1C /* SolNative.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70969E1627966ECD00BE3F1C /* SolNative.swift */; };
 		70969E192796719100BE3F1C /* SolNative.mm in Sources */ = {isa = PBXBuildFile; fileRef = 70969E182796719100BE3F1C /* SolNative.mm */; };
-		709D705227D1F42600081DD0 /* CalendarHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709D705127D1F42600081DD0 /* CalendarHelper.swift */; };
 		70ADD54628B22C1300AAAFD7 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 70ADD54528B22C1300AAAFD7 /* LaunchAtLogin */; };
 		70ADD54828B22DAB00AAAFD7 /* FileSearcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70ADD54728B22DAB00AAAFD7 /* FileSearcher.swift */; };
 		70B2D5902824254B0005D80A /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B2D58F2824254B0005D80A /* WindowManager.swift */; };
@@ -60,12 +60,13 @@
 		7047E80727D4DAEB00582E1B /* Sequence.extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sequence.extension.swift; sourceTree = "<group>"; };
 		7071D43527B3211700F8A4DC /* DarkMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DarkMode.swift; sourceTree = "<group>"; };
 		7071D43627B3211700F8A4DC /* AppleScriptHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppleScriptHelper.swift; sourceTree = "<group>"; };
+		7074A3A128BDCB6B0032ADD7 /* CalendarHelper.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CalendarHelper.mm; sourceTree = "<group>"; };
+		7074A3A328BDCBBD0032ADD7 /* CalendarHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CalendarHelper.h; sourceTree = "<group>"; };
 		70911D4C28BB22620005FD0E /* JSIBindings.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = JSIBindings.mm; sourceTree = "<group>"; };
 		70911D4D28BB22620005FD0E /* JSIBindings.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = JSIBindings.hpp; sourceTree = "<group>"; };
 		70911D4F28BB23AC0005FD0E /* SolMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SolMacros.h; sourceTree = "<group>"; };
 		70969E1627966ECD00BE3F1C /* SolNative.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolNative.swift; sourceTree = "<group>"; };
 		70969E182796719100BE3F1C /* SolNative.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SolNative.mm; sourceTree = "<group>"; };
-		709D705127D1F42600081DD0 /* CalendarHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarHelper.swift; sourceTree = "<group>"; };
 		70ADD54728B22DAB00AAAFD7 /* FileSearcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileSearcher.swift; sourceTree = "<group>"; };
 		70B2D58F2824254B0005D80A /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
 		70B78360279BE866008660F5 /* Panel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Panel.swift; sourceTree = "<group>"; };
@@ -167,7 +168,6 @@
 				70969E182796719100BE3F1C /* SolNative.mm */,
 				701086A627989798004C8CCD /* SolEmitter.swift */,
 				700A18D7279DBBE40096C830 /* ApplicationSearcher.swift */,
-				709D705127D1F42600081DD0 /* CalendarHelper.swift */,
 				7047E80527D4D31400582E1B /* MediaHelper.swift */,
 				70BED7CA27F4C1A600906E41 /* FileConstants.swift */,
 				701EC4602822E33B00597D99 /* AccessibilityElement.swift */,
@@ -177,6 +177,8 @@
 				70911D4C28BB22620005FD0E /* JSIBindings.mm */,
 				70911D4D28BB22620005FD0E /* JSIBindings.hpp */,
 				70911D4F28BB23AC0005FD0E /* SolMacros.h */,
+				7074A3A128BDCB6B0032ADD7 /* CalendarHelper.mm */,
+				7074A3A328BDCBBD0032ADD7 /* CalendarHelper.h */,
 			);
 			path = lib;
 			sourceTree = "<group>";
@@ -266,7 +268,7 @@
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			packageReferences = (
-				70ADD54428B22C1300AAAFD7 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */,
+				70ADD54428B22C1300AAAFD7 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
 			);
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
@@ -436,11 +438,11 @@
 				7071D43727B3211700F8A4DC /* DarkMode.swift in Sources */,
 				701EC4612822E33B00597D99 /* AccessibilityElement.swift in Sources */,
 				7047E80827D4DAEB00582E1B /* Sequence.extension.swift in Sources */,
+				7074A3A228BDCB6B0032ADD7 /* CalendarHelper.mm in Sources */,
 				701086A727989798004C8CCD /* SolEmitter.swift in Sources */,
 				7071D43827B3211700F8A4DC /* AppleScriptHelper.swift in Sources */,
 				70969E192796719100BE3F1C /* SolNative.mm in Sources */,
 				70BED7CD27F4C23D00906E41 /* FileManager.extension.swift in Sources */,
-				709D705227D1F42600081DD0 /* CalendarHelper.swift in Sources */,
 				700A18D8279DBBE40096C830 /* ApplicationSearcher.swift in Sources */,
 				700A18DC279DC1F50096C830 /* FileIcon.m in Sources */,
 				70ADD54828B22DAB00AAAFD7 /* FileSearcher.swift in Sources */,
@@ -677,7 +679,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		70ADD54428B22C1300AAAFD7 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */ = {
+		70ADD54428B22C1300AAAFD7 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "git@github.com:sindresorhus/LaunchAtLogin.git";
 			requirement = {
@@ -690,7 +692,7 @@
 /* Begin XCSwiftPackageProductDependency section */
 		70ADD54528B22C1300AAAFD7 /* LaunchAtLogin */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 70ADD54428B22C1300AAAFD7 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */;
+			package = 70ADD54428B22C1300AAAFD7 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */;
 			productName = LaunchAtLogin;
 		};
 /* End XCSwiftPackageProductDependency section */

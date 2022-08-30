@@ -1,29 +1,10 @@
 import {NativeEventEmitter, NativeModules} from 'react-native'
 
-export enum CalendarAuthorizationStatus {
-  notDetermined = 'notDetermined',
-  restricted = 'restricted',
-  denied = 'denied',
-  authorized = 'authorized',
-}
-export interface INativeEvent {
-  id: string
-  title?: string
-  url?: string
-  date: string
-  endDate: string
-  isAllDay: boolean
-  notes: string
-  color: string
-  location: string
-  status: number // 0 none, 1 confirmed, 2 tentative, 3 cancelled
-}
-
 class SolNative extends NativeEventEmitter {
   openFile: (path: string) => void
   openWithFinder: (path: string) => void
   hideWindow: typeof global.__SolProxy.hideWindow
-  getNextEvents: (query?: string) => Promise<INativeEvent[]>
+  getEvents: typeof global.__SolProxy.getEvents
   getApps: () => Promise<string[]>
   toggleDarkMode: () => void
   executeAppleScript: (source: string) => void
@@ -41,7 +22,7 @@ class SolNative extends NativeEventEmitter {
   setGlobalShortcut: (key: 'command' | 'option') => void
   setScratchpadShortcut: (key: 'command' | 'option') => void
   setClipboardManagerShortcut: (key: 'shift' | 'option') => void
-  getCalendarAuthorizationStatus: () => Promise<CalendarAuthorizationStatus>
+  getCalendarAuthorizationStatus: typeof global.__SolProxy.getCalendarAuthorizationStatus
   requestCalendarAccess: () => Promise<void>
   requestAccessibilityAccess: () => Promise<void>
   setLaunchAtLogin: (v: boolean) => void
@@ -86,8 +67,7 @@ class SolNative extends NativeEventEmitter {
       }
     }
 
-    this.getNextEvents = module.getNextEvents
-
+    this.getEvents = global.__SolProxy.getEvents
     this.getApps = module.getApps
     this.openFile = module.openFile
     this.toggleDarkMode = module.toggleDarkMode
@@ -96,9 +76,10 @@ class SolNative extends NativeEventEmitter {
     this.getMediaInfo = module.getMediaInfo
     this.setGlobalShortcut = module.setGlobalShortcut
     this.setScratchpadShortcut = module.setScratchpadShortcut
-    this.getCalendarAuthorizationStatus = module.getCalendarAuthorizationStatus
+    this.getCalendarAuthorizationStatus =
+      global.__SolProxy.getCalendarAuthorizationStatus
     this.requestAccessibilityAccess = module.requestAccessibilityAccess
-    this.requestCalendarAccess = module.requestCalendarAccess
+    this.requestCalendarAccess = global.__SolProxy.requestCalendarAccess
     this.setLaunchAtLogin = module.setLaunchAtLogin
     this.getAccessibilityStatus = module.getAccessibilityStatus
     this.resizeFrontmostRightHalf = module.resizeFrontmostRightHalf
