@@ -834,7 +834,7 @@ export const createUIStore = (root: IRootStore) => {
           ? [{type: ItemType.TEMPORARY_RESULT, name: ''}]
           : []
 
-        return [
+        const finalResults = [
           ...(CONSTANTS.LESS_VALID_URL.test(store.query)
             ? [
                 {
@@ -871,28 +871,35 @@ export const createUIStore = (root: IRootStore) => {
               }
             },
           })),
-          ...store.githubSearchResults.map(
-            (s): Item => ({
-              name: `${s.owner?.login}/${s.name}`,
-              type: ItemType.APPLICATION,
-              iconComponent: () => {
-                const colorScheme = Appearance.getColorScheme()
-
-                return (
-                  <Image
-                    source={Icons.Github}
-                    style={tw.style('w-3 h-3 p-1 mr-1', {
-                      tintColor: colorScheme === 'dark' ? 'white' : 'black',
-                    })}
-                  />
-                )
-              },
-              callback: () => {
-                Linking.openURL(s.html_url)
-              },
-            }),
-          ),
         ]
+
+        if (store.githubSearchEnabled) {
+          finalResults.concat(
+            store.githubSearchResults.map(
+              (s): Item => ({
+                name: `${s.owner?.login}/${s.name}`,
+                type: ItemType.APPLICATION,
+                iconComponent: () => {
+                  const colorScheme = Appearance.getColorScheme()
+
+                  return (
+                    <Image
+                      source={Icons.Github}
+                      style={tw.style('w-3 h-3 p-1 mr-1', {
+                        tintColor: colorScheme === 'dark' ? 'white' : 'black',
+                      })}
+                    />
+                  )
+                },
+                callback: () => {
+                  Linking.openURL(s.html_url)
+                },
+              }),
+            ),
+          )
+        }
+
+        return finalResults
       } else {
         return allItems
       }
