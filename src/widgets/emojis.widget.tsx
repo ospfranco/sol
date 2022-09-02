@@ -1,3 +1,4 @@
+import {LoadingBar} from 'components/LoadingBar'
 import {useFullSize} from 'hooks/useFullSize'
 import {Emoji, emojiFuse, emojis, EMOJIS_PER_ROW, groupEmojis} from 'lib/emoji'
 import {solNative} from 'lib/SolNative'
@@ -91,10 +92,13 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
           style={tw`text-lg`}
         />
       </View>
+      <LoadingBar />
       <FlatList<Emoji[]>
         ref={listRef}
-        contentContainerStyle={tw`pb-3 px-3 flex-grow-1`}
+        style={tw`-mr-2`}
+        contentContainerStyle={tw`flex-grow-1 p-3`}
         data={data}
+        showsVerticalScrollIndicator={false}
         ListEmptyComponent={
           <View style={tw`flex-1 justify-center items-center`}>
             <Text style={tw`dark:text-gray-400 text-gray-500 text-sm`}>
@@ -133,12 +137,18 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
 
           return (
             <>
-              <View style={tw.style(`flex-row`)}>{res}</View>
-              {rowIndex === 0 && !!favorites.length && !store.ui.query && (
+              <View
+                style={tw.style(`flex-row`, {
+                  'dark:bg-black dark:bg-opacity-10 rounded bg-gray-200 bg-opacity-50':
+                    rowIndex === 0 && !!favorites.length && !store.ui.query,
+                })}>
+                {res}
+              </View>
+              {/* { && (
                 <View
                   style={tw`border-b border-lightBorder dark:border-darkBorder my-2`}
                 />
-              )}
+              )} */}
             </>
           )
         }}
