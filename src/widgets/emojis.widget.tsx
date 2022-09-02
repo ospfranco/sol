@@ -1,3 +1,6 @@
+import {useFullSize} from 'hooks/useFullSize'
+import {Emoji, emojiFuse, emojis, EMOJIS_PER_ROW, groupEmojis} from 'lib/emoji'
+import {solNative} from 'lib/SolNative'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect, useRef} from 'react'
 import {
@@ -11,9 +14,6 @@ import {
 import {useStore} from 'store'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
-import {solNative} from 'lib/SolNative'
-import {Emoji, emojiFuse, emojis, EMOJIS_PER_ROW, groupEmojis} from 'lib/emoji'
-import {useFullSize} from 'hooks/useFullSize'
 
 interface Props {
   style?: ViewStyle
@@ -78,7 +78,7 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
 
   return (
     <View style={tw.style('flex-1', style)}>
-      <View style={tw`h-10 pt-2 px-3 justify-center`}>
+      <View style={tw`py-4 px-3 justify-center`}>
         <TextInput
           autoFocus
           // @ts-expect-error
@@ -86,8 +86,9 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
           value={store.ui.query}
           onChangeText={store.ui.setQuery}
           selectionColor={solNative.accentColor}
-          placeholderTextColor={tw.color('dark:text-gray-400 text-gray-500')}
+          placeholderTextColor={tw.color('text-gray-500')}
           placeholder="Search emojis..."
+          style={tw`text-lg`}
         />
       </View>
       <FlatList<Emoji[]>
@@ -119,10 +120,9 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
                   store.ui.insertEmojiAt(rowIndex * EMOJIS_PER_ROW + i)
                 }}
                 style={tw.style(
-                  `h-[${ROW_HEIGHT}px] w-18 items-center justify-center rounded border border-transparent`,
+                  `h-[${ROW_HEIGHT}px] w-18 items-center justify-center rounded`,
                   {
-                    'bg-accent bg-opacity-50 dark:bg-opacity-40 border-accentDim':
-                      isSelected,
+                    'bg-accent bg-opacity-50 dark:bg-opacity-40': isSelected,
                   },
                 )}
                 key={`${emoji.emoji}-${i}_${rowIndex}`}>
