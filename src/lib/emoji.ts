@@ -1,5 +1,5 @@
 import Fuse from 'fuse.js'
-import rawEmojis from './emojis.json'
+import {emojis as rawEmojis} from './emojis'
 
 export interface Emoji {
   emoji: string
@@ -12,7 +12,7 @@ export interface Emoji {
 const FUSE_OPTIONS = {
   threshold: 0.2,
   ignoreLocation: true,
-  keys: ['description', 'category'],
+  keys: ['description', 'category', 'aliases'],
 }
 
 export const EMOJIS_PER_ROW = 10
