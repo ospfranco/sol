@@ -256,4 +256,8 @@ class SolNative: RCTEventEmitter {
   @objc func setShowWindowOn(_ on: String) {
       self.appDelegate?.setShowWindowOn(on)
   }
+
+  @objc func setWindowManagement(_ v: Bool) {
+    self.appDelegate?.setWindowManagementShortcuts(v)
+  }
 }

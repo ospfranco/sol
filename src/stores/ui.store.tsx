@@ -162,6 +162,8 @@ export const createUIStore = (root: IRootStore) => {
         store.githubSearchEnabled = parsedStore.githubSearchEnabled ?? false
         store.githubToken = parsedStore.githubToken ?? null
         store.showWindowOn = parsedStore.showWindowOn ?? 'screenWithFrontmost'
+        store.windowManagementEnabled =
+          parsedStore.windowManagementEnabled ?? true
       })
 
       solNative.setGlobalShortcut(parsedStore.globalShortcut)
@@ -172,6 +174,7 @@ export const createUIStore = (root: IRootStore) => {
       solNative.setShowWindowOn(
         parsedStore.showWindowOn ?? 'screenWithFrontmost',
       )
+      solNative.setWindowManagement(store.windowManagementEnabled)
     } else {
       runInAction(() => {
         store.focusedWidget = FocusableWidget.ONBOARDING
@@ -747,7 +750,7 @@ export const createUIStore = (root: IRootStore) => {
     // TODO(osp) this token should be placed in secure storage, but too lazy to do it right now
     githubToken: null as string | null,
     fileResults: [] as FileDescription[],
-
+    windowManagementEnabled: true,
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -1819,6 +1822,10 @@ export const createUIStore = (root: IRootStore) => {
     },
     onFileSearch: (files: FileDescription[]) => {
       store.fileResults = files
+    },
+    setWindowManagementEnabled: (v: boolean) => {
+      store.windowManagementEnabled = v
+      solNative.setWindowManagement(v)
     },
   })
 

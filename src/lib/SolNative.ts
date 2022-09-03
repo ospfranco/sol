@@ -73,6 +73,7 @@ class SolNative extends NativeEventEmitter {
   resizeBottomRight: () => void
   searchFiles: typeof global.__SolProxy.searchFiles
   setShowWindowOn: (on: 'screenWithFrontmost' | 'screenWithCursor') => void
+  setWindowManagement: (v: boolean) => void
 
   constructor(module: any) {
     super(module)
@@ -133,6 +134,7 @@ class SolNative extends NativeEventEmitter {
     this.resetWindowSize = global.__SolProxy.resetWindowSize
     this.hideWindow = global.__SolProxy.hideWindow
     this.setShowWindowOn = module.setShowWindowOn
+    this.setWindowManagement = module.setWindowManagement
 
     const constants = module.getConstants()
     this.accentColor = constants.accentColor

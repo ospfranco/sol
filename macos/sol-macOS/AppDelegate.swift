@@ -310,4 +310,32 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     mainWindow.setFrame(frame, display: false)
     mainWindow.center()
   }
+
+  func setWindowManagementShortcuts(_ on: Bool) {
+    if(on) {
+      rightSideScreenHotKey.isPaused = false
+      leftSideScreenHotKey.isPaused = false
+      topSideScreenHotKey.isPaused = false
+      bottomSideScreenHotKey.isPaused = false
+      fullScreenHotKey.isPaused = false
+      moveToNextScreenHotKey.isPaused = false
+      moveToPrevScreenHotKey.isPaused = false
+      topLeftScreenHotKey.isPaused = false
+      topRightScreenHotKey.isPaused = false
+      bottomLeftScreenHotKey.isPaused = false
+      bottomRightScreenHotKey.isPaused = false
+    } else {
+      rightSideScreenHotKey.isPaused = true
+      leftSideScreenHotKey.isPaused = true
+      topSideScreenHotKey.isPaused = true
+      bottomSideScreenHotKey.isPaused = true
+      fullScreenHotKey.isPaused = true
+      moveToNextScreenHotKey.isPaused = true
+      moveToPrevScreenHotKey.isPaused = true
+      topLeftScreenHotKey.isPaused = true
+      topRightScreenHotKey.isPaused = true
+      bottomLeftScreenHotKey.isPaused = true
+      bottomRightScreenHotKey.isPaused = true
+    }
+  }
 }
