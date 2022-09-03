@@ -10,6 +10,7 @@
     "postinstall": "patch-package",
     "permissions:reset": "tccutil reset Calendar com.ospfranco.sol && tccutil reset Accessibility com.ospfranco.sol",
     "dev": "bundle exec fastlane dev && rimraf ./releases/Sol.app && open /Applications/Sol.app",
+    "release": "bundle exec fastlane release && yarn appcast",
     "appcast": "./macos/Pods/Sparkle/bin/generate_appcast ./releases"
   },
   "dependencies": {

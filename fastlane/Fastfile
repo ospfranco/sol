@@ -1,4 +1,4 @@
-update_fastlane
+# update_fastlane
 
 default_platform(:mac)
 
@@ -10,19 +10,18 @@ platform :mac do
     appFileName = outputPath + "Sol.app"
     zipFileName = outputPath + version + ".zip"
     
-    build_mac_app(
+    gym(
       scheme: "macOS",
-      configuration: "Release",
       workspace: "./macos/sol.xcworkspace",
       output_directory: outputPath,
-      export_method: "developer-id",
-      silent: true
+      export_method: "developer-id"
     )
 
     notarize(
       package: appFileName,
       bundle_id: "com.ospfranco.sol",
-      asc_provider: "24CMR7378R"
+      asc_provider: "24CMR7378R",
+      verbose: true
     )
 
     zip(
@@ -35,7 +34,7 @@ platform :mac do
     outputPath = "/Applications/"
     appFileName = appFileName
 
-    build_mac_app(
+    gym(
       scheme: "macOS",
       workspace: "./macos/sol.xcworkspace",
       output_directory: outputPath,
