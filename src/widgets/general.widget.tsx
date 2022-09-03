@@ -85,12 +85,14 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
       )}
 
       <View style={tw`flex-1`} />
-      {store.ui.focusedWidget !== FocusableWidget.CALENDAR && !store.ui.query && (
-        <>
-          <Text style={tw`text-xs font-semibold mr-1`}>Appointments</Text>
-          <Key title="tab" />
-        </>
-      )}
+      {store.ui.focusedWidget !== FocusableWidget.CALENDAR &&
+        !store.ui.query &&
+        !!store.ui.filteredEvents.length && (
+          <>
+            <Text style={tw`text-xs font-semibold mr-1`}>Appointments</Text>
+            <Key title="tab" />
+          </>
+        )}
       {store.ui.focusedWidget === FocusableWidget.SEARCH &&
         !!store.ui.query &&
         store.ui.currentItem?.type === ItemType.CUSTOM && (
