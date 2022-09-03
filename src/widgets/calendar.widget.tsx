@@ -17,10 +17,33 @@ export const CalendarWidget: FC<Props> = observer(() => {
   const store = useStore()
   const focused = store.ui.focusedWidget === FocusableWidget.CALENDAR
 
+  const groupedEvents = Object.entries(store.ui.groupedEvents)
+
+  if (store.ui.calendarAuthorizationStatus === 'notDetermined') {
+    return (
+      <View style={tw`p-2 mx-1`}>
+        <TouchableOpacity
+          onPress={() => {
+            solNative.requestCalendarAccess().then(() => {
+              store.ui.checkCalendarAccess()
+            })
+          }}>
+          <Text style={tw`text-accent text-xs`}>
+            Click to grant calendar access
+          </Text>
+        </TouchableOpacity>
+      </View>
+    )
+  }
+
+  if (!groupedEvents.length) {
+    return null
+  }
+
   return (
     <>
       <View style={tw`mx-1 py-2`}>
-        {Object.entries(store.ui.groupedEvents).map(([key, data], index) => {
+        {groupedEvents.map(([key, data], index) => {
           return (
             <View key={key}>
               <View
@@ -125,26 +148,6 @@ export const CalendarWidget: FC<Props> = observer(() => {
             </View>
           )
         })}
-        {store.ui.calendarAuthorizationStatus === 'notDetermined' && (
-          <View style={tw`px-2`}>
-            <TouchableOpacity
-              onPress={() => {
-                solNative.requestCalendarAccess().then(() => {
-                  store.ui.checkCalendarAccess()
-                })
-              }}>
-              <Text style={tw`text-accent text-xs`}>
-                Click to grant calendar access
-              </Text>
-            </TouchableOpacity>
-          </View>
-        )}
-        {store.ui.calendarAuthorizationStatus === 'authorized' &&
-          !store.ui.events.length && (
-            <Text style={tw`text-gray-400 dark:text-gray-500 text-sm mx-2`}>
-              No upcoming events
-            </Text>
-          )}
       </View>
     </>
   )

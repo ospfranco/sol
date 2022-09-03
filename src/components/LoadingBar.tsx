@@ -23,7 +23,7 @@ export const LoadingBar = observer(() => {
   return (
     <Animated.View
       style={[
-        tw.style(`border-b mb-1`),
+        tw.style(`border-b`),
         {
           borderColor: animatedBorderRef.current.interpolate({
             inputRange: [0, 1],
