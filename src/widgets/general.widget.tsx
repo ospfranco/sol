@@ -1,8 +1,16 @@
+import {Assets} from 'assets'
 import {FileIcon} from 'components/FileIcon'
 import {Key} from 'components/Key'
 import {observer} from 'mobx-react-lite'
 import React, {FC} from 'react'
-import {Image, Text, View, ViewStyle} from 'react-native'
+import {
+  Image,
+  Text,
+  TouchableOpacity,
+  useColorScheme,
+  View,
+  ViewStyle,
+} from 'react-native'
 import {useStore} from 'store'
 import {FocusableWidget, ItemType} from 'stores'
 import tw from 'tailwind'
@@ -13,6 +21,7 @@ interface Props {
 
 export const GeneralWidget: FC<Props> = observer(({style}) => {
   const store = useStore()
+  const colorScheme = useColorScheme()
 
   return (
     <View
@@ -20,6 +29,27 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
         `text-gray-200 flex-row items-center border-t border-lightBorder dark:border-darkBorder px-3 py-2 bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30`,
         style,
       )}>
+      <TouchableOpacity
+        onPress={() => {
+          store.ui.focusWidget(FocusableWidget.SETTINGS)
+        }}>
+        <Image
+          source={Assets.SolWhiteSmall}
+          style={tw.style('h-6 w-6 mx-1', {
+            tintColor:
+              colorScheme === 'dark'
+                ? tw.color('text-gray-300')!
+                : tw.color('text-gray-700')!,
+          })}
+        />
+      </TouchableOpacity>
+
+      {!!store.ui.track?.title && (
+        <View
+          style={tw`border-r border-lightBorder dark:border-darkBorder h-4 ml-2 mr-3`}
+        />
+      )}
+
       {!!store.ui.track?.title && (
         <View style={tw`flex-row items-center`}>
           {!!store.ui.track?.artwork ? (

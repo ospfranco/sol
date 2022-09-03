@@ -148,7 +148,7 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
         </View>
       )}
       {selected === 'GENERAL' && (
-        <View style={tw`flex-1 p-6 bg-white dark:bg-black bg-opacity-30`}>
+        <View style={tw`flex-1 p-6 bg-white dark:bg-black dark:bg-opacity-30`}>
           <Text style={tw`text-lg`}>General</Text>
           <Text style={tw`text-sm text-gray-700 dark:text-gray-400 pt-2`}>
             General app settings
