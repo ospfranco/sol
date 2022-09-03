@@ -28,10 +28,6 @@ export const RootContainer = observer(() => {
   const calendarVisible =
     store.ui.calendarAuthorizationStatus === 'authorized' ||
     store.ui.calendarAuthorizationStatus === 'notDetermined'
-  const generalVisible =
-    store.ui.track?.title ||
-    store.ui.currentTemp ||
-    !!store.ui.currentlyTrackedProject
 
   const widget = store.ui.focusedWidget
 
@@ -108,7 +104,7 @@ export const RootContainer = observer(() => {
           />
         )}
       {calendarVisible && <CalendarWidget />}
-      {generalVisible && <GeneralWidget />}
+      <GeneralWidget />
       {!store.ui.isAccessibilityTrusted && (
         <>
           <View

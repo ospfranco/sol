@@ -14,14 +14,6 @@ interface Props {
 export const GeneralWidget: FC<Props> = observer(({style}) => {
   const store = useStore()
 
-  if (
-    !store.ui.track &&
-    !store.ui.currentTemp &&
-    !store.ui.currentlyTrackedProject
-  ) {
-    return null
-  }
-
   return (
     <View
       style={tw.style(
