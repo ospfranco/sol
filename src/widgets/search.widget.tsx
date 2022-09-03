@@ -184,16 +184,14 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
 
       {!!store.ui.query && (
         <FlatList<Item>
-          style={tw`flex-1`}
+          style={tw`flex-1 -mr-4`}
           windowSize={8}
-          contentContainerStyle={tw.style(`flex-grow-1 pl-3 py-1`)}
+          contentContainerStyle={tw.style(`flex-grow-1 p-3`)}
           ref={listRef}
           data={items}
           keyExtractor={(item, i) => `${item.name}-${item.type}-${i}`}
           renderItem={renderItem}
           showsVerticalScrollIndicator={false}
-          // automaticallyAdjustContentInsets={false}
-          // contentInset={{top: 0, left: 0, bottom: 0, right: -20}}
         />
       )}
     </View>

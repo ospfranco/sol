@@ -904,10 +904,7 @@ export const createUIStore = (root: IRootStore) => {
         return allItems
       }
     },
-    get groupedEvents(): Record<
-      string,
-      {date: DateTime; events: Array<INativeEvent>}
-    > {
+    get filteredEvents(): INativeEvent[] {
       return store.events
         .filter(e => !e.isAllDay && e.status !== 3)
         .filter(e => {
@@ -918,17 +915,22 @@ export const createUIStore = (root: IRootStore) => {
           return true
         })
         .slice(0, 3)
-        .reduce((acc, event) => {
-          const lDate = DateTime.fromISO(event.date)
-          const relativeDate = lDate.toRelativeCalendar()!
+    },
+    get groupedEvents(): Record<
+      string,
+      {date: DateTime; events: Array<INativeEvent>}
+    > {
+      return store.filteredEvents.reduce((acc, event) => {
+        const lDate = DateTime.fromISO(event.date)
+        const relativeDate = lDate.toRelativeCalendar()!
 
-          if (!acc[relativeDate]) {
-            acc[relativeDate] = {date: lDate, events: [event]}
-          } else {
-            acc[relativeDate].events.push(event)
-          }
-          return acc
-        }, {} as Record<string, {date: DateTime; events: Array<INativeEvent>}>)
+        if (!acc[relativeDate]) {
+          acc[relativeDate] = {date: lDate, events: [event]}
+        } else {
+          acc[relativeDate].events.push(event)
+        }
+        return acc
+      }, {} as Record<string, {date: DateTime; events: Array<INativeEvent>}>)
     },
     get currentItem(): Item {
       return store.items[store.selectedIndex]
@@ -1304,11 +1306,7 @@ export const createUIStore = (root: IRootStore) => {
           switch (store.focusedWidget) {
             case FocusableWidget.SEARCH:
               if (!!store.events.length) {
-                if (store.events[0].isAllDay) {
-                  store.selectedIndex = 1
-                } else {
-                  store.selectedIndex = 0
-                }
+                store.selectedIndex = 0
                 nextWidget = FocusableWidget.CALENDAR
               }
               break
@@ -1424,7 +1422,7 @@ export const createUIStore = (root: IRootStore) => {
             }
 
             case FocusableWidget.CALENDAR: {
-              const event = store.events[store.selectedIndex]
+              const event = store.filteredEvents[store.selectedIndex]
               if (event) {
                 let eventLink: string | null | undefined = event.url
 
@@ -1562,6 +1560,7 @@ export const createUIStore = (root: IRootStore) => {
 
             default:
               store.selectedIndex = Math.max(0, store.selectedIndex - 1)
+              break
           }
           break
         }

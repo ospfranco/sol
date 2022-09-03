@@ -1,11 +1,11 @@
+import {FileIcon} from 'components/FileIcon'
+import {Key} from 'components/Key'
 import {observer} from 'mobx-react-lite'
 import React, {FC} from 'react'
 import {Image, Text, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
-import tw from 'tailwind'
-import {FileIcon} from 'components/FileIcon'
 import {FocusableWidget, ItemType} from 'stores'
-import {Key} from 'components/Key'
+import tw from 'tailwind'
 
 interface Props {
   style?: ViewStyle
@@ -95,7 +95,7 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
       <View style={tw`flex-1`} />
       {store.ui.focusedWidget !== FocusableWidget.CALENDAR && !store.ui.query && (
         <>
-          <Text style={tw`text-xs font-semibold mr-2`}>Appointments</Text>
+          <Text style={tw`text-xs font-semibold mr-1`}>Appointments</Text>
           <Key title="tab" />
         </>
       )}
@@ -103,19 +103,21 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
         !!store.ui.query &&
         store.ui.currentItem?.type === ItemType.CUSTOM && (
           <>
-            <Text style={tw`text-xs font-semibold mr-2`}>Delete Shortcut</Text>
+            <Text style={tw`text-xs font-semibold mr-1`}>Delete Shortcut</Text>
             <Key title="⇧ ⌦" />
           </>
         )}
       {store.ui.focusedWidget === FocusableWidget.SEARCH && !!store.ui.query && (
         <>
-          <Text style={tw`text-xs font-semibold mx-2`}>Open</Text>
+          <Text style={tw`text-xs font-semibold mx-1`}>Open</Text>
           <Key title="⏎" primary />
         </>
       )}
       {store.ui.focusedWidget === FocusableWidget.CALENDAR && (
         <>
-          <Text style={tw`text-xs font-semibold mr-2`}>Join</Text>
+          <Text style={tw`text-xs font-semibold mr-1`}>
+            {store.ui.currentItem?.url ? 'Join' : 'Open  '}
+          </Text>
           <Key title="⏎" primary />
         </>
       )}
