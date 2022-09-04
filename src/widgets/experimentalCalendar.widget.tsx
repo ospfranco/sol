@@ -69,7 +69,10 @@ export const ExperimentalCalendarWidget: FC<Props> = observer(() => {
                 style={tw`mt-1 max-h-49`}
                 showsVerticalScrollIndicator={false}>
                 {!data.events.length && (
-                  <Text style={tw`text-gray-600 text-xs ml-2`}>No Events</Text>
+                  <Text
+                    style={tw`text-gray-400 dark:text-gray-600 text-xs ml-2`}>
+                    No Events
+                  </Text>
                 )}
                 {data.events.map((event, index) => {
                   const lDate = DateTime.fromISO(event.date)
