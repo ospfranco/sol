@@ -1,6 +1,6 @@
 import {createContext, useContext} from 'react'
 import {createClipboardStore} from 'stores/clipboard.store'
-import {createUIStore} from './stores'
+import {createUIStore} from './stores/ui.store'
 
 export interface IRootStore {
   ui: ReturnType<typeof createUIStore>

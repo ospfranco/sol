@@ -4,19 +4,11 @@ import 'intl'
 import 'intl/locale-data/jsonp/en'
 import {configure} from 'mobx'
 import React from 'react'
-import {LogBox} from 'react-native'
 import {root, StoreProvider} from 'store'
 
 configure({
-  useProxies: 'never',
+  useProxies: 'ifavailable',
 })
-
-LogBox.ignoreLogs([
-  'AsyncStorage ',
-  'Clipboard ',
-  'Component',
-  'Require cycle:',
-])
 
 if (!__DEV__) {
   Sentry.init({
