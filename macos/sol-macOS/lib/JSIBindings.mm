@@ -1,12 +1,12 @@
 #include "JSIBindings.hpp"
+#import "CalendarHelper.h"
 #include "SolMacros.h"
 #import <Cocoa/Cocoa.h>
+#import <EventKit/EKCalendar.h>
+#import <EventKit/EKEvent.h>
 #import <Foundation/Foundation.h>
 #include <iostream>
 #import <sol-Swift.h>
-#import <EventKit/EKEvent.h>
-#import <EventKit/EKCalendar.h>
-#import "CalendarHelper.h"
 
 namespace sol {
 
@@ -17,9 +17,7 @@ std::shared_ptr<react::CallInvoker> invoker;
 FileSearcher *fileSearcher;
 CalendarHelper *calendarHelper;
 
-NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
-
-
+NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
 
 void install(jsi::Runtime &rt,
              std::shared_ptr<react::CallInvoker> callInvoker) {
@@ -32,7 +30,7 @@ void install(jsi::Runtime &rt,
     int height = static_cast<int>(arguments[0].asNumber());
     dispatch_async(dispatch_get_main_queue(), ^{
       AppDelegate *appDelegate =
-      (AppDelegate *)[[NSApplication sharedApplication] delegate];
+          (AppDelegate *)[[NSApplication sharedApplication] delegate];
       [appDelegate setHeight:height];
     });
 
@@ -42,7 +40,7 @@ void install(jsi::Runtime &rt,
   auto resetWindowSize = HOSTFN("resetWindowSize", 0, []) {
     dispatch_async(dispatch_get_main_queue(), ^{
       AppDelegate *appDelegate =
-      (AppDelegate *)[[NSApplication sharedApplication] delegate];
+          (AppDelegate *)[[NSApplication sharedApplication] delegate];
       [appDelegate resetSize];
     });
 
@@ -52,7 +50,7 @@ void install(jsi::Runtime &rt,
   auto hideWindow = HOSTFN("hideWindow", 0, []) {
     dispatch_async(dispatch_get_main_queue(), ^{
       AppDelegate *appDelegate =
-      (AppDelegate *)[[NSApplication sharedApplication] delegate];
+          (AppDelegate *)[[NSApplication sharedApplication] delegate];
       [appDelegate hideWindow];
     });
 
@@ -61,8 +59,7 @@ void install(jsi::Runtime &rt,
 
   auto searchFiles = HOSTFN("searchFiles", 1, []) {
     auto queryStr = arguments[0].asString(rt).utf8(rt);
-    [fileSearcher
-     searchFile:[NSString stringWithUTF8String:queryStr.c_str()]];
+    [fileSearcher searchFile:[NSString stringWithUTF8String:queryStr.c_str()]];
     return {};
   });
 
@@ -130,8 +127,7 @@ void install(jsi::Runtime &rt,
   // });
 
   auto requestCalendarAccess = HOSTFN("requestCalendarAccess", 0, []) {
-    auto promiseConstructor = rt.global()
-      .getPropertyAsFunction(rt, "Promise");
+    auto promiseConstructor = rt.global().getPropertyAsFunction(rt, "Promise");
 
     auto promise = promiseConstructor.callAsConstructor(rt, HOSTFN("executor", 2, []) {
       auto resolve = std::make_shared<jsi::Value>(rt, arguments[0]);
@@ -145,7 +141,8 @@ void install(jsi::Runtime &rt,
     return promise;
   });
 
-  auto getCalendarAuthorizationStatus = HOSTFN("getCalendarAuthorizationStatus", 0, []) {
+  auto getCalendarAuthorizationStatus =
+      HOSTFN("getCalendarAuthorizationStatus", 0, []) {
     NSString *status = [calendarHelper getCalendarAuthorizationStatus];
     std::string statusStd = std::string([status UTF8String]);
     return jsi::String::createFromUtf8(rt, statusStd);
@@ -155,8 +152,7 @@ void install(jsi::Runtime &rt,
     NSArray<EKEvent *> *ekEvents = [calendarHelper getEvents];
     auto events = jsi::Array(rt, ekEvents.count);
     NSString *colorString = @"";
-    for(int i=0; i < ekEvents.count; i++)
-    {
+    for (int i = 0; i < ekEvents.count; i++) {
       EKEvent *ekEvent = [ekEvents objectAtIndex:i];
       auto color = [[ekEvent calendar] color];
 
@@ -164,51 +160,65 @@ void install(jsi::Runtime &rt,
       int redIntValue, greenIntValue, blueIntValue;
       NSString *redHexValue, *greenHexValue, *blueHexValue;
 
-      //Convert the NSColor to the RGB color space before we can access its components
-      NSColor *convertedColor=[color colorUsingColorSpace:[NSColorSpace genericRGBColorSpace]];
+      // Convert the NSColor to the RGB color space before we can access its
+      // components
+      NSColor *convertedColor =
+          [color colorUsingColorSpace:[NSColorSpace genericRGBColorSpace]];
 
-      if(convertedColor)
-      {
+      if (convertedColor) {
         // Get the red, green, and blue components of the color
-        [convertedColor getRed:&redFloatValue green:&greenFloatValue blue:&blueFloatValue alpha:NULL];
+        [convertedColor getRed:&redFloatValue
+                         green:&greenFloatValue
+                          blue:&blueFloatValue
+                         alpha:NULL];
 
-        // Convert the components to numbers (unsigned decimal integer) between 0 and 255
-        redIntValue=redFloatValue*255.99999f;
-        greenIntValue=greenFloatValue*255.99999f;
-        blueIntValue=blueFloatValue*255.99999f;
+        // Convert the components to numbers (unsigned decimal integer) between
+        // 0 and 255
+        redIntValue = redFloatValue * 255.99999f;
+        greenIntValue = greenFloatValue * 255.99999f;
+        blueIntValue = blueFloatValue * 255.99999f;
 
         // Convert the numbers to hex strings
-        redHexValue=[NSString stringWithFormat:@"%02x", redIntValue];
-        greenHexValue=[NSString stringWithFormat:@"%02x", greenIntValue];
-        blueHexValue=[NSString stringWithFormat:@"%02x", blueIntValue];
+        redHexValue = [NSString stringWithFormat:@"%02x", redIntValue];
+        greenHexValue = [NSString stringWithFormat:@"%02x", greenIntValue];
+        blueHexValue = [NSString stringWithFormat:@"%02x", blueIntValue];
 
-        // Concatenate the red, green, and blue components' hex strings together with a "#"
-        colorString = [NSString stringWithFormat:@"#%@%@%@", redHexValue, greenHexValue, blueHexValue];
+        // Concatenate the red, green, and blue components' hex strings together
+        // with a "#"
+        colorString = [NSString stringWithFormat:@"#%@%@%@", redHexValue,
+                                                 greenHexValue, blueHexValue];
       }
 
       jsi::Object event = jsi::Object(rt);
       event.setProperty(rt, "id", [[ekEvent eventIdentifier] UTF8String]);
       event.setProperty(rt, "title", [[ekEvent title] UTF8String]);
-      if([ekEvent URL] != NULL) {
-        event.setProperty(rt, "url", [[[ekEvent URL] absoluteString] UTF8String]);
+      if ([ekEvent URL] != NULL) {
+        event.setProperty(rt, "url",
+                          [[[ekEvent URL] absoluteString] UTF8String]);
       }
-      if([ekEvent notes] != NULL) {
+      if ([ekEvent notes] != NULL) {
         event.setProperty(rt, "notes", [[ekEvent notes] UTF8String]);
       }
 
-      if([ekEvent location] != NULL) {
+      if ([ekEvent location] != NULL) {
         event.setProperty(rt, "location", [[ekEvent location] UTF8String]);
       }
 
       event.setProperty(rt, "color", [colorString UTF8String]);
-      if([ekEvent startDate] != NULL) {
-        event.setProperty(rt, "date",[ [dateFormatter stringFromDate:[ekEvent startDate]] UTF8String]);
+      if ([ekEvent startDate] != NULL) {
+        event.setProperty(
+            rt, "date",
+            [[dateFormatter stringFromDate:[ekEvent startDate]] UTF8String]);
       }
-      if([ekEvent endDate] != NULL) {
-        event.setProperty(rt, "date",[ [dateFormatter stringFromDate:[ekEvent endDate]] UTF8String]);
+      if ([ekEvent endDate] != NULL) {
+        event.setProperty(
+            rt, "endDate",
+            [[dateFormatter stringFromDate:[ekEvent endDate]] UTF8String]);
       }
-      event.setProperty(rt, "isAllDay", jsi::Value(static_cast<bool>([ekEvent isAllDay])));
-      event.setProperty(rt, "status", jsi::Value(static_cast<int>([ekEvent status])));
+      event.setProperty(rt, "isAllDay",
+                        jsi::Value(static_cast<bool>([ekEvent isAllDay])));
+      event.setProperty(rt, "status",
+                        jsi::Value(static_cast<int>([ekEvent status])));
 
       events.setValueAtIndex(rt, i, event);
     }
@@ -222,8 +232,10 @@ void install(jsi::Runtime &rt,
   module.setProperty(rt, "hideWindow", std::move(hideWindow));
   // module.setProperty(rt, "getMediaInfo", std::move(getMediaInfo));
   module.setProperty(rt, "searchFiles", std::move(searchFiles));
-  module.setProperty(rt, "requestCalendarAccess", std::move(requestCalendarAccess));
-  module.setProperty(rt, "getCalendarAuthorizationStatus", std::move(getCalendarAuthorizationStatus));
+  module.setProperty(rt, "requestCalendarAccess",
+                     std::move(requestCalendarAccess));
+  module.setProperty(rt, "getCalendarAuthorizationStatus",
+                     std::move(getCalendarAuthorizationStatus));
   module.setProperty(rt, "getEvents", std::move(getEvents));
 
   rt.global().setProperty(rt, "__SolProxy", std::move(module));

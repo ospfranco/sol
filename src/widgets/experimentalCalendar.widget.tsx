@@ -41,7 +41,7 @@ export const ExperimentalCalendarWidget: FC<Props> = observer(() => {
   }
 
   return (
-    <View style={tw`mx-1 py-2 flex-row`}>
+    <View style={tw`mx-3 my-2 flex-row`}>
       {groupedEvents.map(([key, data], i) => {
         return (
           <View key={key} style={tw`flex-row flex-1`}>
@@ -79,9 +79,6 @@ export const ExperimentalCalendarWidget: FC<Props> = observer(() => {
                   const lEndDate = event.endDate
                     ? DateTime.fromISO(event.endDate)
                     : null
-                  // const minutesToEvent = Math.round(
-                  //   lDate.diff(DateTime.now(), 'minutes').minutes,
-                  // )
 
                   const highlighted =
                     focused &&
@@ -94,42 +91,10 @@ export const ExperimentalCalendarWidget: FC<Props> = observer(() => {
                     <View
                       key={index}
                       style={tw.style(`my-1 border-l`, {
-                        'bg-accent bg-opacity-80 dark:bg-opacity-40 rounded':
+                        'bg-accent bg-opacity-80 dark:bg-opacity-40 rounded-r':
                           highlighted,
                         borderColor: event.color,
                       })}>
-                      <View style={tw`flex-row items-center`}>
-                        {/* <View
-                          style={tw.style(
-                            `w-2 h-2 rounded-full justify-center items-center`,
-                            {
-                              backgroundColor: event.color,
-                            },
-                          )}
-                        /> */}
-
-                        {/* <View
-                          style={tw.style('h-full border-r', {
-                            borderColor: event.color,
-                          })}
-                        /> */}
-
-                        <Text
-                          minimumFontScale={0.8}
-                          adjustsFontSizeToFit
-                          numberOfLines={1}
-                          style={tw.style(`ml-1 text-sm`, {
-                            'text-white': highlighted,
-                          })}>
-                          {event.title}
-                        </Text>
-                      </View>
-                      {/* {minutesToEvent >= 0 && minutesToEvent <= 20 && (
-                        <Text
-                          style={tw`pl-2 dark:text-gray-500 text-gray-400 text-xs`}>
-                          in {minutesToEvent} minutes
-                        </Text>
-                      )} */}
                       <Text
                         style={tw.style(
                           `text-gray-500 dark:text-gray-400 ml-1 text-xs`,
@@ -137,24 +102,25 @@ export const ExperimentalCalendarWidget: FC<Props> = observer(() => {
                             'text-white': highlighted,
                           },
                         )}>
-                        {event.isAllDay ? (
-                          'All Day'
-                        ) : (
-                          <>
-                            <Text
-                              style={tw.style(
-                                `text-gray-800 dark:text-gray-200`,
-                                {
-                                  'text-white': highlighted,
-                                },
-                              )}>
-                              {lDate.toFormat('HH:mm')}{' '}
-                            </Text>
-                            {lEndDate && !event.isAllDay
-                              ? `- ${lEndDate.toFormat('HH:mm')}`
-                              : null}
-                          </>
-                        )}
+                        <Text
+                          style={tw.style(`text-gray-800 dark:text-gray-200`, {
+                            'text-white': highlighted,
+                          })}>
+                          {lDate.toFormat('HH:mm')}
+                        </Text>
+                        {!!lEndDate
+                          ? ` - ${lEndDate.toFormat('HH:mm')}`
+                          : 'null'}
+                      </Text>
+
+                      <Text
+                        minimumFontScale={0.8}
+                        adjustsFontSizeToFit
+                        numberOfLines={1}
+                        style={tw.style(`ml-1 text-xs font-bold`, {
+                          'text-white': highlighted,
+                        })}>
+                        {event.title}
                       </Text>
                     </View>
                   )
