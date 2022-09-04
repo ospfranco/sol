@@ -7,7 +7,7 @@ import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect, useState} from 'react'
 import {Image, Text, TouchableOpacity, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
-import {ItemType} from 'stores'
+import {ItemType} from 'stores/ui.store'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
 

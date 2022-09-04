@@ -4,7 +4,7 @@ import {observer} from 'mobx-react-lite'
 import React, {FC} from 'react'
 import {Text, TouchableOpacity, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
-import {FocusableWidget} from 'stores'
+import {FocusableWidget} from 'stores/ui.store'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
 

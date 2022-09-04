@@ -12,7 +12,7 @@ import {
   ViewStyle,
 } from 'react-native'
 import {useStore} from 'store'
-import {FocusableWidget, ItemType} from 'stores'
+import {FocusableWidget, ItemType} from 'stores/ui.store'
 import tw from 'tailwind'
 
 interface Props {

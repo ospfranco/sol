@@ -1,4 +1,5 @@
 import * as Sentry from '@sentry/react-native'
+import 'config'
 import {RootContainer} from 'containers'
 import 'intl'
 import 'intl/locale-data/jsonp/en'
