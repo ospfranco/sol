@@ -33,7 +33,8 @@ platform :mac do
 
     sh("yarn", "appcast")
 
-    sh("gac", "\"" + version + "\"")
+    sh("git", "add", ".")
+    sh("git", "commit", "-m", "\"" + version + "\"")
   end
 
   lane :dev do

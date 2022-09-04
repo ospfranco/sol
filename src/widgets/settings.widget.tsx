@@ -158,7 +158,7 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
           />
 
           <View style={tw`flex-1 pt-8`}>
-            <View style={tw`flex-row items-center py-2`}>
+            <View style={tw`flex-row items-center py-2 z-10`}>
               <Text style={tw`flex-1 text-right pr-3 text-sm`}>
                 Global shortcut
               </Text>
@@ -173,7 +173,7 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
                 />
               </View>
             </View>
-            <View style={tw`flex-row items-center py-2`}>
+            <View style={tw`flex-row items-center py-2 z-9`}>
               <Text style={tw`flex-1 text-right pr-3 text-sm`}>
                 Scratchpad shortcut
               </Text>
@@ -188,7 +188,7 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
                 />
               </View>
             </View>
-            <View style={tw`flex-row items-center py-2`}>
+            <View style={tw`flex-row items-center py-2 z-8`}>
               <Text style={tw`flex-1 text-right pr-3 text-sm`}>
                 Clipboard manager shortcut
               </Text>
@@ -206,7 +206,7 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
               </View>
             </View>
 
-            <View style={tw`flex-row items-center py-2`}>
+            <View style={tw`flex-row items-center py-2 z-7`}>
               <Text style={tw`flex-1 text-right pr-3 text-sm`}>
                 Show window on
               </Text>
