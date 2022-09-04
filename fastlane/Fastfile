@@ -4,6 +4,8 @@ default_platform(:mac)
 
 platform :mac do
   lane :release do
+    sh("yarn", "bump")
+
     version = get_version_number(xcodeproj: "./macos/sol.xcodeproj")
 
     outputPath = "/Users/osp/Developer/sol/releases/"
@@ -28,6 +30,10 @@ platform :mac do
       path: appFileName,
       output_path: zipFileName
     )
+
+    sh("yarn", "appcast")
+
+    sh("gac", "\"" + version + "\"")
   end
 
   lane :dev do
