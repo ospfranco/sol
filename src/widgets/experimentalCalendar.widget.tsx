@@ -48,7 +48,7 @@ export const ExperimentalCalendarWidget: FC<Props> = observer(() => {
             <View style={tw`flex-1`}>
               <View
                 style={tw.style(
-                  `flex-row px-2 dark:border-darkBorder border-lightBorder`,
+                  `flex-row pl-1 dark:border-darkBorder border-lightBorder`,
                   {
                     'border-l': i !== 0,
                   },
@@ -70,7 +70,7 @@ export const ExperimentalCalendarWidget: FC<Props> = observer(() => {
                 showsVerticalScrollIndicator={false}>
                 {!data.events.length && (
                   <Text
-                    style={tw`text-gray-400 dark:text-gray-600 text-xs ml-2`}>
+                    style={tw`text-gray-400 dark:text-gray-400 text-xs ml-1`}>
                     No Events
                   </Text>
                 )}
