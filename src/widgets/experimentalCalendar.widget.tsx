@@ -42,11 +42,17 @@ export const ExperimentalCalendarWidget: FC<Props> = observer(() => {
 
   return (
     <View style={tw`mx-1 py-2 flex-row`}>
-      {groupedEvents.map(([key, data], index) => {
+      {groupedEvents.map(([key, data], i) => {
         return (
           <View key={key} style={tw`flex-row flex-1`}>
             <View style={tw`flex-1`}>
-              <View style={tw.style(`flex-row px-2`)}>
+              <View
+                style={tw.style(
+                  `flex-row px-2 dark:border-darkBorder border-lightBorder`,
+                  {
+                    'border-l': i !== 0,
+                  },
+                )}>
                 {key === 'today' ? (
                   <Text
                     style={tw`capitalize dark:text-white text-gray-500 text-xs`}>
@@ -70,9 +76,9 @@ export const ExperimentalCalendarWidget: FC<Props> = observer(() => {
                   const lEndDate = event.endDate
                     ? DateTime.fromISO(event.endDate)
                     : null
-                  const minutesToEvent = Math.round(
-                    lDate.diff(DateTime.now(), 'minutes').minutes,
-                  )
+                  // const minutesToEvent = Math.round(
+                  //   lDate.diff(DateTime.now(), 'minutes').minutes,
+                  // )
 
                   const highlighted =
                     focused &&
@@ -84,7 +90,7 @@ export const ExperimentalCalendarWidget: FC<Props> = observer(() => {
                   return (
                     <View
                       key={index}
-                      style={tw.style(`mx-2 my-1 border-l`, {
+                      style={tw.style(`my-1 border-l`, {
                         'bg-accent bg-opacity-80 dark:bg-opacity-40 rounded':
                           highlighted,
                         borderColor: event.color,
@@ -106,6 +112,8 @@ export const ExperimentalCalendarWidget: FC<Props> = observer(() => {
                         /> */}
 
                         <Text
+                          minimumFontScale={0.8}
+                          adjustsFontSizeToFit
                           numberOfLines={1}
                           style={tw.style(`ml-1 text-sm`, {
                             'text-white': highlighted,
@@ -113,12 +121,12 @@ export const ExperimentalCalendarWidget: FC<Props> = observer(() => {
                           {event.title}
                         </Text>
                       </View>
-                      {minutesToEvent >= 0 && minutesToEvent <= 20 && (
+                      {/* {minutesToEvent >= 0 && minutesToEvent <= 20 && (
                         <Text
                           style={tw`pl-2 dark:text-gray-500 text-gray-400 text-xs`}>
                           in {minutesToEvent} minutes
                         </Text>
-                      )}
+                      )} */}
                       <Text
                         style={tw.style(
                           `text-gray-500 dark:text-gray-400 ml-1 text-xs`,
@@ -156,7 +164,9 @@ export const ExperimentalCalendarWidget: FC<Props> = observer(() => {
               </ScrollView>
             </View>
 
-            <View style={tw`h-full py-3 border-r border-darkBorder`} />
+            {/* <View
+              style={tw`h-4 border-r dark:border-darkBorder border-lightBorder`}
+            /> */}
           </View>
         )
       })}
