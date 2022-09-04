@@ -1,6 +1,7 @@
 import {Assets} from 'assets'
 import {FileIcon} from 'components/FileIcon'
 import {Key} from 'components/Key'
+import {useBoolean} from 'hooks'
 import {observer} from 'mobx-react-lite'
 import React, {FC} from 'react'
 import {
@@ -19,30 +20,44 @@ interface Props {
   style?: ViewStyle
 }
 
-export const GeneralWidget: FC<Props> = observer(({style}) => {
+const SolIcon = () => {
   const store = useStore()
   const colorScheme = useColorScheme()
+  const [isHovered, hoverOn, hoverOff] = useBoolean()
 
+  return (
+    <TouchableOpacity
+      // @ts-expect-error
+      onMouseEnter={hoverOn}
+      onMouseLeave={hoverOff}
+      style={tw.style({
+        'bg-accent bg-opacity-30 rounded': isHovered,
+      })}
+      onPress={() => {
+        store.ui.focusWidget(FocusableWidget.SETTINGS)
+      }}>
+      <Image
+        source={Assets.SolWhiteSmall}
+        style={tw.style('h-6 w-6 mx-1', {
+          tintColor:
+            colorScheme === 'dark'
+              ? tw.color('text-gray-300')!
+              : tw.color('text-gray-700')!,
+        })}
+      />
+    </TouchableOpacity>
+  )
+}
+
+export const GeneralWidget: FC<Props> = observer(({style}) => {
+  const store = useStore()
   return (
     <View
       style={tw.style(
         `text-gray-200 flex-row items-center border-t border-lightBorder dark:border-darkBorder px-3 py-2 bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30`,
         style,
       )}>
-      <TouchableOpacity
-        onPress={() => {
-          store.ui.focusWidget(FocusableWidget.SETTINGS)
-        }}>
-        <Image
-          source={Assets.SolWhiteSmall}
-          style={tw.style('h-6 w-6 mx-1', {
-            tintColor:
-              colorScheme === 'dark'
-                ? tw.color('text-gray-300')!
-                : tw.color('text-gray-700')!,
-          })}
-        />
-      </TouchableOpacity>
+      <SolIcon />
 
       {!!store.ui.track?.title && (
         <View
