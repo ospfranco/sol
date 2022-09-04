@@ -6,10 +6,10 @@ import {useStore} from 'store'
 import {FocusableWidget} from 'stores'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
-import {CalendarWidget} from 'widgets/calendar.widget'
 import {ClipboardWidget} from 'widgets/clipboard.widget'
 import {CreateItemWidget} from 'widgets/createItem.widget'
 import {EmojisWidget} from 'widgets/emojis.widget'
+import {ExperimentalCalendarWidget} from 'widgets/experimentalCalendar.widget'
 import {GeneralWidget} from 'widgets/general.widget'
 import {GifsWidget} from 'widgets/gifs.widget'
 import {GoogleMapWidget} from 'widgets/googleMap.widget'
@@ -103,7 +103,7 @@ export const RootContainer = observer(() => {
             style={tw`border-t border-lightBorder dark:border-darkBorder`}
           />
         )}
-      {calendarVisible && <CalendarWidget />}
+      {calendarVisible && <ExperimentalCalendarWidget />}
       <GeneralWidget />
       {!store.ui.isAccessibilityTrusted && (
         <>

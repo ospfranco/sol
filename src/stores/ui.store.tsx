@@ -917,23 +917,39 @@ export const createUIStore = (root: IRootStore) => {
 
           return true
         })
-        .slice(0, 3)
     },
     get groupedEvents(): Record<
       string,
       {date: DateTime; events: Array<INativeEvent>}
     > {
-      return store.filteredEvents.reduce((acc, event) => {
-        const lDate = DateTime.fromISO(event.date)
-        const relativeDate = lDate.toRelativeCalendar()!
+      let acc: Record<string, {date: DateTime; events: Array<INativeEvent>}> =
+        {}
+      for (let ii = 0; ii < 5; ii++) {
+        const now = DateTime.now().plus({days: ii})
+        const relativeNow = now.toRelativeCalendar()!
+        const todayEvents = store.filteredEvents.filter(e => {
+          const lEventDate = DateTime.fromISO(e.date)
+          return lEventDate.toRelativeCalendar()! === relativeNow
+        })
 
-        if (!acc[relativeDate]) {
-          acc[relativeDate] = {date: lDate, events: [event]}
-        } else {
-          acc[relativeDate].events.push(event)
+        acc[relativeNow] = {
+          date: now,
+          events: todayEvents,
         }
-        return acc
-      }, {} as Record<string, {date: DateTime; events: Array<INativeEvent>}>)
+      }
+
+      return acc
+      // return store.filteredEvents.reduce((acc, event) => {
+      //   const lDate = DateTime.fromISO(event.date)
+      //   const relativeDate = lDate.toRelativeCalendar()!
+
+      //   if (!acc[relativeDate]) {
+      //     acc[relativeDate] = {date: lDate, events: [event]}
+      //   } else {
+      //     acc[relativeDate].events.push(event)
+      //   }
+      //   return acc
+      // }, {} as Record<string, {date: DateTime; events: Array<INativeEvent>}>)
     },
     get currentItem(): Item {
       return store.items[store.selectedIndex]
@@ -1607,7 +1623,10 @@ export const createUIStore = (root: IRootStore) => {
             }
 
             case FocusableWidget.CALENDAR: {
-              store.selectedIndex = Math.min(2, store.selectedIndex + 1)
+              store.selectedIndex = Math.min(
+                store.filteredEvents.length - 1,
+                store.selectedIndex + 1,
+              )
               break
             }
 
