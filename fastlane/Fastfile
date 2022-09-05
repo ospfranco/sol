@@ -33,7 +33,7 @@ platform :mac do
 
     sh("yarn", "appcast")
 
-    sh("git", "add", ".")
+    sh("git", "add", "..")
     sh("git", "commit", "-m", '"' + version + '"')
   end
 
