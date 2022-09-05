@@ -16,7 +16,7 @@ import {
   ViewStyle,
 } from 'react-native'
 import {useStore} from 'store'
-import {FocusableWidget, Item, ItemType} from 'stores/ui.store'
+import {Item, ItemType, Widget} from 'stores/ui.store'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
 
@@ -28,7 +28,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
   useDeviceContext(tw)
   const store = useStore()
   const colorScheme = useColorScheme()
-  const focused = store.ui.focusedWidget === FocusableWidget.SEARCH
+  const focused = store.ui.focusedWidget === Widget.SEARCH
   const inputRef = useRef<TextInput | null>(null)
   const listRef = useRef<FlatList | null>(null)
 

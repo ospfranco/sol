@@ -3,13 +3,13 @@ import {observer} from 'mobx-react-lite'
 import React, {useEffect} from 'react'
 import {Text, TouchableOpacity, View} from 'react-native'
 import {useStore} from 'store'
-import {FocusableWidget} from 'stores/ui.store'
+import {Widget} from 'stores/ui.store'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
+import {CalendarWidget} from 'widgets/calendar.widget'
 import {ClipboardWidget} from 'widgets/clipboard.widget'
 import {CreateItemWidget} from 'widgets/createItem.widget'
 import {EmojisWidget} from 'widgets/emojis.widget'
-import {ExperimentalCalendarWidget} from 'widgets/experimentalCalendar.widget'
 import {GeneralWidget} from 'widgets/general.widget'
 import {GifsWidget} from 'widgets/gifs.widget'
 import {GoogleMapWidget} from 'widgets/googleMap.widget'
@@ -37,47 +37,47 @@ export const RootContainer = observer(() => {
     }
   }, [])
 
-  if (widget === FocusableWidget.CLIPBOARD) {
+  if (widget === Widget.CLIPBOARD) {
     return <ClipboardWidget style={mainStyle} />
   }
 
-  if (widget === FocusableWidget.GIFS) {
+  if (widget === Widget.GIFS) {
     return <GifsWidget style={mainStyle} />
   }
 
-  if (widget === FocusableWidget.EMOJIS) {
+  if (widget === Widget.EMOJIS) {
     return <EmojisWidget style={mainStyle} />
   }
 
-  if (widget === FocusableWidget.SCRATCHPAD) {
+  if (widget === Widget.SCRATCHPAD) {
     return <ScratchpadWidget style={mainStyle} />
   }
 
-  if (widget === FocusableWidget.GOOGLE_MAP) {
+  if (widget === Widget.GOOGLE_MAP) {
     return <GoogleMapWidget />
   }
 
-  if (widget === FocusableWidget.CREATE_ITEM) {
+  if (widget === Widget.CREATE_ITEM) {
     return <CreateItemWidget style={mainStyle} />
   }
 
-  if (widget === FocusableWidget.ONBOARDING) {
+  if (widget === Widget.ONBOARDING) {
     return <OnboardingWidget style={mainStyle} />
   }
 
-  if (widget === FocusableWidget.PROJECT_CREATION) {
+  if (widget === Widget.PROJECT_CREATION) {
     return <ProjectCreationWidget style={mainStyle} />
   }
 
-  if (widget === FocusableWidget.PROJECT_SELECT) {
+  if (widget === Widget.PROJECT_SELECT) {
     return <ProjectSelectWidget style={mainStyle} />
   }
 
-  if (widget === FocusableWidget.TRANSLATION) {
+  if (widget === Widget.TRANSLATION) {
     return <TranslationWidget style={mainStyle} />
   }
 
-  if (widget === FocusableWidget.SETTINGS) {
+  if (widget === Widget.SETTINGS) {
     return <SettingsWidget style={mainStyle} />
   }
 
@@ -103,7 +103,7 @@ export const RootContainer = observer(() => {
             style={tw`border-t border-lightBorder dark:border-darkBorder`}
           />
         )}
-      {calendarVisible && <ExperimentalCalendarWidget />}
+      {calendarVisible && <CalendarWidget />}
       <GeneralWidget />
       {!store.ui.isAccessibilityTrusted && (
         <>

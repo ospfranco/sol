@@ -17,7 +17,7 @@ import {
   ViewStyle,
 } from 'react-native'
 import {useStore} from 'store'
-import {FocusableWidget} from 'stores/ui.store'
+import {Widget} from 'stores/ui.store'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
 
@@ -40,7 +40,7 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
         style={tw`p-6 w-40 border-r border-lightBorder dark:border-darkBorder`}>
         <TouchableOpacity
           onPress={() => {
-            store.ui.focusWidget(FocusableWidget.SEARCH)
+            store.ui.focusWidget(Widget.SEARCH)
           }}>
           <View style={tw`flex-row items-center`}>
             <Image

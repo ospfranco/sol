@@ -64,7 +64,7 @@ interface ITrackingProject {
   periods: IPeriod[]
 }
 
-export enum FocusableWidget {
+export enum Widget {
   ONBOARDING = 'ONBOARDING',
   SEARCH = 'SEARCH',
   CALENDAR = 'CALENDAR',
@@ -144,7 +144,7 @@ export const createUIStore = (root: IRootStore) => {
           store.onboardingStep !== 'v1_completed' &&
           store.onboardingStep !== 'v1_skipped'
         ) {
-          store.focusedWidget = FocusableWidget.ONBOARDING
+          store.focusedWidget = Widget.ONBOARDING
         }
         store.notes = parsedStore.notes ?? ['']
         if (store.notes.length === 0) {
@@ -173,7 +173,7 @@ export const createUIStore = (root: IRootStore) => {
       solNative.setWindowManagement(store.windowManagementEnabled)
     } else {
       runInAction(() => {
-        store.focusedWidget = FocusableWidget.ONBOARDING
+        store.focusedWidget = Widget.ONBOARDING
       })
     }
   }
@@ -205,7 +205,7 @@ export const createUIStore = (root: IRootStore) => {
       name: 'Google Maps Search',
       type: ItemType.CONFIGURATION,
       callback: () => {
-        store.focusedWidget = FocusableWidget.GOOGLE_MAP
+        store.focusedWidget = Widget.GOOGLE_MAP
       },
       shortcut: '⌘ 3',
       preventClose: true,
@@ -219,7 +219,7 @@ export const createUIStore = (root: IRootStore) => {
       type: ItemType.CONFIGURATION,
       preventClose: true,
       callback: () => {
-        store.focusWidget(FocusableWidget.PROJECT_SELECT)
+        store.focusWidget(Widget.PROJECT_SELECT)
       },
     },
     {
@@ -315,7 +315,7 @@ export const createUIStore = (root: IRootStore) => {
       name: 'Settings',
       type: ItemType.CONFIGURATION,
       callback: () => {
-        store.focusWidget(FocusableWidget.SETTINGS)
+        store.focusWidget(Widget.SETTINGS)
       },
       preventClose: true,
     },
@@ -324,7 +324,7 @@ export const createUIStore = (root: IRootStore) => {
       name: 'Create shortcut',
       type: ItemType.CONFIGURATION,
       callback: () => {
-        store.focusWidget(FocusableWidget.CREATE_ITEM)
+        store.focusWidget(Widget.CREATE_ITEM)
       },
       preventClose: true,
     },
@@ -503,7 +503,7 @@ export const createUIStore = (root: IRootStore) => {
       preventClose: true,
       type: ItemType.CONFIGURATION,
       callback: () => {
-        store.focusWidget(FocusableWidget.SCRATCHPAD)
+        store.focusWidget(Widget.SCRATCHPAD)
       },
       shortcut: '⌘ + ⇧ + Space',
     },
@@ -663,7 +663,7 @@ export const createUIStore = (root: IRootStore) => {
       type: ItemType.CONFIGURATION,
       callback: () => {
         store.onboardingStep = 'v1_start'
-        store.focusWidget(FocusableWidget.ONBOARDING)
+        store.focusWidget(Widget.ONBOARDING)
       },
       preventClose: true,
     })
@@ -710,7 +710,7 @@ export const createUIStore = (root: IRootStore) => {
     now: DateTime.now() as DateTime,
     query: '' as string,
     selectedIndex: 0 as number,
-    focusedWidget: FocusableWidget.SEARCH as FocusableWidget,
+    focusedWidget: Widget.SEARCH as Widget,
     events: [] as INativeEvent[],
     currentTemp: 0 as number,
     nextHourForecast: null as null | string,
@@ -1032,7 +1032,7 @@ export const createUIStore = (root: IRootStore) => {
       return false
     },
     showGifPicker: () => {
-      store.focusWidget(FocusableWidget.GIFS)
+      store.focusWidget(Widget.GIFS)
       store.query = ''
       store.searchGifs()
     },
@@ -1052,11 +1052,11 @@ export const createUIStore = (root: IRootStore) => {
       })
     },
     showEmojiPicker: () => {
-      store.focusWidget(FocusableWidget.EMOJIS)
+      store.focusWidget(Widget.EMOJIS)
       store.query = ''
     },
     showSettings: () => {
-      store.focusWidget(FocusableWidget.SETTINGS)
+      store.focusWidget(Widget.SETTINGS)
     },
     removeNote: (idx: number) => {
       let newNotes = [...store.notes]
@@ -1108,7 +1108,7 @@ export const createUIStore = (root: IRootStore) => {
           store.query,
         )
         runInAction(() => {
-          store.focusedWidget = FocusableWidget.TRANSLATION
+          store.focusedWidget = Widget.TRANSLATION
           store.translationResults = translations
           store.selectedIndex = 0
         })
@@ -1190,7 +1190,7 @@ export const createUIStore = (root: IRootStore) => {
     setTempProjectName: (name: string) => {
       store.tempProjectName = name
     },
-    focusWidget: (widget: FocusableWidget) => {
+    focusWidget: (widget: Widget) => {
       store.selectedIndex = 0
       store.focusedWidget = widget
     },
@@ -1200,21 +1200,21 @@ export const createUIStore = (root: IRootStore) => {
         name: store.tempProjectName,
         periods: [],
       })
-      store.focusedWidget = FocusableWidget.PROJECT_SELECT
+      store.focusedWidget = Widget.PROJECT_SELECT
       store.selectedIndex = 0
       store.tempProjectName = ''
     },
     showProjectCreationForm: () => {
-      store.focusedWidget = FocusableWidget.PROJECT_CREATION
+      store.focusedWidget = Widget.PROJECT_CREATION
     },
-    setFocus: (widget: FocusableWidget) => {
+    setFocus: (widget: Widget) => {
       store.focusedWidget = widget
     },
     setQuery: (query: string) => {
       store.query = query
       store.selectedIndex = 0
 
-      if (store.focusedWidget === FocusableWidget.SEARCH) {
+      if (store.focusedWidget === Widget.SEARCH) {
         try {
           const res = exprParser.evaluate(store.query)
           if (res && typeof res !== 'function') {
@@ -1287,12 +1287,12 @@ export const createUIStore = (root: IRootStore) => {
       switch (keyCode) {
         // delete key
         case 51: {
-          if (store.focusedWidget === FocusableWidget.SCRATCHPAD) {
+          if (store.focusedWidget === Widget.SCRATCHPAD) {
             store.handleDeletePressOnScrachpad()
           }
 
           if (
-            store.focusedWidget === FocusableWidget.SEARCH &&
+            store.focusedWidget === Widget.SEARCH &&
             store.currentItem.type === ItemType.CUSTOM &&
             store.shiftPressed
           ) {
@@ -1305,22 +1305,20 @@ export const createUIStore = (root: IRootStore) => {
         }
         // tab key
         case 48: {
-          let nextWidget = store.focusedWidget
-
           switch (store.focusedWidget) {
-            case FocusableWidget.SEARCH:
-              if (!!store.events.length) {
+            case Widget.SEARCH:
+              if (!!store.filteredEvents.length) {
                 store.selectedIndex = 0
-                nextWidget = FocusableWidget.CALENDAR
+                store.focusedWidget = Widget.CALENDAR
               }
               break
 
-            case FocusableWidget.CALENDAR:
+            case Widget.CALENDAR:
               store.selectedIndex = 0
-              nextWidget = FocusableWidget.SEARCH
+              store.focusedWidget = Widget.SEARCH
               break
 
-            case FocusableWidget.SCRATCHPAD:
+            case Widget.SCRATCHPAD:
               if (shift) {
                 store.selectedIndex =
                   store.selectedIndex - 1 < 0
@@ -1333,15 +1331,13 @@ export const createUIStore = (root: IRootStore) => {
               return
           }
 
-          store.focusedWidget = nextWidget
-
           break
         }
 
         // enter key
         case 36: {
           switch (store.focusedWidget) {
-            case FocusableWidget.CLIPBOARD: {
+            case Widget.CLIPBOARD: {
               const entry = root.clipboard.clipboardItems[store.selectedIndex]
 
               const originalIndex = root.clipboard.clipboardItems.findIndex(
@@ -1365,7 +1361,7 @@ export const createUIStore = (root: IRootStore) => {
               break
             }
 
-            case FocusableWidget.GIFS: {
+            case Widget.GIFS: {
               const gif = store.gifs[store.selectedIndex]
 
               solNative.pasteToFrontmostApp(
@@ -1376,17 +1372,17 @@ export const createUIStore = (root: IRootStore) => {
               break
             }
 
-            case FocusableWidget.EMOJIS: {
+            case Widget.EMOJIS: {
               store.insertEmojiAt(store.selectedIndex)
               break
             }
 
             // Enter listener is disabled while using the scratch pad
-            case FocusableWidget.SCRATCHPAD: {
+            case Widget.SCRATCHPAD: {
               break
             }
 
-            case FocusableWidget.ONBOARDING: {
+            case Widget.ONBOARDING: {
               switch (store.onboardingStep) {
                 case 'v1_start': {
                   store.onboardingStep = 'v1_shortcut'
@@ -1412,20 +1408,20 @@ export const createUIStore = (root: IRootStore) => {
               break
             }
 
-            case FocusableWidget.PROJECT_CREATION: {
+            case Widget.PROJECT_CREATION: {
               store.createTrackingProject()
               break
             }
 
-            case FocusableWidget.PROJECT_SELECT: {
+            case Widget.PROJECT_SELECT: {
               const id = store.projects[store.selectedIndex].id
               store.trackProject(id)
-              store.focusedWidget = FocusableWidget.SEARCH
+              store.focusedWidget = Widget.SEARCH
               store.selectedIndex = 0
               break
             }
 
-            case FocusableWidget.CALENDAR: {
+            case Widget.CALENDAR: {
               const event = store.filteredEvents[store.selectedIndex]
               if (event) {
                 let eventLink: string | null | undefined = event.url
@@ -1446,7 +1442,7 @@ export const createUIStore = (root: IRootStore) => {
               break
             }
 
-            case FocusableWidget.TRANSLATION: {
+            case Widget.TRANSLATION: {
               if (store.translationResults) {
                 if (store.selectedIndex === 0) {
                   Clipboard.setString(store.translationResults.en!)
@@ -1459,7 +1455,7 @@ export const createUIStore = (root: IRootStore) => {
               break
             }
 
-            case FocusableWidget.SEARCH: {
+            case Widget.SEARCH: {
               if (store.temporaryResult && store.selectedIndex === 0) {
                 Clipboard.setString(store.temporaryResult)
                 solNative.hideWindow()
@@ -1504,18 +1500,18 @@ export const createUIStore = (root: IRootStore) => {
         // esc key
         case 53: {
           switch (store.focusedWidget) {
-            case FocusableWidget.SEARCH:
-            case FocusableWidget.GIFS:
-            case FocusableWidget.EMOJIS:
-            case FocusableWidget.SCRATCHPAD:
-            case FocusableWidget.CLIPBOARD:
-            case FocusableWidget.GOOGLE_MAP:
+            case Widget.SEARCH:
+            case Widget.GIFS:
+            case Widget.EMOJIS:
+            case Widget.SCRATCHPAD:
+            case Widget.CLIPBOARD:
+            case Widget.GOOGLE_MAP:
               solNative.hideWindow()
               break
 
             default:
               store.setQuery('')
-              store.focusWidget(FocusableWidget.SEARCH)
+              store.focusWidget(Widget.SEARCH)
               break
           }
           break
@@ -1524,8 +1520,58 @@ export const createUIStore = (root: IRootStore) => {
         // left key
         case 123: {
           switch (store.focusedWidget) {
-            case FocusableWidget.GIFS:
-            case FocusableWidget.EMOJIS:
+            case Widget.CALENDAR:
+              const selectedEvent = store.filteredEvents[store.selectedIndex]
+              let groupIndex = -1
+              let itemIndex = -1
+              let groups = Object.values(store.groupedEvents)
+              for (let ii = 0; ii < groups.length; ii++) {
+                const group = groups[ii]
+                for (let jj = 0; jj < group.events.length; jj++) {
+                  const event = group.events[jj]
+                  if (event.id === selectedEvent.id) {
+                    itemIndex = jj
+                    groupIndex = ii
+                  }
+                }
+              }
+
+              if (groupIndex === -1 || itemIndex === -1) {
+                throw new Error('Could not find Item something is wrong')
+              }
+
+              let nextGroupIndex = groupIndex - 1
+
+              while (
+                nextGroupIndex >= 0 &&
+                !groups[nextGroupIndex].events.length
+              ) {
+                nextGroupIndex--
+              }
+
+              if (nextGroupIndex === -1) {
+                return
+              }
+
+              itemIndex = Math.min(
+                groups[nextGroupIndex].events.length - 1,
+                itemIndex,
+              )
+
+              if (itemIndex === -1) {
+                return
+              }
+
+              const nextEvent = groups[nextGroupIndex].events[itemIndex]
+              const nextIndex = store.filteredEvents.findIndex(
+                e => e.id === nextEvent.id,
+              )
+
+              store.selectedIndex = nextIndex
+
+              break
+            case Widget.GIFS:
+            case Widget.EMOJIS:
               store.selectedIndex = Math.max(store.selectedIndex - 1, 0)
               break
           }
@@ -1535,8 +1581,59 @@ export const createUIStore = (root: IRootStore) => {
         // right key
         case 124: {
           switch (store.focusedWidget) {
-            case FocusableWidget.GIFS:
-            case FocusableWidget.EMOJIS:
+            case Widget.CALENDAR:
+              const selectedEvent = store.filteredEvents[store.selectedIndex]
+              let groupIndex = -1
+              let itemIndex = -1
+              let groups = Object.values(store.groupedEvents)
+              for (let ii = 0; ii < groups.length; ii++) {
+                const group = groups[ii]
+                for (let jj = 0; jj < group.events.length; jj++) {
+                  const event = group.events[jj]
+                  if (event.id === selectedEvent.id) {
+                    itemIndex = jj
+                    groupIndex = ii
+                  }
+                }
+              }
+
+              if (groupIndex === -1 || itemIndex === -1) {
+                throw new Error('Could not find event something is wrong')
+              }
+
+              let nextGroupIndex = groupIndex + 1
+
+              while (
+                nextGroupIndex < groups.length &&
+                !groups[nextGroupIndex].events.length
+              ) {
+                nextGroupIndex++
+              }
+
+              if (nextGroupIndex === groups.length) {
+                return
+              }
+
+              itemIndex = Math.min(
+                groups[nextGroupIndex].events.length - 1,
+                itemIndex,
+              )
+
+              if (itemIndex === -1) {
+                return
+              }
+
+              const nextEvent = groups[nextGroupIndex].events[itemIndex]
+              const nextIndex = store.filteredEvents.findIndex(
+                e => e.id === nextEvent.id,
+              )
+
+              store.selectedIndex = nextIndex
+
+              break
+
+            case Widget.GIFS:
+            case Widget.EMOJIS:
               store.selectedIndex += 1
               break
           }
@@ -1546,16 +1643,16 @@ export const createUIStore = (root: IRootStore) => {
         // up key
         case 126: {
           switch (store.focusedWidget) {
-            case FocusableWidget.SCRATCHPAD:
+            case Widget.SCRATCHPAD:
               return
-            case FocusableWidget.EMOJIS:
+            case Widget.EMOJIS:
               store.selectedIndex = Math.max(
                 store.selectedIndex - EMOJIS_PER_ROW,
                 0,
               )
               break
 
-            case FocusableWidget.GIFS:
+            case Widget.GIFS:
               store.selectedIndex = Math.max(
                 store.selectedIndex - GIFS_PER_ROW,
                 0,
@@ -1572,7 +1669,7 @@ export const createUIStore = (root: IRootStore) => {
         // down key
         case 125: {
           switch (store.focusedWidget) {
-            case FocusableWidget.CLIPBOARD: {
+            case Widget.CLIPBOARD: {
               store.selectedIndex = Math.min(
                 store.selectedIndex + 1,
                 root.clipboard.items.length - 1,
@@ -1580,17 +1677,17 @@ export const createUIStore = (root: IRootStore) => {
               break
             }
 
-            case FocusableWidget.GIFS: {
+            case Widget.GIFS: {
               store.selectedIndex = store.selectedIndex + GIFS_PER_ROW
               break
             }
 
-            case FocusableWidget.EMOJIS: {
+            case Widget.EMOJIS: {
               store.selectedIndex = store.selectedIndex + EMOJIS_PER_ROW
               break
             }
 
-            case FocusableWidget.ONBOARDING: {
+            case Widget.ONBOARDING: {
               switch (store.onboardingStep) {
                 case 'v1_shortcut': {
                   store.selectedIndex = Math.min(1, store.selectedIndex + 1)
@@ -1599,7 +1696,7 @@ export const createUIStore = (root: IRootStore) => {
               break
             }
 
-            case FocusableWidget.SEARCH: {
+            case Widget.SEARCH: {
               store.selectedIndex = Math.min(
                 store.items.length - 1,
                 store.selectedIndex + 1,
@@ -1607,7 +1704,7 @@ export const createUIStore = (root: IRootStore) => {
               break
             }
 
-            case FocusableWidget.CALENDAR: {
+            case Widget.CALENDAR: {
               store.selectedIndex = Math.min(
                 store.filteredEvents.length - 1,
                 store.selectedIndex + 1,
@@ -1615,13 +1712,13 @@ export const createUIStore = (root: IRootStore) => {
               break
             }
 
-            case FocusableWidget.PROJECT_SELECT: {
+            case Widget.PROJECT_SELECT: {
               store.selectedIndex =
                 (store.selectedIndex + 1) % store.projects.length
               break
             }
 
-            case FocusableWidget.TRANSLATION: {
+            case Widget.TRANSLATION: {
               store.selectedIndex = (store.selectedIndex + 1) % 2
               break
             }
@@ -1658,7 +1755,7 @@ export const createUIStore = (root: IRootStore) => {
         case 20: {
           if (meta) {
             if (store.query) {
-              store.focusedWidget = FocusableWidget.GOOGLE_MAP
+              store.focusedWidget = Widget.GOOGLE_MAP
             } else {
               store.runFavorite(2)
             }
@@ -1718,22 +1815,22 @@ export const createUIStore = (root: IRootStore) => {
       }
     },
     onShow: ({target}: {target?: string}) => {
-      if (target === FocusableWidget.CLIPBOARD) {
+      if (target === Widget.CLIPBOARD) {
         store.showClipboardManager()
         return
       }
 
-      if (target === FocusableWidget.SCRATCHPAD) {
+      if (target === Widget.SCRATCHPAD) {
         store.showScratchpad()
         return
       }
 
-      if (target === FocusableWidget.EMOJIS) {
+      if (target === Widget.EMOJIS) {
         store.showEmojiPicker()
         return
       }
 
-      if (target === FocusableWidget.SETTINGS) {
+      if (target === Widget.SETTINGS) {
         store.showSettings()
         return
       }
@@ -1783,13 +1880,13 @@ export const createUIStore = (root: IRootStore) => {
       })
     },
     onHide: () => {
-      store.focusedWidget = FocusableWidget.SEARCH
+      store.focusedWidget = Widget.SEARCH
       store.setQuery('')
       store.selectedIndex = 0
       store.translationResults = null
     },
     resetUI: () => {
-      store.focusedWidget = FocusableWidget.SEARCH
+      store.focusedWidget = Widget.SEARCH
       store.setQuery('')
       store.selectedIndex = 0
       store.translationResults = null
@@ -1813,11 +1910,11 @@ export const createUIStore = (root: IRootStore) => {
       })
     },
     showScratchpad: () => {
-      store.focusWidget(FocusableWidget.SCRATCHPAD)
+      store.focusWidget(Widget.SCRATCHPAD)
     },
     showClipboardManager: () => {
       store.query = ''
-      store.focusWidget(FocusableWidget.CLIPBOARD)
+      store.focusWidget(Widget.CLIPBOARD)
     },
     onFileSearch: (files: FileDescription[]) => {
       store.fileResults = files

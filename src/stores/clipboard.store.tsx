@@ -4,7 +4,7 @@ import {solNative} from 'lib/SolNative'
 import {makeAutoObservable} from 'mobx'
 import {EmitterSubscription} from 'react-native'
 import {IRootStore} from 'store'
-import {FocusableWidget} from './ui.store'
+import {Widget} from './ui.store'
 
 let onTextPastedListener: EmitterSubscription | undefined
 
@@ -22,10 +22,7 @@ export const createClipboardStore = (root: IRootStore) => {
       store.items = newItems
     },
     get clipboardItems(): string[] {
-      if (
-        !root.ui.query ||
-        root.ui.focusedWidget !== FocusableWidget.CLIPBOARD
-      ) {
+      if (!root.ui.query || root.ui.focusedWidget !== Widget.CLIPBOARD) {
         return root.clipboard.items
       }
 

@@ -13,7 +13,7 @@ import {
   ViewStyle,
 } from 'react-native'
 import {useStore} from 'store'
-import {FocusableWidget, ItemType} from 'stores/ui.store'
+import {ItemType, Widget} from 'stores/ui.store'
 import tw from 'tailwind'
 
 interface Props {
@@ -34,7 +34,7 @@ const SolIcon = () => {
         'bg-accent bg-opacity-30 rounded': isHovered,
       })}
       onPress={() => {
-        store.ui.focusWidget(FocusableWidget.SETTINGS)
+        store.ui.focusWidget(Widget.SETTINGS)
       }}>
       <Image
         source={Assets.SolWhiteSmall}
@@ -130,7 +130,7 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
       )}
 
       <View style={tw`flex-1`} />
-      {store.ui.focusedWidget !== FocusableWidget.CALENDAR &&
+      {store.ui.focusedWidget !== Widget.CALENDAR &&
         !store.ui.query &&
         !!store.ui.filteredEvents.length && (
           <>
@@ -138,7 +138,7 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
             <Key title="tab" />
           </>
         )}
-      {store.ui.focusedWidget === FocusableWidget.SEARCH &&
+      {store.ui.focusedWidget === Widget.SEARCH &&
         !!store.ui.query &&
         store.ui.currentItem?.type === ItemType.CUSTOM && (
           <>
@@ -146,13 +146,13 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
             <Key title="⇧ ⌦" />
           </>
         )}
-      {store.ui.focusedWidget === FocusableWidget.SEARCH && !!store.ui.query && (
+      {store.ui.focusedWidget === Widget.SEARCH && !!store.ui.query && (
         <>
           <Text style={tw`text-xs font-semibold mx-1`}>Open</Text>
           <Key title="⏎" primary />
         </>
       )}
-      {store.ui.focusedWidget === FocusableWidget.CALENDAR && (
+      {store.ui.focusedWidget === Widget.CALENDAR && (
         <>
           <Text style={tw`text-xs font-semibold mr-1`}>
             {store.ui.currentItem?.url ? 'Join' : 'Open  '}
