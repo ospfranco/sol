@@ -4,30 +4,26 @@
 
 @implementation CalendarHelper
 
--(id)init {
-  _store = [[EKEventStore alloc] init];
-  return self;
-}
-
 -(void)requestCalendarAccess:(void(^)(void))callback {
-  [_store requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError * _Nullable error) {
+  EKEventStore *store = [[EKEventStore alloc] init];
+  [store requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError * _Nullable error) {
     if(granted) {
-      NSLog(@"user has granted permission");
       callback();
     }
   }];
 }
 
 -(NSArray<EKEvent *> *)getEvents {
-  NSArray *calendars = [_store calendarsForEntityType:EKEntityTypeEvent];
+  EKEventStore *store = [[EKEventStore alloc] init];
+  NSArray *calendars = [store calendarsForEntityType:EKEntityTypeEvent];
   NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
 
   NSDateComponents *fiveDaysComponent = [[NSDateComponents alloc] init];
   fiveDaysComponent.day = 5;
-  NSDate *nextMonth = [gregorian dateByAddingComponents:fiveDaysComponent toDate:[NSDate date] options:0];
+  NSDate *nextDate = [gregorian dateByAddingComponents:fiveDaysComponent toDate:[NSDate date] options:0];
 
-  NSPredicate *predicate = [_store predicateForEventsWithStartDate:[NSDate date] endDate:nextMonth calendars:calendars];
-  return [_store eventsMatchingPredicate:predicate];
+  NSPredicate *predicate = [store predicateForEventsWithStartDate:[NSDate date] endDate:nextDate calendars:calendars];
+  return [store eventsMatchingPredicate:predicate];
 }
 
 -(NSString *)getCalendarAuthorizationStatus {

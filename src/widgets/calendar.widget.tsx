@@ -16,7 +16,8 @@ export const CalendarWidget: FC<Props> = observer(() => {
   useDeviceContext(tw)
   const store = useStore()
   const focused = store.ui.focusedWidget === Widget.CALENDAR
-  const groupedEvents = Object.entries(store.ui.groupedEvents)
+  const events = store.ui.groupedEvents
+  const groupedEvents = Object.entries(events)
 
   useEffect(() => {
     if (focused) {

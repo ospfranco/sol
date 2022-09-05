@@ -904,7 +904,8 @@ export const createUIStore = (root: IRootStore) => {
       }
     },
     get filteredEvents(): INativeEvent[] {
-      return store.events
+      const events = store.events
+      return events
         .filter(e => !e.isAllDay && e.status !== 3)
         .filter(e => {
           if (!!store.query) {
@@ -918,12 +919,13 @@ export const createUIStore = (root: IRootStore) => {
       string,
       {date: DateTime; events: Array<INativeEvent>}
     > {
+      const events = store.filteredEvents
       let acc: Record<string, {date: DateTime; events: Array<INativeEvent>}> =
         {}
       for (let ii = 0; ii < 5; ii++) {
         const now = DateTime.now().plus({days: ii})
         const relativeNow = now.toRelativeCalendar()!
-        const todayEvents = store.filteredEvents.filter(e => {
+        const todayEvents = events.filter(e => {
           const lEventDate = DateTime.fromISO(e.date)
           return lEventDate.toRelativeCalendar()! === relativeNow
         })
@@ -935,17 +937,6 @@ export const createUIStore = (root: IRootStore) => {
       }
 
       return acc
-      // return store.filteredEvents.reduce((acc, event) => {
-      //   const lDate = DateTime.fromISO(event.date)
-      //   const relativeDate = lDate.toRelativeCalendar()!
-
-      //   if (!acc[relativeDate]) {
-      //     acc[relativeDate] = {date: lDate, events: [event]}
-      //   } else {
-      //     acc[relativeDate].events.push(event)
-      //   }
-      //   return acc
-      // }, {} as Record<string, {date: DateTime; events: Array<INativeEvent>}>)
     },
     get currentItem(): Item {
       return store.items[store.selectedIndex]
