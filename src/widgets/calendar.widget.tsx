@@ -103,23 +103,28 @@ export const CalendarWidget: FC<Props> = observer(() => {
                           highlighted,
                         borderColor: event.color,
                       })}>
-                      <Text
-                        style={tw.style(
-                          `text-gray-500 dark:text-gray-400 ml-1 text-xs`,
-                          {
-                            'text-white': highlighted,
-                          },
-                        )}>
+                      {!event.isAllDay && (
                         <Text
-                          style={tw.style(`text-gray-800 dark:text-gray-200`, {
-                            'text-white': highlighted,
-                          })}>
-                          {lDate.toFormat('HH:mm')}
+                          style={tw.style(
+                            `text-gray-500 dark:text-gray-400 ml-1 text-xs`,
+                            {
+                              'text-white': highlighted,
+                            },
+                          )}>
+                          <Text
+                            style={tw.style(
+                              `text-gray-800 dark:text-gray-200`,
+                              {
+                                'text-white': highlighted,
+                              },
+                            )}>
+                            {lDate.toFormat('HH:mm')}
+                          </Text>
+                          {!!lEndDate
+                            ? ` - ${lEndDate.toFormat('HH:mm')}`
+                            : 'null'}
                         </Text>
-                        {!!lEndDate
-                          ? ` - ${lEndDate.toFormat('HH:mm')}`
-                          : 'null'}
-                      </Text>
+                      )}
 
                       <Text
                         minimumFontScale={0.8}

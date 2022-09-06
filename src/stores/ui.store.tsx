@@ -116,6 +116,7 @@ export const createUIStore = (root: IRootStore) => {
         store.windowManagementEnabled =
           parsedStore.windowManagementEnabled ?? true
         store.calendarEnabled = parsedStore.calendarEnabled ?? true
+        store.showAllDayEvents = parsedStore.showAllDayEvents ?? true
       })
 
       solNative.setGlobalShortcut(parsedStore.globalShortcut)
@@ -704,6 +705,7 @@ export const createUIStore = (root: IRootStore) => {
     fileResults: [] as FileDescription[],
     windowManagementEnabled: true,
     calendarEnabled: true,
+    showAllDayEvents: true,
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -866,7 +868,12 @@ export const createUIStore = (root: IRootStore) => {
         if (!!store.query) {
           return e.title?.toLowerCase().includes(store.query.toLowerCase())
         } else {
-          return !e.isAllDay && e.status !== 3 && !e.declined
+          let notFiltered = e.status !== 3 && !e.declined
+          if (!store.showAllDayEvents) {
+            notFiltered = notFiltered && !e.isAllDay
+          }
+
+          return notFiltered
         }
       })
     },
@@ -1871,6 +1878,9 @@ export const createUIStore = (root: IRootStore) => {
     },
     setCalendarEnabled: (v: boolean) => {
       store.calendarEnabled = v
+    },
+    setShowAllDayEvents: (v: boolean) => {
+      store.showAllDayEvents = v
     },
   })
 

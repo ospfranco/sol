@@ -157,7 +157,7 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
             style={tw`w-full h-1 border-b border-lightBorder dark:border-darkBorder mt-3 mb-5`}
           />
 
-          <View style={tw`flex-1 pt-8`}>
+          <View style={tw`flex-1`}>
             <View style={tw`flex-row items-center py-2 z-10`}>
               <Text style={tw`flex-1 text-right pr-3 text-sm`}>
                 Global shortcut
@@ -258,6 +258,22 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
                 <MySwitch
                   value={store.ui.calendarEnabled}
                   onValueChange={store.ui.setCalendarEnabled}
+                />
+              </View>
+            </View>
+
+            <View
+              style={tw.style(`flex-row items-center py-2`, {
+                'opacity-50': !store.ui.calendarEnabled,
+              })}>
+              <Text style={tw`flex-1 text-right pr-3 text-sm`}>
+                Show all-day events
+              </Text>
+              <View style={tw`flex-1.3`}>
+                <MySwitch
+                  disabled={!store.ui.calendarEnabled}
+                  value={store.ui.showAllDayEvents}
+                  onValueChange={store.ui.setShowAllDayEvents}
                 />
               </View>
             </View>

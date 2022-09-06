@@ -1,16 +1,18 @@
 import {Assets} from 'assets'
 import React, {FC} from 'react'
-import {Image, TouchableOpacity, View} from 'react-native'
+import {Image, TouchableOpacity} from 'react-native'
 import tw from 'tailwind'
 
 interface Props {
   value: boolean
   onValueChange: (v: boolean) => void
+  disabled?: boolean
 }
 
-export const MySwitch: FC<Props> = ({value, onValueChange}) => {
+export const MySwitch: FC<Props> = ({value, onValueChange, disabled}) => {
   return (
     <TouchableOpacity
+      disabled={disabled}
       // @ts-expect-error
       enableFocusRing={false}
       onPress={() => {
