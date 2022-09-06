@@ -26,8 +26,9 @@ export const RootContainer = observer(() => {
   const store = useStore()
   const mainStyle = tw`bg-white dark:bg-dark bg-opacity-80`
   const calendarVisible =
-    store.ui.calendarAuthorizationStatus === 'authorized' ||
-    store.ui.calendarAuthorizationStatus === 'notDetermined'
+    (store.ui.calendarAuthorizationStatus === 'authorized' ||
+      store.ui.calendarAuthorizationStatus === 'notDetermined') &&
+    store.ui.calendarEnabled
 
   const widget = store.ui.focusedWidget
 

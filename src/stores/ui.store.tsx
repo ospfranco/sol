@@ -15,7 +15,7 @@ import {getWeather} from 'lib/weather'
 import {debounce} from 'lodash'
 import {DateTime} from 'luxon'
 import {autorun, makeAutoObservable, runInAction, toJS} from 'mobx'
-import React, {FC} from 'react'
+import React from 'react'
 import {
   Alert,
   Appearance,
@@ -24,7 +24,6 @@ import {
   DevSettings,
   EmitterSubscription,
   Image,
-  ImageURISource,
   Linking,
   Platform,
   Text,
@@ -44,25 +43,6 @@ let onHideListener: EmitterSubscription | undefined
 let onFileSearchListener: EmitterSubscription | undefined
 
 const exprParser = new Parser()
-
-interface IPeriod {
-  id: number
-  start: number
-  end?: number
-}
-
-interface FileDescription {
-  filename: string
-  path: string
-  kind: string
-  location: string
-}
-
-interface ITrackingProject {
-  id: string
-  name: string
-  periods: IPeriod[]
-}
 
 export enum Widget {
   ONBOARDING = 'ONBOARDING',
@@ -86,31 +66,6 @@ export enum ItemType {
   CUSTOM = 'CUSTOM',
   TEMPORARY_RESULT = 'TEMPORARY_RESULT',
 }
-
-export interface Item {
-  icon?: string
-  iconImage?: ImageURISource | number | ImageURISource[]
-  iconComponent?: FC<any>
-  color?: string
-  url?: string
-  preventClose?: boolean
-  type: ItemType
-  name: string
-  subName?: string
-  callback?: () => void
-  metaCallback?: () => void
-  isApplescript?: boolean
-  text?: string
-  shortcut?: string
-  isFavorite?: boolean // injected in UI array
-}
-
-type OnboardingStep =
-  | 'v1_start'
-  | 'v1_shortcut'
-  | 'v1_quick_actions'
-  | 'v1_skipped'
-  | 'v1_completed'
 
 export const createUIStore = (root: IRootStore) => {
   const persist = async () => {
@@ -160,6 +115,7 @@ export const createUIStore = (root: IRootStore) => {
         store.showWindowOn = parsedStore.showWindowOn ?? 'screenWithFrontmost'
         store.windowManagementEnabled =
           parsedStore.windowManagementEnabled ?? true
+        store.calendarEnabled = parsedStore.calendarEnabled ?? true
       })
 
       solNative.setGlobalShortcut(parsedStore.globalShortcut)
@@ -747,6 +703,7 @@ export const createUIStore = (root: IRootStore) => {
     githubToken: null as string | null,
     fileResults: [] as FileDescription[],
     windowManagementEnabled: true,
+    calendarEnabled: true,
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -1913,6 +1870,9 @@ export const createUIStore = (root: IRootStore) => {
     setWindowManagementEnabled: (v: boolean) => {
       store.windowManagementEnabled = v
       solNative.setWindowManagement(v)
+    },
+    setCalendarEnabled: (v: boolean) => {
+      store.calendarEnabled = v
     },
   })
 

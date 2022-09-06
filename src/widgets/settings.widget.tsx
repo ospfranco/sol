@@ -252,6 +252,18 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
 
             <View style={tw`flex-row items-center py-2`}>
               <Text style={tw`flex-1 text-right pr-3 text-sm`}>
+                Show calendar
+              </Text>
+              <View style={tw`flex-1.3`}>
+                <MySwitch
+                  value={store.ui.calendarEnabled}
+                  onValueChange={store.ui.setCalendarEnabled}
+                />
+              </View>
+            </View>
+
+            <View style={tw`flex-row items-center py-2`}>
+              <Text style={tw`flex-1 text-right pr-3 text-sm`}>
                 GitHub Token
               </Text>
 

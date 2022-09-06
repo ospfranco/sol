@@ -38,3 +38,47 @@ declare var global: {
     getEvents: () => INativeEvent[]
   }
 }
+
+interface IPeriod {
+  id: number
+  start: number
+  end?: number
+}
+
+interface FileDescription {
+  filename: string
+  path: string
+  kind: string
+  location: string
+}
+
+interface ITrackingProject {
+  id: string
+  name: string
+  periods: IPeriod[]
+}
+
+interface Item {
+  icon?: string
+  iconImage?: ImageURISource | number | ImageURISource[]
+  iconComponent?: FC<any>
+  color?: string
+  url?: string
+  preventClose?: boolean
+  type: ItemType
+  name: string
+  subName?: string
+  callback?: () => void
+  metaCallback?: () => void
+  isApplescript?: boolean
+  text?: string
+  shortcut?: string
+  isFavorite?: boolean // injected in UI array
+}
+
+type OnboardingStep =
+  | 'v1_start'
+  | 'v1_shortcut'
+  | 'v1_quick_actions'
+  | 'v1_skipped'
+  | 'v1_completed'
