@@ -1219,7 +1219,6 @@ export const createUIStore = (root: IRootStore) => {
 
       solNative.hideWindow()
     },
-
     onShow: ({target}: {target?: string}) => {
       if (target === Widget.CLIPBOARD) {
         store.showClipboardManager()
@@ -1259,7 +1258,7 @@ export const createUIStore = (root: IRootStore) => {
       }
 
       if (!store.isAccessibilityTrusted) {
-        store.checkAccessibilityStatus()
+        store.getAccessibilityStatus()
       }
 
       solNative.getMediaInfo().then(res => {
@@ -1291,22 +1290,16 @@ export const createUIStore = (root: IRootStore) => {
       store.selectedIndex = 0
       store.translationResults = null
     },
-    resetUI: () => {
-      store.focusedWidget = Widget.SEARCH
-      store.setQuery('')
-      store.selectedIndex = 0
-      store.translationResults = null
-    },
     cleanUp: () => {
       onShowListener?.remove()
       onHideListener?.remove()
       onFileSearchListener?.remove()
     },
-    checkCalendarAccess: () => {
+    getCalendarAccess: () => {
       store.calendarAuthorizationStatus =
         solNative.getCalendarAuthorizationStatus()
     },
-    checkAccessibilityStatus: () => {
+    getAccessibilityStatus: () => {
       solNative.getAccessibilityStatus().then(v => {
         runInAction(() => {
           store.isAccessibilityTrusted = v
@@ -1337,8 +1330,8 @@ export const createUIStore = (root: IRootStore) => {
 
   hydrate().then(() => {
     autorun(persist)
-    store.checkCalendarAccess()
-    store.checkAccessibilityStatus()
+    store.getCalendarAccess()
+    store.getAccessibilityStatus()
   })
 
   onShowListener = solNative.addListener('onShow', store.onShow)
