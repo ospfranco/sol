@@ -22,22 +22,23 @@ class FileSearcher: NSObject {
 
       var results: [Any] = []
 
-      for result in self.query!.results {
-        guard let item = result as? NSMetadataItem else {
-          return
-        }
-        guard var pathURL = URL(string: item.value(forAttribute: NSMetadataItemPathKey) as! String) else {
-          return
-        }
-        pathURL.deleteLastPathComponent()
+      if(self.query != nil) {
+        for result in self.query!.results {
+          guard let item = result as? NSMetadataItem else {
+            return
+          }
+          guard var pathURL = URL(string: item.value(forAttribute: NSMetadataItemPathKey) as! String) else {
+            return
+          }
+          pathURL.deleteLastPathComponent()
 
-        results.append([
-          "filename": item.value(forAttribute: NSMetadataItemFSNameKey),
-          "path": item.value(forAttribute: NSMetadataItemPathKey),
-          "kind": item.value(forAttribute: NSMetadataItemKindKey),
-          "location": pathURL.absoluteString
-        ])
-
+          results.append([
+            "filename": item.value(forAttribute: NSMetadataItemFSNameKey),
+            "path": item.value(forAttribute: NSMetadataItemPathKey),
+            "kind": item.value(forAttribute: NSMetadataItemKindKey),
+            "location": pathURL.absoluteString
+          ])
+        }
       }
       SolEmitter.sharedInstance.dispatch(name: "onFileSearch", body: results)
     })
