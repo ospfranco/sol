@@ -16,7 +16,7 @@ import {
   ViewStyle,
 } from 'react-native'
 import {useStore} from 'store'
-import {Item, ItemType, Widget} from 'stores/ui.store'
+import {ItemType, Widget} from 'stores/ui.store'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
 
@@ -175,7 +175,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
       <LoadingBar />
 
       {!store.ui.query && !!store.ui.items.length && (
-        <View style={tw`px-3 pt-1 pb-2`}>
+        <View style={tw`px-3 py-2`}>
           {items.map((item, index) =>
             renderItem({item: {...item, isFavorite: true}, index}),
           )}

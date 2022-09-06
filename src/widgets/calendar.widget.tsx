@@ -78,7 +78,7 @@ export const CalendarWidget: FC<Props> = observer(() => {
                 showsVerticalScrollIndicator={false}>
                 {!data.events.length && (
                   <Text
-                    style={tw`text-gray-400 dark:text-gray-400 text-xs ml-1`}>
+                    style={tw`text-gray-400 dark:text-gray-500 text-xs ml-1`}>
                     No Events
                   </Text>
                 )}

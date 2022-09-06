@@ -3,13 +3,12 @@ import 'config'
 import {RootContainer} from 'containers'
 import 'intl'
 import 'intl/locale-data/jsonp/en'
-import {configure} from 'mobx'
 import React from 'react'
 import {root, StoreProvider} from 'store'
 
-configure({
-  useProxies: 'ifavailable',
-})
+// configure({
+//   useProxies: 'never',
+// })
 
 if (!__DEV__) {
   Sentry.init({

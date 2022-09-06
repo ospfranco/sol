@@ -80,12 +80,12 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
           )}
 
           <View style={tw`pl-2 flex-row items-center`}>
-            <Text style={tw`text-sm max-w-60`} numberOfLines={1}>
-              {store.ui.track?.title}{' '}
+            <Text style={tw`text-sm max-w-52`} numberOfLines={1}>
+              {store.ui.track?.title}
             </Text>
             {!!store.ui.track?.artist && (
               <Text
-                style={tw`dark:text-gray-400 text-gray-400 text-sm`}
+                style={tw`dark:text-gray-400 text-gray-400 text-sm ml-1`}
                 numberOfLines={1}>
                 {store.ui.track?.artist}
               </Text>
