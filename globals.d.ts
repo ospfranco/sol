@@ -9,6 +9,7 @@ interface INativeEvent {
   color: string
   location: string
   status: number // 0 none, 1 confirmed, 2 tentative, 3 cancelled
+  declined: boolean
 }
 
 declare module '*.png' {

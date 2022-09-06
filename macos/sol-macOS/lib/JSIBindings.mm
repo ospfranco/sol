@@ -4,6 +4,7 @@
 #import <Cocoa/Cocoa.h>
 #import <EventKit/EKCalendar.h>
 #import <EventKit/EKEvent.h>
+#import <EventKit/EKParticipant.h>
 #import <Foundation/Foundation.h>
 #include <iostream>
 #import <sol-Swift.h>
@@ -152,8 +153,23 @@ void install(jsi::Runtime &rt,
     NSArray<EKEvent *> *ekEvents = [calendarHelper getEvents];
     auto events = jsi::Array(rt, ekEvents.count);
     NSString *colorString = @"";
+
     for (int i = 0; i < ekEvents.count; i++) {
       EKEvent *ekEvent = [ekEvents objectAtIndex:i];
+      bool hasDeclined = false;
+
+      // If current user has declined the event... skip
+      if([ekEvent hasAttendees]) {
+        NSArray<EKParticipant *> *participants = [ekEvent attendees];
+        for(int j = 0; j < participants.count; j++) {
+          EKParticipant *participant = [participants objectAtIndex:j];
+          if([participant isCurrentUser] == YES && [participant participantStatus] == EKParticipantStatusDeclined) {
+            hasDeclined = true;
+            break;
+          }
+        }
+      }
+
       auto color = [[ekEvent calendar] color];
 
       CGFloat redFloatValue, greenFloatValue, blueFloatValue;
@@ -219,6 +235,7 @@ void install(jsi::Runtime &rt,
                         jsi::Value(static_cast<bool>([ekEvent isAllDay])));
       event.setProperty(rt, "status",
                         jsi::Value(static_cast<int>([ekEvent status])));
+      event.setProperty(rt, "declined", jsi::Value(hasDeclined));
 
       events.setValueAtIndex(rt, i, event);
     }

@@ -862,15 +862,13 @@ export const createUIStore = (root: IRootStore) => {
     },
     get filteredEvents(): INativeEvent[] {
       const events = store.events
-      return events
-        .filter(e => !e.isAllDay && e.status !== 3)
-        .filter(e => {
-          if (!!store.query) {
-            return e.title?.includes(store.query)
-          }
-
-          return true
-        })
+      return events.filter(e => {
+        if (!!store.query) {
+          return e.title?.toLowerCase().includes(store.query.toLowerCase())
+        } else {
+          return !e.isAllDay && e.status !== 3 && !e.declined
+        }
+      })
     },
     get groupedEvents(): Record<
       string,

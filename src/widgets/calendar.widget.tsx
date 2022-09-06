@@ -125,8 +125,9 @@ export const CalendarWidget: FC<Props> = observer(() => {
                         minimumFontScale={0.8}
                         adjustsFontSizeToFit
                         numberOfLines={1}
-                        style={tw.style(`ml-1 text-xs font-bold`, {
+                        style={tw.style(`ml-1 text-xs font-semibold`, {
                           'text-white': highlighted,
+                          'line-through': event.declined,
                         })}>
                         {event.title}
                       </Text>
