@@ -1,10 +1,12 @@
 import {createContext, useContext} from 'react'
 import {createClipboardStore} from 'stores/clipboard.store'
+import {createKeystrokeStore} from 'stores/keystroke.store'
 import {createUIStore} from './stores/ui.store'
 
 export interface IRootStore {
   ui: ReturnType<typeof createUIStore>
   clipboard: ReturnType<typeof createClipboardStore>
+  keystroke: ReturnType<typeof createKeystrokeStore>
 }
 
 let createRootStore = (): IRootStore => {
@@ -12,6 +14,7 @@ let createRootStore = (): IRootStore => {
 
   store.ui = createUIStore(store)
   store.clipboard = createClipboardStore(store)
+  store.keystroke = createKeystrokeStore(store)
 
   return store
 }

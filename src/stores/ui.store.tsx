@@ -5,7 +5,6 @@ import {FileIcon} from 'components/FileIcon'
 import {FUSE_OPTIONS} from 'config'
 import {Parser} from 'expr-eval'
 import Fuse from 'fuse.js'
-import {extractMeetingLink} from 'lib/calendar'
 import {CONSTANTS} from 'lib/constants'
 import {allEmojis, emojiFuse, EMOJIS_PER_ROW} from 'lib/emoji'
 import {GithubRepo, searchGithubRepos} from 'lib/github'
@@ -20,7 +19,6 @@ import {
   Alert,
   Appearance,
   AsyncStorage,
-  Clipboard,
   DevSettings,
   EmitterSubscription,
   Image,
@@ -34,10 +32,7 @@ import tw from 'tailwind'
 import {buildSystemPreferencesItems} from './systemPreferences'
 
 const gf = new GiphyFetch('Ot4kWfqWddVroUVh73v4Apocs8Dek86j')
-const GIFS_PER_ROW = 5
 
-let keyDownListener: EmitterSubscription | undefined
-let keyUpListener: EmitterSubscription | undefined
 let onShowListener: EmitterSubscription | undefined
 let onHideListener: EmitterSubscription | undefined
 let onFileSearchListener: EmitterSubscription | undefined
@@ -685,8 +680,6 @@ export const createUIStore = (root: IRootStore) => {
       | {title: string; artist: string; artwork: string; url: string}
       | null
       | undefined,
-    commandPressed: false,
-    shiftPressed: false,
     projects: [] as ITrackingProject[],
     tempProjectName: '' as string,
     currentlyTrackedProjectId: null as string | null,
@@ -958,7 +951,7 @@ export const createUIStore = (root: IRootStore) => {
       store.githubSearchEnabled = v
     },
     handleDeletePressOnScrachpad: (): boolean => {
-      if (store.shiftPressed) {
+      if (root.keystroke.shiftPressed) {
         // if (store.selectedIndex >= store.notes.length) {
         //   store.selectedIndex = store.notes.length - 1
         // }
@@ -972,7 +965,7 @@ export const createUIStore = (root: IRootStore) => {
       return false
     },
     handleEnterPressOnScratchpad: (): boolean => {
-      if (store.shiftPressed) {
+      if (root.keystroke.shiftPressed) {
         if (store.notes[0] === '') {
           return true
         }
@@ -1226,547 +1219,7 @@ export const createUIStore = (root: IRootStore) => {
 
       solNative.hideWindow()
     },
-    keyDown: async ({
-      keyCode,
-      meta,
-      shift,
-    }: {
-      key: string
-      keyCode: number
-      meta: boolean
-      shift: boolean
-    }) => {
-      // console.warn('keyCode', keyCode)
-      switch (keyCode) {
-        // delete key
-        case 51: {
-          if (store.focusedWidget === Widget.SCRATCHPAD) {
-            store.handleDeletePressOnScrachpad()
-          }
 
-          if (
-            store.focusedWidget === Widget.SEARCH &&
-            store.currentItem.type === ItemType.CUSTOM &&
-            store.shiftPressed
-          ) {
-            const newItems = store.customItems.filter(
-              c => c.name !== store.currentItem.name,
-            )
-            store.customItems = newItems
-          }
-          break
-        }
-        // tab key
-        case 48: {
-          switch (store.focusedWidget) {
-            case Widget.SEARCH:
-              if (!!store.filteredEvents.length) {
-                store.selectedIndex = 0
-                store.focusedWidget = Widget.CALENDAR
-              }
-              break
-
-            case Widget.CALENDAR:
-              store.selectedIndex = 0
-              store.focusedWidget = Widget.SEARCH
-              break
-
-            case Widget.SCRATCHPAD:
-              if (shift) {
-                store.selectedIndex =
-                  store.selectedIndex - 1 < 0
-                    ? store.notes.length - 1
-                    : store.selectedIndex - 1
-              } else {
-                store.selectedIndex =
-                  (store.selectedIndex + 1) % store.notes.length
-              }
-              return
-          }
-
-          break
-        }
-
-        // enter key
-        case 36: {
-          switch (store.focusedWidget) {
-            case Widget.CLIPBOARD: {
-              const entry = root.clipboard.clipboardItems[store.selectedIndex]
-
-              const originalIndex = root.clipboard.clipboardItems.findIndex(
-                e => entry === e,
-              )
-              root.clipboard.unshift(originalIndex)
-
-              if (entry) {
-                if (meta) {
-                  try {
-                    Linking.openURL(entry)
-                  } catch (e) {
-                    console.warn('could not open in browser')
-                  }
-                  solNative.hideWindow()
-                } else {
-                  solNative.pasteToFrontmostApp(entry)
-                }
-              }
-
-              break
-            }
-
-            case Widget.GIFS: {
-              const gif = store.gifs[store.selectedIndex]
-
-              solNative.pasteToFrontmostApp(
-                gif.images.downsized.url
-                  .replace('media1.giphy.com', 'media.giphy.com')
-                  .replace('media3.giphy.com', 'media.giphy.com'),
-              )
-              break
-            }
-
-            case Widget.EMOJIS: {
-              store.insertEmojiAt(store.selectedIndex)
-              break
-            }
-
-            // Enter listener is disabled while using the scratch pad
-            case Widget.SCRATCHPAD: {
-              break
-            }
-
-            case Widget.ONBOARDING: {
-              switch (store.onboardingStep) {
-                case 'v1_start': {
-                  store.onboardingStep = 'v1_shortcut'
-                  break
-                }
-
-                case 'v1_shortcut': {
-                  if (store.selectedIndex === 0) {
-                    store.setGlobalShortcut('option')
-                  } else {
-                    store.setGlobalShortcut('command')
-                  }
-                  store.onboardingStep = 'v1_quick_actions'
-                  break
-                }
-
-                case 'v1_quick_actions': {
-                  store.onboardingStep = 'v1_completed'
-                  store.setLaunchAtLogin(true)
-                  break
-                }
-              }
-              break
-            }
-
-            case Widget.PROJECT_CREATION: {
-              store.createTrackingProject()
-              break
-            }
-
-            case Widget.PROJECT_SELECT: {
-              const id = store.projects[store.selectedIndex].id
-              store.trackProject(id)
-              store.focusedWidget = Widget.SEARCH
-              store.selectedIndex = 0
-              break
-            }
-
-            case Widget.CALENDAR: {
-              const event = store.filteredEvents[store.selectedIndex]
-              if (event) {
-                let eventLink: string | null | undefined = event.url
-
-                if (!eventLink) {
-                  eventLink = extractMeetingLink(event.notes, event.location)
-                }
-
-                if (eventLink) {
-                  Linking.openURL(eventLink)
-                } else {
-                  Linking.openURL('ical://')
-                }
-              } else {
-                Linking.openURL('ical://')
-              }
-              solNative.hideWindow()
-              break
-            }
-
-            case Widget.TRANSLATION: {
-              if (store.translationResults) {
-                if (store.selectedIndex === 0) {
-                  Clipboard.setString(store.translationResults.en!)
-                } else {
-                  Clipboard.setString(store.translationResults.de!)
-                }
-                solNative.hideWindow()
-                store.translationResults = null
-              }
-              break
-            }
-
-            case Widget.SEARCH: {
-              if (store.temporaryResult && store.selectedIndex === 0) {
-                Clipboard.setString(store.temporaryResult)
-                solNative.hideWindow()
-                return
-              }
-
-              let item = store.items[store.selectedIndex]
-
-              // bump frequency
-              store.frequencies[item.name] =
-                (store.frequencies[item.name] ?? 0) + 1
-
-              // close window
-              if (!item.preventClose) {
-                solNative.hideWindow()
-              }
-
-              if (store.commandPressed && item.metaCallback) {
-                item.metaCallback()
-              } else if (item.url) {
-                solNative.openFile(item.url)
-              } else if (item.callback) {
-                item.callback()
-              }
-
-              if (item.type === ItemType.CUSTOM) {
-                if (item.text) {
-                  if (item.isApplescript) {
-                    solNative.executeAppleScript(item.text)
-                  } else {
-                    Linking.openURL(item.text)
-                  }
-                }
-              }
-
-              break
-            }
-          }
-          break
-        }
-
-        // esc key
-        case 53: {
-          switch (store.focusedWidget) {
-            case Widget.SEARCH:
-            case Widget.GIFS:
-            case Widget.EMOJIS:
-            case Widget.SCRATCHPAD:
-            case Widget.CLIPBOARD:
-            case Widget.GOOGLE_MAP:
-              solNative.hideWindow()
-              break
-
-            default:
-              store.setQuery('')
-              store.focusWidget(Widget.SEARCH)
-              break
-          }
-          break
-        }
-
-        // left key
-        case 123: {
-          switch (store.focusedWidget) {
-            case Widget.CALENDAR:
-              const selectedEvent = store.filteredEvents[store.selectedIndex]
-              let groupIndex = -1
-              let itemIndex = -1
-              let groups = Object.values(store.groupedEvents)
-              for (let ii = 0; ii < groups.length; ii++) {
-                const group = groups[ii]
-                for (let jj = 0; jj < group.events.length; jj++) {
-                  const event = group.events[jj]
-                  if (event.id === selectedEvent.id) {
-                    itemIndex = jj
-                    groupIndex = ii
-                  }
-                }
-              }
-
-              if (groupIndex === -1 || itemIndex === -1) {
-                throw new Error('Could not find Item something is wrong')
-              }
-
-              let nextGroupIndex = groupIndex - 1
-
-              while (
-                nextGroupIndex >= 0 &&
-                !groups[nextGroupIndex].events.length
-              ) {
-                nextGroupIndex--
-              }
-
-              if (nextGroupIndex === -1) {
-                return
-              }
-
-              itemIndex = Math.min(
-                groups[nextGroupIndex].events.length - 1,
-                itemIndex,
-              )
-
-              if (itemIndex === -1) {
-                return
-              }
-
-              const nextEvent = groups[nextGroupIndex].events[itemIndex]
-              const nextIndex = store.filteredEvents.findIndex(
-                e => e.id === nextEvent.id,
-              )
-
-              store.selectedIndex = nextIndex
-
-              break
-            case Widget.GIFS:
-            case Widget.EMOJIS:
-              store.selectedIndex = Math.max(store.selectedIndex - 1, 0)
-              break
-          }
-          break
-        }
-
-        // right key
-        case 124: {
-          switch (store.focusedWidget) {
-            case Widget.CALENDAR:
-              const selectedEvent = store.filteredEvents[store.selectedIndex]
-              let groupIndex = -1
-              let itemIndex = -1
-              let groups = Object.values(store.groupedEvents)
-              for (let ii = 0; ii < groups.length; ii++) {
-                const group = groups[ii]
-                for (let jj = 0; jj < group.events.length; jj++) {
-                  const event = group.events[jj]
-                  if (event.id === selectedEvent.id) {
-                    itemIndex = jj
-                    groupIndex = ii
-                  }
-                }
-              }
-
-              if (groupIndex === -1 || itemIndex === -1) {
-                throw new Error('Could not find event something is wrong')
-              }
-
-              let nextGroupIndex = groupIndex + 1
-
-              while (
-                nextGroupIndex < groups.length &&
-                !groups[nextGroupIndex].events.length
-              ) {
-                nextGroupIndex++
-              }
-
-              if (nextGroupIndex === groups.length) {
-                return
-              }
-
-              itemIndex = Math.min(
-                groups[nextGroupIndex].events.length - 1,
-                itemIndex,
-              )
-
-              if (itemIndex === -1) {
-                return
-              }
-
-              const nextEvent = groups[nextGroupIndex].events[itemIndex]
-              const nextIndex = store.filteredEvents.findIndex(
-                e => e.id === nextEvent.id,
-              )
-
-              store.selectedIndex = nextIndex
-
-              break
-
-            case Widget.GIFS:
-            case Widget.EMOJIS:
-              store.selectedIndex += 1
-              break
-          }
-          break
-        }
-
-        // up key
-        case 126: {
-          switch (store.focusedWidget) {
-            case Widget.SCRATCHPAD:
-              return
-            case Widget.EMOJIS:
-              store.selectedIndex = Math.max(
-                store.selectedIndex - EMOJIS_PER_ROW,
-                0,
-              )
-              break
-
-            case Widget.GIFS:
-              store.selectedIndex = Math.max(
-                store.selectedIndex - GIFS_PER_ROW,
-                0,
-              )
-              break
-
-            default:
-              store.selectedIndex = Math.max(0, store.selectedIndex - 1)
-              break
-          }
-          break
-        }
-
-        // down key
-        case 125: {
-          switch (store.focusedWidget) {
-            case Widget.CLIPBOARD: {
-              store.selectedIndex = Math.min(
-                store.selectedIndex + 1,
-                root.clipboard.items.length - 1,
-              )
-              break
-            }
-
-            case Widget.GIFS: {
-              store.selectedIndex = store.selectedIndex + GIFS_PER_ROW
-              break
-            }
-
-            case Widget.EMOJIS: {
-              store.selectedIndex = store.selectedIndex + EMOJIS_PER_ROW
-              break
-            }
-
-            case Widget.ONBOARDING: {
-              switch (store.onboardingStep) {
-                case 'v1_shortcut': {
-                  store.selectedIndex = Math.min(1, store.selectedIndex + 1)
-                }
-              }
-              break
-            }
-
-            case Widget.SEARCH: {
-              store.selectedIndex = Math.min(
-                store.items.length - 1,
-                store.selectedIndex + 1,
-              )
-              break
-            }
-
-            case Widget.CALENDAR: {
-              store.selectedIndex = Math.min(
-                store.filteredEvents.length - 1,
-                store.selectedIndex + 1,
-              )
-              break
-            }
-
-            case Widget.PROJECT_SELECT: {
-              store.selectedIndex =
-                (store.selectedIndex + 1) % store.projects.length
-              break
-            }
-
-            case Widget.TRANSLATION: {
-              store.selectedIndex = (store.selectedIndex + 1) % 2
-              break
-            }
-          }
-          break
-        }
-
-        // "1"
-        case 18: {
-          if (meta) {
-            if (store.query) {
-              Linking.openURL(`https://google.com/search?q=${store.query}`)
-              store.query = ''
-            } else {
-              store.runFavorite(0)
-            }
-          }
-          break
-        }
-
-        // "2"
-        case 19: {
-          if (meta) {
-            if (store.query) {
-              store.translateQuery()
-            } else {
-              store.runFavorite(1)
-            }
-          }
-          break
-        }
-
-        // "3"
-        case 20: {
-          if (meta) {
-            if (store.query) {
-              store.focusedWidget = Widget.GOOGLE_MAP
-            } else {
-              store.runFavorite(2)
-            }
-          }
-          break
-        }
-
-        // "4"
-        case 21: {
-          if (meta) {
-            store.runFavorite(3)
-          }
-          break
-        }
-
-        // "5"
-        case 23: {
-          if (meta) {
-            store.runFavorite(4)
-          }
-          break
-        }
-
-        // meta key
-        case 55: {
-          store.commandPressed = true
-          break
-        }
-
-        // shift key
-        case 60: {
-          store.shiftPressed = true
-          break
-        }
-      }
-    },
-    keyUp: async ({
-      keyCode,
-      meta,
-    }: {
-      key: string
-      keyCode: number
-      meta: boolean
-    }) => {
-      switch (keyCode) {
-        case 55:
-          store.commandPressed = false
-          break
-
-        case 60: {
-          store.shiftPressed = false
-          break
-        }
-
-        default:
-          break
-      }
-    },
     onShow: ({target}: {target?: string}) => {
       if (target === Widget.CLIPBOARD) {
         store.showClipboardManager()
@@ -1845,8 +1298,6 @@ export const createUIStore = (root: IRootStore) => {
       store.translationResults = null
     },
     cleanUp: () => {
-      keyDownListener?.remove()
-      keyUpListener?.remove()
       onShowListener?.remove()
       onHideListener?.remove()
       onFileSearchListener?.remove()
@@ -1890,8 +1341,6 @@ export const createUIStore = (root: IRootStore) => {
     store.checkAccessibilityStatus()
   })
 
-  keyDownListener = solNative.addListener('keyDown', store.keyDown)
-  keyUpListener = solNative.addListener('keyUp', store.keyUp)
   onShowListener = solNative.addListener('onShow', store.onShow)
   onHideListener = solNative.addListener('onHide', store.onHide)
   onFileSearchListener = solNative.addListener(
