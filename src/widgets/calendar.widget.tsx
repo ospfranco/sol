@@ -33,7 +33,7 @@ export const CalendarWidget: FC<Props> = observer(() => {
         <TouchableOpacity
           onPress={() => {
             solNative.requestCalendarAccess().then(() => {
-              store.ui.checkCalendarAccess()
+              store.ui.getCalendarAccess()
             })
           }}>
           <Text style={tw`text-accent text-xs`}>

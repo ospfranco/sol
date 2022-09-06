@@ -85,7 +85,10 @@ export const ScratchpadWidget: FC<Props> = observer(({style}) => {
                   }
 
                   // character was deleted
-                  if (item.length - 1 === v.length && store.ui.shiftPressed) {
+                  if (
+                    item.length - 1 === v.length &&
+                    store.keystroke.shiftPressed
+                  ) {
                     return
                   }
 

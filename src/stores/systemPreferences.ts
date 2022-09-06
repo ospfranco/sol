@@ -1,6 +1,6 @@
 import {SystemPreferencesIcon} from 'components/SystemPreferencesIcon'
 import {solNative} from 'lib/SolNative'
-import {Item, ItemType} from './ui.store'
+import {ItemType} from './ui.store'
 
 const preferences = [
   {name: 'Language & Region', preferenceId: 'com.apple.Localization'},
