@@ -96,11 +96,8 @@ export const createUIStore = (root: IRootStore) => {
         ) {
           store.focusedWidget = Widget.ONBOARDING
         }
-        store.notes = parsedStore.notes ?? ['']
-        if (store.notes.length === 0) {
-          store.notes = ['']
-        }
-        store.globalShortcut = parsedStore.globalShortcut
+        ;(store.note = parsedStore.note ?? ''),
+          (store.globalShortcut = parsedStore.globalShortcut)
         store.scratchpadShortcut = parsedStore.scratchpadShortcut ?? 'command'
         store.clipboardManagerShortcut =
           parsedStore.clipboardManagerShortcut ?? 'shift'
@@ -649,7 +646,7 @@ export const createUIStore = (root: IRootStore) => {
     //  | |__| | |_) \__ \  __/ |   \ V / (_| | |_) | |  __/\__ \
     //   \____/|_.__/|___/\___|_|    \_/ \__,_|_.__/|_|\___||___/
     frequentlyUsedEmojis: {} as Record<string, number>,
-    notes: [''] as string[],
+    note: '',
     isAccessibilityTrusted: false,
     calendarAuthorizationStatus: 'notDetermined' as CalendarAuthorizationStatus,
     onboardingStep: 'v1_start' as OnboardingStep,
@@ -950,33 +947,7 @@ export const createUIStore = (root: IRootStore) => {
     setGithubSearchEnabled: (v: boolean) => {
       store.githubSearchEnabled = v
     },
-    handleDeletePressOnScrachpad: (): boolean => {
-      if (root.keystroke.shiftPressed) {
-        // if (store.selectedIndex >= store.notes.length) {
-        //   store.selectedIndex = store.notes.length - 1
-        // }
 
-        // Clipboard.setString(store.notes[store.selectedIndex])
-        store.removeNote(store.selectedIndex)
-
-        return true
-      }
-
-      return false
-    },
-    handleEnterPressOnScratchpad: (): boolean => {
-      if (root.keystroke.shiftPressed) {
-        if (store.notes[0] === '') {
-          return true
-        }
-
-        store.notes.unshift('')
-        store.selectedIndex = 0
-        return true
-      }
-
-      return false
-    },
     showGifPicker: () => {
       store.focusWidget(Widget.GIFS)
       store.query = ''
@@ -1004,21 +975,11 @@ export const createUIStore = (root: IRootStore) => {
     showSettings: () => {
       store.focusWidget(Widget.SETTINGS)
     },
-    removeNote: (idx: number) => {
-      let newNotes = [...store.notes]
-      newNotes.splice(idx, 1)
-
-      if (newNotes.length === 0) {
-        newNotes = ['']
-      }
-
-      store.notes = newNotes
-    },
     setSelectedIndex: (idx: number) => {
       store.selectedIndex = idx
     },
-    updateNote: (idx: number, note: string) => {
-      store.notes[idx] = note
+    setNote: (note: string) => {
+      store.note = note
     },
     fetchEvents: () => {
       if (store.calendarAuthorizationStatus === 'authorized') {

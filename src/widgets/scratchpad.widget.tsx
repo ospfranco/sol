@@ -4,7 +4,6 @@ import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect, useRef} from 'react'
 import {
   FlatList,
-  Text,
   TextInput,
   TextInputProps,
   View,
@@ -61,84 +60,31 @@ export const ScratchpadWidget: FC<Props> = observer(({style}) => {
 
   return (
     <View style={tw.style(`flex-1`, style)}>
-      <View style={tw.style('flex-1')}>
-        <FlatList
-          ref={listRef}
-          data={[...store.ui.notes]}
-          style={tw.style('flex-1 -mt-3')}
-          // contentContainerStyle={tw`px-5`}
-          renderItem={({item, index}) => {
-            const focused = selectedIndex === index
-            return (
-              <WrappedInput
-                value={item}
-                onChangeText={v => {
-                  const oldBreakCount = (item.match(/\n/g) || []).length
-                  const newBreakCount = (v.match(/\n/g) || []).length
-                  const newLineInserted = newBreakCount > oldBreakCount
-
-                  if (newLineInserted) {
-                    const handled = store.ui.handleEnterPressOnScratchpad()
-                    if (handled) {
-                      return
-                    }
-                  }
-
-                  // character was deleted
-                  if (
-                    item.length - 1 === v.length &&
-                    store.keystroke.shiftPressed
-                  ) {
-                    return
-                  }
-
-                  store.ui.updateNote(index, v)
-                }}
-                scrollEnabled={false}
-                focused={focused}
-                // @ts-expect-error
-                enableFocusRing={false}
-                placeholderTextColor={tw.color('text-gray-400')}
-                placeholder="Write something..."
-                style={tw.style(
-                  'border-b border-lightBorder dark:border-darkBorder pb-4 mb-4 px-5',
-                  {
-                    'border-accent dark:border-accent': focused,
-                  },
-                )}
-                onFocus={() => {
-                  store.ui.setSelectedIndex(index)
-                }}
-                multiline
-              />
-            )
-          }}
+      <View style={tw`flex-1 p-4`}>
+        <WrappedInput
+          autoFocus
+          value={store.ui.note}
+          onChangeText={store.ui.setNote}
+          scrollEnabled={true}
+          // @ts-expect-error
+          enableFocusRing={false}
+          placeholderTextColor={tw.color('text-gray-400')}
+          placeholder="Write something..."
+          style={tw.style('flex-1 -mt-7 -mr-4')}
+          multiline
         />
       </View>
-      <View
-        style={tw`border-t bg-gray-100 dark:bg-neutral-800 border-lightBorder dark:border-darkBorder px-6 pt-1 pb-2 flex-row items-center`}>
-        <Text style={tw`text-xs dark:text-gray-400 text-gray-500`}>
-          <Text style={tw`text-xs`}>⇧ + ↩</Text> new
-        </Text>
-        <View
-          style={tw`border-r border-lightBorder dark:border-darkBorder h-3 mx-4`}
+      {/* <View
+        style={tw`flex-row items-center border-t border-lightBorder dark:border-darkBorder px-3 py-2 bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30`}>
+        <Text style={tw`mr-1 text-gray-500`}>BG</Text>
+        <Dropdown
+          value={'none'}
+          options={[{label: 'None', value: 'none'}]}
+          onValueChange={() => {}}
+          style={tw`w-20`}
+          upward
         />
-        <Text style={tw`text-xs dark:text-gray-400 text-gray-500`}>
-          <Text style={tw`text-xs`}>⇥</Text> next
-        </Text>
-        <View
-          style={tw`border-r border-lightBorder dark:border-darkBorder h-3 mx-4`}
-        />
-        <Text style={tw`text-xs dark:text-gray-400 text-gray-500`}>
-          <Text style={tw`text-xs`}>⇧ + ⇥</Text> previous
-        </Text>
-        <View
-          style={tw`border-r border-lightBorder dark:border-darkBorder h-3 mx-4`}
-        />
-        <Text style={tw`text-xs dark:text-gray-400 text-gray-500`}>
-          <Text style={tw`text-xs`}>⇧ + delete</Text> remove
-        </Text>
-      </View>
+      </View> */}
     </View>
   )
 })

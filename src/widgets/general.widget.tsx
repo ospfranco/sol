@@ -54,7 +54,7 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
   return (
     <View
       style={tw.style(
-        `text-gray-200 flex-row items-center border-t border-lightBorder dark:border-darkBorder px-3 py-2 bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30`,
+        `flex-row items-center border-t border-lightBorder dark:border-darkBorder px-3 py-2 bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30`,
         style,
       )}>
       <SolIcon />

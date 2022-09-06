@@ -6,6 +6,7 @@ import {
   ScrollView,
   Text,
   TouchableOpacity,
+  View,
   ViewStyle,
 } from 'react-native'
 import tw from 'tailwind'
@@ -19,6 +20,7 @@ interface Props<T> {
     label: string
     value: T
   }>
+  upward?: boolean
 }
 
 export const Dropdown = ({
@@ -26,12 +28,13 @@ export const Dropdown = ({
   style,
   options,
   onValueChange,
+  upward = false,
 }: Props<string | number>) => {
   const [isOpen, open, close] = useBoolean()
   const [isHovered, hoverOn, hoverOff] = useBoolean()
 
   return (
-    <>
+    <View style={tw`relative`}>
       <TouchableOpacity
         // @ts-expect-error
         onMouseEnter={hoverOn}
@@ -60,7 +63,11 @@ export const Dropdown = ({
       {isOpen && (
         <ScrollView
           style={tw.style(
-            `w-32 rounded border dark:border-gray-700 bg-white dark:bg-neutral-800 max-h-32 absolute top-7`,
+            `w-32 rounded border dark:border-gray-700 bg-white dark:bg-neutral-800 max-h-32 absolute`,
+            {
+              'top-7': !upward,
+              'bottom-7': upward,
+            },
             style,
           )}
           contentContainerStyle={tw`justify-center items-center -ml-4`}
@@ -78,6 +85,6 @@ export const Dropdown = ({
           ))}
         </ScrollView>
       )}
-    </>
+    </View>
   )
 }

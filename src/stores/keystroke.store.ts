@@ -30,10 +30,6 @@ export const createKeystrokeStore = (root: IRootStore) => {
       switch (keyCode) {
         // delete key
         case 51: {
-          if (root.ui.focusedWidget === Widget.SCRATCHPAD) {
-            root.ui.handleDeletePressOnScrachpad()
-          }
-
           if (
             root.ui.focusedWidget === Widget.SEARCH &&
             root.ui.currentItem.type === ItemType.CUSTOM &&
@@ -60,18 +56,6 @@ export const createKeystrokeStore = (root: IRootStore) => {
               root.ui.selectedIndex = 0
               root.ui.focusedWidget = Widget.SEARCH
               break
-
-            case Widget.SCRATCHPAD:
-              if (shift) {
-                root.ui.selectedIndex =
-                  root.ui.selectedIndex - 1 < 0
-                    ? root.ui.notes.length - 1
-                    : root.ui.selectedIndex - 1
-              } else {
-                root.ui.selectedIndex =
-                  (root.ui.selectedIndex + 1) % root.ui.notes.length
-              }
-              return
           }
 
           break
