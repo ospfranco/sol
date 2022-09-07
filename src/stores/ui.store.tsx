@@ -96,6 +96,12 @@ export const createUIStore = (root: IRootStore) => {
           store.focusedWidget = Widget.ONBOARDING
         }
         store.note = parsedStore.note ?? ''
+        // temporary code to prevent loss of data
+        if (parsedStore.notes) {
+          store.note = parsedStore.notes.reduce((acc: string, n: string) => {
+            return acc + '\n' + n
+          }, '')
+        }
         store.globalShortcut = parsedStore.globalShortcut
         store.scratchpadShortcut = parsedStore.scratchpadShortcut ?? 'command'
         store.clipboardManagerShortcut =
