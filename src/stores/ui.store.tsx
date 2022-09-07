@@ -95,8 +95,8 @@ export const createUIStore = (root: IRootStore) => {
         ) {
           store.focusedWidget = Widget.ONBOARDING
         }
-        ;(store.note = parsedStore.note ?? ''),
-          (store.globalShortcut = parsedStore.globalShortcut)
+        store.note = parsedStore.note ?? ''
+        store.globalShortcut = parsedStore.globalShortcut
         store.scratchpadShortcut = parsedStore.scratchpadShortcut ?? 'command'
         store.clipboardManagerShortcut =
           parsedStore.clipboardManagerShortcut ?? 'shift'
@@ -946,7 +946,6 @@ export const createUIStore = (root: IRootStore) => {
     setGithubSearchEnabled: (v: boolean) => {
       store.githubSearchEnabled = v
     },
-
     showGifPicker: () => {
       store.focusWidget(Widget.GIFS)
       store.query = ''
