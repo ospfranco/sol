@@ -240,6 +240,22 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
 
             <View style={tw`flex-row items-center py-2`}>
               <Text style={tw`flex-1 text-right pr-3 text-sm`}>
+                GitHub Token
+              </Text>
+
+              <View style={tw`flex-1.3 flex-row`}>
+                <Input
+                  value={store.ui.githubToken ?? ''}
+                  onChangeText={store.ui.setGithubToken}
+                  placeholder="GitHub token..."
+                  bordered
+                  style={tw`w-64`}
+                />
+              </View>
+            </View>
+
+            <View style={tw`flex-row items-center py-2`}>
+              <Text style={tw`flex-1 text-right pr-3 text-sm`}>
                 Window Management Shortcuts
               </Text>
               <View style={tw`flex-1.3`}>
@@ -278,18 +294,14 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
               </View>
             </View>
 
-            <View style={tw`flex-row items-center py-2`}>
+            <View style={tw.style(`flex-row items-center py-2`)}>
               <Text style={tw`flex-1 text-right pr-3 text-sm`}>
-                GitHub Token
+                Show currently playing
               </Text>
-
-              <View style={tw`flex-1.3 flex-row`}>
-                <Input
-                  value={store.ui.githubToken ?? ''}
-                  onChangeText={store.ui.setGithubToken}
-                  placeholder="GitHub token..."
-                  bordered
-                  style={tw`w-64`}
+              <View style={tw`flex-1.3`}>
+                <MySwitch
+                  value={store.ui.showPlaying}
+                  onValueChange={store.ui.setShowPlaying}
                 />
               </View>
             </View>

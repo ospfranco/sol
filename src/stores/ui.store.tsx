@@ -83,7 +83,6 @@ export const createUIStore = (root: IRootStore) => {
         store.weatherLat = parsedStore.weatherLat
         store.weatherLon = parsedStore.weatherLon
         store.onboardingStep = parsedStore.onboardingStep
-        store.launchAtLogin = parsedStore.launchAtLogin
         store.firstTranslationLanguage =
           parsedStore.firstTranslationLanguage ?? 'en'
         store.secondTranslationLanguage =
@@ -109,6 +108,7 @@ export const createUIStore = (root: IRootStore) => {
           parsedStore.windowManagementEnabled ?? true
         store.calendarEnabled = parsedStore.calendarEnabled ?? true
         store.showAllDayEvents = parsedStore.showAllDayEvents ?? true
+        store.showPlaying = parsedStore.showPlaying ?? true
       })
 
       solNative.setGlobalShortcut(parsedStore.globalShortcut)
@@ -656,12 +656,12 @@ export const createUIStore = (root: IRootStore) => {
       | 'screenWithFrontmost'
       | 'screenWithCursor',
     clipboardManagerShortcut: 'shift' as 'shift' | 'option',
-    now: DateTime.now() as DateTime,
-    query: '' as string,
-    selectedIndex: 0 as number,
-    focusedWidget: Widget.SEARCH as Widget,
+    now: DateTime.now(),
+    query: '',
+    selectedIndex: 0,
+    focusedWidget: Widget.SEARCH,
     events: [] as INativeEvent[],
-    currentTemp: 0 as number,
+    currentTemp: 0,
     nextHourForecast: null as null | string,
     customItems: [] as Item[],
     apps: [] as Item[],
@@ -678,16 +678,14 @@ export const createUIStore = (root: IRootStore) => {
       | null
       | undefined,
     projects: [] as ITrackingProject[],
-    tempProjectName: '' as string,
+    tempProjectName: '',
     currentlyTrackedProjectId: null as string | null,
-    weatherApiKey: '' as string,
-    weatherLat: '' as string,
-    weatherLon: '' as string,
-    launchAtLogin: false,
+    weatherApiKey: '',
+    weatherLat: '',
+    weatherLon: '',
     firstTranslationLanguage: 'en' as string,
     secondTranslationLanguage: 'de' as string,
     gifs: [] as any[],
-    temporaryTextInputSelection: 0 as number,
     githubSearchEnabled: false,
     githubSearchResults: [] as GithubRepo[],
     // TODO(osp) this token should be placed in secure storage, but too lazy to do it right now
@@ -696,6 +694,7 @@ export const createUIStore = (root: IRootStore) => {
     windowManagementEnabled: true,
     calendarEnabled: true,
     showAllDayEvents: true,
+    showPlaying: true,
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -1032,10 +1031,6 @@ export const createUIStore = (root: IRootStore) => {
     setSecondTranslationLanguage: (l: string) => {
       store.secondTranslationLanguage = l
     },
-    setLaunchAtLogin: (launchAtLogin: boolean) => {
-      store.launchAtLogin = launchAtLogin
-      solNative.setLaunchAtLogin(launchAtLogin)
-    },
     setOnboardingStep: (step: OnboardingStep) => {
       store.onboardingStep = step
     },
@@ -1222,11 +1217,13 @@ export const createUIStore = (root: IRootStore) => {
         store.getAccessibilityStatus()
       }
 
-      solNative.getMediaInfo().then(res => {
-        runInAction(() => {
-          store.track = res
+      if (store.showPlaying) {
+        solNative.getMediaInfo().then(res => {
+          runInAction(() => {
+            store.track = res
+          })
         })
-      })
+      }
 
       solNative.getApps().then(apps => {
         // Each "app" is a macOS file url, e.g. file:///Applications/SF%20Symbols
@@ -1286,6 +1283,12 @@ export const createUIStore = (root: IRootStore) => {
     },
     setShowAllDayEvents: (v: boolean) => {
       store.showAllDayEvents = v
+    },
+    setShowPlaying: (v: boolean) => {
+      store.showPlaying = v
+      if (!v) {
+        store.track = null
+      }
     },
   })
 
