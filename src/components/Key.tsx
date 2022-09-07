@@ -2,10 +2,18 @@ import React, {FC} from 'react'
 import {Text, View, ViewStyle} from 'react-native'
 import tw from 'tailwind'
 
-export const Key: FC<{title: string; primary?: boolean; style?: ViewStyle}> = ({
+interface IProps {
+  title: string
+  primary?: boolean
+  style?: ViewStyle
+  brRounded?: boolean
+}
+
+export const Key: FC<IProps> = ({
   title,
   primary = false,
   style,
+  brRounded = false,
 }) => {
   return (
     <View
@@ -14,6 +22,7 @@ export const Key: FC<{title: string; primary?: boolean; style?: ViewStyle}> = ({
         {
           'dark:bg-neutral-700 bg-neutral-200': !primary,
           'bg-accent': primary,
+          'rounded-br-corner': brRounded,
         },
         style,
       )}>

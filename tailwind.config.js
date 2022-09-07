@@ -17,6 +17,7 @@ module.exports = {
     extend: {
       borderRadius: {
         xs: '1px',
+        corner: '7px'
       },
       colors: {
         light: {DEFAULT: 'rgb(251, 251, 251)'},

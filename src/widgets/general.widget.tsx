@@ -31,7 +31,7 @@ const SolIcon = () => {
       onMouseEnter={hoverOn}
       onMouseLeave={hoverOff}
       style={tw.style({
-        'bg-accent bg-opacity-30 rounded': isHovered,
+        'bg-accent bg-opacity-30 rounded rounded-bl-corner': isHovered,
       })}
       onPress={() => {
         store.ui.focusWidget(Widget.SETTINGS)
@@ -54,7 +54,7 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
   return (
     <View
       style={tw.style(
-        `flex-row items-center border-t border-lightBorder dark:border-darkBorder px-3 py-2 bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30`,
+        `flex-row items-center border-t border-lightBorder dark:border-darkBorder p-2 bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30`,
         style,
       )}>
       <SolIcon />
@@ -135,21 +135,21 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
         !!store.ui.filteredEvents.length && (
           <>
             <Text style={tw`text-xs font-semibold mr-1`}>Appointments</Text>
-            <Key title="tab" />
+            <Key title="tab" brRounded />
           </>
         )}
       {store.ui.focusedWidget === Widget.SEARCH &&
         !!store.ui.query &&
         store.ui.currentItem?.type === ItemType.CUSTOM && (
           <>
-            <Text style={tw`text-xs font-semibold mr-1`}>Delete Shortcut</Text>
+            <Text style={tw`text-xs font-semibold mr-1`}>Delete</Text>
             <Key title="⇧ ⌦" />
           </>
         )}
       {store.ui.focusedWidget === Widget.SEARCH && !!store.ui.query && (
         <>
           <Text style={tw`text-xs font-semibold mx-1`}>Open</Text>
-          <Key title="⏎" primary />
+          <Key title="⏎" primary brRounded />
         </>
       )}
       {store.ui.focusedWidget === Widget.CALENDAR && (
@@ -157,7 +157,7 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
           <Text style={tw`text-xs font-semibold mr-1`}>
             {store.ui.currentItem?.url ? 'Join' : 'Open  '}
           </Text>
-          <Key title="⏎" primary />
+          <Key title="⏎" primary brRounded />
         </>
       )}
     </View>
