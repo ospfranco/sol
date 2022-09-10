@@ -37,7 +37,7 @@ export const SelectableButton: FC<SelectableButtonProps> = ({
         style,
       )}>
       <Text
-        style={tw.style(`pl-1`, {
+        style={tw.style(`pl-1 text-sm`, {
           'text-white': selected || hovered,
         })}>
         {title}

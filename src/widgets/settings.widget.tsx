@@ -3,6 +3,7 @@ import {Dropdown} from 'components/Dropdown'
 import {Input} from 'components/Input'
 import {MySwitch} from 'components/MySwitch'
 import {SelectableButton} from 'components/SelectableButton'
+import {useBoolean} from 'hooks'
 import {useFullSize} from 'hooks/useFullSize'
 import {languages} from 'lib/languages'
 import {observer} from 'mobx-react-lite'
@@ -27,6 +28,34 @@ interface Props {
 
 type ITEM = 'ABOUT' | 'WEATHER' | 'GENERAL' | 'TRANSLATE'
 
+const SettingsButton = () => {
+  const store = useStore()
+  const [hovered, hoverOn, hoverOff] = useBoolean()
+  return (
+    <TouchableOpacity
+      // @ts-expect-error
+      onMouseEnter={hoverOn}
+      onMouseLeave={hoverOff}
+      onPress={() => {
+        store.ui.focusWidget(Widget.SEARCH)
+      }}>
+      <View
+        style={tw.style(`flex-row items-center rounded py-2 bg-opacity-20`, {
+          'bg-neutral-500 dark:bg-neutral-300': hovered,
+        })}>
+        <Image
+          source={Assets.ChevronLeft}
+          style={tw.style(`h-5 w-5`, {
+            tintColor: tw.color('text-gray-400')!,
+          })}
+        />
+
+        <Text> Preferences</Text>
+      </View>
+    </TouchableOpacity>
+  )
+}
+
 export const SettingsWidget: FC<Props> = observer(({style}) => {
   const store = useStore()
   useFullSize()
@@ -35,51 +64,37 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
   const [selected, setSelected] = useState<ITEM>('GENERAL')
 
   return (
-    <View style={tw.style(`flex-row flex-1`, style)}>
+    <View style={tw.style(`flex-row flex-1`)}>
       <View
-        style={tw`p-6 w-40 border-r border-lightBorder dark:border-darkBorder`}>
-        <TouchableOpacity
-          onPress={() => {
-            store.ui.focusWidget(Widget.SEARCH)
-          }}>
-          <View style={tw`flex-row items-center`}>
-            <Image
-              source={Assets.ChevronLeft}
-              style={tw.style(`h-5 w-5`, {
-                tintColor: tw.color('text-gray-400')!,
-              })}
-            />
+        style={tw`p-3 w-40 border-r border-lightBorder dark:border-darkBorder`}>
+        <SettingsButton />
 
-            <Text style={tw`text-lg`}> Settings</Text>
-          </View>
-        </TouchableOpacity>
-        <View style={tw`w-full pl-4`}>
-          <SelectableButton
-            title="General"
-            selected={selected === 'GENERAL'}
-            style={tw`mt-3`}
-            onPress={() => setSelected('GENERAL')}
-          />
-          <SelectableButton
-            title="Translation"
-            selected={selected === 'TRANSLATE'}
-            style={tw`mt-1`}
-            onPress={() => setSelected('TRANSLATE')}
-          />
-          <SelectableButton
-            title="Weather"
-            selected={selected === 'WEATHER'}
-            style={tw`mt-1`}
-            onPress={() => setSelected('WEATHER')}
-          />
-          <SelectableButton
-            title="About"
-            selected={selected === 'ABOUT'}
-            style={tw`mt-1`}
-            onPress={() => setSelected('ABOUT')}
-          />
-        </View>
+        <SelectableButton
+          title="General"
+          selected={selected === 'GENERAL'}
+          style={tw`mt-3`}
+          onPress={() => setSelected('GENERAL')}
+        />
+        <SelectableButton
+          title="Translation"
+          selected={selected === 'TRANSLATE'}
+          style={tw`mt-1`}
+          onPress={() => setSelected('TRANSLATE')}
+        />
+        <SelectableButton
+          title="Weather"
+          selected={selected === 'WEATHER'}
+          style={tw`mt-1`}
+          onPress={() => setSelected('WEATHER')}
+        />
+        <SelectableButton
+          title="About"
+          selected={selected === 'ABOUT'}
+          style={tw`mt-1`}
+          onPress={() => setSelected('ABOUT')}
+        />
       </View>
+
       {selected === 'ABOUT' && (
         <View
           style={tw`flex-1 justify-center items-center bg-white dark:bg-black bg-opacity-30`}>
@@ -96,15 +111,6 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
       )}
       {selected === 'WEATHER' && (
         <View style={tw`flex-1 p-6 bg-white dark:bg-black bg-opacity-30`}>
-          <Text style={tw`text-lg`}>Weather configuration</Text>
-          <Text style={tw`text-sm text-gray-700 dark:text-gray-400 pt-2`}>
-            OpenWeatherMap params which allow to show local weather data
-          </Text>
-
-          <View
-            style={tw`w-full h-1 border-b border-lightBorder dark:border-darkBorder mt-3 mb-5`}
-          />
-
           <Text style={tw``}>Api Key</Text>
 
           <Input
@@ -148,177 +154,157 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
         </View>
       )}
       {selected === 'GENERAL' && (
-        <View style={tw`flex-1 p-6 bg-white dark:bg-black dark:bg-opacity-30`}>
-          <Text style={tw`text-lg`}>General</Text>
-          <Text style={tw`text-sm text-gray-700 dark:text-gray-400 pt-2`}>
-            General app settings
-          </Text>
+        <View
+          style={tw`flex-1 p-6 bg-white dark:bg-black dark:bg-opacity-30 justify-center`}>
+          <View style={tw`flex-row items-center py-2 z-10`}>
+            <Text style={tw`flex-1 text-right pr-3 text-sm`}>
+              Global shortcut
+            </Text>
+            <View style={tw`flex-1.3`}>
+              <Dropdown
+                value={store.ui.globalShortcut}
+                onValueChange={v => store.ui.setGlobalShortcut(v as any)}
+                options={[
+                  {label: '⌘ Space', value: 'command'},
+                  {label: '⌥ Space', value: 'option'},
+                ]}
+              />
+            </View>
+          </View>
+          <View style={tw`flex-row items-center py-2 z-9`}>
+            <Text style={tw`flex-1 text-right pr-3 text-sm`}>
+              Scratchpad shortcut
+            </Text>
+            <View style={tw`flex-1.3`}>
+              <Dropdown
+                value={store.ui.scratchpadShortcut}
+                onValueChange={v => store.ui.setScratchpadShortcut(v as any)}
+                options={[
+                  {label: '⌘ ⇧ Space', value: 'command'},
+                  {label: '⇧ ⌥ Space', value: 'option'},
+                ]}
+              />
+            </View>
+          </View>
+          <View style={tw`flex-row items-center py-2 z-8`}>
+            <Text style={tw`flex-1 text-right pr-3 text-sm`}>
+              Clipboard manager shortcut
+            </Text>
+            <View style={tw`flex-1.3`}>
+              <Dropdown
+                value={store.ui.clipboardManagerShortcut}
+                onValueChange={v =>
+                  store.ui.setClipboardManagerShortcut(v as any)
+                }
+                options={[
+                  {label: '⌘ ⇧ V', value: 'shift'},
+                  {label: '⌘ ⌥ V', value: 'option'},
+                ]}
+              />
+            </View>
+          </View>
+
+          <View style={tw`flex-row items-center py-2 z-7`}>
+            <Text style={tw`flex-1 text-right pr-3 text-sm`}>
+              Show window on
+            </Text>
+            <View style={tw`flex-1.3`}>
+              <Dropdown
+                value={store.ui.showWindowOn}
+                onValueChange={v => store.ui.setShowWindowOn(v as any)}
+                options={[
+                  {
+                    label: 'Frontmost window screen',
+                    value: 'screenWithFrontmost',
+                  },
+                  {label: 'Screen with cursor', value: 'screenWithCursor'},
+                ]}
+                style={tw`w-64`}
+              />
+            </View>
+          </View>
+
+          <View style={tw`flex-row items-center py-2`}>
+            <Text style={tw`flex-1 text-right pr-3 text-sm`}>
+              Search GitHub
+            </Text>
+            <View style={tw`flex-1.3`}>
+              <MySwitch
+                value={store.ui.githubSearchEnabled}
+                onValueChange={store.ui.setGithubSearchEnabled}
+              />
+            </View>
+          </View>
+
+          <View style={tw`flex-row items-center py-2`}>
+            <Text style={tw`flex-1 text-right pr-3 text-sm`}>GitHub Token</Text>
+
+            <View style={tw`flex-1.3 flex-row`}>
+              <Input
+                value={store.ui.githubToken ?? ''}
+                onChangeText={store.ui.setGithubToken}
+                placeholder="GitHub token..."
+                bordered
+                style={tw`w-64`}
+              />
+            </View>
+          </View>
+
+          <View style={tw`flex-row items-center py-2`}>
+            <Text style={tw`flex-1 text-right pr-3 text-sm`}>
+              Window Management Shortcuts
+            </Text>
+            <View style={tw`flex-1.3`}>
+              <MySwitch
+                value={store.ui.windowManagementEnabled}
+                onValueChange={store.ui.setWindowManagementEnabled}
+              />
+            </View>
+          </View>
+
+          <View style={tw`flex-row items-center py-2`}>
+            <Text style={tw`flex-1 text-right pr-3 text-sm`}>
+              Show calendar
+            </Text>
+            <View style={tw`flex-1.3`}>
+              <MySwitch
+                value={store.ui.calendarEnabled}
+                onValueChange={store.ui.setCalendarEnabled}
+              />
+            </View>
+          </View>
+
           <View
-            style={tw`w-full h-1 border-b border-lightBorder dark:border-darkBorder mt-3 mb-5`}
-          />
-
-          <View style={tw`flex-1`}>
-            <View style={tw`flex-row items-center py-2 z-10`}>
-              <Text style={tw`flex-1 text-right pr-3 text-sm`}>
-                Global shortcut
-              </Text>
-              <View style={tw`flex-1.3`}>
-                <Dropdown
-                  value={store.ui.globalShortcut}
-                  onValueChange={v => store.ui.setGlobalShortcut(v as any)}
-                  options={[
-                    {label: '⌘ Space', value: 'command'},
-                    {label: '⌥ Space', value: 'option'},
-                  ]}
-                />
-              </View>
+            style={tw.style(`flex-row items-center py-2`, {
+              'opacity-50': !store.ui.calendarEnabled,
+            })}>
+            <Text style={tw`flex-1 text-right pr-3 text-sm`}>
+              Show all-day events
+            </Text>
+            <View style={tw`flex-1.3`}>
+              <MySwitch
+                disabled={!store.ui.calendarEnabled}
+                value={store.ui.showAllDayEvents}
+                onValueChange={store.ui.setShowAllDayEvents}
+              />
             </View>
-            <View style={tw`flex-row items-center py-2 z-9`}>
-              <Text style={tw`flex-1 text-right pr-3 text-sm`}>
-                Scratchpad shortcut
-              </Text>
-              <View style={tw`flex-1.3`}>
-                <Dropdown
-                  value={store.ui.scratchpadShortcut}
-                  onValueChange={v => store.ui.setScratchpadShortcut(v as any)}
-                  options={[
-                    {label: '⌘ ⇧ Space', value: 'command'},
-                    {label: '⇧ ⌥ Space', value: 'option'},
-                  ]}
-                />
-              </View>
-            </View>
-            <View style={tw`flex-row items-center py-2 z-8`}>
-              <Text style={tw`flex-1 text-right pr-3 text-sm`}>
-                Clipboard manager shortcut
-              </Text>
-              <View style={tw`flex-1.3`}>
-                <Dropdown
-                  value={store.ui.clipboardManagerShortcut}
-                  onValueChange={v =>
-                    store.ui.setClipboardManagerShortcut(v as any)
-                  }
-                  options={[
-                    {label: '⌘ ⇧ V', value: 'shift'},
-                    {label: '⌘ ⌥ V', value: 'option'},
-                  ]}
-                />
-              </View>
-            </View>
+          </View>
 
-            <View style={tw`flex-row items-center py-2 z-7`}>
-              <Text style={tw`flex-1 text-right pr-3 text-sm`}>
-                Show window on
-              </Text>
-              <View style={tw`flex-1.3`}>
-                <Dropdown
-                  value={store.ui.showWindowOn}
-                  onValueChange={v => store.ui.setShowWindowOn(v as any)}
-                  options={[
-                    {
-                      label: 'Frontmost window screen',
-                      value: 'screenWithFrontmost',
-                    },
-                    {label: 'Screen with cursor', value: 'screenWithCursor'},
-                  ]}
-                  style={tw`w-64`}
-                />
-              </View>
-            </View>
-
-            <View style={tw`flex-row items-center py-2`}>
-              <Text style={tw`flex-1 text-right pr-3 text-sm`}>
-                Search GitHub
-              </Text>
-              <View style={tw`flex-1.3`}>
-                <MySwitch
-                  value={store.ui.githubSearchEnabled}
-                  onValueChange={store.ui.setGithubSearchEnabled}
-                />
-              </View>
-            </View>
-
-            <View style={tw`flex-row items-center py-2`}>
-              <Text style={tw`flex-1 text-right pr-3 text-sm`}>
-                GitHub Token
-              </Text>
-
-              <View style={tw`flex-1.3 flex-row`}>
-                <Input
-                  value={store.ui.githubToken ?? ''}
-                  onChangeText={store.ui.setGithubToken}
-                  placeholder="GitHub token..."
-                  bordered
-                  style={tw`w-64`}
-                />
-              </View>
-            </View>
-
-            <View style={tw`flex-row items-center py-2`}>
-              <Text style={tw`flex-1 text-right pr-3 text-sm`}>
-                Window Management Shortcuts
-              </Text>
-              <View style={tw`flex-1.3`}>
-                <MySwitch
-                  value={store.ui.windowManagementEnabled}
-                  onValueChange={store.ui.setWindowManagementEnabled}
-                />
-              </View>
-            </View>
-
-            <View style={tw`flex-row items-center py-2`}>
-              <Text style={tw`flex-1 text-right pr-3 text-sm`}>
-                Show calendar
-              </Text>
-              <View style={tw`flex-1.3`}>
-                <MySwitch
-                  value={store.ui.calendarEnabled}
-                  onValueChange={store.ui.setCalendarEnabled}
-                />
-              </View>
-            </View>
-
-            <View
-              style={tw.style(`flex-row items-center py-2`, {
-                'opacity-50': !store.ui.calendarEnabled,
-              })}>
-              <Text style={tw`flex-1 text-right pr-3 text-sm`}>
-                Show all-day events
-              </Text>
-              <View style={tw`flex-1.3`}>
-                <MySwitch
-                  disabled={!store.ui.calendarEnabled}
-                  value={store.ui.showAllDayEvents}
-                  onValueChange={store.ui.setShowAllDayEvents}
-                />
-              </View>
-            </View>
-
-            <View style={tw.style(`flex-row items-center py-2`)}>
-              <Text style={tw`flex-1 text-right pr-3 text-sm`}>
-                Show currently playing
-              </Text>
-              <View style={tw`flex-1.3`}>
-                <MySwitch
-                  value={store.ui.showPlaying}
-                  onValueChange={store.ui.setShowPlaying}
-                />
-              </View>
+          <View style={tw.style(`flex-row items-center py-2`)}>
+            <Text style={tw`flex-1 text-right pr-3 text-sm`}>
+              Show currently playing
+            </Text>
+            <View style={tw`flex-1.3`}>
+              <MySwitch
+                value={store.ui.showPlaying}
+                onValueChange={store.ui.setShowPlaying}
+              />
             </View>
           </View>
         </View>
       )}
       {selected === 'TRANSLATE' && (
         <View style={tw`flex-1 p-6 bg-white dark:bg-black bg-opacity-30`}>
-          <Text style={tw`text-lg`}>Translation</Text>
-          <Text style={tw`text-sm text-gray-700 dark:text-gray-400 pt-2`}>
-            Configure the languages to translate
-          </Text>
-
-          <View
-            style={tw`w-full h-1 border-b border-lightBorder dark:border-darkBorder mt-3 mb-5`}
-          />
-
           <View style={tw`flex-1 pt-8`}>
             <View style={tw`flex-row items-center py-2`}>
               <Text style={tw`flex-1 text-right mr-2`}>First language</Text>

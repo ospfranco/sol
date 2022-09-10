@@ -47,8 +47,8 @@ export const Dropdown = ({
           `w-32 rounded justify-center items-center border flex-row py-1`,
           {
             'border-accent': isOpen,
-            'dark:border-white': isHovered,
-            'border-gray-500': !isOpen,
+            'dark:border-gray-200': isHovered,
+            'border-neutral-300 dark:border-neutral-700': !isHovered,
           },
           style,
         )}>
