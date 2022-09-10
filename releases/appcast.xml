@@ -3,6 +3,21 @@
     <channel>
         <title>sol</title>
         <item>
+            <title>1.1.73</title>
+            <pubDate>Sat, 03 Sep 2022 11:31:02 -0400</pubDate>
+            <sparkle:version>97</sparkle:version>
+            <sparkle:shortVersionString>1.1.73</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>10.15</sparkle:minimumSystemVersion>
+            <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/1.1.73.zip" length="7674241" type="application/octet-stream" sparkle:edSignature="4bRxJ+tC59m2Oh2K0VnEU/836Yp4NaFoWvyZIq9BKDWSQA85A1b9jEpJvicSh8a6vMen77QVasTMTVOz5SxcCw=="/>
+            <sparkle:deltas>
+                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/sol97-96.delta" sparkle:deltaFrom="96" length="17558" type="application/octet-stream" sparkle:edSignature="9uroec+guu6QXbdDbLydO4FxG+/Qdo+Wdgzdpb0D/9I1k+/suvhIDM3aoBbA3Pz4YlK2Tuk5YWdb5rkjGKOLBw=="/>
+                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/sol97-95.delta" sparkle:deltaFrom="95" length="18382" type="application/octet-stream" sparkle:edSignature="E1RD/to+mdKZ2Zf2V2sHa8dxifYgUhCtYjyoDbrQpj2EXKpAOtUrckBgAT6Pmv+hMNxqyjBhWn1Ye7TEs+UUBg=="/>
+                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/sol97-94.delta" sparkle:deltaFrom="94" length="44578" type="application/octet-stream" sparkle:edSignature="R9ZFcHmPqFX/SppAEbhDXqmur5lY7tdLlUlJngHhb4jxpehJtU0ezhXR+mll9y+kvFuWrfhuqld0CzMg0PCVCQ=="/>
+                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/sol97-93.delta" sparkle:deltaFrom="93" length="233114" type="application/octet-stream" sparkle:edSignature="63CuLozuqI2LeKMOfH4T7Xbfc7FYjEAqGyRc4fL5qa4gzYazKLFcgc49lb0+uTKD1MfecNWt1US2hWYc/TcADw=="/>
+                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/sol97-92.delta" sparkle:deltaFrom="92" length="238170" type="application/octet-stream" sparkle:edSignature="bUgFHI908jLMwg1ArfIE3i7LEbjG18WQSXEu3QW/p97Y5oBZjlEuPc8qJjByuqFT3UHQCqYlwQHfFLwlo7jLCA=="/>
+            </sparkle:deltas>
+        </item>
+        <item>
             <title>1.1.72</title>
             <pubDate>Sat, 03 Sep 2022 17:31:02 +0200</pubDate>
             <sparkle:version>96</sparkle:version>
