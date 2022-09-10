@@ -54,13 +54,7 @@ export const CalendarWidget: FC<Props> = observer(() => {
         return (
           <View key={key} style={tw`flex-row flex-1`}>
             <View style={tw`flex-1`}>
-              <View
-                style={tw.style(
-                  `flex-row pl-1 dark:border-darkBorder border-lightBorder`,
-                  {
-                    'border-l': i !== 0,
-                  },
-                )}>
+              <View style={tw.style(`flex-row`)}>
                 {key === 'today' ? (
                   <Text
                     style={tw`capitalize dark:text-white text-gray-500 text-xs`}>
@@ -77,8 +71,7 @@ export const CalendarWidget: FC<Props> = observer(() => {
                 style={tw`mt-1 max-h-49`}
                 showsVerticalScrollIndicator={false}>
                 {!data.events.length && (
-                  <Text
-                    style={tw`text-gray-400 dark:text-gray-500 text-xs ml-1`}>
+                  <Text style={tw`text-gray-400 dark:text-gray-500 text-xs`}>
                     No Events
                   </Text>
                 )}
