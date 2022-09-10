@@ -12,7 +12,11 @@
   <a align="center" href="https://www.producthunt.com/posts/sol-2?utm_source=badge-top-post-badge&utm_medium=badge&utm_souce=badge-sol&#0045;2" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=336659&theme=dark&period=daily" alt="Sol - Open&#0032;source&#0032;macOS&#0032;command&#0032;palette | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 </div>
 
-Sol is a launcher, focused on ease of use and speed.
+Sol is an app launcher, focused on ease of use and speed.
+
+It is aimed to be a replacement for Alfred, Spotlight and Raycast without the need to configure or deal with cumbersome UIs. It's written on React Native which means it is easy to develop new functionality (uses Typescript), but also leverages full access to the native APIs.
+
+If you want a feature you will have to build it yourself or consider [sponsoring](https://github.com/sponsors/ospfranco) me to put some time to develop it for you.
 
 [Visit official site](https://solapp.io)
 
@@ -24,7 +28,7 @@ Install via brew
 brew install --cask sol
 ```
 
-Get the latest version from the [releases folder](https://github.com/ospfranco/sol/tree/main/releases), once installed the app will auto-update.
+Or manually download the latest [release](https://github.com/ospfranco/sol/tree/main/releases).
 
 ## Features
 
