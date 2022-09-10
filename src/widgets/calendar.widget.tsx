@@ -87,13 +87,11 @@ export const CalendarWidget: FC<Props> = observer(() => {
                   const lEndDate = event.endDate
                     ? DateTime.fromISO(event.endDate)
                     : null
-
+                  const storeIndex = store.ui.filteredEvents.findIndex(
+                    e => e.id === event.id && e.date === event.date,
+                  )
                   const highlighted =
-                    focused &&
-                    store.ui.selectedIndex ===
-                      store.ui.filteredEvents.findIndex(
-                        e => e.id === event.id && e.date === event.date,
-                      )
+                    focused && store.ui.selectedIndex === storeIndex
 
                   return (
                     <View
