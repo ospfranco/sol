@@ -55,6 +55,7 @@ class SolNative extends NativeEventEmitter {
   searchFiles: typeof global.__SolProxy.searchFiles
   setShowWindowOn: (on: 'screenWithFrontmost' | 'screenWithCursor') => void
   setWindowManagement: (v: boolean) => void
+  toggleDND: () => void
 
   constructor(module: any) {
     super(module)
@@ -109,6 +110,7 @@ class SolNative extends NativeEventEmitter {
     this.resizeTopRight = module.resizeTopRight
     this.resizeBottomLeft = module.resizeBottomLeft
     this.resizeBottomRight = module.resizeBottomRight
+    this.toggleDND = module.toggleDND
     this.searchFiles = global.__SolProxy.searchFiles
 
     this.setWindowHeight = global.__SolProxy.setHeight

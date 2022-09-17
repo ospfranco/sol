@@ -595,6 +595,14 @@ export const createUIStore = (root: IRootStore) => {
         `)
       },
     },
+    {
+      icon: '🙉',
+      name: 'Toggle do not disturb',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.toggleDND()
+      },
+    },
     ...buildSystemPreferencesItems(),
   ]
 
