@@ -142,19 +142,19 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
         !!store.ui.query &&
         store.ui.currentItem?.type === ItemType.CUSTOM && (
           <>
-            <Text style={tw`text-xs dark:text-neutral-400 mr-1`}>Delete</Text>
+            <Text style={tw`text-xs dark:text-white mr-1`}>Delete</Text>
             <Key title="⇧ ⌦" />
           </>
         )}
       {store.ui.focusedWidget === Widget.SEARCH && !!store.ui.query && (
         <>
-          <Text style={tw`text-xs dark:text-neutral-400 mx-1`}>Open</Text>
+          <Text style={tw`text-xs dark:text-white mx-1`}>Open</Text>
           <Key title="⏎" primary brRounded />
         </>
       )}
       {store.ui.focusedWidget === Widget.CALENDAR && (
         <>
-          <Text style={tw`text-xs dark:text-neutral-400 mr-1`}>
+          <Text style={tw`text-xs dark:text-white mr-1`}>
             {store.ui.currentItem?.url ? 'Join' : 'Open  '}
           </Text>
           <Key title="⏎" primary brRounded />
