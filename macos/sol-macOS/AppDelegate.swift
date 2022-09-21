@@ -14,6 +14,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   var shiftPressed = false
   var visualEffect: NSVisualEffectView!
   var mainWindow: Panel!
+  var overlayWindow: Overlay!
   var rootView: RCTRootView!
   var catchHorizontalArrowsPress = false
   var catchVerticalArrowsPress = true
@@ -59,12 +60,18 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     visualEffect.blendingMode = .behindWindow
     visualEffect.material = .hudWindow
     visualEffect.autoresizingMask = [.minXMargin, .maxXMargin, .minYMargin, .maxYMargin, .width, .height]
-//    visualEffect.translatesAutoresizingMaskIntoConstraints = true
 
     mainWindow.contentView = visualEffect
     visualEffect.addSubview(rootView)
     rootView.frame = visualEffect.bounds
     rootView.autoresizingMask = [.minXMargin, .maxXMargin, .minYMargin, .maxYMargin, .width, .height]
+
+    let windowRect = NSScreen.main?.frame
+    overlayWindow = Overlay(contentRect: windowRect!, styleMask: .borderless, backing: .buffered, defer: false, screen: NSScreen.screens[0])
+    overlayWindow.level = .mainMenu
+    overlayWindow.backgroundColor = .black
+    overlayWindow.alphaValue = 0.4
+    overlayWindow.ignoresMouseEvents = true
 
     setupKeyboardListeners()
     setupPasteboardListener()
@@ -179,6 +186,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   }
 
   func showWindow(target: String? = nil) {
+    overlayWindow.orderFront(nil)
+
     SolEmitter.sharedInstance.onShow(target: target)
 
     // Give react native event listener a bit of time to react
@@ -220,6 +229,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
   @objc func hideWindow() {
     if(mainWindow.isVisible) {
+      overlayWindow.orderOut(self)
       mainWindow.orderOut(self)
       SolEmitter.sharedInstance.onHide()
       settingsHotKey.isPaused = true
