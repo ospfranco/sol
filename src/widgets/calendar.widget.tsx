@@ -57,13 +57,13 @@ export const CalendarWidget: FC<Props> = observer(() => {
               <View style={tw.style(`flex-row`)}>
                 {key === 'today' ? (
                   <Text
-                    style={tw`capitalize dark:text-white text-gray-500 text-xs`}>
+                    style={tw`capitalize dark:text-gray-400 text-gray-500 text-xs`}>
                     {key}
                   </Text>
                 ) : (
                   <Text
                     style={tw`capitalize dark:text-gray-400 text-gray-500 text-xs`}>
-                    {`${data.date.toFormat('cccc')}`}
+                    {`${data.date.toFormat('ccc')}`}
                   </Text>
                 )}
               </View>
@@ -72,7 +72,7 @@ export const CalendarWidget: FC<Props> = observer(() => {
                 showsVerticalScrollIndicator={false}>
                 {!data.events.length && (
                   <Text style={tw`text-gray-400 dark:text-gray-500 text-xs`}>
-                    No Events
+                    -
                   </Text>
                 )}
                 {data.events.map((event, index) => {

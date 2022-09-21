@@ -20,7 +20,7 @@ export const Key: FC<IProps> = ({
       style={tw.style(
         `py-1 px-2 min-w-5 rounded items-center justify-center`,
         {
-          'dark:bg-gray-800 bg-neutral-200': !primary,
+          'dark:bg-neutral-700 bg-neutral-200': !primary,
           'bg-accent': primary,
           'rounded-br-corner': brRounded,
         },

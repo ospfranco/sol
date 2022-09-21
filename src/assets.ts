@@ -1,4 +1,10 @@
 import Airdrop from './assets/airdrop.png'
+import Cake from './assets/Cake.png'
+import CheckIcon from './assets/Check.png'
+import CheckCircleIcon from './assets/CheckCircleIcon.png'
+import ChevronDown from './assets/ChevronDown.png'
+import ChevronLeft from './assets/ChevronLeft.png'
+import ChevronUp from './assets/ChevronUp.png'
 import Africa from './assets/customIcons/Africa.png'
 import Airplane from './assets/customIcons/Airplane.png'
 import Alert from './assets/customIcons/Alert.png'
@@ -114,24 +120,19 @@ import Video from './assets/customIcons/Video.png'
 import Watch from './assets/customIcons/Watch.png'
 import World from './assets/customIcons/World.png'
 import DarkModeIcon from './assets/DarkModeIcon.png'
+import DocumentIcon from './assets/DocumentIcon.png'
+import Giphy from './assets/Giphy.png'
 import googleLogo from './assets/google.png'
+import GoogleMaps from './assets/GoogleMapsIcon.png'
 import googleTranslateLogo from './assets/google_translate.png'
 import LockIcon from './assets/LockIcon.png'
 import Logo from './assets/Logo.png'
+import SearchIcon from './assets/SearchIcon.png'
 import SleepIcon from './assets/SleepIcon.png'
 import SolBlackSmall from './assets/SolBlackSmall.png'
 import SolWhiteSmall from './assets/SolWhiteSmall.png'
 import Star from './assets/star.png'
 import StarFilled from './assets/starFilled.png'
-import GoogleMaps from './assets/GoogleMapsIcon.png'
-import CheckIcon from './assets/Check.png'
-import CheckCircleIcon from './assets/CheckCircleIcon.png'
-import DocumentIcon from './assets/DocumentIcon.png'
-import Giphy from './assets/Giphy.png'
-import SearchIcon from './assets/SearchIcon.png'
-import ChevronLeft from './assets/ChevronLeft.png'
-import ChevronDown from './assets/ChevronDown.png'
-import ChevronUp from './assets/ChevronUp.png'
 
 export const Assets = {
   googleLogo,
@@ -154,6 +155,7 @@ export const Assets = {
   ChevronLeft,
   ChevronDown,
   ChevronUp,
+  Cake,
 }
 
 export const Icons = {
