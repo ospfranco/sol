@@ -35,6 +35,7 @@ platform :mac do
 
     sh("git", "add", "..")
     sh("git", "commit", "-m", '"' + version + '"')
+    sh("git", "push")
   end
 
   lane :dev do
