@@ -31,12 +31,13 @@ export const createKeystrokeStore = (root: IRootStore) => {
         // delete key
         case 51: {
           if (
+            store.shiftPressed &&
             root.ui.focusedWidget === Widget.SEARCH &&
-            root.ui.currentItem.type === ItemType.CUSTOM &&
-            store.shiftPressed
+            root.ui.currentItem != null &&
+            root.ui.currentItem.type === ItemType.CUSTOM
           ) {
             const newItems = root.ui.customItems.filter(
-              c => c.name !== root.ui.currentItem.name,
+              c => c.name !== root.ui.currentItem!.name,
             )
             root.ui.customItems = newItems
           }
@@ -128,7 +129,6 @@ export const createKeystrokeStore = (root: IRootStore) => {
 
                 case 'v1_quick_actions': {
                   root.ui.onboardingStep = 'v1_completed'
-                  root.ui.setLaunchAtLogin(true)
                   break
                 }
               }
@@ -190,6 +190,10 @@ export const createKeystrokeStore = (root: IRootStore) => {
               }
 
               let item = root.ui.items[root.ui.selectedIndex]
+
+              if (item == null) {
+                return
+              }
 
               // bump frequency
               root.ui.frequencies[item.name] =

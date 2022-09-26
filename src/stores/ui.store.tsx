@@ -903,7 +903,7 @@ export const createUIStore = (root: IRootStore) => {
 
       return acc
     },
-    get currentItem(): Item {
+    get currentItem(): Item | undefined {
       return store.items[store.selectedIndex]
     },
     //                _   _
