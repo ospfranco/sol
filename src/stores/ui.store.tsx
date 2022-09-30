@@ -889,10 +889,11 @@ export const createUIStore = (root: IRootStore) => {
         {}
       for (let ii = 0; ii < 5; ii++) {
         const now = DateTime.now().plus({days: ii})
-        const relativeNow = now.toRelativeCalendar()!
+        // console.warn(now.toFormat('DD'))
+        const relativeNow = now.toRelativeCalendar({unit: 'days'})!
         const todayEvents = events.filter(e => {
           const lEventDate = DateTime.fromISO(e.date)
-          return lEventDate.toRelativeCalendar()! === relativeNow
+          return lEventDate.toRelativeCalendar({unit: 'days'})! === relativeNow
         })
 
         acc[relativeNow] = {

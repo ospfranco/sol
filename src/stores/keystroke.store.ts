@@ -78,7 +78,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
                   try {
                     Linking.openURL(entry)
                   } catch (e) {
-                    console.warn('could not open in browser')
+                    // console.log('could not open in browser')
                   }
                   solNative.hideWindow()
                 } else {
