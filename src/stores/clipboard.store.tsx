@@ -16,7 +16,7 @@ export const createClipboardStore = (root: IRootStore) => {
     onTextPasted: (obj: {text: string}) => {
       const newItems = store.items.filter(t => t !== obj.text)
 
-      if (newItems.length >= 20) {
+      if (newItems.length >= 100) {
         newItems.pop()
       }
 
