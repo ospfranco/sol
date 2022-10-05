@@ -15,5 +15,7 @@
 		<string>com.apple.systemevents</string>
 		<string>com.apple.systempreferences</string>
 	</array>
+	<key>keychain-access-groups</key>
+	<array/>
 </dict>
 </plist>
