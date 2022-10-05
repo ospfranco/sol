@@ -1,4 +1,5 @@
 import {Assets} from 'assets'
+import {Key} from 'components/Key'
 import {useFullSize} from 'hooks/useFullSize'
 import {solNative} from 'lib/SolNative'
 import {observer} from 'mobx-react-lite'
@@ -50,17 +51,20 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
             value={store.ui.query}
             onChangeText={store.ui.setQuery}
             selectionColor={solNative.accentColor}
-            placeholderTextColor={tw.color('dark:text-gray-400 text-gray-500')}
-            placeholder="Search clipboard..."
+            placeholderTextColor={tw.color(
+              'dark:text-neutral-400 text-neutral-500',
+            )}
+            placeholder="Search clipboard history..."
           />
         </View>
         <FlatList
           data={data}
+          style={tw`-mr-4`}
           contentContainerStyle={tw`flex-grow-1 p-3`}
           ref={listRef}
           ListEmptyComponent={
             <View style={tw`flex-1 justify-center items-center`}>
-              <Text style={tw`dark:text-gray-700 text-sm text-gray-500`}>
+              <Text style={tw`dark:text-neutral-700 text-sm text-neutral-500`}>
                 No items
               </Text>
             </View>
@@ -72,13 +76,7 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
                 style={tw.style(`p-3 rounded flex-row`, {
                   'bg-accent bg-opacity-50 dark:bg-opacity-40': isSelected,
                 })}>
-                <Image
-                  source={Assets.DocumentIcon}
-                  style={tw.style(`h-4 w-4`, {
-                    tintColor: scheme === 'dark' ? 'white' : 'black',
-                  })}
-                  resizeMode="contain"
-                />
+                <Text>•</Text>
                 <Text style={tw`text-sm ml-3`}>{item.substring(0, 256)}</Text>
               </View>
             )
@@ -86,16 +84,20 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
         />
       </View>
       <View
-        style={tw`border-t bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30 border-lightBorder dark:border-darkBorder px-6 pt-1 pb-2 flex-row items-center`}>
+        style={tw`border-t bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30 border-lightBorder dark:border-darkBorder p-2 flex-row items-center`}>
+        <View style={tw`flex-1`} />
         <Text style={tw`text-xs dark:text-gray-400 text-gray-500`}>
-          <Text style={tw`text-xs`}>↩</Text> Paste
+          Open in browser
         </Text>
+        <Key style={tw`ml-1`} title="⌘" brRounded />
+        <Key style={tw`ml-1`} title="⏎" brRounded />
         <View
           style={tw`border-r border-lightBorder dark:border-darkBorder h-3 mx-4`}
         />
-        <Text style={tw`text-xs dark:text-gray-400 text-gray-500`}>
-          <Text style={tw`text-xs`}>⌘ + ↩</Text> Open in browser
+        <Text style={tw`text-xs dark:text-gray-400 text-gray-500 mr-1`}>
+          Paste
         </Text>
+        <Key title="⏎" primary brRounded />
       </View>
     </View>
   )

@@ -304,6 +304,18 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
                 />
               </View>
             </View>
+
+            <View style={tw.style(`flex-row items-center py-2`)}>
+              <Text style={tw`flex-1 text-right pr-3 text-sm`}>
+                Save clipboard history
+              </Text>
+              <View style={tw`flex-1.3`}>
+                <MySwitch
+                  value={store.clipboard.saveHistory}
+                  onValueChange={store.clipboard.setSaveHistory}
+                />
+              </View>
+            </View>
           </View>
         )}
         {selected === 'TRANSLATE' && (
