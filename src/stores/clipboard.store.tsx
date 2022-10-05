@@ -5,7 +5,6 @@ import {autorun, makeAutoObservable, runInAction, toJS} from 'mobx'
 import {AsyncStorage, EmitterSubscription} from 'react-native'
 import {IRootStore} from 'store'
 import {Widget} from './ui.store'
-import * as Keychain from 'react-native-keychain'
 
 let onTextPastedListener: EmitterSubscription | undefined
 
@@ -42,7 +41,7 @@ export const createClipboardStore = (root: IRootStore) => {
     setSaveHistory: (v: boolean) => {
       store.saveHistory = v
       if (!v) {
-        Keychain.resetGenericPassword()
+        solNative.securelyStore('@sol.clipboard_history', '[]')
       }
     },
   })
@@ -60,9 +59,9 @@ export const createClipboardStore = (root: IRootStore) => {
     }
 
     if (store.saveHistory) {
-      const entry = await Keychain.getGenericPassword()
+      const entry = await solNative.securelyRetrieve('@sol.clipboard_history')
       if (entry) {
-        const items = JSON.parse(entry.password)
+        const items = JSON.parse(entry)
         runInAction(() => {
           store.items = items
         })
@@ -74,12 +73,9 @@ export const createClipboardStore = (root: IRootStore) => {
     if (store.saveHistory) {
       const history = toJS(store)
       try {
-        await Keychain.setGenericPassword(
+        await solNative.securelyStore(
           '@sol.clipboard_history',
           JSON.stringify(history.items),
-          {
-            accessible: Keychain.ACCESSIBLE.WHEN_UNLOCKED,
-          },
         )
       } catch (e) {
         console.warn('Could not persist data', e)

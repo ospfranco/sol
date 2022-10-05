@@ -12,6 +12,7 @@ PODS:
   - fmt (6.2.1)
   - glog (0.3.5)
   - HotKey (0.1.2)
+  - KeychainAccess (4.2.2)
   - RCT-Folly (2021.06.28.00-v2):
     - boost
     - DoubleConversion
@@ -288,8 +289,6 @@ PODS:
     - React-perflogger (= 0.68.46)
   - RNCPicker (2.4.0):
     - React-Core
-  - RNKeychain (8.1.1):
-    - React-Core
   - RNSentry (4.2.3):
     - React-Core
     - Sentry (= 7.23.0)
@@ -306,6 +305,7 @@ DEPENDENCIES:
   - FBReactNativeSpec (from `../node_modules/react-native-macos/React/FBReactNativeSpec`)
   - glog (from `../node_modules/react-native-macos/third-party-podspecs/glog.podspec`)
   - HotKey
+  - KeychainAccess
   - RCT-Folly (from `../node_modules/react-native-macos/third-party-podspecs/RCT-Folly.podspec`)
   - RCTRequired (from `../node_modules/react-native-macos/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native-macos/Libraries/TypeSafety`)
@@ -335,7 +335,6 @@ DEPENDENCIES:
   - React-runtimeexecutor (from `../node_modules/react-native-macos/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native-macos/ReactCommon`)
   - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
-  - RNKeychain (from `../node_modules/react-native-keychain`)
   - "RNSentry (from `../node_modules/@sentry/react-native`)"
   - Sparkle
   - Yoga (from `../node_modules/react-native-macos/ReactCommon/yoga`)
@@ -344,6 +343,7 @@ SPEC REPOS:
   trunk:
     - fmt
     - HotKey
+    - KeychainAccess
     - Sentry
     - Sparkle
 
@@ -412,8 +412,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-macos/ReactCommon"
   RNCPicker:
     :path: "../node_modules/@react-native-picker/picker"
-  RNKeychain:
-    :path: "../node_modules/react-native-keychain"
   RNSentry:
     :path: "../node_modules/@sentry/react-native"
   Yoga:
@@ -427,6 +425,7 @@ SPEC CHECKSUMS:
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: 42c4bf47024808486e90b25ea9e5ac3959047641
   HotKey: ad59450195936c10992438c4210f673de5aee43e
+  KeychainAccess: c0c4f7f38f6fc7bbe58f5702e25f7bd2f65abf51
   RCT-Folly: 43adc9ce880eb76792f88c011773cb5c664c1419
   RCTRequired: f7d4e4a09da9aad83ee1106b54f09467b6809e6c
   RCTTypeSafety: 9577080468c933f92301212232db4fc8d36ad051
@@ -454,12 +453,11 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: bbcb4a673137564311c3d721fdb9405b5fc63589
   ReactCommon: 3466d350fb67bc12d3854bf4a7bc5ee517ed0505
   RNCPicker: 6d5d64e7b90c240c779ee0938ec433c11e2dd758
-  RNKeychain: ff836453cba46938e0e9e4c22e43d43fa2c90333
   RNSentry: 6798624706227656d942849d593f89c8ca3bdde5
   Sentry: a0d4563fa4ddacba31fdcc35daaa8573d87224d6
   Sparkle: 7f5f6d4328458515e23272f4138e610c1fa3e32d
   Yoga: 001cf8133512e3474a6d6514fb43a6a1184e9da2
 
-PODFILE CHECKSUM: 51e0cbc0e7b0b925fdfc4a3167ef4c9ab65ac765
+PODFILE CHECKSUM: 4efb237278a4fcdfea4bffac8654a9137940a08e
 
 COCOAPODS: 1.11.3

@@ -56,6 +56,8 @@ class SolNative extends NativeEventEmitter {
   setShowWindowOn: (on: 'screenWithFrontmost' | 'screenWithCursor') => void
   setWindowManagement: (v: boolean) => void
   toggleDND: () => void
+  securelyStore: (key: string, value: string) => Promise<void>
+  securelyRetrieve: (key: string) => Promise<string | null>
 
   constructor(module: any) {
     super(module)
@@ -118,6 +120,9 @@ class SolNative extends NativeEventEmitter {
     this.hideWindow = global.__SolProxy.hideWindow
     this.setShowWindowOn = module.setShowWindowOn
     this.setWindowManagement = module.setWindowManagement
+
+    this.securelyRetrieve = module.securelyRetrieve
+    this.securelyStore = module.securelyStore
 
     const constants = module.getConstants()
     this.accentColor = constants.accentColor

@@ -1,5 +1,8 @@
 import Foundation
 import LaunchAtLogin
+import KeychainAccess
+
+private let keychain = Keychain(service: "Sol")
 
 @objc(SolNative)
 class SolNative: RCTEventEmitter {
@@ -255,5 +258,16 @@ class SolNative: RCTEventEmitter {
 
   @objc func toggleDND() {
     DoNotDisturb.toggle()
+  }
+
+  @objc func securelyStore(_ key: NSString, payload: NSString, resolver: RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) {
+    keychain[key as String] = payload as String
+    resolver(true)
+  }
+
+
+  @objc func securelyRetrieve(_ key: NSString, resolver resolve: RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) {
+    let value = keychain[key as String]
+    return resolve(value)
   }
 }

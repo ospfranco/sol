@@ -70,4 +70,6 @@ RCT_EXTERN_METHOD(openFinderAt : (NSString)path)
 RCT_EXTERN_METHOD(setShowWindowOn : (NSString)on)
 RCT_EXTERN_METHOD(setWindowManagement: (BOOL)v)
 RCT_EXTERN_METHOD(toggleDND)
+RCT_EXTERN_METHOD(securelyStore: (NSString)key payload:(NSString)payload resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+RCT_EXTERN_METHOD(securelyRetrieve: (NSString)key resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 @end
