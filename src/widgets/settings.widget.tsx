@@ -157,6 +157,19 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
         {selected === 'GENERAL' && (
           <View
             style={tw`flex-1 p-6 bg-white dark:bg-black dark:bg-opacity-30 justify-center`}>
+            
+            <View style={tw`flex-row items-center py-2`}>
+              <Text style={tw`flex-1 text-right pr-3 text-sm`}>
+                Launch on computer start
+              </Text>
+              <View style={tw`flex-1.3`}>
+                <MySwitch
+                  value={store.ui.launchAtLogin}
+                  onValueChange={store.ui.setLaunchAtLogin}
+                />
+              </View>
+            </View>
+
             <View style={tw`flex-row items-center py-2 z-10`}>
               <Text style={tw`flex-1 text-right pr-3 text-sm`}>
                 Global shortcut

@@ -115,8 +115,10 @@ export const createUIStore = (root: IRootStore) => {
         store.calendarEnabled = parsedStore.calendarEnabled ?? true
         store.showAllDayEvents = parsedStore.showAllDayEvents ?? true
         store.showPlaying = parsedStore.showPlaying ?? true
+        store.launchAtLogin = parsedStore.launchAtLogin ?? true
       })
 
+      solNative.setLaunchAtLogin(parsedStore.launchAtLogin ?? true)
       solNative.setGlobalShortcut(parsedStore.globalShortcut)
       solNative.setScratchpadShortcut(parsedStore.scratchpadShortcut)
       solNative.setClipboardManagerShortcut(
@@ -709,6 +711,7 @@ export const createUIStore = (root: IRootStore) => {
     calendarEnabled: true,
     showAllDayEvents: true,
     showPlaying: true,
+    launchAtLogin: true,
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -1304,6 +1307,10 @@ export const createUIStore = (root: IRootStore) => {
         store.track = null
       }
     },
+    setLaunchAtLogin: (v: boolean) => {
+      store.launchAtLogin = v
+      solNative.setLaunchAtLogin(v)
+    }
   })
 
   hydrate().then(() => {
