@@ -896,6 +896,10 @@ export const createUIStore = (root: IRootStore) => {
         const relativeNow = now.toRelativeCalendar({unit: 'days'})!
         const todayEvents = events.filter(e => {
           const lEventDate = DateTime.fromISO(e.date)
+          const lEventEndDate = DateTime.fromISO(e.endDate)
+          if(e.isAllDay && +now >= +lEventDate && +now <= +lEventEndDate) {
+            return true
+          }
           return lEventDate.toRelativeCalendar({unit: 'days'})! === relativeNow
         })
 

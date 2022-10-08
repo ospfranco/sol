@@ -62,19 +62,16 @@ export const CalendarWidget: FC<Props> = observer(() => {
                   </Text>
                 ) : (
                   <Text
-                    style={tw`capitalize dark:text-gray-400 text-gray-500 text-xs`}>
-                    {`${data.date.toFormat('ccc')}`}
+                    style={tw.style(`capitalize dark:text-gray-400 text-gray-500 text-xs`, {
+                      'dark:text-gray-600': !data.events.length
+                    })}>
+                    {`${data.date.toFormat('ccc dd')}`}
                   </Text>
                 )}
               </View>
               <ScrollView
                 style={tw`mt-1 max-h-49`}
                 showsVerticalScrollIndicator={false}>
-                {!data.events.length && (
-                  <Text style={tw`text-gray-400 dark:text-gray-500 text-xs`}>
-                    -
-                  </Text>
-                )}
                 {data.events.map((event, index) => {
                   const lDate = DateTime.fromISO(event.date)
                   const lEndDate = event.endDate
@@ -89,10 +86,12 @@ export const CalendarWidget: FC<Props> = observer(() => {
                   return (
                     <View
                       key={index}
-                      style={tw.style(`my-1 border-l`, {
-                        'bg-accent bg-opacity-80 dark:bg-opacity-40 rounded-r':
-                          highlighted,
-                        borderColor: event.color,
+                      style={tw.style(`my-1`, {
+                        'bg-accent bg-opacity-80 dark:bg-opacity-40 rounded-r': highlighted,
+                        'rounded bg-opacity-10': event.isAllDay,
+                        'border-l': !event.isAllDay,
+                        borderColor: !event.isAllDay && event.color,
+                        backgroundColor: event.isAllDay && event.color
                       })}>
                       {!event.isAllDay && (
                         <Text
@@ -118,10 +117,10 @@ export const CalendarWidget: FC<Props> = observer(() => {
                       )}
 
                       <Text
-                        minimumFontScale={0.8}
+                        minimumFontScale={0.9}
                         adjustsFontSizeToFit
                         numberOfLines={1}
-                        style={tw.style(`ml-1 text-xs font-semibold`, {
+                        style={tw.style(`text-xs font-semibold ml-1`, {
                           'text-white': highlighted,
                           'line-through': event.declined,
                         })}>
