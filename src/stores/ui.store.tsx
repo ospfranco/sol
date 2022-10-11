@@ -714,6 +714,7 @@ export const createUIStore = (root: IRootStore) => {
     showPlaying: true,
     launchAtLogin: true,
     showHintBar: true,
+    notifications: [] as Array<Notification>,
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -899,7 +900,7 @@ export const createUIStore = (root: IRootStore) => {
         const todayEvents = events.filter(e => {
           const lEventDate = DateTime.fromISO(e.date)
           const lEventEndDate = DateTime.fromISO(e.endDate)
-          if(e.isAllDay && +now >= +lEventDate && +now <= +lEventEndDate) {
+          if (e.isAllDay && +now >= +lEventDate && +now <= +lEventEndDate) {
             return true
           }
           return lEventDate.toRelativeCalendar({unit: 'days'})! === relativeNow
@@ -1219,7 +1220,7 @@ export const createUIStore = (root: IRootStore) => {
         return
       }
 
-      solNative.getNotifications()
+      store.notifications = solNative.getNotifications()
 
       store.now = DateTime.now()
 
@@ -1321,7 +1322,7 @@ export const createUIStore = (root: IRootStore) => {
     },
     setShowHintBar: (v: boolean) => {
       store.showHintBar = v
-    }
+    },
   })
 
   hydrate().then(() => {

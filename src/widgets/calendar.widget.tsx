@@ -63,7 +63,7 @@ export const CalendarWidget: FC<Props> = observer(() => {
                 ) : (
                   <Text
                     style={tw.style(`capitalize dark:text-neutral-400 text-neutral-500 text-xs`, {
-                      'dark:text-neutral-600': !data.events.length
+                      'dark:text-neutral-600 text-neutral-400': !data.events.length
                     })}>
                     {`${data.date.toFormat('ccc dd')}`}
                   </Text>
@@ -116,8 +116,6 @@ export const CalendarWidget: FC<Props> = observer(() => {
                       )}
 
                       <Text
-                        minimumFontScale={0.9}
-                        adjustsFontSizeToFit
                         numberOfLines={1}
                         style={tw.style(`text-xs ml-1`, {
                           'text-white': highlighted,

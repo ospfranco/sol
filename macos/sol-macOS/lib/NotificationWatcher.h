@@ -22,7 +22,7 @@
 //- (BOOL)start:(NSError**)pError;
 //- (void)stop;
 
-- (void)getNotifications;
+- (NSMutableArray*)getNotifications;
 
 @end
 

@@ -1,25 +1,27 @@
-import { solNative } from 'lib/SolNative'
-import { observer } from 'mobx-react-lite'
-import React, { useEffect } from 'react'
-import { Text, TouchableOpacity, View } from 'react-native'
-import { useStore } from 'store'
-import { Widget } from 'stores/ui.store'
+import {FileIcon} from 'components/FileIcon'
+import {solNative} from 'lib/SolNative'
+import {DateTime} from 'luxon'
+import {observer} from 'mobx-react-lite'
+import React, {useEffect} from 'react'
+import {ScrollView, Text, TouchableOpacity, View} from 'react-native'
+import {useStore} from 'store'
+import {Widget} from 'stores/ui.store'
 import tw from 'tailwind'
-import { useDeviceContext } from 'twrnc'
-import { CalendarWidget } from 'widgets/calendar.widget'
-import { ClipboardWidget } from 'widgets/clipboard.widget'
-import { CreateItemWidget } from 'widgets/createItem.widget'
-import { EmojisWidget } from 'widgets/emojis.widget'
-import { GeneralWidget } from 'widgets/general.widget'
-import { GifsWidget } from 'widgets/gifs.widget'
-import { GoogleMapWidget } from 'widgets/googleMap.widget'
-import { OnboardingWidget } from 'widgets/onboarding.widget'
-import { ProjectCreationWidget } from 'widgets/projectCreation.widget'
-import { ProjectSelectWidget } from 'widgets/projectSelect.widget'
-import { ScratchpadWidget } from 'widgets/scratchpad.widget'
-import { SearchWidget } from 'widgets/search.widget'
-import { SettingsWidget } from 'widgets/settings.widget'
-import { TranslationWidget } from 'widgets/translation.widget'
+import {useDeviceContext} from 'twrnc'
+import {CalendarWidget} from 'widgets/calendar.widget'
+import {ClipboardWidget} from 'widgets/clipboard.widget'
+import {CreateItemWidget} from 'widgets/createItem.widget'
+import {EmojisWidget} from 'widgets/emojis.widget'
+import {GeneralWidget} from 'widgets/general.widget'
+import {GifsWidget} from 'widgets/gifs.widget'
+import {GoogleMapWidget} from 'widgets/googleMap.widget'
+import {OnboardingWidget} from 'widgets/onboarding.widget'
+import {ProjectCreationWidget} from 'widgets/projectCreation.widget'
+import {ProjectSelectWidget} from 'widgets/projectSelect.widget'
+import {ScratchpadWidget} from 'widgets/scratchpad.widget'
+import {SearchWidget} from 'widgets/search.widget'
+import {SettingsWidget} from 'widgets/settings.widget'
+import {TranslationWidget} from 'widgets/translation.widget'
 
 export const RootContainer = observer(() => {
   useDeviceContext(tw)
@@ -104,6 +106,34 @@ export const RootContainer = observer(() => {
             style={tw`border-t border-lightBorder dark:border-darkBorder`}
           />
         )}
+
+      {!!store.ui.notifications.length && (
+        <ScrollView
+          style={tw`h-48 bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30 border-b border-lightBorder dark:border-darkBorder`}>
+          {store.ui.notifications.map(n => {
+            return (
+              <View style={tw`py-1 px-3 flex-row items-center`}>
+                <FileIcon
+                  url={n.url.replace('file://', '')}
+                  style={tw`h-10 w-10`}
+                />
+                <View style={tw`ml-1`}>
+                  <Text style={tw`text-xs font-bold`}>{n.title}</Text>
+                  {!!n.text && <Text style={tw`text-xs`}>{n.text}</Text>}
+                </View>
+                <View style={tw`flex-1`} />
+
+                <Text
+                  style={tw`text-xs dark:text-neutral-400 text-neutral-500`}>
+                  {DateTime.fromMillis(
+                    n.date * 1000 + 978307200 * 1000,
+                  ).toRelative()}
+                </Text>
+              </View>
+            )
+          })}
+        </ScrollView>
+      )}
       {calendarVisible && <CalendarWidget />}
       {store.ui.showHintBar && <GeneralWidget />}
       {!store.ui.isAccessibilityTrusted && (

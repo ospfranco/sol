@@ -144,14 +144,35 @@ void install(jsi::Runtime &rt,
   });
 
   auto getNotifications = HOSTFN("getNotifications", 0, []) {
-    std::cout << "getting notifications" << std::endl;
     auto watcher = [
       [NotificationWatcher alloc]
      init
     ];
 
-    [watcher getNotifications];
-    return {};
+    NSMutableArray *notifications = [watcher getNotifications];
+    int notificationCount = static_cast<int>([notifications count]);
+    auto array = jsi::Array(rt, notificationCount);
+
+    for(int i = 0; i < notificationCount; i++) {
+      NSDictionary *notification = [notifications objectAtIndex:i];
+      auto notificationJsi = jsi::Object(rt);
+      NSString *title = [[notification valueForKey:@"req"] valueForKey:@"titl"];
+      NSString *text = [[notification valueForKey:@"req"] valueForKey:@"body"];
+      NSString *app = [notification valueForKey:@"app"];
+      NSURL *url = [[NSWorkspace sharedWorkspace] URLForApplicationWithBundleIdentifier:app];
+      double date = [[notification valueForKey:@"date"] doubleValue];
+
+      notificationJsi.setProperty(rt, "title", jsi::String::createFromUtf8(rt, std::string([title UTF8String])));
+      if(text != NULL) {
+        notificationJsi.setProperty(rt, "text", jsi::String::createFromUtf8(rt, std::string([text UTF8String])));
+      }
+      notificationJsi.setProperty(rt, "app", jsi::String::createFromUtf8(rt, std::string([app UTF8String])));
+      notificationJsi.setProperty(rt, "url", jsi::String::createFromUtf8(rt, std::string([[url absoluteString] UTF8String])));
+      notificationJsi.setProperty(rt, "date", jsi::Value(date));
+      array.setValueAtIndex(rt, i, std::move(notificationJsi));
+    }
+
+    return array;
   });
 
   auto getCalendarAuthorizationStatus =

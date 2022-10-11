@@ -37,8 +37,16 @@ declare var global: {
     requestCalendarAccess: () => Promise<void>
     getCalendarAuthorizationStatus: () => CalendarAuthorizationStatus
     getEvents: () => INativeEvent[]
-    getNotifications: () => void
+    getNotifications: () => Array<Notification>
   }
+}
+
+interface Notification {
+  title: string
+  text: string | undefined
+  app: string
+  url: string
+  date: number
 }
 
 interface IPeriod {

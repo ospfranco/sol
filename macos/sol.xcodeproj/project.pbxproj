@@ -341,7 +341,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\nexport EXTRA_PACKAGER_ARGS=\"--sourcemap-output $DERIVED_FILE_DIR/main.jsbundle.map\"\nexport SENTRY_PROPERTIES=../sentry.properties\n\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode \n  #../node_modules/react-native/packager/react-native-xcode.sh\n../node_modules/react-native-macos/scripts/react-native-xcode.sh\n";
+			shellScript = "export NODE_BINARY=node\nexport EXTRA_PACKAGER_ARGS=\"--sourcemap-output $DERIVED_FILE_DIR/main.jsbundle.map\"\nexport SENTRY_PROPERTIES=../sentry.properties\n\nif [ \"${CONFIGURATION}\" = \"Release\" ]; then\n  ../node_modules/@sentry/cli/bin/sentry-cli react-native xcode\nfi \n  \n../node_modules/react-native-macos/scripts/react-native-xcode.sh\n";
 		};
 		381D8A6F24576A6C00465D17 /* Start Packager */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -413,7 +413,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nexport SENTRY_PROPERTIES=../sentry.properties\n\n#../node_modules/@sentry/cli/bin/sentry-cli upload-dif \"$DWARF_DSYM_FOLDER_PATH\"\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nexport SENTRY_PROPERTIES=../sentry.properties\n\nif [ \"${CONFIGURATION}\" = \"Release\" ]; then\n  ../node_modules/@sentry/cli/bin/sentry-cli upload-dif \"$DWARF_DSYM_FOLDER_PATH\"\nfi\n";
 		};
 		AB47F5B1B5458AA9DCA44477 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;

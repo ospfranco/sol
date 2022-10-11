@@ -1,5 +1,6 @@
 #import "NotificationWatcher.h"
 #import "FMDatabase.h"
+#include <iostream>
 
 @implementation NotificationWatcher {
 //  SCEvents *_watcher;
@@ -7,21 +8,23 @@
 //  int _lastCountOfNotificationsInNC;
 }
 
-- (void)getNotifications {
-  NSLog(@"test");
-  NSString *pathToNCSupport = [@"~/Library/Application Support/NotificationCenter/" stringByExpandingTildeInPath];
+- (NSMutableArray *)getNotifications {
+  NSString *pathToNCSupport = [@"/private/var/folders/qn/vyvn49j90jv9_77vq77wzvw00000gn/0/com.apple.notificationcenter/db2" stringByExpandingTildeInPath];
   NSError *error = nil;
   NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:pathToNCSupport error:&error];    //find the db
+  NSMutableArray *array = [[NSMutableArray alloc] init];
 
   FMDatabase *database = nil;
   for (NSString *child in contents) {
-    if([child.pathExtension isEqualToString:@"db"]) {
+    if([child isEqualToString:@"db"]) {
       database = [FMDatabase databaseWithPath:[pathToNCSupport stringByAppendingPathComponent:child]];
       if([database open]) {
-        FMResultSet *rs = [database executeQuery:@"select count(*) as cnt from presented_notifications"];
+        FMResultSet *rs = [database executeQuery:@"select data from record"];
         while ([rs next]) {
-          int cnt = [rs intForColumn:@"cnt"];
-          NSLog(@"Total Records :%d", cnt);
+          NSData *data = [rs dataForColumn:@"data"];
+          NSPropertyListFormat *plistFormat = nil;
+          NSDictionary *temp = [NSPropertyListSerialization propertyListWithData:data options:NSPropertyListImmutable format:plistFormat error:&error];
+          [array addObject:temp];
         }
 
         [database close];
@@ -29,6 +32,8 @@
       }
     }
   }
+
+  return array;
 }
 
 //- (BOOL)start:(NSError**)pError {
