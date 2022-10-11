@@ -37,6 +37,7 @@ declare var global: {
     requestCalendarAccess: () => Promise<void>
     getCalendarAuthorizationStatus: () => CalendarAuthorizationStatus
     getEvents: () => INativeEvent[]
+    getNotifications: () => void
   }
 }
 

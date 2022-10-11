@@ -116,6 +116,7 @@ export const createUIStore = (root: IRootStore) => {
         store.showAllDayEvents = parsedStore.showAllDayEvents ?? true
         store.showPlaying = parsedStore.showPlaying ?? true
         store.launchAtLogin = parsedStore.launchAtLogin ?? true
+        store.showHintBar = parsedStore.showHintBar ?? true
       })
 
       solNative.setLaunchAtLogin(parsedStore.launchAtLogin ?? true)
@@ -712,6 +713,7 @@ export const createUIStore = (root: IRootStore) => {
     showAllDayEvents: true,
     showPlaying: true,
     launchAtLogin: true,
+    showHintBar: true,
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -1217,6 +1219,8 @@ export const createUIStore = (root: IRootStore) => {
         return
       }
 
+      solNative.getNotifications()
+
       store.now = DateTime.now()
 
       store.fetchEvents()
@@ -1314,6 +1318,9 @@ export const createUIStore = (root: IRootStore) => {
     setLaunchAtLogin: (v: boolean) => {
       store.launchAtLogin = v
       solNative.setLaunchAtLogin(v)
+    },
+    setShowHintBar: (v: boolean) => {
+      store.showHintBar = v
     }
   })
 

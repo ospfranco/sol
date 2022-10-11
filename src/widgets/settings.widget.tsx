@@ -329,6 +329,19 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
                 />
               </View>
             </View>
+
+            <View style={tw.style(`flex-row items-center py-2`)}>
+              <Text style={tw`flex-1 text-right pr-3 text-sm`}>
+                Show hint bar
+              </Text>
+              <View style={tw`flex-1.3`}>
+                <MySwitch
+                  value={store.ui.showHintBar}
+                  onValueChange={store.ui.setShowHintBar}
+                />
+              </View>
+            </View>
+
           </View>
         )}
         {selected === 'TRANSLATE' && (

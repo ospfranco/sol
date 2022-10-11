@@ -58,6 +58,7 @@ class SolNative extends NativeEventEmitter {
   toggleDND: () => void
   securelyStore: (key: string, value: string) => Promise<void>
   securelyRetrieve: (key: string) => Promise<string | null>
+  getNotifications: typeof global.__SolProxy.getNotifications
 
   constructor(module: any) {
     super(module)
@@ -123,6 +124,8 @@ class SolNative extends NativeEventEmitter {
 
     this.securelyRetrieve = module.securelyRetrieve
     this.securelyStore = module.securelyStore
+
+    this.getNotifications = global.__SolProxy.getNotifications
 
     const constants = module.getConstants()
     this.accentColor = constants.accentColor

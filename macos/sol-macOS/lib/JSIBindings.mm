@@ -8,6 +8,7 @@
 #import <Foundation/Foundation.h>
 #include <iostream>
 #import <sol-Swift.h>
+#import "NotificationWatcher.h"
 
 namespace sol {
 
@@ -142,6 +143,17 @@ void install(jsi::Runtime &rt,
     return promise;
   });
 
+  auto getNotifications = HOSTFN("getNotifications", 0, []) {
+    std::cout << "getting notifications" << std::endl;
+    auto watcher = [
+      [NotificationWatcher alloc]
+     init
+    ];
+
+    [watcher getNotifications];
+    return {};
+  });
+
   auto getCalendarAuthorizationStatus =
       HOSTFN("getCalendarAuthorizationStatus", 0, []) {
     NSString *status = [calendarHelper getCalendarAuthorizationStatus];
@@ -254,6 +266,7 @@ void install(jsi::Runtime &rt,
   module.setProperty(rt, "getCalendarAuthorizationStatus",
                      std::move(getCalendarAuthorizationStatus));
   module.setProperty(rt, "getEvents", std::move(getEvents));
+  module.setProperty(rt, "getNotifications", std::move(getNotifications));
 
   rt.global().setProperty(rt, "__SolProxy", std::move(module));
 }

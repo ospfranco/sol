@@ -105,7 +105,7 @@ export const RootContainer = observer(() => {
           />
         )}
       {calendarVisible && <CalendarWidget />}
-      <GeneralWidget />
+      {store.ui.showHintBar && <GeneralWidget />}
       {!store.ui.isAccessibilityTrusted && (
         <>
           <View

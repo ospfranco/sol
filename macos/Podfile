@@ -13,6 +13,7 @@ target 'macOS' do
   pod 'Sparkle'
   pod 'HotKey'
   pod 'KeychainAccess'
+  pod 'FMDB'
 
   post_install do |installer|
     react_native_post_install(installer)

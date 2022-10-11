@@ -9,6 +9,9 @@ PODS:
     - React-Core (= 0.68.54)
     - React-jsi (= 0.68.54)
     - ReactCommon/turbomodule/core (= 0.68.54)
+  - FMDB (2.7.5):
+    - FMDB/standard (= 2.7.5)
+  - FMDB/standard (2.7.5)
   - fmt (6.2.1)
   - glog (0.3.5)
   - HotKey (0.1.2)
@@ -303,6 +306,7 @@ DEPENDENCIES:
   - DoubleConversion (from `../node_modules/react-native-macos/third-party-podspecs/DoubleConversion.podspec`)
   - FBLazyVector (from `../node_modules/react-native-macos/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native-macos/React/FBReactNativeSpec`)
+  - FMDB
   - glog (from `../node_modules/react-native-macos/third-party-podspecs/glog.podspec`)
   - HotKey
   - KeychainAccess
@@ -341,6 +345,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - FMDB
     - fmt
     - HotKey
     - KeychainAccess
@@ -422,6 +427,7 @@ SPEC CHECKSUMS:
   DoubleConversion: ed15e075aa758ac0e4c1f8b830bd4e4d40d669e8
   FBLazyVector: 5c754a98b1788717d3bd1340606e5385287a319e
   FBReactNativeSpec: 309b869e2992a8b22b7403ee5dab2cb5e9f5e26b
+  FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: 42c4bf47024808486e90b25ea9e5ac3959047641
   HotKey: ad59450195936c10992438c4210f673de5aee43e
@@ -458,6 +464,6 @@ SPEC CHECKSUMS:
   Sparkle: 7f5f6d4328458515e23272f4138e610c1fa3e32d
   Yoga: dcf9e7eac68fb6d648381baad9b13300582e9821
 
-PODFILE CHECKSUM: 4efb237278a4fcdfea4bffac8654a9137940a08e
+PODFILE CHECKSUM: 56b32aece530f082a31e49c98b5ba49758b641b5
 
 COCOAPODS: 1.11.3
