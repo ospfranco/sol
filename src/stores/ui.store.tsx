@@ -1323,6 +1323,10 @@ export const createUIStore = (root: IRootStore) => {
     setShowHintBar: (v: boolean) => {
       store.showHintBar = v
     },
+    clearNotifications: () => {
+      solNative.clearNotifications()
+      store.notifications = solNative.getNotifications()
+    },
   })
 
   hydrate().then(() => {

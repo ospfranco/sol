@@ -33,7 +33,7 @@
 		70BED7CB27F4C1A600906E41 /* FileConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BED7CA27F4C1A600906E41 /* FileConstants.swift */; };
 		70BED7CD27F4C23D00906E41 /* FileManager.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BED7CC27F4C23D00906E41 /* FileManager.extension.swift */; };
 		70D1220228DA95C500179A1D /* Overlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D1220128DA95C500179A1D /* Overlay.swift */; };
-		70DE20E128F4F670007DE923 /* NotificationWatcher.mm in Sources */ = {isa = PBXBuildFile; fileRef = 70DE20E028F4F670007DE923 /* NotificationWatcher.mm */; };
+		70DE20E128F4F670007DE923 /* NotificationCenterHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 70DE20E028F4F670007DE923 /* NotificationCenterHelper.mm */; };
 		70EA99EA2794967E008E54FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70EA99E92794967E008E54FD /* AppDelegate.swift */; };
 		70EFF77428D5F732009FE998 /* DoNotDisturb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70EFF77328D5F732009FE998 /* DoNotDisturb.swift */; };
 /* End PBXBuildFile section */
@@ -76,8 +76,8 @@
 		70BED7CA27F4C1A600906E41 /* FileConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileConstants.swift; sourceTree = "<group>"; };
 		70BED7CC27F4C23D00906E41 /* FileManager.extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.extension.swift; sourceTree = "<group>"; };
 		70D1220128DA95C500179A1D /* Overlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Overlay.swift; sourceTree = "<group>"; };
-		70DE20E028F4F670007DE923 /* NotificationWatcher.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = NotificationWatcher.mm; sourceTree = "<group>"; };
-		70DE20E228F4F685007DE923 /* NotificationWatcher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationWatcher.h; sourceTree = "<group>"; };
+		70DE20E028F4F670007DE923 /* NotificationCenterHelper.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = NotificationCenterHelper.mm; sourceTree = "<group>"; };
+		70DE20E228F4F685007DE923 /* NotificationCenterHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationCenterHelper.h; sourceTree = "<group>"; };
 		70EA99E82794967E008E54FD /* sol-macOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "sol-macOS-Bridging-Header.h"; sourceTree = "<group>"; };
 		70EA99E92794967E008E54FD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		70EFF77328D5F732009FE998 /* DoNotDisturb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoNotDisturb.swift; sourceTree = "<group>"; };
@@ -188,8 +188,8 @@
 				7074A3A128BDCB6B0032ADD7 /* CalendarHelper.mm */,
 				7074A3A328BDCBBD0032ADD7 /* CalendarHelper.h */,
 				70EFF77328D5F732009FE998 /* DoNotDisturb.swift */,
-				70DE20E028F4F670007DE923 /* NotificationWatcher.mm */,
-				70DE20E228F4F685007DE923 /* NotificationWatcher.h */,
+				70DE20E028F4F670007DE923 /* NotificationCenterHelper.mm */,
+				70DE20E228F4F685007DE923 /* NotificationCenterHelper.h */,
 			);
 			path = lib;
 			sourceTree = "<group>";
@@ -459,7 +459,7 @@
 				700A18DC279DC1F50096C830 /* FileIcon.m in Sources */,
 				70EFF77428D5F732009FE998 /* DoNotDisturb.swift in Sources */,
 				70ADD54828B22DAB00AAAFD7 /* FileSearcher.swift in Sources */,
-				70DE20E128F4F670007DE923 /* NotificationWatcher.mm in Sources */,
+				70DE20E128F4F670007DE923 /* NotificationCenterHelper.mm in Sources */,
 				7042A22A2815C06B00874743 /* NSColor.extension.swift in Sources */,
 				700DF99A28266F0B00C5FD0B /* ClipboardHelper.swift in Sources */,
 				700A18DA279DC17F0096C830 /* FileIcon.swift in Sources */,

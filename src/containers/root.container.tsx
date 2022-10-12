@@ -3,7 +3,7 @@ import {solNative} from 'lib/SolNative'
 import {DateTime} from 'luxon'
 import {observer} from 'mobx-react-lite'
 import React, {useEffect} from 'react'
-import {ScrollView, Text, TouchableOpacity, View} from 'react-native'
+import {Pressable, ScrollView, Text, TouchableOpacity, View} from 'react-native'
 import {useStore} from 'store'
 import {Widget} from 'stores/ui.store'
 import tw from 'tailwind'
@@ -109,10 +109,11 @@ export const RootContainer = observer(() => {
 
       {!!store.ui.notifications.length && (
         <ScrollView
-          style={tw`h-48 bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30 border-b border-lightBorder dark:border-darkBorder`}>
+          style={tw`h-48 bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30 border-b border-lightBorder dark:border-darkBorder`}
+          contentContainerStyle={tw`items-center flex-grow-1`}>
           {store.ui.notifications.map(n => {
             return (
-              <View style={tw`py-1 px-3 flex-row items-center`}>
+              <View style={tw`py-1 px-1 flex-row items-center`}>
                 <FileIcon
                   url={n.url.replace('file://', '')}
                   style={tw`h-10 w-10`}
@@ -132,6 +133,10 @@ export const RootContainer = observer(() => {
               </View>
             )
           })}
+          <View style={tw`flex-1`} />
+          <Pressable onPress={store.ui.clearNotifications}>
+            <Text style={tw`text-accent`}>Clear notifications</Text>
+          </Pressable>
         </ScrollView>
       )}
       {calendarVisible && <CalendarWidget />}

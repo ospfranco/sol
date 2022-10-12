@@ -38,6 +38,7 @@ declare var global: {
     getCalendarAuthorizationStatus: () => CalendarAuthorizationStatus
     getEvents: () => INativeEvent[]
     getNotifications: () => Array<Notification>
+    clearNotifications: () => void
   }
 }
 
