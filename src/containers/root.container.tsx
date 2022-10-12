@@ -107,10 +107,10 @@ export const RootContainer = observer(() => {
           />
         )}
 
-      {!!store.ui.notifications.length && (
+      {!!store.ui.notifications.length && !store.ui.query && (
         <ScrollView
           style={tw`h-48 bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30 border-b border-lightBorder dark:border-darkBorder`}
-          contentContainerStyle={tw`items-center flex-grow-1`}>
+          contentContainerStyle={tw`flex-grow-1`}>
           {store.ui.notifications.map(n => {
             return (
               <View style={tw`py-1 px-1 flex-row items-center`}>
@@ -133,10 +133,13 @@ export const RootContainer = observer(() => {
               </View>
             )
           })}
-          <View style={tw`flex-1`} />
-          <Pressable onPress={store.ui.clearNotifications}>
-            <Text style={tw`text-accent`}>Clear notifications</Text>
-          </Pressable>
+          <View style={tw`items-end pr-1`}>
+            <Pressable onPress={store.ui.clearNotifications}>
+              <Text style={tw`text-accent text-xs`}>
+                Clear notifications ⌘ ⏎
+              </Text>
+            </Pressable>
+          </View>
         </ScrollView>
       )}
       {calendarVisible && <CalendarWidget />}

@@ -49,7 +49,8 @@ export const CalendarWidget: FC<Props> = observer(() => {
   }
 
   return (
-    <View style={tw`px-3 py-2 flex-row bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30`}>
+    <View
+      style={tw`px-3 py-2 flex-row bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30`}>
       {groupedEvents.map(([key, data], i) => {
         return (
           <View key={key} style={tw`flex-row flex-1`}>
@@ -62,9 +63,13 @@ export const CalendarWidget: FC<Props> = observer(() => {
                   </Text>
                 ) : (
                   <Text
-                    style={tw.style(`capitalize dark:text-neutral-400 text-neutral-500 text-xs`, {
-                      'dark:text-neutral-600 text-neutral-400': !data.events.length
-                    })}>
+                    style={tw.style(
+                      `capitalize dark:text-neutral-400 text-neutral-500 text-xs`,
+                      {
+                        'dark:text-neutral-600 text-neutral-400':
+                          !data.events.length,
+                      },
+                    )}>
                     {`${data.date.toFormat('ccc dd')}`}
                   </Text>
                 )}
@@ -87,10 +92,11 @@ export const CalendarWidget: FC<Props> = observer(() => {
                     <View
                       key={index}
                       style={tw.style(`my-1`, {
-                        'bg-accent bg-opacity-80 dark:bg-opacity-40 rounded-r': highlighted,
+                        'bg-accent bg-opacity-80 dark:bg-opacity-40 rounded-r':
+                          highlighted,
                         'rounded bg-opacity-10 p-0.5 border': event.isAllDay,
                         'border-l': !event.isAllDay,
-                        borderColor: event.color
+                        borderColor: event.color,
                       })}>
                       {!event.isAllDay && (
                         <Text
@@ -120,7 +126,8 @@ export const CalendarWidget: FC<Props> = observer(() => {
                         style={tw.style(`text-xs ml-1`, {
                           'text-white': highlighted,
                           'line-through': event.declined,
-                          'font-semibold': !event.isAllDay
+                          'font-semibold': !event.isAllDay,
+                          color: !!event.isAllDay && event.color,
                         })}>
                         {event.title}
                       </Text>
