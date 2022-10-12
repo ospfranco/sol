@@ -117,6 +117,7 @@ export const createUIStore = (root: IRootStore) => {
         store.showPlaying = parsedStore.showPlaying ?? true
         store.launchAtLogin = parsedStore.launchAtLogin ?? true
         store.showHintBar = parsedStore.showHintBar ?? true
+        store.showNotifications = parsedStore.showNotifications ?? true
       })
 
       solNative.setLaunchAtLogin(parsedStore.launchAtLogin ?? true)
@@ -715,6 +716,7 @@ export const createUIStore = (root: IRootStore) => {
     launchAtLogin: true,
     showHintBar: true,
     notifications: [] as Array<Notification>,
+    showNotifications: true,
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -1220,7 +1222,9 @@ export const createUIStore = (root: IRootStore) => {
         return
       }
 
-      store.notifications = solNative.getNotifications()
+      if (store.showNotifications) {
+        store.notifications = solNative.getNotifications()
+      }
 
       store.now = DateTime.now()
 
@@ -1326,6 +1330,12 @@ export const createUIStore = (root: IRootStore) => {
     clearNotifications: () => {
       solNative.clearNotifications()
       store.notifications = solNative.getNotifications()
+    },
+    setShowNotifications: (v: boolean) => {
+      store.showNotifications = v
+      if (!v) {
+        store.notifications = []
+      }
     },
   })
 

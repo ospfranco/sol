@@ -157,7 +157,6 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
         {selected === 'GENERAL' && (
           <View
             style={tw`flex-1 p-6 bg-white dark:bg-black dark:bg-opacity-30 justify-center`}>
-            
             <View style={tw`flex-row items-center py-2`}>
               <Text style={tw`flex-1 text-right pr-3 text-sm`}>
                 Launch on computer start
@@ -342,6 +341,17 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
               </View>
             </View>
 
+            <View style={tw.style(`flex-row items-center py-2`)}>
+              <Text style={tw`flex-1 text-right pr-3 text-sm`}>
+                Show notifications
+              </Text>
+              <View style={tw`flex-1.3`}>
+                <MySwitch
+                  value={store.ui.showNotifications}
+                  onValueChange={store.ui.setShowNotifications}
+                />
+              </View>
+            </View>
           </View>
         )}
         {selected === 'TRANSLATE' && (
