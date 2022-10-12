@@ -2,9 +2,10 @@
 
 default_platform(:mac)
 
-xcode_select "/Applications/Xcode.app"
-
 platform :mac do
+  
+  xcode_select "/Applications/Xcode.app"
+
   lane :release do
     sh("yarn", "bump")
 
