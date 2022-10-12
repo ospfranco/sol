@@ -3,7 +3,14 @@ import {solNative} from 'lib/SolNative'
 import {DateTime} from 'luxon'
 import {observer} from 'mobx-react-lite'
 import React, {useEffect} from 'react'
-import {Pressable, ScrollView, Text, TouchableOpacity, View} from 'react-native'
+import {
+  Linking,
+  Pressable,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import {useStore} from 'store'
 import {Widget} from 'stores/ui.store'
 import tw from 'tailwind'
@@ -113,13 +120,39 @@ export const RootContainer = observer(() => {
           contentContainerStyle={tw`flex-grow-1`}>
           {store.ui.notifications.map(n => {
             return (
-              <View style={tw`py-1 px-1 flex-row items-center`}>
+              <TouchableOpacity
+                // @ts-expect-error
+                enableFocusRing={false}
+                style={tw`py-1 px-1 flex-row items-center`}
+                onPress={async () => {
+                  try {
+                    if (!!n.iden && n.iden.includes('http')) {
+                      const canOpen = await Linking.canOpenURL(n.iden)
+                      if (canOpen) {
+                        await Linking.openURL(
+                          n.iden.replace('n#', ''),
+                          // .replace('https://', 'arc://'),
+                          // `arc://${n.iden}`,
+                          // n.iden,
+                        )
+                      }
+                    } else {
+                      solNative.openFile(
+                        decodeURI(n.url.replace('file://', '')),
+                      )
+                    }
+                  } catch (e) {
+                    console.warn('Could not open notification', e)
+                  }
+                }}>
                 <FileIcon
                   url={n.url.replace('file://', '')}
                   style={tw`h-10 w-10`}
                 />
                 <View style={tw`ml-1`}>
-                  <Text style={tw`text-xs font-bold`}>{n.title}</Text>
+                  <Text style={tw`text-xs font-bold`}>
+                    {n.title} {n.subt}
+                  </Text>
                   {!!n.text && <Text style={tw`text-xs`}>{n.text}</Text>}
                 </View>
                 <View style={tw`flex-1`} />
@@ -130,16 +163,9 @@ export const RootContainer = observer(() => {
                     n.date * 1000 + 978307200 * 1000,
                   ).toRelative()}
                 </Text>
-              </View>
+              </TouchableOpacity>
             )
           })}
-          <View style={tw`items-end pr-1`}>
-            <Pressable onPress={store.ui.clearNotifications}>
-              <Text style={tw`text-accent text-xs`}>
-                Clear notifications ⌘ ⏎
-              </Text>
-            </Pressable>
-          </View>
         </ScrollView>
       )}
       {calendarVisible && <CalendarWidget />}

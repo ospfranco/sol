@@ -33,15 +33,13 @@
 
 + (void)clearNotifications {
   NSString *pathToNCSupport = @"/private/var/folders/qn/vyvn49j90jv9_77vq77wzvw00000gn/0/com.apple.notificationcenter/db2";
-  NSError *error = nil;
-  NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:pathToNCSupport error:&error];
+  NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:pathToNCSupport error:nil];
 
   FMDatabase *database = nil;
   for (NSString *child in contents) {
     if([child isEqualToString:@"db"]) {
       database = [FMDatabase databaseWithPath:[pathToNCSupport stringByAppendingPathComponent:child]];
       if([database open]) {
-        std::cout << "clearing notifications" << std::endl;
         [database executeUpdate:@"delete from record"];
         [database close];
         break;

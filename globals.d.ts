@@ -48,6 +48,8 @@ interface Notification {
   app: string
   url: string
   date: number
+  iden: string | undefined
+  subt: string | undefined
 }
 
 interface IPeriod {

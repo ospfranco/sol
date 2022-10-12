@@ -154,6 +154,8 @@ void install(jsi::Runtime &rt,
       NSString *title = [[notification valueForKey:@"req"] valueForKey:@"titl"];
       NSString *text = [[notification valueForKey:@"req"] valueForKey:@"body"];
       NSString *app = [notification valueForKey:@"app"];
+      NSString *iden = [[notification valueForKey:@"req"] valueForKey:@"iden"];
+      NSString *subt = [[notification valueForKey:@"req"] valueForKey:@"subt"];
       NSURL *url = [[NSWorkspace sharedWorkspace] URLForApplicationWithBundleIdentifier:app];
       double date = [[notification valueForKey:@"date"] doubleValue];
 
@@ -163,6 +165,12 @@ void install(jsi::Runtime &rt,
       }
       notificationJsi.setProperty(rt, "app", jsi::String::createFromUtf8(rt, std::string([app UTF8String])));
       notificationJsi.setProperty(rt, "url", jsi::String::createFromUtf8(rt, std::string([[url absoluteString] UTF8String])));
+      if(iden != NULL) {
+        notificationJsi.setProperty(rt, "iden", jsi::String::createFromUtf8(rt, std::string([iden UTF8String])));
+      }
+      if(subt != NULL) {
+        notificationJsi.setProperty(rt, "subt", jsi::String::createFromUtf8(rt, std::string([subt UTF8String])));
+      }
       notificationJsi.setProperty(rt, "date", jsi::Value(date));
       array.setValueAtIndex(rt, i, std::move(notificationJsi));
     }

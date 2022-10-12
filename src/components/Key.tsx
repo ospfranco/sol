@@ -27,8 +27,8 @@ export const Key: FC<IProps> = ({
         style,
       )}>
       <Text
-        style={tw.style(`text-xxs font-semibold`, {
-          'dark:text-neutral-300 text-neutral-500': !primary,
+        style={tw.style(`text-xxs`, {
+          'dark:text-neutral-300 text-neutral-600': !primary,
           'text-white': primary,
         })}>
         {title.trim()}
