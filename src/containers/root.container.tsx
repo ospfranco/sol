@@ -137,18 +137,26 @@ export const RootContainer = observer(() => {
                         )
                       }
                     } else {
-                      solNative.openFile(
-                        decodeURI(n.url.replace('file://', '')),
-                      )
+                      if (n.url) {
+                        solNative.openFile(
+                          decodeURI(n.url.replace('file://', '')),
+                        )
+                      }
                     }
                   } catch (e) {
                     console.warn('Could not open notification', e)
                   }
                 }}>
-                <FileIcon
-                  url={n.url.replace('file://', '')}
-                  style={tw`h-10 w-10`}
-                />
+                {!!n.url ? (
+                  <FileIcon
+                    url={n.url.replace('file://', '')}
+                    style={tw`h-10 w-10`}
+                  />
+                ) : (
+                  <View style={tw`h-10 w-10 p-2`}>
+                    <View style={tw`h-6 w-6 rounded bg-neutral-900`} />
+                  </View>
+                )}
                 <View style={tw`ml-1`}>
                   <Text style={tw`text-xs font-bold`}>
                     {n.title} {n.subt}

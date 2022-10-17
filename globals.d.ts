@@ -46,7 +46,7 @@ interface Notification {
   title: string
   text: string | undefined
   app: string
-  url: string
+  url: string | undefined
   date: number
   iden: string | undefined
   subt: string | undefined

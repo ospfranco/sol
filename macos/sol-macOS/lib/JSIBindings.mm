@@ -164,7 +164,9 @@ void install(jsi::Runtime &rt,
         notificationJsi.setProperty(rt, "text", jsi::String::createFromUtf8(rt, std::string([text UTF8String])));
       }
       notificationJsi.setProperty(rt, "app", jsi::String::createFromUtf8(rt, std::string([app UTF8String])));
-      notificationJsi.setProperty(rt, "url", jsi::String::createFromUtf8(rt, std::string([[url absoluteString] UTF8String])));
+      if(url != NULL) {
+        notificationJsi.setProperty(rt, "url", jsi::String::createFromUtf8(rt, std::string([[url absoluteString] UTF8String])));
+      }
       if(iden != NULL) {
         notificationJsi.setProperty(rt, "iden", jsi::String::createFromUtf8(rt, std::string([iden UTF8String])));
       }
