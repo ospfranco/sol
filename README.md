@@ -18,7 +18,7 @@ It is aimed to be a replacement for Alfred, Spotlight and Raycast without the ne
 
 If you want a feature you will have to build it yourself or consider [sponsoring](https://github.com/sponsors/ospfranco) me to put some time to develop it for you.
 
-[Visit official site](https://solapp.io)
+[Visit official site](https://sol.ospfranco.com)
 
 ## Download
 
