@@ -183,7 +183,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
             }
 
             case Widget.SEARCH: {
-              if (!root.ui.query && store.commandPressed) {
+              if (!root.ui.query) {
                 root.ui.clearNotifications()
                 return
               }

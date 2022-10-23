@@ -137,7 +137,6 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
             <Text style={tw`text-xs dark:text-white mx-1`}>
               Clear notifications
             </Text>
-            <Key title="⌘" style={tw`mr-1`} />
             <Key title="⏎" style={tw`mr-3`} />
           </>
         )}
