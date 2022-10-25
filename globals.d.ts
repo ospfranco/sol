@@ -43,9 +43,9 @@ declare var global: {
 }
 
 interface Notification {
-  title: string
+  title: string | undefined
   text: string | undefined
-  app: string
+  app: string | undefined
   url: string | undefined
   date: number
   iden: string | undefined
