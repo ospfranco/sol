@@ -50,7 +50,7 @@ export const CalendarWidget: FC<Props> = observer(() => {
 
   return (
     <View
-      style={tw`px-3 py-2 flex-row bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30`}>
+      style={tw`px-3 py-2 flex-row bg-neutral-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30`}>
       {groupedEvents.map(([key, data], i) => {
         return (
           <View key={key} style={tw`flex-row flex-1`}>
@@ -91,24 +91,23 @@ export const CalendarWidget: FC<Props> = observer(() => {
                   return (
                     <View
                       key={index}
-                      style={tw.style(`my-1`, {
+                      style={tw.style(`my-1 pr-2 mr-1 border-l`, {
                         'bg-accent bg-opacity-80 dark:bg-opacity-40 rounded-r':
                           highlighted,
-                        'rounded bg-opacity-10 p-0.5 border': event.isAllDay,
-                        'border-l': !event.isAllDay,
+                        'bg-opacity-10 p-0.5': event.isAllDay,
                         borderColor: event.color,
                       })}>
                       {!event.isAllDay && (
                         <Text
                           style={tw.style(
-                            `text-gray-500 dark:text-gray-400 ml-1 text-xs`,
+                            `text-neutral-500 dark:text-neutral-400 ml-1 text-xs`,
                             {
                               'text-white': highlighted,
                             },
                           )}>
                           <Text
                             style={tw.style(
-                              `text-gray-800 dark:text-gray-200`,
+                              `text-neutral-800 dark:text-neutral-200`,
                               {
                                 'text-white': highlighted,
                               },
@@ -123,11 +122,9 @@ export const CalendarWidget: FC<Props> = observer(() => {
 
                       <Text
                         numberOfLines={1}
-                        style={tw.style(`text-xs ml-1`, {
+                        style={tw.style(`text-xs ml-1 font-semibold`, {
                           'text-white': highlighted,
                           'line-through': event.declined,
-                          'font-semibold': !event.isAllDay,
-                          color: !!event.isAllDay && event.color,
                         })}>
                         {event.title}
                       </Text>
@@ -135,7 +132,7 @@ export const CalendarWidget: FC<Props> = observer(() => {
                   )
                 })}
                 {/* {data.notShown > 0 && (
-                  <Text style={tw`text-gray-600 text-xs ml-2`}>
+                  <Text style={tw`text-neutral-600 text-xs ml-2`}>
                     + {data.notShown} more...
                   </Text>
                 )} */}
