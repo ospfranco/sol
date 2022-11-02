@@ -36,7 +36,7 @@ class SolNative extends NativeEventEmitter {
   moveFrontmostPrevScreen: () => void
   pasteToFrontmostApp: (content: string) => void
   insertToFrontmostApp: (content: string) => void
-  accentColor: string
+
   turnOnHorizontalArrowsListeners: () => void
   turnOffHorizontalArrowsListeners: () => void
   turnOnVerticalArrowsListeners: () => void
@@ -60,6 +60,10 @@ class SolNative extends NativeEventEmitter {
   securelyRetrieve: (key: string) => Promise<string | null>
   getNotifications: typeof global.__SolProxy.getNotifications
   clearNotifications: typeof global.__SolProxy.clearNotifications
+
+  // Constants
+  accentColor: string
+  OSVersion: number
 
   constructor(module: any) {
     super(module)
@@ -130,7 +134,9 @@ class SolNative extends NativeEventEmitter {
     this.clearNotifications = global.__SolProxy.clearNotifications
 
     const constants = module.getConstants()
+
     this.accentColor = constants.accentColor
+    this.OSVersion = constants.OSVersion
   }
 }
 

@@ -7,7 +7,7 @@ private let keychain = Keychain(service: "Sol")
 @objc(SolNative)
 class SolNative: RCTEventEmitter {
   let appDelegate = NSApp.delegate as? AppDelegate
-
+  
   override init() {
     super.init()
     SolEmitter.sharedInstance.registerEmitter(emitter: self)
@@ -15,7 +15,8 @@ class SolNative: RCTEventEmitter {
 
   @objc override func constantsToExport() -> [AnyHashable: Any]! {
     return [
-      "accentColor": NSColor.controlAccentColor.usingColorSpace(.sRGB)!.hexString
+      "accentColor": NSColor.controlAccentColor.usingColorSpace(.sRGB)!.hexString,
+      "OSVersion": ProcessInfo.processInfo.operatingSystemVersion.majorVersion
     ]
   }
 
@@ -48,7 +49,7 @@ class SolNative: RCTEventEmitter {
     ]
   }
 
-  @objc func getApps(_ resolve: @escaping  RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) {
+  @objc func getApps(_ resolve: @escaping RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) {
     let searcher = ApplicationSearcher()
     let apps = searcher.getAllApplications()
     let res = apps.map { app in
