@@ -21,10 +21,9 @@ class ApplicationSearcher: NSObject {
       var applications = [Application]()
 
       for url in allApplicationUrls {
-
         let resourceKeys: [URLResourceKey] = [.isExecutableKey, .isApplicationKey]
         let resourceValues = try url.resourceValues(forKeys: Set(resourceKeys))
-        if resourceValues.isApplication! && resourceValues.isExecutable! {
+        if resourceValues.isExecutable ?? false {
           let name = url.deletingPathExtension().lastPathComponent
           let urlStr = url.absoluteString
           applications.append(Application(name: name, url: urlStr))

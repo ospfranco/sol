@@ -1257,13 +1257,11 @@ export const createUIStore = (root: IRootStore) => {
 
       solNative.getApps().then(apps => {
         // Each "app" is a macOS file url, e.g. file:///Applications/SF%20Symbols
-        const cleanApps = apps.map(url => {
-          const pureUrl = decodeURI(url.replace('file://', ''))
-          const tokens = pureUrl.split('/')
+        const cleanApps = apps.map(({name, url}) => {
           return {
             type: ItemType.APPLICATION as ItemType.APPLICATION,
-            url: pureUrl,
-            name: tokens[tokens.length - 2].replace('.app', ''),
+            url: decodeURI(url.replace('file://', '')),
+            name: name,
           }
         })
 

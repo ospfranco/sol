@@ -53,7 +53,10 @@ class SolNative: RCTEventEmitter {
     let searcher = ApplicationSearcher()
     let apps = searcher.getAllApplications()
     let res = apps.map { app in
-      app.url
+      return [
+        "url": app.url,
+        "name": app.name
+      ]
     }
 
     resolve(res)

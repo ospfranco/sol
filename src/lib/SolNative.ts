@@ -5,7 +5,7 @@ class SolNative extends NativeEventEmitter {
   openWithFinder: (path: string) => void
   hideWindow: typeof global.__SolProxy.hideWindow
   getEvents: typeof global.__SolProxy.getEvents
-  getApps: () => Promise<string[]>
+  getApps: () => Promise<Array<{name: string; url: string}>>
   toggleDarkMode: () => void
   executeAppleScript: (source: string) => void
   getMediaInfo: () => Promise<
