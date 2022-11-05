@@ -1,6 +1,7 @@
 #import "NotificationCenterHelper.h"
 #import "FMDatabase.h"
 #include <iostream>
+#include "SentryHelper.h"
 
 @implementation NotificationCenterHelper
 
@@ -34,15 +35,20 @@
   NSMutableArray *array = [[NSMutableArray alloc] init];
 
   if(rawPath != nil) {
+    [SentryHelper addBreadcrumb:@"NotificationCenterHelper" message:@"#getNotifications: rawPath worked"];
+
     NSString *path = [rawPath componentsSeparatedByString:@"\n"][0];
     NSError *error = nil;
     NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:&error];
     FMDatabase *database = nil;
     for (NSString *child in contents) {
       if([child isEqualToString:@"db"]) {
+        [SentryHelper addBreadcrumb:@"NotificationCenterHelper" message:@"#getNotifications: database found"];
         database = [FMDatabase databaseWithPath:[path stringByAppendingPathComponent:child]];
         if([database open]) {
+          [SentryHelper addBreadcrumb:@"NotificationCenterHelper" message:@"#getNotifications: database opened"];
           FMResultSet *rs = [database executeQuery:@"select data from record"];
+          [SentryHelper addBreadcrumb:@"NotificationCenterHelper" message:@"#getNotifications: result set/query worked"];
           while ([rs next]) {
             NSData *data = [rs dataForColumn:@"data"];
             NSDictionary *temp = [NSPropertyListSerialization propertyListWithData:data options:NSPropertyListImmutable format:nil error:&error];
