@@ -29,7 +29,7 @@ export const CalendarWidget: FC<Props> = observer(() => {
 
   if (store.ui.calendarAuthorizationStatus === 'notDetermined') {
     return (
-      <View style={tw`p-2 mx-1`}>
+      <View style={tw`pt-1 px-3`}>
         <TouchableOpacity
           onPress={() => {
             solNative.requestCalendarAccess().then(() => {
@@ -50,7 +50,7 @@ export const CalendarWidget: FC<Props> = observer(() => {
 
   return (
     <View
-      style={tw`px-3 py-2 flex-row bg-neutral-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30`}>
+      style={tw`px-3 py-2 flex-row bg-neutral-100 dark:bg-black bg-opacity-80`}>
       {groupedEvents.map(([key, data], i) => {
         return (
           <View key={key} style={tw`flex-row flex-1`}>
@@ -92,9 +92,8 @@ export const CalendarWidget: FC<Props> = observer(() => {
                     <View
                       key={index}
                       style={tw.style(`my-1 pr-2 mr-1 border-l`, {
-                        'bg-accent bg-opacity-80 dark:bg-opacity-40 rounded-r':
-                          highlighted,
-                        'bg-opacity-10 p-0.5': event.isAllDay,
+                        'bg-accent bg-opacity-80 rounded-r': highlighted,
+                        'p-0.5': event.isAllDay,
                         borderColor: event.color,
                       })}>
                       {!event.isAllDay && (

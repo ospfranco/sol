@@ -52,7 +52,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
         <View
           key={index}
           style={tw.style(
-            `justify-center items-center p-3 m-3 mb-2 rounded bg-opacity-50 dark:bg-opacity-40`,
+            `justify-center items-center p-3 m-3 mb-2 rounded bg-opacity-80`,
             {
               'bg-accent': isActive,
             },
@@ -70,7 +70,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
     return (
       <View
         style={tw.style(
-          `flex-row items-center px-3 rounded bg-opacity-80 dark:bg-opacity-40 py-2`,
+          `flex-row items-center px-3 rounded bg-opacity-80 py-2`,
           {
             'bg-accent': isActive,
           },

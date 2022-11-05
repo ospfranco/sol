@@ -13,7 +13,7 @@
                         @"-c" ,
                         [NSString stringWithFormat:@"%@", commandToRun],
                         nil];
-  NSLog(@"run command:%@", commandToRun);
+//  NSLog(@"run command:%@", commandToRun);
   [task setArguments:arguments];
 
   NSPipe *pipe = [NSPipe pipe];

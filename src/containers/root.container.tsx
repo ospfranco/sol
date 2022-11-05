@@ -182,7 +182,7 @@ export const RootContainer = observer(() => {
         <>
           <View
             style={tw.style(
-              `w-full border-lightBorder dark:border-darkBorder border-t my-[7]`,
+              `w-full border-lightBorder dark:border-darkBorder border-t mb-1`,
             )}
           />
           <TouchableOpacity
