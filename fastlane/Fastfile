@@ -1,4 +1,4 @@
-# update_fastlane
+update_fastlane
 
 default_platform(:mac)
 
@@ -36,9 +36,9 @@ platform :mac do
 
     sh("yarn", "appcast")
 
-    sh("git", "add", "..")
-    sh("git", "commit", "-m", '"' + version + '"')
-    sh("git", "push")
+    # sh("git", "add", "..")
+    # sh("git", "commit", "-m", '"' + version + '"')
+    # sh("git", "push")
   end
 
   lane :dev do
