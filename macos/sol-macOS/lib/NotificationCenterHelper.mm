@@ -31,25 +31,27 @@
 
 + (NSMutableArray *)getNotifications {
   NSString *rawPath = [NotificationCenterHelper runCommand:@"lsof -p $(ps aux | grep -m1 usernoted | awk '{ print $2 }')| awk '{ print $NF }' | grep 'db2/db$' | xargs dirname"];
-  NSString *path = [rawPath componentsSeparatedByString:@"\n"][0];
-  NSError *error = nil;
-  NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:&error];
   NSMutableArray *array = [[NSMutableArray alloc] init];
 
-  FMDatabase *database = nil;
-  for (NSString *child in contents) {
-    if([child isEqualToString:@"db"]) {
-      database = [FMDatabase databaseWithPath:[path stringByAppendingPathComponent:child]];
-      if([database open]) {
-        FMResultSet *rs = [database executeQuery:@"select data from record"];
-        while ([rs next]) {
-          NSData *data = [rs dataForColumn:@"data"];
-          NSDictionary *temp = [NSPropertyListSerialization propertyListWithData:data options:NSPropertyListImmutable format:nil error:&error];
-          [array addObject:temp];
-        }
+  if(rawPath != nil) {
+    NSString *path = [rawPath componentsSeparatedByString:@"\n"][0];
+    NSError *error = nil;
+    NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:&error];
+    FMDatabase *database = nil;
+    for (NSString *child in contents) {
+      if([child isEqualToString:@"db"]) {
+        database = [FMDatabase databaseWithPath:[path stringByAppendingPathComponent:child]];
+        if([database open]) {
+          FMResultSet *rs = [database executeQuery:@"select data from record"];
+          while ([rs next]) {
+            NSData *data = [rs dataForColumn:@"data"];
+            NSDictionary *temp = [NSPropertyListSerialization propertyListWithData:data options:NSPropertyListImmutable format:nil error:&error];
+            [array addObject:temp];
+          }
 
-        [database close];
-        break;
+          [database close];
+          break;
+        }
       }
     }
   }
