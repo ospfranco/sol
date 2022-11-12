@@ -130,17 +130,6 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
       )}
 
       <View style={tw`flex-1`} />
-      {store.ui.focusedWidget === Widget.SEARCH &&
-        !store.ui.query &&
-        !!store.ui.notifications?.length && (
-          <>
-            <Text style={tw`text-xs dark:text-white mx-1`}>
-              Clear notifications
-            </Text>
-            <Key title="⏎" style={tw`mr-3`} />
-          </>
-        )}
-
       {store.ui.focusedWidget !== Widget.CALENDAR &&
         !store.ui.query &&
         !!store.ui.filteredEvents.length && (

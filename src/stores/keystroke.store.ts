@@ -183,11 +183,6 @@ export const createKeystrokeStore = (root: IRootStore) => {
             }
 
             case Widget.SEARCH: {
-              if (!root.ui.query) {
-                root.ui.clearNotifications()
-                return
-              }
-
               if (root.ui.temporaryResult && root.ui.selectedIndex === 0) {
                 Clipboard.setString(root.ui.temporaryResult)
                 solNative.hideWindow()

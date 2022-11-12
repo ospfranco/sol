@@ -8,7 +8,6 @@
 #import <Foundation/Foundation.h>
 #import <iostream>
 #import <sol-Swift.h>
-#import "NotificationCenterHelper.h"
 #import "SentryHelper.h"
 
 namespace sol {
@@ -144,66 +143,6 @@ void install(jsi::Runtime &rt,
     return promise;
   });
 
-  auto getNotifications = HOSTFN("getNotifications", 0, []) {
-    NSMutableArray *notifications = [NotificationCenterHelper getNotifications];
-    int notificationCount = static_cast<int>([notifications count]);
-    auto array = jsi::Array(rt, notificationCount);
-
-    for(int i = 0; i < notificationCount; i++) {
-      NSDictionary *notification = [notifications objectAtIndex:i];
-
-      NSString *title = [[notification valueForKey:@"req"] valueForKey:@"titl"];
-      NSString *text = [[notification valueForKey:@"req"] valueForKey:@"body"];
-      NSString *app = [notification valueForKey:@"app"];
-      NSString *iden = [[notification valueForKey:@"req"] valueForKey:@"iden"];
-      NSString *subt = [[notification valueForKey:@"req"] valueForKey:@"subt"];
-      NSURL *url = [[NSWorkspace sharedWorkspace] URLForApplicationWithBundleIdentifier:app];
-      double date = [[notification valueForKey:@"date"] doubleValue];
-
-      [SentryHelper addBreadcrumb:@"JSI" message:[NSString stringWithFormat:@"#getNotifications date %f", date]];
-
-      auto notificationJsi = jsi::Object(rt);
-
-      if(title != nil) {
-        notificationJsi.setProperty(rt, "title", jsi::String::createFromUtf8(rt, std::string([title UTF8String])));
-      }
-
-      if(text != nil) {
-        notificationJsi.setProperty(rt, "text", jsi::String::createFromUtf8(rt, std::string([text UTF8String])));
-      }
-
-      if(app != nil) {
-        notificationJsi.setProperty(rt, "app", jsi::String::createFromUtf8(rt, std::string([app UTF8String])));
-      }
-
-      if(url != nil) {
-        NSString *absoluteUrl = [url absoluteString];
-        if(absoluteUrl) {
-          notificationJsi.setProperty(rt, "url", jsi::String::createFromUtf8(rt, std::string([absoluteUrl UTF8String])));
-        }
-      }
-
-      if(iden != nil) {
-        notificationJsi.setProperty(rt, "iden", jsi::String::createFromUtf8(rt, std::string([iden UTF8String])));
-      }
-      
-      if(subt != nil) {
-        notificationJsi.setProperty(rt, "subt", jsi::String::createFromUtf8(rt, std::string([subt UTF8String])));
-      }
-
-      notificationJsi.setProperty(rt, "date", jsi::Value(date));
-
-      array.setValueAtIndex(rt, i, std::move(notificationJsi));
-    }
-
-    return array;
-  });
-
-  auto clearNotifications = HOSTFN("clearNotifications", 0, []) {
-    [NotificationCenterHelper clearNotifications];
-    return {};
-  });
-
   auto getCalendarAuthorizationStatus =
       HOSTFN("getCalendarAuthorizationStatus", 0, []) {
     NSString *status = [calendarHelper getCalendarAuthorizationStatus];
@@ -316,8 +255,6 @@ void install(jsi::Runtime &rt,
   module.setProperty(rt, "getCalendarAuthorizationStatus",
                      std::move(getCalendarAuthorizationStatus));
   module.setProperty(rt, "getEvents", std::move(getEvents));
-  module.setProperty(rt, "getNotifications", std::move(getNotifications));
-  module.setProperty(rt, "clearNotifications", std::move(clearNotifications));
 
   rt.global().setProperty(rt, "__SolProxy", std::move(module));
 }
