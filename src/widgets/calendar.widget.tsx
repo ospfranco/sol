@@ -58,13 +58,13 @@ export const CalendarWidget: FC<Props> = observer(() => {
               <View style={tw.style(`flex-row`)}>
                 {key === 'today' || key === 'tomorrow' ? (
                   <Text
-                    style={tw`uppercase dark:text-neutral-600 text-neutral-600 text-xxs`}>
+                    style={tw`uppercase dark:text-neutral-600 text-neutral-400 text-xxs`}>
                     {key}
                   </Text>
                 ) : (
                   <Text
                     style={tw.style(
-                      `uppercase dark:text-neutral-600 text-neutral-600 text-xxs`,
+                      `uppercase dark:text-neutral-600 text-neutral-400 text-xxs`,
                     )}>
                     {`${data.date.toFormat('cccc')}`}
                   </Text>
@@ -104,14 +104,14 @@ export const CalendarWidget: FC<Props> = observer(() => {
                       {!event.isAllDay && (
                         <Text
                           style={tw.style(
-                            `text-neutral-800 dark:text-neutral-400 text-xs ml-1`,
+                            `text-neutral-500 dark:text-neutral-400 text-xs ml-1`,
                           )}>
                           {lDate.toFormat('HH:mm')}
                         </Text>
                       )}
                       <Text
                         numberOfLines={1}
-                        style={tw.style(`text-xs ml-2`, {
+                        style={tw.style(`text-xs ml-1`, {
                           'line-through': event.declined,
                         })}>
                         {event.title}
