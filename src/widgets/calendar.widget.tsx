@@ -50,27 +50,23 @@ export const CalendarWidget: FC<Props> = observer(() => {
 
   return (
     <View
-      style={tw`px-3 py-2 flex-row bg-neutral-100 dark:bg-black bg-opacity-80`}>
+      style={tw`px-3 py-2 flex-row bg-neutral-100 dark:bg-black bg-opacity-50`}>
       {groupedEvents.map(([key, data], i) => {
         return (
           <View key={key} style={tw`flex-row flex-1`}>
             <View style={tw`flex-1`}>
               <View style={tw.style(`flex-row`)}>
-                {key === 'today' ? (
+                {key === 'today' || key === 'tomorrow' ? (
                   <Text
-                    style={tw`capitalize dark:text-neutral-400 text-neutral-500 text-xs`}>
+                    style={tw`uppercase dark:text-neutral-600 text-neutral-600 text-xxs`}>
                     {key}
                   </Text>
                 ) : (
                   <Text
                     style={tw.style(
-                      `capitalize dark:text-neutral-400 text-neutral-500 text-xs`,
-                      {
-                        'dark:text-neutral-600 text-neutral-400':
-                          !data.events.length,
-                      },
+                      `uppercase dark:text-neutral-600 text-neutral-600 text-xxs`,
                     )}>
-                    {`${data.date.toFormat('ccc dd')}`}
+                    {`${data.date.toFormat('cccc')}`}
                   </Text>
                 )}
               </View>
@@ -91,38 +87,31 @@ export const CalendarWidget: FC<Props> = observer(() => {
                   return (
                     <View
                       key={index}
-                      style={tw.style(`my-1 pr-2 mr-1 border-l`, {
-                        'bg-accent bg-opacity-80 rounded-r': highlighted,
-                        'p-0.5': event.isAllDay,
-                        borderColor: event.color,
-                      })}>
+                      style={tw.style(
+                        `flex-row items-center my-1 px-1 border border-transparent rounded`,
+                        {
+                          'bg-gray-200 dark:bg-proGray-900 border-gray-300 dark:border-neutral-700':
+                            highlighted,
+                          'p-0.5': event.isAllDay,
+                          // borderColor: event.color,
+                        },
+                      )}>
+                      <View
+                        style={tw.style(`h-1 w-1 rounded-full`, {
+                          backgroundColor: event.color,
+                        })}
+                      />
                       {!event.isAllDay && (
                         <Text
                           style={tw.style(
-                            `text-neutral-500 dark:text-neutral-400 ml-1 text-xs`,
-                            {
-                              'text-white': highlighted,
-                            },
+                            `text-neutral-800 dark:text-neutral-400 text-xs ml-1`,
                           )}>
-                          <Text
-                            style={tw.style(
-                              `text-neutral-800 dark:text-neutral-200`,
-                              {
-                                'text-white': highlighted,
-                              },
-                            )}>
-                            {lDate.toFormat('HH:mm')}
-                          </Text>
-                          {!!lEndDate
-                            ? ` - ${lEndDate.toFormat('HH:mm')}`
-                            : 'null'}
+                          {lDate.toFormat('HH:mm')}
                         </Text>
                       )}
-
                       <Text
                         numberOfLines={1}
-                        style={tw.style(`text-xs ml-1 font-semibold`, {
-                          'text-white': highlighted,
+                        style={tw.style(`text-xs ml-2`, {
                           'line-through': event.declined,
                         })}>
                         {event.title}

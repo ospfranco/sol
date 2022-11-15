@@ -37,7 +37,8 @@ export const RootContainer = observer(() => {
   const calendarVisible =
     (store.ui.calendarAuthorizationStatus === 'authorized' ||
       store.ui.calendarAuthorizationStatus === 'notDetermined') &&
-    store.ui.calendarEnabled
+    store.ui.calendarEnabled &&
+    !store.ui.query
 
   const widget = store.ui.focusedWidget
 

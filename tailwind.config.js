@@ -25,6 +25,9 @@ module.exports = {
         darkBorder: {DEFAULT: 'rgba(255, 255, 255, .1)'},
         lightBorder: {DEFAULT: 'rgba(0, 0, 0, .1)'},
         buttonBorder: {DEFAULT: 'rgba(0, 0, 0, .03)'},
+        proGray: {
+          "900": "rgba(21, 22, 25, 0.9)"
+        }
       },
     },
   },

@@ -52,9 +52,9 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
         <View
           key={index}
           style={tw.style(
-            `justify-center items-center p-3 m-3 mb-2 rounded bg-opacity-80`,
+            `justify-center items-center px-3 py-2 m-3 mb-2 rounded-lg border border-transparent`,
             {
-              'bg-accent': isActive,
+              'bg-proGray-900 border-neutral-300': isActive,
             },
           )}>
           <Text
@@ -70,9 +70,10 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
     return (
       <View
         style={tw.style(
-          `flex-row items-center px-3 rounded bg-opacity-80 py-2`,
+          `flex-row items-center px-3 rounded-lg py-1.5 border border-transparent`,
           {
-            'bg-accent': isActive,
+            'bg-gray-200 dark:bg-proGray-900 border-gray-300 dark:border-neutral-700':
+              isActive,
           },
         )}>
         {!!item.url && <FileIcon url={item.url} style={tw`w-4 h-4`} />}
@@ -101,7 +102,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
           !!item.iconComponent && <item.iconComponent />}
         <Text
           style={tw.style('ml-3 text-sm', {
-            'text-white': isActive,
+            // 'text-white': isActive,
           })}>
           {item.name}
         </Text>
@@ -135,9 +136,9 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
           </Text>
         )} */}
         {!!item.shortcut && (
-          <View style={tw.style(`flex-row`)}>
+          <View style={tw`flex-row`}>
             {item.shortcut.split(' ').map((char, i) => (
-              <View key={`shorcut-${item.shortcut}-${i}`} style={tw`mr-1`}>
+              <View key={i} style={tw`mr-1`}>
                 <Key title={char} />
               </View>
             ))}
@@ -149,7 +150,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
 
   return (
     <View
-      style={tw.style(style, {
+      style={tw.style({
         'flex-1': !!store.ui.query,
       })}>
       <View style={tw`h-12 mt-1 mx-3 flex-row items-center`}>
@@ -161,14 +162,13 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
           onChangeText={store.ui.setQuery}
           ref={inputRef}
           style={tw.style(`flex-1 text-lg`)}
-          caretHidden
           placeholderTextColor={
             colorScheme === 'dark'
-              ? tw.color('text-gray-500')
-              : tw.color('text-gray-400')
+              ? tw.color('text-neutral-700')
+              : tw.color('text-neutral-400')
           }
           placeholder={'Type to search...'}
-          selectionColor={tw.color('text-accent')}
+          selectionColor={colorScheme === 'dark' ? 'white' : undefined}
         />
       </View>
 
@@ -184,7 +184,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
 
       {!!store.ui.query && (
         <FlatList<Item>
-          style={tw`flex-1 -mr-4`}
+          style={tw`flex-1 dark:bg-black dark:bg-opacity-50`}
           windowSize={8}
           contentContainerStyle={tw.style(`flex-grow-1 p-3`)}
           ref={listRef}
