@@ -223,6 +223,8 @@ PODS:
   - React-jsinspector (0.68.57)
   - React-logger (0.68.57):
     - glog
+  - react-native-get-random-values (1.8.0):
+    - React-Core
   - react-native-webview (11.23.1):
     - React-Core
   - React-perflogger (0.68.57)
@@ -325,6 +327,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native-macos/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native-macos/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native-macos/ReactCommon/logger`)
+  - react-native-get-random-values (from `../node_modules/react-native-get-random-values`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-perflogger (from `../node_modules/react-native-macos/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native-macos/Libraries/ActionSheetIOS`)
@@ -389,6 +392,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-macos/ReactCommon/jsinspector"
   React-logger:
     :path: "../node_modules/react-native-macos/ReactCommon/logger"
+  react-native-get-random-values:
+    :path: "../node_modules/react-native-get-random-values"
   react-native-webview:
     :path: "../node_modules/react-native-webview"
   React-perflogger:
@@ -445,6 +450,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: a1b67ebba3a4e04e06e3e10255d439dfc2a5d344
   React-jsinspector: c31e945484cef01d10ee1f675a28bfcfe93e868c
   React-logger: 78070628d4d202051e3474cd3b5c8a55165f65ef
+  react-native-get-random-values: a6ea6a8a65dc93e96e24a11105b1a9c8cfe1d72a
   react-native-webview: d33e2db8925d090871ffeb232dfa50cb3a727581
   React-perflogger: 44a0304e946f93c3451ca0608c99f24f31e50a14
   React-RCTActionSheet: e1b9dd10434146cad3906a91c4cbb5b5f328d94e
