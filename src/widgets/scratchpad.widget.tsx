@@ -74,7 +74,6 @@ export const ScratchpadWidget: FC<Props> = observer(({style}) => {
           placeholder="Write something..."
           style={tw.style('flex-1 -mt-7 -mr-4')}
           multiline
-          selectionColor={colorScheme === 'dark' ? 'white' : 'black'}
         />
       </View>
       {/* <View
