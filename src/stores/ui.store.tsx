@@ -223,6 +223,14 @@ export const createUIStore = (root: IRootStore) => {
       },
     },
     {
+      icon: '🌑',
+      name: 'Power off Mac',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.executeAppleScript('tell application "Finder" to shut down')
+      },
+    },
+    {
       iconImage: Assets.Airdrop,
       name: 'AirDrop',
       type: ItemType.CONFIGURATION,
