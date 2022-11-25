@@ -604,6 +604,21 @@ export const createUIStore = (root: IRootStore) => {
       type: ItemType.CONFIGURATION,
       callback: () => {
         solNative.toggleDND()
+        solNative.showToast('✅ Toggled')
+      },
+    },
+    {
+      iconComponent: () => (
+        <FileIcon url="/Applications/Xcode.app" style={tw`w-4 h-4`} />
+      ),
+      name: 'Remove derived data folder',
+      type: ItemType.CONFIGURATION,
+      callback: async () => {
+        await solNative.executeBashScript(
+          'rm -rf ~/Library/Developer/Xcode/DerivedData',
+        )
+
+        solNative.showToast('✅ Cleared')
       },
     },
     ...buildSystemPreferencesItems(),
@@ -651,6 +666,14 @@ export const createUIStore = (root: IRootStore) => {
       callback: () => {
         Sentry.captureMessage('Hello sentry')
         // Sentry.nativeCrash()
+      },
+    })
+    ITEMS.push({
+      icon: '🍞',
+      name: 'Test toast',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.showToast('This is a Toast test... yummy! 🍞')
       },
     })
   }

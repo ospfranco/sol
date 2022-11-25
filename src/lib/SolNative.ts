@@ -58,6 +58,8 @@ class SolNative extends NativeEventEmitter {
   toggleDND: () => void
   securelyStore: (key: string, value: string) => Promise<void>
   securelyRetrieve: (key: string) => Promise<string | null>
+  executeBashScript: (script: string) => Promise<void>
+  showToast: (text: string) => Promise<void>
 
   // Constants
   accentColor: string
@@ -78,6 +80,7 @@ class SolNative extends NativeEventEmitter {
     this.getApps = module.getApps
     this.openFile = module.openFile
     this.toggleDarkMode = module.toggleDarkMode
+    this.executeBashScript = module.executeBashScript
     this.executeAppleScript = module.executeAppleScript
     this.openWithFinder = module.openWithFinder
     this.getMediaInfo = module.getMediaInfo
@@ -127,6 +130,8 @@ class SolNative extends NativeEventEmitter {
 
     this.securelyRetrieve = module.securelyRetrieve
     this.securelyStore = module.securelyStore
+
+    this.showToast = module.showToast
 
     const constants = module.getConstants()
 

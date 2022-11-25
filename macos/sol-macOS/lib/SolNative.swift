@@ -78,7 +78,12 @@ class SolNative: RCTEventEmitter {
     AppleScriptHelper.runAppleScript(source)
   }
 
-  @objc func getMediaInfo(_ resolve: @escaping  RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) {
+  @objc func executeBashScript(_ source: String, resolver: RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) {
+    let output = ShellHelper.sh(source)
+    resolver(output)
+  }
+
+  @objc func getMediaInfo(_ resolve: @escaping RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) {
 
     MediaHelper.getCurrentMedia(callback: { information in
       let pathUrl = NSWorkspace.shared.urlForApplication(withBundleIdentifier: information["bundleIdentifier"]! as! String)?.path
@@ -125,21 +130,21 @@ class SolNative: RCTEventEmitter {
     }
   }
 
-//  @objc func getCalendarAuthorizationStatus(
-//    _ resolve: @escaping  RCTPromiseResolveBlock,
-//    rejecter: RCTPromiseRejectBlock
-//  ) {
-//    resolve(CalendarHelper.sharedInstance.getCalendarAuthorizationStatus())
-//  }
-//
-//  @objc func requestCalendarAccess(
-//    _ resolve: @escaping RCTPromiseResolveBlock,
-//    rejecter: RCTPromiseRejectBlock
-//  ) {
-//    CalendarHelper.sharedInstance.requestCalendarAccess({
-//      resolve(nil)
-//    })
-//  }
+  //  @objc func getCalendarAuthorizationStatus(
+  //    _ resolve: @escaping  RCTPromiseResolveBlock,
+  //    rejecter: RCTPromiseRejectBlock
+  //  ) {
+  //    resolve(CalendarHelper.sharedInstance.getCalendarAuthorizationStatus())
+  //  }
+  //
+  //  @objc func requestCalendarAccess(
+  //    _ resolve: @escaping RCTPromiseResolveBlock,
+  //    rejecter: RCTPromiseRejectBlock
+  //  ) {
+  //    CalendarHelper.sharedInstance.requestCalendarAccess({
+  //      resolve(nil)
+  //    })
+  //  }
 
   @objc func getAccessibilityStatus(
     _ resolve: @escaping RCTPromiseResolveBlock,
@@ -253,7 +258,7 @@ class SolNative: RCTEventEmitter {
   }
 
   @objc func setShowWindowOn(_ on: String) {
-      self.appDelegate?.setShowWindowOn(on)
+    self.appDelegate?.setShowWindowOn(on)
   }
 
   @objc func setWindowManagement(_ v: Bool) {
@@ -273,5 +278,11 @@ class SolNative: RCTEventEmitter {
   @objc func securelyRetrieve(_ key: NSString, resolver resolve: RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) {
     let value = keychain[key as String]
     return resolve(value)
+  }
+
+  @objc func showToast(_ text: String) {
+    DispatchQueue.main.async {
+      self.appDelegate?.showToast(text)
+    }
   }
 }

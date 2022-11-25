@@ -25,24 +25,23 @@ RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(install) {
 }
 
 RCT_EXTERN_METHOD(supportedEvents)
-RCT_EXTERN_METHOD(getApps
-                  : (RCTPromiseResolveBlock)resolve rejecter
-                  : (RCTPromiseRejectBlock)reject)
+RCT_EXTERN_METHOD(getApps: (RCTPromiseResolveBlock)resolve
+                  rejecter : (RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(openFile : (NSString)path)
 RCT_EXTERN_METHOD(openWithFinder : (NSString)path)
 RCT_EXTERN_METHOD(toggleDarkMode)
 RCT_EXTERN_METHOD(executeAppleScript : (NSString)source)
-RCT_EXTERN_METHOD(getMediaInfo
-                  : (RCTPromiseResolveBlock)resolve rejecter
-                  : (RCTPromiseRejectBlock)reject)
+RCT_EXTERN_METHOD(executeBashScript : (NSString)source
+                  resolver: (RCTPromiseResolveBlock)resolve
+                  rejecter: (RCTPromiseRejectBlock)reject)
+RCT_EXTERN_METHOD(getMediaInfo: (RCTPromiseResolveBlock)resolve
+                  rejecter: (RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(setGlobalShortcut : (NSString)key)
 RCT_EXTERN_METHOD(setLaunchAtLogin : (BOOL)launchAtLogin)
-RCT_EXTERN_METHOD(getAccessibilityStatus
-                  : (RCTPromiseResolveBlock)resolve rejecter
-                  : (RCTPromiseRejectBlock)reject)
-RCT_EXTERN_METHOD(requestAccessibilityAccess
-                  : (RCTPromiseResolveBlock)resolve rejecter
-                  : (RCTPromiseRejectBlock)reject)
+RCT_EXTERN_METHOD(getAccessibilityStatus: (RCTPromiseResolveBlock)resolve
+                  rejecter: (RCTPromiseRejectBlock)reject)
+RCT_EXTERN_METHOD(requestAccessibilityAccess: (RCTPromiseResolveBlock)resolve
+                  rejecter: (RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(resizeFrontmostRightHalf)
 RCT_EXTERN_METHOD(resizeFrontmostLeftHalf)
 RCT_EXTERN_METHOD(resizeFrontmostTopHalf)
@@ -72,4 +71,5 @@ RCT_EXTERN_METHOD(setWindowManagement: (BOOL)v)
 RCT_EXTERN_METHOD(toggleDND)
 RCT_EXTERN_METHOD(securelyStore: (NSString)key payload:(NSString)payload resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(securelyRetrieve: (NSString)key resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+RCT_EXTERN_METHOD(showToast: (NSString)text)
 @end

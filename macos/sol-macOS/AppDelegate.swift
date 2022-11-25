@@ -3,6 +3,7 @@ import Cocoa
 import HotKey
 import EventKit
 import Sparkle
+import SwiftUI
 
 let baseSize = NSSize(width: 750, height: 500)
 let handledKeys: [UInt16] = [53, 123, 124, 126, 125, 36, 48]
@@ -15,6 +16,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   var visualEffect: NSVisualEffectView!
   var mainWindow: Panel!
   // var overlayWindow: Overlay!
+  var toastWindow: Toast!
   var rootView: RCTRootView!
   var catchHorizontalArrowsPress = false
   var catchVerticalArrowsPress = true
@@ -55,7 +57,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
       contentRect: NSRect(x: 0, y: 0, width: 750, height: 500),
       backing: .buffered, defer: false)
 
-    // Blurry background effect is created here to attach root view sub-view
     visualEffect = NSVisualEffectView()
     visualEffect.blendingMode = .behindWindow
     visualEffect.material = .hudWindow
@@ -72,6 +73,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     // overlayWindow.backgroundColor = .black
     // overlayWindow.alphaValue = 0.4
     // overlayWindow.ignoresMouseEvents = true
+
+    toastWindow = Toast(contentRect: NSRect(x: 0, y: 0, width: 200, height: 60), backing: .buffered, defer: false)
+
 
     setupKeyboardListeners()
     setupPasteboardListener()
@@ -169,6 +173,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
       return $0
     }
   }
+
+//  func getScreenWithFrontmost() -> NSScreen? {
+//    let frontmost = NSWorkspace.shared.frontmostApplication.frame
+//    let screens = NSScreen.screens
+//    screens.first {
+//
+//    }
+//  }
 
   func getScreenWithMouse() -> NSScreen? {
     let mouseLocation = NSEvent.mouseLocation
@@ -348,4 +360,25 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
       bottomRightScreenHotKey.isPaused = true
     }
   }
+
+  func showToast(_ text: String) {
+    toastWindow.center()
+    guard let mainScreen = self.showWindowOn == "screenWithFrontmost" ? toastWindow.screen : self.getScreenWithMouse() else {
+      return
+    }
+
+    toastWindow.setFrameOrigin(NSPoint(x: toastWindow.frame.origin.x, y: mainScreen.frame.origin.y + mainScreen.frame.size.height * 0.1))
+    toastWindow.makeKeyAndOrderFront(nil)
+
+    let toastView = ToastView(text: text)
+
+    let rootView = NSHostingView(rootView: toastView)
+
+    toastWindow.contentView = rootView
+
+    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+      self.toastWindow.orderOut(nil)
+    }
+  }
+
 }
