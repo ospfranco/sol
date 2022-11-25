@@ -211,6 +211,7 @@ GEM
 PLATFORMS
   arm64-darwin-20
   universal-darwin-21
+  universal-darwin-22
 
 DEPENDENCIES
   fastlane
