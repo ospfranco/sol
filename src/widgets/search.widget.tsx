@@ -168,7 +168,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
               : tw.color('text-neutral-400')
           }
           placeholder={'Type to search...'}
-          selectionColor={colorScheme === 'dark' ? 'white' : undefined}
+          selectionColor={colorScheme === 'dark' ? 'white' : 'black'}
         />
       </View>
 

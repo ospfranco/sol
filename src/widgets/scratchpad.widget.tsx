@@ -6,6 +6,7 @@ import {
   FlatList,
   TextInput,
   TextInputProps,
+  useColorScheme,
   View,
   ViewStyle,
 } from 'react-native'
@@ -41,6 +42,7 @@ export const ScratchpadWidget: FC<Props> = observer(({style}) => {
   const store = useStore()
   const selectedIndex = store.ui.selectedIndex
   const listRef = useRef<FlatList | null>(null)
+  const colorScheme = useColorScheme()
 
   useEffect(() => {
     solNative.turnOffVerticalArrowsListeners()
@@ -72,6 +74,7 @@ export const ScratchpadWidget: FC<Props> = observer(({style}) => {
           placeholder="Write something..."
           style={tw.style('flex-1 -mt-7 -mr-4')}
           multiline
+          selectionColor={colorScheme === 'dark' ? 'white' : 'black'}
         />
       </View>
       {/* <View
