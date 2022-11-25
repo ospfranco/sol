@@ -1,6 +1,7 @@
 import {GiphyFetch} from '@giphy/js-fetch-api'
 import * as Sentry from '@sentry/react-native'
 import {Assets, Icons} from 'assets'
+import Chance from 'chance'
 import {FileIcon} from 'components/FileIcon'
 import {FUSE_OPTIONS} from 'config'
 import {Parser} from 'expr-eval'
@@ -14,6 +15,7 @@ import {getWeather} from 'lib/weather'
 import {debounce} from 'lodash'
 import {DateTime} from 'luxon'
 import {autorun, makeAutoObservable, runInAction, toJS} from 'mobx'
+import {nanoid} from 'nanoid'
 import React from 'react'
 import {
   Alert,
@@ -31,6 +33,7 @@ import {IRootStore} from 'Store'
 import tw from 'tailwind'
 import {buildSystemPreferencesItems} from './systemPreferences'
 
+const chance = new Chance()
 const gf = new GiphyFetch('Ot4kWfqWddVroUVh73v4Apocs8Dek86j')
 
 let onShowListener: EmitterSubscription | undefined
@@ -627,6 +630,26 @@ export const createUIStore = (root: IRootStore) => {
         )
 
         solNative.showToast('✅ Cleared')
+      },
+    },
+    {
+      icon: '🍔',
+      name: 'Generate Unique ID (NanoID)',
+      type: ItemType.CONFIGURATION,
+      callback: async () => {
+        const id = nanoid()
+        solNative.pasteToFrontmostApp(id)
+        solNative.showToast('✅ Generated and pasted')
+      },
+    },
+    {
+      icon: '👴',
+      name: 'Generate Lorem Ipsum',
+      type: ItemType.CONFIGURATION,
+      callback: async () => {
+        const paragraph = chance.paragraph()
+        solNative.pasteToFrontmostApp(paragraph)
+        solNative.showToast('✅ Generated')
       },
     },
     ...buildSystemPreferencesItems(),
