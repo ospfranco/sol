@@ -48,6 +48,16 @@ export const CalendarWidget: FC<Props> = observer(() => {
     return null
   }
 
+  if (groupedEvents.every(day => day[1].events.length === 0)) {
+    return (
+      <View className="px-3 py-2 bg-neutral-100 dark:bg-black bg-opacity-50">
+        <Text className="text-neutral-400 dark:text-neutral-600">
+          No upcoming events
+        </Text>
+      </View>
+    )
+  }
+
   return (
     <View
       style={tw`px-3 py-2 flex-row bg-neutral-100 dark:bg-black bg-opacity-50`}>
@@ -75,9 +85,9 @@ export const CalendarWidget: FC<Props> = observer(() => {
                 showsVerticalScrollIndicator={false}>
                 {data.events.map((event, index) => {
                   const lDate = DateTime.fromISO(event.date)
-                  const lEndDate = event.endDate
-                    ? DateTime.fromISO(event.endDate)
-                    : null
+                  // const lEndDate = event.endDate
+                  //   ? DateTime.fromISO(event.endDate)
+                  //   : null
                   const storeIndex = store.ui.filteredEvents.findIndex(
                     e => e.id === event.id && e.date === event.date,
                   )

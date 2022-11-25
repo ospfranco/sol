@@ -8,5 +8,6 @@ module.exports = {
         extensions: ['.js', '.ts', '.tsx', '.ios.js', '.android.js'],
       },
     ],
+    "nativewind/babel"
   ],
 };

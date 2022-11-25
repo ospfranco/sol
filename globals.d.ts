@@ -1,3 +1,5 @@
+/// <reference types="nativewind/types" />
+
 interface INativeEvent {
   id: string
   title?: string
