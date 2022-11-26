@@ -9,6 +9,7 @@
 #import <iostream>
 #import <sol-Swift.h>
 #import "SentryHelper.h"
+#import "JSIUtils.h"
 
 namespace sol {
 
@@ -32,7 +33,7 @@ void install(jsi::Runtime &rt,
     int height = static_cast<int>(arguments[0].asNumber());
     dispatch_async(dispatch_get_main_queue(), ^{
       AppDelegate *appDelegate =
-          (AppDelegate *)[[NSApplication sharedApplication] delegate];
+      (AppDelegate *)[[NSApplication sharedApplication] delegate];
       [appDelegate setHeight:height];
     });
 
@@ -42,7 +43,7 @@ void install(jsi::Runtime &rt,
   auto resetWindowSize = HOSTFN("resetWindowSize", 0, []) {
     dispatch_async(dispatch_get_main_queue(), ^{
       AppDelegate *appDelegate =
-          (AppDelegate *)[[NSApplication sharedApplication] delegate];
+      (AppDelegate *)[[NSApplication sharedApplication] delegate];
       [appDelegate resetSize];
     });
 
@@ -52,7 +53,7 @@ void install(jsi::Runtime &rt,
   auto hideWindow = HOSTFN("hideWindow", 0, []) {
     dispatch_async(dispatch_get_main_queue(), ^{
       AppDelegate *appDelegate =
-          (AppDelegate *)[[NSApplication sharedApplication] delegate];
+      (AppDelegate *)[[NSApplication sharedApplication] delegate];
       [appDelegate hideWindow];
     });
 
@@ -144,7 +145,7 @@ void install(jsi::Runtime &rt,
   });
 
   auto getCalendarAuthorizationStatus =
-      HOSTFN("getCalendarAuthorizationStatus", 0, []) {
+  HOSTFN("getCalendarAuthorizationStatus", 0, []) {
     NSString *status = [calendarHelper getCalendarAuthorizationStatus];
     std::string statusStd = std::string([status UTF8String]);
     return jsi::String::createFromUtf8(rt, statusStd);
@@ -180,7 +181,7 @@ void install(jsi::Runtime &rt,
       // Convert the NSColor to the RGB color space before we can access its
       // components
       NSColor *convertedColor =
-          [color colorUsingColorSpace:[NSColorSpace genericRGBColorSpace]];
+      [color colorUsingColorSpace:[NSColorSpace genericRGBColorSpace]];
 
       if (convertedColor) {
         // Get the red, green, and blue components of the color
@@ -203,7 +204,7 @@ void install(jsi::Runtime &rt,
         // Concatenate the red, green, and blue components' hex strings together
         // with a "#"
         colorString = [NSString stringWithFormat:@"#%@%@%@", redHexValue,
-                                                 greenHexValue, blueHexValue];
+                       greenHexValue, blueHexValue];
       }
 
       jsi::Object event = jsi::Object(rt);
@@ -224,13 +225,13 @@ void install(jsi::Runtime &rt,
       event.setProperty(rt, "color", [colorString UTF8String]);
       if ([ekEvent startDate] != NULL) {
         event.setProperty(
-            rt, "date",
-            [[dateFormatter stringFromDate:[ekEvent startDate]] UTF8String]);
+                          rt, "date",
+                          [[dateFormatter stringFromDate:[ekEvent startDate]] UTF8String]);
       }
       if ([ekEvent endDate] != NULL) {
         event.setProperty(
-            rt, "endDate",
-            [[dateFormatter stringFromDate:[ekEvent endDate]] UTF8String]);
+                          rt, "endDate",
+                          [[dateFormatter stringFromDate:[ekEvent endDate]] UTF8String]);
       }
       event.setProperty(rt, "isAllDay",
                         jsi::Value(static_cast<bool>([ekEvent isAllDay])));
@@ -241,6 +242,29 @@ void install(jsi::Runtime &rt,
       events.setValueAtIndex(rt, i, event);
     }
     return events;
+  });
+
+  auto ls = HOSTFN("ls", 1, []) {
+    NSString *path = sol::jsiValueToNSString(rt, arguments[0]);
+    NSError *error;
+    NSArray *contents = [FS lsWithPath:path error:&error];
+
+    if(error) {
+      throw jsi::JSError(rt, sol::NSStringToJsiValue(rt, error.description));
+    }
+
+    auto res = jsi::Array(rt, contents.count);
+
+    for(int i = 0; i < contents.count; i++) {
+      res.setValueAtIndex(rt, i, sol::NSStringToJsiValue(rt, contents[i]));
+    }
+
+    return res;
+  });
+
+  auto userName = HOSTFN("userName", 0, []) {
+    NSString *userName = NSUserName();
+    return sol::NSStringToJsiValue(rt, userName);
   });
 
   jsi::Object module = jsi::Object(rt);
@@ -255,6 +279,8 @@ void install(jsi::Runtime &rt,
   module.setProperty(rt, "getCalendarAuthorizationStatus",
                      std::move(getCalendarAuthorizationStatus));
   module.setProperty(rt, "getEvents", std::move(getEvents));
+  module.setProperty(rt, "ls", std::move(ls));
+  module.setProperty(rt, "userName", std::move(userName));
 
   rt.global().setProperty(rt, "__SolProxy", std::move(module));
 }

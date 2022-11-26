@@ -3,7 +3,7 @@ import 'config'
 import {RootContainer} from 'containers'
 import 'intl'
 import 'intl/locale-data/jsonp/en'
-import React, {useEffect} from 'react'
+import React from 'react'
 import {root, StoreProvider} from 'store'
 
 // configure({

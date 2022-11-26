@@ -60,6 +60,8 @@ class SolNative extends NativeEventEmitter {
   securelyRetrieve: (key: string) => Promise<string | null>
   executeBashScript: (script: string) => Promise<void>
   showToast: (text: string) => Promise<void>
+  ls: typeof global.__SolProxy.ls
+  userName: typeof global.__SolProxy.userName
 
   // Constants
   accentColor: string
@@ -132,6 +134,9 @@ class SolNative extends NativeEventEmitter {
     this.securelyStore = module.securelyStore
 
     this.showToast = module.showToast
+
+    this.ls = global.__SolProxy.ls
+    this.userName = global.__SolProxy.userName
 
     const constants = module.getConstants()
 

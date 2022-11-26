@@ -37,6 +37,8 @@
 		70BED7CB27F4C1A600906E41 /* FileConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BED7CA27F4C1A600906E41 /* FileConstants.swift */; };
 		70BED7CD27F4C23D00906E41 /* FileManager.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BED7CC27F4C23D00906E41 /* FileManager.extension.swift */; };
 		70D1220228DA95C500179A1D /* Overlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D1220128DA95C500179A1D /* Overlay.swift */; };
+		70E15D082931FC57007FFE5F /* FS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E15D072931FC57007FFE5F /* FS.swift */; };
+		70E15D0A293290E9007FFE5F /* JSIUtils.mm in Sources */ = {isa = PBXBuildFile; fileRef = 70E15D09293290E9007FFE5F /* JSIUtils.mm */; };
 		70EA99EA2794967E008E54FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70EA99E92794967E008E54FD /* AppDelegate.swift */; };
 		70EFF77428D5F732009FE998 /* DoNotDisturb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70EFF77328D5F732009FE998 /* DoNotDisturb.swift */; };
 /* End PBXBuildFile section */
@@ -84,6 +86,9 @@
 		70BED7CA27F4C1A600906E41 /* FileConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileConstants.swift; sourceTree = "<group>"; };
 		70BED7CC27F4C23D00906E41 /* FileManager.extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.extension.swift; sourceTree = "<group>"; };
 		70D1220128DA95C500179A1D /* Overlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Overlay.swift; sourceTree = "<group>"; };
+		70E15D072931FC57007FFE5F /* FS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FS.swift; sourceTree = "<group>"; };
+		70E15D09293290E9007FFE5F /* JSIUtils.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = JSIUtils.mm; sourceTree = "<group>"; };
+		70E15D0B293290F7007FFE5F /* JSIUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSIUtils.h; sourceTree = "<group>"; };
 		70EA99E82794967E008E54FD /* sol-macOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "sol-macOS-Bridging-Header.h"; sourceTree = "<group>"; };
 		70EA99E92794967E008E54FD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		70EFF77328D5F732009FE998 /* DoNotDisturb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoNotDisturb.swift; sourceTree = "<group>"; };
@@ -199,6 +204,9 @@
 				703D78B62916924300F741F0 /* SentryHelper.m */,
 				703D78B82916933F00F741F0 /* SentryHelper.h */,
 				70B9275E2930A4F700F883A0 /* ShellHelper.swift */,
+				70E15D072931FC57007FFE5F /* FS.swift */,
+				70E15D09293290E9007FFE5F /* JSIUtils.mm */,
+				70E15D0B293290F7007FFE5F /* JSIUtils.h */,
 			);
 			path = lib;
 			sourceTree = "<group>";
@@ -288,7 +296,7 @@
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			packageReferences = (
-				70ADD54428B22C1300AAAFD7 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */,
+				70ADD54428B22C1300AAAFD7 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
 			);
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
@@ -451,6 +459,7 @@
 			files = (
 				7047E80627D4D31400582E1B /* MediaHelper.swift in Sources */,
 				70EA99EA2794967E008E54FD /* AppDelegate.swift in Sources */,
+				70E15D0A293290E9007FFE5F /* JSIUtils.mm in Sources */,
 				70B78361279BE866008660F5 /* Panel.swift in Sources */,
 				7034504028238AAB00240BDD /* ScreenDetector.swift in Sources */,
 				70B9275F2930A4F700F883A0 /* ShellHelper.swift in Sources */,
@@ -472,6 +481,7 @@
 				70EFF77428D5F732009FE998 /* DoNotDisturb.swift in Sources */,
 				70ADD54828B22DAB00AAAFD7 /* FileSearcher.swift in Sources */,
 				7042A22A2815C06B00874743 /* NSColor.extension.swift in Sources */,
+				70E15D082931FC57007FFE5F /* FS.swift in Sources */,
 				700DF99A28266F0B00C5FD0B /* ClipboardHelper.swift in Sources */,
 				700A18DA279DC17F0096C830 /* FileIcon.swift in Sources */,
 				70BED7CB27F4C1A600906E41 /* FileConstants.swift in Sources */,
@@ -705,7 +715,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		70ADD54428B22C1300AAAFD7 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */ = {
+		70ADD54428B22C1300AAAFD7 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "git@github.com:sindresorhus/LaunchAtLogin.git";
 			requirement = {
@@ -718,7 +728,7 @@
 /* Begin XCSwiftPackageProductDependency section */
 		70ADD54528B22C1300AAAFD7 /* LaunchAtLogin */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 70ADD54428B22C1300AAAFD7 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */;
+			package = 70ADD54428B22C1300AAAFD7 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */;
 			productName = LaunchAtLogin;
 		};
 /* End XCSwiftPackageProductDependency section */

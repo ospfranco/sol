@@ -39,6 +39,8 @@ declare var global: {
     requestCalendarAccess: () => Promise<void>
     getCalendarAuthorizationStatus: () => CalendarAuthorizationStatus
     getEvents: () => INativeEvent[]
+    ls: (path: string) => string[]
+    userName: () => string
   }
 }
 
