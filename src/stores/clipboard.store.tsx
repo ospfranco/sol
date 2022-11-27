@@ -24,7 +24,7 @@ export const createClipboardStore = (root: IRootStore) => {
         newItems.pop()
       }
 
-      newItems.unshift(obj.text)
+      newItems.unshift(obj.text.trim())
       store.items = newItems
     },
     get clipboardItems(): string[] {

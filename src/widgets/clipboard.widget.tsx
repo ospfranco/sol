@@ -1,18 +1,9 @@
-import {Assets} from 'assets'
 import {Key} from 'components/Key'
 import {useFullSize} from 'hooks/useFullSize'
 import {solNative} from 'lib/SolNative'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect, useRef} from 'react'
-import {
-  FlatList,
-  Image,
-  Text,
-  TextInput,
-  View,
-  ViewStyle,
-  useColorScheme,
-} from 'react-native'
+import {FlatList, Text, TextInput, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
@@ -24,7 +15,7 @@ interface Props {
 export const ClipboardWidget: FC<Props> = observer(({style}) => {
   useDeviceContext(tw)
   useFullSize()
-  const scheme = useColorScheme()
+
   const store = useStore()
   const data = store.clipboard.clipboardItems
   const selectedIndex = store.ui.selectedIndex
