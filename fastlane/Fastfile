@@ -31,10 +31,10 @@ platform :mac do
       use_notarytool: false
     )
 
-    zip(
-      path: appFileName,
-      output_path: zipFileName
-    )
+    # zip(
+    #   path: appFileName,
+    #   output_path: zipFileName
+    # )
 
     sh("yarn", "appcast")
 
