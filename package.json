@@ -11,7 +11,8 @@
     "permissions:reset": "tccutil reset Calendar com.ospfranco.sol && tccutil reset Accessibility com.ospfranco.sol",
     "dev": "bundle exec fastlane dev && rimraf ./releases/Sol.app && open /Applications/Sol.app",
     "release": "bundle exec fastlane release",
-    "appcast": "./macos/Pods/Sparkle/bin/generate_appcast ./releases"
+    "appcast": "./macos/Pods/Sparkle/bin/generate_appcast ./releases",
+    "pods": "npx pod-install macos"
   },
   "dependencies": {
     "@giphy/js-fetch-api": "^4.1.2",
