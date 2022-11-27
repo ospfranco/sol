@@ -1,11 +1,6 @@
 import {LogBox} from 'react-native'
 
-LogBox.ignoreLogs([
-  'AsyncStorage ',
-  'Clipboard ',
-  'Component',
-  'Require cycle:',
-])
+LogBox.ignoreLogs(['Clipboard ', 'Component', 'Require cycle:'])
 
 export const FUSE_OPTIONS = {
   threshold: 0.2,

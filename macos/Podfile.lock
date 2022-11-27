@@ -292,6 +292,8 @@ PODS:
     - React-jsi (= 0.68.57)
     - React-logger (= 0.68.57)
     - React-perflogger (= 0.68.57)
+  - RNCAsyncStorage (1.17.11):
+    - React-Core
   - RNCPicker (2.4.0):
     - React-Core
   - RNSentry (4.8.0):
@@ -341,6 +343,7 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native-macos/Libraries/Vibration`)
   - React-runtimeexecutor (from `../node_modules/react-native-macos/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native-macos/ReactCommon`)
+  - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
   - "RNSentry (from `../node_modules/@sentry/react-native`)"
   - Sparkle
@@ -420,6 +423,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-macos/ReactCommon/runtimeexecutor"
   ReactCommon:
     :path: "../node_modules/react-native-macos/ReactCommon"
+  RNCAsyncStorage:
+    :path: "../node_modules/@react-native-async-storage/async-storage"
   RNCPicker:
     :path: "../node_modules/@react-native-picker/picker"
   RNSentry:
@@ -464,6 +469,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: 17066859eed43e7785cebe26e9baf6ca9c41cd52
   React-runtimeexecutor: e3748a580147ae0420f137db733c999d69dfe70b
   ReactCommon: ddaf7c25e808abec914d313f7b4ec094e6486a38
+  RNCAsyncStorage: 8616bd5a58af409453ea4e1b246521bb76578d60
   RNCPicker: 6d5d64e7b90c240c779ee0938ec433c11e2dd758
   RNSentry: db7fd7b66efda28885e4e904a8b5e7349aec61c1
   Sentry: 4272663eb0eda312024d795ca3f5a562a8ce5e18

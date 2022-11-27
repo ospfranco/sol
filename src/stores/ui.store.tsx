@@ -1,4 +1,5 @@
 import {GiphyFetch} from '@giphy/js-fetch-api'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as Sentry from '@sentry/react-native'
 import {Assets, Icons} from 'assets'
 import Chance from 'chance'
@@ -20,7 +21,6 @@ import React from 'react'
 import {
   Alert,
   Appearance,
-  AsyncStorage,
   DevSettings,
   EmitterSubscription,
   Image,

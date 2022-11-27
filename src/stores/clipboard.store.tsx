@@ -1,8 +1,9 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import {FUSE_OPTIONS} from 'config'
 import Fuse from 'fuse.js'
 import {solNative} from 'lib/SolNative'
 import {autorun, makeAutoObservable, runInAction, toJS} from 'mobx'
-import {AsyncStorage, EmitterSubscription} from 'react-native'
+import {EmitterSubscription} from 'react-native'
 import {IRootStore} from 'store'
 import {Widget} from './ui.store'
 
