@@ -27,8 +27,8 @@ platform :mac do
     notarize(
       package: appFileName,
       bundle_id: "com.ospfranco.sol",
-      asc_provider: "24CMR7378R",
-      use_notarytool: false
+      asc_provider: "24CMR7378R"
+      # use_notarytool: false
     )
 
     # zip(
