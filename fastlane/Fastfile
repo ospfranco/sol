@@ -11,15 +11,17 @@ platform :mac do
 
     version = get_version_number(xcodeproj: "./macos/sol.xcodeproj")
 
-    outputPath = "/Users/osp/Developer/sol/releases/"
-    appFileName = outputPath + "Sol.app"
-    zipFileName = outputPath + version + ".zip"
+    path = "/Users/osp/Developer/sol/releases/"
+    appFileName = path + "Sol.app"
+    zipFileName = path + version + ".zip"
     
     gym(
       scheme: "macOS",
+      configuration: "Release",
+      clean: true,
       workspace: "./macos/sol.xcworkspace",
-      output_directory: outputPath,
-      export_method: "developer-id"
+      output_directory: path,
+      export_method: "mac-application"
     )
 
     notarize(
@@ -44,13 +46,12 @@ platform :mac do
   end
 
   lane :dev do
-    outputPath = "/Applications/"
-    appFileName = appFileName
+    path = "/Applications/"
 
     gym(
       scheme: "macOS",
       workspace: "./macos/sol.xcworkspace",
-      output_directory: outputPath,
+      output_directory: path,
       export_method: "development",
       silent: true
     )
