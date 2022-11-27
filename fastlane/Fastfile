@@ -28,7 +28,7 @@ platform :mac do
       package: appFileName,
       bundle_id: "com.ospfranco.sol",
       asc_provider: "24CMR7378R",
-      verbose: true
+      use_notarytool: false
     )
 
     zip(
