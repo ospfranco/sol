@@ -14,6 +14,10 @@ export const createClipboardStore = (root: IRootStore) => {
     items: [] as string[],
     saveHistory: false,
     onTextPasted: (obj: {text: string}) => {
+      if (!obj.text) {
+        return
+      }
+
       const newItems = store.items.filter(t => t !== obj.text)
 
       if (newItems.length >= 100) {
@@ -31,6 +35,7 @@ export const createClipboardStore = (root: IRootStore) => {
       let results = new Fuse(root.clipboard.items, FUSE_OPTIONS)
         .search(root.ui.query)
         .map(r => r.item)
+
       return results
     },
     unshift: (index: number) => {
