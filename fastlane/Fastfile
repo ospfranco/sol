@@ -30,18 +30,17 @@ platform :mac do
       asc_provider: "24CMR7378R"
     )
 
-    sh("zip", "-r", zipFileName, appFileName)
-
-    # zip(
-    #   path: appFileName,
-    #   output_path: zipFileName
-    # )
+    zip(
+      path: appFileName,
+      output_path: zipFileName,
+      symlinks: true
+    )
 
     sh("yarn", "appcast")
 
-    # sh("git", "add", "..")
-    # sh("git", "commit", "-m", '"' + version + '"')
-    # sh("git", "push")
+    sh("git", "add", "..")
+    sh("git", "commit", "-m", '"' + version + '"')
+    sh("git", "push")
 
     sh("pingme")
   end
