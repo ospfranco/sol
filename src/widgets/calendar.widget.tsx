@@ -29,18 +29,16 @@ export const CalendarWidget: FC<Props> = observer(() => {
 
   if (store.ui.calendarAuthorizationStatus === 'notDetermined') {
     return (
-      <View style={tw`pt-1 px-3`}>
-        <TouchableOpacity
-          onPress={() => {
-            solNative.requestCalendarAccess().then(() => {
-              store.ui.getCalendarAccess()
-            })
-          }}>
-          <Text style={tw`text-accent text-xs`}>
-            Click to grant calendar access
-          </Text>
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity
+        onPress={() => {
+          solNative.requestCalendarAccess().then(() => {
+            store.ui.getCalendarAccess()
+          })
+        }}>
+        <View className="py-2 px-3">
+          <Text style={tw`text-xs`}>Click to grant calendar access</Text>
+        </View>
+      </TouchableOpacity>
     )
   }
 

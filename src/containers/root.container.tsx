@@ -121,7 +121,7 @@ export const RootContainer = observer(() => {
         <>
           <View
             style={tw.style(
-              `w-full border-lightBorder dark:border-darkBorder border-t mb-1`,
+              `w-full border-lightBorder dark:border-darkBorder border-t`,
             )}
           />
           <TouchableOpacity
@@ -129,7 +129,7 @@ export const RootContainer = observer(() => {
               solNative.requestAccessibilityAccess()
               solNative.hideWindow()
             }}>
-            <Text style={tw`text-accent text-xs px-3 pb-2`}>
+            <Text style={tw`text-xs px-3 py-2`}>
               Click to grant accessibility access
             </Text>
           </TouchableOpacity>
