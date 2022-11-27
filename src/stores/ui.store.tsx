@@ -31,7 +31,7 @@ import {
 } from 'react-native'
 import {IRootStore} from 'Store'
 import tw from 'tailwind'
-import {buildSystemPreferencesItems} from './systemPreferences'
+import {systemPreferenceItems} from './systemPreferences'
 
 const chance = new Chance()
 const gf = new GiphyFetch('Ot4kWfqWddVroUVh73v4Apocs8Dek86j')
@@ -652,7 +652,7 @@ export const createUIStore = (root: IRootStore) => {
         solNative.showToast('✅ Generated')
       },
     },
-    ...buildSystemPreferencesItems(),
+    ...systemPreferenceItems,
   ]
 
   if (Platform.OS === 'windows') {

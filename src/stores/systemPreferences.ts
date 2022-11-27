@@ -35,11 +35,9 @@ const panes = [...systemPanes, ...globalPanes, ...userPanes]
 
 export function buildSystemPreferenceItem({
   preferenceId,
-  icon,
   name,
 }: {
   preferenceId: string
-  icon?: string
   name?: string
   venturaPath?: string
 }): Item {
@@ -67,6 +65,4 @@ function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
-export function buildSystemPreferencesItems() {
-  return panes.map(buildSystemPreferenceItem)
-}
+export const systemPreferenceItems = panes.map(buildSystemPreferenceItem)
