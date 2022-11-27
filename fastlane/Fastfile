@@ -21,7 +21,7 @@ platform :mac do
       clean: true,
       workspace: "./macos/sol.xcworkspace",
       output_directory: path,
-      export_method: "mac-application"
+      export_method: "developer-id"
     )
 
     notarize(
