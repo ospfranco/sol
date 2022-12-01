@@ -1,16 +1,7 @@
-import {FileIcon} from 'components/FileIcon'
 import {solNative} from 'lib/SolNative'
-import {DateTime} from 'luxon'
 import {observer} from 'mobx-react-lite'
 import React, {useEffect} from 'react'
-import {
-  Linking,
-  Pressable,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native'
+import {Text, TouchableOpacity, View} from 'react-native'
 import {useStore} from 'store'
 import {Widget} from 'stores/ui.store'
 import tw from 'tailwind'
@@ -110,9 +101,7 @@ export const RootContainer = observer(() => {
 
       {!!store.ui.items.length &&
         !!Object.entries(store.ui.groupedEvents).length && (
-          <View
-            style={tw`border-t border-lightBorder dark:border-darkBorder`}
-          />
+          <View className="border-t border-lightBorder dark:border-darkBorder" />
         )}
 
       {calendarVisible && <CalendarWidget />}
@@ -129,7 +118,7 @@ export const RootContainer = observer(() => {
               solNative.requestAccessibilityAccess()
               solNative.hideWindow()
             }}>
-            <Text style={tw`text-xs px-3 py-2`}>
+            <Text className="text-xs px-3 py-2">
               Click to grant accessibility access
             </Text>
           </TouchableOpacity>

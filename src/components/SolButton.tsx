@@ -22,7 +22,7 @@ export const SolButton: FC<Props> = ({title, ...props}) => {
         },
       )}
       {...props}>
-      <Text style={tw`font-medium text-sm text-white`}>{title}</Text>
+      <Text className="font-medium text-sm text-white">{title}</Text>
     </TouchableOpacity>
   )
 }

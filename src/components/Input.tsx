@@ -43,7 +43,8 @@ export const Input: FC<Props> = ({
         ref={inputRef}
         onFocus={focusOn}
         onBlur={focusOff}
-        style={[tw`text-sm`, inputStyle]}
+        className="text-sm"
+        style={inputStyle}
         autoFocus={autoFocus}
         placeholderTextColor={tw.color('text-gray-400')}
         {...props}

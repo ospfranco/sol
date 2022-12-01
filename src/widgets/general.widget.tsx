@@ -53,10 +53,8 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
   const store = useStore()
   return (
     <View
-      style={tw.style(
-        `flex-row items-center border-t border-lightBorder dark:border-darkBorder p-2 bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30`,
-        style,
-      )}>
+      className="flex-row items-center border-t border-lightBorder dark:border-darkBorder px-2 py-1 bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30"
+      style={style}>
       <SolIcon />
 
       {!!store.ui.track?.title && (
@@ -129,12 +127,12 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
         <View />
       )}
 
-      <View style={tw`flex-1`} />
+      <View className="flex-1" />
       {store.ui.focusedWidget !== Widget.CALENDAR &&
         !store.ui.query &&
         !!store.ui.filteredEvents.length && (
           <>
-            <Text style={tw`text-xs dark:text-white mr-1`}>Appointments</Text>
+            <Text className="text-xs dark:text-white mr-1">Appointments</Text>
             <Key title="tab" brRounded />
           </>
         )}
@@ -142,20 +140,20 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
         !!store.ui.query &&
         store.ui.currentItem?.type === ItemType.CUSTOM && (
           <>
-            <Text style={tw`text-xs dark:text-white mr-1`}>Delete</Text>
+            <Text className="text-xs dark:text-white mr-1">Delete</Text>
             <Key title="⇧ ⌦" />
           </>
         )}
 
       {store.ui.focusedWidget === Widget.SEARCH && !!store.ui.query && (
         <>
-          <Text style={tw`text-xs dark:text-white mx-1`}>Open</Text>
+          <Text className="text-xs dark:text-white mx-1">Open</Text>
           <Key title="⏎" primary brRounded />
         </>
       )}
       {store.ui.focusedWidget === Widget.CALENDAR && (
         <>
-          <Text style={tw`text-xs dark:text-white mr-1`}>
+          <Text className="text-xs dark:text-white mr-1">
             {store.ui.currentItem?.url ? 'Join' : 'Open  '}
           </Text>
           <Key title="⏎" primary brRounded />
