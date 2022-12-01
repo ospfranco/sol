@@ -3,6 +3,7 @@ import {FileIcon} from 'components/FileIcon'
 import {Key} from 'components/Key'
 import {useBoolean} from 'hooks'
 import {observer} from 'mobx-react-lite'
+import {styled} from 'nativewind'
 import React, {FC} from 'react'
 import {
   Image,
@@ -20,6 +21,8 @@ interface Props {
   style?: ViewStyle
 }
 
+const StyledFileIcon = styled(FileIcon)
+
 const SolIcon = () => {
   const store = useStore()
   const colorScheme = useColorScheme()
@@ -31,19 +34,20 @@ const SolIcon = () => {
       onMouseEnter={hoverOn}
       onMouseLeave={hoverOff}
       style={tw.style({
-        'bg-accent bg-opacity-30 rounded rounded-bl-corner': isHovered,
+        'dark:bg-proGray-900 dark:border-neutral-300 rounded': isHovered,
       })}
       onPress={() => {
         store.ui.focusWidget(Widget.SETTINGS)
       }}>
       <Image
         source={Assets.SolWhiteSmall}
-        style={tw.style('h-6 w-6 mx-1', {
+        className="h-6 w-6 mx-1"
+        style={{
           tintColor:
             colorScheme === 'dark'
               ? tw.color('text-gray-300')!
               : tw.color('text-gray-700')!,
-        })}
+        }}
       />
     </TouchableOpacity>
   )
@@ -52,38 +56,34 @@ const SolIcon = () => {
 export const GeneralWidget: FC<Props> = observer(({style}) => {
   const store = useStore()
   return (
-    <View
-      className="flex-row items-center border-t border-lightBorder dark:border-darkBorder px-2 py-1 bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30"
-      style={style}>
+    <View className="flex-row items-center border-t border-lightBorder dark:border-darkBorder pl-2 pr-2 py-1 bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30">
       <SolIcon />
 
       {!!store.ui.track?.title && (
-        <View
-          style={tw`border-r border-lightBorder dark:border-darkBorder h-4 ml-2 mr-3`}
-        />
+        <View className="border-r border-lightBorder dark:border-darkBorder h-4 ml-2 mr-3" />
       )}
 
       {!!store.ui.track?.title && (
-        <View style={tw`flex-row items-center`}>
+        <View className="flex-row items-center">
           {!!store.ui.track?.artwork ? (
             <Image
               source={{uri: store.ui.track?.artwork}}
-              style={tw`h-6 w-6 rounded-lg`}
+              className="h-6 w-6 rounded-lg"
             />
           ) : (
-            <FileIcon
+            <StyledFileIcon
               url={store.ui.track?.url!}
-              style={tw`h-6 w-6 rounded-lg`}
+              className="h-6 w-6 rounded-lg"
             />
           )}
 
-          <View style={tw`pl-2 flex-row items-center`}>
-            <Text style={tw`text-sm max-w-52`} numberOfLines={1}>
+          <View className="pl-2 flex-row items-center">
+            <Text className="text-sm max-w-52" numberOfLines={1}>
               {store.ui.track?.title}
             </Text>
             {!!store.ui.track?.artist && (
               <Text
-                style={tw`dark:text-gray-400 text-gray-400 text-sm ml-1`}
+                className="dark:text-gray-400 text-gray-400 text-sm ml-1"
                 numberOfLines={1}>
                 {store.ui.track?.artist}
               </Text>
@@ -93,15 +93,13 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
       )}
 
       {!!store.ui.track?.title && !!store.ui.currentTemp && (
-        <View
-          style={tw`border-l border-lightBorder dark:border-darkBorder h-full mx-4`}
-        />
+        <View className="border-l border-lightBorder dark:border-darkBorder h-full mx-4" />
       )}
 
       {!!store.ui.currentTemp && (
         <View>
-          <Text style={tw`text-sm`}>{store.ui.currentTemp}°</Text>
-          <Text style={tw`text-sm dark:text-gray-400 text-gray-500 capitalize`}>
+          <Text className="text-sm">{store.ui.currentTemp}°</Text>
+          <Text className="text-sm dark:text-gray-400 text-gray-500 capitalize">
             {store.ui.nextHourForecast}
           </Text>
         </View>
@@ -132,7 +130,7 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
         !store.ui.query &&
         !!store.ui.filteredEvents.length && (
           <>
-            <Text className="text-xs dark:text-white mr-1">Appointments</Text>
+            <Text className="text-xxs mr-1">Appointments</Text>
             <Key title="tab" brRounded />
           </>
         )}
@@ -140,20 +138,20 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
         !!store.ui.query &&
         store.ui.currentItem?.type === ItemType.CUSTOM && (
           <>
-            <Text className="text-xs dark:text-white mr-1">Delete</Text>
+            <Text className="text-xxs dark:text-white mr-1">Delete</Text>
             <Key title="⇧ ⌦" />
           </>
         )}
 
       {store.ui.focusedWidget === Widget.SEARCH && !!store.ui.query && (
         <>
-          <Text className="text-xs dark:text-white mx-1">Open</Text>
+          <Text className="text-xxs dark:text-white mx-1">Open</Text>
           <Key title="⏎" primary brRounded />
         </>
       )}
       {store.ui.focusedWidget === Widget.CALENDAR && (
         <>
-          <Text className="text-xs dark:text-white mr-1">
+          <Text className="text-xxs dark:text-white mr-1">
             {store.ui.currentItem?.url ? 'Join' : 'Open  '}
           </Text>
           <Key title="⏎" primary brRounded />

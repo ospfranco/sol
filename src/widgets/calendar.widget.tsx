@@ -49,7 +49,7 @@ export const CalendarWidget: FC<Props> = observer(() => {
   if (groupedEvents.every(day => day[1].events.length === 0)) {
     return (
       <View className="px-3 py-2 bg-neutral-100 dark:bg-black bg-opacity-50">
-        <Text className="text-neutral-400 dark:text-neutral-600">
+        <Text className="text-xs text-neutral-400 dark:text-neutral-600">
           No upcoming events
         </Text>
       </View>
@@ -58,28 +58,24 @@ export const CalendarWidget: FC<Props> = observer(() => {
 
   return (
     <View
-      style={tw`px-3 py-2 flex-row bg-neutral-100 dark:bg-black bg-opacity-50`}>
+      style={tw`px-2 py-2 flex-row bg-neutral-100 dark:bg-black bg-opacity-50`}>
       {groupedEvents.map(([key, data], i) => {
         return (
           <View key={key} style={tw`flex-row flex-1`}>
             <View style={tw`flex-1`}>
-              <View style={tw.style(`flex-row`)}>
+              <View className="flex-row">
                 {key === 'today' || key === 'tomorrow' ? (
-                  <Text
-                    style={tw`uppercase dark:text-neutral-600 text-neutral-400 text-xxs`}>
+                  <Text className="capitalize text-neutral-400 dark:text-neutral-600 text-xxs ml-1">
                     {key}
                   </Text>
                 ) : (
-                  <Text
-                    style={tw.style(
-                      `uppercase dark:text-neutral-600 text-neutral-400 text-xxs`,
-                    )}>
-                    {`${data.date.toFormat('cccc')}`}
+                  <Text className="capitalize text-neutral-400 dark:text-neutral-600 text-xxs ml-1">
+                    {data.date.toFormat('cccc')}
                   </Text>
                 )}
               </View>
               <ScrollView
-                style={tw`mt-1 max-h-49`}
+                className="max-h-49"
                 showsVerticalScrollIndicator={false}>
                 {data.events.map((event, index) => {
                   const lDate = DateTime.fromISO(event.date)
@@ -96,7 +92,7 @@ export const CalendarWidget: FC<Props> = observer(() => {
                     <View
                       key={index}
                       style={tw.style(
-                        `flex-row items-center my-1 px-1 border border-transparent rounded`,
+                        `flex-row items-center mt-1 py-1 px-1 border border-transparent rounded`,
                         {
                           'bg-gray-200 dark:bg-proGray-900 border-gray-300 dark:border-neutral-700':
                             highlighted,

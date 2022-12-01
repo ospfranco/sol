@@ -30,7 +30,7 @@
     "mobx": "^6.3.12",
     "mobx-react-lite": "3.4.0",
     "nanoid": "^4.0.0",
-    "nativewind": "^2.0.11",
+    "nativewind": "2.0.11",
     "react": "17.0.2",
     "react-native": "0.68.3",
     "react-native-get-random-values": "^1.8.0",
@@ -57,7 +57,7 @@
     "metro-react-native-babel-preset": "^0.67.0",
     "react-test-renderer": "17.0.2",
     "rimraf": "^3.0.2",
-    "tailwindcss": "^3.2.4"
+    "tailwindcss": "3.2.4"
   },
   "jest": {
     "preset": "react-native"
