@@ -75,7 +75,7 @@ export const CalendarWidget: FC<Props> = observer(() => {
                 )}
               </View>
               <ScrollView
-                className="max-h-49"
+                className="max-h-49 mt-1"
                 showsVerticalScrollIndicator={false}>
                 {data.events.map((event, index) => {
                   const lDate = DateTime.fromISO(event.date)
@@ -92,16 +92,16 @@ export const CalendarWidget: FC<Props> = observer(() => {
                     <View
                       key={index}
                       style={tw.style(
-                        `flex-row items-center mt-1 py-1 px-1 border border-transparent rounded`,
+                        `flex-row items-center py-1 px-1 border border-transparent rounded`,
                         {
-                          'bg-gray-200 dark:bg-proGray-900 border-gray-300 dark:border-neutral-700':
+                          'bg-gray-200 dark:bg-proGray-900 border-neutral-300 dark:border-neutral-600':
                             highlighted,
                           'p-0.5': event.isAllDay,
                           // borderColor: event.color,
                         },
                       )}>
                       <View
-                        style={tw.style(`h-1 w-1 rounded-full`, {
+                        style={tw.style(`h-1.5 w-1.5 rounded-full`, {
                           backgroundColor: event.color,
                         })}
                       />
