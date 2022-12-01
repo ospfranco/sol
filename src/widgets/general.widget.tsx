@@ -134,6 +134,16 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
             <Key title="tab" brRounded />
           </>
         )}
+      {!!store.ui.upcomingEvent &&
+        store.ui.focusedWidget === Widget.SEARCH &&
+        !store.ui.query && (
+          <>
+            <Text className="text-xxs dark:text-white ml-3 mr-1">
+              Join "{store.ui.upcomingEvent.title}"
+            </Text>
+            <Key title="return" primary />
+          </>
+        )}
       {store.ui.focusedWidget === Widget.SEARCH &&
         !!store.ui.query &&
         store.ui.currentItem?.type === ItemType.CUSTOM && (

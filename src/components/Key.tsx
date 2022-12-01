@@ -17,16 +17,15 @@ export const Key: FC<IProps> = ({title, primary = false, style}) => {
         {
           'dark:bg-proGray-900 bg-neutral-200 dark:border-neutral-700 border-neutral-300':
             !primary,
-          'bg-accent border-transparent': primary,
+          'bg-accent border-transparent bg-opacity-70': primary,
         },
         style,
       )}>
       <Text
+        className="text-xxs text-center"
         style={tw.style({
           'dark:text-neutral-300 text-neutral-600': !primary,
           'text-white': primary,
-          fontSize: 10,
-          textAlign: 'center',
         })}>
         {title.trim()}
       </Text>

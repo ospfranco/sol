@@ -87,6 +87,9 @@ export const CalendarWidget: FC<Props> = observer(() => {
                   )
                   const highlighted =
                     focused && store.ui.selectedIndex === storeIndex
+                  const isNow =
+                    !!store.ui.upcomingEvent &&
+                    store.ui.upcomingEvent.id === event.id
 
                   return (
                     <View
@@ -97,19 +100,18 @@ export const CalendarWidget: FC<Props> = observer(() => {
                           'bg-gray-200 dark:bg-proGray-900 border-neutral-300 dark:border-neutral-600':
                             highlighted,
                           'p-0.5': event.isAllDay,
-                          // borderColor: event.color,
                         },
                       )}>
-                      <View
-                        style={tw.style(`h-1.5 w-1.5 rounded-full`, {
+                      {/* <View
+                        className="h-1.5 w-1.5 rounded-full"
+                        style={tw.style({
                           backgroundColor: event.color,
                         })}
-                      />
+                      /> */}
                       {!event.isAllDay && (
                         <Text
-                          style={tw.style(
-                            `text-neutral-500 dark:text-neutral-400 text-xs ml-1`,
-                          )}>
+                          className="text-xs"
+                          style={{color: `${event.color}BB`}}>
                           {lDate.toFormat('HH:mm')}
                         </Text>
                       )}
@@ -117,6 +119,7 @@ export const CalendarWidget: FC<Props> = observer(() => {
                         numberOfLines={1}
                         style={tw.style(`text-xs ml-1`, {
                           'line-through': event.declined,
+                          'font-bold': isNow,
                         })}>
                         {event.title}
                       </Text>

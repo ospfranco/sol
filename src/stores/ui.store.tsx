@@ -939,6 +939,11 @@ export const createUIStore = (root: IRootStore) => {
         }
       })
     },
+    get upcomingEvent(): INativeEvent | undefined {
+      return store.filteredEvents.find(e => {
+        return DateTime.fromISO(e.date).diffNow('minutes').minutes < 10
+      })
+    },
     get groupedEvents(): Record<
       string,
       {date: DateTime; events: Array<INativeEvent>}

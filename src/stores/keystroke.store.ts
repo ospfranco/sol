@@ -183,6 +183,24 @@ export const createKeystrokeStore = (root: IRootStore) => {
             }
 
             case Widget.SEARCH: {
+              if (!root.ui.query && !!root.ui.upcomingEvent) {
+                let eventLink: string | null | undefined =
+                  root.ui.upcomingEvent.url
+
+                if (!eventLink) {
+                  eventLink = extractMeetingLink(
+                    root.ui.upcomingEvent.notes,
+                    root.ui.upcomingEvent.location,
+                  )
+                }
+
+                if (eventLink) {
+                  Linking.openURL(eventLink)
+                } else {
+                  Linking.openURL('ical://')
+                }
+              }
+
               if (root.ui.temporaryResult && root.ui.selectedIndex === 0) {
                 Clipboard.setString(root.ui.temporaryResult)
                 solNative.hideWindow()
