@@ -1,10 +1,9 @@
+import {LoadingBar} from 'components/LoadingBar'
 import {useFullSize} from 'hooks/useFullSize'
 import {languages} from 'lib/languages'
 import {observer} from 'mobx-react-lite'
-import React, {FC, useEffect, useRef} from 'react'
+import React, {FC} from 'react'
 import {
-  ActivityIndicator,
-  Animated,
   Appearance,
   StyleProp,
   Text,
@@ -25,17 +24,6 @@ export const TranslationWidget: FC<Props> = observer(({style}) => {
   useFullSize()
   const store = useStore()
   const colorScheme = Appearance.getColorScheme()
-  const animatedBorderRef = useRef(
-    new Animated.Value(store.ui.isLoading ? 1 : 0),
-  )
-
-  useEffect(() => {
-    Animated.timing(animatedBorderRef.current, {
-      toValue: store.ui.isLoading ? 1 : 0,
-      duration: 500,
-      useNativeDriver: false,
-    }).start()
-  }, [store.ui.isLoading])
 
   return (
     <View
@@ -44,60 +32,79 @@ export const TranslationWidget: FC<Props> = observer(({style}) => {
         //@ts-ignore
         style,
       )}>
-      <View style={tw`pt-3 px-3 pb-1 flex-row`}>
+      <View className="h-12 mt-1 mx-3 flex-row items-center">
         <TextInput
           autoFocus
-          // @ts-ignore
+          // @ts-expect-error
           enableFocusRing={false}
-          placeholder={`Type something...`}
           value={store.ui.query}
           onChangeText={store.ui.setQuery}
-          style={tw`flex-1`}
-          placeholderTextColor={tw.color('text-gray-500')}
+          style={tw.style(`flex-1 text-lg`)}
+          placeholderTextColor={
+            colorScheme === 'dark'
+              ? tw.color('text-neutral-700')
+              : tw.color('text-neutral-400')
+          }
+          placeholder={'Enter translation query...'}
+          selectionColor={colorScheme === 'dark' ? 'white' : 'black'}
         />
-        {store.ui.isLoading && (
-          <ActivityIndicator size="small" style={tw`w-2 h-2`} />
-        )}
       </View>
 
-      {!!store.ui.translationResults && (
-        <View style={tw`flex-1 p-3`}>
-          <View style={tw`flex-1`}>
+      <LoadingBar />
+      {!store.ui.translationResults.length && (
+        <View className="flex-1 p-3 items-center justify-center">
+          <Text className="text-xs text-neutral-500">Translating...</Text>
+        </View>
+      )}
+
+      {!!store.ui.translationResults.length && (
+        <View className="flex-1 p-3 flex-row">
+          <View
+            style={tw.style('flex-1 p-3 rounded border border-transparent', {
+              'bg-gray-200 dark:bg-proGray-900 border-gray-300 dark:border-neutral-700':
+                store.ui.selectedIndex === 0,
+            })}>
+            <Text className="text-3xl">
+              {/* @ts-ignore */}
+              {languages[store.ui.firstTranslationLanguage]?.flag ??
+                store.ui.firstTranslationLanguage}
+            </Text>
+            <Text className="flex-1 pt-2 text-base">
+              {store.ui.translationResults[0]}
+            </Text>
+          </View>
+
+          <View
+            style={tw.style('flex-1 p-3 rounded border border-transparent', {
+              'bg-gray-200 dark:bg-proGray-900 border-gray-300 dark:border-neutral-700':
+                store.ui.selectedIndex === 1,
+            })}>
+            <Text style={tw`text-3xl`}>
+              {/* @ts-ignore */}
+              {languages[store.ui.secondTranslationLanguage]?.flag ??
+                store.ui.secondTranslationLanguage}
+            </Text>
+            <Text className="flex-1 pt-2 text-base">
+              {store.ui.translationResults[1]}
+            </Text>
+          </View>
+
+          {!!store.ui.thirdTranslationLanguage && (
             <View
-              style={tw.style(`flex-1 p-3 rounded flex-row items-center`, {
-                'bg-accent bg-opacity-50 dark:bg-opacity-20 border-buttonBorder dark:border-darkBorder':
-                  store.ui.selectedIndex === 0,
+              style={tw.style('flex-1 p-3 rounded border border-transparent', {
+                'bg-gray-200 dark:bg-proGray-900 border-gray-300 dark:border-neutral-700':
+                  store.ui.selectedIndex === 2,
               })}>
-              <Text
-                style={tw.style(`flex-1 pt-2 text-base`, {
-                  'text-white': store.ui.selectedIndex === 0,
-                })}>
-                {store.ui.translationResults.en}
-              </Text>
               <Text style={tw`text-3xl`}>
                 {/* @ts-ignore */}
-                {languages[store.ui.firstTranslationLanguage]?.flag}
+                {languages[store.ui.thirdTranslationLanguage]?.flag ??
+                  store.ui.thirdTranslationLanguage}
+              </Text>
+              <Text className="flex-1 pt-2 text-base">
+                {store.ui.translationResults[2]}
               </Text>
             </View>
-          </View>
-          <View style={tw`flex-1`}>
-            <View
-              style={tw.style(`flex-1 p-3 rounded flex-row items-center`, {
-                'bg-accent bg-opacity-50 dark:bg-opacity-20 border-buttonBorder dark:border-darkBorder':
-                  store.ui.selectedIndex === 1,
-              })}>
-              <Text
-                style={tw.style(`flex-1 pt-2 text-base`, {
-                  'text-white': store.ui.selectedIndex === 1,
-                })}>
-                {store.ui.translationResults.de}
-              </Text>
-              <Text style={tw`text-3xl`}>
-                {/* @ts-ignore */}
-                {languages[store.ui.secondTranslationLanguage]?.flag}
-              </Text>
-            </View>
-          </View>
+          )}
         </View>
       )}
     </View>

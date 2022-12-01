@@ -11,7 +11,7 @@ import {CONSTANTS} from 'lib/constants'
 import {allEmojis, emojiFuse, EMOJIS_PER_ROW} from 'lib/emoji'
 import {GithubRepo, searchGithubRepos} from 'lib/github'
 import {solNative} from 'lib/SolNative'
-import {doubleTranslate} from 'lib/translator'
+import {googleTranslate} from 'lib/translator'
 import {getWeather} from 'lib/weather'
 import {debounce} from 'lodash'
 import {DateTime} from 'luxon'
@@ -90,6 +90,8 @@ export const createUIStore = (root: IRootStore) => {
           parsedStore.firstTranslationLanguage ?? 'en'
         store.secondTranslationLanguage =
           parsedStore.secondTranslationLanguage ?? 'de'
+        store.thirdTranslationLanguage =
+          parsedStore.thirdTranslationLanguage ?? null
         store.customItems = parsedStore.customItems ?? []
         store.favorites = parsedStore.favorites ?? []
         if (
@@ -738,10 +740,7 @@ export const createUIStore = (root: IRootStore) => {
     apps: [] as Item[],
     favorites: [] as string[],
     isLoading: false,
-    translationResults: null as null | {
-      en: string | undefined
-      de: string | undefined
-    },
+    translationResults: [] as string[],
     frequencies: {} as Record<string, number>,
     temporaryResult: null as string | null,
     track: null as
@@ -756,6 +755,7 @@ export const createUIStore = (root: IRootStore) => {
     weatherLon: '',
     firstTranslationLanguage: 'en' as string,
     secondTranslationLanguage: 'de' as string,
+    thirdTranslationLanguage: null as null | string,
     gifs: [] as any[],
     githubSearchEnabled: false,
     githubSearchResults: [] as GithubRepo[],
@@ -1089,19 +1089,24 @@ export const createUIStore = (root: IRootStore) => {
     },
     translateQuery: async () => {
       store.isLoading = true
+      store.translationResults = []
+      store.focusedWidget = Widget.TRANSLATION
+      store.selectedIndex = 0
+
       try {
-        const translations = await doubleTranslate(
+        const translations = await googleTranslate(
           store.firstTranslationLanguage,
           store.secondTranslationLanguage,
+          store.thirdTranslationLanguage,
           store.query,
         )
+
         runInAction(() => {
-          store.focusedWidget = Widget.TRANSLATION
           store.translationResults = translations
-          store.selectedIndex = 0
+          store.isLoading = false
         })
       } catch (e) {
-      } finally {
+        console.warn('something wne twrong')
         runInAction(() => {
           store.isLoading = false
         })
@@ -1112,6 +1117,9 @@ export const createUIStore = (root: IRootStore) => {
     },
     setSecondTranslationLanguage: (l: string) => {
       store.secondTranslationLanguage = l
+    },
+    setThirdTranslationLanguage: (l: string) => {
+      store.thirdTranslationLanguage = l
     },
     setOnboardingStep: (step: OnboardingStep) => {
       store.onboardingStep = step
@@ -1224,7 +1232,7 @@ export const createUIStore = (root: IRootStore) => {
       }
     },
     searchGithubRepos: debounce(async () => {
-      if (store.query) {
+      if (store.query && store.focusedWidget === Widget.SEARCH) {
         try {
           runInAction(() => {
             store.githubSearchResults = []

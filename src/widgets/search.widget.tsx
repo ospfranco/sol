@@ -13,18 +13,13 @@ import {
   TouchableOpacity,
   useColorScheme,
   View,
-  ViewStyle,
 } from 'react-native'
 import {useStore} from 'store'
 import {ItemType, Widget} from 'stores/ui.store'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
 
-interface Props {
-  style?: ViewStyle
-}
-
-export const SearchWidget: FC<Props> = observer(({style}) => {
+export const SearchWidget: FC = observer(() => {
   useDeviceContext(tw)
   const store = useStore()
   const colorScheme = useColorScheme()

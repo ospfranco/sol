@@ -20,20 +20,18 @@ export const LoadingBar = observer(() => {
 
   return (
     <Animated.View
-      style={[
-        tw.style(`border-b`),
-        {
-          borderColor: animatedBorderRef.current.interpolate({
-            inputRange: [0, 1],
-            outputRange: [
-              colorScheme === 'dark'
-                ? 'rgba(255, 255, 255, .1)'
-                : 'rgba(0, 0, 0, .1)',
-              accentColor,
-            ],
-          }),
-        },
-      ]}
+      className="border-b"
+      style={{
+        borderColor: animatedBorderRef.current.interpolate({
+          inputRange: [0, 1],
+          outputRange: [
+            colorScheme === 'dark'
+              ? 'rgba(255, 255, 255, .1)'
+              : 'rgba(0, 0, 0, .1)',
+            accentColor,
+          ],
+        }),
+      }}
     />
   )
 })

@@ -262,7 +262,9 @@ class SolNative: RCTEventEmitter {
   }
 
   @objc func setWindowManagement(_ v: Bool) {
-    self.appDelegate?.setWindowManagementShortcuts(v)
+    DispatchQueue.main.async {
+      self.appDelegate?.setWindowManagementShortcuts(v)
+    }
   }
 
   @objc func toggleDND() {

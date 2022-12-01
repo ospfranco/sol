@@ -377,6 +377,22 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
                   />
                 </View>
               </View>
+              <View style={tw`flex-row items-center py-2`}>
+                <Text style={tw`flex-1 text-right mr-2`}>Third language</Text>
+                <View style={tw`flex-1.3`}>
+                  <Dropdown
+                    value={store.ui.thirdTranslationLanguage ?? ''}
+                    onValueChange={v =>
+                      store.ui.setThirdTranslationLanguage(v as any)
+                    }
+                    options={Object.values(languages).map((v, index) => ({
+                      // @ts-expect-error
+                      label: `${v.flag ?? '  '} ${v.name}`,
+                      value: v.code,
+                    }))}
+                  />
+                </View>
+              </View>
             </View>
           </View>
         )}

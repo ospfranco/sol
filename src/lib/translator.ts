@@ -168,18 +168,23 @@ async function translate(
   return undefined
 }
 
-export async function doubleTranslate(
+export async function googleTranslate(
   lang1: string,
   lang2: string,
+  lang3: string | null,
   str: string,
 ) {
-  const results = await Promise.all([
-    translate(str, {to: lang1, from: lang2}),
-    translate(str, {to: lang2, from: lang1}),
-  ])
+  const promises = [translate(str, {to: lang1}), translate(str, {to: lang2})]
 
-  return {
-    en: results[0]?.text,
-    de: results[1]?.text,
+  if (lang3) {
+    promises.push(translate(str, {to: lang3}))
   }
+
+  const results = await Promise.all(promises)
+
+  return [
+    results[0]?.text ?? '',
+    results[1]?.text ?? '',
+    results[2]?.text ?? '',
+  ]
 }

@@ -483,8 +483,6 @@ export const createKeystrokeStore = (root: IRootStore) => {
             if (root.ui.query) {
               Linking.openURL(`https://google.com/search?q=${root.ui.query}`)
               root.ui.query = ''
-            } else {
-              root.ui.runFavorite(0)
             }
           }
           break
@@ -495,8 +493,6 @@ export const createKeystrokeStore = (root: IRootStore) => {
           if (meta) {
             if (root.ui.query) {
               root.ui.translateQuery()
-            } else {
-              root.ui.runFavorite(1)
             }
           }
           break
@@ -515,20 +511,20 @@ export const createKeystrokeStore = (root: IRootStore) => {
         }
 
         // "4"
-        case 21: {
-          if (meta) {
-            root.ui.runFavorite(3)
-          }
-          break
-        }
+        // case 21: {
+        //   if (meta) {
+        //     root.ui.runFavorite(3)
+        //   }
+        //   break
+        // }
 
-        // "5"
-        case 23: {
-          if (meta) {
-            root.ui.runFavorite(4)
-          }
-          break
-        }
+        // // "5"
+        // case 23: {
+        //   if (meta) {
+        //     root.ui.runFavorite(4)
+        //   }
+        //   break
+        // }
 
         // meta key
         case 55: {
