@@ -1333,7 +1333,7 @@ export const createUIStore = (root: IRootStore) => {
       store.focusedWidget = Widget.SEARCH
       store.setQuery('')
       store.selectedIndex = 0
-      store.translationResults = null
+      store.translationResults = []
     },
     cleanUp: () => {
       onShowListener?.remove()
