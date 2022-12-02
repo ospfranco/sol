@@ -2,7 +2,14 @@ import {solNative} from 'lib/SolNative'
 import {DateTime} from 'luxon'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect} from 'react'
-import {ScrollView, Text, TouchableOpacity, View, ViewStyle} from 'react-native'
+import {
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  useColorScheme,
+  View,
+  ViewStyle,
+} from 'react-native'
 import {useStore} from 'store'
 import {Widget} from 'stores/ui.store'
 import tw from 'tailwind'
@@ -14,6 +21,7 @@ interface Props {
 
 export const CalendarWidget: FC<Props> = observer(() => {
   useDeviceContext(tw)
+  const colorScheme = useColorScheme()
   const store = useStore()
   const focused = store.ui.focusedWidget === Widget.CALENDAR
   const events = store.ui.groupedEvents
@@ -111,13 +119,19 @@ export const CalendarWidget: FC<Props> = observer(() => {
                       {!event.isAllDay && (
                         <Text
                           className="text-xs"
-                          style={{color: `${event.color}BB`}}>
+                          style={{
+                            color: `${event.color}${
+                              colorScheme === 'dark' ? 'BB' : 'FF'
+                            }`,
+                            fontWeight: isNow ? 'bold' : 'normal',
+                          }}>
                           {lDate.toFormat('HH:mm')}
                         </Text>
                       )}
                       <Text
                         numberOfLines={1}
-                        style={tw.style(`text-xs ml-1`, {
+                        className="text-xs ml-1"
+                        style={tw.style({
                           'line-through': event.declined,
                           'font-bold': isNow,
                         })}>
