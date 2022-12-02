@@ -345,7 +345,7 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
         {selected === 'TRANSLATE' && (
           <View style={tw`flex-1 p-6 bg-white dark:bg-black bg-opacity-30`}>
             <View style={tw`flex-1 pt-8`}>
-              <View style={tw`flex-row items-center py-2`}>
+              <View style={tw`flex-row items-center py-2 z-10`}>
                 <Text style={tw`flex-1 text-right mr-2`}>First language</Text>
                 <View style={tw`flex-1.3`}>
                   <Dropdown
@@ -355,13 +355,13 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
                     }
                     options={Object.values(languages).map(v => ({
                       // @ts-expect-error
-                      label: `${v.flag ?? ' '} ${v.name}`,
+                      label: `${v.name} ${v.flag ?? ''}`,
                       value: v.code,
                     }))}
                   />
                 </View>
               </View>
-              <View style={tw`flex-row items-center py-2`}>
+              <View style={tw`flex-row items-center py-2 z-9`}>
                 <Text style={tw`flex-1 text-right mr-2`}>Second language</Text>
                 <View style={tw`flex-1.3`}>
                   <Dropdown
@@ -371,13 +371,13 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
                     }
                     options={Object.values(languages).map((v, index) => ({
                       // @ts-expect-error
-                      label: `${v.flag ?? '  '} ${v.name}`,
+                      label: `${v.name} ${v.flag ?? ''}`,
                       value: v.code,
                     }))}
                   />
                 </View>
               </View>
-              <View style={tw`flex-row items-center py-2`}>
+              <View style={tw`flex-row items-center py-2 z-8`}>
                 <Text style={tw`flex-1 text-right mr-2`}>Third language</Text>
                 <View style={tw`flex-1.3`}>
                   <Dropdown
@@ -387,7 +387,7 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
                     }
                     options={Object.values(languages).map((v, index) => ({
                       // @ts-expect-error
-                      label: `${v.flag ?? '  '} ${v.name}`,
+                      label: `${v.name} ${v.flag ?? ''}`,
                       value: v.code,
                     }))}
                   />
