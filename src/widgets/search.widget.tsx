@@ -2,6 +2,7 @@ import {Assets, Icons} from 'assets'
 import {FileIcon} from 'components/FileIcon'
 import {Key} from 'components/Key'
 import {LoadingBar} from 'components/LoadingBar'
+import {StyledFlatList} from 'components/StyledFlatList'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect, useRef} from 'react'
 import {
@@ -17,6 +18,7 @@ import {
 import {useStore} from 'store'
 import {ItemType, Widget} from 'stores/ui.store'
 import tw from 'tailwind'
+import colors from 'tailwindcss/colors'
 import {useDeviceContext} from 'twrnc'
 
 export const SearchWidget: FC = observer(() => {
@@ -133,7 +135,7 @@ export const SearchWidget: FC = observer(() => {
         {!!item.shortcut && (
           <View style={tw`flex-row`}>
             {item.shortcut.split(' ').map((char, i) => (
-              <View key={i} style={tw`mr-1`}>
+              <View key={i} className="mr-1">
                 <Key title={char} />
               </View>
             ))}
@@ -148,7 +150,7 @@ export const SearchWidget: FC = observer(() => {
       style={tw.style({
         'flex-1': !!store.ui.query,
       })}>
-      <View style={tw`h-12 mt-1 mx-3 flex-row items-center`}>
+      <View className="h-12 pt-1 px-3 dark:bg-neutral-900 flex-row items-center">
         <TextInput
           autoFocus
           // @ts-expect-error
@@ -156,11 +158,9 @@ export const SearchWidget: FC = observer(() => {
           value={store.ui.query}
           onChangeText={store.ui.setQuery}
           ref={inputRef}
-          style={tw.style(`flex-1 text-lg`)}
+          className="flex-1 text-lg"
           placeholderTextColor={
-            colorScheme === 'dark'
-              ? tw.color('text-neutral-700')
-              : tw.color('text-neutral-400')
+            colorScheme === 'dark' ? colors.neutral[600] : colors.neutral[400]
           }
           placeholder={'Type to search...'}
           selectionColor={colorScheme === 'dark' ? 'white' : 'black'}
@@ -170,7 +170,7 @@ export const SearchWidget: FC = observer(() => {
       <LoadingBar />
 
       {!store.ui.query && !!store.ui.items.length && (
-        <View style={tw`px-3 py-2`}>
+        <View className="px-3 py-2">
           {items.map((item, index) =>
             renderItem({item: {...item, isFavorite: true}, index}),
           )}
@@ -178,14 +178,14 @@ export const SearchWidget: FC = observer(() => {
       )}
 
       {!!store.ui.query && (
-        <FlatList<Item>
-          style={tw`flex-1 dark:bg-black dark:bg-opacity-50`}
+        <StyledFlatList
+          className="flex-1 dark:bg-black dark:bg-opacity-50"
           windowSize={8}
-          contentContainerStyle={tw.style(`flex-grow-1 p-3`)}
+          contentContainerStyle="flex-grow-1 p-3"
           ref={listRef}
           data={items}
-          keyExtractor={(item, i) => `${item.name}-${item.type}-${i}`}
-          renderItem={renderItem}
+          keyExtractor={(item: any, i) => `${item.name}-${item.type}-${i}`}
+          renderItem={renderItem as any}
           showsVerticalScrollIndicator={false}
         />
       )}
