@@ -171,13 +171,11 @@ export const createKeystrokeStore = (root: IRootStore) => {
 
             case Widget.TRANSLATION: {
               if (root.ui.translationResults) {
-                if (root.ui.selectedIndex === 0) {
-                  Clipboard.setString(root.ui.translationResults.en!)
-                } else {
-                  Clipboard.setString(root.ui.translationResults.de!)
-                }
+                Clipboard.setString(
+                  root.ui.translationResults[root.ui.selectedIndex],
+                )
                 solNative.hideWindow()
-                root.ui.translationResults = null
+                root.ui.translationResults = []
               }
               break
             }
