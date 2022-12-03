@@ -130,7 +130,7 @@ export const CalendarWidget: FC<Props> = observer(() => {
                       )}
                       <Text
                         numberOfLines={1}
-                        className="text-xs ml-1"
+                        className="text-xs ml-1 flex-shrink"
                         style={tw.style({
                           'line-through': event.declined,
                           'font-bold': isNow,
