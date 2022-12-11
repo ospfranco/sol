@@ -26,13 +26,8 @@ export const TranslationWidget: FC<Props> = observer(({style}) => {
   const colorScheme = Appearance.getColorScheme()
 
   return (
-    <View
-      style={tw.style(
-        `flex-1`,
-        //@ts-ignore
-        style,
-      )}>
-      <View className="h-12 mt-1 mx-3 flex-row items-center">
+    <View className="flex-1" style={style}>
+      <View className="h-12 pt-1 px-3 dark:bg-neutral-900 flex-row items-center">
         <TextInput
           autoFocus
           // @ts-expect-error
@@ -51,6 +46,7 @@ export const TranslationWidget: FC<Props> = observer(({style}) => {
       </View>
 
       <LoadingBar />
+
       {!store.ui.translationResults.length && (
         <View className="flex-1 p-3 items-center justify-center">
           <Text className="text-xs text-neutral-500">Translating...</Text>
