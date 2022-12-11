@@ -32,6 +32,7 @@ import {
 import {IRootStore} from 'Store'
 import tw from 'tailwind'
 import {systemPreferenceItems} from './systemPreferences'
+import {v4 as uuidv4} from 'uuid'
 
 const chance = new Chance()
 const gf = new GiphyFetch('Ot4kWfqWddVroUVh73v4Apocs8Dek86j')
@@ -640,6 +641,16 @@ export const createUIStore = (root: IRootStore) => {
       type: ItemType.CONFIGURATION,
       callback: async () => {
         const id = nanoid()
+        solNative.pasteToFrontmostApp(id)
+        solNative.showToast('✅ Generated and pasted')
+      },
+    },
+    {
+      icon: '🍔',
+      name: 'Generate UUID',
+      type: ItemType.CONFIGURATION,
+      callback: async () => {
+        const id = uuidv4()
         solNative.pasteToFrontmostApp(id)
         solNative.showToast('✅ Generated and pasted')
       },
