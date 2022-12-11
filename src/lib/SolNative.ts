@@ -61,6 +61,7 @@ class SolNative extends NativeEventEmitter {
   executeBashScript: (script: string) => Promise<void>
   showToast: (text: string) => Promise<void>
   ls: typeof global.__SolProxy.ls
+  exists: typeof global.__SolProxy.exists
   userName: typeof global.__SolProxy.userName
 
   // Constants
@@ -136,6 +137,7 @@ class SolNative extends NativeEventEmitter {
     this.showToast = module.showToast
 
     this.ls = global.__SolProxy.ls
+    this.exists = global.__SolProxy.exists
     this.userName = global.__SolProxy.userName
 
     const constants = module.getConstants()

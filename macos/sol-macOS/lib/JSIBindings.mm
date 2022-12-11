@@ -262,6 +262,14 @@ void install(jsi::Runtime &rt,
     return res;
   });
 
+  auto exists = HOSTFN("exists", 1, []) {
+    NSString *path = sol::jsiValueToNSString(rt, arguments[0]);
+
+    BOOL exists = [FS existsWithPath:path];
+
+    return jsi::Value(exists);
+  });
+
   auto userName = HOSTFN("userName", 0, []) {
     NSString *userName = NSUserName();
     return sol::NSStringToJsiValue(rt, userName);
@@ -280,6 +288,7 @@ void install(jsi::Runtime &rt,
                      std::move(getCalendarAuthorizationStatus));
   module.setProperty(rt, "getEvents", std::move(getEvents));
   module.setProperty(rt, "ls", std::move(ls));
+  module.setProperty(rt, "exists", std::move(exists));
   module.setProperty(rt, "userName", std::move(userName));
 
   rt.global().setProperty(rt, "__SolProxy", std::move(module));

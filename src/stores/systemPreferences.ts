@@ -7,29 +7,35 @@ const SYSTEM_PREFERENCE_PANES = '/System/Library/PreferencePanes'
 const GLOBAL_PREFERENCE_PANES = '/Library/PreferencePanes'
 const USER_PREFERENCE_PANES = `/Users/${solNative.userName()}/Library/PreferencePanes`
 
-const systemPanes = solNative.ls(SYSTEM_PREFERENCE_PANES).map(pane => ({
-  name: pane
-    .replace('.prefPane', '')
-    .split(/(?=[A-Z])/)
-    .join(' '),
-  preferenceId: `${SYSTEM_PREFERENCE_PANES}/${pane}`,
-}))
+const systemPanes = solNative.exists(SYSTEM_PREFERENCE_PANES)
+  ? solNative.ls(SYSTEM_PREFERENCE_PANES).map(pane => ({
+      name: pane
+        .replace('.prefPane', '')
+        .split(/(?=[A-Z])/)
+        .join(' '),
+      preferenceId: `${SYSTEM_PREFERENCE_PANES}/${pane}`,
+    }))
+  : []
 
-const globalPanes = solNative.ls(GLOBAL_PREFERENCE_PANES).map(pane => ({
-  name: pane
-    .replace('.prefPane', '')
-    .split(/(?=[A-Z])/)
-    .join(' '),
-  preferenceId: `${GLOBAL_PREFERENCE_PANES}/${pane}`,
-}))
+const globalPanes = solNative.exists(GLOBAL_PREFERENCE_PANES)
+  ? solNative.ls(GLOBAL_PREFERENCE_PANES).map(pane => ({
+      name: pane
+        .replace('.prefPane', '')
+        .split(/(?=[A-Z])/)
+        .join(' '),
+      preferenceId: `${GLOBAL_PREFERENCE_PANES}/${pane}`,
+    }))
+  : []
 
-const userPanes = solNative.ls(USER_PREFERENCE_PANES).map(pane => ({
-  name: pane
-    .replace('.prefPane', '')
-    .split(/(?=[A-Z])/)
-    .join(' '),
-  preferenceId: `${USER_PREFERENCE_PANES}/${pane}`,
-}))
+const userPanes = solNative.exists(USER_PREFERENCE_PANES)
+  ? solNative.ls(USER_PREFERENCE_PANES).map(pane => ({
+      name: pane
+        .replace('.prefPane', '')
+        .split(/(?=[A-Z])/)
+        .join(' '),
+      preferenceId: `${USER_PREFERENCE_PANES}/${pane}`,
+    }))
+  : []
 
 const panes = [...systemPanes, ...globalPanes, ...userPanes]
 

@@ -5,8 +5,6 @@ let nf = NotificationCenter.default
 @objc
 class FileSearcher: NSObject {
 
-//  public static let sharedInstance = FileSearcher()
-  
   var query: NSMetadataQuery? {
     willSet {
       if let q = self.query {
@@ -40,11 +38,9 @@ class FileSearcher: NSObject {
           ])
         }
       }
+
       SolEmitter.sharedInstance.dispatch(name: "onFileSearch", body: results)
     })
-
-//    nf.addObserver(forName: .NSMetadataQueryDidFinishGathering, object: nil, queue: .main, using: {_ in
-//    })
   }
 
 

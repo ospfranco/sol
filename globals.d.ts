@@ -40,6 +40,7 @@ declare var global: {
     getCalendarAuthorizationStatus: () => CalendarAuthorizationStatus
     getEvents: () => INativeEvent[]
     ls: (path: string) => string[]
+    exists: (path: string) => boolean
     userName: () => string
   }
 }
