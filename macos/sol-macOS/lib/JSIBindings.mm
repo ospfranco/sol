@@ -265,7 +265,7 @@ void install(jsi::Runtime &rt,
   auto exists = HOSTFN("exists", 1, []) {
     NSString *path = sol::jsiValueToNSString(rt, arguments[0]);
 
-    BOOL exists = [FS existsWithPath:path];
+    bool exists = static_cast<bool>([FS existsWithPath:path]);
 
     return jsi::Value(exists);
   });

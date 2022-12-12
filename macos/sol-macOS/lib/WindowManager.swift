@@ -73,8 +73,6 @@ class WindowManager {
         lastActions[identifier] = .bottom
 
       case .right:
-        let windowSize = window.rectOfElement()
-
         let screenHalf = normalizedScreenFrame.width / 2
         let screenThird = normalizedScreenFrame.width / 3
         let screenTwoThirds = screenThird * 2
@@ -106,7 +104,6 @@ class WindowManager {
         guard let identifier = window.getIdentifier() else {
           return
         }
-        let windowSize = window.rectOfElement()
 
         let screenHalf = normalizedScreenFrame.width / 2
         let screenThird = normalizedScreenFrame.width / 3
