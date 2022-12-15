@@ -34,7 +34,7 @@
     "react": "17.0.2",
     "react-native": "0.68.3",
     "react-native-get-random-values": "^1.8.0",
-    "react-native-macos": "0.68.58",
+    "react-native-macos": "0.68.59",
     "react-native-webview": "^11.23.1",
     "react-native-windows": "0.67.7",
     "twrnc": "^3.4.0",

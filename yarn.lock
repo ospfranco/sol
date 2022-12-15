@@ -6943,15 +6943,16 @@ react-native-gradle-plugin@^0.0.6:
   resolved "https://registry.yarnpkg.com/react-native-gradle-plugin/-/react-native-gradle-plugin-0.0.6.tgz#b61a9234ad2f61430937911003cddd7e15c72b45"
   integrity sha512-eIlgtsmDp1jLC24dRn43hB3kEcZVqx6DUQbR0N1ABXGnMEafm9I3V3dUUeD1vh+Dy5WqijSoEwLNUPLgu5zDMg==
 
-react-native-macos@0.68.58:
-  version "0.68.58"
-  resolved "https://registry.yarnpkg.com/react-native-macos/-/react-native-macos-0.68.58.tgz#a2ba0af72d9c525d24e9744f056e385a03facbce"
-  integrity sha512-ihIT1GctafEz0iepYYbbyaOiXAad/xRnB2ZYhfy12E1MzkuSb5snu/GgX6MB/rdeWL8y3Er28SgJ+O5hPDa1Qg==
+react-native-macos@0.68.59:
+  version "0.68.59"
+  resolved "https://registry.yarnpkg.com/react-native-macos/-/react-native-macos-0.68.59.tgz#47d6ef36d183bac8014b33096953cf2879a395c9"
+  integrity sha512-W5k23D9M5A0L5OG5jnOu7ZzaFU9bYEg4M8dsyi+LFdy9+6RADpoaCVbNAQ811OT6LLZtNt8RY1WlFVbOxKnzeg==
   dependencies:
     "@jest/create-cache-key-function" "^27.0.1"
     "@react-native-community/cli" "^7.0.3"
     "@react-native-community/cli-platform-android" "^7.0.1"
     "@react-native-community/cli-platform-ios" "^7.0.1"
+    "@react-native-community/cli-tools" "^7.0.1"
     "@react-native/assets" "1.0.0"
     "@react-native/normalize-color" "2.0.0"
     "@react-native/polyfills" "2.0.0"
