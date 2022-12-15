@@ -195,6 +195,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
   func showWindow(target: String? = nil) {
     if(useBackgroundOverlay) {
+      if(self.showWindowOn == "screenWithFrontmost") {
+        self.overlayWindow.setFrame(NSScreen.main!.frame, display: false)
+      } else {
+        let screen = self.getScreenWithMouse()
+        self.overlayWindow.setFrame(screen!.frame, display: false)
+      }
+
       overlayWindow.orderFront(nil)
       let step = 0.008 // in seconds and opacity
       for i in 1...30 {
