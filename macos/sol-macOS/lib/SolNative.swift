@@ -287,4 +287,8 @@ class SolNative: RCTEventEmitter {
       self.appDelegate?.showToast(text)
     }
   }
+
+  @objc func useBackgroundOverlay(_ v: Bool) {
+    self.appDelegate?.useBackgroundOverlay = v
+  }
 }

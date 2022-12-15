@@ -3,6 +3,7 @@ import {Dropdown} from 'components/Dropdown'
 import {Input} from 'components/Input'
 import {MySwitch} from 'components/MySwitch'
 import {SelectableButton} from 'components/SelectableButton'
+import {StyledScrollView} from 'components/StyledScrollView'
 import {useBoolean} from 'hooks'
 import {useFullSize} from 'hooks/useFullSize'
 import {languages} from 'lib/languages'
@@ -12,6 +13,7 @@ import {
   Appearance,
   Button,
   Image,
+  ScrollView,
   Text,
   TouchableOpacity,
   View,
@@ -155,8 +157,10 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
           </View>
         )}
         {selected === 'GENERAL' && (
-          <View
-            style={tw`flex-1 p-6 bg-white dark:bg-black dark:bg-opacity-30 justify-center`}>
+          <StyledScrollView
+            showsVerticalScrollIndicator
+            className="flex-1 bg-white dark:bg-black dark:bg-opacity-30"
+            contentContainerStyle="justify-center p-6">
             <View style={tw`flex-row items-center py-2`}>
               <Text style={tw`flex-1 text-right pr-3 text-sm`}>
                 Launch on computer start
@@ -340,7 +344,19 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
                 />
               </View>
             </View>
-          </View>
+
+            <View style={tw.style(`flex-row items-center py-2`)}>
+              <Text style={tw`flex-1 text-right pr-3 text-sm`}>
+                Show background overlay
+              </Text>
+              <View style={tw`flex-1.3`}>
+                <MySwitch
+                  value={store.ui.useBackgroundOverlay}
+                  onValueChange={store.ui.setUseBackgroundOverlay}
+                />
+              </View>
+            </View>
+          </StyledScrollView>
         )}
         {selected === 'TRANSLATE' && (
           <View style={tw`flex-1 p-6 bg-white dark:bg-black bg-opacity-30`}>
@@ -385,7 +401,7 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
                     onValueChange={v =>
                       store.ui.setThirdTranslationLanguage(v as any)
                     }
-                    options={Object.values(languages).map((v, index) => ({
+                    options={Object.values(languages).map(v => ({
                       // @ts-expect-error
                       label: `${v.name} ${v.flag ?? ''}`,
                       value: v.code,

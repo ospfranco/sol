@@ -1,27 +1,20 @@
 import Foundation
 
 final class Overlay: NSWindow, NSWindowDelegate {
-//  override var canBecomeKey: Bool {
-//    return false
-//  };
-//
-//  override var acceptsFirstResponder: Bool {
-//    return false
-//  }
-//
-//  override func becomeFirstResponder() -> Bool {
-//    return false
-//  }
-//
-//  func windowDidBecomeKey(_ notification: Notification) {
-//    print("overlay became key")
-//  }
-//
-//  func windowDidBecomeMain(_ notification: Notification) {
-//    print("Overlay became main")
-//  }
-//
-//  override var ignoresMouseEvents: Bool {
-//    return true
-//  }
+  init(contentRect: NSRect, backing: NSWindow.BackingStoreType, defer flag: Bool) {
+    super.init(
+      contentRect: contentRect,
+      styleMask: [.borderless],
+      backing: backing,
+      defer: flag
+    )
+
+    self.level = .mainMenu + 2
+    self.backgroundColor = .black
+    self.ignoresMouseEvents = true
+  }
+
+  override func constrainFrameRect(_ frameRect: NSRect, to screen: NSScreen?) -> NSRect {
+    return frameRect
+  }
 }

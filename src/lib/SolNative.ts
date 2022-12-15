@@ -55,6 +55,7 @@ class SolNative extends NativeEventEmitter {
   searchFiles: typeof global.__SolProxy.searchFiles
   setShowWindowOn: (on: 'screenWithFrontmost' | 'screenWithCursor') => void
   setWindowManagement: (v: boolean) => void
+  useBackgroundOverlay: (v: boolean) => void
   toggleDND: () => void
   securelyStore: (key: string, value: string) => Promise<void>
   securelyRetrieve: (key: string) => Promise<string | null>
@@ -130,6 +131,7 @@ class SolNative extends NativeEventEmitter {
     this.hideWindow = global.__SolProxy.hideWindow
     this.setShowWindowOn = module.setShowWindowOn
     this.setWindowManagement = module.setWindowManagement
+    this.useBackgroundOverlay = module.useBackgroundOverlay
 
     this.securelyRetrieve = module.securelyRetrieve
     this.securelyStore = module.securelyStore

@@ -15,12 +15,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   var shiftPressed = false
   var visualEffect: NSVisualEffectView!
   var mainWindow: Panel!
-  // var overlayWindow: Overlay!
+  var overlayWindow: Overlay!
   var toastWindow: Toast!
   var rootView: RCTRootView!
   var catchHorizontalArrowsPress = false
   var catchVerticalArrowsPress = true
   var catchEnterPress = true
+  var useBackgroundOverlay = true
   var showWindowOn = "windowWithFrontmost"
 
   private var mainHotKey = HotKey(key: .space, modifiers: [.command])
@@ -67,15 +68,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     rootView.frame = visualEffect.bounds
     rootView.autoresizingMask = [.minXMargin, .maxXMargin, .minYMargin, .maxYMargin, .width, .height]
 
-    // let windowRect = NSScreen.main?.frame
-    // overlayWindow = Overlay(contentRect: windowRect!, styleMask: .borderless, backing: .buffered, defer: false, screen: NSScreen.screens[0])
-    // overlayWindow.level = .mainMenu
-    // overlayWindow.backgroundColor = .black
-    // overlayWindow.alphaValue = 0.4
-    // overlayWindow.ignoresMouseEvents = true
+    let windowRect = NSScreen.main?.frame
+    overlayWindow = Overlay(contentRect: windowRect!, backing: .buffered, defer: false)
 
     toastWindow = Toast(contentRect: NSRect(x: 0, y: 0, width: 200, height: 60), backing: .buffered, defer: false)
-
 
     setupKeyboardListeners()
     setupPasteboardListener()
@@ -174,13 +170,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     }
   }
 
-//  func getScreenWithFrontmost() -> NSScreen? {
-//    let frontmost = NSWorkspace.shared.frontmostApplication.frame
-//    let screens = NSScreen.screens
-//    screens.first {
-//
-//    }
-//  }
+  //  func getScreenWithFrontmost() -> NSScreen? {
+  //    let frontmost = NSWorkspace.shared.frontmostApplication.frame
+  //    let screens = NSScreen.screens
+  //    screens.first {
+  //
+  //    }
+  //  }
 
   func getScreenWithMouse() -> NSScreen? {
     let mouseLocation = NSEvent.mouseLocation
@@ -198,14 +194,21 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   }
 
   func showWindow(target: String? = nil) {
-    // overlayWindow.orderFront(nil)
+    if(useBackgroundOverlay) {
+      overlayWindow.orderFront(nil)
+      let step = 0.008 // in seconds and opacity
+      for i in 1...30 {
+        DispatchQueue.main.asyncAfter(deadline: .now() + step * Double(i)) {
+          self.overlayWindow.alphaValue = step * Double(i)
+        }
+      }
+    }
 
     SolEmitter.sharedInstance.onShow(target: target)
 
     // Give react native event listener a bit of time to react
     // and switch components
-    let delay = target != nil ? 0.1 : 0 // in seconds
-    DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.03) {
       self.settingsHotKey.isPaused = false
       self.mainWindow.setIsVisible(false)
       if(self.showWindowOn == "screenWithFrontmost") {
@@ -241,7 +244,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
   @objc func hideWindow() {
     if(mainWindow.isVisible) {
-      // overlayWindow.orderOut(self)
+      overlayWindow.orderOut(self)
       mainWindow.orderOut(self)
       SolEmitter.sharedInstance.onHide()
       settingsHotKey.isPaused = true

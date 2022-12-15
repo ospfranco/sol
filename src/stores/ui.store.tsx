@@ -123,6 +123,7 @@ export const createUIStore = (root: IRootStore) => {
         store.showPlaying = parsedStore.showPlaying ?? true
         store.launchAtLogin = parsedStore.launchAtLogin ?? true
         store.showHintBar = parsedStore.showHintBar ?? true
+        store.useBackgroundOverlay = parsedStore.useBackgroundOverlay ?? true
       })
 
       solNative.setLaunchAtLogin(parsedStore.launchAtLogin ?? true)
@@ -135,6 +136,7 @@ export const createUIStore = (root: IRootStore) => {
         parsedStore.showWindowOn ?? 'screenWithFrontmost',
       )
       solNative.setWindowManagement(store.windowManagementEnabled)
+      solNative.useBackgroundOverlay(store.useBackgroundOverlay)
     } else {
       runInAction(() => {
         store.focusedWidget = Widget.ONBOARDING
@@ -779,6 +781,7 @@ export const createUIStore = (root: IRootStore) => {
     showPlaying: true,
     launchAtLogin: true,
     showHintBar: true,
+    useBackgroundOverlay: true,
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -1394,6 +1397,10 @@ export const createUIStore = (root: IRootStore) => {
     },
     setShowHintBar: (v: boolean) => {
       store.showHintBar = v
+    },
+    setUseBackgroundOverlay: (v: boolean) => {
+      store.useBackgroundOverlay = v
+      solNative.useBackgroundOverlay(v)
     },
   })
 
