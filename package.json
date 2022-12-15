@@ -21,6 +21,7 @@
     "@sentry/react-native": "^4.8.0",
     "axios": "^0.25.0",
     "chance": "^1.1.9",
+    "clsx": "^1.2.1",
     "expr-eval": "^2.0.2",
     "fuse.js": "^6.5.3",
     "immer": "^9.0.12",

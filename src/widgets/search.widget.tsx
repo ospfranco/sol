@@ -1,4 +1,5 @@
 import {Assets, Icons} from 'assets'
+import clsx from 'clsx'
 import {FileIcon} from 'components/FileIcon'
 import {Key} from 'components/Key'
 import {LoadingBar} from 'components/LoadingBar'
@@ -66,8 +67,8 @@ export const SearchWidget: FC = observer(() => {
 
     return (
       <View
-        style={tw.style(
-          `flex-row items-center px-3 rounded-lg py-1.5 border border-transparent`,
+        className={clsx(
+          'flex-row items-center px-3 rounded-lg py-1.5 border border-transparent',
           {
             'bg-gray-200 dark:bg-proGray-900 border-gray-300 dark:border-neutral-700':
               isActive,
@@ -78,8 +79,7 @@ export const SearchWidget: FC = observer(() => {
           <Text style={tw`text-xs`}>{item.icon}</Text>
         )}
         {item.type === ItemType.CUSTOM && !!item.icon && (
-          <View
-            style={tw`h-4 w-4 bg-gray-100 dark:bg-neutral-800 rounded items-center justify-center`}>
+          <View className="h-4 w-4 bg-gray-100 dark:bg-neutral-800 rounded items-center justify-center">
             <Image
               // @ts-expect-error
               source={Icons[item.icon]}
@@ -147,7 +147,7 @@ export const SearchWidget: FC = observer(() => {
 
   return (
     <View
-      style={tw.style({
+      className={clsx({
         'flex-1': !!store.ui.query,
       })}>
       <View className="h-12 pt-1 px-3 dark:bg-neutral-900 flex-row items-center">
