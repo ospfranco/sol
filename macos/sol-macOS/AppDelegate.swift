@@ -65,8 +65,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     visualEffect.blendingMode = .behindWindow
     visualEffect.material = .hudWindow
     visualEffect.autoresizingMask = [.minXMargin, .maxXMargin, .minYMargin, .maxYMargin, .width, .height]
-
     mainWindow.contentView = visualEffect
+
     visualEffect.addSubview(rootView)
     rootView.frame = visualEffect.bounds
     rootView.autoresizingMask = [.minXMargin, .maxXMargin, .minYMargin, .maxYMargin, .width, .height]
@@ -227,7 +227,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
     // Give react native event listener a bit of time to react
     // and switch components
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.03) {
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
       self.settingsHotKey.isPaused = false
       self.mainWindow.setIsVisible(false)
       if(self.showWindowOn == "screenWithFrontmost") {
