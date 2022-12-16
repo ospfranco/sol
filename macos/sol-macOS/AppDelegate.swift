@@ -23,7 +23,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   var catchEnterPress = true
   var useBackgroundOverlay = true
   var showWindowOn = "windowWithFrontmost"
+  let notchHelper = NotchHelper()
+  var shouldHideNotch = false
 
+  private var menuBarOverlays: [NSWindow] = []
   private var mainHotKey = HotKey(key: .space, modifiers: [.command])
   private var debugHotKey = HotKey(key: .space, modifiers: [.command, .option])
   private var updaterController: SPUStandardUpdaterController
@@ -76,6 +79,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     setupKeyboardListeners()
     setupPasteboardListener()
     showWindow()
+
+    handleDisplayConnection(notification: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(handleDisplayConnection), name: NSApplication.didChangeScreenParametersNotification, object: nil)
+  }
+
+  @objc func handleDisplayConnection(notification: Notification?) {
+    if(self.shouldHideNotch) {
+      notchHelper.hideNotch()
+    }
   }
 
   func checkForUpdates() {

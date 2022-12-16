@@ -39,6 +39,10 @@
 		70D1220228DA95C500179A1D /* Overlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D1220128DA95C500179A1D /* Overlay.swift */; };
 		70E15D082931FC57007FFE5F /* FS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E15D072931FC57007FFE5F /* FS.swift */; };
 		70E15D0A293290E9007FFE5F /* JSIUtils.mm in Sources */ = {isa = PBXBuildFile; fileRef = 70E15D09293290E9007FFE5F /* JSIUtils.mm */; };
+		70E80B5C294C699E0094F1B5 /* NotchHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E80B5B294C699E0094F1B5 /* NotchHelper.swift */; };
+		70E80B5F294C6EDE0094F1B5 /* MetadataExtractorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E80B5E294C6EDE0094F1B5 /* MetadataExtractorError.swift */; };
+		70E80B61294C71520094F1B5 /* NSImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E80B60294C71520094F1B5 /* NSImage.swift */; };
+		70E80B63294C719C0094F1B5 /* CGImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E80B62294C719C0094F1B5 /* CGImage.swift */; };
 		70EA99EA2794967E008E54FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70EA99E92794967E008E54FD /* AppDelegate.swift */; };
 		70EFF77428D5F732009FE998 /* DoNotDisturb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70EFF77328D5F732009FE998 /* DoNotDisturb.swift */; };
 /* End PBXBuildFile section */
@@ -89,6 +93,10 @@
 		70E15D072931FC57007FFE5F /* FS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FS.swift; sourceTree = "<group>"; };
 		70E15D09293290E9007FFE5F /* JSIUtils.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = JSIUtils.mm; sourceTree = "<group>"; };
 		70E15D0B293290F7007FFE5F /* JSIUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSIUtils.h; sourceTree = "<group>"; };
+		70E80B5B294C699E0094F1B5 /* NotchHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchHelper.swift; sourceTree = "<group>"; };
+		70E80B5E294C6EDE0094F1B5 /* MetadataExtractorError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetadataExtractorError.swift; sourceTree = "<group>"; };
+		70E80B60294C71520094F1B5 /* NSImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSImage.swift; sourceTree = "<group>"; };
+		70E80B62294C719C0094F1B5 /* CGImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGImage.swift; sourceTree = "<group>"; };
 		70EA99E82794967E008E54FD /* sol-macOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "sol-macOS-Bridging-Header.h"; sourceTree = "<group>"; };
 		70EA99E92794967E008E54FD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		70EFF77328D5F732009FE998 /* DoNotDisturb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoNotDisturb.swift; sourceTree = "<group>"; };
@@ -162,6 +170,8 @@
 				7047E80727D4DAEB00582E1B /* Sequence.extension.swift */,
 				70BED7CC27F4C23D00906E41 /* FileManager.extension.swift */,
 				7042A2292815C06B00874743 /* NSColor.extension.swift */,
+				70E80B60294C71520094F1B5 /* NSImage.swift */,
+				70E80B62294C719C0094F1B5 /* CGImage.swift */,
 			);
 			path = extensions;
 			sourceTree = "<group>";
@@ -179,9 +189,18 @@
 			path = views;
 			sourceTree = "<group>";
 		};
+		70E80B5D294C6EC10094F1B5 /* utilities */ = {
+			isa = PBXGroup;
+			children = (
+				70E80B5E294C6EDE0094F1B5 /* MetadataExtractorError.swift */,
+			);
+			path = utilities;
+			sourceTree = "<group>";
+		};
 		70F7EBEA2795A4BD00CED17A /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				70E80B5D294C6EC10094F1B5 /* utilities */,
 				70ADD54728B22DAB00AAAFD7 /* FileSearcher.swift */,
 				7071D43627B3211700F8A4DC /* AppleScriptHelper.swift */,
 				7071D43527B3211700F8A4DC /* DarkMode.swift */,
@@ -207,6 +226,7 @@
 				70E15D072931FC57007FFE5F /* FS.swift */,
 				70E15D09293290E9007FFE5F /* JSIUtils.mm */,
 				70E15D0B293290F7007FFE5F /* JSIUtils.h */,
+				70E80B5B294C699E0094F1B5 /* NotchHelper.swift */,
 			);
 			path = lib;
 			sourceTree = "<group>";
@@ -296,7 +316,7 @@
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			packageReferences = (
-				70ADD54428B22C1300AAAFD7 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */,
+				70ADD54428B22C1300AAAFD7 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
 			);
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
@@ -465,6 +485,8 @@
 				70B9275F2930A4F700F883A0 /* ShellHelper.swift in Sources */,
 				70911D4E28BB22620005FD0E /* JSIBindings.mm in Sources */,
 				70969E1727966ECD00BE3F1C /* SolNative.swift in Sources */,
+				70E80B5C294C699E0094F1B5 /* NotchHelper.swift in Sources */,
+				70E80B63294C719C0094F1B5 /* CGImage.swift in Sources */,
 				7071D43727B3211700F8A4DC /* DarkMode.swift in Sources */,
 				70B927632930AEEA00F883A0 /* ToastView.swift in Sources */,
 				701EC4612822E33B00597D99 /* AccessibilityElement.swift in Sources */,
@@ -475,6 +497,7 @@
 				70969E192796719100BE3F1C /* SolNative.mm in Sources */,
 				70BED7CD27F4C23D00906E41 /* FileManager.extension.swift in Sources */,
 				700A18D8279DBBE40096C830 /* ApplicationSearcher.swift in Sources */,
+				70E80B61294C71520094F1B5 /* NSImage.swift in Sources */,
 				70B927612930ADC100F883A0 /* Toast.swift in Sources */,
 				70D1220228DA95C500179A1D /* Overlay.swift in Sources */,
 				700A18DC279DC1F50096C830 /* FileIcon.m in Sources */,
@@ -486,6 +509,7 @@
 				700A18DA279DC17F0096C830 /* FileIcon.swift in Sources */,
 				70BED7CB27F4C1A600906E41 /* FileConstants.swift in Sources */,
 				703D78B72916924300F741F0 /* SentryHelper.m in Sources */,
+				70E80B5F294C6EDE0094F1B5 /* MetadataExtractorError.swift in Sources */,
 				70B2D5902824254B0005D80A /* WindowManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -523,7 +547,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.1.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -558,7 +582,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.1.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -715,7 +739,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		70ADD54428B22C1300AAAFD7 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */ = {
+		70ADD54428B22C1300AAAFD7 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "git@github.com:sindresorhus/LaunchAtLogin.git";
 			requirement = {
@@ -728,7 +752,7 @@
 /* Begin XCSwiftPackageProductDependency section */
 		70ADD54528B22C1300AAAFD7 /* LaunchAtLogin */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 70ADD54428B22C1300AAAFD7 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */;
+			package = 70ADD54428B22C1300AAAFD7 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */;
 			productName = LaunchAtLogin;
 		};
 /* End XCSwiftPackageProductDependency section */
