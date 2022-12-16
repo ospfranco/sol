@@ -291,4 +291,13 @@ class SolNative: RCTEventEmitter {
   @objc func useBackgroundOverlay(_ v: Bool) {
     self.appDelegate?.useBackgroundOverlay = v
   }
+
+  @objc func shouldHideMenubar(_ v: Bool) {
+    self.appDelegate?.shouldHideMenuBar = v
+    if(v) {
+      DispatchQueue.main.async {
+        self.appDelegate?.handleDisplayConnection(notification: nil)
+      }
+    }
+  }
 }

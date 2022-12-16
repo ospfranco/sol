@@ -356,6 +356,18 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
                 />
               </View>
             </View>
+
+            <View style={tw.style(`flex-row items-center py-2`)}>
+              <Text style={tw`flex-1 text-right pr-3 text-sm`}>
+                Blacken menubar
+              </Text>
+              <View style={tw`flex-1.3`}>
+                <MySwitch
+                  value={store.ui.shouldHideMenubar}
+                  onValueChange={store.ui.setShouldHideMenuBar}
+                />
+              </View>
+            </View>
           </StyledScrollView>
         )}
         {selected === 'TRANSLATE' && (

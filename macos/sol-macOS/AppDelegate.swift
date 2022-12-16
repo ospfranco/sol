@@ -24,7 +24,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   var useBackgroundOverlay = true
   var showWindowOn = "windowWithFrontmost"
   let notchHelper = NotchHelper()
-  var shouldHideNotch = false
+  var shouldHideMenuBar = false
 
   private var menuBarOverlays: [NSWindow] = []
   private var mainHotKey = HotKey(key: .space, modifiers: [.command])
@@ -85,7 +85,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   }
 
   @objc func handleDisplayConnection(notification: Notification?) {
-    if(self.shouldHideNotch) {
+    if(self.shouldHideMenuBar) {
       notchHelper.hideNotch()
     }
   }

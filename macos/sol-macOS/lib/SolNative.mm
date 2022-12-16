@@ -73,4 +73,5 @@ RCT_EXTERN_METHOD(toggleDND)
 RCT_EXTERN_METHOD(securelyStore: (NSString)key payload:(NSString)payload resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(securelyRetrieve: (NSString)key resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(showToast: (NSString)text)
+RCT_EXTERN_METHOD(shouldHideMenubar: (BOOL)v)
 @end

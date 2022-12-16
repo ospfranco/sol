@@ -64,6 +64,7 @@ class SolNative extends NativeEventEmitter {
   ls: typeof global.__SolProxy.ls
   exists: typeof global.__SolProxy.exists
   userName: typeof global.__SolProxy.userName
+  shouldHideMenubar: (v: boolean) => void
 
   // Constants
   accentColor: string
@@ -146,6 +147,8 @@ class SolNative extends NativeEventEmitter {
 
     this.accentColor = constants.accentColor
     this.OSVersion = constants.OSVersion
+
+    this.shouldHideMenubar = module.shouldHideMenubar
   }
 }
 
