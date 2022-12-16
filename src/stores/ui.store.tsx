@@ -1408,6 +1408,11 @@ export const createUIStore = (root: IRootStore) => {
     setShouldHideMenuBar: (v: boolean) => {
       store.shouldHideMenubar = v
       solNative.shouldHideMenubar(v)
+      if (v) {
+        solNative.showToast('Menubar will be blacked out, please wait...')
+      } else {
+        solNative.showToast('Done, please restore your wallpaper manually')
+      }
     },
   })
 
