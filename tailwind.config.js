@@ -1,5 +1,5 @@
 module.exports = {
-  content: ["./src/**/*.{tsx,ts}"],
+  content: ['./src/**/*.{tsx,ts}'],
   theme: {
     fontSize: {
       xxs: '10px',
@@ -14,17 +14,18 @@ module.exports = {
     extend: {
       borderRadius: {
         xs: '1px',
-        corner: '7px'
+        corner: '7px',
       },
       colors: {
         light: {DEFAULT: 'rgb(251, 251, 251)'},
-        dark: {DEFAULT: '#151515'},
+        dark: {DEFAULT: 'rgba(21, 21, 21, .5)'},
+        darkHighlight: {DEFAULT: 'rgba(255, 255, 255, .12)'},
         darkBorder: {DEFAULT: 'rgba(255, 255, 255, .1)'},
         lightBorder: {DEFAULT: 'rgba(0, 0, 0, .1)'},
         buttonBorder: {DEFAULT: 'rgba(0, 0, 0, .03)'},
         proGray: {
-          "900": "rgba(21, 22, 25, 0.9)"
-        }
+          900: 'rgba(21, 22, 25, 0.9)',
+        },
       },
     },
   },

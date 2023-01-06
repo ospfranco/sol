@@ -149,7 +149,7 @@ export const createUIStore = (root: IRootStore) => {
   const FALLBACK_ITEMS: Item[] = [
     {
       iconImage: Assets.googleLogo,
-      name: 'Search',
+      name: 'Google Search',
       type: ItemType.CONFIGURATION,
       shortcut: '⌘ 1',
       callback: () => {
@@ -160,7 +160,7 @@ export const createUIStore = (root: IRootStore) => {
     },
     {
       iconImage: Assets.googleTranslateLogo,
-      name: 'Translate',
+      name: 'Google Translate',
       type: ItemType.CONFIGURATION,
       callback: () => {
         store.translateQuery()

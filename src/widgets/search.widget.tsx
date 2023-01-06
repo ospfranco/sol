@@ -45,41 +45,17 @@ export const SearchWidget: FC = observer(() => {
   const renderItem = ({item, index}: {item: Item; index: number}) => {
     const isActive = index === store.ui.selectedIndex && focused
 
-    if (item.type === ItemType.TEMPORARY_RESULT) {
-      return (
-        <View
-          key={index}
-          style={tw.style(
-            `justify-center items-center px-3 py-2 m-3 mb-2 rounded-lg border border-transparent`,
-            {
-              'bg-proGray-900 border-neutral-300': isActive,
-            },
-          )}>
-          <Text
-            style={tw.style(`text-xl`, {
-              'text-white dark:text-white': isActive,
-            })}>
-            {store.ui.temporaryResult}
-          </Text>
-        </View>
-      )
-    }
-
     return (
       <View
-        className={clsx(
-          'flex-row items-center px-3 rounded-lg py-1.5 border border-transparent',
-          {
-            'bg-gray-200 dark:bg-proGray-900 border-gray-300 dark:border-neutral-700':
-              isActive,
-          },
-        )}>
+        className={clsx('flex-row items-center px-2 rounded py-1.5', {
+          'bg-gray-200 dark:bg-darkHighlight': isActive,
+        })}>
         {!!item.url && <FileIcon url={item.url} style={tw`w-4 h-4`} />}
         {item.type !== ItemType.CUSTOM && !!item.icon && (
           <Text style={tw`text-xs`}>{item.icon}</Text>
         )}
         {item.type === ItemType.CUSTOM && !!item.icon && (
-          <View className="h-4 w-4 bg-gray-100 dark:bg-neutral-800 rounded items-center justify-center">
+          <View className="h-4 w-4 rounded items-center justify-center">
             <Image
               // @ts-expect-error
               source={Icons[item.icon]}
@@ -92,14 +68,19 @@ export const SearchWidget: FC = observer(() => {
           </View>
         )}
         {!!item.iconImage && (
-          <Image source={item.iconImage} style={tw`w-4 h-4`} />
+          <Image
+            source={item.iconImage}
+            className="w-4 h-4"
+            resizeMode="contain"
+            style={{tintColor: colorScheme === 'dark' ? undefined : 'black'}}
+          />
         )}
         {/* Somehow this component breaks windows build */}
         {(Platform.OS === 'macos' || Platform.OS === 'ios') &&
           !!item.iconComponent && <item.iconComponent />}
         <Text
-          style={tw.style('ml-3 text-sm', {
-            // 'text-white': isActive,
+          className={clsx('ml-3 text-sm dark:text-neutral-300', {
+            'text-white': isActive,
           })}>
           {item.name}
         </Text>
@@ -150,7 +131,7 @@ export const SearchWidget: FC = observer(() => {
       className={clsx({
         'flex-1': !!store.ui.query,
       })}>
-      <View className="h-12 pt-1 px-3 dark:bg-neutral-900 flex-row items-center">
+      <View className="h-12 pt-1 px-3 flex-row items-center">
         <TextInput
           autoFocus
           // @ts-expect-error
@@ -179,9 +160,9 @@ export const SearchWidget: FC = observer(() => {
 
       {!!store.ui.query && (
         <StyledFlatList
-          className="flex-1 dark:bg-black dark:bg-opacity-50"
+          className="flex-1"
           windowSize={8}
-          contentContainerStyle="flex-grow-1 p-3"
+          contentContainerStyle="flex-grow-1 px-2 pt-1 pb-2"
           ref={listRef}
           data={items}
           keyExtractor={(item: any, i) => `${item.name}-${item.type}-${i}`}

@@ -1,0 +1,6 @@
+[defaults]
+org = ospfranco
+project = sol
+
+[auth]
+token = our-sentry-token

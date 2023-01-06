@@ -227,7 +227,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
     // Give react native event listener a bit of time to react
     // and switch components
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
       self.settingsHotKey.isPaused = false
       self.mainWindow.setIsVisible(false)
       if(self.showWindowOn == "screenWithFrontmost") {

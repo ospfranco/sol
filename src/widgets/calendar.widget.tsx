@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import {solNative} from 'lib/SolNative'
 import {DateTime} from 'luxon'
 import {observer} from 'mobx-react-lite'
@@ -55,29 +56,22 @@ export const CalendarWidget: FC<Props> = observer(() => {
   }
 
   if (groupedEvents.every(day => day[1].events.length === 0)) {
-    return (
-      <View className="px-3 py-2 bg-neutral-100 dark:bg-black bg-opacity-50">
-        <Text className="text-xs text-neutral-400 dark:text-neutral-600">
-          No upcoming events
-        </Text>
-      </View>
-    )
+    return null
   }
 
   return (
-    <View
-      style={tw`px-2 py-2 flex-row bg-neutral-100 dark:bg-black bg-opacity-50`}>
-      {groupedEvents.map(([key, data], i) => {
+    <View className="px-2 py-2 flex-row">
+      {groupedEvents.map(([key, data]) => {
         return (
-          <View key={key} style={tw`flex-row flex-1`}>
-            <View style={tw`flex-1`}>
+          <View key={key} className="flex-row flex-1">
+            <View className="flex-1">
               <View className="flex-row">
                 {key === 'today' || key === 'tomorrow' ? (
-                  <Text className="capitalize text-neutral-400 dark:text-neutral-600 text-xxs ml-1">
+                  <Text className="capitalize text-neutral-400 dark:text-neutral-500 text-xs ml-1">
                     {key}
                   </Text>
                 ) : (
-                  <Text className="capitalize text-neutral-400 dark:text-neutral-600 text-xxs ml-1">
+                  <Text className="capitalize text-neutral-400 dark:text-neutral-500 text-xs ml-1">
                     {data.date.toFormat('cccc')}
                   </Text>
                 )}
@@ -102,10 +96,10 @@ export const CalendarWidget: FC<Props> = observer(() => {
                   return (
                     <View
                       key={index}
-                      style={tw.style(
-                        `flex-row items-center py-1 px-1 border border-transparent rounded`,
+                      className={clsx(
+                        `flex-row items-center py-1 px-1 rounded border border-transparent`,
                         {
-                          'bg-gray-200 dark:bg-proGray-900 border-neutral-300 dark:border-neutral-600':
+                          'bg-gray-200 dark:bg-darkHighlight dark:border-neutral-600':
                             highlighted,
                           'p-0.5': event.isAllDay,
                         },
@@ -130,10 +124,9 @@ export const CalendarWidget: FC<Props> = observer(() => {
                       )}
                       <Text
                         numberOfLines={1}
-                        className="text-xs ml-1 flex-shrink"
-                        style={tw.style({
+                        className={clsx('text-xs flex-shrink ml-1', {
                           'line-through': event.declined,
-                          'font-bold': isNow,
+                          'font-bold': isNow && !event.isAllDay,
                         })}>
                         {event.title}
                       </Text>
