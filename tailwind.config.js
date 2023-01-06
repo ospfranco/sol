@@ -18,7 +18,7 @@ module.exports = {
       },
       colors: {
         light: {DEFAULT: 'rgb(251, 251, 251)'},
-        dark: {DEFAULT: 'rgba(21, 21, 21, .5)'},
+        dark: {DEFAULT: 'rgba(21, 21, 21, .65)'},
         darkHighlight: {DEFAULT: 'rgba(255, 255, 255, .12)'},
         darkBorder: {DEFAULT: 'rgba(255, 255, 255, .1)'},
         lightBorder: {DEFAULT: 'rgba(0, 0, 0, .1)'},
