@@ -79,7 +79,7 @@ export const SearchWidget: FC = observer(() => {
         {(Platform.OS === 'macos' || Platform.OS === 'ios') &&
           !!item.iconComponent && <item.iconComponent />}
         <Text
-          className={clsx('ml-3 text-sm dark:text-neutral-300', {
+          className={clsx('ml-3 text-sm dark:text-neutral-400', {
             'text-white': isActive,
           })}>
           {item.name}
