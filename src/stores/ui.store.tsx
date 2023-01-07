@@ -170,7 +170,7 @@ export const createUIStore = (root: IRootStore) => {
     },
     {
       iconImage: Assets.GoogleMaps,
-      name: 'Google Maps Search',
+      name: 'Google Maps',
       type: ItemType.CONFIGURATION,
       callback: () => {
         store.focusedWidget = Widget.GOOGLE_MAP

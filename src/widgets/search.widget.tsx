@@ -47,7 +47,7 @@ export const SearchWidget: FC = observer(() => {
 
     return (
       <View
-        className={clsx('flex-row items-center px-2 rounded py-1.5', {
+        className={clsx('flex-row items-center px-2 rounded py-2', {
           'bg-gray-200 dark:bg-darkHighlight': isActive,
         })}>
         {!!item.url && <FileIcon url={item.url} style={tw`w-4 h-4`} />}
@@ -90,7 +90,7 @@ export const SearchWidget: FC = observer(() => {
           </Text>
         )}
         <View style={tw`flex-1`} />
-        {isActive && (
+        {/* {isActive && (
           <TouchableOpacity
             onPress={() => {
               store.ui.toggleFavorite(item)
@@ -104,7 +104,7 @@ export const SearchWidget: FC = observer(() => {
               resizeMode="contain"
             />
           </TouchableOpacity>
-        )}
+        )} */}
         {/* {item.isFavorite && !store.ui.query && (
           <Text
             style={tw.style(`text-gray-500 dark:text-gray-400 text-xs w-6`, {
@@ -114,11 +114,15 @@ export const SearchWidget: FC = observer(() => {
           </Text>
         )} */}
         {!!item.shortcut && (
-          <View style={tw`flex-row`}>
+          <View className="flex-row">
             {item.shortcut.split(' ').map((char, i) => (
-              <View key={i} className="mr-1">
-                <Key title={char} />
-              </View>
+              <Text
+                key={i}
+                className={clsx('mr-1 text-xs dark:text-neutral-500', {
+                  'text-white': isActive,
+                })}>
+                {char}
+              </Text>
             ))}
           </View>
         )}

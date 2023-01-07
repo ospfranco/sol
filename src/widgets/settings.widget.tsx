@@ -97,10 +97,10 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
         />
       </View>
 
-      <View style={tw`flex-1 bg-white dark:bg-dark bg-opacity-70`}>
+      <View style={tw`flex-1 bg-white dark:bg-dark`}>
         {selected === 'ABOUT' && (
           <View
-            style={tw`flex-1 justify-center items-center bg-white dark:bg-black bg-opacity-30`}>
+            style={tw`flex-1 justify-center items-center bg-white dark:bg-dark`}>
             <Image
               source={Assets.Logo}
               style={tw.style(`h-20 w-32`, {
@@ -113,7 +113,7 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
           </View>
         )}
         {selected === 'WEATHER' && (
-          <View style={tw`flex-1 p-6 bg-white dark:bg-black bg-opacity-30`}>
+          <View style={tw`flex-1 p-6 bg-white dark:bg-dark`}>
             <Text style={tw``}>Api Key</Text>
 
             <Input
@@ -159,7 +159,7 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
         {selected === 'GENERAL' && (
           <StyledScrollView
             showsVerticalScrollIndicator
-            className="flex-1 bg-white dark:bg-black dark:bg-opacity-30"
+            className="flex-1 bg-white dark:bg-dark"
             contentContainerStyle="justify-center p-6">
             <View style={tw`flex-row items-center py-2`}>
               <Text style={tw`flex-1 text-right pr-3 text-sm`}>
@@ -371,7 +371,7 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
           </StyledScrollView>
         )}
         {selected === 'TRANSLATE' && (
-          <View style={tw`flex-1 p-6 bg-white dark:bg-black bg-opacity-30`}>
+          <View style={tw`flex-1 p-6 bg-white dark:bg-dark`}>
             <View style={tw`flex-1 pt-8`}>
               <View style={tw`flex-row items-center py-2 z-10`}>
                 <Text style={tw`flex-1 text-right mr-2`}>First language</Text>
