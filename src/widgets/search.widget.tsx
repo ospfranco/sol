@@ -147,8 +147,9 @@ export const SearchWidget: FC = observer(() => {
           placeholderTextColor={
             colorScheme === 'dark' ? colors.neutral[600] : colors.neutral[400]
           }
-          placeholder={'Type to search...'}
-          selectionColor={colorScheme === 'dark' ? 'white' : 'black'}
+          placeholder={'Search for commands and actions...'}
+          // selectionColor={colorScheme === 'dark' ? 'white' : 'black'}
+          cursorColor={'red'}
         />
       </View>
 
