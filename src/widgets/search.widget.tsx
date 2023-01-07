@@ -12,7 +12,6 @@ import {
   Platform,
   Text,
   TextInput,
-  TouchableOpacity,
   useColorScheme,
   View,
 } from 'react-native'
@@ -72,7 +71,10 @@ export const SearchWidget: FC = observer(() => {
             source={item.iconImage}
             className="w-4 h-4"
             resizeMode="contain"
-            style={{tintColor: colorScheme === 'dark' ? undefined : 'black'}}
+            style={{
+              tintColor:
+                colorScheme === 'dark' ? undefined : colors.neutral[600],
+            }}
           />
         )}
         {/* Somehow this component breaks windows build */}
@@ -119,7 +121,7 @@ export const SearchWidget: FC = observer(() => {
               <Text
                 key={i}
                 className={clsx('mr-1 text-xs dark:text-neutral-500', {
-                  'text-white': isActive,
+                  'dark:text-white': isActive,
                 })}>
                 {char}
               </Text>
