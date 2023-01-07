@@ -1,5 +1,5 @@
 diff --git a/node_modules/react-native-macos/Libraries/Text/TextInput/Singleline/RCTUITextField.m b/node_modules/react-native-macos/Libraries/Text/TextInput/Singleline/RCTUITextField.m
-index 98cb1bd..c6d1a75 100644
+index 98cb1bd..65a8f3f 100644
 --- a/node_modules/react-native-macos/Libraries/Text/TextInput/Singleline/RCTUITextField.m
 +++ b/node_modules/react-native-macos/Libraries/Text/TextInput/Singleline/RCTUITextField.m
 @@ -71,7 +71,7 @@
@@ -32,3 +32,14 @@ index 98cb1bd..c6d1a75 100644
  #endif // ]TODO(macOS GH#774)
  }
  
+@@ -432,8 +439,9 @@
+ {
+   id<RCTUITextFieldDelegate> delegate = self.delegate;
+   if ([delegate respondsToSelector:@selector(textField:shouldChangeCharactersInRange:replacementString:)]) {
+-    return [delegate textField:self shouldChangeCharactersInRange:aRange replacementString:aString];
++      return [delegate textField:self shouldChangeCharactersInRange:aRange replacementString:aString];
+   }
++
+   return NO;
+ }
+   

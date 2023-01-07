@@ -144,10 +144,10 @@ export const SearchWidget: FC = observer(() => {
           onChangeText={store.ui.setQuery}
           ref={inputRef}
           className="flex-1 text-lg"
-          // placeholderTextColor={
-          //   colorScheme === 'dark' ? colors.neutral[600] : colors.neutral[400]
-          // }
-          // placeholder={'Search for commands and actions...'}
+          placeholderTextColor={
+            colorScheme === 'dark' ? colors.neutral[600] : colors.neutral[400]
+          }
+          placeholder={'Search for commands and actions...'}
           selectionColor={colorScheme === 'dark' ? 'white' : 'black'}
         />
       </View>
