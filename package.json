@@ -12,7 +12,8 @@
     "dev": "bundle exec fastlane dev && rimraf ./releases/Sol.app && open /Applications/Sol.app",
     "release": "bundle exec fastlane release",
     "appcast": "./macos/Pods/Sparkle/bin/generate_appcast ./releases",
-    "pods": "npx pod-install macos"
+    "pods": "npx pod-install macos",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@giphy/js-fetch-api": "^4.1.2",
@@ -32,6 +33,8 @@
     "mobx-react-lite": "3.4.0",
     "nanoid": "^4.0.0",
     "nativewind": "2.0.11",
+    "patch-package": "^6.5.1",
+    "postinstall-postinstall": "^2.1.0",
     "react": "17.0.2",
     "react-native": "0.68.3",
     "react-native-get-random-values": "^1.8.0",

@@ -80,7 +80,7 @@ export const SearchWidget: FC = observer(() => {
           !!item.iconComponent && <item.iconComponent />}
         <Text
           className={clsx('ml-3 text-sm dark:text-neutral-400', {
-            'text-white': isActive,
+            'dark:text-white': isActive,
           })}>
           {item.name}
         </Text>
@@ -144,12 +144,11 @@ export const SearchWidget: FC = observer(() => {
           onChangeText={store.ui.setQuery}
           ref={inputRef}
           className="flex-1 text-lg"
-          placeholderTextColor={
-            colorScheme === 'dark' ? colors.neutral[600] : colors.neutral[400]
-          }
-          placeholder={'Search for commands and actions...'}
-          // selectionColor={colorScheme === 'dark' ? 'white' : 'black'}
-          cursorColor={'red'}
+          // placeholderTextColor={
+          //   colorScheme === 'dark' ? colors.neutral[600] : colors.neutral[400]
+          // }
+          // placeholder={'Search for commands and actions...'}
+          selectionColor={colorScheme === 'dark' ? 'white' : 'black'}
         />
       </View>
 

@@ -1,0 +1,34 @@
+diff --git a/node_modules/react-native-macos/Libraries/Text/TextInput/Singleline/RCTUITextField.m b/node_modules/react-native-macos/Libraries/Text/TextInput/Singleline/RCTUITextField.m
+index 98cb1bd..c6d1a75 100644
+--- a/node_modules/react-native-macos/Libraries/Text/TextInput/Singleline/RCTUITextField.m
++++ b/node_modules/react-native-macos/Libraries/Text/TextInput/Singleline/RCTUITextField.m
+@@ -71,7 +71,7 @@
+   fieldEditor.automaticSpellingCorrectionEnabled = self.isAutomaticSpellingCorrectionEnabled;
+   fieldEditor.automaticTextReplacementEnabled = self.isAutomaticTextReplacementEnabled;
+   NSMutableDictionary *selectTextAttributes = fieldEditor.selectedTextAttributes.mutableCopy;
+-  selectTextAttributes[NSBackgroundColorAttributeName] = self.selectionColor ?: [NSColor selectedControlColor];
++//  selectTextAttributes[NSBackgroundColorAttributeName] = self.selectionColor ?: [NSColor selectedControlColor];
+ 	fieldEditor.selectedTextAttributes = selectTextAttributes;
+   fieldEditor.insertionPointColor = self.selectionColor ?: [RCTUIColor selectedControlColor];
+   return fieldEditor;
+@@ -121,6 +121,10 @@
+ #if TARGET_OS_OSX // [TODO(macOS GH#774)
+   [self setAttributedText:[[NSAttributedString alloc] initWithString:[self text]
+                                                           attributes:[self defaultTextAttributes]]];
++// TODO this tricks the caret to remain at a constant size, however it still wrong
++    if([[self text] length] == 0) {
++        self.font = [[self defaultTextAttributes] objectForKey:NSFontAttributeName];
++    }
+ #endif // ]TODO(macOS GH#774)
+ }
+ 
+@@ -286,6 +290,9 @@
+ #if TARGET_OS_OSX // [TODO(macOS GH#774)
+   [self setAttributedText:[[NSAttributedString alloc] initWithString:[self text]
+                                                           attributes:[self defaultTextAttributes]]];
++
++    self.font = [[self defaultTextAttributes] objectForKey:NSFontAttributeName];
++
+ #endif // ]TODO(macOS GH#774)
+ }
+ 
