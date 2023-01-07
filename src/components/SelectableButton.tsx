@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import {useBoolean} from 'hooks'
 import React, {FC} from 'react'
 import {
@@ -28,11 +29,11 @@ export const SelectableButton: FC<SelectableButtonProps> = ({
       {...props}
       // @ts-ignore
       enableFocusRing={false}
-      style={tw.style(
+      className={clsx(
         'rounded px-2 py-1 w-full',
         {
-          'bg-accent dark:bg-opacity-40 bg-opacity-80': selected,
-          'bg-accent dark:bg-opacity-20 bg-opacity-60': !selected && hovered,
+          'bg-gray-200 dark:bg-darkHighlight': selected,
+          'bg-gray-200 dark:bg-darkBorder': !selected && hovered,
         },
         style,
       )}>
