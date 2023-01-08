@@ -3,6 +3,17 @@
     <channel>
         <title>Sol</title>
         <item>
+            <title>1.1.130</title>
+            <pubDate>Sun, 08 Jan 2023 12:03:25 +0100</pubDate>
+            <sparkle:version>154</sparkle:version>
+            <sparkle:shortVersionString>1.1.130</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/1.1.130.zip" length="5006055" type="application/octet-stream" sparkle:edSignature="PiMS3zhFM5qL0ijCVlCUSvai5WxkWMYeYs83FSOwlutnTjjkgP2PyMWgtirjya8WwDhyfUU7yGQ7SBJ8RaURAw=="/>
+            <sparkle:deltas>
+                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/Sol154-153.delta" sparkle:deltaFrom="153" length="18174" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="1840704" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,en" sparkle:edSignature="2sQbFLoTRybYJYEgwax0PPqntrgVJFz3Dae+QkjHhO+wDPdkPSV6vF7yLh9yeT2JRXbkG70MIVXsiyvBm30GAA=="/>
+            </sparkle:deltas>
+        </item>
+        <item>
             <title>1.1.129</title>
             <pubDate>Sun, 08 Jan 2023 11:57:21 +0100</pubDate>
             <sparkle:version>153</sparkle:version>
