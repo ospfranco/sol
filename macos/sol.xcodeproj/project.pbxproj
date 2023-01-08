@@ -303,9 +303,7 @@
 				TargetAttributes = {
 					514201482437B4B30078DB4F = {
 						CreatedOnToolsVersion = 11.4;
-						DevelopmentTeam = 24CMR7378R;
 						LastSwiftMigration = 1320;
-						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -544,7 +542,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "sol-macOS/sol-macOS.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 24CMR7378R;
@@ -565,6 +564,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -Xcc -fmodule-map-file=\"${PODS_ROOT}/Headers/Public/React/React-Core.modulemap\" -Xcc -fmodule-map-file=\"${PODS_ROOT}/Headers/Public/yoga/Yoga.modulemap\" -D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ospfranco.sol;
 				PRODUCT_NAME = sol;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SWIFT_OBJC_BRIDGING_HEADER = "sol-macOS/sol-macOS-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -580,6 +580,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "sol-macOS/sol-macOS.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 24CMR7378R;
@@ -599,6 +601,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ospfranco.sol;
 				PRODUCT_NAME = sol;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SWIFT_OBJC_BRIDGING_HEADER = "sol-macOS/sol-macOS-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
