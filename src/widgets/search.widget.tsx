@@ -45,54 +45,63 @@ export const SearchWidget: FC = observer(() => {
     const isActive = index === store.ui.selectedIndex && focused
 
     return (
-      <View
-        className={clsx('flex-row items-center px-2 rounded py-2', {
-          'bg-gray-200 dark:bg-darkHighlight': isActive,
-        })}>
-        {!!item.url && <FileIcon url={item.url} style={tw`w-4 h-4`} />}
-        {item.type !== ItemType.CUSTOM && !!item.icon && (
-          <Text style={tw`text-xs`}>{item.icon}</Text>
-        )}
-        {item.type === ItemType.CUSTOM && !!item.icon && (
-          <View className="h-4 w-4 rounded items-center justify-center">
-            <Image
-              // @ts-expect-error
-              source={Icons[item.icon]}
-              style={tw.style({
-                tintColor: item.color,
-                height: 12,
-                width: 12,
-              })}
-            />
-          </View>
-        )}
-        {!!item.iconImage && (
-          <Image
-            source={item.iconImage}
-            className="w-4 h-4"
-            resizeMode="contain"
-            style={{
-              tintColor:
-                colorScheme === 'dark' ? undefined : colors.neutral[600],
-            }}
-          />
-        )}
-        {/* Somehow this component breaks windows build */}
-        {(Platform.OS === 'macos' || Platform.OS === 'ios') &&
-          !!item.iconComponent && <item.iconComponent />}
-        <Text
-          className={clsx('ml-3 text-sm dark:text-neutral-400', {
-            'dark:text-white': isActive,
+      <View className="flex-row pl-0.5 items-center">
+        <View
+          className={clsx(
+            'w-[2px] bg-transparent h-[80%] rounded-tr rounded-br mr-[7px]',
+            {
+              'bg-white': isActive,
+            },
+          )}
+        />
+        <View
+          className={clsx('flex-1 flex-row items-center p-2 rounded', {
+            'bg-gray-200 dark:bg-darkHighlight': isActive,
           })}>
-          {item.name}
-        </Text>
-        {!!item.subName && (
-          <Text style={tw.style('ml-3 text-sm text-gray-500')}>
-            {item.subName}
+          {!!item.url && <FileIcon url={item.url} style={tw`w-4 h-4`} />}
+          {item.type !== ItemType.CUSTOM && !!item.icon && (
+            <Text style={tw`text-xs`}>{item.icon}</Text>
+          )}
+          {item.type === ItemType.CUSTOM && !!item.icon && (
+            <View className="h-4 w-4 rounded items-center justify-center">
+              <Image
+                // @ts-expect-error
+                source={Icons[item.icon]}
+                style={tw.style({
+                  tintColor: item.color,
+                  height: 12,
+                  width: 12,
+                })}
+              />
+            </View>
+          )}
+          {!!item.iconImage && (
+            <Image
+              source={item.iconImage}
+              className="w-4 h-4"
+              resizeMode="contain"
+              style={{
+                tintColor:
+                  colorScheme === 'dark' ? undefined : colors.neutral[600],
+              }}
+            />
+          )}
+          {/* Somehow this component breaks windows build */}
+          {(Platform.OS === 'macos' || Platform.OS === 'ios') &&
+            !!item.iconComponent && <item.iconComponent />}
+          <Text
+            className={clsx('ml-3 text-sm dark:text-neutral-400', {
+              'dark:text-white': isActive,
+            })}>
+            {item.name}
           </Text>
-        )}
-        <View style={tw`flex-1`} />
-        {/* {isActive && (
+          {!!item.subName && (
+            <Text style={tw.style('ml-3 text-sm text-gray-500')}>
+              {item.subName}
+            </Text>
+          )}
+          <View style={tw`flex-1`} />
+          {/* {isActive && (
           <TouchableOpacity
             onPress={() => {
               store.ui.toggleFavorite(item)
@@ -107,7 +116,7 @@ export const SearchWidget: FC = observer(() => {
             />
           </TouchableOpacity>
         )} */}
-        {/* {item.isFavorite && !store.ui.query && (
+          {/* {item.isFavorite && !store.ui.query && (
           <Text
             style={tw.style(`text-gray-500 dark:text-gray-400 text-xs w-6`, {
               'text-white dark:text-white': isActive,
@@ -115,19 +124,20 @@ export const SearchWidget: FC = observer(() => {
             ⌘ {index + 1}
           </Text>
         )} */}
-        {!!item.shortcut && (
-          <View className="flex-row">
-            {item.shortcut.split(' ').map((char, i) => (
-              <Text
-                key={i}
-                className={clsx('mr-1 text-xs dark:text-neutral-500', {
-                  'dark:text-white': isActive,
-                })}>
-                {char}
-              </Text>
-            ))}
-          </View>
-        )}
+          {!!item.shortcut && (
+            <View className="flex-row">
+              {item.shortcut.split(' ').map((char, i) => (
+                <Text
+                  key={i}
+                  className={clsx('mr-1 text-xs dark:text-neutral-500', {
+                    'dark:text-white': isActive,
+                  })}>
+                  {char}
+                </Text>
+              ))}
+            </View>
+          )}
+        </View>
       </View>
     )
   }
@@ -147,7 +157,7 @@ export const SearchWidget: FC = observer(() => {
           ref={inputRef}
           className="flex-1 text-lg"
           placeholderTextColor={
-            colorScheme === 'dark' ? colors.neutral[600] : colors.neutral[400]
+            colorScheme === 'dark' ? colors.neutral[500] : colors.neutral[400]
           }
           placeholder={'Search for commands and actions...'}
           selectionColor={colorScheme === 'dark' ? 'white' : 'black'}
@@ -168,7 +178,7 @@ export const SearchWidget: FC = observer(() => {
         <StyledFlatList
           className="flex-1"
           windowSize={8}
-          contentContainerStyle="flex-grow-1 px-2 pt-1 pb-2"
+          contentContainerStyle="flex-grow-1 pr-2 py-2"
           ref={listRef}
           data={items}
           keyExtractor={(item: any, i) => `${item.name}-${item.type}-${i}`}
