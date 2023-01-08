@@ -8,7 +8,7 @@
             <sparkle:version>148</sparkle:version>
             <sparkle:shortVersionString>1.1.124</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/Sol.app.zip" length="5161051" type="application/octet-stream"/>
+            <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/1.1.124.zip" length="5161051" type="application/octet-stream"/>
         </item>
         <item>
             <title>1.1.123</title>
