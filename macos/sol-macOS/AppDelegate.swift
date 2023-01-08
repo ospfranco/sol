@@ -48,10 +48,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
   override init() {
     updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: nil, userDriverDelegate: nil)
-    
-//    BookmarkHelper.requestFullDiskAccess()
-    let bookmarks = BookmarkHelper.getSafariBookmars()
-    print("ROPO \(bookmarks)")
   }
 
   func applicationDidFinishLaunching(_ aNotification: Notification) {
@@ -78,7 +74,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     let windowRect = NSScreen.main?.frame
     overlayWindow = Overlay(contentRect: windowRect!, backing: .buffered, defer: false)
 
-    toastWindow = Toast(contentRect: NSRect(x: 0, y: 0, width: 200, height: 60), backing: .buffered, defer: false)
+    toastWindow = Toast(contentRect: NSRect(x: 0, y: 0, width: 250, height: 50), backing: .buffered, defer: false)
 
     setupKeyboardListeners()
     setupPasteboardListener()
@@ -399,8 +395,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     let toastView = ToastView(text: text)
 
     let rootView = NSHostingView(rootView: toastView)
+    rootView.frame = toastWindow.visualEffect.bounds
+    rootView.autoresizingMask = [.minXMargin, .maxXMargin, .minYMargin, .maxYMargin, .width, .height]
 
-    toastWindow.contentView = rootView
+    toastWindow.visualEffect.addSubview(rootView)
+//    rootView.frame = visualEffect.bounds
+
+//        toastWindow.contentView = rootView
 
     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
       self.toastWindow.orderOut(nil)
