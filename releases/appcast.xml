@@ -3,12 +3,20 @@
     <channel>
         <title>sol</title>
         <item>
+            <title>1.1.124</title>
+            <pubDate>Sat, 07 Jan 2023 13:54:25 +0100</pubDate>
+            <sparkle:version>148</sparkle:version>
+            <sparkle:shortVersionString>1.1.124</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/Sol.app.zip" length="5161051" type="application/octet-stream"/>
+        </item>
+        <item>
             <title>1.1.123</title>
             <pubDate>Sat, 07 Jan 2023 13:54:25 +0100</pubDate>
             <sparkle:version>147</sparkle:version>
             <sparkle:shortVersionString>1.1.123</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/Sol.app.zip" length="5154479" type="application/octet-stream"/>
+            <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/1.1.123.zip" length="4998835" type="application/octet-stream"/>
         </item>
         <item>
             <title>1.1.121</title>
