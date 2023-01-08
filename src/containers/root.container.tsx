@@ -1,7 +1,7 @@
 import {solNative} from 'lib/SolNative'
 import {observer} from 'mobx-react-lite'
 import React, {useEffect} from 'react'
-import {Text, TouchableOpacity, View} from 'react-native'
+import {Linking, Text, TouchableOpacity, View} from 'react-native'
 import {useStore} from 'store'
 import {Widget} from 'stores/ui.store'
 import tw from 'tailwind'
@@ -105,14 +105,9 @@ export const RootContainer = observer(() => {
         )}
 
       {calendarVisible && <CalendarWidget />}
-      {store.ui.showHintBar && <GeneralWidget />}
       {!store.ui.isAccessibilityTrusted && (
         <>
-          <View
-            style={tw.style(
-              `w-full border-lightBorder dark:border-darkBorder border-t`,
-            )}
-          />
+          <View className="w-full border-lightBorder dark:border-darkBorder border-t" />
           <TouchableOpacity
             onPress={() => {
               solNative.requestAccessibilityAccess()
@@ -124,6 +119,26 @@ export const RootContainer = observer(() => {
           </TouchableOpacity>
         </>
       )}
+      {!store.ui.hasFullDiskAccess && (
+        <>
+          <View className="w-full border-lightBorder dark:border-darkBorder border-t" />
+          <TouchableOpacity
+            onPress={() => {
+              Linking.openURL(
+                'x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles',
+              )
+              solNative.hideWindow()
+            }}>
+            <Text className="text-xs px-3 py-2">
+              Click to grant full disk access{' '}
+              <Text className="text-xs dark:text-neutral-500">
+                (needed to read Safari bookmarks)
+              </Text>
+            </Text>
+          </TouchableOpacity>
+        </>
+      )}
+      {store.ui.showHintBar && <GeneralWidget />}
     </View>
   )
 })

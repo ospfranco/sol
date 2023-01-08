@@ -10,6 +10,7 @@
 		1DAB47A1C5202375AB34B232 /* libPods-macOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 26A00CE308779EAC9F81E0E7 /* libPods-macOS.a */; };
 		514201522437B4B40078DB4F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 514201512437B4B40078DB4F /* Assets.xcassets */; };
 		514201552437B4B40078DB4F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 514201532437B4B40078DB4F /* Main.storyboard */; };
+		7008230D296A9D5800E8978A /* BookmarkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7008230C296A9D5800E8978A /* BookmarkHelper.swift */; };
 		700A18D8279DBBE40096C830 /* ApplicationSearcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700A18D7279DBBE40096C830 /* ApplicationSearcher.swift */; };
 		700A18DA279DC17F0096C830 /* FileIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700A18D9279DC17F0096C830 /* FileIcon.swift */; };
 		700A18DC279DC1F50096C830 /* FileIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 700A18DB279DC1F50096C830 /* FileIcon.m */; };
@@ -59,6 +60,7 @@
 		514201542437B4B40078DB4F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		514201562437B4B40078DB4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		514201592437B4B40078DB4F /* sol.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = sol.entitlements; sourceTree = "<group>"; };
+		7008230C296A9D5800E8978A /* BookmarkHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkHelper.swift; sourceTree = "<group>"; };
 		700A18D7279DBBE40096C830 /* ApplicationSearcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationSearcher.swift; sourceTree = "<group>"; };
 		700A18D9279DC17F0096C830 /* FileIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileIcon.swift; sourceTree = "<group>"; };
 		700A18DB279DC1F50096C830 /* FileIcon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileIcon.m; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 				70E15D09293290E9007FFE5F /* JSIUtils.mm */,
 				70E15D0B293290F7007FFE5F /* JSIUtils.h */,
 				70E80B5B294C699E0094F1B5 /* NotchHelper.swift */,
+				7008230C296A9D5800E8978A /* BookmarkHelper.swift */,
 			);
 			path = lib;
 			sourceTree = "<group>";
@@ -483,6 +486,7 @@
 			files = (
 				7047E80627D4D31400582E1B /* MediaHelper.swift in Sources */,
 				70EA99EA2794967E008E54FD /* AppDelegate.swift in Sources */,
+				7008230D296A9D5800E8978A /* BookmarkHelper.swift in Sources */,
 				70E15D0A293290E9007FFE5F /* JSIUtils.mm in Sources */,
 				70B78361279BE866008660F5 /* Panel.swift in Sources */,
 				7034504028238AAB00240BDD /* ScreenDetector.swift in Sources */,

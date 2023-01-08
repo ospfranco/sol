@@ -48,6 +48,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
   override init() {
     updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: nil, userDriverDelegate: nil)
+    
+//    BookmarkHelper.requestFullDiskAccess()
+    let bookmarks = BookmarkHelper.getSafariBookmars()
+    print("ROPO \(bookmarks)")
   }
 
   func applicationDidFinishLaunching(_ aNotification: Notification) {

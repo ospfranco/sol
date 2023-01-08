@@ -199,12 +199,6 @@ export const createKeystrokeStore = (root: IRootStore) => {
                 }
               }
 
-              if (root.ui.temporaryResult && root.ui.selectedIndex === 0) {
-                Clipboard.setString(root.ui.temporaryResult)
-                solNative.hideWindow()
-                return
-              }
-
               let item = root.ui.items[root.ui.selectedIndex]
 
               if (item == null) {
@@ -222,10 +216,10 @@ export const createKeystrokeStore = (root: IRootStore) => {
 
               if (store.commandPressed && item.metaCallback) {
                 item.metaCallback()
-              } else if (item.url) {
-                solNative.openFile(item.url)
               } else if (item.callback) {
                 item.callback()
+              } else if (item.url) {
+                solNative.openFile(item.url)
               }
 
               if (item.type === ItemType.CUSTOM) {

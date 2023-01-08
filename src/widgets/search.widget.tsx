@@ -124,6 +124,9 @@ export const SearchWidget: FC = observer(() => {
             ⌘ {index + 1}
           </Text>
         )} */}
+          {item.type === ItemType.BOOKMARK && (
+            <Text className="dark:text-neutral-500 text-xs">Bookmark</Text>
+          )}
           {!!item.shortcut && (
             <View className="flex-row">
               {item.shortcut.split(' ').map((char, i) => (

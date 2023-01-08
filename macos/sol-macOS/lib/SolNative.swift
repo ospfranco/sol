@@ -300,4 +300,13 @@ class SolNative: RCTEventEmitter {
       }
     }
   }
+  
+  @objc func hasFullDiskAccess(_ resolve: RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) {
+    resolve(BookmarkHelper.hasFullDiskAccess())
+  }
+  
+  @objc func getSafariBookmarks(_ resolve: RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) {
+    let bookmarks = BookmarkHelper.getSafariBookmars()
+    resolve(bookmarks)
+  }
 }

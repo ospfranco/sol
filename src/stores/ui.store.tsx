@@ -64,6 +64,7 @@ export enum ItemType {
   CONFIGURATION = 'CONFIGURATION',
   CUSTOM = 'CUSTOM',
   TEMPORARY_RESULT = 'TEMPORARY_RESULT',
+  BOOKMARK = 'BOOKMARK',
 }
 
 export const createUIStore = (root: IRootStore) => {
@@ -785,6 +786,8 @@ export const createUIStore = (root: IRootStore) => {
     showHintBar: true,
     useBackgroundOverlay: true,
     shouldHideMenubar: false,
+    hasFullDiskAccess: false,
+    safariBookmarks: [] as {title: string; url: string}[],
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -849,6 +852,16 @@ export const createUIStore = (root: IRootStore) => {
           return i
         }),
         ...store.customItems,
+        ...store.safariBookmarks.map((bookmark): Item => {
+          return {
+            name: bookmark.title,
+            type: ItemType.BOOKMARK,
+            iconImage: Assets.Safari,
+            callback: () => {
+              Linking.openURL(bookmark.url)
+            },
+          }
+        }),
       ]
 
       if (store.query) {
@@ -864,8 +877,8 @@ export const createUIStore = (root: IRootStore) => {
           .map(r => r.item)
 
         // Return the fallback if we have a temporary result or no results
-        const shouldReturnFallback =
-          results.length === 0 || !!store.temporaryResult
+        // const shouldReturnFallback =
+        //   results.length === 0 || !!store.temporaryResult
 
         const temporaryResultItems = !!store.temporaryResult
           ? [{type: ItemType.TEMPORARY_RESULT, name: ''}]
@@ -890,7 +903,7 @@ export const createUIStore = (root: IRootStore) => {
             : []),
           ...temporaryResultItems,
           ...results,
-          ...(shouldReturnFallback ? FALLBACK_ITEMS : []),
+          ...FALLBACK_ITEMS,
           ...store.fileResults.map(f => ({
             name: f.filename,
             subName:
@@ -898,7 +911,7 @@ export const createUIStore = (root: IRootStore) => {
                 ? `...${f.path.substring(f.path.length - 60, f.path.length)}`
                 : f.path,
             type: ItemType.CUSTOM,
-            iconComponent: () => <FileIcon url={f.path} style={tw`w-4 h-4`} />,
+            iconComponent: () => <FileIcon url={f.path} className="w-4 h-4" />,
             callback: () => {
               Linking.openURL(f.path)
             },
@@ -1414,12 +1427,30 @@ export const createUIStore = (root: IRootStore) => {
         solNative.showToast('Done, please restore your wallpaper manually')
       }
     },
+    getFullDiskAccessStatus: async () => {
+      const hasAccess = await solNative.hasFullDiskAccess()
+      runInAction(() => {
+        store.hasFullDiskAccess = hasAccess
+        if (hasAccess) {
+          store.getSafariBookmarks()
+        }
+      })
+    },
+    getSafariBookmarks: async () => {
+      if (store.hasFullDiskAccess) {
+        const safariBookmarks = await solNative.getSafariBookmarks()
+        runInAction(() => {
+          store.safariBookmarks = safariBookmarks
+        })
+      }
+    },
   })
 
   hydrate().then(() => {
     autorun(persist)
     store.getCalendarAccess()
     store.getAccessibilityStatus()
+    store.getFullDiskAccessStatus()
   })
 
   onShowListener = solNative.addListener('onShow', store.onShow)

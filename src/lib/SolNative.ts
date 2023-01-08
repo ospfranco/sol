@@ -65,6 +65,8 @@ class SolNative extends NativeEventEmitter {
   exists: typeof global.__SolProxy.exists
   userName: typeof global.__SolProxy.userName
   shouldHideMenubar: (v: boolean) => void
+  hasFullDiskAccess: () => Promise<boolean>
+  getSafariBookmarks: () => Promise<any>
 
   // Constants
   accentColor: string
@@ -149,6 +151,8 @@ class SolNative extends NativeEventEmitter {
     this.OSVersion = constants.OSVersion
 
     this.shouldHideMenubar = module.shouldHideMenubar
+    this.hasFullDiskAccess = module.hasFullDiskAccess
+    this.getSafariBookmarks = module.getSafariBookmarks
   }
 }
 
