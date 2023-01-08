@@ -90,16 +90,13 @@ export const SearchWidget: FC = observer(() => {
           {(Platform.OS === 'macos' || Platform.OS === 'ios') &&
             !!item.iconComponent && <item.iconComponent />}
           <Text
-            className={clsx('ml-3 text-sm dark:text-neutral-400', {
+            numberOfLines={1}
+            className={clsx('ml-3 text-sm dark:text-neutral-400 max-w-xl', {
               'dark:text-white': isActive,
             })}>
             {item.name}
           </Text>
-          {!!item.subName && (
-            <Text style={tw.style('ml-3 text-sm text-gray-500')}>
-              {item.subName}
-            </Text>
-          )}
+
           <View style={tw`flex-1`} />
           {/* {isActive && (
           <TouchableOpacity
@@ -124,6 +121,11 @@ export const SearchWidget: FC = observer(() => {
             ⌘ {index + 1}
           </Text>
         )} */}
+          {!!item.subName && (
+            <Text style={tw.style('ml-3 text-sm text-neutral-500')}>
+              {item.subName}
+            </Text>
+          )}
           {item.type === ItemType.BOOKMARK && (
             <Text className="dark:text-neutral-500 text-xs">Bookmark</Text>
           )}

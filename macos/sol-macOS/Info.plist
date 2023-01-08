@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSSystemAdministrationUsageDescription</key>
-	<string>Sol needs permissions to read bookmarks and other files</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -19,9 +17,9 @@
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.1.123</string>
+	<string>1.1.124</string>
 	<key>CFBundleVersion</key>
-	<string>147</string>
+	<string>148</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.productivity</string>
 	<key>LSMinimumSystemVersion</key>
@@ -53,6 +51,8 @@
 	<false/>
 	<key>NSSupportsSuddenTermination</key>
 	<true/>
+	<key>NSSystemAdministrationUsageDescription</key>
+	<string>Sol needs permissions to read bookmarks and other files</string>
 	<key>SUFeedURL</key>
 	<string>https://raw.githubusercontent.com/ospfranco/sol/main/releases/appcast.xml</string>
 	<key>SUPublicEDKey</key>
