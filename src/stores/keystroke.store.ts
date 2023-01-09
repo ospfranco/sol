@@ -261,6 +261,11 @@ export const createKeystrokeStore = (root: IRootStore) => {
         // left key
         case 123: {
           switch (root.ui.focusedWidget) {
+            case Widget.TRANSLATION: {
+              root.ui.selectedIndex = Math.max(0, root.ui.selectedIndex - 1)
+              break
+            }
+
             case Widget.CALENDAR:
               const selectedEvent =
                 root.ui.filteredEvents[root.ui.selectedIndex]
@@ -323,6 +328,12 @@ export const createKeystrokeStore = (root: IRootStore) => {
         // right key
         case 124: {
           switch (root.ui.focusedWidget) {
+            case Widget.TRANSLATION: {
+              const modulo = root.ui.thirdTranslationLanguage !== null ? 3 : 2
+              root.ui.selectedIndex = (root.ui.selectedIndex + 1) % modulo
+              break
+            }
+
             case Widget.CALENDAR:
               const selectedEvent =
                 root.ui.filteredEvents[root.ui.selectedIndex]
@@ -462,7 +473,8 @@ export const createKeystrokeStore = (root: IRootStore) => {
             }
 
             case Widget.TRANSLATION: {
-              root.ui.selectedIndex = (root.ui.selectedIndex + 1) % 2
+              const modulo = root.ui.thirdTranslationLanguage !== null ? 3 : 2
+              root.ui.selectedIndex = (root.ui.selectedIndex + 1) % modulo
               break
             }
           }

@@ -1,8 +1,10 @@
+import clsx from 'clsx'
 import {LoadingBar} from 'components/LoadingBar'
 import {useFullSize} from 'hooks/useFullSize'
 import {languages} from 'lib/languages'
+import {solNative} from 'lib/SolNative'
 import {observer} from 'mobx-react-lite'
-import React, {FC} from 'react'
+import React, {FC, useEffect} from 'react'
 import {
   Appearance,
   StyleProp,
@@ -25,16 +27,24 @@ export const TranslationWidget: FC<Props> = observer(({style}) => {
   const store = useStore()
   const colorScheme = Appearance.getColorScheme()
 
+  useEffect(() => {
+    solNative.turnOnHorizontalArrowsListeners()
+
+    return () => {
+      solNative.turnOffHorizontalArrowsListeners()
+    }
+  }, [])
+
   return (
     <View className="flex-1" style={style}>
-      <View className="h-12 pt-1 px-3 dark:bg-neutral-900 flex-row items-center">
+      <View className="h-12 pt-1 px-3 flex-row items-center">
         <TextInput
           autoFocus
           // @ts-expect-error
           enableFocusRing={false}
           value={store.ui.query}
           onChangeText={store.ui.setQuery}
-          style={tw.style(`flex-1 text-lg`)}
+          className="flex-1 text-lg"
           placeholderTextColor={
             colorScheme === 'dark'
               ? tw.color('text-neutral-700')
@@ -54,12 +64,15 @@ export const TranslationWidget: FC<Props> = observer(({style}) => {
       )}
 
       {!!store.ui.translationResults.length && (
-        <View className="flex-1 p-3 flex-row">
+        <View className="flex-1 flex-row">
           <View
-            style={tw.style('flex-1 p-3 rounded border border-transparent', {
-              'bg-gray-200 dark:bg-proGray-900 border-gray-300 dark:border-neutral-700':
-                store.ui.selectedIndex === 0,
-            })}>
+            style={tw.style(
+              'flex-1 p-3 rounded border-b-2 border-transparent',
+              {
+                'bg-gray-100 dark:bg-darkHighlight border-neutral-700 dark:border-white ':
+                  store.ui.selectedIndex === 0,
+              },
+            )}>
             <Text className="text-3xl">
               {/* @ts-ignore */}
               {languages[store.ui.firstTranslationLanguage]?.flag ??
@@ -71,11 +84,14 @@ export const TranslationWidget: FC<Props> = observer(({style}) => {
           </View>
 
           <View
-            style={tw.style('flex-1 p-3 rounded border border-transparent', {
-              'bg-gray-200 dark:bg-proGray-900 border-gray-300 dark:border-neutral-700':
-                store.ui.selectedIndex === 1,
-            })}>
-            <Text style={tw`text-3xl`}>
+            className={clsx(
+              'flex-1 p-3 rounded border-b-2 border-transparent',
+              {
+                'bg-gray-100 dark:bg-darkHighlight border-neutral-700 dark:border-white ':
+                  store.ui.selectedIndex === 1,
+              },
+            )}>
+            <Text className="text-3xl">
               {/* @ts-ignore */}
               {languages[store.ui.secondTranslationLanguage]?.flag ??
                 store.ui.secondTranslationLanguage}
@@ -87,11 +103,14 @@ export const TranslationWidget: FC<Props> = observer(({style}) => {
 
           {!!store.ui.thirdTranslationLanguage && (
             <View
-              style={tw.style('flex-1 p-3 rounded border border-transparent', {
-                'bg-gray-200 dark:bg-proGray-900 border-gray-300 dark:border-neutral-700':
-                  store.ui.selectedIndex === 2,
-              })}>
-              <Text style={tw`text-3xl`}>
+              className={clsx(
+                'flex-1 p-3 rounded border-b-2 border-transparent',
+                {
+                  'bg-gray-100 dark:bg-darkHighlight border-neutral-700 dark:border-white ':
+                    store.ui.selectedIndex === 2,
+                },
+              )}>
+              <Text className="text-3xl">
                 {/* @ts-ignore */}
                 {languages[store.ui.thirdTranslationLanguage]?.flag ??
                   store.ui.thirdTranslationLanguage}
