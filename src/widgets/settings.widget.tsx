@@ -43,19 +43,16 @@ const SettingsButton = () => {
         store.ui.focusWidget(Widget.SEARCH)
       }}>
       <View
-        className={clsx(
-          'flex-row items-center rounded pt-4 pb-2 mb-2 bg-opacity-20',
-          {
-            'bg-neutral-500 dark:bg-darkHighlight': hovered,
-          },
-        )}>
+        className={clsx('flex-row items-center rounded py-4 bg-opacity-20', {
+          'bg-neutral-500 dark:bg-darkBorder': hovered,
+        })}>
         <Image
           source={Assets.ChevronLeft}
-          style={tw.style(`h-5 w-5`, {
+          className={'h-5 w-5'}
+          style={{
             tintColor: tw.color('text-gray-400')!,
-          })}
+          }}
         />
-
         <Text> Preferences</Text>
       </View>
     </TouchableOpacity>
@@ -71,7 +68,7 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
 
   return (
     <View className="flex-row flex-1">
-      <View className="w-40 border-r border-lightBorder dark:border-darkBorder">
+      <View className="w-40 border-r border-lightBorder dark:border-darkBorder dark:bg-dark">
         <SettingsButton />
 
         <SelectableButton
@@ -100,10 +97,9 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
         />
       </View>
 
-      <View style={tw`flex-1 bg-white dark:bg-dark`}>
+      <View style={tw`flex-1 bg-white dark:bg-darker`}>
         {selected === 'ABOUT' && (
-          <View
-            style={tw`flex-1 justify-center items-center bg-white dark:bg-dark`}>
+          <View style={tw`flex-1 justify-center items-center`}>
             <Image
               source={Assets.Logo}
               style={tw.style(`h-20 w-32`, {
@@ -116,7 +112,7 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
           </View>
         )}
         {selected === 'WEATHER' && (
-          <View style={tw`flex-1 p-6 bg-white dark:bg-dark`}>
+          <View style={tw`flex-1 p-6 `}>
             <Text style={tw``}>Api Key</Text>
 
             <Input
@@ -162,11 +158,11 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
         {selected === 'GENERAL' && (
           <StyledScrollView
             showsVerticalScrollIndicator
-            className="flex-1 bg-white dark:bg-dark"
+            className="flex-1 "
             contentContainerStyle="justify-center p-6">
             <View style={tw`flex-row items-center py-2`}>
               <Text style={tw`flex-1 text-right pr-3 text-sm`}>
-                Launch on computer start
+                Launch on start
               </Text>
               <View style={tw`flex-1.3`}>
                 <MySwitch
@@ -374,7 +370,7 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
           </StyledScrollView>
         )}
         {selected === 'TRANSLATE' && (
-          <View style={tw`flex-1 p-6 bg-white dark:bg-dark`}>
+          <View className="flex-1 p-6">
             <View style={tw`flex-1 pt-8`}>
               <View style={tw`flex-row items-center py-2 z-10`}>
                 <Text style={tw`flex-1 text-right mr-2`}>First language</Text>
