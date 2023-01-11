@@ -1,3 +1,16 @@
+diff --git a/node_modules/react-native-macos/Libraries/Text/TextInput/Multiline/RCTUITextView.m b/node_modules/react-native-macos/Libraries/Text/TextInput/Multiline/RCTUITextView.m
+index 533f244..55b6608 100644
+--- a/node_modules/react-native-macos/Libraries/Text/TextInput/Multiline/RCTUITextView.m
++++ b/node_modules/react-native-macos/Libraries/Text/TextInput/Multiline/RCTUITextView.m
+@@ -130,7 +130,7 @@ static RCTUIColor *defaultPlaceholderColor() // TODO(OSS Candidate ISS#2710739)
+ - (void)setSelectionColor:(RCTUIColor *)selectionColor
+ {
+   NSMutableDictionary *selectTextAttributes = self.selectedTextAttributes.mutableCopy;
+-  selectTextAttributes[NSBackgroundColorAttributeName] = selectionColor ?: [NSColor selectedControlColor];
++  // selectTextAttributes[NSBackgroundColorAttributeName] = selectionColor ?: [NSColor selectedControlColor];
+   self.selectedTextAttributes = selectTextAttributes.copy;
+   self.insertionPointColor = self.selectionColor ?: [NSColor selectedControlColor];
+ }
 diff --git a/node_modules/react-native-macos/Libraries/Text/TextInput/Singleline/RCTUITextField.m b/node_modules/react-native-macos/Libraries/Text/TextInput/Singleline/RCTUITextField.m
 index 98cb1bd..65a8f3f 100644
 --- a/node_modules/react-native-macos/Libraries/Text/TextInput/Singleline/RCTUITextField.m
