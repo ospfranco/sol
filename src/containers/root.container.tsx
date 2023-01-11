@@ -24,7 +24,7 @@ import {TranslationWidget} from 'widgets/translation.widget'
 export const RootContainer = observer(() => {
   useDeviceContext(tw)
   const store = useStore()
-  const mainStyle = tw`bg-white dark:bg-dark`
+  const mainStyle = tw`bg-light dark:bg-dark`
   const calendarVisible =
     (store.ui.calendarAuthorizationStatus === 'authorized' ||
       store.ui.calendarAuthorizationStatus === 'notDetermined') &&

@@ -17,7 +17,7 @@ module.exports = {
         corner: '7px',
       },
       colors: {
-        light: {DEFAULT: 'rgb(251, 251, 251)'},
+        light: {DEFAULT: 'rgb(251, 251, 251, .75)'},
         dark: {DEFAULT: 'rgba(21, 21, 21, .65)'},
         darker: {DEFAULT: 'rgba(21, 21, 21, .75)'},
         darkHighlight: {DEFAULT: 'rgba(255, 255, 255, .05)'},
