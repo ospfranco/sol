@@ -1,7 +1,6 @@
-import {Assets, Icons} from 'assets'
+import {Icons} from 'assets'
 import clsx from 'clsx'
 import {FileIcon} from 'components/FileIcon'
-import {Key} from 'components/Key'
 import {LoadingBar} from 'components/LoadingBar'
 import {StyledFlatList} from 'components/StyledFlatList'
 import {observer} from 'mobx-react-lite'

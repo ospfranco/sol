@@ -1,4 +1,5 @@
 import {Assets} from 'assets'
+import clsx from 'clsx'
 import {Dropdown} from 'components/Dropdown'
 import {Input} from 'components/Input'
 import {MySwitch} from 'components/MySwitch'
@@ -42,9 +43,12 @@ const SettingsButton = () => {
         store.ui.focusWidget(Widget.SEARCH)
       }}>
       <View
-        style={tw.style(`flex-row items-center rounded py-2 bg-opacity-20`, {
-          'bg-neutral-500 dark:bg-neutral-300': hovered,
-        })}>
+        className={clsx(
+          'flex-row items-center rounded pt-4 pb-2 mb-2 bg-opacity-20',
+          {
+            'bg-neutral-500 dark:bg-darkHighlight': hovered,
+          },
+        )}>
         <Image
           source={Assets.ChevronLeft}
           style={tw.style(`h-5 w-5`, {
@@ -66,9 +70,8 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
   const [selected, setSelected] = useState<ITEM>('GENERAL')
 
   return (
-    <View style={tw.style(`flex-row flex-1`)}>
-      <View
-        style={tw`p-3 w-40 border-r border-lightBorder dark:border-darkBorder`}>
+    <View className="flex-row flex-1">
+      <View className="w-40 border-r border-lightBorder dark:border-darkBorder">
         <SettingsButton />
 
         <SelectableButton
