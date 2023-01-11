@@ -56,7 +56,7 @@ const SolIcon = () => {
 export const GeneralWidget: FC<Props> = observer(({style}) => {
   const store = useStore()
   return (
-    <View className="flex-row items-center border-t border-lightBorder dark:border-darkBorder pl-2 pr-2 py-1 bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30">
+    <View className="flex-row items-center border-t border-lightBorder dark:border-darkBorder pl-2 pr-2 py-1 bg-gray-100 dark:bg-darker">
       <SolIcon />
 
       {!!store.ui.track?.title && (
