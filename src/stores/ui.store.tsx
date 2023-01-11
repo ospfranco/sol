@@ -1344,6 +1344,8 @@ export const createUIStore = (root: IRootStore) => {
         })
       }
 
+      store.getFullDiskAccessStatus()
+
       solNative.getApps().then(apps => {
         // Each "app" is a macOS file url, e.g. file:///Applications/SF%20Symbols
         const cleanApps = apps.map(({name, url}) => {
