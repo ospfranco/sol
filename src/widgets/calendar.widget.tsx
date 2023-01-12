@@ -126,17 +126,8 @@ export const CalendarWidget: FC<Props> = observer(() => {
                     </View>
                   )
                 })}
-                {/* {data.notShown > 0 && (
-                  <Text style={tw`text-neutral-600 text-xs ml-2`}>
-                    + {data.notShown} more...
-                  </Text>
-                )} */}
               </ScrollView>
             </View>
-
-            {/* <View
-              style={tw`h-4 border-r dark:border-darkBorder border-lightBorder`}
-            /> */}
           </View>
         )
       })}
