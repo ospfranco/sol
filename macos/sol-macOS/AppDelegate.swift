@@ -21,7 +21,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   var catchHorizontalArrowsPress = false
   var catchVerticalArrowsPress = true
   var catchEnterPress = true
-  var useBackgroundOverlay = true
+  var useBackgroundOverlay = false
   var showWindowOn = "windowWithFrontmost"
   let notchHelper = NotchHelper()
   var shouldHideMenuBar = false
