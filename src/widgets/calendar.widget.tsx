@@ -67,11 +67,11 @@ export const CalendarWidget: FC<Props> = observer(() => {
             <View className="flex-1">
               <View className="flex-row">
                 {key === 'today' || key === 'tomorrow' ? (
-                  <Text className="capitalize text-neutral-400 dark:text-neutral-500 text-xs ml-1">
+                  <Text className="capitalize text-neutral-500 text-xs ml-1">
                     {key}
                   </Text>
                 ) : (
-                  <Text className="capitalize text-neutral-400 dark:text-neutral-500 text-xs ml-1">
+                  <Text className="capitalize text-neutral-500 text-xs ml-1">
                     {data.date.toFormat('cccc')}
                   </Text>
                 )}
@@ -104,23 +104,16 @@ export const CalendarWidget: FC<Props> = observer(() => {
                           'p-0.5': event.isAllDay,
                         },
                       )}>
-                      {/* <View
-                        className="h-1.5 w-1.5 rounded-full"
-                        style={tw.style({
-                          backgroundColor: event.color,
-                        })}
-                      /> */}
                       {!event.isAllDay && (
-                        <Text
-                          className="text-xs"
+                        <View
+                          className="rounded-sm px-1"
                           style={{
-                            color: `${event.color}${
-                              colorScheme === 'dark' ? 'BB' : 'FF'
-                            }`,
-                            fontWeight: isNow ? 'bold' : 'normal',
+                            backgroundColor: `${event.color}CC`,
                           }}>
-                          {lDate.toFormat('HH:mm')}
-                        </Text>
+                          <Text className="text-xs text-white">
+                            {lDate.toFormat('HH:mm')}
+                          </Text>
+                        </View>
                       )}
                       <Text
                         numberOfLines={1}

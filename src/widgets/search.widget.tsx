@@ -49,13 +49,13 @@ export const SearchWidget: FC = observer(() => {
           className={clsx(
             'w-[2px] bg-transparent h-[80%] rounded-tr rounded-br mr-[7px]',
             {
-              'bg-neutral-500 dark:bg-white': isActive,
+              'bg-neutral-800 dark:bg-white': isActive,
             },
           )}
         />
         <View
           className={clsx('flex-1 flex-row items-center p-2 rounded', {
-            'bg-gray-100 dark:bg-darkHighlight': isActive,
+            'bg-lightHighlight dark:bg-darkHighlight': isActive,
           })}>
           {!!item.url && <FileIcon url={item.url} style={tw`w-4 h-4`} />}
           {item.type !== ItemType.CUSTOM && !!item.icon && (

@@ -18,8 +18,10 @@ module.exports = {
       },
       colors: {
         light: {DEFAULT: 'rgba(251, 251, 251, .80)'},
+        lighter: {DEFAULT: 'rgba(251, 251, 251, .90)'},
         dark: {DEFAULT: 'rgba(21, 21, 21, .65)'},
         darker: {DEFAULT: 'rgba(21, 21, 21, .75)'},
+        lightHighlight: {DEFAULT: 'rgba(0, 0, 0, .1)'},
         darkHighlight: {DEFAULT: 'rgba(255, 255, 255, .05)'},
         darkBorder: {DEFAULT: 'rgba(255, 255, 255, .1)'},
         lightBorder: {DEFAULT: 'rgba(0, 0, 0, .1)'},

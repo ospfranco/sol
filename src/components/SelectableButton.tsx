@@ -32,14 +32,15 @@ export const SelectableButton: FC<SelectableButtonProps> = ({
       className={clsx(
         'p-2 w-full border-l-2 border-transparent',
         {
-          'bg-gray-200 dark:bg-darkHighlight dark:border-white': selected,
+          'bg-lightHighlight dark:bg-darkHighlight border-neutral-800 dark:border-white':
+            selected,
           'bg-gray-200 dark:bg-darkBorder': !selected && hovered,
         },
         style,
       )}>
       <Text
-        style={tw.style(`pl-1 text-sm`, {
-          'text-white': selected || hovered,
+        style={tw.style(`pl-1 text-sm text-neutral-600 dark:text-white`, {
+          'text-black dark:text-white': selected || hovered,
         })}>
         {title}
       </Text>

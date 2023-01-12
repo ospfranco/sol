@@ -43,8 +43,8 @@ const SettingsButton = () => {
         store.ui.focusWidget(Widget.SEARCH)
       }}>
       <View
-        className={clsx('flex-row items-center rounded py-4 bg-opacity-20', {
-          'bg-neutral-500 dark:bg-darkBorder': hovered,
+        className={clsx('flex-row items-center py-4', {
+          'bg-lightBorder dark:bg-neutral-500 dark:bg-darkBorder': hovered,
         })}>
         <Image
           source={Assets.ChevronLeft}
@@ -68,7 +68,7 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
 
   return (
     <View className="flex-row flex-1">
-      <View className="w-40 border-r border-lightBorder dark:border-darkBorder dark:bg-dark">
+      <View className="w-40 border-r bg-light border-lightBorder dark:border-darkBorder dark:bg-dark">
         <SettingsButton />
 
         <SelectableButton
@@ -97,7 +97,7 @@ export const SettingsWidget: FC<Props> = observer(({style}) => {
         />
       </View>
 
-      <View style={tw`flex-1 bg-white dark:bg-darker`}>
+      <View style={tw`flex-1 bg-lighter dark:bg-darker`}>
         {selected === 'ABOUT' && (
           <View style={tw`flex-1 justify-center items-center`}>
             <Image
