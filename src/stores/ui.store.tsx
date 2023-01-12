@@ -722,7 +722,9 @@ export const createUIStore = (root: IRootStore) => {
       name: 'Test toast',
       type: ItemType.CONFIGURATION,
       callback: () => {
-        solNative.showToast('This is a Toast test... yummy! 🍞')
+        solNative.showToast(
+          'This is a Toast test with a long test to make sure everything fits! 🍞',
+        )
       },
     })
   }

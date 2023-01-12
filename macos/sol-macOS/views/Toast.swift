@@ -1,7 +1,22 @@
 import Foundation
+//import AppKit
+//
+//struct VisualEffectView: NSViewRepresentable {
+//    func makeNSView(context: Context) -> NSVisualEffectView {
+//        let view = NSVisualEffectView()
+//
+//        view.blendingMode = .behindWindow    // << important !!
+//        view.isEmphasized = true
+//      view.material = .popover
+//        return view
+//    }
+//
+//    func updateNSView(_ nsView: NSVisualEffectView, context: Context) {
+//    }
+//}
 
-final class Toast: NSPanel, NSWindowDelegate {
-  public var visualEffect: NSVisualEffectView!
+final class Toast: NSWindow, NSWindowDelegate {
+//  public var visualEffect: NSVisualEffectView!
   
   init(contentRect: NSRect, backing: NSWindow.BackingStoreType, defer flag: Bool) {
     super.init(
@@ -20,12 +35,5 @@ final class Toast: NSPanel, NSWindowDelegate {
     self.isMovableByWindowBackground = false
     self.isReleasedWhenClosed = false
     self.isOpaque = false
-    self.delegate = self
-    
-    visualEffect = NSVisualEffectView()
-    visualEffect.blendingMode = .behindWindow
-    visualEffect.material = .contentBackground
-    visualEffect.autoresizingMask = [.minXMargin, .maxXMargin, .minYMargin, .maxYMargin, .width, .height]
-    self.contentView = visualEffect
   }
 }
