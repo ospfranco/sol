@@ -1,16 +1,29 @@
 diff --git a/node_modules/react-native-macos/Libraries/Text/TextInput/Multiline/RCTUITextView.m b/node_modules/react-native-macos/Libraries/Text/TextInput/Multiline/RCTUITextView.m
-index 533f244..55b6608 100644
+index 533f244..7d1d740 100644
 --- a/node_modules/react-native-macos/Libraries/Text/TextInput/Multiline/RCTUITextView.m
 +++ b/node_modules/react-native-macos/Libraries/Text/TextInput/Multiline/RCTUITextView.m
-@@ -130,7 +130,7 @@ static RCTUIColor *defaultPlaceholderColor() // TODO(OSS Candidate ISS#2710739)
+@@ -48,7 +48,7 @@ static RCTUIColor *defaultPlaceholderColor() // TODO(OSS Candidate ISS#2710739)
+ #else // [TODO(macOS GH#774)
+     NSTextCheckingTypes checkingTypes = 0;
+     self.enabledTextCheckingTypes = checkingTypes;
+-    self.insertionPointColor = [NSColor selectedControlColor];
++    self.insertionPointColor = self.selectionColor;
+     // Fix blurry text on non-retina displays.
+     self.canDrawSubviewsIntoLayer = YES;
+ #endif // ]TODO(macOS GH#774)
+@@ -130,9 +130,10 @@ static RCTUIColor *defaultPlaceholderColor() // TODO(OSS Candidate ISS#2710739)
  - (void)setSelectionColor:(RCTUIColor *)selectionColor
  {
    NSMutableDictionary *selectTextAttributes = self.selectedTextAttributes.mutableCopy;
 -  selectTextAttributes[NSBackgroundColorAttributeName] = selectionColor ?: [NSColor selectedControlColor];
-+  // selectTextAttributes[NSBackgroundColorAttributeName] = selectionColor ?: [NSColor selectedControlColor];
++//    self.selectionColor = selectionColor;
++//  selectTextAttributes[NSBackgroundColorAttributeName] = [NSColor selectedControlColor];
    self.selectedTextAttributes = selectTextAttributes.copy;
-   self.insertionPointColor = self.selectionColor ?: [NSColor selectedControlColor];
+-  self.insertionPointColor = self.selectionColor ?: [NSColor selectedControlColor];
++  self.insertionPointColor = selectionColor ?: [NSColor selectedControlColor];
  }
+ 
+ - (RCTUIColor*)selectionColor
 diff --git a/node_modules/react-native-macos/Libraries/Text/TextInput/Singleline/RCTUITextField.m b/node_modules/react-native-macos/Libraries/Text/TextInput/Singleline/RCTUITextField.m
 index 98cb1bd..65a8f3f 100644
 --- a/node_modules/react-native-macos/Libraries/Text/TextInput/Singleline/RCTUITextField.m

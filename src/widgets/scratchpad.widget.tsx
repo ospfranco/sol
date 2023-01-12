@@ -66,7 +66,6 @@ export const ScratchpadWidget: FC<Props> = observer(({style}) => {
           autoFocus
           value={store.ui.note}
           onChangeText={store.ui.setNote}
-          scrollEnabled={true}
           // @ts-expect-error
           enableFocusRing={false}
           placeholderTextColor={colors.neutral[400]}
@@ -76,7 +75,7 @@ export const ScratchpadWidget: FC<Props> = observer(({style}) => {
           multiline
           spellCheck
         />
-        <Text className="text-xs dark:text-neutral-400 self-end">
+        <Text className="text-xs text-neutral-400 self-end">
           {store.ui.note.split(' ').filter(v => v).length} Words •{' '}
           {store.ui.note.length} Characters
         </Text>
