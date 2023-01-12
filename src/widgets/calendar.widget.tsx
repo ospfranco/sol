@@ -106,11 +106,11 @@ export const CalendarWidget: FC<Props> = observer(() => {
                       )}>
                       {!event.isAllDay && (
                         <View
-                          className="rounded-sm px-1"
+                          className="rounded-sm w-10"
                           style={{
                             backgroundColor: `${event.color}CC`,
                           }}>
-                          <Text className="text-xs text-white">
+                          <Text className="text-xs text-white text-center">
                             {lDate.toFormat('HH:mm')}
                           </Text>
                         </View>
