@@ -574,7 +574,9 @@ export const createUIStore = (root: IRootStore) => {
             set myurl to URL of front document as string
           end tell
 
-          if (url is equal to "https://meet.google.com/new") then
+          set baseUrl to "https://meet.google.com/new"
+
+          if (myurl contains baseUrl) then
             delay 3
             tell application "Safari"
               set myurl to URL of front document as string
@@ -585,7 +587,7 @@ export const createUIStore = (root: IRootStore) => {
             return
           end if
 
-          if (url is equal to "https://meet.google.com/new") then
+          if (myurl contains baseUrl) then
             delay 3
             tell application "Safari"
               set myurl to URL of front document as string
@@ -596,7 +598,7 @@ export const createUIStore = (root: IRootStore) => {
             return
           end if
 
-          if (url is equal to "https://meet.google.com/new") then
+          if (myurl contains baseUrl) then
             delay 3
             tell application "Safari"
               set myurl to URL of front document as string
@@ -607,7 +609,7 @@ export const createUIStore = (root: IRootStore) => {
             return
           end if
           
-          if (url is equal to "https://meet.google.com/new") then
+          if (myurl contains baseUrl) then
             display notification "Google Meet could not be copied" with title "Couldn't copy Google Meet link" sound name "Frog"
           else
             set the clipboard to myurl as string
