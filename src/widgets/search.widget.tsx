@@ -81,7 +81,11 @@ export const SearchWidget: FC = observer(() => {
               resizeMode="contain"
               style={{
                 tintColor:
-                  colorScheme === 'dark' ? undefined : colors.neutral[600],
+                  colorScheme === 'dark'
+                    ? undefined
+                    : isActive
+                    ? 'black'
+                    : colors.neutral[500],
               }}
             />
           )}
@@ -90,36 +94,16 @@ export const SearchWidget: FC = observer(() => {
             !!item.iconComponent && <item.iconComponent />}
           <Text
             numberOfLines={1}
-            className={clsx('ml-3 text-sm dark:text-neutral-400 max-w-xl', {
-              'dark:text-white': isActive,
-            })}>
+            className={clsx(
+              'ml-3 text-sm text-neutral-500 dark:text-neutral-400 max-w-xl',
+              {
+                'text-black dark:text-white': isActive,
+              },
+            )}>
             {item.name}
           </Text>
 
           <View style={tw`flex-1`} />
-          {/* {isActive && (
-          <TouchableOpacity
-            onPress={() => {
-              store.ui.toggleFavorite(item)
-            }}
-            style={tw`pr-1`}>
-            <Image
-              source={item.isFavorite ? Assets.StarFilled : Assets.Star}
-              style={tw.style('h-[2.5] w-4', {
-                tintColor: 'white',
-              })}
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
-        )} */}
-          {/* {item.isFavorite && !store.ui.query && (
-          <Text
-            style={tw.style(`text-gray-500 dark:text-gray-400 text-xs w-6`, {
-              'text-white dark:text-white': isActive,
-            })}>
-            ⌘ {index + 1}
-          </Text>
-        )} */}
           {!!item.subName && (
             <Text style={tw.style('ml-3 text-sm text-neutral-500')}>
               {item.subName}
