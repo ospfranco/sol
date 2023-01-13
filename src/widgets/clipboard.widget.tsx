@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import {Key} from 'components/Key'
+import {LoadingBar} from 'components/LoadingBar'
 import {StyledFlatList} from 'components/StyledFlatList'
 import {useFullSize} from 'hooks/useFullSize'
 import {solNative} from 'lib/SolNative'
@@ -33,8 +34,8 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
   }, [selectedIndex])
 
   return (
-    <View className="flex-1">
-      <View className="h-12 pt-1 px-3 dark:bg-neutral-900 flex-row items-center">
+    <View className="flex-1 bg-light dark:bg-dark">
+      <View className="h-12 pt-1 px-3 flex-row items-center">
         <TextInput
           autoFocus
           // @ts-expect-error
@@ -49,14 +50,15 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
           placeholder="Search clipboard history..."
         />
       </View>
+      <LoadingBar />
       <StyledFlatList
         data={data}
-        className="flex-1 dark:bg-black dark:bg-opacity-50"
-        contentContainerStyle={tw`flex-grow p-3`}
+        className="flex-1 "
+        contentContainerStyle="flex-grow py-2 pr-4"
         ref={listRef}
         ListEmptyComponent={
-          <View style={tw`flex-1 justify-center items-center`}>
-            <Text style={tw`dark:text-neutral-700 text-sm text-neutral-500`}>
+          <View className="flex-1 justify-center items-center">
+            <Text className="dark:text-neutral-700 text-sm text-neutral-500">
               No items
             </Text>
           </View>
@@ -64,18 +66,29 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
         renderItem={({item, index}: any) => {
           const isSelected = index === selectedIndex
           return (
-            <View
-              className={clsx(
-                'flex-row px-3 rounded-lg py-2 border border-transparent',
-                {
-                  'bg-gray-200 dark:bg-proGray-900 border-gray-300 dark:border-neutral-700':
-                    isSelected,
-                },
-              )}>
-              <Text className="text-sm dark:text-neutral-500">{index + 1}</Text>
-              <Text className="text-sm flex-1 ml-3">
-                {item.substring(0, 256)}
-              </Text>
+            <View className="flex-row items-center">
+              <View
+                className={clsx(
+                  'w-[2px] bg-transparent h-[80%] rounded-tr rounded-br mr-[7px]',
+                  {
+                    'bg-neutral-800 dark:bg-white': isSelected,
+                  },
+                )}
+              />
+              <View
+                className={clsx('flex-row p-2 rounded py-2', {
+                  'bg-lightHighlight dark:bg-darkHighlight': isSelected,
+                })}>
+                <Text
+                  className={clsx(
+                    'text-sm flex-1 text-neutral-500 dark:text-neutral-400',
+                    {
+                      'text-black dark:text-white': isSelected,
+                    },
+                  )}>
+                  {item.substring(0, 256)}
+                </Text>
+              </View>
             </View>
           )
         }}
