@@ -63,7 +63,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
     visualEffect = NSVisualEffectView()
     visualEffect.blendingMode = .behindWindow
-    visualEffect.material = .hudWindow
+    visualEffect.material = .underWindowBackground
     visualEffect.autoresizingMask = [.minXMargin, .maxXMargin, .minYMargin, .maxYMargin, .width, .height]
     mainWindow.contentView = visualEffect
 
