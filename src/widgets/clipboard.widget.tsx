@@ -53,7 +53,7 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
       <LoadingBar />
       <StyledFlatList
         data={data}
-        className="flex-1 "
+        className="flex-1"
         contentContainerStyle="flex-grow py-2 pr-4"
         ref={listRef}
         ListEmptyComponent={
@@ -66,7 +66,7 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
         renderItem={({item, index}: any) => {
           const isSelected = index === selectedIndex
           return (
-            <View className="flex-row items-center">
+            <View className="flex-row items-center mb-4">
               <View
                 className={clsx(
                   'w-[2px] bg-transparent h-[80%] rounded-tr rounded-br mr-[7px]',
