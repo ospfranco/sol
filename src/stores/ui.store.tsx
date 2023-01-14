@@ -30,9 +30,9 @@ import {
   View,
 } from 'react-native'
 import {IRootStore} from 'Store'
-import tw from 'tailwind'
 import {systemPreferenceItems} from './systemPreferences'
 import {v4 as uuidv4} from 'uuid'
+import clsx from 'clsx'
 
 const chance = new Chance()
 const gf = new GiphyFetch('Ot4kWfqWddVroUVh73v4Apocs8Dek86j')
@@ -283,7 +283,7 @@ export const createUIStore = (root: IRootStore) => {
         return (
           <Image
             source={Assets.SolWhiteSmall}
-            style={tw.style('w-4 h-4', {
+            className={clsx('w-4 h-4', {
               tintColor: colorScheme === 'dark' ? 'white' : 'black',
             })}
           />
@@ -308,8 +308,8 @@ export const createUIStore = (root: IRootStore) => {
     {
       iconComponent: () => {
         return (
-          <View style={tw`w-4 h-4 p-[2] rounded items-start bg-black`}>
-            <View style={tw`w-3  h-3 p-1 rounded-sm bg-white`} />
+          <View className="w-4 h-4 p-2 rounded items-start bg-black">
+            <View className="w-3  h-3 p-1 rounded-sm bg-white" />
           </View>
         )
       },
@@ -323,8 +323,8 @@ export const createUIStore = (root: IRootStore) => {
     {
       iconComponent: () => {
         return (
-          <View style={tw`w-4 h-4 p-[2] rounded items-end bg-black`}>
-            <View style={tw`w-1 h-3 p-1 rounded-sm bg-white`} />
+          <View className="w-4 h-4 p-2 rounded items-end bg-black">
+            <View className="w-1 h-3 p-1 rounded-sm bg-white" />
           </View>
         )
       },
@@ -338,8 +338,8 @@ export const createUIStore = (root: IRootStore) => {
     {
       iconComponent: () => {
         return (
-          <View style={tw`w-4 h-4 p-[2] rounded items-start bg-black`}>
-            <View style={tw`w-1 h-3 p-1 rounded-sm bg-white`} />
+          <View className="w-4 h-4 p-2 rounded items-start bg-black">
+            <View className="w-1 h-3 p-1 rounded-sm bg-white" />
           </View>
         )
       },
@@ -353,8 +353,8 @@ export const createUIStore = (root: IRootStore) => {
     {
       iconComponent: () => {
         return (
-          <View style={tw`w-4 h-4 p-[2] rounded items-start bg-black`}>
-            <View style={tw`w-1 h-3 p-1 rounded-sm bg-white`} />
+          <View className="w-4 h-4 p-2 rounded items-start bg-black">
+            <View className="w-1 h-3 p-1 rounded-sm bg-white" />
           </View>
         )
       },
@@ -368,8 +368,8 @@ export const createUIStore = (root: IRootStore) => {
     {
       iconComponent: () => {
         return (
-          <View style={tw`w-4 h-4 p-[2] rounded items-start bg-black`}>
-            <View style={tw`w-1 h-3 p-1 rounded-sm bg-white`} />
+          <View className="w-4 h-4 p-2 rounded items-start bg-black">
+            <View className="w-1 h-3 p-1 rounded-sm bg-white" />
           </View>
         )
       },
@@ -383,8 +383,8 @@ export const createUIStore = (root: IRootStore) => {
     {
       iconComponent: () => {
         return (
-          <View style={tw`w-4 h-4 p-[2] rounded items-start bg-black`}>
-            <View style={tw`w-1 h-1 p-1 rounded-sm bg-white`} />
+          <View className="w-4 h-4 p-2 rounded items-start bg-black">
+            <View className="w-1 h-1 p-1 rounded-sm bg-white" />
           </View>
         )
       },
@@ -398,8 +398,8 @@ export const createUIStore = (root: IRootStore) => {
     {
       iconComponent: () => {
         return (
-          <View style={tw`w-4 h-4 p-[2] rounded items-end bg-black`}>
-            <View style={tw`w-1 h-1 p-1 rounded-sm bg-white`} />
+          <View className="w-4 h-4 p-2 rounded items-end bg-black">
+            <View className="w-1 h-1 p-1 rounded-sm bg-white" />
           </View>
         )
       },
@@ -413,9 +413,8 @@ export const createUIStore = (root: IRootStore) => {
     {
       iconComponent: () => {
         return (
-          <View
-            style={tw`w-4 h-4 p-[2] rounded items-start justify-end bg-black`}>
-            <View style={tw`w-1 h-1 p-1 rounded-sm bg-white`} />
+          <View className="w-4 h-4 p-2 rounded items-start justify-end bg-black">
+            <View className="w-1 h-1 p-1 rounded-sm bg-white" />
           </View>
         )
       },
@@ -429,9 +428,8 @@ export const createUIStore = (root: IRootStore) => {
     {
       iconComponent: () => {
         return (
-          <View
-            style={tw`w-4 h-4 p-[2] rounded items-end justify-end bg-black`}>
-            <View style={tw`w-1 h-1 p-1 rounded-sm bg-white`} />
+          <View className="w-4 h-4 p-2 rounded items-end justify-end bg-black">
+            <View className="w-1 h-1 p-1 rounded-sm bg-white" />
           </View>
         )
       },
@@ -445,9 +443,8 @@ export const createUIStore = (root: IRootStore) => {
     {
       iconComponent: () => {
         return (
-          <View
-            style={tw`w-4 h-4 rounded items-center justify-center bg-black`}>
-            <Text style={tw`text-white`}>→</Text>
+          <View className="w-4 h-4 rounded items-center justify-center bg-black">
+            <Text className="text-white">→</Text>
           </View>
         )
       },
@@ -461,9 +458,8 @@ export const createUIStore = (root: IRootStore) => {
     {
       iconComponent: () => {
         return (
-          <View
-            style={tw`w-4 h-4 rounded items-center justify-center bg-black`}>
-            <Text style={tw`text-white`}>←</Text>
+          <View className="w-4 h-4 rounded items-center justify-center bg-black">
+            <Text className="text-white">←</Text>
           </View>
         )
       },
@@ -522,7 +518,7 @@ export const createUIStore = (root: IRootStore) => {
       preventClose: true,
     },
     {
-      iconComponent: () => <FileIcon url="~/Downloads" style={tw`w-4 h-4`} />,
+      iconComponent: () => <FileIcon url="~/Downloads" className="w-4 h-4" />,
       name: 'Downloads',
       type: ItemType.CONFIGURATION,
       callback: () => {
@@ -530,7 +526,7 @@ export const createUIStore = (root: IRootStore) => {
       },
     },
     {
-      iconComponent: () => <FileIcon url="/Applications" style={tw`w-4 h-4`} />,
+      iconComponent: () => <FileIcon url="/Applications" className="w-4 h-4" />,
       name: 'Applications',
       type: ItemType.CONFIGURATION,
       callback: () => {
@@ -538,7 +534,7 @@ export const createUIStore = (root: IRootStore) => {
       },
     },
     {
-      iconComponent: () => <FileIcon url="~/Pictures" style={tw`w-4 h-4`} />,
+      iconComponent: () => <FileIcon url="~/Pictures" className="w-4 h-4" />,
       name: 'Pictures',
       type: ItemType.CONFIGURATION,
       callback: () => {
@@ -546,7 +542,7 @@ export const createUIStore = (root: IRootStore) => {
       },
     },
     {
-      iconComponent: () => <FileIcon url="~/Developer" style={tw`w-4 h-4`} />,
+      iconComponent: () => <FileIcon url="~/Developer" className="w-4 h-4" />,
       name: 'Developer',
       type: ItemType.CONFIGURATION,
       callback: () => {
@@ -554,7 +550,7 @@ export const createUIStore = (root: IRootStore) => {
       },
     },
     {
-      iconComponent: () => <FileIcon url="~/Documents" style={tw`w-4 h-4`} />,
+      iconComponent: () => <FileIcon url="~/Documents" className="w-4 h-4" />,
       name: 'Documents',
       type: ItemType.CONFIGURATION,
       callback: () => {
@@ -630,7 +626,7 @@ export const createUIStore = (root: IRootStore) => {
     },
     {
       iconComponent: () => (
-        <FileIcon url="/Applications/Xcode.app" style={tw`w-4 h-4`} />
+        <FileIcon url="/Applications/Xcode.app" className="w-4 h-4" />
       ),
       name: 'Remove derived data folder',
       type: ItemType.CONFIGURATION,
@@ -939,7 +935,7 @@ export const createUIStore = (root: IRootStore) => {
                   return (
                     <Image
                       source={Icons.Github}
-                      style={tw.style('w-3 h-3 p-1 mr-1', {
+                      className={clsx('w-3 h-3 p-1 mr-1', {
                         tintColor: colorScheme === 'dark' ? 'white' : 'black',
                       })}
                     />
