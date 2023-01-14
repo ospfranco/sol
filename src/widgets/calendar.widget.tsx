@@ -99,7 +99,7 @@ export const CalendarWidget: FC<Props> = observer(() => {
                       className={clsx(
                         `flex-row items-center py-1 px-1 rounded-r border-l-2 border-transparent`,
                         {
-                          'bg-gray-100 dark:bg-darkHighlight border-neutral-600 dark:border-white':
+                          'bg-lightHighlight dark:bg-darkHighlight border-neutral-600 dark:border-white':
                             highlighted,
                           'p-0.5': event.isAllDay,
                         },
