@@ -134,8 +134,10 @@ import SolWhiteSmall from './assets/SolWhiteSmall.png'
 import Star from './assets/star.png'
 import StarFilled from './assets/starFilled.png'
 import Safari from './assets/safari.png'
+import Brave from './assets/brave.png'
 
 export const Assets = {
+  Brave,
   Safari,
   googleLogo,
   googleTranslateLogo,

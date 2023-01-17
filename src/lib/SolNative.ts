@@ -63,6 +63,7 @@ class SolNative extends NativeEventEmitter {
   showToast: (text: string) => Promise<void>
   ls: typeof global.__SolProxy.ls
   exists: typeof global.__SolProxy.exists
+  readFile: typeof global.__SolProxy.readFile
   userName: typeof global.__SolProxy.userName
   shouldHideMenubar: (v: boolean) => void
   hasFullDiskAccess: () => Promise<boolean>
@@ -143,6 +144,7 @@ class SolNative extends NativeEventEmitter {
 
     this.ls = global.__SolProxy.ls
     this.exists = global.__SolProxy.exists
+    this.readFile = global.__SolProxy.readFile
     this.userName = global.__SolProxy.userName
 
     const constants = module.getConstants()

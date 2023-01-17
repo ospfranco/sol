@@ -789,6 +789,7 @@ export const createUIStore = (root: IRootStore) => {
     shouldHideMenubar: false,
     hasFullDiskAccess: false,
     safariBookmarks: [] as {title: string; url: string}[],
+    braveBookmarks: [] as {title: string; url: string}[],
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -858,6 +859,16 @@ export const createUIStore = (root: IRootStore) => {
             name: bookmark.title,
             type: ItemType.BOOKMARK,
             iconImage: Assets.Safari,
+            callback: () => {
+              Linking.openURL(bookmark.url)
+            },
+          }
+        }),
+        ...store.braveBookmarks.map((bookmark): Item => {
+          return {
+            name: bookmark.title,
+            type: ItemType.BOOKMARK,
+            iconImage: Assets.Brave,
             callback: () => {
               Linking.openURL(bookmark.url)
             },
@@ -1419,12 +1430,12 @@ export const createUIStore = (root: IRootStore) => {
     },
     setShouldHideMenuBar: (v: boolean) => {
       store.shouldHideMenubar = v
-      solNative.shouldHideMenubar(v)
       if (v) {
         solNative.showToast('Menubar will be blacked out, please wait...')
       } else {
         solNative.showToast('Done, please restore your wallpaper manually')
       }
+      solNative.shouldHideMenubar(v)
     },
     getFullDiskAccessStatus: async () => {
       const hasAccess = await solNative.hasFullDiskAccess()
@@ -1432,6 +1443,7 @@ export const createUIStore = (root: IRootStore) => {
         store.hasFullDiskAccess = hasAccess
         if (hasAccess) {
           store.getSafariBookmarks()
+          store.getBraveBookmarks()
         }
       })
     },
@@ -1441,6 +1453,23 @@ export const createUIStore = (root: IRootStore) => {
         runInAction(() => {
           store.safariBookmarks = safariBookmarks
         })
+      }
+    },
+    getBraveBookmarks: async () => {
+      const username = solNative.userName()
+      const path = `/Users/${username}/Library/Application Support/BraveSoftware/Brave-Browser/Default/Bookmarks`
+      const exists = solNative.exists(path)
+      if (exists) {
+        const bookmarksString = solNative.readFile(path)
+        const OGbookmarks = JSON.parse(bookmarksString)
+        let bookmarks = OGbookmarks.roots.bookmark_bar.children.map(
+          (v: any) => ({
+            title: v.name,
+            url: v.url,
+          }),
+        )
+
+        store.braveBookmarks = bookmarks
       }
     },
   })

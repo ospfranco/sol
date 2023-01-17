@@ -41,6 +41,7 @@ declare var global: {
     getEvents: () => INativeEvent[]
     ls: (path: string) => string[]
     exists: (path: string) => boolean
+    readFile: (path: string) => string
     userName: () => string
   }
 }

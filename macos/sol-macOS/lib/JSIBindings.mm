@@ -269,6 +269,14 @@ void install(jsi::Runtime &rt,
 
     return jsi::Value(exists);
   });
+  
+  auto readFile = HOSTFN("readFile", 1, []) {
+    NSString *path = sol::jsiValueToNSString(rt, arguments[0]);
+    
+    NSString *contents = [FS readFileWithPath:path];
+    
+    return sol::NSStringToJsiValue(rt, contents);
+  });
 
   auto userName = HOSTFN("userName", 0, []) {
     NSString *userName = NSUserName();
@@ -290,6 +298,7 @@ void install(jsi::Runtime &rt,
   module.setProperty(rt, "ls", std::move(ls));
   module.setProperty(rt, "exists", std::move(exists));
   module.setProperty(rt, "userName", std::move(userName));
+  module.setProperty(rt, "readFile", std::move(readFile));
 
   rt.global().setProperty(rt, "__SolProxy", std::move(module));
 }
