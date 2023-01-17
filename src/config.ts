@@ -7,5 +7,8 @@ export const FUSE_OPTIONS: Fuse.IFuseOptions<any> = {
   threshold: 0.15,
   ignoreLocation: true,
   findAllMatches: true,
-  keys: [{name: 'name', weight: 3}, 'url'],
+  keys: [
+    {name: 'name', weight: 0.8},
+    {name: 'url', weight: 0.2},
+  ],
 }
