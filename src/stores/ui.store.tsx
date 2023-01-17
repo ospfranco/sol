@@ -269,6 +269,7 @@ export const createUIStore = (root: IRootStore) => {
     {
       iconImage: Assets.LockIcon,
       name: 'Lock',
+      shortcut: '⌘ ⌥ Q',
       type: ItemType.CONFIGURATION,
       callback: () => {
         solNative.executeAppleScript(
