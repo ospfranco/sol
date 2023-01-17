@@ -877,10 +877,6 @@ export const createUIStore = (root: IRootStore) => {
           .search(store.query)
           .map(r => r.item)
 
-        // Return the fallback if we have a temporary result or no results
-        // const shouldReturnFallback =
-        //   results.length === 0 || !!store.temporaryResult
-
         const temporaryResultItems = !!store.temporaryResult
           ? [{type: ItemType.TEMPORARY_RESULT, name: ''}]
           : []

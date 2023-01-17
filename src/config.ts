@@ -1,9 +1,11 @@
 import {LogBox} from 'react-native'
+import Fuse from 'fuse.js'
 
 LogBox.ignoreLogs(['Clipboard ', 'Component', 'Require cycle:'])
 
-export const FUSE_OPTIONS = {
-  threshold: 0.2,
+export const FUSE_OPTIONS: Fuse.IFuseOptions<any> = {
+  threshold: 0.15,
   ignoreLocation: true,
-  keys: ['name', 'url'],
+  findAllMatches: true,
+  keys: [{name: 'name', weight: 3}, 'url'],
 }
