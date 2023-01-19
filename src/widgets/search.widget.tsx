@@ -43,6 +43,28 @@ export const SearchWidget: FC = observer(() => {
   const renderItem = ({item, index}: {item: Item; index: number}) => {
     const isActive = index === store.ui.selectedIndex && focused
 
+    // this is used for things like calculator results
+    if (item.type === ItemType.TEMPORARY_RESULT) {
+      return (
+        <View key={index} className="flex-row items-center">
+          <View
+            className={clsx(
+              'w-[2px] bg-transparent h-[80%] rounded-tr rounded-br mr-[7px]',
+              {
+                'bg-neutral-800 dark:bg-white': isActive,
+              },
+            )}
+          />
+          <View
+            className={clsx('flex-1 flex-row items-center p-2 rounded', {
+              'bg-lightHighlight dark:bg-darkHighlight': isActive,
+            })}>
+            <Text className="text-2xl">{store.ui.temporaryResult}</Text>
+          </View>
+        </View>
+      )
+    }
+
     return (
       <View className="flex-row items-center">
         <View
