@@ -66,13 +66,10 @@ export const TranslationWidget: FC<Props> = observer(({style}) => {
       {!!store.ui.translationResults.length && (
         <View className="flex-1 flex-row">
           <View
-            style={tw.style(
-              'flex-1 p-3 rounded border-b-2 border-transparent',
-              {
-                'bg-gray-100 dark:bg-darkHighlight border-neutral-700 dark:border-white ':
-                  store.ui.selectedIndex === 0,
-              },
-            )}>
+            style={tw.style('flex-1 p-3 border-b-4 border-transparent', {
+              'bg-lightHighlight dark:bg-darkHighlight border-neutral-700 dark:border-white ':
+                store.ui.selectedIndex === 0,
+            })}>
             <Text className="text-3xl">
               {/* @ts-ignore */}
               {languages[store.ui.firstTranslationLanguage]?.flag ??
@@ -84,13 +81,10 @@ export const TranslationWidget: FC<Props> = observer(({style}) => {
           </View>
 
           <View
-            className={clsx(
-              'flex-1 p-3 rounded border-b-2 border-transparent',
-              {
-                'bg-gray-100 dark:bg-darkHighlight border-neutral-700 dark:border-white ':
-                  store.ui.selectedIndex === 1,
-              },
-            )}>
+            className={clsx('flex-1 p-3 border-b-4 border-transparent', {
+              'bg-lightHighlight dark:bg-darkHighlight border-neutral-700 dark:border-white ':
+                store.ui.selectedIndex === 1,
+            })}>
             <Text className="text-3xl">
               {/* @ts-ignore */}
               {languages[store.ui.secondTranslationLanguage]?.flag ??
@@ -103,13 +97,10 @@ export const TranslationWidget: FC<Props> = observer(({style}) => {
 
           {!!store.ui.thirdTranslationLanguage && (
             <View
-              className={clsx(
-                'flex-1 p-3 rounded border-b-2 border-transparent',
-                {
-                  'bg-gray-100 dark:bg-darkHighlight border-neutral-700 dark:border-white ':
-                    store.ui.selectedIndex === 2,
-                },
-              )}>
+              className={clsx('flex-1 p-3 border-b-4 border-transparent', {
+                'bg-lightHighlight dark:bg-darkHighlight border-neutral-700 dark:border-white ':
+                  store.ui.selectedIndex === 2,
+              })}>
               <Text className="text-3xl">
                 {/* @ts-ignore */}
                 {languages[store.ui.thirdTranslationLanguage]?.flag ??
