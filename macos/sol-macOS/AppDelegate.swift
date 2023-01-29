@@ -395,14 +395,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     let toastView = ToastView(text: text)
 
     let rootView = NSHostingView(rootView: toastView)
-//    rootView.frame = toastWindow.visualEffect.bounds
-//    rootView.autoresizingMask = [.minXMargin, .maxXMargin, .minYMargin, .maxYMargin, .width, .height]
 
-//    toastWindow.visualEffect.addSubview(rootView)
-//    rootView.frame = visualEffect.bounds
-
-//        toastWindow.contentView = rootView
-    
     toastWindow.contentView = rootView
 
     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {

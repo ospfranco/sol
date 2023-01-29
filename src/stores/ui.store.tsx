@@ -671,7 +671,7 @@ export const createUIStore = (root: IRootStore) => {
     },
     {
       icon: '💀',
-      name: 'Quit Sol',
+      name: 'Quit/Exit Sol',
       type: ItemType.CONFIGURATION,
       callback: async () => {
         solNative.quit()
