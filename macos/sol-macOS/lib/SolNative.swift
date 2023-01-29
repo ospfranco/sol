@@ -309,4 +309,10 @@ class SolNative: RCTEventEmitter {
     let bookmarks = BookmarkHelper.getSafariBookmars()
     resolve(bookmarks)
   }
+  
+  @objc func quit() {
+    DispatchQueue.main.async {
+      self.appDelegate?.quit()
+    }
+  }
 }

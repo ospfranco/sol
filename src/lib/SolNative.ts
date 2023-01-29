@@ -68,6 +68,7 @@ class SolNative extends NativeEventEmitter {
   shouldHideMenubar: (v: boolean) => void
   hasFullDiskAccess: () => Promise<boolean>
   getSafariBookmarks: () => Promise<any>
+  quit: () => void
 
   // Constants
   accentColor: string
@@ -155,6 +156,8 @@ class SolNative extends NativeEventEmitter {
     this.shouldHideMenubar = module.shouldHideMenubar
     this.hasFullDiskAccess = module.hasFullDiskAccess
     this.getSafariBookmarks = module.getSafariBookmarks
+
+    this.quit = module.quit
   }
 }
 

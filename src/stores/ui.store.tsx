@@ -669,6 +669,14 @@ export const createUIStore = (root: IRootStore) => {
         solNative.showToast('✅ Generated')
       },
     },
+    {
+      icon: '💀',
+      name: 'Quit Sol',
+      type: ItemType.CONFIGURATION,
+      callback: async () => {
+        solNative.quit()
+      },
+    },
     ...systemPreferenceItems,
   ]
 

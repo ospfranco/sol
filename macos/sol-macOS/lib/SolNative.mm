@@ -76,4 +76,5 @@ RCT_EXTERN_METHOD(showToast: (NSString)text)
 RCT_EXTERN_METHOD(shouldHideMenubar: (BOOL)v)
 RCT_EXTERN_METHOD(hasFullDiskAccess: (RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(getSafariBookmarks: (RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+RCT_EXTERN_METHOD(quit)
 @end

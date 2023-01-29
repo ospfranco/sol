@@ -409,5 +409,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
       self.toastWindow.orderOut(nil)
     }
   }
+  
+  func quit() {
+    NSApplication.shared.terminate(self)
+  }
 
 }
