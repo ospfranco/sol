@@ -1,4 +1,6 @@
+import clsx from 'clsx'
 import {LoadingBar} from 'components/LoadingBar'
+import {StyledFlatList} from 'components/StyledFlatList'
 import {useFullSize} from 'hooks/useFullSize'
 import {Emoji, emojiFuse, emojis, EMOJIS_PER_ROW, groupEmojis} from 'lib/emoji'
 import {solNative} from 'lib/SolNative'
@@ -9,12 +11,12 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  useColorScheme,
   View,
   ViewStyle,
 } from 'react-native'
 import {useStore} from 'store'
-import tw from 'tailwind'
-import {useDeviceContext} from 'twrnc'
+import colors from 'tailwindcss/colors'
 
 interface Props {
   style?: ViewStyle
@@ -23,7 +25,6 @@ interface Props {
 const ROW_HEIGHT = 72
 
 export const EmojisWidget: FC<Props> = observer(({style}) => {
-  useDeviceContext(tw)
   useFullSize()
   const store = useStore()
   const query = store.ui.query
@@ -31,6 +32,7 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
   const storeRowIndex = Math.floor(selectedIndex / EMOJIS_PER_ROW)
   const storeSubIndex = selectedIndex % EMOJIS_PER_ROW
   const listRef = useRef<FlatList | null>(null)
+  const colorScheme = useColorScheme()
 
   useEffect(() => {
     solNative.turnOnHorizontalArrowsListeners()
@@ -78,30 +80,30 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
   }
 
   return (
-    <View style={tw.style('flex-1', style)}>
-      <View style={tw`py-4 px-3 justify-center`}>
+    <View className="flex-1" style={style}>
+      <View className="py-4 px-3 justify-center">
         <TextInput
           autoFocus
           // @ts-expect-error
           enableFocusRing={false}
           value={store.ui.query}
           onChangeText={store.ui.setQuery}
-          selectionColor={solNative.accentColor}
-          placeholderTextColor={tw.color('text-gray-500')}
+          placeholderTextColor={colors.neutral[500]}
           placeholder="Search emojis..."
-          style={tw`text-lg`}
+          className="text-lg"
+          selectionColor={colorScheme === 'dark' ? 'white' : 'black'}
         />
       </View>
       <LoadingBar />
-      <FlatList<Emoji[]>
+      <StyledFlatList
         ref={listRef}
-        style={tw`-mr-2`}
-        contentContainerStyle={tw`flex-grow-1 p-3`}
+        className="-mr-2"
+        contentContainerStyle="flex-grow-1 p-3"
         data={data}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={
-          <View style={tw`flex-1 justify-center items-center`}>
-            <Text style={tw`dark:text-gray-400 text-gray-500 text-sm`}>
+          <View className="flex-1 justify-center items-center">
+            <Text className="dark:text-gray-400 text-gray-500 text-sm">
               No emoji found
             </Text>
           </View>
@@ -113,7 +115,14 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
         })}
         windowSize={1}
         keyExtractor={(_, index) => index.toString()}
-        renderItem={({item: emojiRow, index: rowIndex}) => {
+        // @ts-ignore
+        renderItem={({
+          item: emojiRow,
+          index: rowIndex,
+        }: {
+          item: Emoji[]
+          index: number
+        }) => {
           let res = []
           for (let i = 0; i < emojiRow.length; i++) {
             const isSelected = i === storeSubIndex && rowIndex === storeRowIndex
@@ -123,14 +132,15 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
                 onPress={() => {
                   store.ui.insertEmojiAt(rowIndex * EMOJIS_PER_ROW + i)
                 }}
-                style={tw.style(
-                  `h-[${ROW_HEIGHT}px] w-18 items-center justify-center rounded`,
+                className={clsx(
+                  `items-center justify-center rounded-t p-3.5 border-b-2 border-transparent`,
                   {
-                    'bg-accent bg-opacity-50 dark:bg-opacity-40': isSelected,
+                    'bg-lightHighlight dark:bg-darkHighlight border-black dark:border-white':
+                      isSelected,
                   },
                 )}
                 key={`${emoji.emoji}-${i}_${rowIndex}`}>
-                <Text style={tw`text-3xl`}>{emoji.emoji}</Text>
+                <Text className="text-4xl">{emoji.emoji}</Text>
               </TouchableOpacity>,
             )
           }
@@ -138,17 +148,12 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
           return (
             <>
               <View
-                style={tw.style(`flex-row`, {
-                  'dark:bg-black dark:bg-opacity-10 rounded bg-gray-200 bg-opacity-50':
+                className={clsx(`flex-row`, {
+                  'bg-gray-100 dark:bg-darker rounded':
                     rowIndex === 0 && !!favorites.length && !store.ui.query,
                 })}>
                 {res}
               </View>
-              {/* { && (
-                <View
-                  style={tw`border-b border-lightBorder dark:border-darkBorder my-2`}
-                />
-              )} */}
             </>
           )
         }}
