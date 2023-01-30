@@ -13,15 +13,12 @@ import {
 } from 'react-native'
 import {useStore} from 'store'
 import {Widget} from 'stores/ui.store'
-import tw from 'tailwind'
-import {useDeviceContext} from 'twrnc'
 
 interface Props {
   style?: ViewStyle
 }
 
 export const CalendarWidget: FC<Props> = observer(() => {
-  useDeviceContext(tw)
   const colorScheme = useColorScheme()
   const store = useStore()
   const focused = store.ui.focusedWidget === Widget.CALENDAR
@@ -45,7 +42,7 @@ export const CalendarWidget: FC<Props> = observer(() => {
           })
         }}>
         <View className="py-2 px-3">
-          <Text style={tw`text-xs`}>Click to grant calendar access</Text>
+          <Text className="text-xs">Click to grant calendar access</Text>
         </View>
       </TouchableOpacity>
     )
