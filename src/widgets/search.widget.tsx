@@ -16,12 +16,9 @@ import {
 } from 'react-native'
 import {useStore} from 'store'
 import {ItemType, Widget} from 'stores/ui.store'
-import tw from 'tailwind'
 import colors from 'tailwindcss/colors'
-import {useDeviceContext} from 'twrnc'
 
 export const SearchWidget: FC = observer(() => {
-  useDeviceContext(tw)
   const store = useStore()
   const colorScheme = useColorScheme()
   const focused = store.ui.focusedWidget === Widget.SEARCH
@@ -79,20 +76,20 @@ export const SearchWidget: FC = observer(() => {
           className={clsx('flex-1 flex-row items-center p-2 rounded', {
             'bg-lightHighlight dark:bg-darkHighlight': isActive,
           })}>
-          {!!item.url && <FileIcon url={item.url} style={tw`w-4 h-4`} />}
+          {!!item.url && <FileIcon url={item.url} className="w-4 h-4" />}
           {item.type !== ItemType.CUSTOM && !!item.icon && (
-            <Text style={tw`text-xs`}>{item.icon}</Text>
+            <Text className="text-xs">{item.icon}</Text>
           )}
           {item.type === ItemType.CUSTOM && !!item.icon && (
             <View className="h-4 w-4 rounded items-center justify-center">
               <Image
                 // @ts-expect-error
                 source={Icons[item.icon]}
-                style={tw.style({
+                style={{
                   tintColor: item.color,
                   height: 12,
                   width: 12,
-                })}
+                }}
               />
             </View>
           )}
@@ -125,9 +122,9 @@ export const SearchWidget: FC = observer(() => {
             {item.name}
           </Text>
 
-          <View style={tw`flex-1`} />
+          <View className="flex-1" />
           {!!item.subName && (
-            <Text style={tw.style('ml-3 text-sm text-neutral-500')}>
+            <Text className="ml-3 text-sm text-neutral-500">
               {item.subName}
             </Text>
           )}
