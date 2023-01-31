@@ -7,6 +7,7 @@ private let keychain = Keychain(service: "Sol")
 @objc(SolNative)
 class SolNative: RCTEventEmitter {
   let appDelegate = NSApp.delegate as? AppDelegate
+  let applicationSearcher = ApplicationSearcher()
   
   override init() {
     super.init()
@@ -50,8 +51,7 @@ class SolNative: RCTEventEmitter {
   }
 
   @objc func getApps(_ resolve: @escaping RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) {
-    let searcher = ApplicationSearcher()
-    let apps = searcher.getAllApplications()
+    let apps = applicationSearcher.getAllApplications()
     let res = apps.map { app in
       return [
         "url": app.url,
