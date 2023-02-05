@@ -9,6 +9,8 @@ import Cocoa
 import UniformTypeIdentifiers
 
 class NotchHelper {
+  
+  public static let shared = NotchHelper()
 
   private var currentImageName = ""
 

@@ -3,6 +3,8 @@ import Foundation
 let appDelegate = NSApp.delegate as? AppDelegate
 
 final class Panel: NSPanel, NSWindowDelegate {
+  var visualEffect: NSVisualEffectView!
+  
   init(contentRect: NSRect, backing: NSWindow.BackingStoreType, defer flag: Bool) {
     super.init(
       contentRect: contentRect,
@@ -21,6 +23,13 @@ final class Panel: NSPanel, NSWindowDelegate {
     self.isReleasedWhenClosed = false
     self.isOpaque = false
     self.delegate = self
+    
+    visualEffect = NSVisualEffectView()
+    visualEffect.blendingMode = .behindWindow
+    visualEffect.material = .underWindowBackground
+    visualEffect.autoresizingMask = [.minXMargin, .maxXMargin, .minYMargin, .maxYMargin, .width, .height]
+    
+    self.contentView = visualEffect
   }
 
   func windowDidResignKey(_ notification: Notification) {

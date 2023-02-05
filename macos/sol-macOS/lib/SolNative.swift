@@ -63,11 +63,20 @@ class SolNative: RCTEventEmitter {
   }
 
   @objc func openFile(_ path: String) {
+    // This is deprecated but it opens the apps with a single line of code
     NSWorkspace.shared.openFile(path)
   }
 
   @objc func openWithFinder(_ path: String) {
-    NSWorkspace.shared.openFile(path, withApplication: "Finder")
+    guard let URL = URL(string: path) else {
+      return
+    }
+    
+    let configuration: NSWorkspace.OpenConfiguration = NSWorkspace.OpenConfiguration()
+    configuration.promptsUserIfNeeded = true
+    
+    let finder = NSWorkspace.shared.urlForApplication(withBundleIdentifier: "com.apple.finder")
+    NSWorkspace.shared.open([URL], withApplicationAt: finder!, configuration: configuration)
   }
 
   @objc func toggleDarkMode() {
