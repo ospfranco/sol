@@ -21,6 +21,8 @@ import {
 import {useStore} from 'store'
 import {Widget} from 'stores/ui.store'
 import colors from 'tailwindcss/colors'
+// @ts-ignore
+import packageInfo from '../../package.json'
 
 type ITEM = 'ABOUT' | 'WEATHER' | 'GENERAL' | 'TRANSLATE'
 
@@ -93,16 +95,11 @@ export const SettingsWidget: FC = observer(() => {
       <View className="flex-1 bg-lighter dark:bg-darker">
         {selected === 'ABOUT' && (
           <View className="flex-1 justify-center items-center">
-            <Image
-              source={Assets.Logo}
-              className="h-20 w-32"
-              style={{
-                tintColor: colorScheme === 'dark' ? 'white' : 'black',
-              }}
-            />
-            <Text className="font-thin text-3xl">Sol</Text>
-            <Text className="text-xs pt-2">By Oscar Franco</Text>
-            <Text className="text-xs">MIT Licensed</Text>
+            <Text className="text-4xl">Sol</Text>
+            <Text className="mt-2 text-neutral-500 dark:text-neutral-300">
+              {packageInfo.version}
+            </Text>
+            <Text className="mt-4">By Oscar Franco</Text>
           </View>
         )}
         {selected === 'WEATHER' && (
@@ -370,6 +367,7 @@ export const SettingsWidget: FC = observer(() => {
                 <Text className="flex-1 text-right mr-2">First language</Text>
                 <View className="flex-[1.3]">
                   <Dropdown
+                    className="w-40"
                     value={store.ui.firstTranslationLanguage}
                     onValueChange={v =>
                       store.ui.setFirstTranslationLanguage(v as any)
@@ -386,6 +384,7 @@ export const SettingsWidget: FC = observer(() => {
                 <Text className="flex-1 text-right mr-2">Second language</Text>
                 <View className="flex-[1.3]">
                   <Dropdown
+                    className="w-40"
                     value={store.ui.secondTranslationLanguage}
                     onValueChange={v =>
                       store.ui.setSecondTranslationLanguage(v as any)
@@ -402,6 +401,7 @@ export const SettingsWidget: FC = observer(() => {
                 <Text className="flex-1 text-right mr-2">Third language</Text>
                 <View className="flex-[1.3]">
                   <Dropdown
+                    className="w-40"
                     value={store.ui.thirdTranslationLanguage ?? ''}
                     onValueChange={v =>
                       store.ui.setThirdTranslationLanguage(v as any)
