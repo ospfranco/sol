@@ -7,12 +7,12 @@ import {
   TouchableOpacityProps,
   ViewStyle,
 } from 'react-native'
-import tw from 'tailwind'
 
 interface SelectableButtonProps extends TouchableOpacityProps {
   selected: boolean
   title: string
   style?: ViewStyle
+  className?: string
 }
 
 export const SelectableButton: FC<SelectableButtonProps> = ({
@@ -29,17 +29,14 @@ export const SelectableButton: FC<SelectableButtonProps> = ({
       {...props}
       // @ts-ignore
       enableFocusRing={false}
-      className={clsx(
-        'p-2 w-full border-l-2 border-transparent',
-        {
-          'bg-lightHighlight dark:bg-darkHighlight border-neutral-800 dark:border-white':
-            selected,
-          'bg-gray-200 dark:bg-darkBorder': !selected && hovered,
-        },
-        style,
-      )}>
+      className={clsx('p-2 w-full border-l-2 border-transparent', {
+        'bg-lightHighlight dark:bg-darkHighlight border-neutral-800 dark:border-white':
+          selected,
+        'bg-gray-200 dark:bg-darkBorder': !selected && hovered,
+      })}
+      style={style}>
       <Text
-        style={tw.style(`pl-1 text-sm text-neutral-600 dark:text-white`, {
+        className={clsx(`pl-1 text-sm text-neutral-600 dark:text-white`, {
           'text-black dark:text-white': selected || hovered,
         })}>
         {title}

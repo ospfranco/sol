@@ -66,9 +66,9 @@ export const CreateItemWidget: FC<Props> = observer(({style}) => {
   }
 
   return (
-    <View style={tw.style(`flex-1`, style)}>
+    <View className="flex-1" style={tw.style(style)}>
       <TouchableOpacity
-        style={tw` p-3 flex-row items-center`}
+        className="p-3 flex-row items-center"
         onPress={() => {
           store.ui.onHide()
         }}>
@@ -76,7 +76,7 @@ export const CreateItemWidget: FC<Props> = observer(({style}) => {
           source={Assets.ChevronLeft}
           style={tw`dark:tint-white h-5 w-5`}
         />
-        <Text style={tw``}>Create Shortcut</Text>
+        <Text>Create Shortcut</Text>
       </TouchableOpacity>
       {!iconSelectorOpen && (
         <View
@@ -84,9 +84,9 @@ export const CreateItemWidget: FC<Props> = observer(({style}) => {
             'pt-10': isApplescript,
             'justify-center': !isApplescript,
           })}>
-          <View style={tw`flex-row items-center py-2`}>
-            <Text style={tw`mr-2 flex-1 text-right`}>Icon</Text>
-            <View style={tw`flex-1.5`}>
+          <View className="flex-row items-center py-2">
+            <Text className="mr-2 flex-1 text-right">Icon</Text>
+            <View className="flex-[1.5]">
               <TouchableOpacity
                 onPress={() => setIconSelectorOpen(!iconSelectorOpen)}
                 style={tw.style(
@@ -104,26 +104,26 @@ export const CreateItemWidget: FC<Props> = observer(({style}) => {
                     })}
                   />
                 ) : (
-                  <View style={tw`h-2 w-2 bg-white`} />
+                  <View className="h-2 w-2 bg-white" />
                 )}
               </TouchableOpacity>
             </View>
           </View>
-          <View style={tw`flex-row items-center py-2`}>
-            <Text style={tw`mr-2 flex-1 text-right`}>Name</Text>
-            <View style={tw`flex-1.5`}>
+          <View className="flex-row items-center py-2">
+            <Text className="mr-2 flex-1 text-right">Name</Text>
+            <View className="flex-[1.5]">
               <Input
                 placeholder="My favorite shortcut..."
                 bordered
-                style={tw`w-64`}
+                className="w-64"
                 value={name}
                 onChangeText={setName}
               />
             </View>
           </View>
-          <View style={tw`flex-row items-center py-2`}>
-            <Text style={tw`mr-2 flex-1 text-right`}>Applescript</Text>
-            <View style={tw`flex-1.5`}>
+          <View className="flex-row items-center py-2">
+            <Text className="mr-2 flex-1 text-right">Applescript</Text>
+            <View className="flex-[1.5]">
               <MySwitch
                 value={isApplescript}
                 onValueChange={setIsAppleScript}
@@ -135,10 +135,10 @@ export const CreateItemWidget: FC<Props> = observer(({style}) => {
               'items-start': isApplescript,
               'items-center': !isApplescript,
             })}>
-            <Text style={tw`mr-2 flex-1 text-right`}>
+            <Text className="mr-2 flex-1 text-right">
               {isApplescript ? 'Script' : 'Link'}
             </Text>
-            <View style={tw`flex-1.5`}>
+            <View className="flex-[1.5]">
               <Input
                 placeholder="Link or script..."
                 bordered
@@ -155,8 +155,7 @@ export const CreateItemWidget: FC<Props> = observer(({style}) => {
       )}
       {iconSelectorOpen && (
         <View style={tw.style(`flex-1 px-10 items-center justify-center`)}>
-          <View
-            style={tw`w-full border-lightBorder dark:border-darkBorder flex-row px-2`}>
+          <View className="w-full border-lightBorder dark:border-darkBorder flex-row px-2">
             {USER_COLOR_PALETTE.map(c => (
               <TouchableOpacity
                 onPress={() => {
@@ -177,7 +176,7 @@ export const CreateItemWidget: FC<Props> = observer(({style}) => {
               </TouchableOpacity>
             ))}
           </View>
-          <View style={tw` flex-wrap flex-row p-2`}>
+          <View className="flex-wrap flex-row p-2">
             {Object.entries(Icons).map(([key, icon], idx) => {
               return (
                 <TouchableOpacity
@@ -186,7 +185,7 @@ export const CreateItemWidget: FC<Props> = observer(({style}) => {
                     setIconSelectorOpen(false)
                     setIcon(key)
                   }}
-                  style={tw`p-2`}>
+                  className="p-2">
                   <Image
                     source={icon}
                     style={tw.style(`h-6 w-6`, {
@@ -200,8 +199,7 @@ export const CreateItemWidget: FC<Props> = observer(({style}) => {
           </View>
         </View>
       )}
-      <View
-        style={tw`border-t border-lightBorder dark:border-darkBorder items-end px-3 py-2 bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30`}>
+      <View className="border-t border-lightBorder dark:border-darkBorder items-end px-3 py-2 bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30">
         <SolButton title="Create" onPress={commit} />
       </View>
     </View>

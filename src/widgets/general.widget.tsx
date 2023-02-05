@@ -106,17 +106,15 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
       )}
 
       {!!store.ui.currentTemp && !!store.ui.currentlyTrackedProject && (
-        <View
-          style={tw`border-l border-lightBorder dark:border-darkBorder h-3 mx-4`}
-        />
+        <View className="border-l border-lightBorder dark:border-darkBorder h-3 mx-4" />
       )}
 
       {!!store.ui.currentlyTrackedProject ? (
-        <View style={tw`flex-row items-center`}>
-          <Text style={tw`text-sm dark:text-gray-400 text-gray-500 pl-1`}>
+        <View className="flex-row items-center">
+          <Text className="text-sm dark:text-gray-400 text-gray-500 pl-1">
             {store.ui.currentlyTrackedProject.project.name}
           </Text>
-          <Text style={tw`text-sm dark:text-gray-400 text-gray-500 pl-1`}>
+          <Text className="text-sm dark:text-gray-400 text-gray-500 pl-1">
             · {Math.floor(store.ui.currentlyTrackedProject.todayTime / 60)}h{' '}
             {store.ui.currentlyTrackedProject.todayTime % 60}m
           </Text>

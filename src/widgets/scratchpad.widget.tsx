@@ -80,17 +80,6 @@ export const ScratchpadWidget: FC<Props> = observer(({style}) => {
           {store.ui.note.length} Characters
         </Text>
       </View>
-      {/* <View
-        style={tw`flex-row items-center border-t border-lightBorder dark:border-darkBorder px-3 py-2 bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30`}>
-        <Text style={tw`mr-1 text-gray-500`}>BG</Text>
-        <Dropdown
-          value={'none'}
-          options={[{label: 'None', value: 'none'}]}
-          onValueChange={() => {}}
-          style={tw`w-20`}
-          upward
-        />
-      </View> */}
     </View>
   )
 })

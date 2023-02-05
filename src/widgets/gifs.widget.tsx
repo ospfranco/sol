@@ -30,7 +30,7 @@ export const GifsWidget: FC<Props> = observer(({style}) => {
 
   return (
     <View style={tw.style(`flex-1`, style)}>
-      <View style={tw`h-10 pt-3 px-3 justify-center flex-row`}>
+      <View className="h-10 pt-3 px-3 justify-center flex-row">
         <TextInput
           autoFocus
           // @ts-expect-error
@@ -40,15 +40,15 @@ export const GifsWidget: FC<Props> = observer(({style}) => {
           selectionColor={solNative.accentColor}
           placeholderTextColor={tw.color('dark:text-gray-400 text-gray-500')}
           placeholder="Search gifs..."
-          style={tw`flex-1`}
+          className="flex-1"
         />
         <Image
           source={Assets.Giphy}
-          style={tw`h-8 w-32`}
+          className="h-8 w-32"
           resizeMode="contain"
         />
       </View>
-      <View style={tw`flex-row flex-wrap px-3`}>
+      <View className="flex-row flex-wrap px-3">
         {store.ui.gifs.map((gif, index) => {
           return (
             <View
@@ -65,7 +65,7 @@ export const GifsWidget: FC<Props> = observer(({style}) => {
         })}
 
         {!store.ui.gifs.length && (
-          <Text style={tw`text-gray-500 dark:text-gray-400 text-xs`}>
+          <Text className="text-gray-500 dark:text-gray-400 text-xs">
             No results
           </Text>
         )}

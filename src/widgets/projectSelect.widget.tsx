@@ -1,7 +1,8 @@
+import {StyledFlatList} from 'components/StyledFlatList'
 import {DateTime} from 'luxon'
 import {observer} from 'mobx-react-lite'
 import React, {FC} from 'react'
-import {FlatList, Text, TouchableOpacity, View, ViewStyle} from 'react-native'
+import {Text, TouchableOpacity, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
 import tw from 'tailwind'
 import {useDeviceContext} from 'twrnc'
@@ -40,29 +41,30 @@ export const ProjectSelectWidget: FC<Props> = observer(({style}) => {
   return (
     <View style={tw.style(`flex-1`, style)}>
       <TouchableOpacity
-        style={tw`border-b border-lightBorder dark:border-darkBorder p-3`}
+        className="border-b border-lightBorder dark:border-darkBorder p-3"
         onPress={() => {
           store.ui.onHide()
         }}>
-        <Text style={tw``}>
-          <Text style={tw`text-gray-500`}>←</Text> Track time
+        <Text>
+          <Text className="text-gray-500">←</Text> Track time
         </Text>
       </TouchableOpacity>
-      <FlatList
-        style={tw`flex-1 w-full`}
-        contentContainerStyle={tw`p-3`}
+      <StyledFlatList
+        className="flex-1 w-full"
+        contentContainerStyle="p-3"
         data={store.ui.projects.slice()}
         ListEmptyComponent={() => {
-          return <Text style={tw`text-gray-500`}>No projects</Text>
+          return <Text className="text-gray-500">No projects</Text>
         }}
-        renderItem={({item, index}) => {
+        renderItem={({item, index}: {item: any; index: number}) => {
+          let project: ITrackingProject = item
           const selected = index === selectedIndex
 
           let todayTime = 0
           let monthTime = 0
           const todayStart = DateTime.now().startOf('day').valueOf()
           const monthStart = DateTime.now().startOf('month').valueOf()
-          item.periods.forEach(({start, end}) => {
+          project.periods.forEach(({start, end}) => {
             const lStart = DateTime.fromMillis(start)
             const lEnd = end ? DateTime.fromMillis(end) : null
 
@@ -83,7 +85,7 @@ export const ProjectSelectWidget: FC<Props> = observer(({style}) => {
             }
           })
 
-          const aggregation = item.periods.reduce((acc, p) => {
+          const aggregation = item.periods.reduce((acc: any, p: any) => {
             const lDay = DateTime.fromMillis(p.start).startOf('day')
             const startDayMillis = lDay.toMillis()
             if (DateTime.now().diff(lDay, 'days').days > 10) {
@@ -120,30 +122,30 @@ export const ProjectSelectWidget: FC<Props> = observer(({style}) => {
                     selectedIndex === index,
                 },
               )}>
-              <View style={tw`flex-row items-center`}>
-                <Text style={tw`flex-1`}>{item.name}</Text>
-                <Text style={tw`font-medium text-sm w-20`}>
+              <View className="flex-row items-center">
+                <Text className="flex-1">{item.name}</Text>
+                <Text className="font-medium text-sm w-20">
                   {Math.ceil(todayTime / 60)}h{' '}
-                  <Text style={tw`font-normal text-sm text-gray-500`}>
+                  <Text className="font-normal text-sm text-gray-500">
                     today
                   </Text>
                 </Text>
 
-                <Text style={tw`font-medium text-sm pl-4 w-24`}>
+                <Text className="font-medium text-sm pl-4 w-24">
                   {Math.ceil(monthTime / 60)}h{' '}
-                  <Text style={tw`font-normal text-sm text-gray-500`}>
+                  <Text className="font-normal text-sm text-gray-500">
                     month
                   </Text>
                 </Text>
               </View>
               {selected && (
-                <View style={tw`h-[154px] mt-4 flex-wrap`}>
+                <View className="h-[154px] mt-4 flex-wrap">
                   {new Array(7).fill(0).map((day, idx) => {
                     return (
                       <View
-                        style={tw`h-[20px] pb-[3px] w-10 pr-[3px]`}
+                        className="h-[20px] pb-[3px] w-10 pr-[3px]"
                         key={`label-${idx}`}>
-                        <Text style={tw`text-xs text-right pr-2`}>
+                        <Text className="text-xs text-right pr-2">
                           {/* @ts-ignore */}
                           {DAY_WEEK_TO_TEXT[idx]}
                         </Text>
@@ -155,11 +157,9 @@ export const ProjectSelectWidget: FC<Props> = observer(({style}) => {
                     if (!entry) {
                       return (
                         <View
-                          style={tw`h-[20px] pb-[3px] w-10 pr-[3px]`}
+                          className="h-[20px] pb-[3px] w-10 pr-[3px]"
                           key={idx}>
-                          <View
-                            style={tw`w-full h-full border-gray-600 rounded-sm bg-gray-400 dark:bg-gray-900`}
-                          />
+                          <View className="w-full h-full border-gray-600 rounded-sm bg-gray-400 dark:bg-gray-900" />
                         </View>
                       )
                     }
@@ -196,14 +196,10 @@ export const ProjectSelectWidget: FC<Props> = observer(({style}) => {
 
                     return (
                       <View
-                        style={tw`h-[20px] pb-[3px] w-10 pr-[3px]`}
+                        className="h-[20px] pb-[3px] w-10 pr-[3px]"
                         key={idx}>
-                        <View
-                          style={tw.style(
-                            `w-full h-full rounded-sm items-center justify-center `,
-                            bgColor,
-                          )}>
-                          <Text style={tw`text-xs pb-2 text-white`}>
+                        <View className="w-full h-full rounded-sm items-center justify-center ${bgColor}">
+                          <Text className="text-xs pb-2 text-white">
                             {`${Math.floor(entry.time / 60)}`.padStart(2, '0')}:
                             {`${Math.round(entry.time % 60)}`.padStart(2, '0')}
                           </Text>

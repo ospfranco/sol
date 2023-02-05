@@ -18,26 +18,25 @@ export const ProjectCreationWidget: FC<Props> = observer(({style}) => {
   return (
     <View style={tw.style(`flex-1`, style)}>
       <TouchableOpacity
-        style={tw`border-b border-lightBorder dark:border-darkBorder p-3`}
+        className="border-b border-lightBorder dark:border-darkBorder p-3"
         onPress={() => {
           store.ui.onHide()
         }}>
-        <Text style={tw``}>
-          <Text style={tw`text-gray-500`}>←</Text> Create Tracking Project
+        <Text>
+          <Text className="text-gray-500">←</Text> Create Tracking Project
         </Text>
       </TouchableOpacity>
-      <View style={tw`p-3 flex-1`}>
+      <View className="p-3 flex-1">
         <Input
           autoFocus
           value={store.ui.tempProjectName}
           onChangeText={store.ui.setTempProjectName}
           placeholder="Project name"
-          style={tw`w-full`}
-          inputStyle={tw`text-lg`}
+          className="w-full"
+          inputClassName="text-lg"
         />
       </View>
-      <View
-        style={tw`border-t border-lightBorder dark:border-darkBorder items-end px-3 py-2`}>
+      <View className="border-t border-lightBorder dark:border-darkBorder items-end px-3 py-2">
         <SolButton
           title="Create"
           onPress={() => {

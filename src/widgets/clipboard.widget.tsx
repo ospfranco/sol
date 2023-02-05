@@ -94,18 +94,15 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
         }}
       />
       {store.ui.showHintBar && (
-        <View
-          style={tw`border-t bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30 border-lightBorder dark:border-darkBorder p-2 flex-row items-center`}>
-          <View style={tw`flex-1`} />
-          <Text style={tw`text-xs dark:text-gray-400 text-gray-500`}>
+        <View className="border-t bg-gray-100 dark:bg-black bg-opacity-80 dark:bg-opacity-30 border-lightBorder dark:border-darkBorder p-2 flex-row items-center">
+          <View className="flex-1" />
+          <Text className="text-xs dark:text-gray-400 text-gray-500">
             Open in browser
           </Text>
-          <Key style={tw`ml-1`} title="⌘" brRounded />
-          <Key style={tw`ml-1`} title="⏎" brRounded />
-          <View
-            style={tw`border-r border-lightBorder dark:border-darkBorder h-3 mx-4`}
-          />
-          <Text style={tw`text-xs dark:text-gray-400 text-gray-500 mr-1`}>
+          <Key className="ml-1" title="⌘" brRounded />
+          <Key className="ml-1" title="⏎" brRounded />
+          <View className="border-r border-lightBorder dark:border-darkBorder h-3 mx-4" />
+          <Text className="text-xs dark:text-gray-400 text-gray-500 mr-1">
             Paste
           </Text>
           <Key title="⏎" primary brRounded />

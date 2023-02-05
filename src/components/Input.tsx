@@ -1,12 +1,14 @@
+import clsx from 'clsx'
 import {useBoolean} from 'hooks'
 import React, {FC, MutableRefObject} from 'react'
 import {TextInput, TextInputProps, View, ViewStyle} from 'react-native'
-import tw from 'tailwind'
+import colors from 'tailwindcss/colors'
 
 interface Props extends TextInputProps {
   inputRef?: MutableRefObject<TextInput | null>
   style?: ViewStyle
   inputStyle?: ViewStyle
+  inputClassName?: string
   bordered?: boolean
 }
 
@@ -16,6 +18,7 @@ export const Input: FC<Props> = ({
   inputStyle,
   bordered,
   autoFocus,
+  inputClassName,
   ...props
 }) => {
   const [focused, focusOn, focusOff] = useBoolean(autoFocus)
@@ -26,27 +29,24 @@ export const Input: FC<Props> = ({
       onMouseEnter={hoverOn}
       //@ts-ignore
       onMouseLeave={hoverOff}
-      style={tw.style(
-        'w-full rounded bg-transparent px-2 h-7 justify-center',
-        {
-          'border border-lightBorder dark:border-darkBorder':
-            !!bordered && !focused && !hovered,
-          'border border-blue-500': !!bordered && !!focused,
-          'border dark:border-white border-gray-500':
-            !!bordered && !focused && !!hovered,
-        },
-        style,
-      )}>
+      className={clsx('w-full rounded bg-transparent px-2 h-7 justify-center', {
+        'border border-lightBorder dark:border-darkBorder':
+          !!bordered && !focused && !hovered,
+        'border border-blue-500': !!bordered && !!focused,
+        'border dark:border-white border-gray-500':
+          !!bordered && !focused && !!hovered,
+      })}
+      style={style}>
       <TextInput
         // @ts-ignore
         enableFocusRing={false}
         ref={inputRef}
         onFocus={focusOn}
         onBlur={focusOff}
-        className="text-sm"
+        className={`text-sm ${inputClassName}`}
         style={inputStyle}
         autoFocus={autoFocus}
-        placeholderTextColor={tw.color('text-gray-400')}
+        placeholderTextColor={colors.gray[400]}
         {...props}
       />
     </View>

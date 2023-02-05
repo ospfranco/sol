@@ -23,12 +23,12 @@ export const GoogleMapWidget: FC<Props> = observer(({style}) => {
   }, [])
 
   return (
-    <View style={tw`flex-1`}>
+    <View className="flex-1">
       <WebView
         source={{
           uri: `https://www.google.com/maps/search/${store.ui.query}`,
         }}
-        style={tw`flex-1`}
+        className="flex-1"
       />
     </View>
   )
