@@ -193,19 +193,11 @@
 			path = views;
 			sourceTree = "<group>";
 		};
-		70E80B5D294C6EC10094F1B5 /* utilities */ = {
-			isa = PBXGroup;
-			children = (
-				70E80B5E294C6EDE0094F1B5 /* MetadataExtractorError.swift */,
-			);
-			path = utilities;
-			sourceTree = "<group>";
-		};
 		70F7EBEA2795A4BD00CED17A /* lib */ = {
 			isa = PBXGroup;
 			children = (
-				70E80B5D294C6EC10094F1B5 /* utilities */,
 				70ADD54728B22DAB00AAAFD7 /* FileSearcher.swift */,
+				70E80B5E294C6EDE0094F1B5 /* MetadataExtractorError.swift */,
 				70805243298F692E000DB574 /* MouseUtils.swift */,
 				7071D43627B3211700F8A4DC /* AppleScriptHelper.swift */,
 				7071D43527B3211700F8A4DC /* DarkMode.swift */,

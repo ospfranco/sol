@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as Sentry from '@sentry/react-native'
 import {Assets, Icons} from 'assets'
 import Chance from 'chance'
+import clsx from 'clsx'
 import {FileIcon} from 'components/FileIcon'
 import {FUSE_OPTIONS} from 'config'
 import {Parser} from 'expr-eval'
@@ -30,9 +31,8 @@ import {
   View,
 } from 'react-native'
 import {IRootStore} from 'Store'
-import {systemPreferenceItems} from './systemPreferences'
 import {v4 as uuidv4} from 'uuid'
-import clsx from 'clsx'
+import {systemPreferenceItems} from './systemPreferences'
 
 const chance = new Chance()
 const gf = new GiphyFetch('Ot4kWfqWddVroUVh73v4Apocs8Dek86j')
@@ -1458,6 +1458,7 @@ export const createUIStore = (root: IRootStore) => {
     getSafariBookmarks: async () => {
       if (store.hasFullDiskAccess) {
         const safariBookmarks = await solNative.getSafariBookmarks()
+
         runInAction(() => {
           store.safariBookmarks = safariBookmarks
         })
