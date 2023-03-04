@@ -67,6 +67,8 @@ export enum ItemType {
   BOOKMARK = 'BOOKMARK',
 }
 
+export type UIStore = ReturnType<typeof createUIStore>
+
 export const createUIStore = (root: IRootStore) => {
   const persist = async () => {
     const plainState = toJS(store)

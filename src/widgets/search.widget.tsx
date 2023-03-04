@@ -3,6 +3,7 @@ import clsx from 'clsx'
 import {FileIcon} from 'components/FileIcon'
 import {LoadingBar} from 'components/LoadingBar'
 import {StyledFlatList} from 'components/StyledFlatList'
+import {solNative} from 'lib/SolNative'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect, useRef} from 'react'
 import {

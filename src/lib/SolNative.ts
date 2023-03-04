@@ -69,6 +69,7 @@ class SolNative extends NativeEventEmitter {
   hasFullDiskAccess: () => Promise<boolean>
   getSafariBookmarks: () => Promise<any>
   quit: () => void
+  setStatusBarItemTitle: (title: string) => void
 
   // Constants
   accentColor: string
@@ -158,6 +159,8 @@ class SolNative extends NativeEventEmitter {
     this.getSafariBookmarks = module.getSafariBookmarks
 
     this.quit = module.quit
+
+    this.setStatusBarItemTitle = module.setStatusBarItemTitle
   }
 }
 

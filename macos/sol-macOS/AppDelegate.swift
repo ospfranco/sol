@@ -40,6 +40,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   private let emojiPickerHotKey = HotKey(key: .space, modifiers: [.control, .command])
   private var clipboardManagerHotKey = HotKey(key: .v, modifiers: [.command, .shift])
   private let settingsHotKey = HotKey(key: .comma, modifiers: [.command])
+  private var statusBarItem: NSStatusItem?
   
   override init() {
     updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: nil, userDriverDelegate: nil)
@@ -392,4 +393,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     showWindow()
   }
   
+  func setStatusBarTitle(_ title: String) {
+    if(statusBarItem == nil) {
+      statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+    }
+    
+    if let button = statusBarItem?.button {
+      button.title = title
+    }
+  }
+
 }

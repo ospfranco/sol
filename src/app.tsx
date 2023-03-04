@@ -12,6 +12,11 @@ if (!__DEV__) {
   })
 }
 
+// @ts-expect-error hot is RN
+module.hot?.dispose(() => {
+  root.cleanUp()
+})
+
 export const App = () => {
   return (
     <StoreProvider value={root}>

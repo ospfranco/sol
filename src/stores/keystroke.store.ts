@@ -11,6 +11,8 @@ const GIFS_PER_ROW = 5
 let keyDownListener: EmitterSubscription | undefined
 let keyUpListener: EmitterSubscription | undefined
 
+export type KeystrokeStore = ReturnType<typeof createKeystrokeStore>
+
 export const createKeystrokeStore = (root: IRootStore) => {
   let store = makeAutoObservable({
     commandPressed: false,

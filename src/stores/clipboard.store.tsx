@@ -9,6 +9,8 @@ import {Widget} from './ui.store'
 
 let onTextPastedListener: EmitterSubscription | undefined
 
+export type ClipboardStore = ReturnType<typeof createClipboardStore>
+
 export const createClipboardStore = (root: IRootStore) => {
   const store = makeAutoObservable({
     items: [] as string[],
