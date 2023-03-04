@@ -800,6 +800,7 @@ export const createUIStore = (root: IRootStore) => {
     hasFullDiskAccess: false,
     safariBookmarks: [] as {title: string; url: string}[],
     braveBookmarks: [] as {title: string; url: string}[],
+    chromeBookmarks: [] as {title: string; url: string}[],
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -879,6 +880,16 @@ export const createUIStore = (root: IRootStore) => {
             name: bookmark.title,
             type: ItemType.BOOKMARK,
             iconImage: Assets.Brave,
+            callback: () => {
+              Linking.openURL(bookmark.url)
+            },
+          }
+        }),
+        ...store.chromeBookmarks.map((bookmark): Item => {
+          return {
+            name: bookmark.title,
+            type: ItemType.BOOKMARK,
+            iconImage: Assets.Chrome,
             callback: () => {
               Linking.openURL(bookmark.url)
             },
@@ -1399,6 +1410,7 @@ export const createUIStore = (root: IRootStore) => {
         if (hasAccess) {
           store.getSafariBookmarks()
           store.getBraveBookmarks()
+          store.getChromeBookmarks()
         }
       })
     },
@@ -1426,6 +1438,23 @@ export const createUIStore = (root: IRootStore) => {
         )
 
         store.braveBookmarks = bookmarks
+      }
+    },
+    getChromeBookmarks: async () => {
+      const username = solNative.userName()
+      const path = `/Users/${username}/Library/Application Support/Google/Chrome/Default/Bookmarks`
+      const exists = solNative.exists(path)
+      if (exists) {
+        const bookmarksString = solNative.readFile(path)
+        const OGbookmarks = JSON.parse(bookmarksString)
+        let bookmarks = OGbookmarks.roots.bookmark_bar.children.map(
+          (v: any) => ({
+            title: v.name,
+            url: v.url,
+          }),
+        )
+
+        store.chromeBookmarks = bookmarks
       }
     },
   })

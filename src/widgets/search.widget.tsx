@@ -1,7 +1,6 @@
 import {Icons} from 'assets'
 import clsx from 'clsx'
 import {FileIcon} from 'components/FileIcon'
-import {Key} from 'components/Key'
 import {LoadingBar} from 'components/LoadingBar'
 import {StyledFlatList} from 'components/StyledFlatList'
 import {solNative} from 'lib/SolNative'
@@ -73,19 +72,19 @@ export const SearchWidget: FC = observer(() => {
           })}
         />
         <View className={clsx('flex-1 flex-row items-center px-4')}>
-          {!!item.url && <FileIcon url={item.url} className="w-4 h-4" />}
+          {!!item.url && <FileIcon url={item.url} className="w-5 h-5" />}
           {item.type !== ItemType.CUSTOM && !!item.icon && (
             <Text className="text-xs">{item.icon}</Text>
           )}
           {item.type === ItemType.CUSTOM && !!item.icon && (
-            <View className="h-4 w-4 rounded items-center justify-center">
+            <View className="w-5 h-5 rounded items-center justify-center">
               <Image
                 // @ts-expect-error
                 source={Icons[item.icon]}
                 style={{
                   tintColor: item.color,
-                  height: 12,
-                  width: 12,
+                  height: 14,
+                  width: 14,
                 }}
               />
             </View>
@@ -93,7 +92,7 @@ export const SearchWidget: FC = observer(() => {
           {!!item.iconImage && (
             <Image
               source={item.iconImage}
-              className="w-4 h-4"
+              className="w-5 h-5"
               resizeMode="contain"
               style={{
                 tintColor:
@@ -118,24 +117,23 @@ export const SearchWidget: FC = observer(() => {
 
           <View className="flex-1" />
           {!!item.subName && (
-            <Text className="ml-3 text-sm text-neutral-500">
+            <Text className="ml-3 text-sm text-neutral-500 dark:text-neutral-300">
               {item.subName}
             </Text>
           )}
           {item.type === ItemType.BOOKMARK && (
-            <Text className="dark:text-neutral-500 text-xs">Bookmark</Text>
+            <Text className="dark:text-neutral-300 text-xs">Bookmark</Text>
           )}
           {!!item.shortcut && (
             <View className="flex-row">
               {item.shortcut.split(' ').map((char, i) => (
-                <Key title={char} key={char} />
-                // <Text
-                //   key={i}
-                //   className={clsx('mr-1 text-xs dark:text-neutral-500', {
-                //     'dark:text-white': isActive,
-                //   })}>
-                //   {char}
-                // </Text>
+                <Text
+                  key={i}
+                  className={clsx('mr-1 text-xs dark:text-neutral-300', {
+                    'dark:text-white': isActive,
+                  })}>
+                  {char}
+                </Text>
               ))}
             </View>
           )}

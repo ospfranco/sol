@@ -135,6 +135,7 @@ import Star from './assets/star.png'
 import StarFilled from './assets/starFilled.png'
 import Safari from './assets/safari.png'
 import Brave from './assets/brave.png'
+import Chrome from './assets/chrome.png'
 
 export const Assets = {
   Brave,
@@ -160,6 +161,7 @@ export const Assets = {
   ChevronDown,
   ChevronUp,
   Cake,
+  Chrome,
 }
 
 export const Icons = {
