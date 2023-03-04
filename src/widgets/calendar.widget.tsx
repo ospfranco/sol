@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import {Key} from 'components/Key'
 import {solNative} from 'lib/SolNative'
 import {DateTime} from 'luxon'
 import {observer} from 'mobx-react-lite'
@@ -48,17 +49,15 @@ export const CalendarWidget: FC<Props> = observer(() => {
     )
   }
 
-  if (!groupedEvents.length) {
+  if (!store.calendar.upcomingEvent) {
     return null
   }
 
-  if (groupedEvents.every(day => day[1].events.length === 0)) {
-    return null
-  }
+  const lStart = DateTime.fromISO(store.calendar.upcomingEvent.date)
 
   return (
-    <View className="px-2 py-2 flex-row">
-      {groupedEvents.map(([key, data]) => {
+    <View className="px-4 py-2 flex-row items-center">
+      {/* {groupedEvents.map(([key, data]) => {
         return (
           <View key={key} className="flex-row flex-1">
             <View className="flex-1">
@@ -127,7 +126,19 @@ export const CalendarWidget: FC<Props> = observer(() => {
             </View>
           </View>
         )
-      })}
+      })} */}
+      <View
+        className="h-2 w-2 rounded-full"
+        style={{
+          backgroundColor: `${store.calendar.upcomingEvent.color}CC`,
+        }}
+      />
+      <Text className="ml-2 font-semibold">
+        {store.calendar.upcomingEvent.title}
+      </Text>
+      <Text className="ml-1">{lStart.toRelative()}</Text>
+      <View className="flex-1" />
+      <Key title="Enter" />
     </View>
   )
 })

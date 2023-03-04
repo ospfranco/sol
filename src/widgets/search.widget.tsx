@@ -44,19 +44,16 @@ export const SearchWidget: FC = observer(() => {
     // this is used for things like calculator results
     if (item.type === ItemType.TEMPORARY_RESULT) {
       return (
-        <View key={index} className="flex-row items-center">
+        <View
+          className={clsx('flex-row items-center', {
+            'bg-lightHighlight dark:bg-darkHighlight': isActive,
+          })}>
           <View
-            className={clsx(
-              'w-[2px] bg-transparent h-[80%] rounded-tr rounded-br mr-[7px]',
-              {
-                'bg-neutral-800 dark:bg-white': isActive,
-              },
-            )}
+            className={clsx('w-[3px] h-20 bg-transparent', {
+              'bg-accent': isActive,
+            })}
           />
-          <View
-            className={clsx('flex-1 flex-row items-center p-2 rounded', {
-              'bg-lightHighlight dark:bg-darkHighlight': isActive,
-            })}>
+          <View className={clsx('flex-1 flex-row items-center px-2')}>
             <Text className="text-2xl">{store.ui.temporaryResult}</Text>
           </View>
         </View>
@@ -64,19 +61,16 @@ export const SearchWidget: FC = observer(() => {
     }
 
     return (
-      <View className="flex-row items-center">
+      <View
+        className={clsx('flex-row items-center', {
+          'bg-lightHighlight dark:bg-darkHighlight': isActive,
+        })}>
         <View
-          className={clsx(
-            'w-[2px] bg-transparent h-[80%] rounded-tr rounded-br mr-[7px]',
-            {
-              'bg-neutral-800 dark:bg-white': isActive,
-            },
-          )}
+          className={clsx('w-[3px] h-8 bg-transparent', {
+            'bg-accent': isActive,
+          })}
         />
-        <View
-          className={clsx('flex-1 flex-row items-center p-2 rounded', {
-            'bg-lightHighlight dark:bg-darkHighlight': isActive,
-          })}>
+        <View className={clsx('flex-1 flex-row items-center px-2')}>
           {!!item.url && <FileIcon url={item.url} className="w-4 h-4" />}
           {item.type !== ItemType.CUSTOM && !!item.icon && (
             <Text className="text-xs">{item.icon}</Text>
@@ -186,7 +180,7 @@ export const SearchWidget: FC = observer(() => {
         <StyledFlatList
           className="flex-1"
           windowSize={8}
-          contentContainerStyle="flex-grow-1 pr-2 py-2"
+          contentContainerStyle="flex-grow-1"
           ref={listRef}
           data={items}
           keyExtractor={(item: any, i) => `${item.name}-${item.type}-${i}`}
