@@ -80,7 +80,7 @@ export const RootContainer = observer(() => {
   }
 
   if (widget === Widget.SETTINGS) {
-    return <SettingsWidget style={mainStyle} />
+    return <SettingsWidget />
   }
 
   return (
@@ -100,7 +100,7 @@ export const RootContainer = observer(() => {
       <SearchWidget />
 
       {!!store.ui.items.length &&
-        !!Object.entries(store.ui.groupedEvents).length && (
+        !!Object.entries(store.calendar.groupedEvents).length && (
           <View className="border-t border-lightBorder dark:border-darkBorder" />
         )}
 

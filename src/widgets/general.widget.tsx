@@ -126,18 +126,18 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
       <View className="flex-1" />
       {store.ui.focusedWidget !== Widget.CALENDAR &&
         !store.ui.query &&
-        !!store.ui.filteredEvents.length && (
+        !!store.calendar.filteredEvents.length && (
           <>
             <Text className="text-xxs mr-1">Appointments</Text>
             <Key title="tab" brRounded />
           </>
         )}
-      {!!store.ui.upcomingEvent &&
+      {!!store.calendar.upcomingEvent &&
         store.ui.focusedWidget === Widget.SEARCH &&
         !store.ui.query && (
           <>
             <Text className="text-xxs dark:text-white ml-3 mr-1">
-              Join "{store.ui.upcomingEvent.title}"
+              Join "{store.calendar.upcomingEvent.title}"
             </Text>
             <Key title="return" primary />
           </>

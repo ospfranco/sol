@@ -22,7 +22,7 @@ export const CalendarWidget: FC<Props> = observer(() => {
   const colorScheme = useColorScheme()
   const store = useStore()
   const focused = store.ui.focusedWidget === Widget.CALENDAR
-  const events = store.ui.groupedEvents
+  const events = store.calendar.groupedEvents
   const groupedEvents = Object.entries(events)
 
   useEffect(() => {
@@ -81,14 +81,14 @@ export const CalendarWidget: FC<Props> = observer(() => {
                   // const lEndDate = event.endDate
                   //   ? DateTime.fromISO(event.endDate)
                   //   : null
-                  const storeIndex = store.ui.filteredEvents.findIndex(
+                  const storeIndex = store.calendar.filteredEvents.findIndex(
                     e => e.id === event.id && e.date === event.date,
                   )
                   const highlighted =
                     focused && store.ui.selectedIndex === storeIndex
                   const isNow =
-                    !!store.ui.upcomingEvent &&
-                    store.ui.upcomingEvent.id === event.id
+                    !!store.calendar.upcomingEvent &&
+                    store.calendar.upcomingEvent.id === event.id
 
                   return (
                     <View

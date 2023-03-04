@@ -972,54 +972,6 @@ export const createUIStore = (root: IRootStore) => {
         return allItems
       }
     },
-    get filteredEvents(): INativeEvent[] {
-      const events = store.events
-      return events.filter(e => {
-        if (!!store.query) {
-          return e.title?.toLowerCase().includes(store.query.toLowerCase())
-        } else {
-          let notFiltered = e.status !== 3 && !e.declined
-          if (!store.showAllDayEvents) {
-            notFiltered = notFiltered && !e.isAllDay
-          }
-
-          return notFiltered
-        }
-      })
-    },
-    get upcomingEvent(): INativeEvent | undefined {
-      return store.filteredEvents.find(e => {
-        return DateTime.fromISO(e.date).diffNow('minutes').minutes < 10
-      })
-    },
-    get groupedEvents(): Record<
-      string,
-      {date: DateTime; events: Array<INativeEvent>}
-    > {
-      const events = store.filteredEvents
-      let acc: Record<string, {date: DateTime; events: Array<INativeEvent>}> =
-        {}
-      for (let ii = 0; ii < 3; ii++) {
-        const now = DateTime.now().plus({days: ii})
-        // console.warn(now.toFormat('DD'))
-        const relativeNow = now.toRelativeCalendar({unit: 'days'})!
-        const todayEvents = events.filter(e => {
-          const lEventDate = DateTime.fromISO(e.date)
-          const lEventEndDate = DateTime.fromISO(e.endDate)
-          if (e.isAllDay && +now >= +lEventDate && +now <= +lEventEndDate) {
-            return true
-          }
-          return lEventDate.toRelativeCalendar({unit: 'days'})! === relativeNow
-        })
-
-        acc[relativeNow] = {
-          date: now,
-          events: todayEvents,
-        }
-      }
-
-      return acc
-    },
     get currentItem(): Item | undefined {
       return store.items[store.selectedIndex]
     },
@@ -1109,12 +1061,6 @@ export const createUIStore = (root: IRootStore) => {
     },
     setNote: (note: string) => {
       store.note = note
-    },
-    fetchEvents: () => {
-      if (store.calendarAuthorizationStatus === 'authorized') {
-        const events = solNative.getEvents()
-        store.events = events
-      }
     },
     toggleFavorite: (item: Item) => {
       const favorites = [...store.favorites]
@@ -1270,8 +1216,6 @@ export const createUIStore = (root: IRootStore) => {
           store.searchGithubRepos()
         }
 
-        store.fetchEvents()
-
         if (!query) {
           store.fileResults = []
         } else {
@@ -1334,8 +1278,6 @@ export const createUIStore = (root: IRootStore) => {
         return
       }
       store.now = DateTime.now()
-
-      store.fetchEvents()
 
       if (store.weatherApiKey) {
         getWeather(

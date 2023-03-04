@@ -53,34 +53,49 @@ export const createCalendarStore = (root: IRootStore) => {
         return DateTime.fromISO(e.date).diffNow('minutes').minutes < 10
       })
     },
-    // get groupedEvents(): Record<
-    //   string,
-    //   {date: DateTime; events: Array<INativeEvent>}
-    // > {
-    //   const events = store.filteredEvents
-    //   let acc: Record<string, {date: DateTime; events: Array<INativeEvent>}> =
-    //     {}
-    //   for (let ii = 0; ii < 3; ii++) {
-    //     const now = DateTime.now().plus({days: ii})
-    //     // console.warn(now.toFormat('DD'))
-    //     const relativeNow = now.toRelativeCalendar({unit: 'days'})!
-    //     const todayEvents = events.filter(e => {
-    //       const lEventDate = DateTime.fromISO(e.date)
-    //       const lEventEndDate = DateTime.fromISO(e.endDate)
-    //       if (e.isAllDay && +now >= +lEventDate && +now <= +lEventEndDate) {
-    //         return true
-    //       }
-    //       return lEventDate.toRelativeCalendar({unit: 'days'})! === relativeNow
-    //     })
+    get groupedEvents(): Record<
+      string,
+      {date: DateTime; events: Array<INativeEvent>}
+    > {
+      const events = store.filteredEvents
+      let acc: Record<string, {date: DateTime; events: Array<INativeEvent>}> =
+        {}
+      for (let ii = 0; ii < 3; ii++) {
+        const now = DateTime.now().plus({days: ii})
+        // console.warn(now.toFormat('DD'))
+        const relativeNow = now.toRelativeCalendar({unit: 'days'})!
+        const todayEvents = events.filter(e => {
+          const lEventDate = DateTime.fromISO(e.date)
+          const lEventEndDate = DateTime.fromISO(e.endDate)
+          if (e.isAllDay && +now >= +lEventDate && +now <= +lEventEndDate) {
+            return true
+          }
+          return lEventDate.toRelativeCalendar({unit: 'days'})! === relativeNow
+        })
 
-    //     acc[relativeNow] = {
-    //       date: now,
-    //       events: todayEvents,
-    //     }
-    //   }
+        acc[relativeNow] = {
+          date: now,
+          events: todayEvents,
+        }
+      }
 
-    //   return acc
-    // },
+      return acc
+    },
+    get filteredEvents(): INativeEvent[] {
+      const events = store.events
+      return events.filter(e => {
+        if (!!root.ui.query) {
+          return e.title?.toLowerCase().includes(root.ui.query.toLowerCase())
+        } else {
+          let notFiltered = e.status !== 3 && !e.declined
+          if (!root.ui.showAllDayEvents) {
+            notFiltered = notFiltered && !e.isAllDay
+          }
+
+          return notFiltered
+        }
+      })
+    },
     //                _   _
     //      /\       | | (_)
     //     /  \   ___| |_ _  ___  _ __  ___

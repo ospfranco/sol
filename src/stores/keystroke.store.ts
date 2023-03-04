@@ -49,7 +49,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
         case 48: {
           switch (root.ui.focusedWidget) {
             case Widget.SEARCH:
-              if (!!root.ui.filteredEvents.length) {
+              if (!!root.calendar.filteredEvents.length) {
                 root.ui.selectedIndex = 0
                 root.ui.focusedWidget = Widget.CALENDAR
               }
@@ -151,7 +151,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
             }
 
             case Widget.CALENDAR: {
-              const event = root.ui.filteredEvents[root.ui.selectedIndex]
+              const event = root.calendar.filteredEvents[root.ui.selectedIndex]
               if (event) {
                 let eventLink: string | null | undefined = event.url
 
@@ -183,14 +183,14 @@ export const createKeystrokeStore = (root: IRootStore) => {
             }
 
             case Widget.SEARCH: {
-              if (!root.ui.query && !!root.ui.upcomingEvent) {
+              if (!root.ui.query && !!root.calendar.upcomingEvent) {
                 let eventLink: string | null | undefined =
-                  root.ui.upcomingEvent.url
+                  root.calendar.upcomingEvent.url
 
                 if (!eventLink) {
                   eventLink = extractMeetingLink(
-                    root.ui.upcomingEvent.notes,
-                    root.ui.upcomingEvent.location,
+                    root.calendar.upcomingEvent.notes,
+                    root.calendar.upcomingEvent.location,
                   )
                 }
 
@@ -270,10 +270,10 @@ export const createKeystrokeStore = (root: IRootStore) => {
 
             case Widget.CALENDAR:
               const selectedEvent =
-                root.ui.filteredEvents[root.ui.selectedIndex]
+                root.calendar.filteredEvents[root.ui.selectedIndex]
               let groupIndex = -1
               let itemIndex = -1
-              let groups = Object.values(root.ui.groupedEvents)
+              let groups = Object.values(root.calendar.groupedEvents)
               for (let ii = 0; ii < groups.length; ii++) {
                 const group = groups[ii]
                 for (let jj = 0; jj < group.events.length; jj++) {
@@ -312,7 +312,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
               }
 
               const nextEvent = groups[nextGroupIndex].events[itemIndex]
-              const nextIndex = root.ui.filteredEvents.findIndex(
+              const nextIndex = root.calendar.filteredEvents.findIndex(
                 e => e.id === nextEvent.id,
               )
 
@@ -338,10 +338,10 @@ export const createKeystrokeStore = (root: IRootStore) => {
 
             case Widget.CALENDAR:
               const selectedEvent =
-                root.ui.filteredEvents[root.ui.selectedIndex]
+                root.calendar.filteredEvents[root.ui.selectedIndex]
               let groupIndex = -1
               let itemIndex = -1
-              let groups = Object.values(root.ui.groupedEvents)
+              let groups = Object.values(root.calendar.groupedEvents)
               for (let ii = 0; ii < groups.length; ii++) {
                 const group = groups[ii]
                 for (let jj = 0; jj < group.events.length; jj++) {
@@ -380,7 +380,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
               }
 
               const nextEvent = groups[nextGroupIndex].events[itemIndex]
-              const nextIndex = root.ui.filteredEvents.findIndex(
+              const nextIndex = root.calendar.filteredEvents.findIndex(
                 e => e.id === nextEvent.id,
               )
 
@@ -462,7 +462,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
 
             case Widget.CALENDAR: {
               root.ui.selectedIndex = Math.min(
-                root.ui.filteredEvents.length - 1,
+                root.calendar.filteredEvents.length - 1,
                 root.ui.selectedIndex + 1,
               )
               break
