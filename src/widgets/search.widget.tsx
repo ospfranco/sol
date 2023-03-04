@@ -109,9 +109,7 @@ export const SearchWidget: FC = observer(() => {
             !!item.iconComponent && <item.iconComponent />}
           <Text
             numberOfLines={1}
-            className={clsx(
-              'ml-3 text-sm text-black dark:text-white max-w-xl',
-            )}>
+            className={'ml-3 text-sm text-black dark:text-white max-w-xl'}>
             {item.name}
           </Text>
 

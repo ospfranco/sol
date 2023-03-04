@@ -121,7 +121,7 @@ export const createCalendarStore = (root: IRootStore) => {
       const upcomingEvent = store.events.find(e => {
         const lStart = DateTime.fromISO(e.date)
         const lNow = DateTime.now()
-        return +lStart >= +lNow
+        return +lStart >= +lNow && +lStart <= +lNow.endOf('day')
       })
 
       if (upcomingEvent) {
