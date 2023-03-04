@@ -81,7 +81,7 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
 
   return (
     <View className="flex-1" style={style}>
-      <View className="py-4 px-3 justify-center">
+      <View className="my-4 px-4 justify-center">
         <TextInput
           autoFocus
           // @ts-expect-error
@@ -90,8 +90,8 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
           onChangeText={store.ui.setQuery}
           placeholderTextColor={colors.neutral[500]}
           placeholder="Search emojis..."
-          className="text-lg"
-          selectionColor={colorScheme === 'dark' ? 'white' : 'black'}
+          className="text-xl font-light"
+          selectionColor={solNative.accentColor}
         />
       </View>
       <LoadingBar />
@@ -133,12 +133,16 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
                   store.ui.insertEmojiAt(rowIndex * EMOJIS_PER_ROW + i)
                 }}
                 className={clsx(
-                  `items-center justify-center rounded-t p-3.5 border-b-2 border-transparent`,
+                  `items-center justify-center rounded p-3.5 border border-transparent`,
                   {
-                    'bg-lightHighlight dark:bg-darkHighlight border-black dark:border-white':
-                      isSelected,
+                    'border-accent': isSelected,
                   },
                 )}
+                style={{
+                  backgroundColor: isSelected
+                    ? `${solNative.accentColor}22`
+                    : undefined,
+                }}
                 key={`${emoji.emoji}-${i}_${rowIndex}`}>
                 <Text className="text-4xl">{emoji.emoji}</Text>
               </TouchableOpacity>,

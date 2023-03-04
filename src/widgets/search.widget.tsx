@@ -1,6 +1,7 @@
 import {Icons} from 'assets'
 import clsx from 'clsx'
 import {FileIcon} from 'components/FileIcon'
+import {Key} from 'components/Key'
 import {LoadingBar} from 'components/LoadingBar'
 import {StyledFlatList} from 'components/StyledFlatList'
 import {solNative} from 'lib/SolNative'
@@ -53,7 +54,7 @@ export const SearchWidget: FC = observer(() => {
               'bg-accent': isActive,
             })}
           />
-          <View className={clsx('flex-1 flex-row items-center px-2')}>
+          <View className={clsx('flex-1 flex-row items-center px-4')}>
             <Text className="text-2xl">{store.ui.temporaryResult}</Text>
           </View>
         </View>
@@ -62,15 +63,16 @@ export const SearchWidget: FC = observer(() => {
 
     return (
       <View
-        className={clsx('flex-row items-center', {
-          'bg-lightHighlight dark:bg-darkHighlight': isActive,
-        })}>
+        className={clsx('flex-row items-center')}
+        style={{
+          backgroundColor: isActive ? `${solNative.accentColor}22` : undefined,
+        }}>
         <View
-          className={clsx('w-[3px] h-8 bg-transparent', {
+          className={clsx('w-[3px] h-10 bg-transparent', {
             'bg-accent': isActive,
           })}
         />
-        <View className={clsx('flex-1 flex-row items-center px-2')}>
+        <View className={clsx('flex-1 flex-row items-center px-4')}>
           {!!item.url && <FileIcon url={item.url} className="w-4 h-4" />}
           {item.type !== ItemType.CUSTOM && !!item.icon && (
             <Text className="text-xs">{item.icon}</Text>
@@ -109,10 +111,7 @@ export const SearchWidget: FC = observer(() => {
           <Text
             numberOfLines={1}
             className={clsx(
-              'ml-3 text-sm text-neutral-500 dark:text-neutral-400 max-w-xl',
-              {
-                'text-black dark:text-white': isActive,
-              },
+              'ml-3 text-sm text-black dark:text-white max-w-xl',
             )}>
             {item.name}
           </Text>
@@ -129,13 +128,14 @@ export const SearchWidget: FC = observer(() => {
           {!!item.shortcut && (
             <View className="flex-row">
               {item.shortcut.split(' ').map((char, i) => (
-                <Text
-                  key={i}
-                  className={clsx('mr-1 text-xs dark:text-neutral-500', {
-                    'dark:text-white': isActive,
-                  })}>
-                  {char}
-                </Text>
+                <Key title={char} key={char} />
+                // <Text
+                //   key={i}
+                //   className={clsx('mr-1 text-xs dark:text-neutral-500', {
+                //     'dark:text-white': isActive,
+                //   })}>
+                //   {char}
+                // </Text>
               ))}
             </View>
           )}
@@ -149,7 +149,7 @@ export const SearchWidget: FC = observer(() => {
       className={clsx({
         'flex-1': !!store.ui.query,
       })}>
-      <View className="h-12 pt-1 px-3 flex-row items-center">
+      <View className="my-5 px-4 flex-row items-center">
         <TextInput
           autoFocus
           // @ts-expect-error
@@ -157,12 +157,12 @@ export const SearchWidget: FC = observer(() => {
           value={store.ui.query}
           onChangeText={store.ui.setQuery}
           ref={inputRef}
-          className="flex-1 text-lg"
+          className="flex-1 text-xl font-light"
           placeholderTextColor={
             colorScheme === 'dark' ? colors.neutral[500] : colors.neutral[400]
           }
-          placeholder={'Search for commands and actions...'}
-          selectionColor={colorScheme === 'dark' ? 'white' : 'black'}
+          placeholder={'Type a command or search...'}
+          selectionColor={solNative.accentColor}
         />
       </View>
 
