@@ -400,12 +400,18 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   func setStatusBarTitle(_ title: String) {
     if(statusBarItem == nil) {
       statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+    } else {
+      if(title.isEmpty) {
+        NSStatusBar.system.removeStatusItem(statusBarItem!)
+        statusBarItem = nil
+      } else {
+        if let button = statusBarItem?.button {
+          button.title = title
+          button.action = #selector(statusBarItemCallback(_:))
+        }
+      }
     }
     
-    if let button = statusBarItem?.button {
-      button.title = title
-      button.action = #selector(statusBarItemCallback(_:))
-    }
   }
 
 }

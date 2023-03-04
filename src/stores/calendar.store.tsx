@@ -52,7 +52,9 @@ export const createCalendarStore = (root: IRootStore) => {
 
     get upcomingEvent(): INativeEvent | undefined {
       return store.events.find(e => {
-        return DateTime.fromISO(e.date).diffNow('minutes').minutes < 10
+        const lStart = DateTime.fromISO(e.date)
+        const lNow = DateTime.now()
+        return +lStart >= +lNow
       })
     },
     get groupedEvents(): Record<
@@ -116,15 +118,26 @@ export const createCalendarStore = (root: IRootStore) => {
 
       store.events = solNative.getEvents()
 
-      if (store.events[0]) {
-        const latest = store.events[0]
-        const lStart = DateTime.fromISO(latest.date)
+      const upcomingEvent = store.events.find(e => {
+        const lStart = DateTime.fromISO(e.date)
+        const lNow = DateTime.now()
+        return +lStart >= +lNow
+      })
+
+      if (upcomingEvent) {
+        const lStart = DateTime.fromISO(upcomingEvent.date)
+
         const relative = lStart
           .toRelative()
           ?.replace(' hours', 'h')
           .replace(' mins', 'm')
           .replace(' days', 'd')
-        solNative.setStatusBarItemTitle(`${latest.title?.trim()} ${relative}`)
+
+        solNative.setStatusBarItemTitle(
+          `${upcomingEvent.title?.trim()} ${relative}`,
+        )
+      } else {
+        solNative.setStatusBarItemTitle('')
       }
     },
     cleanUp: () => {
