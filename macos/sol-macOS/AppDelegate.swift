@@ -393,6 +393,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     showWindow()
   }
   
+  @objc func statusBarItemCallback(_ sender: AnyObject?) {
+    SolEmitter.sharedInstance.onStatusBarItemClick()
+  }
+  
   func setStatusBarTitle(_ title: String) {
     if(statusBarItem == nil) {
       statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
@@ -400,6 +404,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     
     if let button = statusBarItem?.button {
       button.title = title
+      button.action = #selector(statusBarItemCallback(_:))
     }
   }
 

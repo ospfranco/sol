@@ -1,12 +1,14 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import {extractMeetingLink} from 'lib/calendar'
 import {solNative} from 'lib/SolNative'
 import {sleep} from 'lib/various'
 import {DateTime} from 'luxon'
 import {autorun, makeAutoObservable, toJS} from 'mobx'
-import {EmitterSubscription} from 'react-native'
+import {EmitterSubscription, Linking} from 'react-native'
 import {IRootStore} from 'Store'
 
 let onShowListener: EmitterSubscription | undefined
+let onStatusBarItemClickListener: EmitterSubscription | undefined
 
 export type CalendarStore = ReturnType<typeof createCalendarStore>
 
@@ -127,6 +129,8 @@ export const createCalendarStore = (root: IRootStore) => {
     },
     cleanUp: () => {
       store.keepPolling = false
+      onShowListener?.remove()
+      onStatusBarItemClickListener?.remove()
     },
     poll: async () => {
       if (!store.keepPolling) {
@@ -144,6 +148,24 @@ export const createCalendarStore = (root: IRootStore) => {
       store.calendarAuthorizationStatus =
         solNative.getCalendarAuthorizationStatus()
     },
+    onStatusBarItemClick: () => {
+      const event = store.events[0]
+      if (event) {
+        let eventLink: string | null | undefined = event.url
+
+        if (!eventLink) {
+          eventLink = extractMeetingLink(event.notes, event.location)
+        }
+
+        if (eventLink) {
+          Linking.openURL(eventLink)
+        } else {
+          Linking.openURL('ical://')
+        }
+      } else {
+        Linking.openURL('ical://')
+      }
+    },
   })
 
   hydrate().then(() => {
@@ -155,6 +177,10 @@ export const createCalendarStore = (root: IRootStore) => {
   })
 
   onShowListener = solNative.addListener('onShow', store.onShow)
+  onStatusBarItemClickListener = solNative.addListener(
+    'onStatusBarItemClick',
+    store.onStatusBarItemClick,
+  )
 
   return store
 }
