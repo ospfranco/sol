@@ -1,17 +1,9 @@
-import clsx from 'clsx'
 import {Key} from 'components/Key'
 import {solNative} from 'lib/SolNative'
 import {DateTime} from 'luxon'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect} from 'react'
-import {
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  useColorScheme,
-  View,
-  ViewStyle,
-} from 'react-native'
+import {Text, TouchableOpacity, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
 import {Widget} from 'stores/ui.store'
 
@@ -20,11 +12,9 @@ interface Props {
 }
 
 export const CalendarWidget: FC<Props> = observer(() => {
-  const colorScheme = useColorScheme()
   const store = useStore()
   const focused = store.ui.focusedWidget === Widget.CALENDAR
   const events = store.calendar.groupedEvents
-  const groupedEvents = Object.entries(events)
 
   useEffect(() => {
     if (focused) {
@@ -133,12 +123,13 @@ export const CalendarWidget: FC<Props> = observer(() => {
           backgroundColor: `${store.calendar.upcomingEvent.color}CC`,
         }}
       />
-      <Text className="ml-2 font-semibold">
+      <Text className="ml-2 font-semibold text-sm">
         {store.calendar.upcomingEvent.title}
       </Text>
-      <Text className="ml-1">{lStart.toRelative()}</Text>
+      <Text className="ml-1 text-sm">{lStart.toRelative()}</Text>
       <View className="flex-1" />
-      <Key title="Enter" />
+      <Text className="text-sm font-semibold">Join</Text>
+      <Key title="Enter" className="ml-1" />
     </View>
   )
 })
