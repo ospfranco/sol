@@ -103,6 +103,10 @@ export const createCalendarStore = (root: IRootStore) => {
     //   / ____ \ (__| |_| | (_) | | | \__ \
     //  /_/    \_\___|\__|_|\___/|_| |_|___/
     fetchEvents: () => {
+      if (!root.ui.calendarEnabled) {
+        return
+      }
+
       if (store.calendarAuthorizationStatus !== 'authorized') {
         // Cannot fetch events
         return
@@ -145,7 +149,9 @@ export const createCalendarStore = (root: IRootStore) => {
   hydrate().then(() => {
     autorun(persist)
     store.getCalendarAccess()
-    store.poll()
+    if (root.ui.calendarEnabled) {
+      store.poll()
+    }
   })
 
   onShowListener = solNative.addListener('onShow', store.onShow)

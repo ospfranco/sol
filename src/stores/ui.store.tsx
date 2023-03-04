@@ -1359,6 +1359,9 @@ export const createUIStore = (root: IRootStore) => {
     },
     setCalendarEnabled: (v: boolean) => {
       store.calendarEnabled = v
+      if (v) {
+        root.calendar.poll()
+      }
     },
     setShowAllDayEvents: (v: boolean) => {
       store.showAllDayEvents = v
