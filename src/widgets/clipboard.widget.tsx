@@ -35,7 +35,7 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
 
   return (
     <View className="flex-1 bg-light dark:bg-dark">
-      <View className="h-12 pt-1 px-3 flex-row items-center">
+      <View className="my-5 px-4 flex-row items-center">
         <TextInput
           autoFocus
           // @ts-expect-error
@@ -46,7 +46,7 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
           placeholderTextColor={tw.color(
             'dark:text-neutral-400 text-neutral-500',
           )}
-          className="text-lg flex-1"
+          className="text-xl flex-1 font-light"
           placeholder="Search clipboard history..."
         />
       </View>
@@ -54,7 +54,7 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
       <StyledFlatList
         data={data}
         className="flex-1"
-        contentContainerStyle="flex-grow py-2 pr-4"
+        contentContainerStyle="flex-grow"
         ref={listRef}
         ListEmptyComponent={
           <View className="flex-1 justify-center items-center">
@@ -66,29 +66,28 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
         renderItem={({item, index}: any) => {
           const isSelected = index === selectedIndex
           return (
-            <View className="flex-row items-center mb-4">
+            <View
+              className="flex-row items-center"
+              style={{
+                backgroundColor: isSelected
+                  ? `${solNative.accentColor}22`
+                  : undefined,
+              }}>
               <View
-                className={clsx(
-                  'w-[2px] bg-transparent h-[80%] rounded-tr rounded-br mr-[7px]',
-                  {
-                    'bg-neutral-800 dark:bg-white': isSelected,
-                  },
-                )}
+                className={clsx('w-[2px] bg-transparent h-full', {
+                  'bg-accent': isSelected,
+                })}
               />
-              <View
-                className={clsx('flex-row p-2 rounded py-2', {
-                  'bg-lightHighlight dark:bg-darkHighlight': isSelected,
-                })}>
-                <Text
-                  className={clsx(
-                    'text-sm flex-1 text-neutral-500 dark:text-neutral-400',
-                    {
-                      'text-black dark:text-white': isSelected,
-                    },
-                  )}>
-                  {item.substring(0, 256)}
-                </Text>
-              </View>
+
+              <Text
+                className={clsx(
+                  'text-sm flex-1 text-neutral-500 dark:text-neutral-400 p-4',
+                  {
+                    'text-black dark:text-white': isSelected,
+                  },
+                )}>
+                {item.substring(0, 256)}
+              </Text>
             </View>
           )
         }}
