@@ -45,16 +45,24 @@ export const SearchWidget: FC = observer(() => {
     if (item.type === ItemType.TEMPORARY_RESULT) {
       return (
         <View
-          className={clsx('flex-row items-center', {
-            'bg-lightHighlight dark:bg-darkHighlight': isActive,
-          })}>
+          className={'flex-row items-center'}
+          style={{
+            backgroundColor: isActive
+              ? `${solNative.accentColor}22`
+              : undefined,
+          }}>
           <View
             className={clsx('w-[3px] h-20 bg-transparent', {
               'bg-accent': isActive,
             })}
           />
-          <View className={clsx('flex-1 flex-row items-center px-4')}>
-            <Text className="text-2xl">{store.ui.temporaryResult}</Text>
+          <View className={clsx('flex-1 px-4')}>
+            <Text className="text-xs text-neutral-600 dark:text-neutral-400">
+              {store.ui.query}
+            </Text>
+            <Text className="text-2xl font-semibold mt-2">
+              {store.ui.temporaryResult}
+            </Text>
           </View>
         </View>
       )
