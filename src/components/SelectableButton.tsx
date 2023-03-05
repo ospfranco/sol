@@ -29,7 +29,7 @@ export const SelectableButton: FC<SelectableButtonProps> = ({
       {...props}
       // @ts-ignore
       enableFocusRing={false}
-      className={clsx('p-2 w-full border-l-2 border-transparent', {
+      className={clsx('px-2 py-3 w-full border-l-2 border-transparent', {
         'bg-lightHighlight dark:bg-darkHighlight border-accent': selected,
         'bg-gray-200 dark:bg-darkBorder': !selected && hovered,
       })}
