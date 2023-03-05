@@ -146,7 +146,7 @@ export const SettingsWidget: FC = observer(() => {
           <StyledScrollView
             showsVerticalScrollIndicator
             className="flex-1"
-            contentContainerStyle="justify-center">
+            contentContainerStyle="justify-center pb-12">
             <View className="flex-row items-center pb-2">
               <Text className="flex-1 text-right pr-3 text-sm">
                 Launch on start
