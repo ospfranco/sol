@@ -7,7 +7,7 @@ export const SystemPreferencesIcon = ({style}: {style?: ViewStyle} = {}) => {
   return (
     <FileIcon
       style={style}
-      className="w-4 h-4"
+      className="w-5 h-5"
       url={
         solNative.OSVersion >= 13
           ? '/System/Applications/System Settings.app'
