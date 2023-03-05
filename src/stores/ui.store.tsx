@@ -750,7 +750,7 @@ export const createUIStore = (root: IRootStore) => {
     isAccessibilityTrusted: false,
     calendarAuthorizationStatus: 'notDetermined' as CalendarAuthorizationStatus,
     onboardingStep: 'v1_start' as OnboardingStep,
-    globalShortcut: 'option' as 'command' | 'option',
+    globalShortcut: 'option' as 'command' | 'option' | 'control',
     scratchpadShortcut: 'command' as 'command' | 'option' | 'none',
     clipboardManagerShortcut: 'shift' as 'shift' | 'option' | 'none',
     showWindowOn: 'screenWithFrontmost' as
@@ -1129,7 +1129,7 @@ export const createUIStore = (root: IRootStore) => {
     setOnboardingStep: (step: OnboardingStep) => {
       store.onboardingStep = step
     },
-    setGlobalShortcut: (key: 'command' | 'option') => {
+    setGlobalShortcut: (key: 'command' | 'option' | 'control') => {
       solNative.setGlobalShortcut(key)
       store.globalShortcut = key
     },

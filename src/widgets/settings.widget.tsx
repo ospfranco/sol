@@ -170,6 +170,7 @@ export const SettingsWidget: FC = observer(() => {
                   options={[
                     {label: '⌘ Space', value: 'command'},
                     {label: '⌥ Space', value: 'option'},
+                    {label: '⌃ Space', value: 'control'},
                   ]}
                 />
               </View>

@@ -269,8 +269,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     self.mainHotKey.isPaused = true
     if key == "command" {
       self.mainHotKey = HotKey(key: .space, modifiers: [.command], keyDownHandler: toggleWindow)
-    } else {
+    } else if key == "option" {
       self.mainHotKey = HotKey(key: .space, modifiers: [.option], keyDownHandler: toggleWindow)
+    } else if key == "control" {
+      self.mainHotKey = HotKey(key: .control, modifiers: [.option], keyDownHandler: toggleWindow)
     }
 #endif
   }

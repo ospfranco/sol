@@ -19,9 +19,9 @@ class SolNative extends NativeEventEmitter {
     | null
     | undefined
   >
-  setGlobalShortcut: (key: 'command' | 'option') => void
-  setScratchpadShortcut: (key: 'command' | 'option') => void
-  setClipboardManagerShortcut: (key: 'shift' | 'option') => void
+  setGlobalShortcut: (key: 'command' | 'option' | 'control') => void
+  setScratchpadShortcut: (key: 'command' | 'option' | 'none') => void
+  setClipboardManagerShortcut: (key: 'shift' | 'option' | 'none') => void
   getCalendarAuthorizationStatus: typeof global.__SolProxy.getCalendarAuthorizationStatus
   requestCalendarAccess: () => Promise<void>
   requestAccessibilityAccess: () => Promise<void>

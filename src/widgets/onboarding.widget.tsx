@@ -31,6 +31,19 @@ const SHORTCUTS = [
     label: ({style}: {style?: any; className: string}) => (
       <Text style={style}>
         <Text className="font-bold text-base" style={style}>
+          ⌃
+        </Text>{' '}
+        then{' '}
+        <Text className="font-bold" style={style}>
+          Space
+        </Text>
+      </Text>
+    ),
+  },
+  {
+    label: ({style}: {style?: any; className: string}) => (
+      <Text style={style}>
+        <Text className="font-bold text-base" style={style}>
           ⌘
         </Text>{' '}
         then{' '}
