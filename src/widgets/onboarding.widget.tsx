@@ -95,15 +95,13 @@ export const OnboardingWidget: FC<Props> = observer(({style}) => {
         <Fade visible={visible} className="items-center flex-1" duration={250}>
           <View className="flex-1" />
           <View className="flex-row items-center">
-            <Text className="text-3xl">S</Text>
             <Image
               source={Assets.Logo}
-              className="h-16 w-32"
+              className="h-10 w-32"
               style={{
                 tintColor: colorScheme === 'dark' ? 'white' : 'black',
               }}
             />
-            <Text className="text-3xl">L</Text>
           </View>
 
           <Text className="mt-3 dark:text-neutral-400">

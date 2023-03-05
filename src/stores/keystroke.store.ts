@@ -448,7 +448,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
             case Widget.ONBOARDING: {
               switch (root.ui.onboardingStep) {
                 case 'v1_shortcut': {
-                  root.ui.selectedIndex = Math.min(1, root.ui.selectedIndex + 1)
+                  root.ui.selectedIndex = (root.ui.selectedIndex + 1) % 3
                 }
               }
               break

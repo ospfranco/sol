@@ -23,46 +23,10 @@ interface Props {
 
 const StyledFileIcon = styled(FileIcon)
 
-const SolIcon = () => {
-  const store = useStore()
-  const colorScheme = useColorScheme()
-  const [isHovered, hoverOn, hoverOff] = useBoolean()
-
-  return (
-    <TouchableOpacity
-      // @ts-expect-error
-      onMouseEnter={hoverOn}
-      onMouseLeave={hoverOff}
-      style={tw.style({
-        'dark:bg-proGray-900 dark:border-neutral-300 rounded': isHovered,
-      })}
-      onPress={() => {
-        store.ui.focusWidget(Widget.SETTINGS)
-      }}>
-      <Image
-        source={Assets.SolWhiteSmall}
-        className="h-6 w-6 mx-1"
-        style={{
-          tintColor:
-            colorScheme === 'dark'
-              ? tw.color('text-gray-300')!
-              : tw.color('text-gray-700')!,
-        }}
-      />
-    </TouchableOpacity>
-  )
-}
-
 export const GeneralWidget: FC<Props> = observer(({style}) => {
   const store = useStore()
   return (
-    <View className="flex-row items-center border-t border-lightBorder dark:border-darkBorder pl-2 pr-2 py-1 bg-lighter dark:bg-darker">
-      <SolIcon />
-
-      {!!store.ui.track?.title && (
-        <View className="border-r border-lightBorder dark:border-darkBorder h-4 ml-2 mr-3" />
-      )}
-
+    <View className="flex-row items-center border-t border-lightBorder dark:border-darkBorder px-4 py-2 bg-lighter dark:bg-darker">
       {!!store.ui.track?.title && (
         <View className="flex-row items-center">
           {!!store.ui.track?.artwork ? (
@@ -78,12 +42,12 @@ export const GeneralWidget: FC<Props> = observer(({style}) => {
           )}
 
           <View className="pl-2 flex-row items-center">
-            <Text className="text-sm max-w-52" numberOfLines={1}>
+            <Text className="text-xs max-w-52" numberOfLines={1}>
               {store.ui.track?.title}
             </Text>
             {!!store.ui.track?.artist && (
               <Text
-                className="dark:text-gray-400 text-gray-400 text-sm ml-1"
+                className="dark:text-gray-400 text-gray-400 text-xs ml-1"
                 numberOfLines={1}>
                 {store.ui.track?.artist}
               </Text>
