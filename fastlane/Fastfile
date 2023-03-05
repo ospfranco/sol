@@ -7,7 +7,7 @@ platform :mac do
   xcode_select "/Applications/Xcode.app"
 
   lane :release do
-    # sh("yarn", "bump")
+    sh("yarn", "bump")
 
     version = get_version_number(xcodeproj: "./macos/sol.xcodeproj")
 
