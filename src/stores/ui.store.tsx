@@ -1409,10 +1409,10 @@ export const createUIStore = (root: IRootStore) => {
         store.hasFullDiskAccess = hasAccess
         if (hasAccess) {
           store.getSafariBookmarks()
-          store.getBraveBookmarks()
-          store.getChromeBookmarks()
         }
       })
+      store.getBraveBookmarks()
+      store.getChromeBookmarks()
     },
     getSafariBookmarks: async () => {
       if (store.hasFullDiskAccess) {

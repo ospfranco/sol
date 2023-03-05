@@ -30,6 +30,11 @@ let createRootStore = (): IRootStore => {
 
 export let root = createRootStore()
 
+// @ts-expect-error hot is RN
+module.hot?.dispose(() => {
+  root.cleanUp()
+})
+
 export let StoreContext = createContext<IRootStore>(root)
 export let StoreProvider = StoreContext.Provider
 export let useStore = () => useContext(StoreContext)
