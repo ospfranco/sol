@@ -331,4 +331,10 @@ class SolNative: RCTEventEmitter {
       self.appDelegate?.setStatusBarTitle(title)
     }
   }
+  
+  @objc func setSpotifyForwardingEnabled(_ v: Bool) {
+    DispatchQueue.main.async {
+      self.appDelegate?.setSpotifyForwardingEnabled(v)
+    }
+  }
 }

@@ -70,6 +70,7 @@ class SolNative extends NativeEventEmitter {
   getSafariBookmarks: () => Promise<any>
   quit: () => void
   setStatusBarItemTitle: (title: string) => void
+  setSpotifyForwardingEnabled: (enabled: boolean) => Promise<void>
 
   // Constants
   accentColor: string
@@ -161,6 +162,7 @@ class SolNative extends NativeEventEmitter {
     this.quit = module.quit
 
     this.setStatusBarItemTitle = module.setStatusBarItemTitle
+    this.setSpotifyForwardingEnabled = module.setSpotifyForwardingEnabled
   }
 }
 

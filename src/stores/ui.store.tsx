@@ -128,6 +128,8 @@ export const createUIStore = (root: IRootStore) => {
         store.showHintBar = parsedStore.showHintBar ?? true
         store.useBackgroundOverlay = parsedStore.useBackgroundOverlay ?? true
         store.shouldHideMenubar = parsedStore.shouldHideMenuBar ?? false
+        store.spotifyForwardingEnabled =
+          parsedStore.spotifyForwardingEnabled ?? true
       })
 
       solNative.setLaunchAtLogin(parsedStore.launchAtLogin ?? true)
@@ -142,6 +144,7 @@ export const createUIStore = (root: IRootStore) => {
       solNative.setWindowManagement(store.windowManagementEnabled)
       solNative.useBackgroundOverlay(store.useBackgroundOverlay)
       solNative.shouldHideMenubar(store.shouldHideMenubar)
+      solNative.setSpotifyForwardingEnabled(store.spotifyForwardingEnabled)
     } else {
       runInAction(() => {
         store.focusedWidget = Widget.ONBOARDING
@@ -801,6 +804,7 @@ export const createUIStore = (root: IRootStore) => {
     safariBookmarks: [] as {title: string; url: string}[],
     braveBookmarks: [] as {title: string; url: string}[],
     chromeBookmarks: [] as {title: string; url: string}[],
+    spotifyForwardingEnabled: true,
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -1456,6 +1460,10 @@ export const createUIStore = (root: IRootStore) => {
 
         store.chromeBookmarks = bookmarks
       }
+    },
+    setSpotifyForwardingEnabled: (enabled: boolean) => {
+      store.spotifyForwardingEnabled = enabled
+      solNative.setSpotifyForwardingEnabled(enabled)
     },
   })
 

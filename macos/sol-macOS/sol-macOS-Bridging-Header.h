@@ -8,5 +8,6 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTEventEmitter.h>
 #import <AppKit/AppKit.h>
+#import "SpotifyForwarder.h"
 
 AXError _AXUIElementGetWindow(AXUIElementRef element, uint32_t *identifier);

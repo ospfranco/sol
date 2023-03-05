@@ -357,6 +357,18 @@ export const SettingsWidget: FC = observer(() => {
                 />
               </View>
             </View>
+
+            <View className="flex-row items-center py-2">
+              <Text className="flex-1 text-right pr-3 text-sm">
+                Forward media keys to Spotify
+              </Text>
+              <View className="flex-[1.3]">
+                <MySwitch
+                  value={store.ui.spotifyForwardingEnabled}
+                  onValueChange={store.ui.setSpotifyForwardingEnabled}
+                />
+              </View>
+            </View>
           </StyledScrollView>
         )}
         {selected === 'TRANSLATE' && (

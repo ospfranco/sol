@@ -41,6 +41,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   private var clipboardManagerHotKey: HotKey?
   private let settingsHotKey = HotKey(key: .comma, modifiers: [.command])
   private var statusBarItem: NSStatusItem?
+  private var spotifyForwarder: SpotifyForwarder?
   
   override init() {
     updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: nil, userDriverDelegate: nil)
@@ -70,6 +71,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     setupPasteboardListener()
     showWindow()
     setupDisplayConnector()
+    spotifyForwarder = SpotifyForwarder()
   }
   
   func setupDisplayConnector() {
@@ -416,7 +418,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         }
       }
     }
-    
+  }
+  
+  func setSpotifyForwardingEnabled(_ enabled: Bool) {
+    if(enabled) {
+      spotifyForwarder?.startEventSession()
+    } else {
+      spotifyForwarder?.stopEventSession()
+    }
   }
 
 }

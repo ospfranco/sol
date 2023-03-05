@@ -29,6 +29,7 @@
 		70911D4E28BB22620005FD0E /* JSIBindings.mm in Sources */ = {isa = PBXBuildFile; fileRef = 70911D4C28BB22620005FD0E /* JSIBindings.mm */; };
 		70969E1727966ECD00BE3F1C /* SolNative.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70969E1627966ECD00BE3F1C /* SolNative.swift */; };
 		70969E192796719100BE3F1C /* SolNative.mm in Sources */ = {isa = PBXBuildFile; fileRef = 70969E182796719100BE3F1C /* SolNative.mm */; };
+		70A07EBB29B48F4000D1885E /* SpotifyForwarder.m in Sources */ = {isa = PBXBuildFile; fileRef = 70A07EBA29B48F4000D1885E /* SpotifyForwarder.m */; };
 		70ADD54628B22C1300AAAFD7 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 70ADD54528B22C1300AAAFD7 /* LaunchAtLogin */; };
 		70ADD54828B22DAB00AAAFD7 /* FileSearcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70ADD54728B22DAB00AAAFD7 /* FileSearcher.swift */; };
 		70B2D5902824254B0005D80A /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B2D58F2824254B0005D80A /* WindowManager.swift */; };
@@ -85,6 +86,9 @@
 		70911D4F28BB23AC0005FD0E /* SolMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SolMacros.h; sourceTree = "<group>"; };
 		70969E1627966ECD00BE3F1C /* SolNative.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolNative.swift; sourceTree = "<group>"; };
 		70969E182796719100BE3F1C /* SolNative.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SolNative.mm; sourceTree = "<group>"; };
+		70A07EB929B48F1F00D1885E /* spotify.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = spotify.h; sourceTree = "<group>"; };
+		70A07EBA29B48F4000D1885E /* SpotifyForwarder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SpotifyForwarder.m; sourceTree = "<group>"; };
+		70A07EBC29B491CF00D1885E /* SpotifyForwarder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpotifyForwarder.h; sourceTree = "<group>"; };
 		70ADD54728B22DAB00AAAFD7 /* FileSearcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileSearcher.swift; sourceTree = "<group>"; };
 		70B2D58F2824254B0005D80A /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
 		70B78360279BE866008660F5 /* Panel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Panel.swift; sourceTree = "<group>"; };
@@ -196,6 +200,9 @@
 		70F7EBEA2795A4BD00CED17A /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				70A07EB929B48F1F00D1885E /* spotify.h */,
+				70A07EBA29B48F4000D1885E /* SpotifyForwarder.m */,
+				70A07EBC29B491CF00D1885E /* SpotifyForwarder.h */,
 				70ADD54728B22DAB00AAAFD7 /* FileSearcher.swift */,
 				70E80B5E294C6EDE0094F1B5 /* MetadataExtractorError.swift */,
 				70805243298F692E000DB574 /* MouseUtils.swift */,
@@ -312,7 +319,7 @@
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			packageReferences = (
-				70ADD54428B22C1300AAAFD7 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */,
+				70ADD54428B22C1300AAAFD7 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
 			);
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
@@ -494,6 +501,7 @@
 				7047E80827D4DAEB00582E1B /* Sequence.extension.swift in Sources */,
 				7074A3A228BDCB6B0032ADD7 /* CalendarHelper.mm in Sources */,
 				701086A727989798004C8CCD /* SolEmitter.swift in Sources */,
+				70A07EBB29B48F4000D1885E /* SpotifyForwarder.m in Sources */,
 				7071D43827B3211700F8A4DC /* AppleScriptHelper.swift in Sources */,
 				70969E192796719100BE3F1C /* SolNative.mm in Sources */,
 				70BED7CD27F4C23D00906E41 /* FileManager.extension.swift in Sources */,
@@ -746,7 +754,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		70ADD54428B22C1300AAAFD7 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */ = {
+		70ADD54428B22C1300AAAFD7 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "git@github.com:sindresorhus/LaunchAtLogin.git";
 			requirement = {
@@ -759,7 +767,7 @@
 /* Begin XCSwiftPackageProductDependency section */
 		70ADD54528B22C1300AAAFD7 /* LaunchAtLogin */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 70ADD54428B22C1300AAAFD7 /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */;
+			package = 70ADD54428B22C1300AAAFD7 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */;
 			productName = LaunchAtLogin;
 		};
 /* End XCSwiftPackageProductDependency section */
