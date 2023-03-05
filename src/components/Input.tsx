@@ -32,8 +32,8 @@ export const Input: FC<Props> = ({
       className={clsx('w-full rounded bg-transparent px-2 h-7 justify-center', {
         'border border-lightBorder dark:border-darkBorder':
           !!bordered && !focused && !hovered,
-        'border border-blue-500': !!bordered && !!focused,
-        'border dark:border-white border-gray-500':
+        'border border-accent': !!bordered && !!focused,
+        'border border-neutral-500 dark:border-white':
           !!bordered && !focused && !!hovered,
       })}
       style={style}>
@@ -46,7 +46,7 @@ export const Input: FC<Props> = ({
         className={`text-sm ${inputClassName}`}
         style={inputStyle}
         autoFocus={autoFocus}
-        placeholderTextColor={colors.gray[400]}
+        placeholderTextColor={colors.neutral[400]}
         {...props}
       />
     </View>

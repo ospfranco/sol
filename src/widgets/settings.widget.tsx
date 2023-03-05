@@ -69,25 +69,21 @@ export const SettingsWidget: FC = observer(() => {
         <SelectableButton
           title="General"
           selected={selected === 'GENERAL'}
-          className="mt-3"
           onPress={() => setSelected('GENERAL')}
         />
         <SelectableButton
           title="Translation"
           selected={selected === 'TRANSLATE'}
-          className="mt-1"
           onPress={() => setSelected('TRANSLATE')}
         />
         <SelectableButton
           title="Weather"
           selected={selected === 'WEATHER'}
-          className="mt-1"
           onPress={() => setSelected('WEATHER')}
         />
         <SelectableButton
           title="About"
           selected={selected === 'ABOUT'}
-          className="mt-1"
           onPress={() => setSelected('ABOUT')}
         />
       </View>
@@ -149,9 +145,9 @@ export const SettingsWidget: FC = observer(() => {
         {selected === 'GENERAL' && (
           <StyledScrollView
             showsVerticalScrollIndicator
-            className="flex-1 "
-            contentContainerStyle="justify-center p-6">
-            <View className="flex-row items-center py-2">
+            className="flex-1"
+            contentContainerStyle="justify-center">
+            <View className="flex-row items-center pb-2">
               <Text className="flex-1 text-right pr-3 text-sm">
                 Launch on start
               </Text>

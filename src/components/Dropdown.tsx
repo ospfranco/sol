@@ -49,9 +49,9 @@ export const Dropdown = ({
         className={clsx(
           `w-32 rounded justify-center items-center border flex-row py-1`,
           {
-            'border-accent': isOpen,
             'dark:border-gray-200': isHovered,
             'border-neutral-300 dark:border-neutral-700': !isHovered,
+            'border-accent': isOpen,
           },
         )}
         style={style}>

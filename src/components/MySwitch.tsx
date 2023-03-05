@@ -20,8 +20,8 @@ export const MySwitch: FC<Props> = ({value, onValueChange, disabled}) => {
         onValueChange(!value)
       }}
       style={tw.style(`w-3 h-3 rounded justify-center items-center border`, {
-        'border-gray-500': value,
-        'border-gray-400': !value,
+        'border-neutral-500 dark:border-neutral-300': value,
+        'border-neutral-400 dark:border-neutral-600': !value,
       })}>
       {!!value && (
         <Image
