@@ -163,7 +163,7 @@ export const SettingsWidget: FC = observer(() => {
               </View>
             </View>
 
-            <View className="flex-row items-center py-2 z-10">
+            <View className="flex-row items-center py-2 z-30">
               <Text className="flex-1 text-right pr-3 text-sm">
                 Global shortcut
               </Text>
@@ -178,7 +178,7 @@ export const SettingsWidget: FC = observer(() => {
                 />
               </View>
             </View>
-            <View className="flex-row items-center py-2 z-9">
+            <View className="flex-row items-center py-2 z-20">
               <Text className="flex-1 text-right pr-3 text-sm">
                 Scratchpad shortcut
               </Text>
@@ -189,11 +189,12 @@ export const SettingsWidget: FC = observer(() => {
                   options={[
                     {label: '⌘ ⇧ Space', value: 'command'},
                     {label: '⇧ ⌥ Space', value: 'option'},
+                    {label: 'Disabled', value: 'none'},
                   ]}
                 />
               </View>
             </View>
-            <View className="flex-row items-center py-2 z-8">
+            <View className="flex-row items-center py-2 z-10">
               <Text className="flex-1 text-right pr-3 text-sm">
                 Clipboard manager shortcut
               </Text>
@@ -206,6 +207,7 @@ export const SettingsWidget: FC = observer(() => {
                   options={[
                     {label: '⌘ ⇧ V', value: 'shift'},
                     {label: '⌘ ⌥ V', value: 'option'},
+                    {label: 'Disabled', value: 'none'},
                   ]}
                 />
               </View>
@@ -363,7 +365,7 @@ export const SettingsWidget: FC = observer(() => {
         {selected === 'TRANSLATE' && (
           <View className="flex-1 p-6">
             <View className="flex-1 pt-8">
-              <View className="flex-row items-center py-2 z-10">
+              <View className="flex-row items-center py-2 z-20">
                 <Text className="flex-1 text-right mr-2">First language</Text>
                 <View className="flex-[1.3]">
                   <Dropdown
@@ -380,7 +382,7 @@ export const SettingsWidget: FC = observer(() => {
                   />
                 </View>
               </View>
-              <View className="flex-row items-center py-2 z-9">
+              <View className="flex-row items-center py-2 z-10">
                 <Text className="flex-1 text-right mr-2">Second language</Text>
                 <View className="flex-[1.3]">
                   <Dropdown
@@ -397,7 +399,7 @@ export const SettingsWidget: FC = observer(() => {
                   />
                 </View>
               </View>
-              <View className="flex-row items-center py-2 z-8">
+              <View className="flex-row items-center py-2">
                 <Text className="flex-1 text-right mr-2">Third language</Text>
                 <View className="flex-[1.3]">
                   <Dropdown

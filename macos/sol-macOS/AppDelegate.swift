@@ -36,9 +36,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   private let fullScreenHotKey = HotKey(key: .return, modifiers: [.option, .control])
   private let moveToNextScreenHotKey = HotKey(key: .rightArrow, modifiers: [.option, .control, .command])
   private let moveToPrevScreenHotKey = HotKey(key: .leftArrow, modifiers: [.option, .control, .command])
-  private var scratchpadHotKey = HotKey(key: .space, modifiers: [.command, .shift])
+  private var scratchpadHotKey: HotKey?
   private let emojiPickerHotKey = HotKey(key: .space, modifiers: [.control, .command])
-  private var clipboardManagerHotKey = HotKey(key: .v, modifiers: [.command, .shift])
+  private var clipboardManagerHotKey: HotKey?
   private let settingsHotKey = HotKey(key: .comma, modifiers: [.command])
   private var statusBarItem: NSStatusItem?
   
@@ -116,9 +116,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     topRightScreenHotKey.keyDownHandler = { WindowManager.sharedInstance.moveQuarter(.topRight) }
     bottomLeftScreenHotKey.keyDownHandler = { WindowManager.sharedInstance.moveQuarter(.bottomLeft) }
     bottomRightScreenHotKey.keyDownHandler = { WindowManager.sharedInstance.moveQuarter(.bottomRight) }
-    scratchpadHotKey.keyDownHandler = showScratchpad
+    scratchpadHotKey?.keyDownHandler = showScratchpad
     emojiPickerHotKey.keyDownHandler = showEmojiPicker
-    clipboardManagerHotKey.keyDownHandler = showClipboardManager
+    clipboardManagerHotKey?.keyDownHandler = showClipboardManager
     settingsHotKey.keyDownHandler = showSettings
     mainHotKey.keyDownHandler = toggleWindow
     
@@ -276,12 +276,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   }
   
   func setScratchpadShortcut(_ key: String) {
-    self.scratchpadHotKey.isPaused = true
+    self.scratchpadHotKey?.isPaused = true
     
     if key == "command" {
       self.scratchpadHotKey = HotKey(key: .space, modifiers: [.command, .shift], keyDownHandler: showScratchpad)
-    } else {
+    } else if key == "option"  {
       self.scratchpadHotKey = HotKey(key: .space, modifiers: [.shift, .option], keyDownHandler: showScratchpad)
+    } else {
+      self.scratchpadHotKey = nil
     }
   }
   
@@ -290,12 +292,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   }
   
   func setClipboardManagerShortcut(_ key: String) {
-    self.clipboardManagerHotKey.isPaused = true
+    self.clipboardManagerHotKey?.isPaused = true
     
     if key == "shift" {
       self.clipboardManagerHotKey = HotKey(key: .v, modifiers: [.command, .shift], keyDownHandler: showClipboardManager)
-    } else {
+    } else if key == "option" {
       self.clipboardManagerHotKey = HotKey(key: .v, modifiers: [.command, .option], keyDownHandler: showClipboardManager)
+    } else {
+      self.clipboardManagerHotKey = nil
     }
   }
   

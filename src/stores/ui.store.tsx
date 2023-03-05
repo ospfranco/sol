@@ -751,11 +751,11 @@ export const createUIStore = (root: IRootStore) => {
     calendarAuthorizationStatus: 'notDetermined' as CalendarAuthorizationStatus,
     onboardingStep: 'v1_start' as OnboardingStep,
     globalShortcut: 'option' as 'command' | 'option',
-    scratchpadShortcut: 'command' as 'command' | 'option',
+    scratchpadShortcut: 'command' as 'command' | 'option' | 'none',
+    clipboardManagerShortcut: 'shift' as 'shift' | 'option' | 'none',
     showWindowOn: 'screenWithFrontmost' as
       | 'screenWithFrontmost'
       | 'screenWithCursor',
-    clipboardManagerShortcut: 'shift' as 'shift' | 'option',
     now: DateTime.now(),
     query: '',
     selectedIndex: 0,
