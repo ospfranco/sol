@@ -265,16 +265,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   }
   
   func setGlobalShortcut(_ key: String) {
-#if !DEBUG
+  
     self.mainHotKey.isPaused = true
     if key == "command" {
       self.mainHotKey = HotKey(key: .space, modifiers: [.command], keyDownHandler: toggleWindow)
     } else if key == "option" {
       self.mainHotKey = HotKey(key: .space, modifiers: [.option], keyDownHandler: toggleWindow)
     } else if key == "control" {
-      self.mainHotKey = HotKey(key: .control, modifiers: [.option], keyDownHandler: toggleWindow)
+      self.mainHotKey = HotKey(key: .space, modifiers: [.control], keyDownHandler: toggleWindow)
     }
-#endif
   }
   
   func setScratchpadShortcut(_ key: String) {
