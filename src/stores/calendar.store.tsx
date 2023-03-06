@@ -121,19 +121,32 @@ export const createCalendarStore = (root: IRootStore) => {
       const upcomingEvent = store.events.find(e => {
         const lStart = DateTime.fromISO(e.date)
         const lNow = DateTime.now()
-        return +lStart >= +lNow && +lStart <= +lNow.endOf('day')
+        return (
+          +lStart.plus({minute: 10}) >= +lNow && +lStart <= +lNow.endOf('day')
+        )
       })
 
       if (upcomingEvent) {
         const lStart = DateTime.fromISO(upcomingEvent.date)
 
         const minutes = lStart.diffNow('minutes').minutes
-        const relativeHours = Math.floor(minutes / 60)
-        const relativeMinutes = `${Math.floor(minutes - relativeHours * 60)}m`
+        if (minutes > 0) {
+          const relativeHours = Math.floor(minutes / 60)
+          const relativeHoursStr = relativeHours > 0 ? ` ${relativeHours}h` : ''
+          const relativeMinutesStr = ` ${Math.floor(
+            minutes - relativeHours * 60,
+          )}m`
 
-        solNative.setStatusBarItemTitle(
-          `${upcomingEvent.title?.trim()} in ${relativeHours}h ${relativeMinutes}`,
-        )
+          solNative.setStatusBarItemTitle(
+            `${upcomingEvent.title
+              ?.trim()
+              .substring(0, 32)} in${relativeHoursStr}${relativeMinutesStr}`,
+          )
+        } else if (minutes <= 0) {
+          solNative.setStatusBarItemTitle(
+            `${upcomingEvent.title?.trim()} has started`,
+          )
+        }
       } else {
         solNative.setStatusBarItemTitle('')
       }
