@@ -127,14 +127,12 @@ export const createCalendarStore = (root: IRootStore) => {
       if (upcomingEvent) {
         const lStart = DateTime.fromISO(upcomingEvent.date)
 
-        const relative = lStart
-          .toRelative()
-          ?.replace(' hours', 'h')
-          .replace(' mins', 'm')
-          .replace(' days', 'd')
+        const minutes = lStart.diffNow('minutes').minutes
+        const relativeHours = Math.floor(minutes / 60)
+        const relativeMinutes = `${Math.floor(minutes - relativeHours * 60)}m`
 
         solNative.setStatusBarItemTitle(
-          `${upcomingEvent.title?.trim()} ${relative}`,
+          `${upcomingEvent.title?.trim()} in ${relativeHours}h ${relativeMinutes}`,
         )
       } else {
         solNative.setStatusBarItemTitle('')
