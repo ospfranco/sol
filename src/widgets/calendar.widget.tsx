@@ -126,7 +126,7 @@ export const CalendarWidget: FC<Props> = observer(() => {
       <Text className="ml-2 font-semibold text-sm">
         {store.calendar.upcomingEvent.title}
       </Text>
-      <Text className="ml-1 text-sm">{lStart.toRelative()}</Text>
+      <Text className="text-sm">{lStart.toRelative()}</Text>
       <View className="flex-1" />
       <Text className="text-sm font-semibold">Join</Text>
       <Key title="Enter" className="ml-1" />

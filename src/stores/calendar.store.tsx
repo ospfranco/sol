@@ -54,7 +54,10 @@ export const createCalendarStore = (root: IRootStore) => {
       return store.events.find(e => {
         const lStart = DateTime.fromISO(e.date)
         const lNow = DateTime.now()
-        return +lStart >= +lNow && +lStart.diffNow('minutes').minutes <= 10
+        return (
+          +lStart.plus({minutes: 20}) >= +lNow &&
+          +lStart.diffNow('minutes').minutes <= 10
+        )
       })
     },
     get groupedEvents(): Record<

@@ -22,6 +22,7 @@ import React from 'react'
 import {
   Alert,
   Appearance,
+  Clipboard,
   DevSettings,
   EmitterSubscription,
   Image,
@@ -680,6 +681,21 @@ export const createUIStore = (root: IRootStore) => {
       type: ItemType.CONFIGURATION,
       callback: async () => {
         solNative.quit()
+      },
+    },
+    {
+      icon: '📟',
+      name: 'Paste as JSON',
+      type: ItemType.CONFIGURATION,
+      callback: async () => {
+        let latestString = await Clipboard.getString()
+        if (latestString)
+          try {
+            latestString = JSON.parse(latestString)
+            solNative.pasteToFrontmostApp(JSON.stringify(latestString, null, 2))
+          } catch (e) {
+            console.warn('Could not parse json')
+          }
       },
     },
     ...systemPreferenceItems,
