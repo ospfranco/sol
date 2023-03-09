@@ -693,8 +693,10 @@ export const createUIStore = (root: IRootStore) => {
           try {
             latestString = JSON.parse(latestString)
             solNative.pasteToFrontmostApp(JSON.stringify(latestString, null, 2))
+            solNative.showToast('Pasted! ✅')
           } catch (e) {
-            console.warn('Could not parse json')
+            solNative.pasteToFrontmostApp(latestString)
+            solNative.showToast('Not a valid JSON ❌')
           }
       },
     },
