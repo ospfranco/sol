@@ -15,6 +15,8 @@ import {
 } from 'react-native'
 import {useStore} from 'store'
 import tw from 'tailwind'
+import colors from 'tailwindcss/colors'
+import customColors from '../colors'
 import {useDeviceContext} from 'twrnc'
 
 interface Props {
@@ -35,22 +37,22 @@ export const TranslationWidget: FC<Props> = observer(({style}) => {
     }
   }, [])
 
+  const index = store.ui.selectedIndex
+
   return (
     <View className="flex-1" style={style}>
-      <View className="h-12 pt-1 px-3 flex-row items-center">
+      <View className="my-5 px-4 flex-row items-center">
         <TextInput
           autoFocus
           // @ts-expect-error
           enableFocusRing={false}
           value={store.ui.query}
           onChangeText={store.ui.setQuery}
-          className="flex-1 text-lg"
+          className="flex-1 text-xl font-light"
           placeholderTextColor={
-            colorScheme === 'dark'
-              ? tw.color('text-neutral-700')
-              : tw.color('text-neutral-400')
+            colorScheme === 'dark' ? colors.neutral[500] : colors.neutral[400]
           }
-          placeholder={'Enter translation query...'}
+          placeholder={'Enter text to translate...'}
           selectionColor={colorScheme === 'dark' ? 'white' : 'black'}
         />
       </View>
@@ -59,17 +61,21 @@ export const TranslationWidget: FC<Props> = observer(({style}) => {
 
       {!store.ui.translationResults.length && (
         <View className="flex-1 p-3 items-center justify-center">
-          <Text className="text-xs text-neutral-500">Translating...</Text>
+          <Text className="text-xs text-neutral-500 dark:text-neutral-300">
+            Translating...
+          </Text>
         </View>
       )}
 
       {!!store.ui.translationResults.length && (
         <View className="flex-1 flex-row">
           <View
-            style={tw.style('flex-1 p-3 border-b-4 border-transparent', {
-              'bg-lightHighlight dark:bg-darkHighlight border-neutral-700 dark:border-white ':
-                store.ui.selectedIndex === 0,
-            })}>
+            className={clsx('flex-1 p-3 border-b-4 border-transparent')}
+            style={{
+              backgroundColor: index === 0 ? customColors.accentBg : undefined,
+              borderBottomColor:
+                index === 0 ? customColors.accent : 'transparent',
+            }}>
             <Text className="text-3xl">
               {/* @ts-ignore */}
               {languages[store.ui.firstTranslationLanguage]?.flag ??
@@ -81,10 +87,12 @@ export const TranslationWidget: FC<Props> = observer(({style}) => {
           </View>
 
           <View
-            className={clsx('flex-1 p-3 border-b-4 border-transparent', {
-              'bg-lightHighlight dark:bg-darkHighlight border-neutral-700 dark:border-white ':
-                store.ui.selectedIndex === 1,
-            })}>
+            className={clsx('flex-1 p-3 border-b-4 border-transparent')}
+            style={{
+              backgroundColor: index === 1 ? customColors.accentBg : undefined,
+              borderBottomColor:
+                index === 1 ? customColors.accent : 'transparent',
+            }}>
             <Text className="text-3xl">
               {/* @ts-ignore */}
               {languages[store.ui.secondTranslationLanguage]?.flag ??
@@ -97,10 +105,15 @@ export const TranslationWidget: FC<Props> = observer(({style}) => {
 
           {!!store.ui.thirdTranslationLanguage && (
             <View
-              className={clsx('flex-1 p-3 border-b-4 border-transparent', {
-                'bg-lightHighlight dark:bg-darkHighlight border-neutral-700 dark:border-white ':
-                  store.ui.selectedIndex === 2,
-              })}>
+              className={clsx(
+                'flex-1 p-3 border-b-4 border-transparent bg-accentFaint',
+              )}
+              style={{
+                backgroundColor:
+                  index === 2 ? customColors.accentBg : undefined,
+                borderBottomColor:
+                  index === 2 ? customColors.accent : 'transparent',
+              }}>
               <Text className="text-3xl">
                 {/* @ts-ignore */}
                 {languages[store.ui.thirdTranslationLanguage]?.flag ??

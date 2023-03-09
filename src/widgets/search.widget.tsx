@@ -18,6 +18,7 @@ import {
 import {useStore} from 'store'
 import {ItemType, Widget} from 'stores/ui.store'
 import colors from 'tailwindcss/colors'
+import customColors from '../colors'
 
 export const SearchWidget: FC = observer(() => {
   const store = useStore()
@@ -47,14 +48,13 @@ export const SearchWidget: FC = observer(() => {
         <View
           className={'flex-row items-center'}
           style={{
-            backgroundColor: isActive
-              ? `${solNative.accentColor}22`
-              : undefined,
+            backgroundColor: isActive ? customColors.accentBg : undefined,
           }}>
           <View
-            className={clsx('w-[3px] h-20 bg-transparent', {
-              'bg-accent': isActive,
-            })}
+            style={{
+              backgroundColor: isActive ? customColors.accent : 'transparent',
+            }}
+            className={clsx('w-[3px] h-20')}
           />
           <View className={clsx('flex-1 px-4')}>
             <Text className="text-xs text-neutral-600 dark:text-neutral-400">
@@ -72,12 +72,13 @@ export const SearchWidget: FC = observer(() => {
       <View
         className={clsx('flex-row items-center')}
         style={{
-          backgroundColor: isActive ? `${solNative.accentColor}22` : undefined,
+          backgroundColor: isActive ? customColors.accentBg : undefined,
         }}>
         <View
-          className={clsx('w-[3px] h-10 bg-transparent', {
-            'bg-accent': isActive,
-          })}
+          style={{
+            backgroundColor: isActive ? customColors.accent : 'transparent',
+          }}
+          className={clsx('w-[3px] h-10 bg-transparent')}
         />
         <View className={clsx('flex-1 flex-row items-center px-4')}>
           {!!item.url && <FileIcon url={item.url} className="w-5 h-5" />}

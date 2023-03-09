@@ -18,7 +18,8 @@ module.exports = {
         corner: '7px',
       },
       colors: {
-        accent: {DEFAULT: '#007AFF'},
+        accent: '#007AFF',
+        accentBg: '#007AFF10',
         light: {DEFAULT: 'rgba(251, 251, 251, .80)'},
         lighter: {DEFAULT: 'rgba(251, 251, 251, .90)'},
         dark: {DEFAULT: 'rgba(21, 21, 21, .65)'},
