@@ -1133,7 +1133,6 @@ export const createUIStore = (root: IRootStore) => {
           store.isLoading = false
         })
       } catch (e) {
-        console.warn('something wne twrong')
         runInAction(() => {
           store.isLoading = false
         })

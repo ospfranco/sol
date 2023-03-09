@@ -9,7 +9,7 @@ export interface Emoji {
   tags: string[]
 }
 
-const FUSE_OPTIONS = {
+const FUSE_OPTIONS: Fuse.IFuseOptions<any> = {
   threshold: 0.2,
   ignoreLocation: true,
   keys: ['description', 'category', 'aliases'],

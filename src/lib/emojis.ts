@@ -16689,4 +16689,32 @@ export const emojis = [
     unicode_version: '11.0',
     ios_version: '12.1',
   },
+  {
+    emoji: '←',
+    description: 'left arrow',
+    category: 'Apple',
+    aliases: [],
+    tags: ['left'],
+  },
+  {
+    emoji: '→',
+    description: 'right arrow',
+    category: 'Apple',
+    aliases: [],
+    tags: ['right'],
+  },
+  {
+    emoji: '↑ ',
+    description: 'up arrow',
+    category: 'Apple',
+    aliases: [],
+    tags: ['up'],
+  },
+  {
+    emoji: '↓',
+    description: 'down arrow`',
+    category: 'Apple',
+    aliases: [],
+    tags: ['down`'],
+  },
 ]
