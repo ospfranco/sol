@@ -415,6 +415,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         if let button = statusBarItem?.button {
           button.title = title
           button.action = #selector(statusBarItemCallback(_:))
+          button.sizeToFit()
         }
       }
     }
