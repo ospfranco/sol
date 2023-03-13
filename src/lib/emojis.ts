@@ -16704,7 +16704,7 @@ export const emojis = [
     tags: ['right'],
   },
   {
-    emoji: '↑ ',
+    emoji: '↑',
     description: 'up arrow',
     category: 'Apple',
     aliases: [],
