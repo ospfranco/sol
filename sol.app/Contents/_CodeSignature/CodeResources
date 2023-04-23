@@ -23,7 +23,7 @@
 		</data>
 		<key>Resources/Assets.car</key>
 		<data>
-		jVG0Md4kNolfSE2Ml0kX1yIIOoA=
+		s4xxj6YamDs4IkC42yJmW3WRxTg=
 		</data>
 		<key>Resources/Base.lproj/Main.storyboardc/Info.plist</key>
 		<data>
@@ -31,7 +31,7 @@
 		</data>
 		<key>Resources/Base.lproj/Main.storyboardc/MainMenu.nib</key>
 		<data>
-		2XFPvgJURyc3C2nSydhPCZwbl/k=
+		gBA8GiwT4nuO5uyKtmx8bSWkupw=
 		</data>
 		<key>Resources/assets/src/assets/Cake.png</key>
 		<data>
@@ -587,7 +587,7 @@
 		</data>
 		<key>Resources/main.jsbundle</key>
 		<data>
-		RgCigTeT62mKxK9f+Yxf1Sv5sG0=
+		Se0CJezays7JTBHH//Q5DQZ5a5c=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -596,7 +596,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			KhqE6WENb7fqOVWpsgM2wWX7HOY=
+			AHq1MJ3C9QRQC0hupVashRFqzV0=
 			</data>
 			<key>requirement</key>
 			<string>anchor apple generic and identifier "org.sparkle-project.Sparkle" and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "24CMR7378R")</string>
@@ -637,7 +637,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			JIKxHM0kiwf0dMkBp9t1FhMm8scsHGlxPKs44OJgUtU=
+			++bMDG33rt726fm0Cd/F0NiB7bvNTMzUSrT/zrUVCeE=
 			</data>
 		</dict>
 		<key>Resources/Base.lproj/Main.storyboardc/Info.plist</key>
@@ -651,7 +651,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			kYpzY6j9WaDQmkJ1beB+m4DBRl+6Hmy+6tyDzwl5kos=
+			m3sFXfO88qasossTzvBghCj2Qj0gQ3iDcaZa3rB7svg=
 			</data>
 		</dict>
 		<key>Resources/assets/src/assets/Cake.png</key>
@@ -1624,7 +1624,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			BopCziJkRb9SzT0SAyPlNJsr8D+M25wx3bJq5ZX5H5w=
+			h5kx8Lm5XlLDyx8ve0To0aiqHJ9o8+MMfhl7tdvG26Q=
 			</data>
 		</dict>
 	</dict>
