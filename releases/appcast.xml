@@ -3,6 +3,21 @@
     <channel>
         <title>Sol</title>
         <item>
+            <title>2.0.24</title>
+            <pubDate>Sat, 29 Apr 2023 08:32:27 +0200</pubDate>
+            <sparkle:version>187</sparkle:version>
+            <sparkle:shortVersionString>2.0.24</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/2.0.24.zip" length="5099089" type="application/octet-stream" sparkle:edSignature="SZMKHPUuVNlAsNomkl6v9wH7XgJnQZIrJKJfFjUVxZrEzNbsrMzC1PKW3DQqutN2SSsbl13Ax3OGriOuPEOuAA=="/>
+            <sparkle:deltas>
+                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/Sol187-186.delta" sparkle:deltaFrom="186" length="15350" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="863040" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,en" sparkle:edSignature="o2/C7I/IqrE0ZnkNqB6dtTReflMVmcFOtCU/jx3Jona4P6cS45dem2WQWs+GUf+RZWvwJfG0l8uYgjIGTtMbCQ=="/>
+                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/Sol187-183.delta" sparkle:deltaFrom="183" length="287998" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="863040" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,en" sparkle:edSignature="qneLIn62cv9q3dSqIrdv9l+tDm6hJEQ8NE2g2bX15Tn8+Q8wC69Sey20ybbko05l/f2Ab3odo9Y5+FBuK3qyBA=="/>
+                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/Sol187-182.delta" sparkle:deltaFrom="182" length="361578" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="863040" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,en" sparkle:edSignature="w4bLb11Dpf4QthJkEEM6XLWXX/YDFmsMOtXKt1u9g0ZcSJmvLEyo+fX+yxVCVQ+xvSwiNZZmqwKuc8mQKhk2BQ=="/>
+                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/Sol187-181.delta" sparkle:deltaFrom="181" length="387054" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="863040" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,en" sparkle:edSignature="xEqALn9DyIkbVFDvctLF9sbo5Na4pgjmNkVNqFUI6euA3d9aI9uWPQzAQ/5gwz67yX/0LzKDqL4RHRcmojQqBw=="/>
+                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/Sol187-180.delta" sparkle:deltaFrom="180" length="492038" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="863040" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,en" sparkle:edSignature="ts4RIn+OJE2sENI5jHzRx8ogBx0lpfUUKADHJ39BuU1UuNtFBk+dhVresZ6nicEzMxVgiZIaq2pQwd2rYzbsCA=="/>
+            </sparkle:deltas>
+        </item>
+        <item>
             <title>2.0.23</title>
             <pubDate>Sat, 29 Apr 2023 08:03:34 +0200</pubDate>
             <sparkle:version>186</sparkle:version>
@@ -30,21 +45,6 @@
                 <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/Sol183-180.delta" sparkle:deltaFrom="180" length="488958" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="863040" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,en" sparkle:edSignature="yc5ICm/JUEVj74MCQo5rkQMCaqceACgfj2p+w51/qeHBqjW7HfA+PMy8fDBp2o+Oi6lLKw2e4OM16CVDU2z9BA=="/>
                 <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/Sol183-177.delta" sparkle:deltaFrom="177" length="491118" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="863040" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,en" sparkle:edSignature="m26RG/hNHZfmAQCoL/l8rgtTUN4mkNwNnfs377hwqtOGv1uaLhtRqvL2Utyk0tfyhZJYvayUM4T/IMLMHINjDg=="/>
                 <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/Sol183-176.delta" sparkle:deltaFrom="176" length="1456582" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="1840704" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,en" sparkle:edSignature="IEQy4CkxdEHsdqna66ypuXtCuYh3cmP+NX5vR08XvtUl8+7I1IHk8TLD0xNoynXdzRcEmZkCv3SADslahBaDDA=="/>
-            </sparkle:deltas>
-        </item>
-        <item>
-            <title>2.0.19</title>
-            <pubDate>Tue, 25 Apr 2023 16:20:35 +0200</pubDate>
-            <sparkle:version>182</sparkle:version>
-            <sparkle:shortVersionString>2.0.19</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/2.0.19.zip" length="5100936" type="application/octet-stream" sparkle:edSignature="rLCprEoHiNWJemDg1iB2Dfg6Ey/TVjOh7/RtwFxrZrBkTQElGbdhjlaGUu4URG6PzWTzBWQvcen17KVESVEmBA=="/>
-            <sparkle:deltas>
-                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/Sol182-181.delta" sparkle:deltaFrom="181" length="218830" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="863040" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,en" sparkle:edSignature="7yFVUhyajlGJGP9CkL6o+IuJll3Sa778kSrf7kd9y1W2V568MmeNWp3UdsHOCILFeKOk6uq5fZvvaDfzh6JrBg=="/>
-                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/Sol182-180.delta" sparkle:deltaFrom="180" length="462082" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="863040" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,en" sparkle:edSignature="NtOSPAAhwcvvQ4ZrkuqhYmz3tRPrGIA9/mk700QxJ5UQg8MnKdB8xDa2c+7/K3Uo6pczp+8Mxt/IaJ+gD2rABQ=="/>
-                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/Sol182-177.delta" sparkle:deltaFrom="177" length="463406" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="863040" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,en" sparkle:edSignature="bL3mZqJZY2iUq+OZ51VaLfEdN3My+9JRiboJ1dWngcoqdfsNpzT4xxUBRTtYXlypz1Tt9TmVJ3Y0nxsvjek6DQ=="/>
-                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/Sol182-176.delta" sparkle:deltaFrom="176" length="1446186" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="1840704" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,en" sparkle:edSignature="OgwD0Ecp4Kgb6xBT3vvR9ccAibZie8cW9ZX6gUoJHFHwmFql3GT7A2uyCMcMnC4CzV9AUFswsbLP4oQn0JNfAw=="/>
-                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/Sol182-175.delta" sparkle:deltaFrom="175" length="1463162" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="1840704" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,en" sparkle:edSignature="f3iiXXre0lqwxUoXJevRHplI2SGswX5fju+TrNKqrE7OdeGFZ4ngY8UQyEJTlq7yB8WIHSCQ8cfYQ+wbh7fSDQ=="/>
             </sparkle:deltas>
         </item>
     </channel>
