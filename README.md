@@ -1,6 +1,6 @@
 # Sol
 
-<img src="https://raw.githubusercontent.com/ospfranco/sol/main/header.png" align="center"/>
+<img src="https://raw.githubusercontent.com/ospfranco/sol/main/header2.png" align="center"/>
 
 <br/>
 <div align="center">
