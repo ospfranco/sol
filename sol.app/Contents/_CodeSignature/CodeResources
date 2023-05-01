@@ -31,7 +31,7 @@
 		</data>
 		<key>Resources/Base.lproj/Main.storyboardc/MainMenu.nib</key>
 		<data>
-		wZpcKSCKacKVJHjpwMinzKQjN8Y=
+		g0kLto0VlAqMtyyM69TRxxxpvLw=
 		</data>
 		<key>Resources/assets/src/assets/Cake.png</key>
 		<data>
@@ -573,6 +573,10 @@
 		<data>
 		ayC0i41urJJGCCnbiXXIIZhl2lE=
 		</data>
+		<key>Resources/assets/src/assets/osp.png</key>
+		<data>
+		vCzZ0OkGwq2a7tu1/7xFmPrbBs8=
+		</data>
 		<key>Resources/assets/src/assets/safari.png</key>
 		<data>
 		fCFl3dkJHtpZWLHQb90Q0kYdY8Y=
@@ -587,7 +591,7 @@
 		</data>
 		<key>Resources/main.jsbundle</key>
 		<data>
-		ni44PsQQODHkwuCcuZQk65YOk3A=
+		9mIbO3UNO+jW3TR6q5RNlBryLbk=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -651,7 +655,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Yb7U5WcD3zpmtghNDhpECJ2ciqShCHWC6s0LInVC93c=
+			Txzbdlr3Fs0zJdedoVDghP2x4QroFE9GX0+qjJ3MqNk=
 			</data>
 		</dict>
 		<key>Resources/assets/src/assets/Cake.png</key>
@@ -1599,6 +1603,13 @@
 			qnbor1vJPQCkYf/EZ24LKafwRo/33rvHmjH3VC/aBYE=
 			</data>
 		</dict>
+		<key>Resources/assets/src/assets/osp.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			FOLS4fJ8Km6/xjkij0j+I6XbA7vuDSp9GwYhrgCFbpg=
+			</data>
+		</dict>
 		<key>Resources/assets/src/assets/safari.png</key>
 		<dict>
 			<key>hash2</key>
@@ -1624,7 +1635,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			4Ygu9uFt4Zmtm5Ua4fq/gf1VCHPATM1x03u0PupUb2Y=
+			Rw7whTBbTyiqiWi8QKhKsz6KblV2Be/M+P3TNAfQKxA=
 			</data>
 		</dict>
 	</dict>
