@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/AccessibilityResources.bundle/Contents/Info.plist</key>
 		<data>
-		2kxnu5+cTIdCrkXf6xXwfrrXFvY=
+		UkzdkR8ESyR8JqOinGIjWOcRaJc=
 		</data>
 		<key>Resources/AccessibilityResources.bundle/Contents/Resources/en.lproj/Localizable.strings</key>
 		<dict>
@@ -31,7 +31,7 @@
 		</data>
 		<key>Resources/Base.lproj/Main.storyboardc/MainMenu.nib</key>
 		<data>
-		7lcjKKzIB67aqaQ82KlR3x+JBEQ=
+		Q4W6dqSEWWusW1Q3es8FThwzia0=
 		</data>
 		<key>Resources/assets/src/assets/Cake.png</key>
 		<data>
@@ -59,7 +59,7 @@
 		</data>
 		<key>Resources/assets/src/assets/DarkModeIcon.png</key>
 		<data>
-		z8rSOUa1dn/vUfnyNflIPfCgmOQ=
+		N3dTpauywNeFe8V/Zfs1bHpkqOw=
 		</data>
 		<key>Resources/assets/src/assets/DocumentIcon.png</key>
 		<data>
@@ -75,7 +75,7 @@
 		</data>
 		<key>Resources/assets/src/assets/LockIcon.png</key>
 		<data>
-		PlcphJ0uh1PgjY7E+O+LhiS+wDs=
+		k9RH6O/Uv+rqyzSexAusrUjRJo8=
 		</data>
 		<key>Resources/assets/src/assets/Logo.png</key>
 		<data>
@@ -85,9 +85,13 @@
 		<data>
 		UgneExI1hinQUTTsqngus08v/sg=
 		</data>
+		<key>Resources/assets/src/assets/SettingsIcon.png</key>
+		<data>
+		wTMFjhAd6eGxtj+5NnvBoKts38g=
+		</data>
 		<key>Resources/assets/src/assets/SleepIcon.png</key>
 		<data>
-		yWApGs8F/fhsHWLOqS/0Qqw9fI4=
+		l/7NMiAXkminTXoc8ColYxfK7xQ=
 		</data>
 		<key>Resources/assets/src/assets/SolBlackSmall.png</key>
 		<data>
@@ -591,7 +595,7 @@
 		</data>
 		<key>Resources/main.jsbundle</key>
 		<data>
-		cv9TXGeZLof48O5zik2O58t2dn0=
+		07GvAcocktiG6yX8SQ4Lf+4p2cw=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -618,7 +622,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			v9pwsVW2DTvUpPcP7RjH4az7vGiSzYfPaPVXgiGYJDc=
+			MKsY2/Wl58g+toXnLcWR8ibkziLqug/KgfDqu6BeB8Y=
 			</data>
 		</dict>
 		<key>Resources/AccessibilityResources.bundle/Contents/Resources/en.lproj/Localizable.strings</key>
@@ -655,7 +659,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			CiCmvi4R3oKCX3Z+chT15TMlv4lBnOUo4E+jVoHaMlQ=
+			LKf3JSgAGaaRYm6aJCOc9RmxPmhYVvx7DeIsAJe709Y=
 			</data>
 		</dict>
 		<key>Resources/assets/src/assets/Cake.png</key>
@@ -704,7 +708,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			qA6Jb5r3SqQToMNeRPd5PTmlwQOse8+WHSlk8/J/Wn8=
+			l6WoqIGAm4bAb2peqPGFFMAxwza1XwBo78dhCEZuTVk=
 			</data>
 		</dict>
 		<key>Resources/assets/src/assets/DocumentIcon.png</key>
@@ -732,7 +736,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			C7pUg5A5Xur7XU8HAdArTl5CnEWV21H8XL2bqtb6El0=
+			Lc12wb1HQvMZz9CPDHX9uk8QeSpEvITZtZ6dDYIxfz4=
 			</data>
 		</dict>
 		<key>Resources/assets/src/assets/Logo.png</key>
@@ -749,11 +753,18 @@
 			NjJB+UcrJSRqV1jnkU2WdFkURuDndEVmXWz2Il/1jSU=
 			</data>
 		</dict>
+		<key>Resources/assets/src/assets/SettingsIcon.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			v7ggYITTBuQudrOSI8raXXPRlCfQViW0eZtjSEL0oCw=
+			</data>
+		</dict>
 		<key>Resources/assets/src/assets/SleepIcon.png</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			mKsNtSD0AcZMYdGsVaNDWPlXYHNrGgvm1D6OvjK6Rws=
+			dYvmIM6FdR4Nnkp1YffVwB4mr2jNIVUyf261sCqQt1k=
 			</data>
 		</dict>
 		<key>Resources/assets/src/assets/SolBlackSmall.png</key>
@@ -1635,7 +1646,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			dcI49qrk37wAZ42MTuPoQGJpP+HHM41+cmRLHo/IWzU=
+			GqA30D0UEze9HZCHbo00+irzMV1SHXoaMMo9zjK+Mlc=
 			</data>
 		</dict>
 	</dict>
