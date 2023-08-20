@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/AccessibilityResources.bundle/Contents/Info.plist</key>
 		<data>
-		NnL3WwYI9qa5g/5WW1vOP+4PZig=
+		avTGlVxnHTBT+gLwU8c2HHBtn3s=
 		</data>
 		<key>Resources/AccessibilityResources.bundle/Contents/Resources/en.lproj/Localizable.strings</key>
 		<dict>
@@ -23,7 +23,7 @@
 		</data>
 		<key>Resources/Assets.car</key>
 		<data>
-		jVG0Md4kNolfSE2Ml0kX1yIIOoA=
+		3g15jWWEhdq+h/jACc7h82hxX24=
 		</data>
 		<key>Resources/Base.lproj/Main.storyboardc/Info.plist</key>
 		<data>
@@ -31,7 +31,11 @@
 		</data>
 		<key>Resources/Base.lproj/Main.storyboardc/MainMenu.nib</key>
 		<data>
-		q6mwZXQhW+89tAlFo6ujkZBWuhk=
+		ECaYB3oJTACmSWtgPNAogfzkNmQ=
+		</data>
+		<key>Resources/assets/src/assets/Bluetooth.png</key>
+		<data>
+		EKjZBINd0eGdR0oa/powwK7ixQc=
 		</data>
 		<key>Resources/assets/src/assets/Cake.png</key>
 		<data>
@@ -595,7 +599,7 @@
 		</data>
 		<key>Resources/main.jsbundle</key>
 		<data>
-		KfnPkt0ABu+VE7s7ECISCtQY/x0=
+		ZopKxwEY0slb6TTcYwxxvoruwWE=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -622,7 +626,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			inSPidLb23SZ0ZFs01geXCDqYJRPIRjFP0nsJdhVklk=
+			EXrJlGavpHQexvGHqKX6XRwbGxCSGwT/JGpwJOLEwwI=
 			</data>
 		</dict>
 		<key>Resources/AccessibilityResources.bundle/Contents/Resources/en.lproj/Localizable.strings</key>
@@ -645,7 +649,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			JIKxHM0kiwf0dMkBp9t1FhMm8scsHGlxPKs44OJgUtU=
+			/NknXfDeeqF05WxbmKPdBN837ZuLj0NHX6oRMbTsFAs=
 			</data>
 		</dict>
 		<key>Resources/Base.lproj/Main.storyboardc/Info.plist</key>
@@ -659,7 +663,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			kEG4f1U/EAGZyOpiYaEZRhNI/efMzayad4INi2Z7Hds=
+			2G6gsTae3OxCARiT1w02B5ZJ2QQVwESA3+64EDgdpI0=
+			</data>
+		</dict>
+		<key>Resources/assets/src/assets/Bluetooth.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			F3ZOp94rjeJOmaB7IYnR8xOc1jlFEhEDBeM5XdUSWyc=
 			</data>
 		</dict>
 		<key>Resources/assets/src/assets/Cake.png</key>
@@ -1646,7 +1657,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			RMEq51MOpXmt8dgWvNfBgQDtYeP7UKKggfxQH/4VhMA=
+			CHf4B5IznuD3EJoyVuEXLDy/4H9+dsm+ocbCg3oN5r0=
 			</data>
 		</dict>
 	</dict>
