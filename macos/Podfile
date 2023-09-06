@@ -1,0 +1,22 @@
+require_relative '../node_modules/react-native-macos/scripts/react_native_pods'
+require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
+
+target 'macOS' do
+  platform :macos, '11'
+  use_native_modules!
+
+  use_react_native!(
+    :path => '../node_modules/react-native-macos',
+    :hermes_enabled => false
+  )
+
+  pod 'Sparkle'
+  pod 'HotKey'
+  pod 'KeychainAccess'
+
+  post_install do |installer|
+    react_native_post_install(installer)
+    __apply_Xcode_12_5_M1_post_install_workaround(installer)
+  end
+
+end

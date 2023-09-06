@@ -1,0 +1,61 @@
+# update_fastlane
+
+default_platform(:mac)
+
+platform :mac do
+  
+  xcode_select "/Applications/Xcode.app"
+
+  lane :release do
+    sh("yarn", "bump")
+
+    version = get_version_number(xcodeproj: "./macos/sol.xcodeproj")
+
+    path = "/Users/osp/Developer/sol/"
+    appFileName = path + "Sol.app"
+    zipFileName = path + "releases/" + version + ".zip"
+    
+    gym(
+      scheme: "macOS",
+      configuration: "Release",
+      clean: true,
+      workspace: "./macos/sol.xcworkspace",
+      output_directory: path,
+      export_method: "developer-id"
+    )
+
+    notarize(
+      package: appFileName,
+      bundle_id: "com.ospfranco.sol",
+      username: "ospfranco@gmail.com",
+      asc_provider: "24CMR7378R"
+    )
+
+    zip(
+      path: appFileName,
+      output_path: zipFileName,
+      symlinks: true
+    )
+
+    sh("yarn", "appcast")
+    puts Dir.pwd
+    Dir.chdir("../../sol") do
+      sh("git", "add", ".")
+      sh("git", "commit", "-m", version)
+      sh("git", "push")
+    end
+    sh("pingme")
+  end
+
+  lane :dev do
+    path = "/Applications/"
+
+    gym(
+      scheme: "macOS",
+      workspace: "./macos/sol.xcworkspace",
+      output_directory: path,
+      export_method: "development",
+      silent: true
+    )
+  end
+end

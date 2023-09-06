@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "launchatlogin",
+      "kind" : "remoteSourceControl",
+      "location" : "git@github.com:sindresorhus/LaunchAtLogin.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "7ad6331f9c38953eb1ce8737758e18f7607e984a"
+      }
+    }
+  ],
+  "version" : 2
+}

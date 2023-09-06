@@ -1,0 +1,17 @@
+{
+
+  "extends": "@tsconfig/react-native/tsconfig.json",
+  "compilerOptions": {
+    "lib": [
+      "ES2020"
+    ],
+    "allowJs": true /* Allow javascript files to be compiled. */,    
+    "strict": true /* Enable all strict type-checking options. */,
+    "baseUrl": "./src" /* Base directory to resolve non-absolute module names. */,
+    "allowSyntheticDefaultImports": true /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */,
+    "esModuleInterop": true /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */,
+    "useDefineForClassFields": true /* required for mobx 6*/,
+    "resolveJsonModule": true,
+    "skipLibCheck": true
+  }
+}
