@@ -112,29 +112,27 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
                   store.ui.insertEmojiAt(rowIndex * EMOJIS_PER_ROW + i)
                 }}
                 className={clsx(
-                  `items-center justify-center rounded p-3 border border-transparent flex-1`,
+                  `items-center justify-center rounded p-3 border`,
                 )}
                 style={{
-                  backgroundColor: isSelected
+                  borderColor: isSelected
                     ? solNative.accentColor
-                    : undefined,
+                    : 'transparent',
                 }}
                 key={`${emoji.emoji}-${i}_${rowIndex}`}>
-                <Text className="text-4xl">{emoji.emoji}</Text>
+                <Text className="text-6xl">{emoji.emoji}</Text>
               </TouchableOpacity>,
             )
           }
 
           return (
-            <>
-              <View
-                className={clsx(`flex-row`, {
-                  'bg-gray-100 dark:bg-darker rounded':
-                    rowIndex === 0 && !!favorites.length && !store.ui.query,
-                })}>
-                {res}
-              </View>
-            </>
+            <View
+              className={clsx(`flex-row justify-around`, {
+                'bg-gray-100 dark:bg-darker rounded':
+                  rowIndex === 0 && !!favorites.length && !store.ui.query,
+              })}>
+              {res}
+            </View>
           )
         }}
       />

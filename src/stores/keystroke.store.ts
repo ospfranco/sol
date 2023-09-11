@@ -333,7 +333,12 @@ export const createKeystrokeStore = (root: IRootStore) => {
 
               break
             case Widget.EMOJIS:
-              root.ui.selectedIndex = Math.max(root.ui.selectedIndex - 1, 0)
+              if (root.ui.selectedIndex === 0) {
+                root.ui.selectedIndex = EMOJIS_PER_ROW - 1
+              } else {
+                root.ui.selectedIndex = root.ui.selectedIndex - 1
+              }
+
               break
           }
           break

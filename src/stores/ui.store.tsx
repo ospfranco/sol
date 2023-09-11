@@ -85,7 +85,14 @@ export const createUIStore = (root: IRootStore) => {
         store.scratchpadShortcut = parsedStore.scratchpadShortcut ?? 'command'
         store.clipboardManagerShortcut =
           parsedStore.clipboardManagerShortcut ?? 'shift'
-        store.frequentlyUsedEmojis = parsedStore.frequentlyUsedEmojis ?? {}
+        store.frequentlyUsedEmojis = parsedStore.frequentlyUsedEmojis
+          ? (Object.fromEntries(
+              Object.entries(parsedStore.frequentlyUsedEmojis).slice(
+                0,
+                EMOJIS_PER_ROW,
+              ),
+            ) as any)
+          : {}
         store.showWindowOn = parsedStore.showWindowOn ?? 'screenWithFrontmost'
         store.windowManagementEnabled =
           parsedStore.windowManagementEnabled ?? true

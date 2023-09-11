@@ -15,7 +15,7 @@ const FUSE_OPTIONS: Fuse.IFuseOptions<any> = {
   keys: ['description', 'category', 'aliases'],
 }
 
-export const EMOJIS_PER_ROW = 10
+export const EMOJIS_PER_ROW = 8
 
 export const allEmojis = rawEmojis
 export const emojis = groupEmojis(rawEmojis)
