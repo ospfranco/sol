@@ -42,7 +42,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
     if (item.type === ItemType.TEMPORARY_RESULT) {
       return (
         <View
-          className={'flex-row items-center'}
+          className="flex-row items-center rounded-lg py-2"
           style={{
             backgroundColor: isActive ? customColors.accentBg : undefined,
           }}>
@@ -61,8 +61,20 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
     return (
       <GradientView
         className={'flex-row items-center'}
-        startColor={isActive ? `${customColors.accent}BB` : '#00000000'}
-        endColor={isActive ? `${customColors.accent}77` : '#00000000'}
+        startColor={
+          isActive
+            ? store.ui.isDarkMode
+              ? `#CCCCCC20`
+              : `#33333320`
+            : '#00000000'
+        }
+        endColor={
+          isActive
+            ? store.ui.isDarkMode
+              ? `#CCCCCC18`
+              : `#33333318`
+            : '#00000000'
+        }
         cornerRadius={10}
         angle={90}>
         <View className="flex-1 flex-row items-center px-4 h-12">
@@ -73,7 +85,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
               )}
               <FileIcon
                 url={item.url}
-                className={clsx('w-5 h-5', {
+                className={clsx('w-6 h-6', {
                   'opacity-60': !isActive,
                   'opacity-100': isActive,
                 })}
@@ -91,7 +103,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
           {item.type === ItemType.CUSTOM && !!item.icon && (
             <View
               className={clsx(
-                'w-5 h-5 rounded items-center justify-center opacity-60 bg-white dark:bg-black',
+                'w-6 h-6 rounded items-center justify-center opacity-60 bg-white dark:bg-black',
                 {
                   'opacity-100': isActive,
                 },
@@ -110,7 +122,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
           {!!item.iconImage && (
             <Image
               source={item.iconImage}
-              className={clsx('w-5 h-5 opacity-60', {
+              className={clsx('w-6 h-6 opacity-60', {
                 'opacity-100': isActive,
               })}
               resizeMode="contain"
@@ -128,19 +140,14 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
             )}
           <Text
             numberOfLines={1}
-            className={clsx('ml-3 text-black dark:text-white max-w-xl', {
-              'text-white': isActive,
-            })}
+            className={'ml-3 text-black dark:text-white max-w-xl'}
             style={{fontSize: 15}}>
             {item.name}
           </Text>
 
           <View className="flex-1" />
           {!!item.subName && (
-            <Text
-              className={clsx('ml-3 text-neutral-500 dark:text-neutral-300', {
-                'text-white': isActive,
-              })}>
+            <Text className={'ml-3 text-neutral-500 dark:text-neutral-300'}>
               {item.subName}
             </Text>
           )}

@@ -104,7 +104,7 @@ export function createBaseItems(store: IRootStore) {
     {
       IconComponent: () => {
         return (
-          <View className="w-4 h-4 p-2 rounded items-start bg-black">
+          <View className="w-6 h-6 p-2 rounded items-start bg-black">
             <View className="w-3  h-3 p-1 rounded-sm bg-white" />
           </View>
         )
@@ -119,7 +119,7 @@ export function createBaseItems(store: IRootStore) {
     {
       IconComponent: () => {
         return (
-          <View className="w-4 h-4 p-2 rounded items-end bg-black">
+          <View className="w-6 h-6 p-2 rounded items-end bg-black">
             <View className="w-1 h-3 p-1 rounded-sm bg-white" />
           </View>
         )
@@ -134,7 +134,7 @@ export function createBaseItems(store: IRootStore) {
     {
       IconComponent: () => {
         return (
-          <View className="w-4 h-4 p-2 rounded items-start bg-black">
+          <View className="w-6 h-6 p-2 rounded items-start bg-black">
             <View className="w-1 h-3 p-1 rounded-sm bg-white" />
           </View>
         )
@@ -149,7 +149,7 @@ export function createBaseItems(store: IRootStore) {
     {
       IconComponent: () => {
         return (
-          <View className="w-4 h-4 p-2 rounded items-start bg-black">
+          <View className="w-6 h-6 p-2 rounded items-start bg-black">
             <View className="w-1 h-3 p-1 rounded-sm bg-white" />
           </View>
         )
@@ -164,7 +164,7 @@ export function createBaseItems(store: IRootStore) {
     {
       IconComponent: () => {
         return (
-          <View className="w-4 h-4 p-2 rounded items-start bg-black">
+          <View className="w-6 h-6 p-2 rounded items-start bg-black">
             <View className="w-1 h-3 p-1 rounded-sm bg-white" />
           </View>
         )
@@ -179,7 +179,7 @@ export function createBaseItems(store: IRootStore) {
     {
       IconComponent: () => {
         return (
-          <View className="w-4 h-4 p-2 rounded items-start bg-black">
+          <View className="w-6 h-6 p-2 rounded items-start bg-black">
             <View className="w-1 h-1 p-1 rounded-sm bg-white" />
           </View>
         )
@@ -194,7 +194,7 @@ export function createBaseItems(store: IRootStore) {
     {
       IconComponent: () => {
         return (
-          <View className="w-4 h-4 p-2 rounded items-end bg-black">
+          <View className="w-6 h-6 p-2 rounded items-end bg-black">
             <View className="w-1 h-1 p-1 rounded-sm bg-white" />
           </View>
         )
@@ -209,7 +209,7 @@ export function createBaseItems(store: IRootStore) {
     {
       IconComponent: () => {
         return (
-          <View className="w-4 h-4 p-2 rounded items-start justify-end bg-black">
+          <View className="w-6 h-6 p-2 rounded items-start justify-end bg-black">
             <View className="w-1 h-1 p-1 rounded-sm bg-white" />
           </View>
         )
@@ -224,7 +224,7 @@ export function createBaseItems(store: IRootStore) {
     {
       IconComponent: () => {
         return (
-          <View className="w-4 h-4 p-2 rounded items-end justify-end bg-black">
+          <View className="w-6 h-6 p-2 rounded items-end justify-end bg-black">
             <View className="w-1 h-1 p-1 rounded-sm bg-white" />
           </View>
         )
@@ -239,7 +239,7 @@ export function createBaseItems(store: IRootStore) {
     {
       IconComponent: () => {
         return (
-          <View className="w-4 h-4 rounded items-center justify-center bg-black">
+          <View className="w-6 h-6 rounded items-center justify-center bg-black">
             <Text className="text-white">→</Text>
           </View>
         )
@@ -254,7 +254,7 @@ export function createBaseItems(store: IRootStore) {
     {
       IconComponent: () => {
         return (
-          <View className="w-4 h-4 rounded items-center justify-center bg-black">
+          <View className="w-6 h-6 rounded items-center justify-center bg-black">
             <Text className="text-white">←</Text>
           </View>
         )
@@ -314,7 +314,7 @@ export function createBaseItems(store: IRootStore) {
     },
     {
       IconComponent: (...props: any[]) => (
-        <FileIcon {...props} url="~/Downloads" className="w-4 h-4" />
+        <FileIcon {...props} url="~/Downloads" className="w-6 h-6" />
       ),
       name: 'Downloads',
       type: ItemType.CONFIGURATION,
@@ -324,7 +324,7 @@ export function createBaseItems(store: IRootStore) {
     },
     {
       IconComponent: (...props: any[]) => (
-        <FileIcon {...props} url="/Applications" className="w-4 h-4" />
+        <FileIcon {...props} url="/Applications" className="w-6 h-6" />
       ),
       name: 'Applications',
       alias: 'application',
@@ -335,7 +335,7 @@ export function createBaseItems(store: IRootStore) {
     },
     {
       IconComponent: (...props: any[]) => (
-        <FileIcon {...props} url="~/Pictures" className="w-4 h-4" />
+        <FileIcon {...props} url="~/Pictures" className="w-6 h-6" />
       ),
       name: 'Pictures',
       type: ItemType.CONFIGURATION,
@@ -345,7 +345,7 @@ export function createBaseItems(store: IRootStore) {
     },
     {
       IconComponent: (...props: any[]) => (
-        <FileIcon {...props} url="~/Developer" className="w-4 h-4" />
+        <FileIcon {...props} url="~/Developer" className="w-6 h-6" />
       ),
       name: 'Developer',
       type: ItemType.CONFIGURATION,
@@ -355,7 +355,7 @@ export function createBaseItems(store: IRootStore) {
     },
     {
       IconComponent: (...props: any[]) => (
-        <FileIcon {...props} url="~/Documents" className="w-4 h-4" />
+        <FileIcon {...props} url="~/Documents" className="w-6 h-6" />
       ),
       name: 'Documents',
       type: ItemType.CONFIGURATION,
@@ -432,7 +432,7 @@ export function createBaseItems(store: IRootStore) {
     },
     {
       IconComponent: () => (
-        <FileIcon url="/Applications/Xcode.app" className="w-4 h-4" />
+        <FileIcon url="/Applications/Xcode.app" className="w-6 h-6" />
       ),
       name: 'Remove derived data folder',
       type: ItemType.CONFIGURATION,
