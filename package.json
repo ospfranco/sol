@@ -11,7 +11,7 @@
     "permissions:reset": "tccutil reset Calendar com.ospfranco.sol && tccutil reset Accessibility com.ospfranco.sol",
     "dev": "bundle exec fastlane dev && rimraf ../sol/releases/Sol.app && open /Applications/Sol.app",
     "release": "bundle exec fastlane release",
-    "nuke": "rm -rf ./macos/build",
+    "nuke": "yarn && rm -rf macos/build && rm -rf macos/Pods && npx pod-install macos",
     "check-dependencies": "rnx-align-deps",
     "fix-dependencies": "rnx-align-deps --write",
     "appcast": "./macos/Pods/Sparkle/bin/generate_appcast ../sol/releases",
