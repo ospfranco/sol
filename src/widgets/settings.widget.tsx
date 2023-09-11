@@ -8,14 +8,7 @@ import {useFullSize} from 'hooks/useFullSize'
 import {languages} from 'lib/languages'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useState} from 'react'
-import {
-  Button,
-  Image,
-  Linking,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native'
+import {Image, Linking, Text, TouchableOpacity, View} from 'react-native'
 import {useStore} from 'store'
 import {Widget} from 'stores/ui.store'
 import colors from 'tailwindcss/colors'
@@ -44,7 +37,7 @@ export const SettingsWidget: FC = observer(() => {
                 resizeMode="contain"
                 style={{
                   tintColor: store.ui.isDarkMode
-                    ? colors.neutral[200]
+                    ? colors.neutral[100]
                     : colors.neutral[400],
                 }}
               />
@@ -107,7 +100,7 @@ export const SettingsWidget: FC = observer(() => {
             className="flex-1 h-full"
             contentContainerStyle="justify-center p-5 pb-12">
             <View className="flex-row items-center pb-2">
-              <Text className="flex-1 text-right pr-6 text-sm font-semibold">
+              <Text className="flex-1 text-right pr-6  font-semibold">
                 Launch on start
               </Text>
               <View className="flex-1">
@@ -119,7 +112,7 @@ export const SettingsWidget: FC = observer(() => {
             </View>
 
             <View className="flex-row py-2">
-              <Text className="flex-1 text-right pr-6 text-sm font-semibold">
+              <Text className="flex-1 text-right pr-6  font-semibold">
                 Global shortcut
               </Text>
               <View className="flex-1">
@@ -137,7 +130,7 @@ export const SettingsWidget: FC = observer(() => {
                       }}>
                       <View
                         className={clsx(
-                          'w-4 h-4 mr-2 rounded-full bg-neutral-300 p-0.5',
+                          'w-4 h-4 mr-2 rounded-full bg-neutral-300 dark:bg-neutral-900 p-1',
                           {
                             'bg-blue-500': store.ui.globalShortcut === value,
                           },
@@ -146,12 +139,7 @@ export const SettingsWidget: FC = observer(() => {
                           <View className="rounded-full bg-white w-full h-full" />
                         )}
                       </View>
-                      <Text
-                        className={clsx('text-sm', {
-                          'text-neutral-500': store.ui.globalShortcut !== value,
-                        })}>
-                        {label}
-                      </Text>
+                      <Text>{label}</Text>
                     </TouchableOpacity>
                   )
                 })}
@@ -159,7 +147,7 @@ export const SettingsWidget: FC = observer(() => {
             </View>
 
             <View className="flex-row py-2">
-              <Text className="flex-1 text-right pr-6 text-sm font-semibold">
+              <Text className="flex-1 text-right pr-6  font-semibold">
                 Scratchpad shortcut
               </Text>
               <View className="flex-1">
@@ -177,7 +165,7 @@ export const SettingsWidget: FC = observer(() => {
                       }}>
                       <View
                         className={clsx(
-                          'w-4 h-4 mr-2 rounded-full bg-neutral-300 p-0.5',
+                          'w-4 h-4 mr-2 rounded-full bg-neutral-300 dark:bg-neutral-900 p-1',
                           {
                             'bg-blue-500':
                               store.ui.scratchpadShortcut === value,
@@ -187,13 +175,7 @@ export const SettingsWidget: FC = observer(() => {
                           <View className="rounded-full bg-white w-full h-full" />
                         )}
                       </View>
-                      <Text
-                        className={clsx('text-sm', {
-                          'text-neutral-500':
-                            store.ui.scratchpadShortcut !== value,
-                        })}>
-                        {label}
-                      </Text>
+                      <Text>{label}</Text>
                     </TouchableOpacity>
                   )
                 })}
@@ -201,7 +183,7 @@ export const SettingsWidget: FC = observer(() => {
             </View>
 
             <View className="flex-row py-2">
-              <Text className="flex-1 text-right pr-6 text-sm font-semibold">
+              <Text className="flex-1 text-right pr-6  font-semibold">
                 Clipboard manager shortcut
               </Text>
               <View className="flex-1">
@@ -219,7 +201,7 @@ export const SettingsWidget: FC = observer(() => {
                       }}>
                       <View
                         className={clsx(
-                          'w-4 h-4 mr-2 rounded-full bg-neutral-300 p-0.5',
+                          'w-4 h-4 mr-2 rounded-full bg-neutral-300 dark:bg-neutral-900 p-1',
                           {
                             'bg-blue-500':
                               store.ui.clipboardManagerShortcut === value,
@@ -229,13 +211,7 @@ export const SettingsWidget: FC = observer(() => {
                           <View className="rounded-full bg-white w-full h-full" />
                         )}
                       </View>
-                      <Text
-                        className={clsx('text-sm', {
-                          'text-neutral-500':
-                            store.ui.clipboardManagerShortcut !== value,
-                        })}>
-                        {label}
-                      </Text>
+                      <Text>{label}</Text>
                     </TouchableOpacity>
                   )
                 })}
@@ -243,7 +219,7 @@ export const SettingsWidget: FC = observer(() => {
             </View>
 
             <View className="flex-row py-2">
-              <Text className="flex-1 text-right pr-6 text-sm font-semibold">
+              <Text className="flex-1 text-right pr-6  font-semibold">
                 Show window on
               </Text>
               <View className="flex-1">
@@ -266,7 +242,7 @@ export const SettingsWidget: FC = observer(() => {
                       }}>
                       <View
                         className={clsx(
-                          'w-4 h-4 mr-2 rounded-full bg-neutral-300 p-0.5',
+                          'w-4 h-4 mr-2 rounded-full bg-neutral-300 dark:bg-neutral-900 p-1',
                           {
                             'bg-blue-500': store.ui.showWindowOn === value,
                           },
@@ -275,12 +251,7 @@ export const SettingsWidget: FC = observer(() => {
                           <View className="rounded-full bg-white w-full h-full" />
                         )}
                       </View>
-                      <Text
-                        className={clsx('text-sm', {
-                          'text-neutral-500': store.ui.showWindowOn !== value,
-                        })}>
-                        {label}
-                      </Text>
+                      <Text>{label}</Text>
                     </TouchableOpacity>
                   )
                 })}
@@ -288,7 +259,7 @@ export const SettingsWidget: FC = observer(() => {
             </View>
 
             {/* <View className="flex-row items-center py-2">
-              <Text className="flex-1 text-right pr-6 text-sm">
+              <Text className="flex-1 text-right pr-6 ">
                 Search GitHub
               </Text>
               <View className="flex-1">
@@ -300,7 +271,7 @@ export const SettingsWidget: FC = observer(() => {
             </View>
 
             <View className="flex-row items-center py-2">
-              <Text className="flex-1 text-right pr-6 text-sm">
+              <Text className="flex-1 text-right pr-6 ">
                 GitHub Token
               </Text>
 
@@ -316,7 +287,7 @@ export const SettingsWidget: FC = observer(() => {
             </View> */}
 
             <View className="flex-row items-center py-2">
-              <Text className="flex-1 text-right pr-6 text-sm font-semibold">
+              <Text className="flex-1 text-right pr-6  font-semibold">
                 Window Management Shortcuts
               </Text>
               <View className="flex-1">
@@ -328,7 +299,7 @@ export const SettingsWidget: FC = observer(() => {
             </View>
 
             <View className="flex-row items-center py-2">
-              <Text className="flex-1 text-right pr-6 text-sm font-semibold">
+              <Text className="flex-1 text-right pr-6  font-semibold">
                 Show calendar
               </Text>
               <View className="flex-1">
@@ -340,7 +311,7 @@ export const SettingsWidget: FC = observer(() => {
             </View>
 
             <View className="flex-row items-center py-2">
-              <Text className="flex-1 text-right pr-6 text-sm font-semibold">
+              <Text className="flex-1 text-right pr-6  font-semibold">
                 Save clipboard history
               </Text>
               <View className="flex-1">
@@ -352,7 +323,7 @@ export const SettingsWidget: FC = observer(() => {
             </View>
 
             <View className="flex-row items-center py-2">
-              <Text className="flex-1 text-right pr-6 text-sm font-semibold">
+              <Text className="flex-1 text-right pr-6  font-semibold">
                 Show background overlay
               </Text>
               <View className="flex-1">
@@ -364,7 +335,7 @@ export const SettingsWidget: FC = observer(() => {
             </View>
 
             <View className="flex-row items-center py-2">
-              <Text className="flex-1 text-right pr-6 text-sm font-semibold">
+              <Text className="flex-1 text-right pr-6  font-semibold">
                 Blacken menubar
               </Text>
               <View className="flex-1">
@@ -376,7 +347,7 @@ export const SettingsWidget: FC = observer(() => {
             </View>
 
             <View className="flex-row items-center py-2">
-              <Text className="flex-1 text-right pr-6 text-sm font-semibold">
+              <Text className="flex-1 text-right pr-6  font-semibold">
                 Forward media keys to media player
               </Text>
               <View className="flex-1">
@@ -388,7 +359,7 @@ export const SettingsWidget: FC = observer(() => {
             </View>
 
             <View className="flex-row items-center py-2">
-              <Text className="flex-1 text-right pr-6 text-sm font-semibold">
+              <Text className="flex-1 text-right pr-6  font-semibold">
                 Reduce transparency
               </Text>
               <View className="flex-1">

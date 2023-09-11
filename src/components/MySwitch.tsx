@@ -19,13 +19,13 @@ export const MySwitch: FC<Props> = ({value, onValueChange, disabled}) => {
       onPress={() => {
         onValueChange(!value)
       }}
-      className={clsx(`w-7 h-[17px] rounded-full`)}
-      style={{
-        backgroundColor: value ? solNative.accentColor : colors.neutral[400],
-      }}>
+      className={clsx(`w-7 h-[17px] rounded-full`, {
+        'bg-accent': !!value,
+        'bg-neutral-900': !value,
+      })}>
       <View
         className={clsx(
-          `w-[13px] h-[13px] rounded-full bg-white absolute top-[2px]`,
+          `w-[13px] h-[13px] rounded-full bg-neutral-200 absolute top-[2px]`,
           {
             'right-[2px]': !!value,
             'left-[2px]': !value,
