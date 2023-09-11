@@ -153,8 +153,8 @@ export let RootContainer = observer(() => {
       startColor={borderColor1}
       endColor={borderColor2}>
       <GradientView
-        startColor={store.ui.isDarkMode ? '#00000005' : '#FFFFFF10'}
-        endColor={store.ui.isDarkMode ? '#00000033' : '#FFFFFF99'}
+        startColor={store.ui.isDarkMode ? '#00000005' : '#FFFFFF99'}
+        endColor={store.ui.isDarkMode ? '#00000033' : '#FFFFFFCC'}
         angle={90}
         className="h-full">
         <SearchWidget />
@@ -164,8 +164,6 @@ export let RootContainer = observer(() => {
             <View className="w-full border-lightBorder dark:border-darkBorder border-t" />
             <TouchableOpacity
               onPress={() => {
-                console.warn('print')
-
                 solNative.requestAccessibilityAccess()
                 solNative.hideWindow()
               }}>

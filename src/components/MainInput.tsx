@@ -10,16 +10,22 @@ import {Widget} from 'stores/ui.store'
 type Props = {
   placeholder?: string
   showBackButton?: boolean
+  style?: any
+  className?: string
 }
 
 export const MainInput = observer<Props>(
-  ({placeholder = 'Search for commands and apps...', showBackButton}) => {
+  ({
+    placeholder = 'Search for commands and apps...',
+    showBackButton,
+    style,
+  }) => {
     const store = useStore()
     const inputRef = useRef<TextInput | null>(null)
     const colorScheme = useColorScheme()
 
     return (
-      <View className="h-16 px-4 flex-row items-center g-1">
+      <View className="h-16 px-4 flex-row items-center g-1" style={style}>
         {showBackButton && (
           <View className="">
             <SelectableButton
@@ -51,7 +57,7 @@ export const MainInput = observer<Props>(
           value={store.ui.query}
           onChangeText={store.ui.setQuery}
           ref={inputRef}
-          className="text-xl font-light flex-1"
+          className="text-2xl flex-1"
           placeholderTextColor={
             colorScheme === 'dark' ? colors.neutral[500] : colors.neutral[400]
           }

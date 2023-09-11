@@ -1,4 +1,4 @@
-import {Icons} from 'assets'
+import {Assets, Icons} from 'assets'
 import clsx from 'clsx'
 import {FileIcon} from 'components/FileIcon'
 import {LoadingBar} from 'components/LoadingBar'
@@ -194,7 +194,12 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
       className={clsx({
         'flex-1': !!store.ui.query,
       })}>
-      <MainInput />
+      <View className="flex-row items-center">
+        <MainInput className="flex-1" />
+        {!items.length && (
+          <Image source={Assets.googleLogo} className="mr-4 h-4 w-4" />
+        )}
+      </View>
 
       {!!store.ui.query && (
         <>
@@ -209,9 +214,12 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
             renderItem={renderItem as any}
             showsVerticalScrollIndicator={false}
             ListEmptyComponent={
-              <View className="flex-1 items-center justify-center g-4">
-                <View className="h-20 w-20 rounded-full border border-neutral-300 dark:border-neutral-700" />
-                <Text className="text-neutral-500">No results</Text>
+              <View className="flex-1 items-center justify-center">
+                <View className="h-32 w-32 rounded-full border border-dashed border-neutral-300 dark:border-neutral-700 items-center justify-center">
+                  <Text className="text-neutral-300 dark:text-neutral-700">
+                    No results
+                  </Text>
+                </View>
               </View>
             }
           />
@@ -231,16 +239,26 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
             )}
             <Text className="text-sm mr-2">Translate</Text>
             <Key symbol={'⇧'} />
-            <Key symbol={'⏎'} />
+            <Key symbol={'return'} />
             <View className="border-l h-2/3 border-lightBorder dark:border-darkBorder mx-2" />
-            <Text className="text-sm mr-2">Google search</Text>
+            <Text
+              className={clsx('text-sm mr-2', {
+                'font-semibold': !items.length,
+              })}>
+              Google search
+            </Text>
             {!!items.length && <Key symbol={'⌘'} />}
-            <Key symbol={'⏎'} primary={!items.length} />
+            <Key symbol={'return'} primary={!items.length} />
             {!!items.length && (
               <>
                 <View className="border-l h-2/3 border-lightBorder dark:border-darkBorder mx-2" />
-                <Text className="text-sm mr-2">Select</Text>
-                <Key symbol={'⏎'} primary />
+                <Text
+                  className={clsx('text-sm mr-2', {
+                    'font-semibold': !!items.length,
+                  })}>
+                  Select
+                </Text>
+                <Key symbol={'return'} primary />
               </>
             )}
           </View>

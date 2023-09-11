@@ -35,9 +35,9 @@ export let FullCalendar: FC = observer(() => {
       {Object.entries(store.calendar.groupedEvents).map(
         ([key, group], index) => {
           return (
-            <View key={key} className="px-5 pb-5 g-4">
+            <View key={key} className="px-5 pb-5 g-2">
               <View className="flex-row items-center g-2">
-                <Text className="capitalize font-semibold text-neutral-500 dark:text-neutral-400">
+                <Text className="capitalize font-medium text-neutral-500 dark:text-neutral-400">
                   {group.date.toFormat('MMMM dd')}
                 </Text>
                 <Text className="capitalize text-neutral-400 dark:text-neutral-500 font-normal">
