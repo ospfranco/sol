@@ -435,6 +435,7 @@ export function createBaseItems(store: IRootStore) {
         <FileIcon url="/Applications/Xcode.app" className="w-6 h-6" />
       ),
       name: 'Remove derived data folder',
+      alias: 'Clear xcode derived data',
       type: ItemType.CONFIGURATION,
       callback: async () => {
         await solNative.executeBashScript(
@@ -520,6 +521,28 @@ export function createBaseItems(store: IRootStore) {
           end if
         end repeat
         `)
+      },
+    },
+    {
+      name: 'Wallpaper',
+      IconComponent: (props: any[]) => {
+        return (
+          <FileIcon
+            className="w-5 h-5"
+            url={
+              solNative.OSVersion >= 13
+                ? '/System/Applications/System Settings.app'
+                : '/System/Applications/System Preferences.app'
+            }
+            {...props}
+          />
+        )
+      },
+      type: ItemType.PREFERENCE_PANE,
+      callback: () => {
+        solNative.executeBashScript(
+          'open x-apple.systempreferences:com.apple.Wallpaper-Settings.extension',
+        )
       },
     },
     ...systemPreferenceItems,
