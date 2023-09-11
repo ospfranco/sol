@@ -1,1 +1,0 @@
-export const SentryDSN = "https://51f61feb4c66446e88e4211a6aebf0b7@o386747.ingest.sentry.io/6377873"
