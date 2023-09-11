@@ -32,90 +32,89 @@ export let FullCalendar: FC = observer(() => {
       className="flex-1"
       contentContainerStyle="py-5"
       showsVerticalScrollIndicator={false}>
-      {Object.entries(store.calendar.groupedEvents).map(
-        ([key, group], index) => {
-          return (
-            <View key={key} className="px-5 pb-5 g-2">
-              <View className="flex-row items-center g-2">
-                <Text className="capitalize font-medium text-neutral-500 dark:text-neutral-400">
-                  {group.date.toFormat('MMMM dd')}
-                </Text>
-                <Text className="capitalize text-neutral-400 dark:text-neutral-500 font-normal">
-                  {group.date.toFormat('cccc')}
-                </Text>
-              </View>
-              {group.events.map(event => {
-                let lStart = DateTime.fromISO(event.date)
-                let lEnd = DateTime.fromISO(event.endDate)
+      {Object.entries(store.calendar.groupedEvents).map(([key, group]) => {
+        let shouldShowRelative = group.date.diffNow('days').days <= 5
+        return (
+          <View key={key} className="px-5 pb-5 g-2">
+            <View className="flex-row items-center g-2">
+              <Text className="capitalize font-medium text-neutral-500 dark:text-neutral-400">
+                {shouldShowRelative
+                  ? group.date.toRelativeCalendar()
+                  : group.date.toFormat('MMMM dd')}
+              </Text>
+              <Text className="capitalize text-neutral-400 dark:text-neutral-500 font-normal">
+                {group.date.toFormat(shouldShowRelative ? 'cccc dd' : 'cccc')}
+              </Text>
+            </View>
+            {group.events.map(event => {
+              let lStart = DateTime.fromISO(event.date)
+              let lEnd = DateTime.fromISO(event.endDate)
 
-                return (
+              return (
+                <View
+                  className="flex-row items-center g-1"
+                  key={`${event.id}-${event.date}`}>
                   <View
-                    className="flex-row items-center g-1"
-                    key={`${event.id}-${event.date}`}>
-                    <View
-                      className={clsx(
-                        'rounded-full justify-center items-center',
-                        {
-                          'h-4 w-4': event.status === 1,
-                          'h-2 w-2 mx-1': event.status !== 1,
-                          'rounded-sm': event.isAllDay,
-                        },
-                      )}
-                      style={{
-                        backgroundColor:
-                          event.status !== 1 ? event.color : undefined,
-                      }}>
-                      {event.status === 1 && (
-                        <Image
-                          source={Assets.CheckIcon}
-                          style={{tintColor: event.color}}
-                          className="h-4 w-4"
-                        />
-                      )}
-                    </View>
-
-                    <Text
-                      numberOfLines={1}
-                      className={clsx({
-                        'line-through':
-                          event.declined || event.eventStatus === 3,
-                      })}>
-                      {event.title?.trim()}
-                    </Text>
-                    <View className="flex-1" />
-                    {store.calendar.upcomingEvent?.id === event.id &&
-                      event.eventStatus !== 3 && (
-                        <Key
-                          className="mr-2"
-                          title={
-                            !!store.calendar.upcomingEvent.eventLink
-                              ? 'Join'
-                              : 'Open'
-                          }
-                          symbol="return"
-                          primary
-                        />
-                      )}
-                    {!event.isAllDay && (
-                      <Text className="dark:text-neutral-400 ">
-                        <Text className="dark:text-white font-semibold">
-                          {lStart.toFormat('HH:mm')}
-                        </Text>{' '}
-                        - {lEnd.toFormat('HH:mm')}
-                      </Text>
+                    className={clsx(
+                      'rounded-full justify-center items-center',
+                      {
+                        'h-4 w-4': event.status === 1,
+                        'h-2 w-2 mx-1': event.status !== 1,
+                        'rounded-sm': event.isAllDay,
+                      },
                     )}
-                    {event.isAllDay && (
-                      <Text className="text-neutral-500 dark:text-neutral-400">
-                        All day
-                      </Text>
+                    style={{
+                      backgroundColor:
+                        event.status !== 1 ? event.color : undefined,
+                    }}>
+                    {event.status === 1 && (
+                      <Image
+                        source={Assets.CheckIcon}
+                        style={{tintColor: event.color}}
+                        className="h-4 w-4"
+                      />
                     )}
                   </View>
-                )
-              })}
-            </View>
-          )
-        },
-      )}
+
+                  <Text
+                    numberOfLines={1}
+                    className={clsx({
+                      'line-through': event.declined || event.eventStatus === 3,
+                      'font-semibold':
+                        store.calendar.upcomingEvent?.id === event.id,
+                    })}>
+                    {event.title?.trim()}
+                  </Text>
+                  <View className="flex-1" />
+                  {store.calendar.upcomingEvent?.id === event.id &&
+                    event.eventStatus !== 3 &&
+                    !!store.calendar.upcomingEvent.eventLink && (
+                      <Key
+                        className="mr-2"
+                        title={'Join'}
+                        symbol="return"
+                        primary
+                      />
+                    )}
+                  {!event.isAllDay && (
+                    <Text className="dark:text-neutral-400 ">
+                      <Text className="dark:text-white font-semibold">
+                        {lStart.toFormat('HH:mm')}
+                      </Text>{' '}
+                      - {lEnd.toFormat('HH:mm')}
+                    </Text>
+                  )}
+                  {event.isAllDay && (
+                    <Text className="text-neutral-500 dark:text-neutral-400">
+                      All day
+                    </Text>
+                  )}
+                </View>
+              )
+            })}
+          </View>
+        )
+      })}
     </StyledScrollView>
   )
 })
