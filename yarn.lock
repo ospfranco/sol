@@ -7279,7 +7279,7 @@ react-native-gradle-plugin@^0.71.19:
   resolved "https://registry.yarnpkg.com/react-native-gradle-plugin/-/react-native-gradle-plugin-0.71.19.tgz#3379e28341fcd189bc1f4691cefc84c1a4d7d232"
   integrity sha512-1dVk9NwhoyKHCSxcrM6vY6cxmojeATsBobDicX0ZKr7DgUF2cBQRTKsimQFvzH8XhOVXyH8p4HyDSZNIFI8OlQ==
 
-react-native-macos@^0.71.0:
+react-native-macos@^0.71.34:
   version "0.71.34"
   resolved "https://registry.yarnpkg.com/react-native-macos/-/react-native-macos-0.71.34.tgz#b57e1940cf9086f3d317d181e21ad7cb3bd1ce4d"
   integrity sha512-Ci381YzSsWI3iTobGNoujXbKgNafgfa7rzmndcPnZMiFGLft2D9aPb7oRUpwSf5jtPSnSqnPWwyLB00zGUHXTg==

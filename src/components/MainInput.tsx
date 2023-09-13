@@ -16,7 +16,7 @@ type Props = {
 
 export const MainInput = observer<Props>(
   ({
-    placeholder = 'Search for commands and apps...',
+    placeholder = 'Search for commands, apps, bookmarks and shortcuts...',
     showBackButton,
     style,
   }) => {
