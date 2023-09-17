@@ -6,6 +6,7 @@ import {useStore} from 'store'
 import colors from 'tailwindcss/colors'
 import {SelectableButton} from './SelectableButton'
 import {Widget} from 'stores/ui.store'
+import {BackButton} from './BackButton'
 
 type Props = {
   placeholder?: string
@@ -28,25 +29,11 @@ export const MainInput = observer<Props>(
       <View className="h-16 px-4 flex-row items-center g-1" style={style}>
         {showBackButton && (
           <View className="">
-            <SelectableButton
+            <BackButton
               onPress={() => {
                 store.ui.setQuery('')
                 store.ui.focusWidget(Widget.SEARCH)
               }}
-              className="w-10 h-10 items-center justify-center"
-              selected={false}
-              leftItem={
-                <Image
-                  source={Assets.ChevronLeft}
-                  className="h-4 w-2.5"
-                  resizeMode="contain"
-                  style={{
-                    tintColor: store.ui.isDarkMode
-                      ? colors.neutral[100]
-                      : colors.neutral[500],
-                  }}
-                />
-              }
             />
           </View>
         )}

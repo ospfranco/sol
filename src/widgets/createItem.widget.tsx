@@ -1,5 +1,6 @@
 import {Assets, Icons} from 'assets'
 import clsx from 'clsx'
+import {BackButton} from 'components/BackButton'
 import {Input} from 'components/Input'
 import {MySwitch} from 'components/MySwitch'
 import {SelectableButton} from 'components/SelectableButton'
@@ -75,21 +76,7 @@ export const CreateItemWidget: FC<Props> = observer(({style}) => {
 
   return (
     <View className="flex-1" style={style}>
-      <SelectableButton
-        title="Create Shortcut/Script"
-        selected={false}
-        onPress={store.ui.onHide}
-        leftItem={
-          <Image
-            source={Assets.ChevronLeft}
-            className={'h-4 w-2.5'}
-            resizeMode="contain"
-            style={{
-              tintColor: colors.gray[400],
-            }}
-          />
-        }
-      />
+      <BackButton onPress={store.ui.onHide} />
       {!iconSelectorOpen && (
         <View
           className={clsx(`flex-1`, {

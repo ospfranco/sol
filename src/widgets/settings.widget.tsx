@@ -11,8 +11,8 @@ import React, {FC, useState} from 'react'
 import {Image, Linking, Text, TouchableOpacity, View} from 'react-native'
 import {useStore} from 'store'
 import {Widget} from 'stores/ui.store'
-import colors from 'tailwindcss/colors'
 // @ts-ignore
+import {BackButton} from 'components/BackButton'
 import packageInfo from '../../package.json'
 
 type ITEM = 'ABOUT' | 'GENERAL' | 'TRANSLATE'
@@ -24,25 +24,9 @@ export const SettingsWidget: FC = observer(() => {
 
   return (
     <View className="h-full">
-      <View className="px-4 py-1 border-b border-lightBorder dark:border-darkBorder flex-row g-2">
+      <View className="px-4 py-3 border-b border-lightBorder dark:border-darkBorder flex-row g-2">
         <View className="flex-1">
-          <SelectableButton
-            className="w-10 h-10 items-center justify-center"
-            selected={false}
-            onPress={() => store.ui.focusWidget(Widget.SEARCH)}
-            leftItem={
-              <Image
-                source={Assets.ChevronLeft}
-                className="h-4 w-2.5"
-                resizeMode="contain"
-                style={{
-                  tintColor: store.ui.isDarkMode
-                    ? colors.neutral[100]
-                    : colors.neutral[400],
-                }}
-              />
-            }
-          />
+          <BackButton onPress={() => store.ui.focusWidget(Widget.SEARCH)} />
         </View>
         <SelectableButton
           className="w-24 items-center justify-center"

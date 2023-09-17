@@ -139,6 +139,8 @@ import Chrome from './assets/chrome.png'
 import OSP from './assets/osp.png'
 import SettingsIcon from './assets/SettingsIcon.png'
 import Bluetooth from './assets/Bluetooth.png'
+import ArrowLeftWhite from './assets/arrowLeftWhite.png'
+import ArrowLeftBlack from './assets/arrowLeftBlack.png'
 
 export const Assets = {
   Brave,
@@ -167,6 +169,8 @@ export const Assets = {
   Chrome,
   OSP,
   SettingsIcon,
+  ArrowLeftBlack,
+  ArrowLeftWhite,
 }
 
 export const Icons = {
