@@ -33,7 +33,7 @@ export const SettingsWidget: FC = observer(() => {
             leftItem={
               <Image
                 source={Assets.ChevronLeft}
-                className="h-4 w-4"
+                className="h-4 w-2.5"
                 resizeMode="contain"
                 style={{
                   tintColor: store.ui.isDarkMode

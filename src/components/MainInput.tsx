@@ -33,12 +33,12 @@ export const MainInput = observer<Props>(
                 store.ui.setQuery('')
                 store.ui.focusWidget(Widget.SEARCH)
               }}
-              rounded
+              className="w-10 h-10 items-center justify-center"
               selected={false}
               leftItem={
                 <Image
                   source={Assets.ChevronLeft}
-                  className="h-3 w-3"
+                  className="h-4 w-2.5"
                   resizeMode="contain"
                   style={{
                     tintColor: store.ui.isDarkMode

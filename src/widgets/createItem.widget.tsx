@@ -82,7 +82,7 @@ export const CreateItemWidget: FC<Props> = observer(({style}) => {
         leftItem={
           <Image
             source={Assets.ChevronLeft}
-            className={'h-3 w-3'}
+            className={'h-4 w-2.5'}
             resizeMode="contain"
             style={{
               tintColor: colors.gray[400],
