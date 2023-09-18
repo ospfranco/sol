@@ -22,7 +22,7 @@
 		</data>
 		<key>Resources/Info.plist</key>
 		<data>
-		WycxlaWCcuKo0luCzMOQBCFd+N8=
+		8z88EzoLNv0lHXOLZlhAYkTYUuE=
 		</data>
 		<key>Resources/ReleaseNotesColorStyle.css</key>
 		<data>
@@ -912,10 +912,10 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			TkQ9FbyOjlUKcHExT+gGrvkWTs0=
+			23gywX1xV549iyRlrf+XZFcIHtI=
 			</data>
 			<key>requirement</key>
-			<string>anchor apple generic and identifier "Autoupdate-555549447dd352fdae2f37b79d0d85e720f465c1" and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "24CMR7378R")</string>
+			<string>anchor apple generic and identifier "Autoupdate-55554944e695f49b7bf9317f9188af80c54541e1" and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "24CMR7378R")</string>
 		</dict>
 		<key>Resources/Base.lproj/SUUpdateAlert.nib</key>
 		<dict>
@@ -949,7 +949,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			wIdqdOq3Fu2R/Xvjb9P5FyvSeSZ8Q0mcWFol/2FZ5fg=
+			fA8/bh5uTrshEB3eF6JAyF+rbq101UwoccZYTqJ3+Y4=
 			</data>
 		</dict>
 		<key>Resources/ReleaseNotesColorStyle.css</key>
@@ -1843,7 +1843,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			0Bjr5dw7yNwbNjdbKLbWJdYQ/kA=
+			gtFXYZYazNsFTgpvTJ2SttHDMkE=
 			</data>
 			<key>requirement</key>
 			<string>anchor apple generic and identifier "org.sparkle-project.Sparkle.Updater" and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "24CMR7378R")</string>
@@ -1852,7 +1852,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			f+jSj6+WGI7thrnMYbOm3K6P5ng=
+			LeagySQa1Z4QCQDuzcm2XsDnFAQ=
 			</data>
 			<key>requirement</key>
 			<string>anchor apple generic and identifier "org.sparkle-project.Downloader" and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "24CMR7378R")</string>
@@ -1861,7 +1861,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			ld2rzc58A9MsvyXIzW4QmTo6zYI=
+			XrQCHtxkY1auMnq+j9jMVq4q8lQ=
 			</data>
 			<key>requirement</key>
 			<string>anchor apple generic and identifier "org.sparkle-project.InstallerLauncher" and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "24CMR7378R")</string>

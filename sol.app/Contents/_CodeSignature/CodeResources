@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/AccessibilityResources.bundle/Contents/Info.plist</key>
 		<data>
-		avTGlVxnHTBT+gLwU8c2HHBtn3s=
+		SyRx4YJKp+djcQNqrnsgVe1Y3N0=
 		</data>
 		<key>Resources/AccessibilityResources.bundle/Contents/Resources/en.lproj/Localizable.strings</key>
 		<dict>
@@ -23,7 +23,7 @@
 		</data>
 		<key>Resources/Assets.car</key>
 		<data>
-		HUpXsVuIuVhlqDc2ZZcZ/jfhrAI=
+		3g15jWWEhdq+h/jACc7h82hxX24=
 		</data>
 		<key>Resources/Base.lproj/Main.storyboardc/Info.plist</key>
 		<data>
@@ -31,7 +31,7 @@
 		</data>
 		<key>Resources/Base.lproj/Main.storyboardc/MainMenu.nib</key>
 		<data>
-		gVBiUEYXySoCfrBagVoyEcvUgiw=
+		0G1N4bh7KHaQHqSPPPPoByCKvP4=
 		</data>
 		<key>Resources/assets/src/assets/Bluetooth.png</key>
 		<data>
@@ -108,6 +108,14 @@
 		<key>Resources/assets/src/assets/airdrop.png</key>
 		<data>
 		E9vu2mvi0v5Thdg/dXh94Y++a5E=
+		</data>
+		<key>Resources/assets/src/assets/arrowLeftBlack.png</key>
+		<data>
+		4e54xEq8KYys8JQ7DfGFq+wVRLI=
+		</data>
+		<key>Resources/assets/src/assets/arrowLeftWhite.png</key>
+		<data>
+		7PWOFB+YBPHLvRhV8bW+I2m6S14=
 		</data>
 		<key>Resources/assets/src/assets/brave.png</key>
 		<data>
@@ -599,7 +607,7 @@
 		</data>
 		<key>Resources/main.jsbundle</key>
 		<data>
-		kQc8Z3++OApMAVW5YA4YyarVhic=
+		7+LsWUh1/5IJ9kK/SpcVwwH0luU=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -608,7 +616,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			AHq1MJ3C9QRQC0hupVashRFqzV0=
+			H/TcNpz8fcyrEnV64E4YMqLWhTE=
 			</data>
 			<key>requirement</key>
 			<string>anchor apple generic and identifier "org.sparkle-project.Sparkle" and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "24CMR7378R")</string>
@@ -626,7 +634,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			EXrJlGavpHQexvGHqKX6XRwbGxCSGwT/JGpwJOLEwwI=
+			fu6RNLriTNJWXUa6pNkRAsCKuoxKivPyYJj80z2p2vM=
 			</data>
 		</dict>
 		<key>Resources/AccessibilityResources.bundle/Contents/Resources/en.lproj/Localizable.strings</key>
@@ -649,7 +657,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			XvDKM7lmpaed4yla4MyFGTd0NWGEi0+thFgTWKLm5lM=
+			/NknXfDeeqF05WxbmKPdBN837ZuLj0NHX6oRMbTsFAs=
 			</data>
 		</dict>
 		<key>Resources/Base.lproj/Main.storyboardc/Info.plist</key>
@@ -663,7 +671,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			tsa32GLW8RUmIY+JYevE5Bp5yx1JKi/SyUfqTB3Zdz4=
+			gugGmlrmdilMNdroA+PeGIi2O49u1cfhqQDffsApGrs=
 			</data>
 		</dict>
 		<key>Resources/assets/src/assets/Bluetooth.png</key>
@@ -797,6 +805,20 @@
 			<key>hash2</key>
 			<data>
 			tfImyZBBHEYNpIDQGW2PtH+dPkBpp6O2GFIqZVnBiMI=
+			</data>
+		</dict>
+		<key>Resources/assets/src/assets/arrowLeftBlack.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			gDgNfpq3eRZFz4PVg1j+SbaXTqkQle6bkFV30N+Bi3w=
+			</data>
+		</dict>
+		<key>Resources/assets/src/assets/arrowLeftWhite.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			mAbZpNutOvZwiq9U3Vw/CGObLN3f9G8ot6dO3SBUTJU=
 			</data>
 		</dict>
 		<key>Resources/assets/src/assets/brave.png</key>
@@ -1657,7 +1679,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			vSS002w3yTKc2GVUYM15RcdWBvoALB83TF4SeKWMxd4=
+			sxbpaYaBVHwxqrsU3DXNYBCHVt1jGKgD7gs+m+KNZ1c=
 			</data>
 		</dict>
 	</dict>
