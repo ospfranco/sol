@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/AccessibilityResources.bundle/Contents/Info.plist</key>
 		<data>
-		SyRx4YJKp+djcQNqrnsgVe1Y3N0=
+		s2sJBMgBd8ac2UXRP1nK8qpmVlI=
 		</data>
 		<key>Resources/AccessibilityResources.bundle/Contents/Resources/en.lproj/Localizable.strings</key>
 		<dict>
@@ -23,7 +23,7 @@
 		</data>
 		<key>Resources/Assets.car</key>
 		<data>
-		3g15jWWEhdq+h/jACc7h82hxX24=
+		6yVGAADhEovULtJ3OysZaa01MUE=
 		</data>
 		<key>Resources/Base.lproj/Main.storyboardc/Info.plist</key>
 		<data>
@@ -31,7 +31,7 @@
 		</data>
 		<key>Resources/Base.lproj/Main.storyboardc/MainMenu.nib</key>
 		<data>
-		0G1N4bh7KHaQHqSPPPPoByCKvP4=
+		yKbF4qXr9t5RT6P3SYWeef+f8YA=
 		</data>
 		<key>Resources/assets/src/assets/Bluetooth.png</key>
 		<data>
@@ -607,7 +607,7 @@
 		</data>
 		<key>Resources/main.jsbundle</key>
 		<data>
-		7+LsWUh1/5IJ9kK/SpcVwwH0luU=
+		a7FvpKn4a1PHwsRz4XW5zqxRnGA=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -616,7 +616,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			H/TcNpz8fcyrEnV64E4YMqLWhTE=
+			G31H/mHeHEMA+al9RZxKqXEg2QU=
 			</data>
 			<key>requirement</key>
 			<string>anchor apple generic and identifier "org.sparkle-project.Sparkle" and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "24CMR7378R")</string>
@@ -634,7 +634,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			fu6RNLriTNJWXUa6pNkRAsCKuoxKivPyYJj80z2p2vM=
+			ApBdeARRM8NSZV2qs2HSqqjLIcKWbw0Rdf4EgXSmias=
 			</data>
 		</dict>
 		<key>Resources/AccessibilityResources.bundle/Contents/Resources/en.lproj/Localizable.strings</key>
@@ -657,7 +657,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			/NknXfDeeqF05WxbmKPdBN837ZuLj0NHX6oRMbTsFAs=
+			ZWejyqvO/G9SiKpC/6zQGuDN5NkNtvxAa/ggBQxehW0=
 			</data>
 		</dict>
 		<key>Resources/Base.lproj/Main.storyboardc/Info.plist</key>
@@ -671,7 +671,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			gugGmlrmdilMNdroA+PeGIi2O49u1cfhqQDffsApGrs=
+			cszCJ6dN1bdGLl5bmY/btefuzBSBgLryhZM6H4MgSG8=
 			</data>
 		</dict>
 		<key>Resources/assets/src/assets/Bluetooth.png</key>
@@ -1679,7 +1679,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			sxbpaYaBVHwxqrsU3DXNYBCHVt1jGKgD7gs+m+KNZ1c=
+			oDDD4lLGXoT1bAOo7AUwSQQHGvzoamUFHVar7TsHnVw=
 			</data>
 		</dict>
 	</dict>

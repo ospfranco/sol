@@ -27,7 +27,7 @@ platform :mac do
     notarize(
       package: appFileName,
       bundle_id: "com.ospfranco.sol",
-      username: "ospfranco@gmail.com",
+      username: "ospfranco@protonmail.com",
       asc_provider: "24CMR7378R"
     )
 
