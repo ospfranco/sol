@@ -112,13 +112,11 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
                   store.ui.insertEmojiAt(rowIndex * EMOJIS_PER_ROW + i)
                 }}
                 className={clsx(
-                  `items-center justify-center rounded p-3 border`,
+                  `items-center justify-center p-3 rounded border border-transparent`,
+                  {
+                    'border-black dark:border-white': isSelected,
+                  },
                 )}
-                style={{
-                  borderColor: isSelected
-                    ? solNative.accentColor
-                    : 'transparent',
-                }}
                 key={`${emoji.emoji}-${i}_${rowIndex}`}>
                 <Text className="text-6xl">{emoji.emoji}</Text>
               </TouchableOpacity>,
@@ -127,8 +125,8 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
 
           return (
             <View
-              className={clsx(`flex-row justify-around`, {
-                'bg-gray-100 dark:bg-darker rounded':
+              className={clsx(`flex-row justify-between`, {
+                'bg-gray-100 dark:bg-neutral-900 rounded':
                   rowIndex === 0 && !!favorites.length && !store.ui.query,
               })}>
               {res}
