@@ -9,5 +9,6 @@
 #import <React/RCTEventEmitter.h>
 #import <AppKit/AppKit.h>
 #import "MediaKeyForwarder.h"
+#import <RCTAppDelegate.h>
 
 AXError _AXUIElementGetWindow(AXUIElementRef element, uint32_t *identifier);

@@ -15,8 +15,8 @@
     "check-dependencies": "rnx-align-deps",
     "fix-dependencies": "rnx-align-deps --write",
     "appcast": "./macos/Pods/Sparkle/bin/generate_appcast ../sol/releases",
-    "pods": "npx pod-install macos",
-    "postinstall": "patch-package",
+    "pods": "bundle exec pod install --project-directory=macos",
+    "postinstall": "yarn pods && patch-package",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -43,9 +43,9 @@
     "postinstall-postinstall": "^2.1.0",
     "pretty-bytes": "^6.1.1",
     "react": "18.2.0",
-    "react-native": "^0.71.0",
+    "react-native": "^0.72.5",
     "react-native-get-random-values": "^1.8.0",
-    "react-native-macos": "^0.71.34",
+    "react-native-macos": "^0.72.1",
     "react-native-webview": "^12.0.2",
     "react-native-windows": "^0.71.0",
     "uuid": "^9.0.0"

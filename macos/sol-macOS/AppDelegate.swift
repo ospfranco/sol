@@ -97,9 +97,16 @@ class AppDelegate: NSObject, NSApplicationDelegate,
   }
 
   func applicationDidFinishLaunching(_: Notification) {
-    let jsCodeLocation: URL = RCTBundleURLProvider
-      .sharedSettings()
-      .jsBundleURL(forBundleRoot: "index")
+    #if DEBUG
+      let jsCodeLocation: URL = RCTBundleURLProvider
+        .sharedSettings()
+        .jsBundleURL(forBundleRoot: "index")
+    #else
+      let jsCodeLocation = Bundle.main.url(
+        forResource: "main",
+        withExtension: "jsbundle"
+      )!
+    #endif
 
     rootView = RCTRootView(
       bundleURL: jsCodeLocation,
