@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/AccessibilityResources.bundle/Contents/Info.plist</key>
 		<data>
-		s2sJBMgBd8ac2UXRP1nK8qpmVlI=
+		BPxEg7JjP7FB/b3vuVbLshDbfJA=
 		</data>
 		<key>Resources/AccessibilityResources.bundle/Contents/Resources/en.lproj/Localizable.strings</key>
 		<dict>
@@ -23,7 +23,7 @@
 		</data>
 		<key>Resources/Assets.car</key>
 		<data>
-		Piynzj64ZupuNgwV/37sYE2gStA=
+		6yVGAADhEovULtJ3OysZaa01MUE=
 		</data>
 		<key>Resources/Base.lproj/Main.storyboardc/Info.plist</key>
 		<data>
@@ -31,7 +31,7 @@
 		</data>
 		<key>Resources/Base.lproj/Main.storyboardc/MainMenu.nib</key>
 		<data>
-		f/bfRWcc9+Ht7iPu553spXE+URo=
+		omVYxU8qgehORTw9JApvYOxoJJc=
 		</data>
 		<key>Resources/assets/src/assets/Bluetooth.png</key>
 		<data>
@@ -607,7 +607,7 @@
 		</data>
 		<key>Resources/main.jsbundle</key>
 		<data>
-		Ve/57gEKbfAMphdlM0z+G9ufjlU=
+		qUDoQV0Z+oL0/OpY3zCuD2ZrK3o=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -634,7 +634,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			ApBdeARRM8NSZV2qs2HSqqjLIcKWbw0Rdf4EgXSmias=
+			PSWaNxjClVO+Glj8havoV1eoOvcX3TmS5iuMgiAGtjs=
 			</data>
 		</dict>
 		<key>Resources/AccessibilityResources.bundle/Contents/Resources/en.lproj/Localizable.strings</key>
@@ -657,7 +657,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Qu+mAGBAQQyRC0nM8ivB6zr6YZ0q9xGgZm6TQvYOFDY=
+			ZWejyqvO/G9SiKpC/6zQGuDN5NkNtvxAa/ggBQxehW0=
 			</data>
 		</dict>
 		<key>Resources/Base.lproj/Main.storyboardc/Info.plist</key>
@@ -671,7 +671,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			vSrLKafPjgfVz8rZjJdSBX7ofYccwIUr2syovnUPixI=
+			pxzmpAjfl226cTf9jFpmXCmDuHgMbNmQWMTpAp+7mUU=
 			</data>
 		</dict>
 		<key>Resources/assets/src/assets/Bluetooth.png</key>
@@ -1679,7 +1679,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			IRlwnL2f+1n0bu7ng2+Q1/k+bBt0fmKamCTcUfAyvyk=
+			/F/MoXkbQ8wPRJtsfbx2WwrtqLaPNkr+XhDqj/Clw6Y=
 			</data>
 		</dict>
 	</dict>
