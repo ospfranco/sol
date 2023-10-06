@@ -122,9 +122,9 @@ class AppDelegate: NSObject, NSApplicationDelegate,
 
     mainWindow.contentView = rootView
 
-    let windowRect = NSScreen.main?.frame
+    let windowRect = NSScreen.main!.frame
     overlayWindow = Overlay(
-      contentRect: windowRect!,
+      contentRect: windowRect,
       backing: .buffered,
       defer: false
     )
