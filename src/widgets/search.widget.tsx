@@ -83,31 +83,14 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
               {item.isRunning && (
                 <View className="absolute -left-2 h-1 w-1 rounded-full bg-neutral-600 dark:bg-neutral-400" />
               )}
-              <FileIcon
-                url={item.url}
-                className={clsx('w-6 h-6', {
-                  'opacity-60': !isActive,
-                  'opacity-100': isActive,
-                })}
-              />
+              <FileIcon url={item.url} className={'w-6 h-6'} />
             </View>
           )}
           {item.type !== ItemType.CUSTOM && !!item.icon && (
-            <Text
-              className={clsx('opacity-60', {
-                'opacity-100': isActive,
-              })}>
-              {item.icon}
-            </Text>
+            <Text>{item.icon}</Text>
           )}
           {item.type === ItemType.CUSTOM && !!item.icon && (
-            <View
-              className={clsx(
-                'w-6 h-6 rounded items-center justify-center opacity-60 bg-white dark:bg-black',
-                {
-                  'opacity-100': isActive,
-                },
-              )}>
+            <View className="w-6 h-6 rounded items-center justify-center bg-white dark:bg-black">
               <Image
                 // @ts-expect-error
                 source={Icons[item.icon]}
@@ -122,22 +105,13 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
           {!!item.iconImage && (
             <Image
               source={item.iconImage}
-              className={clsx('w-6 h-6 opacity-60', {
-                'opacity-100': isActive,
-              })}
+              className="w-6 h-6"
               resizeMode="contain"
             />
           )}
           {/* Somehow this component breaks windows build */}
           {(Platform.OS === 'macos' || Platform.OS === 'ios') &&
-            !!item.IconComponent && (
-              <item.IconComponent
-                className={clsx({
-                  'opacity-60': !isActive,
-                  'opacity-100': isActive,
-                })}
-              />
-            )}
+            !!item.IconComponent && <item.IconComponent />}
           <Text
             numberOfLines={1}
             className={'ml-3 text-black dark:text-white max-w-xl'}
