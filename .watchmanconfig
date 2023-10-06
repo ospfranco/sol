@@ -1,1 +1,3 @@
-{}
+{
+  "prefer_split_fsevents_watcher": true
+}
