@@ -15,22 +15,6 @@ let onStatusBarItemClickListener: EmitterSubscription | undefined
 export type CalendarStore = ReturnType<typeof createCalendarStore>
 
 export const createCalendarStore = (root: IRootStore) => {
-  const persist = async () => {
-    const plainState = toJS(store)
-
-    AsyncStorage.setItem('@calendar.store', JSON.stringify(plainState))
-  }
-
-  let hydrate = async () => {
-    const storeState = await AsyncStorage.getItem('@ui.store')
-
-    if (storeState) {
-      // let parsedStore = JSON.parse(storeState)
-      // runInAction(() => {
-      // })
-    }
-  }
-
   let store = makeAutoObservable({
     //    ____  _                              _     _
     //   / __ \| |                            | |   | |
@@ -211,13 +195,10 @@ export const createCalendarStore = (root: IRootStore) => {
     },
   })
 
-  hydrate().then(() => {
-    autorun(persist)
-    store.getCalendarAccess()
-    if (root.ui.calendarEnabled) {
-      store.poll()
-    }
-  })
+  store.getCalendarAccess()
+  if (root.ui.calendarEnabled) {
+    store.poll()
+  }
 
   onShowListener = solNative.addListener('onShow', store.onShow)
   onStatusBarItemClickListener = solNative.addListener(

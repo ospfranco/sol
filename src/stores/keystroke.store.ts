@@ -1,12 +1,11 @@
 import {extractMeetingLink} from 'lib/calendar'
-import {EMOJIS_PER_ROW} from 'lib/emoji'
+
 import {solNative} from 'lib/SolNative'
 import {makeAutoObservable} from 'mobx'
 import {Clipboard, EmitterSubscription, Linking} from 'react-native'
 import {IRootStore} from 'store'
 import {ItemType, Widget} from './ui.store'
-
-const GIFS_PER_ROW = 5
+import {EMOJI_ROW_SIZE} from './emoji.store'
 
 let keyDownListener: EmitterSubscription | undefined
 let keyUpListener: EmitterSubscription | undefined
@@ -103,7 +102,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
             }
 
             case Widget.EMOJIS: {
-              root.ui.insertEmojiAt(root.ui.selectedIndex)
+              root.emoji.insert(root.ui.selectedIndex)
               break
             }
 
@@ -333,8 +332,12 @@ export const createKeystrokeStore = (root: IRootStore) => {
 
               break
             case Widget.EMOJIS:
+              let totalSize =
+                (root.emoji.emojis.length - 1) * EMOJI_ROW_SIZE +
+                root.emoji.emojis[root.emoji.emojis.length - 1].length
+
               if (root.ui.selectedIndex === 0) {
-                root.ui.selectedIndex = EMOJIS_PER_ROW - 1
+                root.ui.selectedIndex = totalSize - 1
               } else {
                 root.ui.selectedIndex = root.ui.selectedIndex - 1
               }
@@ -406,7 +409,15 @@ export const createKeystrokeStore = (root: IRootStore) => {
               break
 
             case Widget.EMOJIS:
-              root.ui.selectedIndex += 1
+              let totalSize =
+                (root.emoji.emojis.length - 1) * EMOJI_ROW_SIZE +
+                root.emoji.emojis[root.emoji.emojis.length - 1].length
+
+              if (root.ui.selectedIndex + 1 === totalSize) {
+                root.ui.selectedIndex = 0
+              } else {
+                root.ui.selectedIndex += 1
+              }
               break
           }
           break
@@ -420,7 +431,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
 
             case Widget.EMOJIS:
               root.ui.selectedIndex = Math.max(
-                root.ui.selectedIndex - EMOJIS_PER_ROW,
+                root.ui.selectedIndex - EMOJI_ROW_SIZE,
                 0,
               )
               break
@@ -460,7 +471,10 @@ export const createKeystrokeStore = (root: IRootStore) => {
             }
 
             case Widget.EMOJIS: {
-              root.ui.selectedIndex = root.ui.selectedIndex + EMOJIS_PER_ROW
+              let index = root.ui.selectedIndex + EMOJI_ROW_SIZE
+              if (index < root.emoji.emojis.length) {
+                root.ui.selectedIndex = root.ui.selectedIndex + EMOJI_ROW_SIZE
+              }
               break
             }
 

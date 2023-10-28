@@ -3,12 +3,12 @@ import {LoadingBar} from 'components/LoadingBar'
 import {MainInput} from 'components/MainInput'
 import {StyledFlatList} from 'components/StyledFlatList'
 import {useFullSize} from 'hooks/useFullSize'
-import {Emoji, emojiFuse, emojis, EMOJIS_PER_ROW, groupEmojis} from 'lib/emoji'
 import {solNative} from 'lib/SolNative'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect, useRef} from 'react'
 import {FlatList, Text, TouchableOpacity, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
+import {EMOJI_ROW_SIZE, Emoji} from 'stores/emoji.store'
 
 interface Props {
   style?: ViewStyle
@@ -20,11 +20,11 @@ const ROW_HEIGHT = 72
 export const EmojisWidget: FC<Props> = observer(({style}) => {
   useFullSize()
   const store = useStore()
-  const query = store.ui.query
   const selectedIndex = store.ui.selectedIndex
-  const storeRowIndex = Math.floor(selectedIndex / EMOJIS_PER_ROW)
-  const storeSubIndex = selectedIndex % EMOJIS_PER_ROW
+  const storeRowIndex = Math.floor(selectedIndex / EMOJI_ROW_SIZE)
+  const storeSubIndex = selectedIndex % EMOJI_ROW_SIZE
   const listRef = useRef<FlatList | null>(null)
+  const emojis = store.emoji.emojis
 
   useEffect(() => {
     solNative.turnOnHorizontalArrowsListeners()
@@ -33,43 +33,14 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
     }
   }, [])
 
-  let data = !!query
-    ? groupEmojis(emojiFuse.search(query).map(r => r.item))
-    : emojis
-
   useEffect(() => {
-    if (data.length) {
+    if (emojis.length) {
       listRef.current?.scrollToIndex({
         index: storeRowIndex,
         viewOffset: 80,
       })
     }
   }, [storeRowIndex])
-
-  const favorites = Object.entries(store.ui.frequentlyUsedEmojis)
-  if (favorites.length && !query) {
-    const mappedFavorites = favorites
-      .sort(([_, frequency1], [_2, frequency2]) => frequency2 - frequency1)
-      .map(entry => ({
-        emoji: entry[0],
-        description: '',
-        category: '',
-        aliases: [],
-        tags: [],
-      }))
-
-    for (let i = mappedFavorites.length; i < EMOJIS_PER_ROW; i++) {
-      mappedFavorites.push({
-        emoji: '',
-        description: '',
-        category: '',
-        aliases: [],
-        tags: [],
-      })
-    }
-
-    data = [mappedFavorites, ...data]
-  }
 
   return (
     <View className="flex-1" style={style}>
@@ -78,7 +49,7 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
       <StyledFlatList
         ref={listRef}
         contentContainerStyle="flex-grow p-3"
-        data={data}
+        data={emojis}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={
           <View className="flex-1 justify-center items-center">
@@ -109,15 +80,16 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
             res.push(
               <TouchableOpacity
                 onPress={() => {
-                  store.ui.insertEmojiAt(rowIndex * EMOJIS_PER_ROW + i)
+                  store.emoji.insert(rowIndex * EMOJI_ROW_SIZE + i)
                 }}
                 className={clsx(
-                  `items-center justify-center p-3 rounded border border-transparent`,
+                  `items-center justify-center w-[90] h-[90] rounded border border-transparent`,
                   {
-                    'border-black dark:border-white': isSelected,
+                    'bg-neutral-300 border-neutral-400 dark:bg-neutral-700 dark:border-neutral-500':
+                      isSelected,
                   },
                 )}
-                key={`${emoji.emoji}-${i}_${rowIndex}`}>
+                key={`${i}_${rowIndex}`}>
                 <Text className="text-6xl">{emoji.emoji}</Text>
               </TouchableOpacity>,
             )
@@ -125,9 +97,11 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
 
           return (
             <View
-              className={clsx(`flex-row justify-between`, {
+              className={clsx(`flex-row`, {
                 'bg-gray-100 dark:bg-neutral-900 rounded':
-                  rowIndex === 0 && !!favorites.length && !store.ui.query,
+                  rowIndex === 0 &&
+                  !!Object.entries(store.ui.frequentlyUsedEmojis).length &&
+                  !store.ui.query,
               })}>
               {res}
             </View>

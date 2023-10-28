@@ -4,6 +4,7 @@ import {ClipboardStore, createClipboardStore} from 'stores/clipboard.store'
 import {createKeystrokeStore, KeystrokeStore} from 'stores/keystroke.store'
 import {createUIStore, UIStore} from './stores/ui.store'
 import {ProcessesStore, createProcessesStore} from 'stores/processes.store'
+import {EmojiStore, createEmojiStore} from 'stores/emoji.store'
 
 export interface IRootStore {
   ui: UIStore
@@ -11,6 +12,7 @@ export interface IRootStore {
   keystroke: KeystrokeStore
   calendar: CalendarStore
   processes: ProcessesStore
+  emoji: EmojiStore
   cleanUp: () => void
 }
 
@@ -22,6 +24,7 @@ let createRootStore = (): IRootStore => {
   store.keystroke = createKeystrokeStore(store)
   store.calendar = createCalendarStore(store)
   store.processes = createProcessesStore(store)
+  store.emoji = createEmojiStore(store)
 
   store.cleanUp = () => {
     store.ui.cleanUp()

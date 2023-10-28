@@ -6,7 +6,6 @@ import {Parser} from 'expr-eval'
 import Fuse from 'fuse.js'
 import {solNative} from 'lib/SolNative'
 import {CONSTANTS} from 'lib/constants'
-import {EMOJIS_PER_ROW, allEmojis, emojiFuse} from 'lib/emoji'
 import {googleTranslate} from 'lib/translator'
 import {autorun, makeAutoObservable, runInAction, toJS} from 'mobx'
 import React from 'react'
@@ -14,6 +13,7 @@ import {Appearance, EmitterSubscription, Linking} from 'react-native'
 import {IRootStore} from 'store'
 import {createBaseItems} from './items'
 import plist from '@expo/plist'
+import {EMOJI_ROW_SIZE} from './emoji.store'
 
 const exprParser = new Parser()
 
@@ -89,7 +89,7 @@ export const createUIStore = (root: IRootStore) => {
           ? (Object.fromEntries(
               Object.entries(parsedStore.frequentlyUsedEmojis).slice(
                 0,
-                EMOJIS_PER_ROW,
+                EMOJI_ROW_SIZE,
               ),
             ) as any)
           : {}
@@ -305,48 +305,6 @@ export const createUIStore = (root: IRootStore) => {
     //    / /\ \ / __| __| |/ _ \| '_ \/ __|
     //   / ____ \ (__| |_| | (_) | | | \__ \
     //  /_/    \_\___|\__|_|\___/|_| |_|___/
-    insertEmojiAt(index: number) {
-      const favorites = Object.entries(store.frequentlyUsedEmojis).sort(
-        ([_, freq1], [_2, freq2]) => freq2 - freq1,
-      )
-
-      const data = !!store.query
-        ? emojiFuse.search(store.query).map(r => r.item)
-        : allEmojis
-
-      let emojiChar = data[index].emoji
-      if (favorites.length && !store.query) {
-        if (index < EMOJIS_PER_ROW) {
-          emojiChar = favorites[index]?.[0]
-          if (!emojiChar) {
-            return
-          }
-        } else {
-          emojiChar = data[index - EMOJIS_PER_ROW].emoji
-        }
-      }
-
-      if (store.frequentlyUsedEmojis[emojiChar]) {
-        store.frequentlyUsedEmojis[emojiChar] += 1
-      } else {
-        if (favorites.length === EMOJIS_PER_ROW) {
-          let leastUsed = favorites[0]
-          favorites.forEach(([emoji, frequency]) => {
-            if (frequency < leastUsed[1]) {
-              leastUsed = [emoji, frequency]
-            }
-          })
-
-          delete store.frequentlyUsedEmojis[leastUsed[0]]
-
-          store.frequentlyUsedEmojis[emojiChar] = 1
-        } else {
-          store.frequentlyUsedEmojis[emojiChar] = 1
-        }
-      }
-
-      solNative.insertToFrontmostApp(emojiChar)
-    },
     showEmojiPicker: () => {
       store.focusWidget(Widget.EMOJIS)
       store.query = ''
