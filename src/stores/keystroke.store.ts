@@ -471,9 +471,16 @@ export const createKeystrokeStore = (root: IRootStore) => {
             }
 
             case Widget.EMOJIS: {
-              let index = root.ui.selectedIndex + EMOJI_ROW_SIZE
-              if (index < root.emoji.emojis.length) {
+              let rowIndex = Math.floor(root.ui.selectedIndex / EMOJI_ROW_SIZE)
+              let columnIndex = root.ui.selectedIndex % EMOJI_ROW_SIZE
+
+              if (
+                rowIndex + 1 < root.emoji.emojis.length &&
+                columnIndex < root.emoji.emojis[rowIndex + 1].length
+              ) {
                 root.ui.selectedIndex = root.ui.selectedIndex + EMOJI_ROW_SIZE
+              } else {
+                root.ui.selectedIndex = columnIndex
               }
               break
             }
