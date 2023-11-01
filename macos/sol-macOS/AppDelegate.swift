@@ -5,7 +5,7 @@ import HotKey
 import Sparkle
 import SwiftUI
 
-let baseSize = NSSize(width: 750, height: 500)
+let baseSize = NSSize(width: 600, height: 400)
 let handledKeys: [UInt16] = [53, 123, 124, 126, 125, 36, 48]
 let numberchars: [String] = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
@@ -116,7 +116,12 @@ class AppDelegate: NSObject, NSApplicationDelegate,
     )
 
     mainWindow = Panel(
-      contentRect: NSRect(x: 0, y: 0, width: 750, height: 500),
+      contentRect: NSRect(
+        x: 0,
+        y: 0,
+        width: baseSize.width,
+        height: baseSize.height
+      ),
       backing: .buffered, defer: false
     )
 
@@ -474,11 +479,11 @@ class AppDelegate: NSObject, NSApplicationDelegate,
   @objc func setHeight(_ height: Int) {
     var finalHeight = height
     if height == 0 {
-      finalHeight = 500
+      finalHeight = Int(baseSize.height)
     }
 
     var frame = mainWindow.frame
-    let size = NSSize(width: 750, height: finalHeight)
+    let size = NSSize(width: Int(baseSize.width), height: finalHeight)
     frame.origin.y += (frame.size.height - CGFloat(finalHeight))
     frame.size = size
 
