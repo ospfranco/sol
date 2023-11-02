@@ -6,7 +6,7 @@ import {EmitterSubscription} from 'react-native'
 import {IRootStore} from 'store'
 import {Widget} from './ui.store'
 
-const MAX_ITEMS = 20000
+const MAX_ITEMS = 1000
 
 let onTextPastedListener: EmitterSubscription | undefined
 
@@ -40,13 +40,14 @@ export const createClipboardStore = (root: IRootStore) => {
       }
 
       if (store.items.length >= MAX_ITEMS) {
-        store.items.pop()
+        store.items = store.items.slice(0, MAX_ITEMS)
       }
 
       store.items.unshift(obj)
     },
     get fusedItems(): Fuse<PasteItem> {
-      return new Fuse(root.clipboard.items, FUSE_OPTIONS)
+      let items = store.items
+      return new Fuse(items, FUSE_OPTIONS)
     },
     get clipboardItems(): PasteItem[] {
       if (!root.ui.query || root.ui.focusedWidget !== Widget.CLIPBOARD) {
@@ -89,7 +90,9 @@ export const createClipboardStore = (root: IRootStore) => {
         const items = JSON.parse(entry)
         if (items.length > 0) {
           if (typeof items[0] === 'string') {
-            store.items = items.map((t: string) => ({text: t, bundle: null}))
+            store.items = items
+              .slice(0, MAX_ITEMS)
+              .map((t: string) => ({text: t, bundle: null}))
             return
           }
         }
@@ -114,7 +117,10 @@ export const createClipboardStore = (root: IRootStore) => {
       }
     }
 
-    AsyncStorage.setItem('@clipboard.store', JSON.stringify(store))
+    let storeWithoutItems = {...store}
+    storeWithoutItems.items = []
+
+    AsyncStorage.setItem('@clipboard.store', JSON.stringify(storeWithoutItems))
   }
 
   hydrate().then(() => {

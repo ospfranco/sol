@@ -53,24 +53,20 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
         renderItem={({item, index}: any) => {
           const isActive = index === selectedIndex
           return (
-            <View className="p-2">
-              <GradientView
-                className={'flex-row px-2'}
-                startColor={isActive ? `${customColors.accent}BB` : '#00000000'}
-                endColor={isActive ? `${customColors.accent}77` : '#00000000'}
-                cornerRadius={10}
-                angle={90}>
-                <FileIcon
-                  url={decodeURIComponent(item.bundle?.replace('file://', ''))}
-                  className="h-6 w-6 mt-3"
-                />
-                <Text
-                  className={clsx('text-sm flex-1 dark:text-neutral-200 p-4', {
-                    'text-white': isActive,
-                  })}>
-                  {item.text.substring(0, 256)}
-                </Text>
-              </GradientView>
+            <View
+              className={clsx('mx-2 mt-2 flex-row rounded px-2', {
+                'dark:bg-neutral-700': isActive,
+              })}>
+              <FileIcon
+                url={decodeURIComponent(item.bundle?.replace('file://', ''))}
+                className="h-6 w-6 mt-3"
+              />
+              <Text
+                className={clsx('text-sm flex-1 dark:text-neutral-200 p-4', {
+                  'text-white': isActive,
+                })}>
+                {item.text.substring(0, 256)}
+              </Text>
             </View>
           )
         }}
