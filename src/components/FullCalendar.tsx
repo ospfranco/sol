@@ -35,7 +35,7 @@ export let FullCalendar: FC = observer(() => {
       {Object.entries(store.calendar.groupedEvents).map(([key, group]) => {
         let shouldShowRelative = group.date.diffNow('days').days <= 5
         return (
-          <View key={key} className="px-5 pb-4 g-2">
+          <View key={key} className="px-4 pb-4 g-2">
             <View className="flex-row items-center g-2">
               <Text className="capitalize font-medium text-neutral-500 dark:text-neutral-400">
                 {shouldShowRelative

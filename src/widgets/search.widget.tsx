@@ -77,7 +77,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
         }
         cornerRadius={10}
         angle={90}>
-        <View className="flex-1 flex-row items-center px-4 h-12">
+        <View className="flex-1 flex-row items-center px-4 h-10">
           {!!item.url && (
             <View className="g-1 items-center flex-row">
               {item.isRunning && (

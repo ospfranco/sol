@@ -1,10 +1,8 @@
-import {Assets} from 'assets'
 import {observer} from 'mobx-react-lite'
-import {useRef} from 'react'
-import {Image, TextInput, View, useColorScheme} from 'react-native'
+import {View, useColorScheme} from 'react-native'
+import {TextInput} from 'react-native-macos'
 import {useStore} from 'store'
 import colors from 'tailwindcss/colors'
-import {SelectableButton} from './SelectableButton'
 import {Widget} from 'stores/ui.store'
 import {BackButton} from './BackButton'
 
@@ -17,16 +15,15 @@ type Props = {
 
 export const MainInput = observer<Props>(
   ({
-    placeholder = 'Search for commands, apps, bookmarks and shortcuts...',
+    placeholder = 'Search for commands and apps...',
     showBackButton,
     style,
   }) => {
     const store = useStore()
-    const inputRef = useRef<TextInput | null>(null)
     const colorScheme = useColorScheme()
 
     return (
-      <View className="h-16 px-4 flex-row items-center g-1" style={style}>
+      <View className="h-14 px-3 flex-row items-center g-1" style={style}>
         {showBackButton && (
           <View className="">
             <BackButton
@@ -39,15 +36,15 @@ export const MainInput = observer<Props>(
         )}
         <TextInput
           autoFocus
-          // @ts-expect-error
           enableFocusRing={false}
           value={store.ui.query}
           onChangeText={store.ui.setQuery}
-          ref={inputRef}
+          // @ts-ignore
           className="text-2xl flex-1"
           placeholderTextColor={
             colorScheme === 'dark' ? colors.neutral[500] : colors.neutral[400]
           }
+          selectionColor={'#FF0000'}
           placeholder={placeholder}
         />
       </View>

@@ -43,7 +43,7 @@ export let CalendarWidget: FC = observer(() => {
   let diff = Math.floor(lStart.diffNow().as('minutes'))
 
   return (
-    <View className="px-4 py-2 flex-row items-center g-1 border-t border-neutral-100 dark:border-neutral-700">
+    <View className="px-2 py-2 flex-row items-center g-1 border-t border-neutral-100 dark:border-neutral-700">
       <View
         className="h-2 w-2 rounded-full"
         style={{
