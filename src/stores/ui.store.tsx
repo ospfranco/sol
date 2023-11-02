@@ -85,14 +85,6 @@ export const createUIStore = (root: IRootStore) => {
         store.scratchpadShortcut = parsedStore.scratchpadShortcut ?? 'command'
         store.clipboardManagerShortcut =
           parsedStore.clipboardManagerShortcut ?? 'shift'
-        store.frequentlyUsedEmojis = parsedStore.frequentlyUsedEmojis
-          ? (Object.fromEntries(
-              Object.entries(parsedStore.frequentlyUsedEmojis).slice(
-                0,
-                EMOJI_ROW_SIZE,
-              ),
-            ) as any)
-          : {}
         store.showWindowOn = parsedStore.showWindowOn ?? 'screenWithFrontmost'
         store.windowManagementEnabled =
           parsedStore.windowManagementEnabled ?? true
@@ -135,7 +127,6 @@ export const createUIStore = (root: IRootStore) => {
     //  | |  | | '_ \/ __|/ _ \ '__\ \ / / _` | '_ \| |/ _ \/ __|
     //  | |__| | |_) \__ \  __/ |   \ V / (_| | |_) | |  __/\__ \
     //   \____/|_.__/|___/\___|_|    \_/ \__,_|_.__/|_|\___||___/
-    frequentlyUsedEmojis: {} as Record<string, number>,
     note: '',
     isAccessibilityTrusted: false,
     calendarAuthorizationStatus: 'notDetermined' as CalendarAuthorizationStatus,

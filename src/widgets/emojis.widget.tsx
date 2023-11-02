@@ -83,9 +83,9 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
                   store.emoji.insert(rowIndex * EMOJI_ROW_SIZE + i)
                 }}
                 className={clsx(
-                  `items-center justify-center w-[90] h-[90] rounded border border-transparent`,
+                  `items-center justify-center w-[96] h-[96] rounded border border-transparent`,
                   {
-                    'bg-neutral-300 border-neutral-400 dark:bg-neutral-700 dark:border-neutral-500':
+                    'bg-neutral-300 border-neutral-400 dark:bg-neutral-900 dark:border-neutral-700':
                       isSelected,
                   },
                 )}
@@ -95,12 +95,16 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
             )
           }
 
+          if (emojiRow.length < EMOJI_ROW_SIZE) {
+            res.push(<View className="flex-1" key="end" />)
+          }
+
           return (
             <View
               className={clsx(`flex-row`, {
-                'bg-gray-100 dark:bg-neutral-900 rounded':
+                'border-b dark:border-neutral-700 pb-3 mb-2':
                   rowIndex === 0 &&
-                  !!Object.entries(store.ui.frequentlyUsedEmojis).length &&
+                  !!Object.entries(store.emoji.frequentlyUsedEmojis).length &&
                   !store.ui.query,
               })}>
               {res}

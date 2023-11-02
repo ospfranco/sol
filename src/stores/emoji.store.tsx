@@ -1,7 +1,6 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import Fuse from 'fuse.js'
-import {extractMeetingLink} from 'lib/calendar'
-import {DateTime} from 'luxon'
-import {makeAutoObservable} from 'mobx'
+import {autorun, makeAutoObservable, runInAction, toJS} from 'mobx'
 import {IRootStore} from 'store'
 import {emojis as rawEmojis} from '../lib/emojis'
 import {solNative} from 'lib/SolNative'
@@ -22,7 +21,7 @@ const FUSE_OPTIONS: Fuse.IFuseOptions<any> = {
 
 const emojiFuse = new Fuse(rawEmojis, FUSE_OPTIONS)
 
-export const EMOJI_ROW_SIZE = 8
+export const EMOJI_ROW_SIZE = 6
 
 function groupEmojis(emojis: Emoji[]): Array<Emoji[]> {
   const emojisArray: Array<Emoji[]> = []
@@ -37,6 +36,30 @@ function groupEmojis(emojis: Emoji[]): Array<Emoji[]> {
 export type EmojiStore = ReturnType<typeof createEmojiStore>
 
 export const createEmojiStore = (root: IRootStore) => {
+  let persist = async () => {
+    let plainState = toJS(store)
+    AsyncStorage.setItem('@emoji.store', JSON.stringify(plainState))
+  }
+
+  let hydrate = async () => {
+    const storeState = await AsyncStorage.getItem('@emoji.store')
+
+    if (storeState) {
+      let parsedStore = JSON.parse(storeState)
+
+      runInAction(() => {
+        store.frequentlyUsedEmojis = parsedStore.frequentlyUsedEmojis
+          ? (Object.fromEntries(
+              Object.entries(parsedStore.frequentlyUsedEmojis).slice(
+                0,
+                EMOJI_ROW_SIZE,
+              ),
+            ) as any)
+          : {}
+      })
+    }
+  }
+
   let store = makeAutoObservable({
     //    ____  _                              _     _
     //   / __ \| |                            | |   | |
@@ -44,6 +67,7 @@ export const createEmojiStore = (root: IRootStore) => {
     //  | |  | | '_ \/ __|/ _ \ '__\ \ / / _` | '_ \| |/ _ \/ __|
     //  | |__| | |_) \__ \  __/ |   \ V / (_| | |_) | |  __/\__ \
     //   \____/|_.__/|___/\___|_|    \_/ \__,_|_.__/|_|\___||___/
+    frequentlyUsedEmojis: {} as Record<string, number>,
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -59,7 +83,7 @@ export const createEmojiStore = (root: IRootStore) => {
         : groupEmojis(rawEmojis)
 
       // TODO move these from UI Store here
-      let favorites = Object.entries(root.ui.frequentlyUsedEmojis)
+      let favorites = Object.entries(store.frequentlyUsedEmojis)
       if (!root.ui.query && favorites.length) {
         const mappedFavorites = favorites
           .sort(([_, frequency1], [_2, frequency2]) => frequency2 - frequency1)
@@ -87,7 +111,7 @@ export const createEmojiStore = (root: IRootStore) => {
       }
     },
     insert(index: number) {
-      const favorites = Object.entries(root.ui.frequentlyUsedEmojis).sort(
+      const favorites = Object.entries(store.frequentlyUsedEmojis).sort(
         ([_, freq1], [_2, freq2]) => freq2 - freq1,
       )
 
@@ -109,8 +133,8 @@ export const createEmojiStore = (root: IRootStore) => {
         }
       }
 
-      if (root.ui.frequentlyUsedEmojis[emojiChar]) {
-        root.ui.frequentlyUsedEmojis[emojiChar] += 1
+      if (store.frequentlyUsedEmojis[emojiChar]) {
+        store.frequentlyUsedEmojis[emojiChar] += 1
       } else {
         if (favorites.length === EMOJI_ROW_SIZE) {
           let leastUsed = favorites[0]
@@ -120,16 +144,20 @@ export const createEmojiStore = (root: IRootStore) => {
             }
           })
 
-          delete root.ui.frequentlyUsedEmojis[leastUsed[0]]
+          delete store.frequentlyUsedEmojis[leastUsed[0]]
 
-          root.ui.frequentlyUsedEmojis[emojiChar] = 1
+          store.frequentlyUsedEmojis[emojiChar] = 1
         } else {
-          root.ui.frequentlyUsedEmojis[emojiChar] = 1
+          store.frequentlyUsedEmojis[emojiChar] = 1
         }
       }
 
       solNative.insertToFrontmostApp(emojiChar)
     },
+  })
+
+  hydrate().then(() => {
+    autorun(persist)
   })
 
   return store
