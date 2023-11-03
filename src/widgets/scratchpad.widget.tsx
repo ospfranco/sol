@@ -34,7 +34,7 @@ export const ScratchpadWidget: FC<Props> = observer(({style}) => {
   }, [selectedIndex])
 
   return (
-    <View style={style} className="flex-1 px-4">
+    <View style={style} className="flex-1 p-4">
       <TextInput
         autoFocus
         value={store.ui.note}
