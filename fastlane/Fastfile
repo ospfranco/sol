@@ -39,7 +39,7 @@ platform :mac do
 
     sh("yarn", "appcast")
 
-    puts Dir.pwd
+    # puts Dir.pwd
     # Dir.chdir("../../sol") do
     sh("git", "add", ".")
     sh("git", "commit", "-m", version)
