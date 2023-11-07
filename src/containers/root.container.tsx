@@ -159,6 +159,12 @@ export let RootContainer = observer(() => {
         className="h-full">
         <SearchWidget />
 
+        {!store.ui.query && store.ui.calendarEnabled && (
+          <View className="flex-1 border-t border-lightBorder dark:border-darkBorder">
+            <FullCalendar />
+          </View>
+        )}
+
         {!store.ui.isAccessibilityTrusted && (
           <>
             <View className="w-full border-lightBorder dark:border-darkBorder border-t" />
@@ -174,7 +180,7 @@ export let RootContainer = observer(() => {
           </>
         )}
 
-        {!store.ui.hasFullDiskAccess && (
+        {/* {!store.ui.hasFullDiskAccess && (
           <>
             <View className="w-full border-lightBorder dark:border-darkBorder border-t" />
             <TouchableOpacity
@@ -192,12 +198,7 @@ export let RootContainer = observer(() => {
               </Text>
             </TouchableOpacity>
           </>
-        )}
-        {!store.ui.query && store.ui.calendarEnabled && (
-          <View className="flex-1 border-t border-lightBorder dark:border-darkBorder">
-            <FullCalendar />
-          </View>
-        )}
+        )} */}
       </GradientView>
     </BlurView>
   )

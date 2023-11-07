@@ -6,11 +6,26 @@
 
 -(void)requestCalendarAccess:(void(^)(void))callback {
   EKEventStore *store = [[EKEventStore alloc] init];
-  [store requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError * _Nullable error) {
-    if(granted) {
-      callback();
-    }
-  }];
+  if ( @available(macOS 14.0, *) )
+  {
+    [store requestFullAccessToEventsWithCompletion:^(BOOL granted, NSError * _Nullable error) {
+      if(granted) {
+        callback();
+      } else {
+        NSLog(@"Access not granted %@", error);
+      }
+    }];
+  }
+  else
+  {
+    [store requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError * _Nullable error) {
+      if(granted) {
+        callback();
+      } else {
+        NSLog(@"Access not granted %@", error);
+      }
+    }];
+  }
 }
 
 -(NSArray<EKEvent *> *)getEvents {

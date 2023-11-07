@@ -1,6 +1,6 @@
 import Foundation
-import LaunchAtLogin
 import KeychainAccess
+import LaunchAtLogin
 
 private let keychain = Keychain(service: "Sol")
 
@@ -8,7 +8,7 @@ private let keychain = Keychain(service: "Sol")
 class SolNative: RCTEventEmitter {
   let appDelegate = NSApp.delegate as? AppDelegate
   let applicationSearcher = ApplicationSearcher()
-  
+
   override init() {
     super.init()
     SolEmitter.sharedInstance.registerEmitter(emitter: self)
@@ -16,8 +16,9 @@ class SolNative: RCTEventEmitter {
 
   @objc override func constantsToExport() -> [AnyHashable: Any]! {
     return [
-      "accentColor": NSColor.controlAccentColor.usingColorSpace(.sRGB)!.hexString,
-      "OSVersion": ProcessInfo.processInfo.operatingSystemVersion.majorVersion
+      "accentColor": NSColor.controlAccentColor.usingColorSpace(.sRGB)!
+        .hexString,
+      "OSVersion": ProcessInfo.processInfo.operatingSystemVersion.majorVersion,
     ]
   }
 
@@ -34,8 +35,8 @@ class SolNative: RCTEventEmitter {
   }
 
   func sendKeyDown(characters: String) {
-    self.sendEvent(withName: "keyDown", body: [
-      "key": characters
+    sendEvent(withName: "keyDown", body: [
+      "key": characters,
     ])
   }
 
@@ -47,18 +48,21 @@ class SolNative: RCTEventEmitter {
       "onHide",
       "onTextPasted",
       "onFileSearch",
-      "onStatusBarItemClick"
+      "onStatusBarItemClick",
     ]
   }
 
-  @objc func getApps(_ resolve: @escaping RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) {
+  @objc func getApps(
+    _ resolve: @escaping RCTPromiseResolveBlock,
+    rejecter _: RCTPromiseRejectBlock
+  ) {
     let apps = applicationSearcher.getAllApplications()
     let res = apps.map { app in
-      return [
+      [
         "url": app.url,
         "name": app.name,
-        "isRunning": app.isRunning
-      ] as [String : Any]
+        "isRunning": app.isRunning,
+      ] as [String: Any]
     }
 
     resolve(res)
@@ -73,12 +77,17 @@ class SolNative: RCTEventEmitter {
     guard let URL = URL(string: path) else {
       return
     }
-    
-    let configuration: NSWorkspace.OpenConfiguration = NSWorkspace.OpenConfiguration()
+
+    let configuration = NSWorkspace.OpenConfiguration()
     configuration.promptsUserIfNeeded = true
-    
-    let finder = NSWorkspace.shared.urlForApplication(withBundleIdentifier: "com.apple.finder")
-    NSWorkspace.shared.open([URL], withApplicationAt: finder!, configuration: configuration)
+
+    let finder = NSWorkspace.shared
+      .urlForApplication(withBundleIdentifier: "com.apple.finder")
+    NSWorkspace.shared.open(
+      [URL],
+      withApplicationAt: finder!,
+      configuration: configuration
+    )
   }
 
   @objc func toggleDarkMode() {
@@ -89,34 +98,46 @@ class SolNative: RCTEventEmitter {
     AppleScriptHelper.runAppleScript(source)
   }
 
-  @objc func executeBashScript(_ source: String, resolver: RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) {
+  @objc func executeBashScript(
+    _ source: String,
+    resolver: RCTPromiseResolveBlock,
+    rejecter _: RCTPromiseRejectBlock
+  ) {
     let output = ShellHelper.sh(source)
     resolver(output)
   }
 
-  @objc func getMediaInfo(_ resolve: @escaping RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) {
-
+  @objc func getMediaInfo(
+    _ resolve: @escaping RCTPromiseResolveBlock,
+    rejecter _: RCTPromiseRejectBlock
+  ) {
     MediaHelper.getCurrentMedia(callback: { information in
-      let pathUrl = NSWorkspace.shared.urlForApplication(withBundleIdentifier: information["bundleIdentifier"]! as! String)?.path
-      let imageData = information["kMRMediaRemoteNowPlayingInfoArtworkData"] as? Data
+      let pathUrl = NSWorkspace.shared
+        .urlForApplication(
+          withBundleIdentifier: information["bundleIdentifier"]! as! String
+        )?
+        .path
+      let imageData =
+        information["kMRMediaRemoteNowPlayingInfoArtworkData"] as? Data
 
-      if(imageData == nil) {
+      if imageData == nil {
         resolve([
           "title": information["kMRMediaRemoteNowPlayingInfoTitle"],
           "artist": information["kMRMediaRemoteNowPlayingInfoArtist"],
           "bundleIdentifier": information["bundleIdentifier"],
-          "url": pathUrl
+          "url": pathUrl,
         ])
       } else {
         let bitmap = NSBitmapImageRep(data: imageData!)
         let data = bitmap?.representation(using: .jpeg, properties: [:])
-        let base64 = data != nil ? "data:image/jpeg;base64," + data!.base64EncodedString() : nil
+        let base64 = data != nil ? "data:image/jpeg;base64," + data!
+          .base64EncodedString() : nil
         resolve([
           "title": information["kMRMediaRemoteNowPlayingInfoTitle"],
           "artist": information["kMRMediaRemoteNowPlayingInfoArtist"],
           "artwork": base64,
           "bundleIdentifier": information["bundleIdentifier"],
-          "url": pathUrl
+          "url": pathUrl,
         ])
       }
 
@@ -141,38 +162,23 @@ class SolNative: RCTEventEmitter {
     }
   }
 
-  //  @objc func getCalendarAuthorizationStatus(
-  //    _ resolve: @escaping  RCTPromiseResolveBlock,
-  //    rejecter: RCTPromiseRejectBlock
-  //  ) {
-  //    resolve(CalendarHelper.sharedInstance.getCalendarAuthorizationStatus())
-  //  }
-  //
-  //  @objc func requestCalendarAccess(
-  //    _ resolve: @escaping RCTPromiseResolveBlock,
-  //    rejecter: RCTPromiseRejectBlock
-  //  ) {
-  //    CalendarHelper.sharedInstance.requestCalendarAccess({
-  //      resolve(nil)
-  //    })
-  //  }
-
   @objc func getAccessibilityStatus(
     _ resolve: @escaping RCTPromiseResolveBlock,
-    rejecter: RCTPromiseRejectBlock
+    rejecter _: RCTPromiseRejectBlock
   ) {
     resolve(AXIsProcessTrusted())
   }
 
   @objc func requestAccessibilityAccess(
     _ resolve: @escaping RCTPromiseResolveBlock,
-    rejecter: RCTPromiseRejectBlock) {
-      let options: NSDictionary = [
-        kAXTrustedCheckOptionPrompt.takeRetainedValue() as NSString: true
-      ]
-      let accessibilityEnabled = AXIsProcessTrustedWithOptions(options)
-      resolve(accessibilityEnabled)
-    }
+    rejecter _: RCTPromiseRejectBlock
+  ) {
+    let options: NSDictionary = [
+      kAXTrustedCheckOptionPrompt.takeRetainedValue() as NSString: true,
+    ]
+    let accessibilityEnabled = AXIsProcessTrustedWithOptions(options)
+    resolve(accessibilityEnabled)
+  }
 
   @objc func setLaunchAtLogin(_ launchAtLogin: Bool) {
     LaunchAtLogin.isEnabled = launchAtLogin
@@ -231,31 +237,31 @@ class SolNative: RCTEventEmitter {
   }
 
   @objc func turnOnHorizontalArrowsListeners() {
-    self.appDelegate?.setHorizontalArrowCatch(catchHorizontalArrowPress: true)
+    appDelegate?.setHorizontalArrowCatch(catchHorizontalArrowPress: true)
   }
 
   @objc func turnOffHorizontalArrowsListeners() {
-    self.appDelegate?.setHorizontalArrowCatch(catchHorizontalArrowPress: false)
+    appDelegate?.setHorizontalArrowCatch(catchHorizontalArrowPress: false)
   }
 
   @objc func turnOnVerticalArrowsListeners() {
-    self.appDelegate?.setVerticalArrowCatch(catchVerticalArrowPress: true)
+    appDelegate?.setVerticalArrowCatch(catchVerticalArrowPress: true)
   }
 
   @objc func turnOffVerticalArrowsListeners() {
-    self.appDelegate?.setVerticalArrowCatch(catchVerticalArrowPress: false)
+    appDelegate?.setVerticalArrowCatch(catchVerticalArrowPress: false)
   }
 
   @objc func turnOffEnterListener() {
-    self.appDelegate?.setEnterCatch(catchEnter: false)
+    appDelegate?.setEnterCatch(catchEnter: false)
   }
 
   @objc func turnOnEnterListener() {
-    self.appDelegate?.setEnterCatch(catchEnter: true)
+    appDelegate?.setEnterCatch(catchEnter: true)
   }
 
   @objc func checkForUpdates() {
-    self.appDelegate?.checkForUpdates()
+    appDelegate?.checkForUpdates()
   }
 
   @objc func setWindowRelativeSize(_ relative: NSNumber) {
@@ -269,7 +275,7 @@ class SolNative: RCTEventEmitter {
   }
 
   @objc func setShowWindowOn(_ on: String) {
-    self.appDelegate?.setShowWindowOn(on)
+    appDelegate?.setShowWindowOn(on)
   }
 
   @objc func setWindowManagement(_ v: Bool) {
@@ -282,13 +288,21 @@ class SolNative: RCTEventEmitter {
     DoNotDisturb.toggle()
   }
 
-  @objc func securelyStore(_ key: NSString, payload: NSString, resolver: RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) {
+  @objc func securelyStore(
+    _ key: NSString,
+    payload: NSString,
+    resolver: RCTPromiseResolveBlock,
+    rejecter _: RCTPromiseRejectBlock
+  ) {
     keychain[key as String] = payload as String
     resolver(true)
   }
 
-
-  @objc func securelyRetrieve(_ key: NSString, resolver resolve: RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) {
+  @objc func securelyRetrieve(
+    _ key: NSString,
+    resolver resolve: RCTPromiseResolveBlock,
+    rejecter _: RCTPromiseRejectBlock
+  ) {
     let value = keychain[key as String]
     return resolve(value)
   }
@@ -300,39 +314,45 @@ class SolNative: RCTEventEmitter {
   }
 
   @objc func useBackgroundOverlay(_ v: Bool) {
-    self.appDelegate?.useBackgroundOverlay = v
+    appDelegate?.useBackgroundOverlay = v
   }
 
   @objc func shouldHideMenubar(_ v: Bool) {
-    self.appDelegate?.shouldHideMenuBar = v
-    if(v) {
+    appDelegate?.shouldHideMenuBar = v
+    if v {
       DispatchQueue.main.async {
         self.appDelegate?.handleDisplayConnection(notification: nil)
       }
     }
   }
-  
-  @objc func hasFullDiskAccess(_ resolve: RCTPromiseResolveBlock, rejecter: RCTPromiseRejectBlock) {
+
+  @objc func hasFullDiskAccess(
+    _ resolve: RCTPromiseResolveBlock,
+    rejecter _: RCTPromiseRejectBlock
+  ) {
     resolve(BookmarkHelper.hasFullDiskAccess())
   }
-  
-  @objc func getSafariBookmarks(_ resolve: RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) {
+
+  @objc func getSafariBookmarks(
+    _ resolve: RCTPromiseResolveBlock,
+    rejecter _: RCTPromiseRejectBlock
+  ) {
     let bookmarks = BookmarkHelper.getSafariBookmars()
     resolve(bookmarks)
   }
-  
+
   @objc func quit() {
     DispatchQueue.main.async {
       self.appDelegate?.quit()
     }
   }
-  
+
   @objc func setStatusBarItemTitle(_ title: String) {
     DispatchQueue.main.async {
       self.appDelegate?.setStatusBarTitle(title)
     }
   }
-  
+
   @objc func setMediaKeyForwardingEnabled(_ v: Bool) {
     DispatchQueue.main.async {
       self.appDelegate?.setMediaKeyForwardingEnabled(v)

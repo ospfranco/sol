@@ -175,7 +175,7 @@ static CGEventRef tapEventCallback(CGEventTapProxy proxy, CGEventType type, CGEv
 
 - ( void ) startEventSession
 {
-  if (!CFRunLoopContainsSource(CFRunLoopGetCurrent(), eventPortSource, kCFRunLoopCommonModes)) {
+  if (eventPortSource != NULL && !CFRunLoopContainsSource(CFRunLoopGetCurrent(), eventPortSource, kCFRunLoopCommonModes)) {
     CFRunLoopAddSource( CFRunLoopGetCurrent(), eventPortSource, kCFRunLoopCommonModes );
     CFRunLoopRun();
   }
