@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSCalendarsFullAccessUsageDescription</key>
-	<string>Sol needs permission to display your appointments</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -19,9 +17,9 @@
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.0.49</string>
+	<string>2.0.50</string>
 	<key>CFBundleVersion</key>
-	<string>212</string>
+	<string>213</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.productivity</string>
 	<key>LSMinimumSystemVersion</key>
@@ -43,6 +41,8 @@
 	</dict>
 	<key>NSAppleEventsUsageDescription</key>
 	<string>Sol needs permision to execute apple scripts</string>
+	<key>NSCalendarsFullAccessUsageDescription</key>
+	<string>Sol needs permission to display your appointments</string>
 	<key>NSCalendarsUsageDescription</key>
 	<string>Sol needs permission to display your appointments</string>
 	<key>NSMainStoryboardFile</key>
