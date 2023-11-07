@@ -23,13 +23,13 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.0.49</string>
+	<string>2.0.50</string>
 	<key>CFBundleSupportedPlatforms</key>
 	<array>
 		<string>MacOSX</string>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>212</string>
+	<string>213</string>
 	<key>DTCompiler</key>
 	<string>com.apple.compilers.llvm.clang.1_0</string>
 	<key>DTPlatformBuild</key>
@@ -67,6 +67,8 @@
 	</dict>
 	<key>NSAppleEventsUsageDescription</key>
 	<string>Sol needs permision to execute apple scripts</string>
+	<key>NSCalendarsFullAccessUsageDescription</key>
+	<string>Sol needs permission to display your appointments</string>
 	<key>NSCalendarsUsageDescription</key>
 	<string>Sol needs permission to display your appointments</string>
 	<key>NSMainStoryboardFile</key>
