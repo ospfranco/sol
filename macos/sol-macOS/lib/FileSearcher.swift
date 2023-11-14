@@ -44,19 +44,19 @@ class FileSearcher: NSObject {
 
 
   @objc func searchFile(_ oq: String) {
-    guard !oq.isEmpty else {
-      return
-    }
-    
-    query = NSMetadataQuery()
-    
-    let predicate = NSPredicate(format: "%K CONTAINS[cd] %@", NSMetadataItemDisplayNameKey, oq)
-    query?.searchScopes = [NSMetadataQueryIndexedLocalComputerScope]
-    query?.predicate = predicate
-  
-    DispatchQueue.main.async {
-      self.query?.start()
-    }
+//    guard !oq.isEmpty else {
+//      return
+//    }
+//    
+//    query = NSMetadataQuery()
+//    
+//    let predicate = NSPredicate(format: "%K CONTAINS[cd] %@", NSMetadataItemDisplayNameKey, oq)
+//    query?.searchScopes = [NSMetadataQueryIndexedLocalComputerScope]
+//    query?.predicate = predicate
+//  
+//    DispatchQueue.main.async {
+//      self.query?.start()
+//    }
   }
   
 }

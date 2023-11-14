@@ -61,11 +61,12 @@ void install(jsi::Runtime &rt,
     return {};
   });
 
-  auto searchFiles = HOSTFN("searchFiles", 1, []) {
-    auto queryStr = arguments[0].asString(rt).utf8(rt);
-    [fileSearcher searchFile:[NSString stringWithUTF8String:queryStr.c_str()]];
-    return {};
-  });
+// Spotlight search is terrible, disabled it for now
+//  auto searchFiles = HOSTFN("searchFiles", 1, []) {
+//    auto queryStr = arguments[0].asString(rt).utf8(rt);
+//    [fileSearcher searchFile:[NSString stringWithUTF8String:queryStr.c_str()]];
+//    return {};
+//  });
 
   // auto getMediaInfo = HOSTFN("getMediaInfo", 0, [=]) {
   //   auto promise =
@@ -361,7 +362,7 @@ void install(jsi::Runtime &rt,
   module.setProperty(rt, "resetWindowSize", std::move(resetWindowSize));
   module.setProperty(rt, "hideWindow", std::move(hideWindow));
   // module.setProperty(rt, "getMediaInfo", std::move(getMediaInfo));
-  module.setProperty(rt, "searchFiles", std::move(searchFiles));
+//  module.setProperty(rt, "searchFiles", std::move(searchFiles));
   module.setProperty(rt, "requestCalendarAccess",
                      std::move(requestCalendarAccess));
   module.setProperty(rt, "getCalendarAuthorizationStatus",

@@ -385,11 +385,6 @@ export const createUIStore = (root: IRootStore) => {
         } catch (e) {
           store.temporaryResult = null
         }
-        if (!query) {
-          store.fileResults = []
-        } else {
-          solNative.searchFiles(query)
-        }
       }
     },
     onShow: ({target}: {target?: string}) => {
