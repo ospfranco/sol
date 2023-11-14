@@ -190,6 +190,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
             windowSize={8}
             contentContainerStyle="flex-grow p-2"
             ref={listRef}
+            onScrollToIndexFailed={() => {}}
             data={items}
             keyExtractor={(item: any, i) => `${item.name}-${item.type}-${i}`}
             renderItem={renderItem as any}

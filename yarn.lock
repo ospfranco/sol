@@ -7903,10 +7903,10 @@ react-native-get-random-values@^1.8.0:
   dependencies:
     fast-base64-decode "^1.0.0"
 
-react-native-macos@^0.72.1:
-  version "0.72.1"
-  resolved "https://registry.yarnpkg.com/react-native-macos/-/react-native-macos-0.72.1.tgz#9e661e91fa0eed5639f760686cbe314c104793c2"
-  integrity sha512-gGoLFfeCKv/eNl2X5L9Sk9N8i8YKK2RJU4ONmM70s2Ewzk5kixdpa/UMA0SIbMGGuxj4COgS1/VEocP9hw74fQ==
+react-native-macos@^0.72.7:
+  version "0.72.7"
+  resolved "https://registry.yarnpkg.com/react-native-macos/-/react-native-macos-0.72.7.tgz#62bf22e17d12bb54e0e075966fa4191558542393"
+  integrity sha512-juibKk8khRgAn0XKMeV6gsMHU/xwcPXLXqAE6t6rrd4Rb7Tnk2ygmqhekjX4SOJHhXXqdvwRGSWBNhGGVMYspw==
   dependencies:
     "@jest/create-cache-key-function" "^29.2.1"
     "@react-native-community/cli" "11.3.7"
