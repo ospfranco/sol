@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/AccessibilityResources.bundle/Contents/Info.plist</key>
 		<data>
-		PZVvFv1bGocGMXhgt9c4sVolyxo=
+		yj8sNdKExcs9Y72x4hJS2tMyxjY=
 		</data>
 		<key>Resources/AccessibilityResources.bundle/Contents/Resources/en.lproj/Localizable.strings</key>
 		<dict>
@@ -31,7 +31,7 @@
 		</data>
 		<key>Resources/Base.lproj/Main.storyboardc/MainMenu.nib</key>
 		<data>
-		Luo323NilZwFq43Likx28vTOMDU=
+		AJ0f5e/OcsoZweWnPSJOhSuibio=
 		</data>
 		<key>Resources/assets/src/assets/Bluetooth.png</key>
 		<data>
@@ -607,7 +607,7 @@
 		</data>
 		<key>Resources/main.jsbundle</key>
 		<data>
-		qQZDjc239KuOSNGrMWJaW6C+wyQ=
+		uaiEIgBYm1eMdno1UpLTP6JVpvw=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -634,7 +634,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			9ehbCyHSKKahO/YLn1d2yOXZ6nxhQyLjINZ7yPbij4k=
+			vmg3iNgGE5C6ZmvewoP5VLhIMnbFTfQThgb7jv2rSDQ=
 			</data>
 		</dict>
 		<key>Resources/AccessibilityResources.bundle/Contents/Resources/en.lproj/Localizable.strings</key>
@@ -671,7 +671,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			d8DZR4uhB4egKErtK8Pav8Rvz1GMbbZzcKCRwIheka4=
+			lypgtJDDG9auzrVtMWWeQZwDzusHB80bi0yyPQjzxxg=
 			</data>
 		</dict>
 		<key>Resources/assets/src/assets/Bluetooth.png</key>
@@ -1679,7 +1679,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			GCAU5sOP/eMVJc47qMj4z33It/UazZUDNufxxpwJzBA=
+			sfzJxbcImsThEchuWyvxJJl33Q8nTfFCS9OSI96yikU=
 			</data>
 		</dict>
 	</dict>
