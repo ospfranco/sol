@@ -14,6 +14,7 @@ import {Widget} from 'stores/ui.store'
 // @ts-ignore
 import {BackButton} from 'components/BackButton'
 import packageInfo from '../../package.json'
+import {MyRadioButton} from 'components/MyRadioButton'
 
 type ITEM = 'ABOUT' | 'GENERAL' | 'TRANSLATE'
 
@@ -106,25 +107,14 @@ export const SettingsWidget: FC = observer(() => {
                   {label: '⌃ Space', value: 'control' as const},
                 ].map(({label, value}) => {
                   return (
-                    <TouchableOpacity
-                      className="flex-row items-center pb-2"
-                      key={label}
-                      onPress={() => {
+                    <MyRadioButton
+                      label={label}
+                      value={value}
+                      onValueChange={() => {
                         store.ui.setGlobalShortcut(value)
-                      }}>
-                      <View
-                        className={clsx(
-                          'w-4 h-4 mr-2 rounded-full bg-neutral-300 dark:bg-neutral-900 p-1',
-                          {
-                            'bg-blue-500': store.ui.globalShortcut === value,
-                          },
-                        )}>
-                        {store.ui.globalShortcut === value && (
-                          <View className="rounded-full bg-white w-full h-full" />
-                        )}
-                      </View>
-                      <Text>{label}</Text>
-                    </TouchableOpacity>
+                      }}
+                      selected={store.ui.globalShortcut === value}
+                    />
                   )
                 })}
               </View>
@@ -141,26 +131,14 @@ export const SettingsWidget: FC = observer(() => {
                   {label: 'Disabled', value: 'none' as const},
                 ].map(({label, value}) => {
                   return (
-                    <TouchableOpacity
-                      className="flex-row items-center pb-2"
-                      key={label}
-                      onPress={() => {
+                    <MyRadioButton
+                      label={label}
+                      value={value}
+                      onValueChange={() => {
                         store.ui.setScratchpadShortcut(value)
-                      }}>
-                      <View
-                        className={clsx(
-                          'w-4 h-4 mr-2 rounded-full bg-neutral-300 dark:bg-neutral-900 p-1',
-                          {
-                            'bg-blue-500':
-                              store.ui.scratchpadShortcut === value,
-                          },
-                        )}>
-                        {store.ui.scratchpadShortcut === value && (
-                          <View className="rounded-full bg-white w-full h-full" />
-                        )}
-                      </View>
-                      <Text>{label}</Text>
-                    </TouchableOpacity>
+                      }}
+                      selected={store.ui.scratchpadShortcut === value}
+                    />
                   )
                 })}
               </View>
@@ -177,26 +155,14 @@ export const SettingsWidget: FC = observer(() => {
                   {label: 'Disabled', value: 'none' as const},
                 ].map(({label, value}) => {
                   return (
-                    <TouchableOpacity
-                      className="flex-row items-center pb-2"
-                      key={label}
-                      onPress={() => {
+                    <MyRadioButton
+                      label={label}
+                      value={value}
+                      onValueChange={() => {
                         store.ui.setClipboardManagerShortcut(value)
-                      }}>
-                      <View
-                        className={clsx(
-                          'w-4 h-4 mr-2 rounded-full bg-neutral-300 dark:bg-neutral-900 p-1',
-                          {
-                            'bg-blue-500':
-                              store.ui.clipboardManagerShortcut === value,
-                          },
-                        )}>
-                        {store.ui.clipboardManagerShortcut === value && (
-                          <View className="rounded-full bg-white w-full h-full" />
-                        )}
-                      </View>
-                      <Text>{label}</Text>
-                    </TouchableOpacity>
+                      }}
+                      selected={store.ui.clipboardManagerShortcut === value}
+                    />
                   )
                 })}
               </View>
@@ -218,57 +184,18 @@ export const SettingsWidget: FC = observer(() => {
                   },
                 ].map(({label, value}) => {
                   return (
-                    <TouchableOpacity
-                      className="flex-row items-center pb-2"
-                      key={label}
-                      onPress={() => {
+                    <MyRadioButton
+                      label={label}
+                      value={value}
+                      onValueChange={() => {
                         store.ui.setShowWindowOn(value)
-                      }}>
-                      <View
-                        className={clsx(
-                          'w-4 h-4 mr-2 rounded-full bg-neutral-300 dark:bg-neutral-900 p-1',
-                          {
-                            'bg-blue-500': store.ui.showWindowOn === value,
-                          },
-                        )}>
-                        {store.ui.showWindowOn === value && (
-                          <View className="rounded-full bg-white w-full h-full" />
-                        )}
-                      </View>
-                      <Text>{label}</Text>
-                    </TouchableOpacity>
+                      }}
+                      selected={store.ui.showWindowOn === value}
+                    />
                   )
                 })}
               </View>
             </View>
-
-            {/* <View className="flex-row items-center py-2">
-              <Text className="flex-1 text-right pr-6 ">
-                Search GitHub
-              </Text>
-              <View className="flex-1">
-                <MySwitch
-                  value={store.ui.githubSearchEnabled}
-                  onValueChange={store.ui.setGithubSearchEnabled}
-                />
-              </View>
-            </View>
-
-            <View className="flex-row items-center py-2">
-              <Text className="flex-1 text-right pr-6 ">
-                GitHub Token
-              </Text>
-
-              <View className="flex-1 flex-row">
-                <Input
-                  value={store.ui.githubToken ?? ''}
-                  onChangeText={store.ui.setGithubToken}
-                  placeholder="GitHub token..."
-                  bordered
-                  className="w-64"
-                />
-              </View>
-            </View> */}
 
             <View className="flex-row items-center py-2">
               <Text className="flex-1 text-right pr-6  font-semibold">

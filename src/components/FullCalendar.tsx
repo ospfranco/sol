@@ -30,20 +30,20 @@ export let FullCalendar: FC = observer(() => {
   return (
     <StyledScrollView
       className="flex-1"
-      contentContainerStyle="py-5"
+      contentContainerStyle="py-3"
       showsVerticalScrollIndicator={false}>
       {Object.entries(store.calendar.groupedEvents).map(([key, group]) => {
         let shouldShowRelative = group.date.diffNow('days').days <= 5
         return (
           <View key={key} className="px-4 pb-4 g-2">
-            <View className="flex-row items-center g-2">
+            <View className="flex-row items-center g-1">
               <Text className="capitalize font-medium text-neutral-500 dark:text-neutral-400">
                 {shouldShowRelative
                   ? group.date.toRelativeCalendar()
-                  : group.date.toFormat('MMMM dd')}
+                  : group.date.toFormat('dd MMM')}
               </Text>
               <Text className="capitalize text-neutral-400 dark:text-neutral-500 font-normal">
-                {group.date.toFormat(shouldShowRelative ? 'cccc dd' : 'cccc')}
+                | {group.date.toFormat(shouldShowRelative ? 'ccc dd' : 'ccc')}
               </Text>
             </View>
             {group.events.map(event => {
@@ -90,17 +90,15 @@ export let FullCalendar: FC = observer(() => {
                     )}
                   {!event.isAllDay && (
                     <Text className="dark:text-neutral-400 ">
-                      <Text className="dark:text-white font-semibold">
+                      <Text className="dark:text-white">
                         {lStart.toFormat('HH:mm')}
                       </Text>{' '}
-                      - {lEnd.toFormat('HH:mm')}
+                      | {lEnd.toFormat('HH:mm')}
                     </Text>
                   )}
-                  {event.isAllDay && (
-                    <Text className="text-neutral-500 dark:text-neutral-400">
-                      All day
-                    </Text>
-                  )}
+                  {/* {event.isAllDay && (
+                    <Text className="text-neutral-500">All day</Text>
+                  )} */}
                 </View>
               )
             })}

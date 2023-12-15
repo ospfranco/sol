@@ -1,13 +1,12 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import {extractMeetingLink} from 'lib/calendar'
 import {solNative} from 'lib/SolNative'
 import {sleep} from 'lib/various'
 import {DateTime} from 'luxon'
-import {autorun, makeAutoObservable, toJS} from 'mobx'
+import {makeAutoObservable} from 'mobx'
 import {EmitterSubscription, Linking} from 'react-native'
 import {IRootStore} from 'store'
 
-const DAYS_TO_PARSE = 30
+const DAYS_TO_PARSE = 14
 
 let onShowListener: EmitterSubscription | undefined
 let onStatusBarItemClickListener: EmitterSubscription | undefined

@@ -1,8 +1,6 @@
 import clsx from 'clsx'
-import {solNative} from 'lib/SolNative'
 import React, {FC} from 'react'
 import {TouchableOpacity, View} from 'react-native'
-import colors from 'tailwindcss/colors'
 
 interface Props {
   value: boolean
@@ -21,7 +19,7 @@ export const MySwitch: FC<Props> = ({value, onValueChange, disabled}) => {
       }}
       className={clsx(`w-7 h-[17px] rounded-full`, {
         'bg-accent': !!value,
-        'bg-neutral-900': !value,
+        'bg-neutral-700': !value,
       })}>
       <View
         className={clsx(
