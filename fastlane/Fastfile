@@ -52,7 +52,7 @@ platform :mac do
     path = "/Applications/"
 
     gym(
-      scheme: "dev",
+      scheme: "debug",
       workspace: "./macos/sol.xcworkspace",
       output_directory: path,
       export_method: "development",
