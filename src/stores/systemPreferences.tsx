@@ -112,11 +112,11 @@ export function buildSystemPreferenceItem({
     name: name,
     IconComponent: (props: any[]) => {
       if (icon != null) {
-        return <Image source={icon} className="w-5 h-5" {...props} />
+        return <Image source={icon} className="w-6 h-6" {...props} />
       } else {
         return (
           <FileIcon
-            className="w-5 h-5"
+            className="w-6 h-6"
             url={
               solNative.OSVersion >= 13
                 ? '/System/Applications/System Settings.app'

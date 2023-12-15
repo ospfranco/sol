@@ -65,15 +65,8 @@ export let FullCalendar: FC = observer(() => {
                     )}
                     style={{
                       backgroundColor: event.color,
-                    }}>
-                    {/* {event.status === 1 && (
-                      <Image
-                        source={Assets.CheckIcon}
-                        style={{tintColor: event.color}}
-                        className="h-4 w-4"
-                      />
-                    )} */}
-                  </View>
+                    }}
+                  />
 
                   <Text
                     numberOfLines={1}
