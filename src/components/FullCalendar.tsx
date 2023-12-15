@@ -58,22 +58,21 @@ export let FullCalendar: FC = observer(() => {
                     className={clsx(
                       'rounded-full justify-center items-center',
                       {
-                        'h-4 w-4': event.status === 1,
+                        'h-2 w-2 mx-1 rotate-45': event.status === 1,
                         'h-2 w-2 mx-1': event.status !== 1,
                         'rounded-sm': event.isAllDay,
                       },
                     )}
                     style={{
-                      backgroundColor:
-                        event.status !== 1 ? event.color : undefined,
+                      backgroundColor: event.color,
                     }}>
-                    {event.status === 1 && (
+                    {/* {event.status === 1 && (
                       <Image
                         source={Assets.CheckIcon}
                         style={{tintColor: event.color}}
                         className="h-4 w-4"
                       />
-                    )}
+                    )} */}
                   </View>
 
                   <Text
