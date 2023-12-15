@@ -95,6 +95,7 @@ export const createUIStore = (root: IRootStore) => {
         store.mediaKeyForwardingEnabled = parsedStore.mediaKeyForwarding ?? true
         store.reduceTransparency = parsedStore.reduceTransparency ?? false
         store.history = parsedStore.history ?? []
+        store.showUpcomingEvent = parsedStore.showUpcomingEvent ?? true
       })
 
       solNative.setLaunchAtLogin(parsedStore.launchAtLogin ?? true)
@@ -166,6 +167,7 @@ export const createUIStore = (root: IRootStore) => {
     reduceTransparency: false,
     history: [] as string[],
     historyPointer: 0,
+    showUpcomingEvent: true,
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -295,6 +297,9 @@ export const createUIStore = (root: IRootStore) => {
     //    / /\ \ / __| __| |/ _ \| '_ \/ __|
     //   / ____ \ (__| |_| | (_) | | | \__ \
     //  /_/    \_\___|\__|_|\___/|_| |_|___/
+    setShowUpcomingEvent: (v: boolean) => {
+      store.showUpcomingEvent = v
+    },
     showEmojiPicker: () => {
       store.focusWidget(Widget.EMOJIS)
       store.query = ''

@@ -223,6 +223,18 @@ export const SettingsWidget: FC = observer(() => {
 
             <View className="flex-row items-center py-2">
               <Text className="flex-1 text-right pr-6  font-semibold">
+                Show upcoming event in Menu Bar
+              </Text>
+              <View className="flex-1">
+                <MySwitch
+                  value={store.ui.showUpcomingEvent}
+                  onValueChange={store.ui.setShowUpcomingEvent}
+                />
+              </View>
+            </View>
+
+            <View className="flex-row items-center py-2">
+              <Text className="flex-1 text-right pr-6  font-semibold">
                 Save clipboard history
               </Text>
               <View className="flex-1">

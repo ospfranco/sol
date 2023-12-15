@@ -347,7 +347,7 @@ class SolNative: RCTEventEmitter {
     }
   }
 
-  @objc func setStatusBarItemTitle(_ title: String) {
+  @objc func d(_ title: String) {
     DispatchQueue.main.async {
       self.appDelegate?.setStatusBarTitle(title)
     }

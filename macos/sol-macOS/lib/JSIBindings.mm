@@ -324,7 +324,6 @@ void install(jsi::Runtime &rt,
     NSTask *psTask = [[NSTask alloc] init];
     
     [psTask setLaunchPath: @"/bin/ps"];
-    
 
     [psTask setArguments: [NSArray arrayWithObjects: @"-eo pid,ppid,pcpu,rss,comm", nil]];
     psTask.standardOutput = pipe;
@@ -348,7 +347,6 @@ void install(jsi::Runtime &rt,
     
     [killTask setLaunchPath: @"/bin/kill"];
     
-    NSLog(@"Should kill process with %@", pid);
     [killTask setArguments: [NSArray arrayWithObjects: @"-9", pid, nil]];
 
     [killTask launch];

@@ -147,7 +147,7 @@ export let RootContainer = observer(() => {
     <BlurView
       disabled={blurDisabled}
       cornerRadius={10}
-      className={clsx('h-16', {
+      className={clsx('h-14', {
         'h-full': !!store.ui.query || store.ui.calendarEnabled,
       })}
       startColor={borderColor1}

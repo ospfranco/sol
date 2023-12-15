@@ -111,7 +111,7 @@ export const createCalendarStore = (root: IRootStore) => {
     //   / ____ \ (__| |_| | (_) | | | \__ \
     //  /_/    \_\___|\__|_|\___/|_| |_|___/
     fetchEvents: () => {
-      if (!root.ui.calendarEnabled) {
+      if (!root.ui.calendarEnabled && !root.ui.showUpcomingEvent) {
         return
       }
 
@@ -120,37 +120,43 @@ export const createCalendarStore = (root: IRootStore) => {
         return
       }
 
-      store.events = solNative.getEvents()
+      const events = solNative.getEvents()
+      if (root.ui.calendarEnabled) {
+        store.events = events
+      }
 
-      const upcomingEvent = store.events.find(e => {
-        const lStart = DateTime.fromISO(e.date)
-        const lNow = DateTime.now()
-        return (
-          +lStart.plus({minute: 10}) >= +lNow && +lStart <= +lNow.endOf('day')
-        )
-      })
-
-      if (upcomingEvent) {
-        const lStart = DateTime.fromISO(upcomingEvent.date)
-
-        const minutes = lStart.diffNow('minutes').minutes
-        if (minutes > 0) {
-          const relativeHours = Math.floor(minutes / 60)
-          const relativeHoursStr = relativeHours > 0 ? ` ${relativeHours}h` : ''
-          const relativeMinutesStr = ` ${Math.floor(
-            minutes - relativeHours * 60,
-          )}m`
-
-          solNative.setStatusBarItemTitle(
-            `🗓️ ${upcomingEvent.title!.trim().substring(0, 18)}${
-              upcomingEvent.title!.length > 18 ? '...' : ''
-            } in${relativeHoursStr}${relativeMinutesStr}`,
+      if (root.ui.showUpcomingEvent) {
+        const upcomingEvent = events.find(e => {
+          const lStart = DateTime.fromISO(e.date)
+          const lNow = DateTime.now()
+          return (
+            +lStart.plus({minute: 10}) >= +lNow && +lStart <= +lNow.endOf('day')
           )
-        } else if (minutes <= 0) {
-          solNative.setStatusBarItemTitle(`⏰ ${upcomingEvent.title?.trim()}`)
+        })
+
+        if (upcomingEvent) {
+          const lStart = DateTime.fromISO(upcomingEvent.date)
+
+          const minutes = lStart.diffNow('minutes').minutes
+          if (minutes > 0) {
+            const relativeHours = Math.floor(minutes / 60)
+            const relativeHoursStr =
+              relativeHours > 0 ? `${relativeHours}h` : ''
+            const relativeMinutesStr = `${Math.floor(
+              minutes - relativeHours * 60,
+            )}m`
+
+            solNative.setStatusBarItemTitle(
+              `🗓️ ${upcomingEvent.title!.trim().substring(0, 18)}${
+                upcomingEvent.title!.length > 18 ? '...' : ''
+              } | ${relativeHoursStr}${relativeMinutesStr}`,
+            )
+          } else if (minutes <= 0) {
+            solNative.setStatusBarItemTitle(`⏰ ${upcomingEvent.title?.trim()}`)
+          }
+        } else {
+          solNative.setStatusBarItemTitle('')
         }
-      } else {
-        solNative.setStatusBarItemTitle('')
       }
     },
     cleanUp: () => {
