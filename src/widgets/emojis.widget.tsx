@@ -45,7 +45,6 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
   return (
     <View className="flex-1" style={style}>
       <MainInput placeholder="Search emojis..." />
-      <LoadingBar />
       <StyledFlatList
         ref={listRef}
         contentContainerStyle="flex-grow p-3"

@@ -77,7 +77,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
         }
         cornerRadius={10}
         angle={90}>
-        <View className="flex-1 flex-row items-center px-4 h-10">
+        <View className="flex-1 flex-row items-center px-4 h-9">
           {!!item.url && (
             <View className="g-1 items-center flex-row">
               {item.isRunning && (
@@ -184,11 +184,10 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
 
       {!!store.ui.query && (
         <>
-          <LoadingBar />
           <StyledFlatList
             className="flex-1"
             windowSize={8}
-            contentContainerStyle="flex-grow p-2"
+            contentContainerStyle="flex-grow pb-2 pt-1 px-2"
             ref={listRef}
             onScrollToIndexFailed={() => {}}
             data={items}

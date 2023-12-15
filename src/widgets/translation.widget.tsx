@@ -33,8 +33,6 @@ export const TranslationWidget: FC<Props> = observer(({style}) => {
     <View className="flex-1" style={style}>
       <MainInput placeholder="Translate..." />
 
-      <LoadingBar />
-
       {!store.ui.translationResults.length && (
         <View className="flex-1 p-3 items-center justify-center">
           <Text className="text-xs text-neutral-500 dark:text-neutral-300">

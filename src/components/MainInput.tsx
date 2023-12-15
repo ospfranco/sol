@@ -14,16 +14,19 @@ type Props = {
 }
 
 export const MainInput = observer<Props>(
-  ({
-    placeholder = 'Search for commands and apps...',
-    showBackButton,
-    style,
-  }) => {
+  ({placeholder = 'What would you like to do?', showBackButton, style}) => {
     const store = useStore()
     const colorScheme = useColorScheme()
 
     return (
-      <View className="h-14 px-3 flex-row items-center g-1" style={style}>
+      <View
+        className="h-12 px-3 flex-row items-center g-1 m-2 rounded-lg"
+        style={[
+          style,
+          {
+            backgroundColor: '#00000025',
+          },
+        ]}>
         {showBackButton && (
           <View className="">
             <BackButton

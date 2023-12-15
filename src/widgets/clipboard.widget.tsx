@@ -37,7 +37,6 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
   return (
     <View className="flex-1 " style={style}>
       <MainInput placeholder="Search pasteboard history..." showBackButton />
-      <LoadingBar />
       <StyledFlatList
         data={data}
         className="flex-1"
