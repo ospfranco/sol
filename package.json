@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "react-native start",
-    "macos": "react-native run-macos --scheme macOS",
+    "macos": "react-native run-macos --scheme debug",
     "test": "jest",
     "bump": "./bump-version.sh",
     "windows": "react-native run-windows",

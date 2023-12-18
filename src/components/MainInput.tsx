@@ -24,7 +24,7 @@ export const MainInput = observer<Props>(
         style={[
           style,
           {
-            backgroundColor: '#00000025',
+            backgroundColor: colorScheme === 'dark' ? '#00000025' : '#00000008',
           },
         ]}>
         {showBackButton && (

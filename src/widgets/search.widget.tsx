@@ -220,7 +220,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
             )}
             <Text className="text-sm mr-2">Translate</Text>
             <Key symbol={'⇧'} />
-            <Key symbol={'return'} />
+            <Key symbol={''} />
             <View className="border-l h-2/3 border-lightBorder dark:border-darkBorder mx-2" />
             <Text
               className={clsx('text-sm mr-2', {
@@ -229,7 +229,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
               Google search
             </Text>
             {!!items.length && <Key symbol={'⌘'} />}
-            <Key symbol={'return'} primary={!items.length} />
+            <Key symbol={''} primary={!items.length} />
             {!!items.length && (
               <>
                 <View className="border-l h-2/3 border-lightBorder dark:border-darkBorder mx-2" />
@@ -239,7 +239,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
                   })}>
                   Select
                 </Text>
-                <Key symbol={'return'} primary />
+                <Key symbol={''} primary />
               </>
             )}
           </View>
