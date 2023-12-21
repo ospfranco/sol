@@ -15,7 +15,7 @@ interface Props {
   className?: string
 }
 
-const ROW_HEIGHT = 72
+const ROW_HEIGHT = 110
 
 export const EmojisWidget: FC<Props> = observer(({style}) => {
   useFullSize()
@@ -43,10 +43,11 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
   }, [storeRowIndex])
 
   return (
-    <View className="flex-1" style={style}>
+    <View className="h-full" style={style}>
       <MainInput placeholder="Search emojis..." />
       <StyledFlatList
         ref={listRef}
+        className="flex-1"
         contentContainerStyle="flex-grow p-3"
         data={emojis}
         showsVerticalScrollIndicator={false}
@@ -100,6 +101,7 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
 
           return (
             <View
+              style={{height: ROW_HEIGHT}}
               className={clsx(`flex-row`, {
                 'border-b dark:border-neutral-700 pb-3 mb-2':
                   rowIndex === 0 &&

@@ -171,7 +171,6 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
 
   return (
     <View
-      style={style}
       className={clsx({
         'flex-1': !!store.ui.query,
       })}>
