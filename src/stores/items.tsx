@@ -422,20 +422,11 @@ export function createBaseItems(store: IRootStore) {
       },
     },
     {
-      icon: '🙉',
-      name: 'Toggle do not disturb',
-      type: ItemType.CONFIGURATION,
-      callback: () => {
-        solNative.toggleDND()
-        solNative.showToast('✅ Toggled')
-      },
-    },
-    {
       IconComponent: () => (
         <FileIcon url="/Applications/Xcode.app" className="w-6 h-6" />
       ),
       name: 'Remove derived data folder',
-      alias: 'Clear xcode derived data',
+      alias: 'Clear xcode',
       type: ItemType.CONFIGURATION,
       callback: async () => {
         await solNative.executeBashScript(
