@@ -404,7 +404,7 @@ PODS:
     - SentryPrivate (= 8.4.0)
   - SentryPrivate (8.4.0)
   - SocketRocket (0.7.0)
-  - Sparkle (2.5.0)
+  - Sparkle (2.5.1)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -603,7 +603,7 @@ SPEC CHECKSUMS:
   Sentry: 16d46dd5ca10e7f4469a2611805a3de123188add
   SentryPrivate: 2bb4f8d9ff558b25ac70b66c1dedc58a7c43630b
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
-  Sparkle: 913cef92f73e08d0ae47a36ee20e523913e5f9e2
+  Sparkle: ce9957501a2655dd4c8264312c6134ff478a777c
   Yoga: ab54996d4ba34de6544536c592190f3d1fb5a608
 
 PODFILE CHECKSUM: 6df94f055a057d56048126ad853bd456388b2b8d
