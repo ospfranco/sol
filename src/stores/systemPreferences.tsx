@@ -3,7 +3,7 @@ import {Image, ImageSourcePropType, Linking} from 'react-native'
 import {ItemType} from './ui.store'
 import {FileIcon} from 'components/FileIcon'
 import plist from '@expo/plist'
-import {Icons} from 'assets'
+import {Assets, Icons} from 'assets'
 
 const ignoreList = [
   'ClassKitPreferencePane.prefPane',
@@ -14,6 +14,13 @@ const ignoreList = [
   'EnergySaverPref.prefPane',
   'Expose.prefPane',
   'PrintAndFax.prefPane',
+  'Spotlight.prefPane',
+  'Sound.prefPane',
+  'UniversalAccessPref.prefPane',
+  'TouchID.prefPane',
+  'Displays.prefPane',
+  'Battery.prefPane',
+  'Network.prefPane',
 ]
 
 const nameMappings: Record<string, string> = {
@@ -142,4 +149,111 @@ export function buildSystemPreferenceItem({
   }
 }
 
-export const systemPreferenceItems = panes.map(buildSystemPreferenceItem)
+const manualPanes = [
+  {
+    name: 'Wallpaper',
+    IconComponent: (props: any[]) => {
+      return <Image source={Assets.wallpaper} className="w-6 h-6" {...props} />
+    },
+    type: ItemType.PREFERENCE_PANE,
+    callback: () => {
+      solNative.executeBashScript(
+        'open x-apple.systempreferences:com.apple.Wallpaper-Settings.extension',
+      )
+    },
+  },
+  {
+    name: 'Siri & Spotlight',
+    IconComponent: (props: any[]) => {
+      return <Image source={Assets.siri} className="w-6 h-6" {...props} />
+    },
+    type: ItemType.PREFERENCE_PANE,
+    callback: () => {
+      Linking.openURL('/System/Library/PreferencePanes/Spotlight.prefPane')
+    },
+  },
+  {
+    name: 'Wi-Fi',
+    IconComponent: (props: any[]) => {
+      return <Image source={Assets.wifi} className="w-6 h-6" {...props} />
+    },
+    alias: 'wifi',
+    type: ItemType.PREFERENCE_PANE,
+    callback: () => {
+      solNative.executeBashScript(
+        'open x-apple.systempreferences:com.apple.wifi-settings-extension',
+      )
+    },
+  },
+  {
+    name: 'Sound',
+    IconComponent: (props: any[]) => {
+      return <Image source={Assets.sound} className="w-6 h-6" {...props} />
+    },
+    type: ItemType.PREFERENCE_PANE,
+    callback: () => {
+      Linking.openURL('/System/Library/PreferencePanes/Sound.prefPane')
+    },
+  },
+  {
+    name: 'Accessibility',
+    IconComponent: (props: any[]) => {
+      return (
+        <Image source={Assets.accessibility} className="w-6 h-6" {...props} />
+      )
+    },
+    type: ItemType.PREFERENCE_PANE,
+    callback: () => {
+      Linking.openURL(
+        '/System/Library/PreferencePanes/UniversalAccessPref.prefPane',
+      )
+    },
+  },
+  {
+    name: 'Touch ID & Password',
+    IconComponent: (props: any[]) => {
+      return <Image source={Assets.touch} className="w-6 h-6" {...props} />
+    },
+    type: ItemType.PREFERENCE_PANE,
+    callback: () => {
+      Linking.openURL('/System/Library/PreferencePanes/TouchID.prefPane')
+    },
+  },
+  {
+    name: 'Display',
+    IconComponent: (props: any[]) => {
+      return <Image source={Assets.display} className="w-6 h-6" {...props} />
+    },
+    type: ItemType.PREFERENCE_PANE,
+    callback: () => {
+      Linking.openURL('/System/Library/PreferencePanes/Displays.prefPane')
+    },
+  },
+  {
+    name: 'Battery',
+    IconComponent: (props: any[]) => {
+      return <Image source={Assets.battery} className="w-6 h-6" {...props} />
+    },
+    type: ItemType.PREFERENCE_PANE,
+    callback: () => {
+      solNative.executeBashScript(
+        'open x-apple.systempreferences:com.apple.preference.battery',
+      )
+    },
+  },
+  {
+    name: 'Network',
+    IconComponent: (props: any[]) => {
+      return <Image source={Assets.network} className="w-6 h-6" {...props} />
+    },
+    type: ItemType.PREFERENCE_PANE,
+    callback: () => {
+      Linking.openURL('/System/Library/PreferencePanes/Network.prefPane')
+    },
+  },
+]
+
+export const systemPreferenceItems = [
+  ...panes.map(buildSystemPreferenceItem),
+  ...manualPanes,
+]

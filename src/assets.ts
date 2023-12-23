@@ -141,6 +141,15 @@ import SettingsIcon from './assets/SettingsIcon.png'
 import Bluetooth from './assets/Bluetooth.png'
 import ArrowLeftWhite from './assets/arrowLeftWhite.png'
 import ArrowLeftBlack from './assets/arrowLeftBlack.png'
+import siri from './assets/siri.png'
+import sound from './assets/sound.png'
+import accessibility from './assets/accessibility.png'
+import wifi from './assets/wifi.png'
+import wallpaper from './assets/wallpaper.png'
+import touch from './assets/touch.png'
+import display from './assets/display.png'
+import battery from './assets/battery.png'
+import network from './assets/network.png'
 
 export const Assets = {
   Brave,
@@ -171,6 +180,15 @@ export const Assets = {
   SettingsIcon,
   ArrowLeftBlack,
   ArrowLeftWhite,
+  siri,
+  sound,
+  accessibility,
+  wifi,
+  wallpaper,
+  touch,
+  display,
+  battery,
+  network,
 }
 
 export const Icons = {

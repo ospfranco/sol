@@ -135,10 +135,10 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
           )}
           {item.type === ItemType.PREFERENCE_PANE && (
             <Text
-              className={clsx('dark:text-neutral-300 text-neutral-500', {
-                'text-white dark:text-neutral-300': isActive,
+              className={clsx('dark:text-neutral-300', {
+                'text-white': isActive,
               })}>
-              System Settings
+              Settings
             </Text>
           )}
           {/* {item.type === ItemType.CUSTOM && (
@@ -219,7 +219,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
             )}
             <Text className="text-sm mr-2">Translate</Text>
             <Key symbol={'⇧'} />
-            <Key symbol={''} />
+            <Key symbol={'⏎'} />
             <View className="border-l h-2/3 border-lightBorder dark:border-darkBorder mx-2" />
             <Text
               className={clsx('text-sm mr-2', {
@@ -228,7 +228,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
               Google search
             </Text>
             {!!items.length && <Key symbol={'⌘'} />}
-            <Key symbol={''} primary={!items.length} />
+            <Key symbol={'⏎'} primary={!items.length} />
             {!!items.length && (
               <>
                 <View className="border-l h-2/3 border-lightBorder dark:border-darkBorder mx-2" />
@@ -238,7 +238,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
                   })}>
                   Select
                 </Text>
-                <Key symbol={''} primary />
+                <Key symbol={'⏎'} primary />
               </>
             )}
           </View>
