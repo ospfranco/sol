@@ -56,14 +56,14 @@ export const SettingsWidget: FC = observer(() => {
             <Image
               source={Assets.Logo}
               style={{
-                height: 60,
+                height: 180,
                 width: 180,
                 tintColor: store.ui.isDarkMode ? 'white' : 'black',
               }}
             />
             <View className="g-2">
               <Text className="text-3xl">Sol</Text>
-              <Text>version {packageInfo.version}</Text>
+              <Text className="font-semibold">{packageInfo.version}</Text>
               <View className="flex-row items-center g-2">
                 <Text className="">built by</Text>
                 <Image source={Assets.OSP} className="h-6 w-6 rounded-full" />
