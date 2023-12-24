@@ -376,7 +376,7 @@ export const createUIStore = (root: IRootStore) => {
       store.focusedWidget = widget
     },
     setQuery: (query: string) => {
-      store.query = query
+      store.query = query.replace('\n', ' ')
       store.selectedIndex = 0
 
       if (store.focusedWidget === Widget.SEARCH) {
