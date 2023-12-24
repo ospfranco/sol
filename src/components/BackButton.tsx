@@ -26,7 +26,7 @@ export const BackButton: FC<Props> = observer(props => {
       // @ts-ignore
       enableFocusRing={false}
       className={clsx('h-9 w-9 items-center justify-center rounded', {
-        'bg-neutral-300 dark:bg-neutral-800': !hovered,
+        'bg-transparent': !hovered,
         'bg-neutral-400 dark:bg-neutral-700': hovered,
       })}>
       <Image

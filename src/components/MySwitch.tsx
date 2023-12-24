@@ -17,16 +17,16 @@ export const MySwitch: FC<Props> = ({value, onValueChange, disabled}) => {
       onPress={() => {
         onValueChange(!value)
       }}
-      className={clsx(`w-7 h-[17px] rounded-full`, {
-        'bg-accent': !!value,
-        'bg-neutral-300 dark:bg-neutral-700': !value,
+      className={clsx(`w-7 h-[15px] rounded-full border`, {
+        'bg-accent border-[#4078D6]': !!value,
+        'bg-neutral-300 dark:bg-neutral-700 dark:border-neutral-600': !value,
       })}>
       <View
         className={clsx(
-          `w-[13px] h-[13px] rounded-full bg-white dark:bg-neutral-200 absolute top-[2px]`,
+          `w-[13px] h-[13px] rounded-full bg-white dark:bg-neutral-200 absolute`,
           {
-            'right-[2px]': !!value,
-            'left-[2px]': !value,
+            'right-0': !!value,
+            'left-0': !value,
           },
         )}
       />

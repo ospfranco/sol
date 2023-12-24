@@ -67,7 +67,7 @@ export const SettingsWidget: FC = observer(() => {
               <View className="flex-row items-center g-2">
                 <Text className="">built by</Text>
                 <Image source={Assets.OSP} className="h-6 w-6 rounded-full" />
-                <Text className="font-semibold">ospfranco</Text>
+                <Text className="">ospfranco</Text>
               </View>
               <TouchableOpacity
                 className="bg-blue-500 p-2 rounded justify-center items-center"
@@ -83,209 +83,172 @@ export const SettingsWidget: FC = observer(() => {
         {selected === 'GENERAL' && (
           <StyledScrollView
             className="flex-1 h-full"
-            contentContainerStyle="justify-center p-5 pb-12">
-            <View className="flex-row items-center pb-2">
-              <Text className="flex-1 text-right pr-6  font-semibold">
-                Launch on start
-              </Text>
-              <View className="flex-1">
-                <MySwitch
-                  value={store.ui.launchAtLogin}
-                  onValueChange={store.ui.setLaunchAtLogin}
-                />
+            contentContainerStyle="justify-center p-5 g-2">
+            <View className="flex-row items-center p-3 bg-[#2B2B2B] border border-darkBorder rounded">
+              <Text className="flex-1 text-sm">Launch on start</Text>
+              <MySwitch
+                value={store.ui.launchAtLogin}
+                onValueChange={store.ui.setLaunchAtLogin}
+              />
+            </View>
+            <View className="p-3 bg-[#2B2B2B] border border-darkBorder rounded g-3">
+              <View className="g-3">
+                <Text className="flex-1 text-sm">Global shortcut</Text>
+                <View className="flex-1">
+                  {[
+                    {label: '⌘ Space', value: 'command' as const},
+                    {label: '⌥ Space', value: 'option' as const},
+                    {label: '⌃ Space', value: 'control' as const},
+                  ].map(({label, value}) => {
+                    return (
+                      <MyRadioButton
+                        label={label}
+                        value={value}
+                        onValueChange={() => {
+                          store.ui.setGlobalShortcut(value)
+                        }}
+                        selected={store.ui.globalShortcut === value}
+                      />
+                    )
+                  })}
+                </View>
+              </View>
+              <View className="border-t border-lightBorder dark:border-darkBorder" />
+              <View className="g-3">
+                <Text className="flex-1">Scratchpad shortcut</Text>
+                <View className="flex-1">
+                  {[
+                    {label: '⌘ ⇧ Space', value: 'command' as const},
+                    {label: '⇧ ⌥ Space', value: 'option' as const},
+                    {label: 'Disabled', value: 'none' as const},
+                  ].map(({label, value}) => {
+                    return (
+                      <MyRadioButton
+                        label={label}
+                        value={value}
+                        onValueChange={() => {
+                          store.ui.setScratchpadShortcut(value)
+                        }}
+                        selected={store.ui.scratchpadShortcut === value}
+                      />
+                    )
+                  })}
+                </View>
+              </View>
+              <View className="border-t border-lightBorder dark:border-darkBorder" />
+              <View className="g-3">
+                <Text className="flex-1">Clipboard manager shortcut</Text>
+                <View className="flex-1">
+                  {[
+                    {label: '⌘ ⇧ V', value: 'shift' as const},
+                    {label: '⌘ ⌥ V', value: 'option' as const},
+                    {label: 'Disabled', value: 'none' as const},
+                  ].map(({label, value}) => {
+                    return (
+                      <MyRadioButton
+                        label={label}
+                        value={value}
+                        onValueChange={() => {
+                          store.ui.setClipboardManagerShortcut(value)
+                        }}
+                        selected={store.ui.clipboardManagerShortcut === value}
+                      />
+                    )
+                  })}
+                </View>
               </View>
             </View>
 
-            <View className="flex-row py-2">
-              <Text className="flex-1 text-right pr-6  font-semibold">
-                Global shortcut
-              </Text>
-              <View className="flex-1">
-                {[
-                  {label: '⌘ Space', value: 'command' as const},
-                  {label: '⌥ Space', value: 'option' as const},
-                  {label: '⌃ Space', value: 'control' as const},
-                ].map(({label, value}) => {
-                  return (
-                    <MyRadioButton
-                      label={label}
-                      value={value}
-                      onValueChange={() => {
-                        store.ui.setGlobalShortcut(value)
-                      }}
-                      selected={store.ui.globalShortcut === value}
-                    />
-                  )
-                })}
+            <View className="p-3 bg-[#2B2B2B] border border-darkBorder rounded g-3">
+              <View className="g-3">
+                <Text className="">Show window on</Text>
+                <View className="flex-1">
+                  {[
+                    {
+                      label: 'Frontmost window screen',
+                      value: 'screenWithFrontmost' as const,
+                    },
+                    {
+                      label: 'Screen with cursor',
+                      value: 'screenWithCursor' as const,
+                    },
+                  ].map(({label, value}) => {
+                    return (
+                      <MyRadioButton
+                        label={label}
+                        value={value}
+                        onValueChange={() => {
+                          store.ui.setShowWindowOn(value)
+                        }}
+                        selected={store.ui.showWindowOn === value}
+                      />
+                    )
+                  })}
+                </View>
               </View>
-            </View>
+              <View className="border-t border-lightBorder dark:border-darkBorder" />
+              <View className="flex-row items-center">
+                <Text className="flex-1">Window Management Shortcuts</Text>
 
-            <View className="flex-row py-2">
-              <Text className="flex-1 text-right pr-6  font-semibold">
-                Scratchpad shortcut
-              </Text>
-              <View className="flex-1">
-                {[
-                  {label: '⌘ ⇧ Space', value: 'command' as const},
-                  {label: '⇧ ⌥ Space', value: 'option' as const},
-                  {label: 'Disabled', value: 'none' as const},
-                ].map(({label, value}) => {
-                  return (
-                    <MyRadioButton
-                      label={label}
-                      value={value}
-                      onValueChange={() => {
-                        store.ui.setScratchpadShortcut(value)
-                      }}
-                      selected={store.ui.scratchpadShortcut === value}
-                    />
-                  )
-                })}
-              </View>
-            </View>
-
-            <View className="flex-row py-2">
-              <Text className="flex-1 text-right pr-6  font-semibold">
-                Clipboard manager shortcut
-              </Text>
-              <View className="flex-1">
-                {[
-                  {label: '⌘ ⇧ V', value: 'shift' as const},
-                  {label: '⌘ ⌥ V', value: 'option' as const},
-                  {label: 'Disabled', value: 'none' as const},
-                ].map(({label, value}) => {
-                  return (
-                    <MyRadioButton
-                      label={label}
-                      value={value}
-                      onValueChange={() => {
-                        store.ui.setClipboardManagerShortcut(value)
-                      }}
-                      selected={store.ui.clipboardManagerShortcut === value}
-                    />
-                  )
-                })}
-              </View>
-            </View>
-
-            <View className="flex-row py-2">
-              <Text className="flex-1 text-right pr-6  font-semibold">
-                Show window on
-              </Text>
-              <View className="flex-1">
-                {[
-                  {
-                    label: 'Frontmost window screen',
-                    value: 'screenWithFrontmost' as const,
-                  },
-                  {
-                    label: 'Screen with cursor',
-                    value: 'screenWithCursor' as const,
-                  },
-                ].map(({label, value}) => {
-                  return (
-                    <MyRadioButton
-                      label={label}
-                      value={value}
-                      onValueChange={() => {
-                        store.ui.setShowWindowOn(value)
-                      }}
-                      selected={store.ui.showWindowOn === value}
-                    />
-                  )
-                })}
-              </View>
-            </View>
-
-            <View className="flex-row items-center py-2">
-              <Text className="flex-1 text-right pr-6  font-semibold">
-                Window Management Shortcuts
-              </Text>
-              <View className="flex-1">
                 <MySwitch
                   value={store.ui.windowManagementEnabled}
                   onValueChange={store.ui.setWindowManagementEnabled}
                 />
               </View>
-            </View>
+              <View className="border-t border-lightBorder dark:border-darkBorder" />
+              <View className="flex-row items-center">
+                <Text className="flex-1">Show calendar</Text>
 
-            <View className="flex-row items-center py-2">
-              <Text className="flex-1 text-right pr-6  font-semibold">
-                Show calendar
-              </Text>
-              <View className="flex-1">
                 <MySwitch
                   value={store.ui.calendarEnabled}
                   onValueChange={store.ui.setCalendarEnabled}
                 />
               </View>
-            </View>
-
-            <View className="flex-row items-center py-2">
-              <Text className="flex-1 text-right pr-6  font-semibold">
-                Show upcoming event in Menu Bar
-              </Text>
-              <View className="flex-1">
+              <View className="border-t border-lightBorder dark:border-darkBorder" />
+              <View className="flex-row items-center">
+                <Text className="flex-1">Show upcoming event in Menu Bar</Text>
                 <MySwitch
                   value={store.ui.showUpcomingEvent}
                   onValueChange={store.ui.setShowUpcomingEvent}
                 />
               </View>
-            </View>
-
-            <View className="flex-row items-center py-2">
-              <Text className="flex-1 text-right pr-6  font-semibold">
-                Save clipboard history
-              </Text>
-              <View className="flex-1">
+              <View className="border-t border-lightBorder dark:border-darkBorder" />
+              <View className="flex-row items-center">
+                <Text className="flex-1">Save clipboard history</Text>
                 <MySwitch
                   value={store.clipboard.saveHistory}
                   onValueChange={store.clipboard.setSaveHistory}
                 />
               </View>
-            </View>
-
-            <View className="flex-row items-center py-2">
-              <Text className="flex-1 text-right pr-6  font-semibold">
-                Show background overlay
-              </Text>
-              <View className="flex-1">
+              <View className="border-t border-lightBorder dark:border-darkBorder" />
+              <View className="flex-row items-center">
+                <Text className="flex-1">Show background overlay</Text>
                 <MySwitch
                   value={store.ui.useBackgroundOverlay}
                   onValueChange={store.ui.setUseBackgroundOverlay}
                 />
               </View>
-            </View>
-
-            <View className="flex-row items-center py-2">
-              <Text className="flex-1 text-right pr-6  font-semibold">
-                Blacken menubar
-              </Text>
-              <View className="flex-1">
+              <View className="border-t border-lightBorder dark:border-darkBorder" />
+              <View className="flex-row items-center">
+                <Text className="flex-1">Blacken menubar</Text>
                 <MySwitch
                   value={store.ui.shouldHideMenubar}
                   onValueChange={store.ui.setShouldHideMenuBar}
                 />
               </View>
-            </View>
-
-            <View className="flex-row items-center py-2">
-              <Text className="flex-1 text-right pr-6  font-semibold">
-                Forward media keys to media player
-              </Text>
-              <View className="flex-1">
+              <View className="border-t border-lightBorder dark:border-darkBorder" />
+              <View className="flex-row items-center">
+                <Text className="flex-1">
+                  Forward media keys to media player
+                </Text>
                 <MySwitch
                   value={store.ui.mediaKeyForwardingEnabled}
                   onValueChange={store.ui.setMediaKeyForwardingEnabled}
                 />
               </View>
-            </View>
-
-            <View className="flex-row items-center py-2">
-              <Text className="flex-1 text-right pr-6  font-semibold">
-                Reduce transparency
-              </Text>
-              <View className="flex-1">
+              <View className="border-t border-lightBorder dark:border-darkBorder" />
+              <View className="flex-row items-center">
+                <Text className="flex-1">Reduce transparency</Text>
                 <MySwitch
                   value={store.ui.reduceTransparency}
                   onValueChange={store.ui.setReduceTransparency}
