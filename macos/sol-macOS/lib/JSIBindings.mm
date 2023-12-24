@@ -68,17 +68,17 @@ void install(jsi::Runtime &rt,
   
   auto getWifiPassword = HOSTFN("getWifiPassword", 0, []) {
     
-    
-    CLLocationManager *locationManager = [[CLLocationManager alloc]init];
-    [
-      locationManager requestAlwaysAuthorization
-    ];
+    if (@available(macOS 15.0, *) ){
+      CLLocationManager *locationManager = [[CLLocationManager alloc]init];
+      [
+        locationManager requestAlwaysAuthorization
+      ];
+    }
     
     CWWiFiClient *sharedClient = [
       CWWiFiClient sharedWiFiClient
     ];
     CWInterface *interface = [sharedClient interface];
-//    NSInteger signalStrength = interface.rssiValue;
     NSString *ssid = interface.ssid;
     if(!ssid) {
       return nil;
