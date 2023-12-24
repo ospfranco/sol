@@ -225,7 +225,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
               className={clsx('text-sm mr-2', {
                 'font-semibold': !items.length,
               })}>
-              Google search
+              Search
             </Text>
             {!!items.length && <Key symbol={'⌘'} />}
             <Key symbol={'⏎'} primary={!items.length} />

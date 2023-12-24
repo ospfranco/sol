@@ -168,8 +168,8 @@ export const OnboardingWidget: FC<Props> = observer(({style}) => {
       {onboardingStep === 'v1_quick_actions' && (
         <Fade visible={visible} className="items-center flex-1" duration={250}>
           <View className="flex-1" />
-          <View className="flex-1 justify-center items-center p-12">
-            <Text className="mt-10">
+          <View className="flex-1 justify-center items-center">
+            <Text className="text-neutral-400 dark:text-neutral-500">
               Here are some shortcuts to get you started
             </Text>
 

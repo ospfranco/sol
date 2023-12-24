@@ -41,7 +41,7 @@ export const Key: FC<IProps> = observer(
             disabled={store.ui.reduceTransparency}
             className={'min-w-[23] min-h-[23] items-center justify-center'}>
             <View
-              className="min-w-[23] px-2 min-h-[23] items-center justify-center"
+              className="min-w-[23] px-1 min-h-[23] items-center justify-center"
               style={{
                 backgroundColor: primary
                   ? store.ui.isDarkMode
