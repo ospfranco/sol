@@ -149,6 +149,10 @@ export let RootContainer = observer(() => {
       cornerRadius={10}
       className={clsx({
         'h-16': !store.ui.query,
+        'h-24':
+          !store.ui.query &&
+          store.ui.calendarEnabled &&
+          store.ui.calendarAuthorizationStatus === 'notDetermined',
         'h-full':
           !!store.ui.query ||
           (store.ui.calendarEnabled &&

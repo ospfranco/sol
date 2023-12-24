@@ -25,11 +25,11 @@
   }
   else
   {
-    NSAlert *alert = [[NSAlert alloc] init];
-    [alert setMessageText:@"Error"];
-    [alert setInformativeText:@"Cannot start spotify event listening. Please add Sol to the \"Security & Privacy\" pane in System Preferences. Check \"Accessibility\" and \"Automation\" under the \"Privacy\" tab."];
-    [alert addButtonWithTitle:@"Ok"];
-    [alert runModal];
+//    NSAlert *alert = [[NSAlert alloc] init];
+//    [alert setMessageText:@"Error"];
+//    [alert setInformativeText:@"Cannot start spotify event listening. Please add Sol to the \"Security & Privacy\" pane in System Preferences. Check \"Accessibility\" and \"Automation\" under the \"Privacy\" tab."];
+//    [alert addButtonWithTitle:@"Ok"];
+//    [alert runModal];
   }
   
   return self;
