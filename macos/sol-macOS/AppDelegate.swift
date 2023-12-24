@@ -330,6 +330,28 @@ class AppDelegate: NSObject, NSApplicationDelegate,
     return mainWindow.screen ?? NSScreen.main
   }
 
+  func innerShow() {
+    settingsHotKey.isPaused = false
+    mainWindow.setIsVisible(false)
+    mainWindow.makeKeyAndOrderFront(self)
+
+    guard let screen =
+      (showWindowOn == "screenWithFrontmost" ? getFrontmostScreen() :
+        getScreenWithMouse())
+    else {
+      return
+    }
+
+    let yOffset = screen.visibleFrame.height * 0.3
+    let x = screen.visibleFrame.midX - baseSize.width / 2
+    let y = screen.visibleFrame.midY - mainWindow.frame.height + yOffset
+    mainWindow.setFrameOrigin(NSPoint(x: floor(x), y: floor(y)))
+
+    mainWindow.makeKeyAndOrderFront(self)
+
+    mainWindow.setIsVisible(true)
+  }
+
   func showWindow(target: String? = nil) {
     if useBackgroundOverlay {
       if showWindowOn == "screenWithFrontmost" {
@@ -348,25 +370,12 @@ class AppDelegate: NSObject, NSApplicationDelegate,
 
     // Give react native event listener a bit of time to react
     // and switch components
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-      self.settingsHotKey.isPaused = false
-      self.mainWindow.setIsVisible(false)
-      self.mainWindow.makeKeyAndOrderFront(self)
-
-      guard let screen = (self.showWindowOn == "screenWithFrontmost" ? self
-        .getFrontmostScreen() : getScreenWithMouse())
-      else {
-        return
+    if target != nil {
+      DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        self.innerShow()
       }
-
-      let yOffset = screen.visibleFrame.height * 0.3
-      let x = screen.visibleFrame.midX - baseSize.width / 2
-      let y = screen.visibleFrame.midY - self.mainWindow.frame.height + yOffset
-      self.mainWindow.setFrameOrigin(NSPoint(x: floor(x), y: floor(y)))
-
-      self.mainWindow.makeKeyAndOrderFront(self)
-
-      self.mainWindow.setIsVisible(true)
+    } else {
+      innerShow()
     }
   }
 

@@ -103,7 +103,7 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
             <View
               style={{height: ROW_HEIGHT}}
               className={clsx(`flex-row`, {
-                'border-b dark:border-neutral-700 pb-3 mb-2':
+                'border-b border-lightBorder dark:border-neutral-700 pb-3 mb-2':
                   rowIndex === 0 &&
                   !!Object.entries(store.emoji.frequentlyUsedEmojis).length &&
                   !store.ui.query,
