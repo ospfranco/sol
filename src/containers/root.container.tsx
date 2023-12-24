@@ -4,7 +4,7 @@ import {FullCalendar} from 'components/FullCalendar'
 import {GradientView} from 'components/GradientView'
 import {solNative} from 'lib/SolNative'
 import {observer} from 'mobx-react-lite'
-import React from 'react'
+import React, {useEffect} from 'react'
 import {Linking, Text, TouchableOpacity, View} from 'react-native'
 import {useStore} from 'store'
 import {Widget} from 'stores/ui.store'
@@ -25,6 +25,10 @@ export let RootContainer = observer(() => {
   let borderColor1 = store.ui.isDarkMode ? '#FFFFFF22' : '#00000011'
   let borderColor2 = store.ui.isDarkMode ? '#FFFFFF55' : '#00000044'
   let blurDisabled = store.ui.reduceTransparency
+
+  // useEffect(() => {
+  //   solNative.getWifiPassword()
+  // }, [])
 
   if (widget === Widget.CLIPBOARD) {
     return (

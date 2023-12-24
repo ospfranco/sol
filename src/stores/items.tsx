@@ -515,6 +515,21 @@ export function createBaseItems(store: IRootStore) {
       },
     },
     ...systemPreferenceItems,
+    {
+      icon: '🔑',
+      name: 'Get Wi-Fi Password',
+      type: ItemType.CONFIGURATION,
+      alias: 'password',
+      callback: () => {
+        const password = solNative.getWifiPassword()
+        if (!password) {
+          solNative.showToast('🟥 Could not retrieve password')
+        } else {
+          Clipboard.setString(password)
+          solNative.showToast('✅ Password copied to clipboard')
+        }
+      },
+    },
   ]
 
   if (__DEV__) {

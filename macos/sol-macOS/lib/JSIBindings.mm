@@ -11,6 +11,11 @@
 #import "SentryHelper.h"
 #import "JSIUtils.h"
 #import "processes.h"
+extern "C" {
+#import <CoreWLAN/CoreWLAN.h>
+#import <CoreLocation/CoreLocation.h>
+}
+
 
 namespace sol {
 
@@ -59,6 +64,33 @@ void install(jsi::Runtime &rt,
     });
 
     return {};
+  });
+  
+  auto getWifiPassword = HOSTFN("getWifiPassword", 0, []) {
+    
+    
+    CLLocationManager *locationManager = [[CLLocationManager alloc]init];
+    [
+      locationManager requestAlwaysAuthorization
+    ];
+    
+    CWWiFiClient *sharedClient = [
+      CWWiFiClient sharedWiFiClient
+    ];
+    CWInterface *interface = [sharedClient interface];
+//    NSInteger signalStrength = interface.rssiValue;
+    NSString *ssid = interface.ssid;
+    if(!ssid) {
+      return nil;
+    }
+    NSString * psk = nil;
+    NSError *err = nil;
+    OSStatus status = CWKeychainFindWiFiPassword(kCWKeychainDomainSystem, [ssid dataUsingEncoding:NSUTF8StringEncoding], &psk);
+    if(status != errSecSuccess) {
+      return nil;
+    }
+  
+    return sol::NSStringToJsiValue(rt, psk);
   });
 
 // Spotlight search is terrible, disabled it for now
@@ -372,6 +404,7 @@ void install(jsi::Runtime &rt,
   module.setProperty(rt, "readFile", std::move(readFile));
   module.setProperty(rt, "ps", std::move(ps));
   module.setProperty(rt, "killProcess", std::move(killProcess));
+  module.setProperty(rt, "getWifiPassword", std::move(getWifiPassword));
 
   rt.global().setProperty(rt, "__SolProxy", std::move(module));
 }

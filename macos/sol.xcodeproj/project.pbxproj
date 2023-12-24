@@ -26,6 +26,8 @@
 		7042A22A2815C06B00874743 /* NSColor.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7042A2292815C06B00874743 /* NSColor.extension.swift */; };
 		7047E80627D4D31400582E1B /* MediaHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7047E80527D4D31400582E1B /* MediaHelper.swift */; };
 		7047E80827D4DAEB00582E1B /* Sequence.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7047E80727D4DAEB00582E1B /* Sequence.extension.swift */; };
+		706D6D532B388C1700941026 /* CoreWLAN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 707B9F4C2B38845000C3A2FC /* CoreWLAN.framework */; };
+		706D6D572B3894E200941026 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 706D6D562B3894E200941026 /* CoreLocation.framework */; };
 		7071D43727B3211700F8A4DC /* DarkMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7071D43527B3211700F8A4DC /* DarkMode.swift */; };
 		7071D43827B3211700F8A4DC /* AppleScriptHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7071D43627B3211700F8A4DC /* AppleScriptHelper.swift */; };
 		7074A3A228BDCB6B0032ADD7 /* CalendarHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7074A3A128BDCB6B0032ADD7 /* CalendarHelper.mm */; };
@@ -84,10 +86,12 @@
 		7042A2292815C06B00874743 /* NSColor.extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSColor.extension.swift; sourceTree = "<group>"; };
 		7047E80527D4D31400582E1B /* MediaHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaHelper.swift; sourceTree = "<group>"; };
 		7047E80727D4DAEB00582E1B /* Sequence.extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sequence.extension.swift; sourceTree = "<group>"; };
+		706D6D562B3894E200941026 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.2.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
 		7071D43527B3211700F8A4DC /* DarkMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DarkMode.swift; sourceTree = "<group>"; };
 		7071D43627B3211700F8A4DC /* AppleScriptHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppleScriptHelper.swift; sourceTree = "<group>"; };
 		7074A3A128BDCB6B0032ADD7 /* CalendarHelper.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CalendarHelper.mm; sourceTree = "<group>"; };
 		7074A3A328BDCBBD0032ADD7 /* CalendarHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CalendarHelper.h; sourceTree = "<group>"; };
+		707B9F4C2B38845000C3A2FC /* CoreWLAN.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreWLAN.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.2.sdk/System/Library/Frameworks/CoreWLAN.framework; sourceTree = DEVELOPER_DIR; };
 		70805243298F692E000DB574 /* MouseUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MouseUtils.swift; sourceTree = "<group>"; };
 		70911D4C28BB22620005FD0E /* JSIBindings.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = JSIBindings.mm; sourceTree = "<group>"; };
 		70911D4D28BB22620005FD0E /* JSIBindings.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = JSIBindings.hpp; sourceTree = "<group>"; };
@@ -131,6 +135,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				706D6D572B3894E200941026 /* CoreLocation.framework in Frameworks */,
+				706D6D532B388C1700941026 /* CoreWLAN.framework in Frameworks */,
 				70ADD54628B22C1300AAAFD7 /* LaunchAtLogin in Frameworks */,
 				3919C725599C8DA45324A5C6 /* libPods-macOS.a in Frameworks */,
 			);
@@ -151,6 +157,8 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				706D6D562B3894E200941026 /* CoreLocation.framework */,
+				707B9F4C2B38845000C3A2FC /* CoreWLAN.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				1194CEEB2780EBB1CE91CBEB /* libPods-macOS.a */,

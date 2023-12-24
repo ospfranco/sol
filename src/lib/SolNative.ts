@@ -73,6 +73,7 @@ class SolNative extends NativeEventEmitter {
   quit: () => void
   setStatusBarItemTitle: (title: string) => void
   setMediaKeyForwardingEnabled: (enabled: boolean) => Promise<void>
+  getWifiPassword: typeof global.__SolProxy.getWifiPassword
 
   // Constants
   accentColor: string
@@ -167,6 +168,7 @@ class SolNative extends NativeEventEmitter {
 
     this.setStatusBarItemTitle = module.setStatusBarItemTitle
     this.setMediaKeyForwardingEnabled = module.setMediaKeyForwardingEnabled
+    this.getWifiPassword = global.__SolProxy.getWifiPassword
   }
 }
 
