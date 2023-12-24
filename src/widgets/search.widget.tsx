@@ -17,7 +17,7 @@ type Props = {
   className?: string
 }
 
-export const SearchWidget: FC<Props> = observer(({style}) => {
+export const SearchWidget: FC<Props> = observer(() => {
   const store = useStore()
   const focused = store.ui.focusedWidget === Widget.SEARCH
   const listRef = useRef<FlatList | null>(null)
@@ -120,7 +120,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
 
           <View className="flex-1" />
           {!!item.subName && (
-            <Text className={'ml-3 text-neutral-500 dark:text-neutral-300'}>
+            <Text className={'ml-3 text-neutral-500 dark:text-white'}>
               {item.subName}
             </Text>
           )}
@@ -134,7 +134,7 @@ export const SearchWidget: FC<Props> = observer(({style}) => {
           )}
           {item.type === ItemType.PREFERENCE_PANE && (
             <Text
-              className={clsx('dark:text-neutral-300', {
+              className={clsx('dark:text-neutral-300 ml-3', {
                 'text-white': isActive,
               })}>
               Settings

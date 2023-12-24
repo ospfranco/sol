@@ -519,7 +519,7 @@ export function createBaseItems(store: IRootStore) {
       icon: '🔑',
       name: 'Get Wi-Fi Password',
       type: ItemType.CONFIGURATION,
-      alias: 'password',
+      alias: 'wifi',
       callback: () => {
         const password = solNative.getWifiPassword()
         if (!password) {

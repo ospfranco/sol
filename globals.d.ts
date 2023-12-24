@@ -48,6 +48,7 @@ declare var global: {
     ps: () => string
     killProcess: (pid: string) => void
     getWifiPassword: () => string | null
+    getWifiInfo: () => {ip: string | undefined}
   }
 }
 

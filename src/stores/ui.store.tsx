@@ -390,6 +390,13 @@ export const createUIStore = (root: IRootStore) => {
         } catch (e) {
           store.temporaryResult = null
         }
+
+        if (query.includes('wi') || query === 'ip') {
+          let info = solNative.getWifiInfo()
+          if (info.ip) {
+            store.temporaryResult = info.ip
+          }
+        }
       }
     },
     onShow: ({target}: {target?: string}) => {

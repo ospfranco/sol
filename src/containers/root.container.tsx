@@ -27,7 +27,7 @@ export let RootContainer = observer(() => {
   let blurDisabled = store.ui.reduceTransparency
 
   // useEffect(() => {
-  //   solNative.getWifiPassword()
+  //   solNative.getWifiInfo()
   // }, [])
 
   if (widget === Widget.CLIPBOARD) {
