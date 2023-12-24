@@ -106,7 +106,7 @@ void install(jsi::Runtime &rt,
       CWWiFiClient sharedWiFiClient
     ];
     CWInterface *interface = [sharedClient interface];
-    NSString *ssid = interface.ssid;
+//    NSString *ssid = interface.ssid;
     
     struct ifaddrs *interfaces = NULL;
     struct ifaddrs *temp_addr = NULL;
