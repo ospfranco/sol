@@ -1,7 +1,8 @@
 import {Assets, Icons} from 'assets'
 import clsx from 'clsx'
 import {FileIcon} from 'components/FileIcon'
-import {LoadingBar} from 'components/LoadingBar'
+import {GradientView} from 'components/GradientView'
+import {Key} from 'components/Key'
 import {MainInput} from 'components/MainInput'
 import {StyledFlatList} from 'components/StyledFlatList'
 import {observer} from 'mobx-react-lite'
@@ -10,8 +11,6 @@ import {FlatList, Image, Platform, Text, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
 import {ItemType, Widget} from 'stores/ui.store'
 import customColors from '../colors'
-import {GradientView} from 'components/GradientView'
-import {Key} from 'components/Key'
 
 type Props = {
   style?: ViewStyle
