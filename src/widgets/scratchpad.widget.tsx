@@ -1,6 +1,7 @@
 import {useFullSize} from 'hooks/useFullSize'
 import {solNative} from 'lib/SolNative'
 import {observer} from 'mobx-react-lite'
+import {DARK_MODE} from 'nativewind/dist/utils/selector'
 import React, {FC, useEffect, useRef} from 'react'
 import {FlatList, TextInput, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
@@ -46,6 +47,7 @@ export const ScratchpadWidget: FC<Props> = observer(({style}) => {
         className="flex-1"
         multiline
         spellCheck
+        cursorColor={DARK_MODE ? 'white' : 'black'}
       />
     </View>
   )
