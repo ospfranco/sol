@@ -1,13 +1,12 @@
+import clsx from 'clsx'
 import {solNative} from 'lib/SolNative'
 import {DateTime} from 'luxon'
 import {observer} from 'mobx-react-lite'
 import React, {FC} from 'react'
-import {Image, Text, TouchableOpacity, View} from 'react-native'
+import {Text, TouchableOpacity, View} from 'react-native'
 import {useStore} from 'store'
-import {StyledScrollView} from './StyledScrollView'
 import {Key} from './Key'
-import {Assets} from 'assets'
-import clsx from 'clsx'
+import {StyledScrollView} from './StyledScrollView'
 
 export let FullCalendar: FC = observer(() => {
   let store = useStore()
@@ -20,7 +19,7 @@ export let FullCalendar: FC = observer(() => {
             store.ui.getCalendarAccess()
           })
         }}>
-        <View className="py-2 px-3">
+        <View className="py-2 px-3 h-8">
           <Text className="text-xs">Click to grant calendar access</Text>
         </View>
       </TouchableOpacity>
@@ -29,7 +28,7 @@ export let FullCalendar: FC = observer(() => {
 
   return (
     <StyledScrollView
-      className="flex-1"
+      className="max-h-full"
       contentContainerStyle="py-3"
       showsVerticalScrollIndicator={false}>
       {Object.entries(store.calendar.groupedEvents).map(([key, group]) => {

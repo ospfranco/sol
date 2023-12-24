@@ -122,9 +122,9 @@ export const createKeystrokeStore = (root: IRootStore) => {
                   if (root.ui.selectedIndex === 0) {
                     root.ui.setGlobalShortcut('option')
                   } else if (root.ui.selectedIndex === 1) {
-                    root.ui.setGlobalShortcut('command')
-                  } else {
                     root.ui.setGlobalShortcut('control')
+                  } else {
+                    root.ui.setGlobalShortcut('command')
                   }
                   root.ui.onboardingStep = 'v1_quick_actions'
                   break

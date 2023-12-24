@@ -147,8 +147,12 @@ export let RootContainer = observer(() => {
     <BlurView
       disabled={blurDisabled}
       cornerRadius={10}
-      className={clsx('h-16', {
-        'h-full': !!store.ui.query || store.ui.calendarEnabled,
+      className={clsx({
+        'h-16': !store.ui.query,
+        'h-full':
+          !!store.ui.query ||
+          (store.ui.calendarEnabled &&
+            store.ui.calendarAuthorizationStatus === 'authorized'),
       })}
       startColor={borderColor1}
       endColor={borderColor2}>
@@ -156,11 +160,11 @@ export let RootContainer = observer(() => {
         startColor={store.ui.isDarkMode ? '#00000005' : '#FFFFFF99'}
         endColor={store.ui.isDarkMode ? '#00000033' : '#FFFFFFCC'}
         angle={90}
-        className="h-full">
+        className="flex-1">
         <SearchWidget />
 
         {!store.ui.query && store.ui.calendarEnabled && (
-          <View className="flex-1 border-t border-lightBorder dark:border-darkBorder">
+          <View className="border-t border-lightBorder dark:border-darkBorder">
             <FullCalendar />
           </View>
         )}
@@ -179,26 +183,6 @@ export let RootContainer = observer(() => {
             </TouchableOpacity>
           </>
         )}
-
-        {/* {!store.ui.hasFullDiskAccess && (
-          <>
-            <View className="w-full border-lightBorder dark:border-darkBorder border-t" />
-            <TouchableOpacity
-              onPress={() => {
-                Linking.openURL(
-                  'x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles',
-                )
-                solNative.hideWindow()
-              }}>
-              <Text className="text-xs px-3 py-2">
-                Click to grant full disk access{' '}
-                <Text className="text-xs dark:text-neutral-500">
-                  (needed to read browser bookmarks)
-                </Text>
-              </Text>
-            </TouchableOpacity>
-          </>
-        )} */}
       </GradientView>
     </BlurView>
   )

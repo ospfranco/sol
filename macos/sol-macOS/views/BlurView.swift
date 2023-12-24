@@ -45,7 +45,6 @@ class BlurView: NSVisualEffectView {
   }
 
   override func convert(_ point: NSPoint, from _: NSView?) -> NSPoint {
-    print("Converting \(point)")
     return NSPoint(x: point.x, y: frame.height - point.y)
   }
 

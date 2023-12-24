@@ -57,12 +57,12 @@ const SHORTCUTS = [
     ),
     subLabel: () => {
       return (
-        <View className="absolute bottom-[-120px] w-96">
+        <View className="w-96 absolute bottom-[-60]">
           <Text className="text-xs text-neutral-500 dark:text-neutral-400 mt-8 text-center">
             Unbind the Spotlight shortcut via
           </Text>
           <Text className="text-xs text-neutral-500 dark:text-neutral-200 mt-2 text-center">
-            System Preferences → Keyboard Shortcuts → Spotlight
+            System Settings → Keyboard Shortcuts → Spotlight
           </Text>
         </View>
       )
@@ -101,8 +101,8 @@ export const OnboardingWidget: FC<Props> = observer(({style}) => {
             <Image
               source={Assets.Logo}
               style={{
-                height: 60,
-                width: 180,
+                height: 120,
+                width: 120,
                 tintColor: colorScheme === 'dark' ? 'white' : 'black',
               }}
             />
@@ -121,9 +121,9 @@ export const OnboardingWidget: FC<Props> = observer(({style}) => {
       )}
 
       {onboardingStep === 'v1_shortcut' && (
-        <Fade visible={visible} className="items-center flex-1 " duration={250}>
+        <Fade visible={visible} className="items-center flex-1" duration={250}>
           <View className="flex-1 justify-center relative">
-            <Text className="dark:text-neutral-300 mb-4 font-semibold">
+            <Text className="text-neutral-500 dark:text-neutral-400 mb-4 self-center">
               Pick a global shortcut
             </Text>
 
@@ -159,7 +159,7 @@ export const OnboardingWidget: FC<Props> = observer(({style}) => {
           </View>
 
           <View className="w-full flex-row items-center justify-end border-t border-lightBorder dark:border-darkBorder px-3 py-2 ">
-            <Text className="text-sm">Select & Continue</Text>
+            <Text className="text-sm">Select</Text>
             <Key symbol="return" primary className="mx-2" />
           </View>
         </Fade>
@@ -169,9 +169,6 @@ export const OnboardingWidget: FC<Props> = observer(({style}) => {
         <Fade visible={visible} className="items-center flex-1" duration={250}>
           <View className="flex-1" />
           <View className="flex-1 justify-center items-center p-12">
-            <Text>
-              Search for apps, commands and the web from the main window
-            </Text>
             <Text className="mt-10">
               Here are some shortcuts to get you started
             </Text>
