@@ -1,11 +1,8 @@
 {
-
-  "extends": "@tsconfig/react-native/tsconfig.json",
+  "extends": "@react-native/typescript-config/tsconfig.json",
   "compilerOptions": {
-    "lib": [
-      "ES2020"
-    ],
-    "allowJs": true /* Allow javascript files to be compiled. */,    
+    "lib": ["ES2020"],
+    "allowJs": true /* Allow javascript files to be compiled. */,
     "strict": true /* Enable all strict type-checking options. */,
     "baseUrl": "./src" /* Base directory to resolve non-absolute module names. */,
     "allowSyntheticDefaultImports": true /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */,
