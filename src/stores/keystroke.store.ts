@@ -171,6 +171,10 @@ export const createKeystrokeStore = (root: IRootStore) => {
             }
 
             case Widget.SEARCH: {
+              if (!root.ui.query) {
+                return
+              }
+
               if (!!root.ui.query) {
                 root.ui.addToHistory(root.ui.query)
               }
