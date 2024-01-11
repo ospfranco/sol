@@ -391,7 +391,7 @@ export const createUIStore = (root: IRootStore) => {
           store.temporaryResult = null
         }
 
-        if (query.includes('wi') || query === 'ip') {
+        if (query === 'ip') {
           let info = solNative.getWifiInfo()
           if (info.ip) {
             store.temporaryResult = info.ip
