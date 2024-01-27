@@ -35,7 +35,7 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
   }, [selectedIndex])
 
   return (
-    <View className="flex-1 " style={style}>
+    <View className="flex-1 bg-white dark:bg-dark" style={style}>
       <MainInput placeholder="Search pasteboard history..." showBackButton />
       <StyledFlatList
         data={data}
@@ -53,16 +53,16 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
           const isActive = index === selectedIndex
           return (
             <View
-              className={clsx('mx-2 mt-2 flex-row rounded px-2', {
-                'dark:bg-neutral-700': isActive,
+              className={clsx('mx-2 mb-1 flex-row items-center rounded g-2 p-2', {
+                'bg-neutral-300 dark:bg-neutral-700': isActive,
               })}>
               <FileIcon
                 url={decodeURIComponent(item.bundle?.replace('file://', ''))}
-                className="h-6 w-6 mt-3"
+                className="h-6 w-6"
               />
               <Text
-                className={clsx('text-sm flex-1 dark:text-neutral-200 p-4', {
-                  'text-white': isActive,
+                className={clsx('text-sm flex-1 dark:text-neutral-200', {
+                  'dark:text-white font-medium': isActive,
                 })}>
                 {item.text.substring(0, 256)}
               </Text>

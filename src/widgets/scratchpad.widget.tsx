@@ -1,9 +1,8 @@
 import {useFullSize} from 'hooks/useFullSize'
 import {solNative} from 'lib/SolNative'
 import {observer} from 'mobx-react-lite'
-import {DARK_MODE} from 'nativewind/dist/utils/selector'
 import React, {FC, useEffect, useRef} from 'react'
-import {FlatList, TextInput, View, ViewStyle} from 'react-native'
+import {FlatList, TextInput, View, ViewStyle, useColorScheme} from 'react-native'
 import {useStore} from 'store'
 import colors from 'tailwindcss/colors'
 
@@ -14,6 +13,7 @@ interface Props {
 
 export const ScratchpadWidget: FC<Props> = observer(({style}) => {
   let store = useStore()
+  let isDarkMode = useColorScheme() === 'dark'
   useFullSize()
   let selectedIndex = store.ui.selectedIndex
   let listRef = useRef<FlatList | null>(null)
@@ -35,7 +35,7 @@ export const ScratchpadWidget: FC<Props> = observer(({style}) => {
   }, [selectedIndex])
 
   return (
-    <View style={style} className="flex-1 p-4">
+    <View style={style} className="flex-1 p-4 bg-white dark:bg-dark">
       <TextInput
         autoFocus
         value={store.ui.note}
@@ -47,7 +47,7 @@ export const ScratchpadWidget: FC<Props> = observer(({style}) => {
         className="flex-1"
         multiline
         spellCheck
-        cursorColor={DARK_MODE ? 'white' : 'black'}
+        cursorColor={isDarkMode ? 'white' : 'black'}
       />
     </View>
   )
