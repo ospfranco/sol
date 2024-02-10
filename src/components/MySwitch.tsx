@@ -19,7 +19,7 @@ export const MySwitch: FC<Props> = ({value, onValueChange, disabled}) => {
       }}
       className={clsx(`w-7 h-[15px] rounded-full border`, {
         'bg-accent border-[#4078D6]': !!value,
-        'bg-neutral-300 dark:bg-neutral-700 dark:border-neutral-600': !value,
+        'bg-neutral-300 dark:bg-neutral-700 border-neutral-200 dark:border-neutral-600': !value,
       })}>
       <View
         className={clsx(

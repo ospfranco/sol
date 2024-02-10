@@ -7,7 +7,7 @@ platform :mac do
   xcode_select "/Applications/Xcode.app"
 
   lane :release do
-    sh("yarn", "bump")
+    sh("npm", "run", "bump")
 
     version = get_version_number(xcodeproj: "./macos/sol.xcodeproj")
 
@@ -37,7 +37,7 @@ platform :mac do
       symlinks: true
     )
 
-    sh("yarn", "appcast")
+    sh("npm", "run", "appcast")
 
     puts Dir.pwd
     Dir.chdir("..") do

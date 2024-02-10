@@ -84,14 +84,14 @@ export const SettingsWidget: FC = observer(() => {
           <StyledScrollView
             className="flex-1 h-full"
             contentContainerStyle="justify-center p-5 g-2">
-            <View className="flex-row items-center p-3 bg-[#2B2B2B] border border-darkBorder rounded">
+            <View className="flex-row items-center p-3 bg-white dark:bg-[#2B2B2B] border border-darkBorder rounded">
               <Text className="flex-1 text-sm">Launch on start</Text>
               <MySwitch
                 value={store.ui.launchAtLogin}
                 onValueChange={store.ui.setLaunchAtLogin}
               />
             </View>
-            <View className="p-3 bg-[#2B2B2B] border border-darkBorder rounded g-3">
+            <View className="p-3 bg-white dark:bg-[#2B2B2B] border border-darkBorder rounded g-3">
               <View className="g-3">
                 <Text className="flex-1 text-sm">Global shortcut</Text>
                 <View className="flex-1">
@@ -159,7 +159,7 @@ export const SettingsWidget: FC = observer(() => {
               </View>
             </View>
 
-            <View className="p-3 bg-[#2B2B2B] border border-darkBorder rounded g-3">
+            <View className="p-3 bg-white dark:bg-[#2B2B2B] border border-darkBorder rounded g-3">
               <View className="g-3">
                 <Text className="">Show window on</Text>
                 <View className="flex-1">
