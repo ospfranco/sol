@@ -1,6 +1,6 @@
 {
   "name": "sol",
-  "version": "2.1.22",
+  "version": "2.1.23",
   "private": true,
   "scripts": {
     "start": "react-native-macos start",
