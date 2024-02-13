@@ -68,8 +68,7 @@ void install(jsi::Runtime &rt,
   });
   
   auto getWifiPassword = HOSTFN("getWifiPassword", 0, []) {
-    
-    if (@available(macOS 15.0, *) ){
+    if (@available(macOS 14.0, *) ){
       CLLocationManager *locationManager = [[CLLocationManager alloc]init];
       [
         locationManager requestAlwaysAuthorization
