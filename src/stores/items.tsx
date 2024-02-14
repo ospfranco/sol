@@ -527,7 +527,7 @@ return <FileIcon {...props} url='~/Desktop' className='w-6 h-6' />
     ...systemPreferenceItems,
     {
       icon: '🔑',
-      name: 'Get Wi-Fi Password',
+      name: 'Copy Wi-Fi Password to Clipboard',
       type: ItemType.CONFIGURATION,
       alias: 'wifi',
       callback: () => {
@@ -537,6 +537,20 @@ return <FileIcon {...props} url='~/Desktop' className='w-6 h-6' />
         } else {
           Clipboard.setString(password)
           solNative.showToast('✅ Password copied to clipboard')
+        }
+      },
+    },
+    {
+      icon: '📶',
+      name: 'Reveal Wi-Fi Password',
+      type: ItemType.CONFIGURATION,
+      alias: 'wifi',
+      callback: () => {
+        const password = solNative.getWifiPassword()
+        if (!password) {
+          solNative.showToast('🟥 Could not retrieve password')
+        } else {
+          solNative.showToast(`${password}`, 30)
         }
       },
     },

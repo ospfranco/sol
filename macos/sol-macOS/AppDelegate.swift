@@ -553,7 +553,7 @@ class AppDelegate: NSObject, NSApplicationDelegate,
     }
   }
 
-  func showToast(_ text: String) {
+  func showToast(_ text: String, timeout: NSNumber?) {
     toastWindow.center()
     guard let mainScreen = showWindowOn == "screenWithFrontmost" ? toastWindow
       .screen : getScreenWithMouse()
@@ -572,10 +572,16 @@ class AppDelegate: NSObject, NSApplicationDelegate,
     let rootView = NSHostingView(rootView: toastView)
 
     toastWindow.contentView = rootView
+    
+    let deadline = timeout != nil ? DispatchTime.now() + timeout!.doubleValue : .now() + 2
 
-    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+    DispatchQueue.main.asyncAfter(deadline: deadline) {
       self.toastWindow.orderOut(nil)
     }
+  }
+  
+  func dismissToast() {
+    self.toastWindow.orderOut(nil)
   }
 
   func quit() {

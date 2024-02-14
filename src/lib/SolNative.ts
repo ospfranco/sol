@@ -60,7 +60,7 @@ class SolNative extends NativeEventEmitter {
   securelyStore: (key: string, value: string) => Promise<void>
   securelyRetrieve: (key: string) => Promise<string | null>
   executeBashScript: (script: string) => Promise<void>
-  showToast: (text: string) => Promise<void>
+  showToast: (text: string, timeout?: number) => Promise<void>
   ls: typeof global.__SolProxy.ls
   exists: typeof global.__SolProxy.exists
   readFile: typeof global.__SolProxy.readFile
@@ -147,7 +147,8 @@ class SolNative extends NativeEventEmitter {
     this.securelyRetrieve = module.securelyRetrieve
     this.securelyStore = module.securelyStore
 
-    this.showToast = module.showToast
+    this.showToast = (text: string, timeout = 2) =>
+      module.showToast(text, timeout)
 
     this.ls = global.__SolProxy.ls
     this.exists = global.__SolProxy.exists

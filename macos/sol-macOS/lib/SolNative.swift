@@ -307,9 +307,9 @@ class SolNative: RCTEventEmitter {
     return resolve(value)
   }
 
-  @objc func showToast(_ text: String) {
+  @objc func showToast(_ text: String, timeout: NSNumber) {
     DispatchQueue.main.async {
-      self.appDelegate?.showToast(text)
+      self.appDelegate?.showToast(text, timeout: timeout)
     }
   }
 
