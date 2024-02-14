@@ -26,10 +26,6 @@ export let RootContainer = observer(() => {
   let borderColor2 = store.ui.isDarkMode ? '#FFFFFF55' : '#00000044'
   let blurDisabled = store.ui.reduceTransparency
 
-  // useEffect(() => {
-  //   solNative.getWifiInfo()
-  // }, [])
-
   if (widget === Widget.CLIPBOARD) {
     return (
       <BlurView
@@ -153,6 +149,7 @@ export let RootContainer = observer(() => {
       cornerRadius={10}
       className={clsx({
         'h-16': !store.ui.query,
+        'h-20': !store.ui.isAccessibilityTrusted,
         'h-24':
           !store.ui.query &&
           store.ui.calendarEnabled &&
@@ -172,9 +169,7 @@ export let RootContainer = observer(() => {
         <SearchWidget />
 
         {!store.ui.query && store.ui.calendarEnabled && (
-          <View className="border-t border-lightBorder dark:border-darkBorder">
             <FullCalendar />
-          </View>
         )}
 
         {!store.ui.isAccessibilityTrusted && (

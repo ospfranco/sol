@@ -29,7 +29,7 @@ export let FullCalendar: FC = observer(() => {
   return (
     <StyledScrollView
       className="max-h-full"
-      contentContainerStyle="py-3"
+      contentContainerStyle="py-2"
       showsVerticalScrollIndicator={false}>
       {Object.entries(store.calendar.groupedEvents).map(([key, group]) => {
         let shouldShowRelative = group.date.diffNow('days').days <= 5

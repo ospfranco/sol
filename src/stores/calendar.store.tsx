@@ -149,7 +149,7 @@ export const createCalendarStore = (root: IRootStore) => {
             solNative.setStatusBarItemTitle(
               `🗓️ ${upcomingEvent.title!.trim().substring(0, 18)}${
                 upcomingEvent.title!.length > 18 ? '...' : ''
-              } | ${relativeHoursStr}${relativeMinutesStr}`,
+              } | ${relativeHoursStr} ${relativeMinutesStr}`,
             )
           } else if (minutes <= 0) {
             solNative.setStatusBarItemTitle(`⏰ ${upcomingEvent.title?.trim()}`)

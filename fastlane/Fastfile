@@ -45,7 +45,8 @@ platform :mac do
       sh("git", "commit", "-m", version)
       sh("git", "push")
     end
-    sh("pingme")
+
+    sh("pingme", "Sol " + version + " released")
   end
 
   lane :dev do
