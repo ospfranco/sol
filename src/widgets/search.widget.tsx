@@ -126,16 +126,15 @@ export const SearchWidget: FC<Props> = observer(() => {
           )}
           {item.type === ItemType.BOOKMARK && (
             <Text
-              className={clsx('dark:text-neutral-300', {
-                'text-white': isActive,
-              })}>
+              className={clsx('text-neutral-500 dark:text-neutral-300', {
+                'dark:text-white': isActive,              })}>
               Bookmark
             </Text>
           )}
           {item.type === ItemType.PREFERENCE_PANE && (
             <Text
               className={clsx('dark:text-neutral-300 ml-3', {
-                'text-white': isActive,
+                'dark:text-white': isActive,
               })}>
               Settings
             </Text>
@@ -210,18 +209,18 @@ export const SearchWidget: FC<Props> = observer(() => {
             }}>
             {store.ui.currentItem?.type === ItemType.CUSTOM && (
               <>
-                <Text className="text-sm mr-2">Delete</Text>
+                <Text className="text-xs mr-2">Delete</Text>
                 <Key symbol={'⇧'} />
                 <Key symbol={'delete'} />
                 <View className="border-l h-2/3 border-lightBorder dark:border-darkBorder mx-2" />
               </>
             )}
-            <Text className="text-sm mr-2">Translate</Text>
+            <Text className="text-xs mr-2">Translate</Text>
             <Key symbol={'⇧'} />
             <Key symbol={'⏎'} />
             <View className="border-l h-2/3 border-lightBorder dark:border-darkBorder mx-2" />
             <Text
-              className={clsx('text-sm mr-2', {
+              className={clsx('text-xs mr-2', {
                 'font-semibold': !items.length,
               })}>
               Search
@@ -232,7 +231,7 @@ export const SearchWidget: FC<Props> = observer(() => {
               <>
                 <View className="border-l h-2/3 border-lightBorder dark:border-darkBorder mx-2" />
                 <Text
-                  className={clsx('text-sm mr-2', {
+                  className={clsx('text-xs mr-2', {
                     'font-semibold': !!items.length,
                   })}>
                   Select
