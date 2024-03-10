@@ -2639,15 +2639,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rnx-kit/align-deps@npm:^2.2.4":
-  version: 2.3.3
-  resolution: "@rnx-kit/align-deps@npm:2.3.3"
-  bin:
-    rnx-align-deps: lib/index.js
-  checksum: 10c0/8b5ed3a14d2c2e7a1699134260003e8f7ed8340c21cb4d0581a5dce71c4f3ddcf15e1f32d9cc0c5c490bb7a5fc331c7a9bb35d71e591ab2b120ac73214c5e484
-  languageName: node
-  linkType: hard
-
 "@sentry-internal/tracing@npm:7.47.0":
   version: 7.47.0
   resolution: "@sentry-internal/tracing@npm:7.47.0"
@@ -4803,17 +4794,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"escape-string-regexp@npm:2.0.0, escape-string-regexp@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "escape-string-regexp@npm:2.0.0"
-  checksum: 10c0/2530479fe8db57eace5e8646c9c2a9c80fa279614986d16dcc6bcaceb63ae77f05a851ba6c43756d816c61d7f4534baf56e3c705e3e0d884818a46808811c507
-  languageName: node
-  linkType: hard
-
 "escape-string-regexp@npm:^1.0.3, escape-string-regexp@npm:^1.0.5":
   version: 1.0.5
   resolution: "escape-string-regexp@npm:1.0.5"
   checksum: 10c0/a968ad453dd0c2724e14a4f20e177aaf32bb384ab41b674a8454afe9a41c5e6fe8903323e0a1052f56289d04bd600f81278edf140b0fcc02f5cac98d0f5b5371
+  languageName: node
+  linkType: hard
+
+"escape-string-regexp@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "escape-string-regexp@npm:2.0.0"
+  checksum: 10c0/2530479fe8db57eace5e8646c9c2a9c80fa279614986d16dcc6bcaceb63ae77f05a851ba6c43756d816c61d7f4534baf56e3c705e3e0d884818a46808811c507
   languageName: node
   linkType: hard
 
@@ -5971,7 +5962,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"invariant@npm:2.2.4, invariant@npm:^2.2.4":
+"invariant@npm:^2.2.4":
   version: 2.2.4
   resolution: "invariant@npm:2.2.4"
   dependencies:
@@ -8838,9 +8829,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-macos@npm:^0.73.1":
-  version: 0.73.15
-  resolution: "react-native-macos@npm:0.73.15"
+"react-native-macos@npm:^0.73.19":
+  version: 0.73.19
+  resolution: "react-native-macos@npm:0.73.19"
   dependencies:
     "@jest/create-cache-key-function": "npm:^29.6.3"
     "@react-native-community/cli": "npm:12.3.2"
@@ -8884,20 +8875,7 @@ __metadata:
     react: 18.2.0
   bin:
     react-native-macos: cli.js
-  checksum: 10c0/75c4d856d2d3706439f3b518f66d9ad059cb355218a23cd25f84827002c453316dc5b2b068f90b850c378fc2816e51c73336fecf03ef5f4a5cb2bec36e8ff998
-  languageName: node
-  linkType: hard
-
-"react-native-webview@npm:^12.0.2":
-  version: 12.4.0
-  resolution: "react-native-webview@npm:12.4.0"
-  dependencies:
-    escape-string-regexp: "npm:2.0.0"
-    invariant: "npm:2.2.4"
-  peerDependencies:
-    react: "*"
-    react-native: "*"
-  checksum: 10c0/a79e84a7685c04c635f38139df2a497c25ecfb3eed9a0a4738cdeb3dbe540ade59005fcde242365092dab7854c0dfd764b99e04f69ef2d45fb878457f09267aa
+  checksum: 10c0/71dfef9dba55b92db9c638fd7406bc7f661f90aed90414695a108f2555c92d23cf6999d176e1ea63edd75ff83d44edfa493d88705c8c3861fdcd010704cb4058
   languageName: node
   linkType: hard
 
@@ -9640,7 +9618,6 @@ __metadata:
     "@react-native/eslint-config": "npm:^0.73.1"
     "@react-native/metro-config": "npm:^0.73.2"
     "@react-native/typescript-config": "npm:0.73.1"
-    "@rnx-kit/align-deps": "npm:^2.2.4"
     "@sentry/react-native": "npm:5.3.1"
     "@tsconfig/react-native": "npm:^2.0.2"
     "@types/chance": "npm:^1.1.3"
@@ -9676,8 +9653,7 @@ __metadata:
     react: "npm:18.2.0"
     react-native: "npm:^0.73.1"
     react-native-get-random-values: "npm:^1.8.0"
-    react-native-macos: "npm:^0.73.1"
-    react-native-webview: "npm:^12.0.2"
+    react-native-macos: "npm:^0.73.19"
     react-test-renderer: "npm:18.2.0"
     rimraf: "npm:^3.0.2"
     tailwindcss: "npm:3.2.4"

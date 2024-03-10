@@ -127,7 +127,8 @@ export const SearchWidget: FC<Props> = observer(() => {
           {item.type === ItemType.BOOKMARK && (
             <Text
               className={clsx('text-neutral-500 dark:text-neutral-300', {
-                'dark:text-white': isActive,              })}>
+                'dark:text-white': isActive,
+              })}>
               Bookmark
             </Text>
           )}
@@ -193,11 +194,9 @@ export const SearchWidget: FC<Props> = observer(() => {
             showsVerticalScrollIndicator={false}
             ListEmptyComponent={
               <View className="flex-1 items-center justify-center">
-                <View className="h-32 w-32 rounded-full border border-dashed border-neutral-300 dark:border-neutral-700 items-center justify-center">
-                  <Text className="text-neutral-300 dark:text-neutral-700">
-                    No results
-                  </Text>
-                </View>
+                <Text className="text-neutral-300 dark:text-neutral-500 text-5xl font-thin">
+                  [ ]
+                </Text>
               </View>
             }
           />

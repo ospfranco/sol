@@ -246,7 +246,11 @@ export const createKeystrokeStore = (root: IRootStore) => {
                   if (item.isApplescript) {
                     solNative.executeAppleScript(item.text)
                   } else {
-                    Linking.openURL(item.text)
+                    try {
+                      Linking.openURL(item.text)
+                    } catch (e) {
+                      solNative.showToast(`Could not open URL: ${item.text}`)
+                    }
                   }
                 }
               }

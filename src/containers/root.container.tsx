@@ -11,7 +11,6 @@ import {Widget} from 'stores/ui.store'
 import {ClipboardWidget} from 'widgets/clipboard.widget'
 import {CreateItemWidget} from 'widgets/createItem.widget'
 import {EmojisWidget} from 'widgets/emojis.widget'
-import {GoogleMapWidget} from 'widgets/googleMap.widget'
 import {OnboardingWidget} from 'widgets/onboarding.widget'
 import {ProcessesWidget} from 'widgets/processes.widget'
 import {ScratchpadWidget} from 'widgets/scratchpad.widget'
@@ -61,19 +60,6 @@ export let RootContainer = observer(() => {
         startColor={borderColor1}
         endColor={borderColor2}>
         <ScratchpadWidget />
-      </BlurView>
-    )
-  }
-
-  if (widget === Widget.GOOGLE_MAP) {
-    return (
-      <BlurView
-        disabled={blurDisabled}
-        cornerRadius={10}
-        className="flex-1"
-        startColor={borderColor1}
-        endColor={borderColor2}>
-        <GoogleMapWidget />
       </BlurView>
     )
   }
@@ -168,9 +154,7 @@ export let RootContainer = observer(() => {
         className="flex-1">
         <SearchWidget />
 
-        {!store.ui.query && store.ui.calendarEnabled && (
-            <FullCalendar />
-        )}
+        {!store.ui.query && store.ui.calendarEnabled && <FullCalendar />}
 
         {!store.ui.isAccessibilityTrusted && (
           <>
