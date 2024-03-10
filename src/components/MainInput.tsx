@@ -47,7 +47,6 @@ export const MainInput = observer<Props>(
           placeholderTextColor={
             colorScheme === 'dark' ? colors.neutral[500] : colors.neutral[400]
           }
-          selectionColor={'#FF0000'}
           placeholder={placeholder}
         />
       </View>
