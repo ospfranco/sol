@@ -46,6 +46,8 @@ platform :mac do
       sh("git", "push")
     end
 
+    sh("cp", "-R", appFileName, "/Applications/")
+
     sh("pingme", "Sol " + version + " released")
   end
 

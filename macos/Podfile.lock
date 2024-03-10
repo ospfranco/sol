@@ -1273,7 +1273,7 @@ SPEC CHECKSUMS:
   SentryPrivate: 2bb4f8d9ff558b25ac70b66c1dedc58a7c43630b
   SocketRocket: f6c6249082c011e6de2de60ed641ef8bbe0cfac9
   Sparkle: 0e335e5c704ac28dbea18cc0383e15a3927c28dc
-  Yoga: 7b8d40f2cffcef4f083d170eadc2198b9ccfec2e
+  Yoga: eb63aa74be77afbdc73a46af081ec2e08306fa3b
 
 PODFILE CHECKSUM: b1da3d05daeccfc7aa777ee18a022e4b14727a41
 

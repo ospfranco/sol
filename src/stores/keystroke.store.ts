@@ -259,7 +259,6 @@ export const createKeystrokeStore = (root: IRootStore) => {
 
         // esc key
         case 53: {
-          root.ui.focusWidget(Widget.SEARCH)
           switch (root.ui.focusedWidget) {
             case Widget.SEARCH:
             case Widget.EMOJIS:
@@ -273,6 +272,8 @@ export const createKeystrokeStore = (root: IRootStore) => {
               root.ui.setQuery('')
               break
           }
+
+          root.ui.focusWidget(Widget.SEARCH)
           break
         }
 
@@ -337,6 +338,10 @@ export const createKeystrokeStore = (root: IRootStore) => {
               break
 
             case Widget.EMOJIS:
+              if (root.emoji.emojis.length === 0) {
+                return
+              }
+
               let totalSize =
                 (root.emoji.emojis.length - 1) * EMOJI_ROW_SIZE +
                 root.emoji.emojis[root.emoji.emojis.length - 1].length
@@ -418,6 +423,10 @@ export const createKeystrokeStore = (root: IRootStore) => {
               break
 
             case Widget.EMOJIS:
+              if (root.emoji.emojis.length === 0) {
+                return
+              }
+
               let totalSize =
                 (root.emoji.emojis.length - 1) * EMOJI_ROW_SIZE +
                 root.emoji.emojis[root.emoji.emojis.length - 1].length
@@ -436,7 +445,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
         case 126: {
           switch (root.ui.focusedWidget) {
             case Widget.SCRATCHPAD:
-              return
+              break
 
             case Widget.EMOJIS:
               root.ui.selectedIndex = Math.max(
@@ -448,7 +457,8 @@ export const createKeystrokeStore = (root: IRootStore) => {
             default:
               if (
                 root.ui.focusedWidget === Widget.SEARCH &&
-                root.ui.selectedIndex === 0
+                root.ui.selectedIndex === 0 &&
+                root.ui.history.length > 0
               ) {
                 root.ui.setQuery(
                   root.ui.history[
@@ -460,9 +470,10 @@ export const createKeystrokeStore = (root: IRootStore) => {
                   Math.min(root.ui.history.length, root.ui.historyPointer + 1),
                 )
                 return
+              } else {
+                root.ui.selectedIndex = Math.max(0, root.ui.selectedIndex - 1)
               }
 
-              root.ui.selectedIndex = Math.max(0, root.ui.selectedIndex - 1)
               break
           }
           break
