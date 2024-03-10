@@ -1,4 +1,13 @@
-export const emojis = [
+export const emojis: {
+  emoji: string
+  description: string
+  category: string
+  aliases: string[]
+  tags: string[]
+  unicode_version?: string
+  ios_version?: string
+  skin_tones?: boolean
+}[] = [
   {
     emoji: '😀',
     description: 'grinning face',
@@ -16715,6 +16724,13 @@ export const emojis = [
     description: 'down arrow`',
     category: 'Apple',
     aliases: [],
-    tags: ['down`'],
+    tags: ['down'],
+  },
+  {
+    emoji: '•',
+    description: 'dot`',
+    category: 'Apple',
+    aliases: [],
+    tags: ['dot'],
   },
 ]

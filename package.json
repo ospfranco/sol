@@ -11,12 +11,12 @@
     "dev": "bundle exec fastlane dev && rimraf releases/Sol.app && open /Applications/Sol.app",
     "release": "bundle exec fastlane release",
     "nuke": "npm i && rm -rf macos/build && rm -rf macos/Pods && npx pod-install macos",
-    "check-dependencies": "rnx-align-deps",
     "fix-dependencies": "rnx-align-deps --write",
     "appcast": "./macos/Pods/Sparkle/bin/generate_appcast releases",
     "pods": "bundle exec pod install --project-directory=macos",
     "postinstall": "npm run pods && patch-package",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@expo/plist": "^0.0.20",
