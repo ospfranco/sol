@@ -48,6 +48,8 @@ platform :mac do
 
     sh("cp", "-R", appFileName, "/Applications/")
 
+    sh("open", "/Applications/Sol.app")
+
     sh("pingme", "Sol " + version + " released")
   end
 
