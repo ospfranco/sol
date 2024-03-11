@@ -20,10 +20,9 @@
   },
   "dependencies": {
     "@expo/plist": "^0.0.20",
-    "@giphy/js-fetch-api": "^4.1.2",
     "@react-native-async-storage/async-storage": "^1.17.11",
     "@react-native-picker/picker": "^2.4.0",
-    "@sentry/react-native": "5.3.1",
+    "@sentry/react-native": "5.19.2",
     "assert": "^2.0.0",
     "axios": "^0.25.0",
     "chance": "^1.1.9",
@@ -43,7 +42,7 @@
     "react": "18.2.0",
     "react-native": "^0.73.1",
     "react-native-get-random-values": "^1.8.0",
-    "react-native-macos": "^0.73.19",
+    "react-native-macos": "^0.73.20",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
