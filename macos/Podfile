@@ -9,7 +9,7 @@ target 'macOS' do
 
   use_react_native!(
     :path => '../node_modules/react-native-macos',
-    :hermes_enabled => false,
+    :hermes_enabled => true,
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
