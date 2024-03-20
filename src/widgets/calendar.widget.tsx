@@ -1,6 +1,5 @@
 import {Key} from 'components/Key'
 import {solNative} from 'lib/SolNative'
-import {extractMeetingLink} from 'lib/calendar'
 import {DateTime} from 'luxon'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect} from 'react'

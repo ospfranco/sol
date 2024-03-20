@@ -1,9 +1,8 @@
-import {Assets, Icons} from 'assets'
+import {Icons} from 'assets'
 import clsx from 'clsx'
 import {BackButton} from 'components/BackButton'
 import {Input} from 'components/Input'
 import {MySwitch} from 'components/MySwitch'
-import {SelectableButton} from 'components/SelectableButton'
 import {SolButton} from 'components/SolButton'
 import {solNative} from 'lib/SolNative'
 import {observer} from 'mobx-react-lite'
@@ -11,7 +10,6 @@ import React, {FC, useEffect, useState} from 'react'
 import {Image, Text, TouchableOpacity, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
 import {ItemType} from 'stores/ui.store'
-import colors from 'tailwindcss/colors'
 
 interface Props {
   style?: ViewStyle

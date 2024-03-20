@@ -1,5 +1,4 @@
 import clsx from 'clsx'
-import {LoadingBar} from 'components/LoadingBar'
 import {MainInput} from 'components/MainInput'
 import {StyledFlatList} from 'components/StyledFlatList'
 import {useFullSize} from 'hooks/useFullSize'

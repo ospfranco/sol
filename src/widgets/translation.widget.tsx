@@ -1,5 +1,4 @@
 import clsx from 'clsx'
-import {LoadingBar} from 'components/LoadingBar'
 import {MainInput} from 'components/MainInput'
 import {useFullSize} from 'hooks/useFullSize'
 import {solNative} from 'lib/SolNative'

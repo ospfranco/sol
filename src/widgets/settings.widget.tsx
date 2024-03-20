@@ -1,5 +1,4 @@
 import {Assets} from 'assets'
-import clsx from 'clsx'
 import {Dropdown} from 'components/Dropdown'
 import {MySwitch} from 'components/MySwitch'
 import {SelectableButton} from 'components/SelectableButton'
@@ -11,10 +10,9 @@ import React, {FC, useState} from 'react'
 import {Image, Linking, Text, TouchableOpacity, View} from 'react-native'
 import {useStore} from 'store'
 import {Widget} from 'stores/ui.store'
-// @ts-ignore
 import {BackButton} from 'components/BackButton'
-import packageInfo from '../../package.json'
 import {MyRadioButton} from 'components/MyRadioButton'
+import packageInfo from '../../package.json'
 
 type ITEM = 'ABOUT' | 'GENERAL' | 'TRANSLATE'
 

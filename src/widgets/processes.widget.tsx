@@ -1,17 +1,16 @@
 import clsx from 'clsx'
 import {GradientView} from 'components/GradientView'
-import {LoadingBar} from 'components/LoadingBar'
+import {Key} from 'components/Key'
 import {MainInput} from 'components/MainInput'
 import {StyledFlatList} from 'components/StyledFlatList'
 import {useFullSize} from 'hooks/useFullSize'
 import {observer} from 'mobx-react-lite'
+import prettyBytes from 'pretty-bytes'
 import React, {FC, useEffect, useRef} from 'react'
 import {FlatList, Text, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
 import {Process} from 'stores/processes.store'
 import customColors from '../colors'
-import {Key} from 'components/Key'
-import prettyBytes from 'pretty-bytes'
 
 interface Props {
   style?: ViewStyle
