@@ -190,7 +190,11 @@ export const createCalendarStore = (root: IRootStore) => {
         }
 
         if (eventLink) {
-          Linking.openURL(eventLink)
+          try {
+            Linking.openURL(eventLink)
+          } catch (e) {
+            solNative.showToast(`❌ Failed to open event link: ${eventLink}`)
+          }
         } else {
           Linking.openURL('ical://')
         }
