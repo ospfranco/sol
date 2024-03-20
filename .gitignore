@@ -76,3 +76,4 @@ vendor
 src/env.ts
 Sol.app.zip
 Sol.app copy.zip
+sentry.properties
