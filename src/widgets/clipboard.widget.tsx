@@ -1,16 +1,12 @@
 import clsx from 'clsx'
 import {FileIcon} from 'components/FileIcon'
-import {GradientView} from 'components/GradientView'
-import {Key} from 'components/Key'
-import {LoadingBar} from 'components/LoadingBar'
+import {MainInput} from 'components/MainInput'
 import {StyledFlatList} from 'components/StyledFlatList'
 import {useFullSize} from 'hooks/useFullSize'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect, useRef} from 'react'
 import {FlatList, Text, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
-import customColors from '../colors'
-import {MainInput} from 'components/MainInput'
 
 interface Props {
   style?: ViewStyle
@@ -42,6 +38,7 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
         className="flex-1"
         contentContainerStyle="flex-grow"
         ref={listRef}
+        onScrollToIndexFailed={() => {}}
         ListEmptyComponent={
           <View className="flex-1 justify-center items-center">
             <Text className="dark:text-neutral-700 text-sm text-neutral-500">
@@ -53,9 +50,12 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
           const isActive = index === selectedIndex
           return (
             <View
-              className={clsx('mx-2 mb-1 flex-row items-center rounded g-2 p-2', {
-                'bg-neutral-300 dark:bg-neutral-700': isActive,
-              })}>
+              className={clsx(
+                'mx-2 mb-1 flex-row items-center rounded g-2 p-2',
+                {
+                  'bg-neutral-300 dark:bg-neutral-700': isActive,
+                },
+              )}>
               <FileIcon
                 url={decodeURIComponent(item.bundle?.replace('file://', ''))}
                 className="h-6 w-6"
