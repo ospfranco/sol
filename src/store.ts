@@ -25,10 +25,10 @@ let createRootStore = (): IRootStore => {
   store.calendar = createCalendarStore(store)
   store.processes = createProcessesStore(store)
   store.emoji = createEmojiStore(store)
-
-  store.cleanUp = () => {
+  ;(store as IRootStore).cleanUp = () => {
     store.ui.cleanUp()
     store.calendar.cleanUp()
+    store.keystroke.cleanUp()
   }
 
   return store
