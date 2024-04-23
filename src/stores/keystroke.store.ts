@@ -78,6 +78,10 @@ export const createKeystrokeStore = (root: IRootStore) => {
               break
             }
             case Widget.CLIPBOARD: {
+              if (root.clipboard.clipboardItems.length === 0) {
+                return
+              }
+
               const entry = root.clipboard.clipboardItems[root.ui.selectedIndex]
 
               const originalIndex = root.clipboard.clipboardItems.findIndex(

@@ -1,7 +1,7 @@
 import {LogBox} from 'react-native'
 import Fuse from 'fuse.js'
 import * as Sentry from '@sentry/react-native'
-import {SentryDSN} from 'env'
+import {SentryDSN} from './env'
 
 LogBox.ignoreLogs(['Clipboard ', 'Component', 'Require cycle:'])
 
