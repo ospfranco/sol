@@ -179,11 +179,10 @@ export const createKeystrokeStore = (root: IRootStore) => {
                 return
               }
 
-              if (!!root.ui.query) {
-                root.ui.addToHistory(root.ui.query)
-              }
+              root.ui.addToHistory(root.ui.query)
 
-              if (!!root.ui.query && meta) {
+              // If there are no items, or if the query is a meta query, open a google search
+              if (!root.ui.items.length || (!!root.ui.query && meta)) {
                 Linking.openURL(
                   `https://google.com/search?q=${encodeURIComponent(
                     root.ui.query,
@@ -195,16 +194,6 @@ export const createKeystrokeStore = (root: IRootStore) => {
 
               if (!!root.ui.query && shift) {
                 root.ui.translateQuery()
-                return
-              }
-
-              if (!root.ui.items.length) {
-                Linking.openURL(
-                  `https://google.com/search?q=${encodeURIComponent(
-                    root.ui.query,
-                  )}`,
-                )
-                solNative.hideWindow()
                 return
               }
 
@@ -239,22 +228,30 @@ export const createKeystrokeStore = (root: IRootStore) => {
 
               if (store.commandPressed && item.metaCallback) {
                 item.metaCallback()
+                return
               } else if (item.callback) {
                 item.callback()
+                return
               } else if (item.url) {
                 solNative.openFile(item.url)
+                return
               }
 
               if (item.type === ItemType.CUSTOM) {
-                if (item.text) {
-                  if (item.isApplescript) {
-                    solNative.executeAppleScript(item.text)
-                  } else {
-                    try {
+                if (!item.text) {
+                  return
+                }
+
+                if (item.isApplescript) {
+                  solNative.executeAppleScript(item.text)
+                } else {
+                  try {
+                    const canOpenURL = await Linking.canOpenURL(item.text)
+                    if (canOpenURL) {
                       Linking.openURL(item.text)
-                    } catch (e) {
-                      solNative.showToast(`Could not open URL: ${item.text}`)
                     }
+                  } catch (e) {
+                    solNative.showToast(`Could not open URL: ${item.text}`)
                   }
                 }
               }
