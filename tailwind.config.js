@@ -32,26 +32,12 @@ module.exports = {
         26: '112px',
       },
       colors: {
-        // accent: '#007AFF',
-        // accentBg: '#007AFF10',
-        // light: {DEFAULT: 'rgba(255, 255, 255, .80)'},
-        // lighter: {DEFAULT: 'rgba(255, 255, 255, .90)'},
-        // dark: {DEFAULT: 'rgba(21, 21, 21, .65)'},
-        // darker: {DEFAULT: 'rgba(21, 21, 21, .7)'},
-        // highlight: {
-          // light: 'blue',
-          // DEFAULT: 'yellow',
-          // dark: 'red'
-        // },
         lightHighlight: {DEFAULT: 'rgba(0, 0, 0, .1)'},
         darkHighlight: {DEFAULT: 'rgba(255, 255, 255, .07)'},
         darkBorder: {DEFAULT: '#1B1B1B'},
         lightBorder: {DEFAULT: 'rgba(0, 0, 0, .1)'},
-        // buttonBorder: {DEFAULT: 'rgba(0, 0, 0, .03)'},
-        // keyBg: '#F4F5F8',
-        // proGray: {
-        //   900: 'rgba(21, 22, 25, 0.9)',
-        // },
+        subBgDark: '#00000020',
+        subBgLight: '#00000005'
       },
     },
   },

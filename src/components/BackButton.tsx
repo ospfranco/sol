@@ -3,13 +3,10 @@ import {useBoolean} from 'hooks'
 import React, {FC} from 'react'
 import {
   Image,
-  Text,
   TouchableOpacity,
   TouchableOpacityProps,
   View,
-  ViewStyle,
 } from 'react-native'
-import colors from '../colors'
 import {observer} from 'mobx-react-lite'
 import {useStore} from 'store'
 import {Assets} from 'assets'
@@ -21,6 +18,7 @@ export const BackButton: FC<Props> = observer(props => {
   const [hovered, hoverOn, hoverOff] = useBoolean()
   return (
     <TouchableOpacity
+      className="w-9"
       onMouseEnter={hoverOn}
       onMouseLeave={hoverOff}
       {...props}

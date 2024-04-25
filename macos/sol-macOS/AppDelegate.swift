@@ -5,7 +5,7 @@ import HotKey
 import Sparkle
 import SwiftUI
 
-let baseSize = NSSize(width: 800, height: 450)
+let baseSize = NSSize(width: 700, height: 450)
 let handledKeys: [UInt16] = [53, 123, 124, 126, 125, 36, 48]
 let numberchars: [String] = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
@@ -404,14 +404,14 @@ class AppDelegate: NSObject, NSApplicationDelegate,
   }
 
   @objc func hideWindow() {
-    //    #if !DEBUG
+        #if !DEBUG
     if mainWindow.isVisible {
       overlayWindow.orderOut(self)
       mainWindow.orderOut(self)
       SolEmitter.sharedInstance.onHide()
       settingsHotKey.isPaused = true
     }
-    //    #endif
+        #endif
   }
 
   func setHorizontalArrowCatch(catchHorizontalArrowPress: Bool) {

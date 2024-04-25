@@ -29,7 +29,7 @@ export const SettingsWidget: FC = observer(() => {
 
   return (
     <View className="h-full">
-      <View className="px-4 py-3 border-b border-lightBorder dark:border-darkBorder flex-row gap-2">
+      <View className="px-4 py-3 flex-row gap-2 subBg">
         <View className="flex-1">
           <BackButton onPress={() => store.ui.focusWidget(Widget.SEARCH)} />
         </View>
@@ -88,14 +88,14 @@ export const SettingsWidget: FC = observer(() => {
           <ScrollView
             className="flex-1 h-full"
             contentContainerClassName="justify-center p-5 gap-2">
-            <View className="flex-row items-center p-3 bg-white dark:bg-[#2B2B2B] border border-darkBorder rounded">
-              <Text className="flex-1 text-sm">Launch on start</Text>
+            <View className="flex-row items-center p-3 subBg rounded">
+              <Text className="flex-1 text-sm text">Launch on start</Text>
               <MySwitch
                 value={store.ui.launchAtLogin}
                 onValueChange={store.ui.setLaunchAtLogin}
               />
             </View>
-            <View className="p-3 bg-white dark:bg-[#2B2B2B] border border-darkBorder rounded gap-3">
+            <View className="p-3 subBg  rounded gap-3">
               <View className="gap-3">
                 <Text className="flex-1 text-sm">Global shortcut</Text>
                 <View className="flex-1">
@@ -163,7 +163,7 @@ export const SettingsWidget: FC = observer(() => {
               </View>
             </View>
 
-            <View className="p-3 bg-white dark:bg-[#2B2B2B] border border-darkBorder rounded gap-3">
+            <View className="p-3 subBg border border-darkBorder rounded gap-3">
               <View className="gap-3">
                 <Text className="">Show window on</Text>
                 <View className="flex-1">
@@ -251,7 +251,7 @@ export const SettingsWidget: FC = observer(() => {
                 />
               </View>
               <View className="border-t border-lightBorder dark:border-darkBorder" />
-              <View className="flex-row items-center bg-red-500">
+              <View className="flex-row items-center">
                 <Text className="flex-1">Reduce transparency</Text>
                 <MySwitch
                   value={store.ui.reduceTransparency}

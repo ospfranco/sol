@@ -16,4 +16,8 @@
   .border-color {
     @apply border-lightBorder dark:border-darkBorder;
   }
+
+  .subBg {
+    @apply bg-subBgLight dark:bg-subBgDark;
+  }
 }

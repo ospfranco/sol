@@ -98,7 +98,7 @@ export const SearchWidget: FC<Props> = observer(() => {
           {/* Somehow this component breaks windows build */}
           {(Platform.OS === 'macos' || Platform.OS === 'ios') &&
             !!item.IconComponent && <item.IconComponent />}
-          <Text numberOfLines={1} className={'ml-3 text max-w-xl text-base'}>
+          <Text numberOfLines={1} className={'ml-3 text max-w-xl'}>
             {item.name}
           </Text>
 
@@ -158,11 +158,7 @@ export const SearchWidget: FC<Props> = observer(() => {
             }
           />
 
-          <View
-            className="py-2 px-4 flex-row items-center justify-end gap-1"
-            style={{
-              backgroundColor: store.ui.isDarkMode ? '#00000020' : '#00000005',
-            }}>
+          <View className="py-2 px-4 flex-row items-center justify-end gap-1 subBg">
             {store.ui.currentItem?.type === ItemType.CUSTOM && (
               <>
                 <Text className="text-xs darker-text mr-1">Delete</Text>

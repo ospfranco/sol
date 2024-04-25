@@ -39,21 +39,14 @@ export const SelectableButton: FC<SelectableButtonProps> = ({
       <View
         className={clsx('p-2 flex-row items-center gap-1 rounded', className, {
           'rounded-full': rounded,
-        })}
-        style={[
-          {
-            backgroundColor: selected
-              ? colors.accentBg
-              : hovered
-              ? colors.accentBg
-              : undefined,
-          },
-        ]}>
+          highlight: selected,
+          'bg-neutral-400 dark:bg-neutral-700': hovered,
+        })}>
         {leftItem}
         {!!title && (
           <Text
-            className={clsx(`text-sm text-neutral-600 dark:text-white`, {
-              'text-white': selected || hovered,
+            className={clsx(`text-sm text`, {
+              'dark:text-blue-500': selected,
             })}>
             {title}
           </Text>
