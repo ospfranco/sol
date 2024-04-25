@@ -37,6 +37,10 @@ module.exports = {
         lighter: {DEFAULT: 'rgba(255, 255, 255, .90)'},
         dark: {DEFAULT: 'rgba(21, 21, 21, .65)'},
         darker: {DEFAULT: 'rgba(21, 21, 21, .7)'},
+        highlight: {
+          light: 'rgba(0, 0, 0, .1)',
+          dark: 'rgba(255, 255, 255)'
+        },
         lightHighlight: {DEFAULT: 'rgba(0, 0, 0, .1)'},
         darkHighlight: {DEFAULT: 'rgba(255, 255, 255, .05)'},
         darkBorder: {DEFAULT: 'rgba(255, 255, 255, .1)'},

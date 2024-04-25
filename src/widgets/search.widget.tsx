@@ -21,18 +21,16 @@ export const SearchWidget: FC<Props> = observer(() => {
   const store = useStore()
   const focused = store.ui.focusedWidget === Widget.SEARCH
   const listRef = useRef<FlatList | null>(null)
+  const items = store.ui.items
 
   useEffect(() => {
-    if (focused && store.ui.items.length) {
+    if (focused && items.length && store.ui.selectedIndex < items.length) {
       listRef.current?.scrollToIndex({
         index: store.ui.selectedIndex,
         viewOffset: 80,
       })
     }
   }, [focused, store.ui.selectedIndex])
-
-  // assignment to get mobx to update the component
-  const items = store.ui.items
 
   const renderItem = ({item, index}: {item: Item; index: number}) => {
     const isActive = index === store.ui.selectedIndex
@@ -58,24 +56,10 @@ export const SearchWidget: FC<Props> = observer(() => {
     }
 
     return (
-      <GradientView
-        className={'flex-row items-center'}
-        startColor={
-          isActive
-            ? store.ui.isDarkMode
-              ? `#CCCCCC20`
-              : `#33333320`
-            : '#00000000'
-        }
-        endColor={
-          isActive
-            ? store.ui.isDarkMode
-              ? `#CCCCCC18`
-              : `#33333318`
-            : '#00000000'
-        }
-        cornerRadius={10}
-        angle={90}>
+      <View
+        className={clsx('flex-row items-center rounded-lg py-2', {
+          'bg-highlight': isActive,
+        })}>
         <View className="flex-1 flex-row items-center px-4 h-9">
           {!!item.url && (
             <View className="g-1 items-center flex-row">
@@ -164,7 +148,7 @@ export const SearchWidget: FC<Props> = observer(() => {
             </View>
           )}
         </View>
-      </GradientView>
+      </View>
     )
   }
 
