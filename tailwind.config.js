@@ -1,12 +1,12 @@
-const plugin = require('tailwindcss/plugin')
+/** @type {import('tailwindcss').Config} */
 
 module.exports = {
   content: ['./src/**/*.{tsx,ts}'],
+  presets: [require("nativewind/preset")],
   theme: {
     minWidth: {
       10: '10px',
     },
-    g: ({theme}) => theme('spacing'),
     fontSize: {
       xxs: '11px',
       xs: '12px',
@@ -31,38 +31,27 @@ module.exports = {
         26: '112px',
       },
       colors: {
-        accent: '#007AFF',
-        accentBg: '#007AFF10',
-        light: {DEFAULT: 'rgba(255, 255, 255, .80)'},
-        lighter: {DEFAULT: 'rgba(255, 255, 255, .90)'},
-        dark: {DEFAULT: 'rgba(21, 21, 21, .65)'},
-        darker: {DEFAULT: 'rgba(21, 21, 21, .7)'},
-        highlight: {
-          light: 'rgba(0, 0, 0, .1)',
-          dark: 'rgba(255, 255, 255)'
-        },
+        // accent: '#007AFF',
+        // accentBg: '#007AFF10',
+        // light: {DEFAULT: 'rgba(255, 255, 255, .80)'},
+        // lighter: {DEFAULT: 'rgba(255, 255, 255, .90)'},
+        // dark: {DEFAULT: 'rgba(21, 21, 21, .65)'},
+        // darker: {DEFAULT: 'rgba(21, 21, 21, .7)'},
+        // highlight: {
+          // light: 'blue',
+          // DEFAULT: 'yellow',
+          // dark: 'red'
+        // },
         lightHighlight: {DEFAULT: 'rgba(0, 0, 0, .1)'},
-        darkHighlight: {DEFAULT: 'rgba(255, 255, 255, .05)'},
-        darkBorder: {DEFAULT: 'rgba(255, 255, 255, .1)'},
-        lightBorder: {DEFAULT: 'rgba(0, 0, 0, .1)'},
-        buttonBorder: {DEFAULT: 'rgba(0, 0, 0, .03)'},
-        keyBg: '#F4F5F8',
-        proGray: {
-          900: 'rgba(21, 22, 25, 0.9)',
-        },
+        darkHighlight: {DEFAULT: 'rgba(255, 255, 255, .07)'},
+        // darkBorder: {DEFAULT: 'rgba(255, 255, 255, .1)'},
+        // lightBorder: {DEFAULT: 'rgba(0, 0, 0, .1)'},
+        // buttonBorder: {DEFAULT: 'rgba(0, 0, 0, .03)'},
+        // keyBg: '#F4F5F8',
+        // proGray: {
+        //   900: 'rgba(21, 22, 25, 0.9)',
+        // },
       },
     },
   },
-  plugins: [
-    plugin(function ({matchUtilities, theme}) {
-      matchUtilities(
-        {
-          g: value => ({
-            gap: value,
-          }),
-        },
-        {values: theme('g')},
-      )
-    }),
-  ],
 }

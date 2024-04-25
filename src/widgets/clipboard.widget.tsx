@@ -1,7 +1,6 @@
 import clsx from 'clsx'
 import {FileIcon} from 'components/FileIcon'
 import {MainInput} from 'components/MainInput'
-import {StyledFlatList} from 'components/StyledFlatList'
 import {useFullSize} from 'hooks/useFullSize'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect, useRef} from 'react'
@@ -33,10 +32,10 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
   return (
     <View className="flex-1 bg-white dark:bg-dark" style={style}>
       <MainInput placeholder="Search pasteboard history..." showBackButton />
-      <StyledFlatList
+      <FlatList
         data={data}
         className="flex-1"
-        contentContainerStyle="flex-grow"
+        contentContainerClassName="flex-grow"
         ref={listRef}
         onScrollToIndexFailed={() => {}}
         ListEmptyComponent={

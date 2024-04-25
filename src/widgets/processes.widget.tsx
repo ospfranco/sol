@@ -2,7 +2,6 @@ import clsx from 'clsx'
 import {GradientView} from 'components/GradientView'
 import {Key} from 'components/Key'
 import {MainInput} from 'components/MainInput'
-import {StyledFlatList} from 'components/StyledFlatList'
 import {useFullSize} from 'hooks/useFullSize'
 import {observer} from 'mobx-react-lite'
 import prettyBytes from 'pretty-bytes'
@@ -41,10 +40,10 @@ export const ProcessesWidget: FC<Props> = observer(({style}) => {
   return (
     <View className="flex-1 " style={style}>
       <MainInput placeholder="Search processes..." showBackButton />
-      <StyledFlatList
+      <FlatList
         data={data}
         className="flex-1"
-        contentContainerStyle="flex-grow"
+        contentContainerClassName="flex-grow"
         ref={listRef}
         ListEmptyComponent={
           <View className="flex-1 justify-center items-center">

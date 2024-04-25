@@ -1,6 +1,5 @@
 import clsx from 'clsx'
 import {MainInput} from 'components/MainInput'
-import {StyledFlatList} from 'components/StyledFlatList'
 import {useFullSize} from 'hooks/useFullSize'
 import {solNative} from 'lib/SolNative'
 import {observer} from 'mobx-react-lite'
@@ -44,10 +43,10 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
   return (
     <View className="h-full" style={style}>
       <MainInput placeholder="Search emojis..." />
-      <StyledFlatList
+      <FlatList
         ref={listRef}
         className="flex-1"
-        contentContainerStyle="flex-grow p-3"
+        contentContainerClassName="flex-grow p-3"
         data={emojis}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={

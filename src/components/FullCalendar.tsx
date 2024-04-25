@@ -3,7 +3,7 @@ import {solNative} from 'lib/SolNative'
 import {DateTime} from 'luxon'
 import {observer} from 'mobx-react-lite'
 import React, {FC} from 'react'
-import {Text, TouchableOpacity, View} from 'react-native'
+import {ScrollView, Text, TouchableOpacity, View} from 'react-native'
 import {useStore} from 'store'
 import {Key} from './Key'
 import {StyledScrollView} from './StyledScrollView'
@@ -27,9 +27,9 @@ export let FullCalendar: FC = observer(() => {
   }
 
   return (
-    <StyledScrollView
+    <ScrollView
       className="max-h-full"
-      contentContainerStyle="py-2"
+      contentContainerClassName="py-2"
       showsVerticalScrollIndicator={false}>
       {Object.entries(store.calendar.groupedEvents).map(([key, group]) => {
         let shouldShowRelative = group.date.diffNow('days').days <= 5
@@ -104,6 +104,6 @@ export let FullCalendar: FC = observer(() => {
           </View>
         )
       })}
-    </StyledScrollView>
+    </ScrollView>
   )
 })

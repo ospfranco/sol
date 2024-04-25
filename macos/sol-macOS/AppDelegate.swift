@@ -5,7 +5,7 @@ import HotKey
 import Sparkle
 import SwiftUI
 
-let baseSize = NSSize(width: 600, height: 400)
+let baseSize = NSSize(width: 800, height: 400)
 let handledKeys: [UInt16] = [53, 123, 124, 126, 125, 36, 48]
 let numberchars: [String] = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
@@ -89,16 +89,18 @@ class AppDelegate: NSObject, NSApplicationDelegate,
     )
   }
 
-  func applicationShouldHandleReopen(_: NSApplication,
-                                     hasVisibleWindows _: Bool) -> Bool
-  {
+  func applicationShouldHandleReopen(
+    _: NSApplication,
+    hasVisibleWindows _: Bool
+  ) -> Bool {
     showWindow()
     return true
   }
 
   func applicationDidFinishLaunching(_: Notification) {
     #if DEBUG
-      let jsCodeLocation: URL = RCTBundleURLProvider
+      let jsCodeLocation: URL =
+        RCTBundleURLProvider
         .sharedSettings()
         .jsBundleURL(forBundleRoot: "index")
     #else
@@ -197,9 +199,11 @@ class AppDelegate: NSObject, NSApplicationDelegate,
     bottomSideScreenHotKey
       .keyDownHandler = { WindowManager.sharedInstance.moveHalf(.bottom) }
     fullScreenHotKey.keyDownHandler = WindowManager.sharedInstance.fullscreen
-    moveToNextScreenHotKey.keyDownHandler = WindowManager.sharedInstance
+    moveToNextScreenHotKey.keyDownHandler =
+      WindowManager.sharedInstance
       .moveToNextScreen
-    moveToPrevScreenHotKey.keyDownHandler = WindowManager.sharedInstance
+    moveToPrevScreenHotKey.keyDownHandler =
+      WindowManager.sharedInstance
       .moveToPrevScreen
     topLeftScreenHotKey
       .keyDownHandler = {
@@ -208,7 +212,8 @@ class AppDelegate: NSObject, NSApplicationDelegate,
     topRightScreenHotKey
       .keyDownHandler = { WindowManager.sharedInstance.moveQuarter(.topRight) }
     bottomLeftScreenHotKey
-      .keyDownHandler = { WindowManager.sharedInstance.moveQuarter(.bottomLeft)
+      .keyDownHandler = {
+        WindowManager.sharedInstance.moveQuarter(.bottomLeft)
       }
     bottomRightScreenHotKey
       .keyDownHandler = {
@@ -226,14 +231,16 @@ class AppDelegate: NSObject, NSApplicationDelegate,
       //      124 arrow right
       //      125 arrow down
       //      126 arrow up
-      if ($0.keyCode == 123 || $0.keyCode == 124) && !self
-        .catchHorizontalArrowsPress
+      if ($0.keyCode == 123 || $0.keyCode == 124)
+        && !self
+          .catchHorizontalArrowsPress
       {
         return $0
       }
 
-      if ($0.keyCode == 125 || $0.keyCode == 126) && !self
-        .catchVerticalArrowsPress
+      if ($0.keyCode == 125 || $0.keyCode == 126)
+        && !self
+          .catchVerticalArrowsPress
       {
         return $0
       }
@@ -255,8 +262,9 @@ class AppDelegate: NSObject, NSApplicationDelegate,
         return nil
       }
 
-      if metaPressed && $0.characters != nil && numberchars
-        .contains($0.characters!)
+      if metaPressed && $0.characters != nil
+        && numberchars
+          .contains($0.characters!)
       {
         return nil
       }
@@ -316,7 +324,7 @@ class AppDelegate: NSObject, NSApplicationDelegate,
       return
     }
 
-    let step = 0.01 // in seconds and opacity
+    let step = 0.01  // in seconds and opacity
 
     overlayWindow.alphaValue = step * Double(i)
 
@@ -335,9 +343,9 @@ class AppDelegate: NSObject, NSApplicationDelegate,
     mainWindow.setIsVisible(false)
     mainWindow.makeKeyAndOrderFront(self)
 
-    guard let screen =
-      (showWindowOn == "screenWithFrontmost" ? getFrontmostScreen() :
-        getScreenWithMouse())
+    guard
+      let screen =
+        (showWindowOn == "screenWithFrontmost" ? getFrontmostScreen() : getScreenWithMouse())
     else {
       return
     }
@@ -396,14 +404,14 @@ class AppDelegate: NSObject, NSApplicationDelegate,
   }
 
   @objc func hideWindow() {
-//    #if !DEBUG
+    //    #if !DEBUG
     if mainWindow.isVisible {
       overlayWindow.orderOut(self)
       mainWindow.orderOut(self)
       SolEmitter.sharedInstance.onHide()
       settingsHotKey.isPaused = true
     }
-//    #endif
+    //    #endif
   }
 
   func setHorizontalArrowCatch(catchHorizontalArrowPress: Bool) {
@@ -555,16 +563,19 @@ class AppDelegate: NSObject, NSApplicationDelegate,
 
   func showToast(_ text: String, timeout: NSNumber?) {
     toastWindow.center()
-    guard let mainScreen = showWindowOn == "screenWithFrontmost" ? toastWindow
-      .screen : getScreenWithMouse()
+    guard
+      let mainScreen = showWindowOn == "screenWithFrontmost"
+        ? toastWindow
+          .screen : getScreenWithMouse()
     else {
       return
     }
 
-    toastWindow.setFrameOrigin(NSPoint(
-      x: toastWindow.frame.origin.x,
-      y: mainScreen.frame.origin.y + mainScreen.frame.size.height * 0.1
-    ))
+    toastWindow.setFrameOrigin(
+      NSPoint(
+        x: toastWindow.frame.origin.x,
+        y: mainScreen.frame.origin.y + mainScreen.frame.size.height * 0.1
+      ))
     toastWindow.makeKeyAndOrderFront(nil)
 
     let toastView = ToastView(text: text)
@@ -572,14 +583,14 @@ class AppDelegate: NSObject, NSApplicationDelegate,
     let rootView = NSHostingView(rootView: toastView)
 
     toastWindow.contentView = rootView
-    
+
     let deadline = timeout != nil ? DispatchTime.now() + timeout!.doubleValue : .now() + 2
 
     DispatchQueue.main.asyncAfter(deadline: deadline) {
       self.toastWindow.orderOut(nil)
     }
   }
-  
+
   func dismissToast() {
     self.toastWindow.orderOut(nil)
   }

@@ -27,12 +27,7 @@ export let RootContainer = observer(() => {
 
   if (widget === Widget.CLIPBOARD) {
     return (
-      <BlurView
-        disabled={blurDisabled}
-        cornerRadius={10}
-        className="flex-1"
-        startColor={borderColor1}
-        endColor={borderColor2}>
+      <BlurView disabled={blurDisabled} cornerRadius={10} className="flex-1">
         <ClipboardWidget />
       </BlurView>
     )
@@ -40,12 +35,7 @@ export let RootContainer = observer(() => {
 
   if (widget === Widget.EMOJIS) {
     return (
-      <BlurView
-        disabled={blurDisabled}
-        cornerRadius={10}
-        className="flex-1"
-        startColor={borderColor1}
-        endColor={borderColor2}>
+      <BlurView disabled={blurDisabled} cornerRadius={10} className="flex-1">
         <EmojisWidget />
       </BlurView>
     )
@@ -53,12 +43,7 @@ export let RootContainer = observer(() => {
 
   if (widget === Widget.SCRATCHPAD) {
     return (
-      <BlurView
-        disabled={blurDisabled}
-        cornerRadius={10}
-        className="flex-1"
-        startColor={borderColor1}
-        endColor={borderColor2}>
+      <BlurView disabled={blurDisabled} cornerRadius={10} className="flex-1">
         <ScratchpadWidget />
       </BlurView>
     )
@@ -66,12 +51,7 @@ export let RootContainer = observer(() => {
 
   if (widget === Widget.CREATE_ITEM) {
     return (
-      <BlurView
-        disabled={blurDisabled}
-        cornerRadius={10}
-        className="flex-1"
-        startColor={borderColor1}
-        endColor={borderColor2}>
+      <BlurView disabled={blurDisabled} cornerRadius={10} className="flex-1">
         <CreateItemWidget />
       </BlurView>
     )
@@ -79,12 +59,7 @@ export let RootContainer = observer(() => {
 
   if (widget === Widget.ONBOARDING) {
     return (
-      <BlurView
-        disabled={blurDisabled}
-        cornerRadius={10}
-        className="flex-1"
-        startColor={borderColor1}
-        endColor={borderColor2}>
+      <BlurView disabled={blurDisabled} cornerRadius={10} className="flex-1">
         <OnboardingWidget />
       </BlurView>
     )
@@ -92,12 +67,7 @@ export let RootContainer = observer(() => {
 
   if (widget === Widget.TRANSLATION) {
     return (
-      <BlurView
-        disabled={blurDisabled}
-        cornerRadius={10}
-        className="flex-1"
-        startColor={borderColor1}
-        endColor={borderColor2}>
+      <BlurView disabled={blurDisabled} cornerRadius={10} className="flex-1">
         <TranslationWidget />
       </BlurView>
     )
@@ -105,12 +75,7 @@ export let RootContainer = observer(() => {
 
   if (widget === Widget.SETTINGS) {
     return (
-      <BlurView
-        disabled={blurDisabled}
-        cornerRadius={10}
-        className="flex-1"
-        startColor={borderColor1}
-        endColor={borderColor2}>
+      <BlurView disabled={blurDisabled} cornerRadius={10} className="flex-1">
         <SettingsWidget />
       </BlurView>
     )
@@ -118,12 +83,7 @@ export let RootContainer = observer(() => {
 
   if (widget === Widget.PROCESSES) {
     return (
-      <BlurView
-        disabled={blurDisabled}
-        cornerRadius={10}
-        className="flex-1"
-        startColor={borderColor1}
-        endColor={borderColor2}>
+      <BlurView disabled={blurDisabled} cornerRadius={10} className="flex-1">
         <ProcessesWidget />
       </BlurView>
     )
@@ -131,7 +91,7 @@ export let RootContainer = observer(() => {
 
   return (
     <BlurView
-      disabled={blurDisabled}
+      disabled={false}
       cornerRadius={10}
       className={clsx({
         'h-16': !store.ui.query,
@@ -144,33 +104,25 @@ export let RootContainer = observer(() => {
           !!store.ui.query ||
           (store.ui.calendarEnabled &&
             store.ui.calendarAuthorizationStatus === 'authorized'),
-      })}
-      startColor={borderColor1}
-      endColor={borderColor2}>
-      <GradientView
-        startColor={store.ui.isDarkMode ? '#00000005' : '#FFFFFF99'}
-        endColor={store.ui.isDarkMode ? '#00000033' : '#FFFFFFCC'}
-        angle={90}
-        className="flex-1">
-        <SearchWidget />
+      })}>
+      <SearchWidget />
 
-        {!store.ui.query && store.ui.calendarEnabled && <FullCalendar />}
+      {!store.ui.query && store.ui.calendarEnabled && <FullCalendar />}
 
-        {!store.ui.isAccessibilityTrusted && (
-          <>
-            <View className="w-full border-lightBorder dark:border-darkBorder border-t" />
-            <TouchableOpacity
-              onPress={() => {
-                solNative.requestAccessibilityAccess()
-                solNative.hideWindow()
-              }}>
-              <Text className="text-xs px-3 py-2">
-                Click to grant accessibility access
-              </Text>
-            </TouchableOpacity>
-          </>
-        )}
-      </GradientView>
+      {!store.ui.isAccessibilityTrusted && (
+        <>
+          <View className="w-full border-lightBorder dark:border-darkBorder border-t" />
+          <TouchableOpacity
+            onPress={() => {
+              solNative.requestAccessibilityAccess()
+              solNative.hideWindow()
+            }}>
+            <Text className="text-xs px-3 py-2">
+              Click to grant accessibility access
+            </Text>
+          </TouchableOpacity>
+        </>
+      )}
     </BlurView>
   )
 })

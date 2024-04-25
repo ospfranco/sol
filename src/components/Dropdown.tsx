@@ -4,6 +4,7 @@ import {useBoolean} from 'hooks'
 import React from 'react'
 import {
   Image,
+  ScrollView,
   Text,
   TouchableOpacity,
   useColorScheme,
@@ -67,7 +68,7 @@ export const Dropdown = ({
         />
       </TouchableOpacity>
       {isOpen && (
-        <StyledScrollView
+        <ScrollView
           className={clsx(
             `w-32 rounded border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 max-h-32 absolute`,
             {
@@ -76,7 +77,7 @@ export const Dropdown = ({
             },
           )}
           style={style}
-          contentContainerStyle="justify-center items-center"
+          contentContainerClassName="justify-center items-center"
           showsVerticalScrollIndicator={false}>
           {options.map((o, i) => (
             <SelectableButton
@@ -89,7 +90,7 @@ export const Dropdown = ({
               }}
             />
           ))}
-        </StyledScrollView>
+        </ScrollView>
       )}
     </View>
   )

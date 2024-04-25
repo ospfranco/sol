@@ -4,7 +4,6 @@ import {FileIcon} from 'components/FileIcon'
 import {GradientView} from 'components/GradientView'
 import {Key} from 'components/Key'
 import {MainInput} from 'components/MainInput'
-import {StyledFlatList} from 'components/StyledFlatList'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect, useRef} from 'react'
 import {FlatList, Image, Platform, Text, View, ViewStyle} from 'react-native'
@@ -39,16 +38,15 @@ export const SearchWidget: FC<Props> = observer(() => {
     if (item.type === ItemType.TEMPORARY_RESULT) {
       return (
         <View
-          className="flex-row items-center rounded-lg py-2"
-          style={{
-            backgroundColor: isActive ? customColors.accentBg : undefined,
-          }}>
-          <View className={clsx('flex-1 px-4')}>
+          className={clsx('flex-row items-center rounded-lg py-4', {
+            highlight: isActive,
+          })}>
+          <View className={clsx('flex-1 px-4 flex-row items-center')}>
+            <Text className="text-2xl font-semibold flex-1">
+              {store.ui.temporaryResult}
+            </Text>
             <Text className="text-neutral-600 dark:text-neutral-400">
               {store.ui.query}
-            </Text>
-            <Text className="text-2xl font-semibold mt-2">
-              {store.ui.temporaryResult}
             </Text>
           </View>
         </View>
@@ -58,7 +56,7 @@ export const SearchWidget: FC<Props> = observer(() => {
     return (
       <View
         className={clsx('flex-row items-center rounded-lg py-2', {
-          'bg-highlight': isActive,
+          highlight: isActive,
         })}>
         <View className="flex-1 flex-row items-center px-4 h-9">
           {!!item.url && (
@@ -166,10 +164,10 @@ export const SearchWidget: FC<Props> = observer(() => {
 
       {!!store.ui.query && (
         <>
-          <StyledFlatList
+          <FlatList
             className="flex-1"
             windowSize={8}
-            contentContainerStyle="flex-grow pb-2 pt-1 px-2"
+            contentContainerClassName="flex-grow pb-2 pt-1 px-2"
             ref={listRef}
             onScrollToIndexFailed={() => {}}
             data={items}

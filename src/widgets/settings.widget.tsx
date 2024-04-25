@@ -2,12 +2,18 @@ import {Assets} from 'assets'
 import {Dropdown} from 'components/Dropdown'
 import {MySwitch} from 'components/MySwitch'
 import {SelectableButton} from 'components/SelectableButton'
-import {StyledScrollView} from 'components/StyledScrollView'
 import {useFullSize} from 'hooks/useFullSize'
 import {languages} from 'lib/languages'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useState} from 'react'
-import {Image, Linking, Text, TouchableOpacity, View} from 'react-native'
+import {
+  Image,
+  Linking,
+  Text,
+  TouchableOpacity,
+  View,
+  ScrollView,
+} from 'react-native'
 import {useStore} from 'store'
 import {Widget} from 'stores/ui.store'
 import {BackButton} from 'components/BackButton'
@@ -23,7 +29,7 @@ export const SettingsWidget: FC = observer(() => {
 
   return (
     <View className="h-full">
-      <View className="px-4 py-3 border-b border-lightBorder dark:border-darkBorder flex-row g-2">
+      <View className="px-4 py-3 border-b border-lightBorder dark:border-darkBorder flex-row gap-2">
         <View className="flex-1">
           <BackButton onPress={() => store.ui.focusWidget(Widget.SEARCH)} />
         </View>
@@ -79,9 +85,9 @@ export const SettingsWidget: FC = observer(() => {
         )}
 
         {selected === 'GENERAL' && (
-          <StyledScrollView
+          <ScrollView
             className="flex-1 h-full"
-            contentContainerStyle="justify-center p-5 g-2">
+            contentContainerClassName="justify-center p-5 gap-2">
             <View className="flex-row items-center p-3 bg-white dark:bg-[#2B2B2B] border border-darkBorder rounded">
               <Text className="flex-1 text-sm">Launch on start</Text>
               <MySwitch
@@ -89,8 +95,8 @@ export const SettingsWidget: FC = observer(() => {
                 onValueChange={store.ui.setLaunchAtLogin}
               />
             </View>
-            <View className="p-3 bg-white dark:bg-[#2B2B2B] border border-darkBorder rounded g-3">
-              <View className="g-3">
+            <View className="p-3 bg-white dark:bg-[#2B2B2B] border border-darkBorder rounded gap-3">
+              <View className="gap-3">
                 <Text className="flex-1 text-sm">Global shortcut</Text>
                 <View className="flex-1">
                   {[
@@ -112,7 +118,7 @@ export const SettingsWidget: FC = observer(() => {
                 </View>
               </View>
               <View className="border-t border-lightBorder dark:border-darkBorder" />
-              <View className="g-3">
+              <View className="gap-3">
                 <Text className="flex-1">Scratchpad shortcut</Text>
                 <View className="flex-1">
                   {[
@@ -134,7 +140,7 @@ export const SettingsWidget: FC = observer(() => {
                 </View>
               </View>
               <View className="border-t border-lightBorder dark:border-darkBorder" />
-              <View className="g-3">
+              <View className="gap-3">
                 <Text className="flex-1">Clipboard manager shortcut</Text>
                 <View className="flex-1">
                   {[
@@ -157,8 +163,8 @@ export const SettingsWidget: FC = observer(() => {
               </View>
             </View>
 
-            <View className="p-3 bg-white dark:bg-[#2B2B2B] border border-darkBorder rounded g-3">
-              <View className="g-3">
+            <View className="p-3 bg-white dark:bg-[#2B2B2B] border border-darkBorder rounded gap-3">
+              <View className="gap-3">
                 <Text className="">Show window on</Text>
                 <View className="flex-1">
                   {[
@@ -245,7 +251,7 @@ export const SettingsWidget: FC = observer(() => {
                 />
               </View>
               <View className="border-t border-lightBorder dark:border-darkBorder" />
-              <View className="flex-row items-center">
+              <View className="flex-row items-center bg-red-500">
                 <Text className="flex-1">Reduce transparency</Text>
                 <MySwitch
                   value={store.ui.reduceTransparency}
@@ -253,7 +259,7 @@ export const SettingsWidget: FC = observer(() => {
                 />
               </View>
             </View>
-          </StyledScrollView>
+          </ScrollView>
         )}
 
         {selected === 'TRANSLATE' && (

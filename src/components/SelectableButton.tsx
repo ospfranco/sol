@@ -5,6 +5,7 @@ import {
   Text,
   TouchableOpacity,
   TouchableOpacityProps,
+  View,
   ViewStyle,
 } from 'react-native'
 import colors from '../colors'
@@ -24,6 +25,7 @@ export const SelectableButton: FC<SelectableButtonProps> = ({
   style,
   leftItem,
   rounded,
+  className,
   ...props
 }) => {
   const [hovered, hoverOn, hoverOff] = useBoolean()
@@ -32,30 +34,31 @@ export const SelectableButton: FC<SelectableButtonProps> = ({
       onMouseEnter={hoverOn}
       onMouseLeave={hoverOff}
       {...props}
-      // @ts-ignore
-      enableFocusRing={false}
-      className={clsx('p-2 flex-row items-center g-1 rounded', {
-        'rounded-full': rounded,
-      })}
-      style={[
-        {
-          backgroundColor: selected
-            ? colors.accentBg
-            : hovered
-            ? colors.accentBg
-            : undefined,
-        },
-        style,
-      ]}>
-      {leftItem}
-      {!!title && (
-        <Text
-          className={clsx(`text-sm text-neutral-600 dark:text-white`, {
-            'text-white': selected || hovered,
-          })}>
-          {title}
-        </Text>
-      )}
+      // @ts-expect-error
+      enableFocusRing={false}>
+      <View
+        className={clsx('p-2 flex-row items-center gap-1 rounded', className, {
+          'rounded-full': rounded,
+        })}
+        style={[
+          {
+            backgroundColor: selected
+              ? colors.accentBg
+              : hovered
+              ? colors.accentBg
+              : undefined,
+          },
+        ]}>
+        {leftItem}
+        {!!title && (
+          <Text
+            className={clsx(`text-sm text-neutral-600 dark:text-white`, {
+              'text-white': selected || hovered,
+            })}>
+            {title}
+          </Text>
+        )}
+      </View>
     </TouchableOpacity>
   )
 }

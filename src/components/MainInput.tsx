@@ -20,11 +20,11 @@ export const MainInput = observer<Props>(
 
     return (
       <View
-        className="h-12 px-3 flex-row items-center g-1 m-2 rounded-lg"
+        className="h-12 px-3 flex-row items-center g-1 m-2 rounded-lg flex-1"
         style={[
           style,
           {
-            backgroundColor: colorScheme === 'dark' ? '#00000025' : '#00000008',
+            backgroundColor: colorScheme === 'dark' ? '#00000050' : '#00000010',
           },
         ]}>
         {showBackButton && (

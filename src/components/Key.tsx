@@ -35,8 +35,6 @@ export const Key: FC<IProps> = observer(
 
         {!!symbol && (
           <BlurView
-            startColor={borderColor1}
-            endColor={borderColor2}
             cornerRadius={2}
             disabled={store.ui.reduceTransparency}
             className={'min-w-[18] min-h-[18] items-center justify-center'}>
