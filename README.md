@@ -53,3 +53,7 @@ Or manually download the latest [release](https://github.com/ospfranco/sol/tree/
 - Forward media keys to Spotify/Apple Music
 - Blacken Menu Bar
 - Quickly evaluate math operations
+
+## License
+
+MIT License
