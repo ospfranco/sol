@@ -5,7 +5,7 @@ import HotKey
 import Sparkle
 import SwiftUI
 
-let baseSize = NSSize(width: 800, height: 400)
+let baseSize = NSSize(width: 800, height: 450)
 let handledKeys: [UInt16] = [53, 123, 124, 126, 125, 36, 48]
 let numberchars: [String] = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 

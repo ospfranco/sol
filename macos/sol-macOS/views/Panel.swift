@@ -20,7 +20,7 @@ final class Panel: NSPanel, NSWindowDelegate {
 //    )
 //    #endif
 
-//    self.hasShadow = false;
+    self.hasShadow = false;
     self.level = .mainMenu + 3
     self.collectionBehavior.insert(.fullScreenAuxiliary) // Allows the pannel to appear in a fullscreen space
     self.collectionBehavior.insert(.canJoinAllSpaces)

@@ -1,7 +1,6 @@
 import {Assets, Icons} from 'assets'
 import clsx from 'clsx'
 import {FileIcon} from 'components/FileIcon'
-import {GradientView} from 'components/GradientView'
 import {Key} from 'components/Key'
 import {MainInput} from 'components/MainInput'
 import {observer} from 'mobx-react-lite'
@@ -9,7 +8,6 @@ import React, {FC, useEffect, useRef} from 'react'
 import {FlatList, Image, Platform, Text, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
 import {ItemType, Widget} from 'stores/ui.store'
-import customColors from '../colors'
 
 type Props = {
   style?: ViewStyle
@@ -38,11 +36,11 @@ export const SearchWidget: FC<Props> = observer(() => {
     if (item.type === ItemType.TEMPORARY_RESULT) {
       return (
         <View
-          className={clsx('flex-row items-center rounded-lg py-4', {
+          className={clsx('flex-row items-center rounded-lg py-6', {
             highlight: isActive,
           })}>
           <View className={clsx('flex-1 px-4 flex-row items-center')}>
-            <Text className="text-2xl font-semibold flex-1">
+            <Text className="text-4xl font-semibold flex-1">
               {store.ui.temporaryResult}
             </Text>
             <Text className="text-neutral-600 dark:text-neutral-400">
@@ -58,12 +56,19 @@ export const SearchWidget: FC<Props> = observer(() => {
         className={clsx('flex-row items-center rounded-lg py-2', {
           highlight: isActive,
         })}>
-        <View className="flex-1 flex-row items-center px-4 h-9">
+        <View className="flex-1 flex-row items-center px-6 h-9">
+          {item.type === ItemType.PREFERENCE_PANE && (
+            <Text className={'darker-text text-xs absolute left-2'}>⚙</Text>
+          )}
+
+          {item.type === ItemType.BOOKMARK && (
+            <Text className="text-xxs absolute darker-text left-2">↗</Text>
+          )}
+          {item.isRunning && (
+            <View className="absolute left-2.5 h-1.5 w-1.5 rounded-full bg-neutral-600 dark:bg-neutral-400" />
+          )}
           {!!item.url && (
             <View className="g-1 items-center flex-row">
-              {item.isRunning && (
-                <View className="absolute -left-2 h-1 w-1 rounded-full bg-neutral-600 dark:bg-neutral-400" />
-              )}
               <FileIcon url={item.url} className={'w-6 h-6'} />
             </View>
           )}
@@ -93,48 +98,18 @@ export const SearchWidget: FC<Props> = observer(() => {
           {/* Somehow this component breaks windows build */}
           {(Platform.OS === 'macos' || Platform.OS === 'ios') &&
             !!item.IconComponent && <item.IconComponent />}
-          <Text
-            numberOfLines={1}
-            className={'ml-3 text-black dark:text-white max-w-xl'}
-            style={{fontSize: 15}}>
+          <Text numberOfLines={1} className={'ml-3 text max-w-xl text-base'}>
             {item.name}
           </Text>
 
           <View className="flex-1" />
           {!!item.subName && (
-            <Text className={'ml-3 text-neutral-500 dark:text-white'}>
-              {item.subName}
-            </Text>
+            <Text className={'ml-3 darker-text'}>{item.subName}</Text>
           )}
-          {item.type === ItemType.BOOKMARK && (
-            <Text
-              className={clsx('text-neutral-500 dark:text-neutral-300', {
-                'dark:text-white': isActive,
-              })}>
-              Bookmark
-            </Text>
-          )}
-          {item.type === ItemType.PREFERENCE_PANE && (
-            <Text
-              className={clsx('dark:text-neutral-300 ml-3', {
-                'dark:text-white': isActive,
-              })}>
-              Settings
-            </Text>
-          )}
-          {/* {item.type === ItemType.CUSTOM && (
-            <Key title="Delete" symbol="⇧ delete" />
-          )} */}
+
           {!!item.shortcut && (
             <View className="flex-row g-1 items-center">
               {item.shortcut.split(' ').map((char, i) => {
-                // if (char === 'then') {
-                //   return (
-                //     <Text key={i} className="text-sm dark:text-neutral-400">
-                //       then
-                //     </Text>
-                //   )
-                // }
                 return (
                   <Key
                     key={i}
@@ -184,24 +159,24 @@ export const SearchWidget: FC<Props> = observer(() => {
           />
 
           <View
-            className="border-t py-2 px-4 border-lightBorder dark:border-darkBorder flex-row items-center justify-end g-1"
+            className="py-2 px-4 flex-row items-center justify-end gap-1"
             style={{
-              backgroundColor: store.ui.isDarkMode ? '#00000018' : '#00000005',
+              backgroundColor: store.ui.isDarkMode ? '#00000020' : '#00000005',
             }}>
             {store.ui.currentItem?.type === ItemType.CUSTOM && (
               <>
-                <Text className="text-xs mr-2">Delete</Text>
+                <Text className="text-xs darker-text mr-1">Delete</Text>
                 <Key symbol={'⇧'} />
                 <Key symbol={'delete'} />
-                <View className="border-l h-2/3 border-lightBorder dark:border-darkBorder mx-2" />
+                <View className="mx-2" />
               </>
             )}
-            <Text className="text-xs mr-2">Translate</Text>
+            <Text className="text-xs darker-text mr-1">Translate</Text>
             <Key symbol={'⇧'} />
             <Key symbol={'⏎'} />
-            <View className="border-l h-2/3 border-lightBorder dark:border-darkBorder mx-2" />
+            <View className="mx-2" />
             <Text
-              className={clsx('text-xs mr-2', {
+              className={clsx('text-xs darker-text mr-1', {
                 'font-semibold': !items.length,
               })}>
               Search
@@ -210,14 +185,14 @@ export const SearchWidget: FC<Props> = observer(() => {
             <Key symbol={'⏎'} primary={!items.length} />
             {!!items.length && (
               <>
-                <View className="border-l h-2/3 border-lightBorder dark:border-darkBorder mx-2" />
+                <View className="mx-2" />
                 <Text
-                  className={clsx('text-xs mr-2', {
+                  className={clsx('text-xs darker-text mr-1', {
                     'font-semibold': !!items.length,
                   })}>
                   Select
                 </Text>
-                <Key symbol={'⏎'} primary />
+                <Key symbol={'⏎'} />
               </>
             )}
           </View>

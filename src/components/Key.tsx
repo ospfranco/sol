@@ -35,9 +35,10 @@ export const Key: FC<IProps> = observer(
 
         {!!symbol && (
           <BlurView
-            cornerRadius={2}
             disabled={store.ui.reduceTransparency}
-            className={'min-w-[18] min-h-[18] items-center justify-center'}>
+            className={
+              'min-w-[18] min-h-[18] items-center justify-center rounded'
+            }>
             <View
               className="min-w-[18] px-1 min-h-[18] items-center justify-center"
               style={{

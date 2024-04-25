@@ -3,7 +3,17 @@
 @tailwind utilities;
 
 @layer base {
+  .text {
+    @apply text-neutral-800 dark:text-neutral-200;
+  }
+  .darker-text {
+    @apply text-neutral-700 dark:text-neutral-400;
+  }
   .highlight {
     @apply bg-lightHighlight dark:bg-darkHighlight;
+  }
+
+  .border-color {
+    @apply border-lightBorder dark:border-darkBorder;
   }
 }

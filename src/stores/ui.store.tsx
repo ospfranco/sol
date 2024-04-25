@@ -422,30 +422,32 @@ export const createUIStore = (root: IRootStore) => {
 
       solNative.getApps().then(apps => {
         // Each "app" is a macOS file url, e.g. file:///Applications/SF%20Symbols
-        const cleanApps = apps.map(({name, url, isRunning}) => {
-          const plistPath = decodeURIComponent(
-            url.replace('file://', '') + 'Contents/Info.plist',
-          )
-          let alias = null
-          if (solNative.exists(plistPath)) {
-            let plistContent = solNative.readFile(plistPath)
+        const cleanApps = apps
+          .map(({name, url, isRunning}) => {
+            const plistPath = decodeURIComponent(
+              url.replace('file://', '') + 'Contents/Info.plist',
+            )
+            let alias = null
+            if (solNative.exists(plistPath)) {
+              let plistContent = solNative.readFile(plistPath)
 
-            try {
-              const properties = plist.parse(plistContent)
-              alias = properties.CFBundleIdentifier
-            } catch (e) {
-              // intentionally left blank
+              try {
+                const properties = plist.parse(plistContent)
+                alias = properties.CFBundleIdentifier
+              } catch (e) {
+                // intentionally left blank
+              }
             }
-          }
 
-          return {
-            type: ItemType.APPLICATION as ItemType.APPLICATION,
-            url: decodeURI(url.replace('file://', '')),
-            name: name,
-            isRunning,
-            alias,
-          } as Item
-        })
+            return {
+              type: ItemType.APPLICATION as ItemType.APPLICATION,
+              url: decodeURI(url.replace('file://', '')),
+              name: name,
+              isRunning,
+              alias,
+            } as Item
+          })
+          .filter(app => app.name !== 'sol')
 
         runInAction(() => {
           store.apps = cleanApps

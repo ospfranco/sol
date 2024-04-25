@@ -20,7 +20,7 @@ export const MainInput = observer<Props>(
 
     return (
       <View
-        className="h-12 px-3 flex-row items-center g-1 m-2 rounded-lg flex-1"
+        className="h-14 px-3 flex-row items-center g-1 m-2 rounded-lg flex-1"
         style={[
           style,
           {
@@ -43,7 +43,7 @@ export const MainInput = observer<Props>(
           value={store.ui.query}
           onChangeText={store.ui.setQuery}
           // @ts-ignore
-          className="text-2xl flex-1"
+          className="text-3xl flex-1"
           placeholderTextColor={
             colorScheme === 'dark' ? colors.neutral[500] : colors.neutral[400]
           }

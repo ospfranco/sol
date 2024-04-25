@@ -1,15 +1,16 @@
 import Cocoa
 
 class BlurView: NSVisualEffectView {
-  @objc var cornerRadius: Double = 0
+  @objc var borderRadius: Double = 0
   @objc var disabled: Bool = false
+  @objc var inViewBlur: Bool = false
 
   override var isFlipped: Bool {
     return true
   }
 
   override func didSetProps(_: [String]!) {
-    layer?.cornerRadius = cornerRadius
+    layer?.cornerRadius = borderRadius
     material = disabled ? .windowBackground : .headerView
   }
 
@@ -20,10 +21,11 @@ class BlurView: NSVisualEffectView {
   override init(frame: CGRect) {
     super.init(frame: frame)
 
-    material = disabled ? .windowBackground : .sidebar
+    material = inViewBlur ? .menu : .sidebar
+    material = disabled ? .windowBackground : material
 
     wantsLayer = true
-    layer?.cornerRadius = cornerRadius
+    layer?.cornerRadius = borderRadius
     layer?.masksToBounds = true
   }
 

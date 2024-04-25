@@ -1,20 +1,27 @@
 import {requireNativeComponent, ViewStyle} from 'react-native'
 
 import {cssInterop} from 'nativewind'
+import {FC} from 'react'
 
-export const BlurViewNative = requireNativeComponent<{
+type BlurViewProps = {
   children?: any
   onLayout?: (e: any) => void
   style?: ViewStyle
-  cornerRadius?: number
+  borderRadius?: number
   disabled?: boolean
   className?: string
-}>('BlurView')
+}
 
-export const BlurView = (props: any) => {
+export const BlurViewNative = requireNativeComponent<BlurViewProps>('BlurView')
+
+export const BlurView: FC<BlurViewProps> = props => {
   return <BlurViewNative {...props} />
 }
 
 cssInterop(BlurView, {
   className: 'style',
+  nativeStyleToProp: {
+    // @ts-expect-error
+    borderRadius: 'borderRadius',
+  },
 })
