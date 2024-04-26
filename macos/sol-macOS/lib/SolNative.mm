@@ -3,8 +3,14 @@
 #import <React/RCTBridge+Private.h>
 #import <ReactCommon/RCTTurboModule.h>
 #import <jsi/jsi.h>
+#import <React/RCTReloadCommand.h>
 
 @interface RCT_EXTERN_MODULE (SolNative, RCTEventEmitter)
+
+- (void)loadBundle
+{
+    RCTTriggerReloadCommandListeners(@"react-native-restart: Restart");
+}
 
 RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(install) {
   RCTBridge *bridge = [RCTBridge currentBridge];
@@ -79,4 +85,13 @@ RCT_EXTERN_METHOD(getSafariBookmarks: (RCTPromiseResolveBlock)resolve rejecter:(
 RCT_EXTERN_METHOD(quit)
 RCT_EXTERN_METHOD(setStatusBarItemTitle: (NSString)title)
 RCT_EXTERN_METHOD(setMediaKeyForwardingEnabled: (BOOL)v)
+RCT_EXPORT_METHOD(restart) {
+  if ([NSThread isMainThread]) {
+      [self loadBundle];
+  } else {
+      dispatch_sync(dispatch_get_main_queue(), ^{
+          [self loadBundle];
+      });
+  }
+}
 @end

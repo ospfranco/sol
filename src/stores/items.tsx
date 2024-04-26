@@ -20,6 +20,7 @@ export function createBaseItems(store: IRootStore) {
       type: ItemType.CONFIGURATION,
       callback: () => {
         solNative.toggleDarkMode()
+        solNative.restart()
       },
     },
     {
