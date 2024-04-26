@@ -35,18 +35,16 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
         <MainInput placeholder="Search pasteboard history..." showBackButton />
       </View>
       <View className="flex-1 flex-row">
-        <View className="w-64 ">
+        <View className="w-64">
           <FlatList
             data={data}
-            contentContainerClassName="px-2"
+            contentContainerClassName="px-2 flex-grow"
             ref={listRef}
             onScrollToIndexFailed={() => {}}
             showsVerticalScrollIndicator={false}
             ListEmptyComponent={
               <View className="flex-1 justify-center items-center">
-                <Text className="dark:text-neutral-700 text-sm text-neutral-500">
-                  No items
-                </Text>
+                <Text className="darker-text">[ ]</Text>
               </View>
             }
             renderItem={({item, index}: any) => {
@@ -74,9 +72,9 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
           />
         </View>
         <View className="flex-1 pb-3 pr-3">
-          <View className="flex-1 subBg rounded-lg p-3">
+          <View className="flex-1 subBg rounded-lg p-3 ">
             <Text className="text-xs" style={{fontFamily: 'Andale Mono'}}>
-              {data[selectedIndex]?.text}
+              {data[selectedIndex]?.text ?? []}
             </Text>
           </View>
         </View>

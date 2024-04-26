@@ -38,7 +38,7 @@ module.exports = {
         darkBorder: {DEFAULT: '#1B1B1B'},
         lightBorder: {DEFAULT: 'rgba(0, 0, 0, .1)'},
         subBgDark: '#00000020',
-        subBgLight: '#00000005'
+        subBgLight: '#FFFFFF77'
       },
     },
   },

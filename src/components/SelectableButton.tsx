@@ -46,7 +46,7 @@ export const SelectableButton: FC<SelectableButtonProps> = ({
         {!!title && (
           <Text
             className={clsx(`text-sm text`, {
-              'dark:text-blue-500': selected,
+              'text-blue-500 dark:text-blue-500': selected,
             })}>
             {title}
           </Text>

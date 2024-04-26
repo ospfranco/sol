@@ -15,7 +15,7 @@ export function createBaseItems(store: IRootStore) {
   let items: Item[] = [
     {
       iconImage: Assets.DarkModeIcon,
-      name: 'Toogle OS theme',
+      name: 'Toggle system appearance',
       alias: 'dark',
       type: ItemType.CONFIGURATION,
       callback: () => {

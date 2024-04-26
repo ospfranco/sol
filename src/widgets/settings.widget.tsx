@@ -163,7 +163,7 @@ export const SettingsWidget: FC = observer(() => {
               </View>
             </View>
 
-            <View className="p-3 subBg border border-darkBorder rounded gap-3">
+            <View className="p-3 subBg rounded gap-3">
               <View className="gap-3">
                 <Text className="">Show window on</Text>
                 <View className="flex-1">
