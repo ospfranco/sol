@@ -104,8 +104,8 @@ export function createBaseItems(store: IRootStore) {
     {
       IconComponent: () => {
         return (
-          <View className="w-6 h-6 p-2 rounded items-start bg-black">
-            <View className="w-3  h-3 p-1 rounded-sm bg-white" />
+          <View className="w-6 h-6 p-0.5 rounded items-center bg-black">
+            <View className="w-5 h-5 rounded bg-white" />
           </View>
         )
       },
@@ -119,8 +119,8 @@ export function createBaseItems(store: IRootStore) {
     {
       IconComponent: () => {
         return (
-          <View className="w-6 h-6 p-2 rounded items-end bg-black">
-            <View className="w-1 h-3 p-1 rounded-sm bg-white" />
+          <View className="w-6 h-6 p-0.5 rounded items-end bg-black">
+            <View className="w-3 h-5 rounded-sm bg-white" />
           </View>
         )
       },
@@ -134,8 +134,8 @@ export function createBaseItems(store: IRootStore) {
     {
       IconComponent: () => {
         return (
-          <View className="w-6 h-6 p-2 rounded items-start bg-black">
-            <View className="w-1 h-3 p-1 rounded-sm bg-white" />
+          <View className="w-6 h-6 p-0.5 rounded items-start bg-black">
+            <View className="w-[50%] h-5 rounded-sm bg-white" />
           </View>
         )
       },
@@ -149,8 +149,8 @@ export function createBaseItems(store: IRootStore) {
     {
       IconComponent: () => {
         return (
-          <View className="w-6 h-6 p-2 rounded items-start bg-black">
-            <View className="w-1 h-3 p-1 rounded-sm bg-white" />
+          <View className="w-6 h-6 p-0.5 rounded items-start bg-black">
+            <View className="w-5 h-[50%] rounded-sm bg-white" />
           </View>
         )
       },
@@ -164,8 +164,8 @@ export function createBaseItems(store: IRootStore) {
     {
       IconComponent: () => {
         return (
-          <View className="w-6 h-6 p-2 rounded items-start bg-black">
-            <View className="w-1 h-3 p-1 rounded-sm bg-white" />
+          <View className="w-6 h-6 p-0.5 rounded justify-end bg-black">
+            <View className="w-5 h-[50%] rounded-sm bg-white" />
           </View>
         )
       },
@@ -179,7 +179,7 @@ export function createBaseItems(store: IRootStore) {
     {
       IconComponent: () => {
         return (
-          <View className="w-6 h-6 p-2 rounded items-start bg-black">
+          <View className="w-6 h-6 p-0.5 rounded items-start bg-black">
             <View className="w-1 h-1 p-1 rounded-sm bg-white" />
           </View>
         )
@@ -194,7 +194,7 @@ export function createBaseItems(store: IRootStore) {
     {
       IconComponent: () => {
         return (
-          <View className="w-6 h-6 p-2 rounded items-end bg-black">
+          <View className="w-6 h-6 p-0.5 rounded items-end bg-black">
             <View className="w-1 h-1 p-1 rounded-sm bg-white" />
           </View>
         )
@@ -209,7 +209,7 @@ export function createBaseItems(store: IRootStore) {
     {
       IconComponent: () => {
         return (
-          <View className="w-6 h-6 p-2 rounded items-start justify-end bg-black">
+          <View className="w-6 h-6 p-0.5 rounded items-start justify-end bg-black">
             <View className="w-1 h-1 p-1 rounded-sm bg-white" />
           </View>
         )
@@ -224,7 +224,7 @@ export function createBaseItems(store: IRootStore) {
     {
       IconComponent: () => {
         return (
-          <View className="w-6 h-6 p-2 rounded items-end justify-end bg-black">
+          <View className="w-6 h-6 p-0.5 rounded items-end justify-end bg-black">
             <View className="w-1 h-1 p-1 rounded-sm bg-white" />
           </View>
         )
