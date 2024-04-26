@@ -23,7 +23,7 @@ export const Key: FC<IProps> = observer(
     let borderColor2 = store.ui.isDarkMode ? '#AAAAAA44' : '#00000044'
 
     return (
-      <View className="items-center g-2 flex-row" style={style}>
+      <View className="items-center gap-2 flex-row" style={style}>
         {!!title && (
           <Text
             className={clsx(

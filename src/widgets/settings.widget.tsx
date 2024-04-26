@@ -56,7 +56,7 @@ export const SettingsWidget: FC = observer(() => {
 
       <View className="flex-1 h-full">
         {selected === 'ABOUT' && (
-          <View className="flex-1 justify-center items-center g-10 flex-row">
+          <View className="flex-1 justify-center items-center gap-10 flex-row">
             <Image
               source={Assets.Logo}
               style={{
@@ -65,10 +65,10 @@ export const SettingsWidget: FC = observer(() => {
                 tintColor: store.ui.isDarkMode ? 'white' : 'black',
               }}
             />
-            <View className="g-2">
+            <View className="gap-2">
               <Text className="text-3xl">Sol</Text>
               <Text className="font-semibold">{packageInfo.version}</Text>
-              <View className="flex-row items-center g-2">
+              <View className="flex-row items-center gap-2">
                 <Text className="">built by</Text>
                 <Image source={Assets.OSP} className="h-6 w-6 rounded-full" />
                 <Text className="">ospfranco</Text>

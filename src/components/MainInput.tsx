@@ -20,7 +20,7 @@ export const MainInput = observer<Props>(
 
     return (
       <View
-        className="h-14 px-3 flex-row items-center g-1 m-2 rounded-lg flex-1"
+        className="h-14 px-3 flex-row items-center gap-1 m-2 rounded-lg flex-1"
         style={[
           style,
           {

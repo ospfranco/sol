@@ -68,7 +68,7 @@ export const SearchWidget: FC<Props> = observer(() => {
             <View className="absolute left-2.5 h-1.5 w-1.5 rounded-full bg-neutral-600 dark:bg-neutral-400" />
           )}
           {!!item.url && (
-            <View className="g-1 items-center flex-row">
+            <View className="gap-1 items-center flex-row">
               <FileIcon url={item.url} className={'w-6 h-6'} />
             </View>
           )}

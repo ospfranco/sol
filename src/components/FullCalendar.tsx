@@ -23,8 +23,8 @@ export let FullCalendar: FC = observer(() => {
       {Object.entries(store.calendar.groupedEvents).map(([key, group]) => {
         let shouldShowRelative = group.date.diffNow('days').days <= 5
         return (
-          <View key={key} className="px-4 pb-4 g-2">
-            <View className="flex-row items-center g-1">
+          <View key={key} className="px-4 pb-4 gap-2">
+            <View className="flex-row items-center gap-1">
               <Text className="capitalize font-medium text-neutral-500 dark:text-neutral-400">
                 {shouldShowRelative
                   ? group.date.toRelativeCalendar()
@@ -40,7 +40,7 @@ export let FullCalendar: FC = observer(() => {
 
               return (
                 <View
-                  className="flex-row items-center g-1"
+                  className="flex-row items-center gap-1"
                   key={`${event.id}-${event.date}`}>
                   <View
                     className={clsx(

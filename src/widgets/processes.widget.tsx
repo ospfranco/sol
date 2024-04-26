@@ -106,7 +106,7 @@ export const ProcessesWidget: FC<Props> = observer(({style}) => {
       />
 
       <View
-        className="border-t py-2 px-4 border-lightBorder dark:border-darkBorder flex-row items-center justify-end g-1"
+        className="border-t py-2 px-4 border-lightBorder dark:border-darkBorder flex-row items-center justify-end gap-1"
         style={{
           backgroundColor: store.ui.isDarkMode ? '#00000018' : '#00000005',
         }}>
