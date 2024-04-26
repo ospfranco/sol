@@ -284,7 +284,7 @@ export function createBaseItems(store: IRootStore) {
       callback: () => {
         store.ui.showEmojiPicker()
       },
-      shortcut: '⌘ + ^ + Space',
+      shortcut: '⌘ Ctrl Space',
     },
     {
       icon: '🆙',
@@ -324,13 +324,13 @@ export function createBaseItems(store: IRootStore) {
     },
     {
       IconComponent: (...props: any[]) => {
-return <FileIcon {...props} url='~/Desktop' className='w-6 h-6' />
+        return <FileIcon {...props} url="~/Desktop" className="w-6 h-6" />
       },
       type: ItemType.CONFIGURATION,
       name: 'Desktop',
       callback: () => {
         Linking.openURL('~/Desktop')
-      }
+      },
     },
     {
       IconComponent: (...props: any[]) => (

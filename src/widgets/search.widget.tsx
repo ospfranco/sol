@@ -108,7 +108,7 @@ export const SearchWidget: FC<Props> = observer(() => {
           )}
 
           {!!item.shortcut && (
-            <View className="flex-row g-1 items-center">
+            <View className="flex-row gap-1 items-center">
               {item.shortcut.split(' ').map((char, i) => {
                 return (
                   <Key

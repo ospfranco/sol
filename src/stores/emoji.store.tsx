@@ -21,7 +21,7 @@ const FUSE_OPTIONS: Fuse.IFuseOptions<any> = {
 
 const emojiFuse = new Fuse(rawEmojis, FUSE_OPTIONS)
 
-export const EMOJI_ROW_SIZE = 6
+export const EMOJI_ROW_SIZE = 7
 
 function groupEmojis(emojis: Emoji[]): Array<Emoji[]> {
   const emojisArray: Array<Emoji[]> = []
