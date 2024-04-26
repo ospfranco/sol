@@ -123,13 +123,11 @@ export const createKeystrokeStore = (root: IRootStore) => {
                 }
 
                 case 'v1_shortcut': {
-                  if (root.ui.selectedIndex === 0) {
-                    root.ui.setGlobalShortcut('option')
-                  } else if (root.ui.selectedIndex === 1) {
-                    root.ui.setGlobalShortcut('control')
-                  } else {
-                    root.ui.setGlobalShortcut('command')
+                  if (shift) {
+                    root.ui.openKeyboardSettings()
+                    return
                   }
+
                   root.ui.onboardingStep = 'v1_quick_actions'
                   break
                 }
@@ -175,6 +173,23 @@ export const createKeystrokeStore = (root: IRootStore) => {
             }
 
             case Widget.SEARCH: {
+              if (!root.ui.query && root.ui.isAccessibilityTrusted) {
+                solNative.requestAccessibilityAccess()
+                solNative.hideWindow()
+                return
+              }
+
+              if (
+                !root.ui.query &&
+                root.ui.calendarAuthorizationStatus === 'notDetermined'
+              ) {
+                solNative.requestCalendarAccess().then(() => {
+                  root.ui.getCalendarAccess()
+                })
+                solNative.hideWindow()
+                return
+              }
+
               if (!root.ui.query) {
                 return
               }
@@ -459,6 +474,18 @@ export const createKeystrokeStore = (root: IRootStore) => {
               )
               break
 
+            case Widget.ONBOARDING:
+              root.ui.selectedIndex = Math.max(0, root.ui.selectedIndex - 1)
+
+              if (root.ui.selectedIndex === 0) {
+                root.ui.setGlobalShortcut('option')
+              } else if (root.ui.selectedIndex === 1) {
+                root.ui.setGlobalShortcut('control')
+              } else {
+                root.ui.setGlobalShortcut('command')
+              }
+              break
+
             default:
               if (
                 root.ui.focusedWidget === Widget.SEARCH &&
@@ -478,7 +505,6 @@ export const createKeystrokeStore = (root: IRootStore) => {
               } else {
                 root.ui.selectedIndex = Math.max(0, root.ui.selectedIndex - 1)
               }
-
               break
           }
           break
@@ -494,6 +520,18 @@ export const createKeystrokeStore = (root: IRootStore) => {
               )
               break
             }
+
+            case Widget.ONBOARDING:
+              root.ui.selectedIndex = Math.min(2, root.ui.selectedIndex + 1)
+
+              if (root.ui.selectedIndex === 0) {
+                root.ui.setGlobalShortcut('option')
+              } else if (root.ui.selectedIndex === 1) {
+                root.ui.setGlobalShortcut('control')
+              } else {
+                root.ui.setGlobalShortcut('command')
+              }
+              break
 
             case Widget.EMOJIS: {
               let rowIndex = Math.floor(root.ui.selectedIndex / EMOJI_ROW_SIZE)

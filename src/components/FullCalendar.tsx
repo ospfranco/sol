@@ -11,19 +11,8 @@ import {StyledScrollView} from './StyledScrollView'
 export let FullCalendar: FC = observer(() => {
   let store = useStore()
 
-  if (store.ui.calendarAuthorizationStatus === 'notDetermined') {
-    return (
-      <TouchableOpacity
-        onPress={() => {
-          solNative.requestCalendarAccess().then(() => {
-            store.ui.getCalendarAccess()
-          })
-        }}>
-        <View className="py-2 px-3 h-8">
-          <Text className="text-xs">Click to grant calendar access</Text>
-        </View>
-      </TouchableOpacity>
-    )
+  if (store.ui.calendarAuthorizationStatus !== 'authorized') {
+    return null
   }
 
   return (

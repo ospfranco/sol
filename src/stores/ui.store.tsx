@@ -340,6 +340,13 @@ export const createUIStore = (root: IRootStore) => {
         })
       }
     },
+    openKeyboardSettings: () => {
+      try {
+        Linking.openURL(`/System/Library/PreferencePanes/Keyboard.prefPane`)
+      } catch (e) {
+        console.error(`Could not open keyboard preferences ${e}`)
+      }
+    },
     setFirstTranslationLanguage: (l: string) => {
       store.firstTranslationLanguage = l
     },

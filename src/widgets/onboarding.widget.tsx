@@ -57,12 +57,15 @@ const SHORTCUTS = [
     ),
     subLabel: () => {
       return (
-        <View className="w-96 absolute bottom-[-60]">
+        <View className="w-96 absolute bottom-[-90]">
           <Text className="text-xs text-neutral-500 dark:text-neutral-400 mt-8 text-center">
             Unbind the Spotlight shortcut via
           </Text>
           <Text className="text-xs text-neutral-500 dark:text-neutral-200 mt-2 text-center">
             System Settings → Keyboard Shortcuts → Spotlight
+          </Text>
+          <Text className="text-xs text-neutral-500 dark:text-neutral-400 mt-2 text-center">
+            Open this panel again with ⌘ then Space
           </Text>
         </View>
       )
@@ -108,14 +111,13 @@ export const OnboardingWidget: FC<Props> = observer(({style}) => {
             />
           </View>
 
-          <Text className="mt-6 dark:text-neutral-400">
-            Welcome to your new launcher
-          </Text>
+          <Text className="mt-6 text">Welcome to your new launcher</Text>
+          <Text className="mt-2 darker-text">Press return to continue</Text>
 
           <View className="flex-1" />
-          <View className="w-full flex-row items-center justify-end border-t border-lightBorder dark:border-darkBorder px-3 py-2 ">
+          <View className="w-full flex-row items-center justify-end subBg px-3 py-2 gap-1">
             <Text className="text-sm">Continue</Text>
-            <Key symbol="return" primary className="mx-2" />
+            <Key symbol="⏎" className="mx-2" />
           </View>
         </Fade>
       )}
@@ -158,9 +160,13 @@ export const OnboardingWidget: FC<Props> = observer(({style}) => {
             })}
           </View>
 
-          <View className="w-full flex-row items-center justify-end border-t border-lightBorder dark:border-darkBorder px-3 py-2 ">
-            <Text className="text-sm">Select</Text>
-            <Key symbol="return" primary className="mx-2" />
+          <View className="w-full flex-row items-center justify-end subBg px-3 py-2 gap-1">
+            <Text className="text-sm darker-text">Open System Settings</Text>
+            <Key symbol="⇧" className="mx-2" />
+            <Key symbol="⏎" className="mx-2" />
+            <View className="mx-2" />
+            <Text className="text-sm darker-text">Select</Text>
+            <Key symbol="⏎" className="mx-2" />
           </View>
         </Fade>
       )}
@@ -169,70 +175,64 @@ export const OnboardingWidget: FC<Props> = observer(({style}) => {
         <Fade visible={visible} className="items-center flex-1" duration={250}>
           <View className="flex-1" />
           <View className="flex-1 justify-center items-center">
-            <Text className="text-neutral-400 dark:text-neutral-500">
+            <Text className="darker-text">
               Here are some shortcuts to get you started
             </Text>
 
-            <View className="flex-row mt-10 items-center">
-              <Text className="flex-1 text-right font-semibold">
-                Clipboard Manager
-              </Text>
-              <View className="flex-1 flex-row items-center">
+            <View className="flex-row gap-2 mt-10 items-center">
+              <Text className="flex-1 text-right text">Clipboard Manager</Text>
+              <View className="flex-1 flex-row items-center gap-1">
                 <Key symbol="⌘" className="ml-2" />
                 <Key symbol="⇧" className="ml-1" />
                 <Key symbol="V" className="ml-1" />
               </View>
             </View>
 
-            <View className="flex-row mt-4 items-center">
-              <Text className="flex-1 text-right font-semibold">
-                Emoji Picker
-              </Text>
-              <View className="flex-1 flex-row items-center">
+            <View className="flex-row gap-2 mt-4 items-center">
+              <Text className="flex-1 text-right text">Emoji Picker</Text>
+              <View className="flex-1 flex-row items-center gap-1">
                 <Key symbol="⌘" className="ml-2" />
                 <Key symbol="⌃" className="ml-1" />
                 <Key symbol="Space" className="ml-1" />
               </View>
             </View>
 
-            <View className="flex-row mt-4 items-center">
-              <Text className="flex-1 text-right font-semibold">
-                Note Scratchpad
-              </Text>
-              <View className="flex-1 flex-row items-center">
+            <View className="flex-row gap-2 mt-4 items-center">
+              <Text className="flex-1 text-right text">Note Scratchpad</Text>
+              <View className="flex-1 flex-row items-center gap-1">
                 <Key symbol="⌘" className="ml-2" />
                 <Key symbol="⇧" className="ml-1" />
                 <Key symbol="Space" className="ml-1" />
               </View>
             </View>
 
-            <View className="flex-row mt-4 items-center">
-              <Text className="flex-1 text-right font-semibold">
+            <View className="flex-row gap-2 mt-4 items-center">
+              <Text className="flex-1 text-right text">
                 Fullscreen front-most window
               </Text>
-              <View className="flex-1 flex-row items-center">
+              <View className="flex-1 flex-row items-center gap-1">
                 <Key symbol="^" className="ml-2" />
                 <Key symbol="⌥" className="ml-1" />
                 <Key symbol="⏎" className="ml-1" />
               </View>
             </View>
 
-            <View className="flex-row mt-4 items-center">
-              <Text className="flex-1 text-right font-semibold">
+            <View className="flex-row gap-2 mt-4 items-center">
+              <Text className="flex-1 text-right text">
                 Resize front-most window to the right
               </Text>
-              <View className="flex-1 flex-row items-center">
+              <View className="flex-1 flex-row items-center gap-1">
                 <Key symbol="^" className="ml-2" />
                 <Key symbol="⌥" className="ml-1" />
                 <Key symbol="→" className="ml-1" />
               </View>
             </View>
 
-            <View className="flex-row mt-4 items-center">
-              <Text className="flex-1 text-right font-semibold">
+            <View className="flex-row gap-2 mt-4 items-center">
+              <Text className="flex-1 text-right text">
                 Resize front-most window to the left
               </Text>
-              <View className="flex-1 flex-row items-center">
+              <View className="flex-1 flex-row items-center gap-1">
                 <Key symbol="^" className="ml-2" />
                 <Key symbol="⌥" className="ml-1" />
                 <Key symbol="←" className="ml-1" />
@@ -241,9 +241,9 @@ export const OnboardingWidget: FC<Props> = observer(({style}) => {
           </View>
           <View className="flex-1" />
 
-          <View className="w-full flex-row items-center justify-end border-t border-lightBorder dark:border-darkBorder px-3 py-2">
+          <View className="w-full flex-row items-center justify-end subBg px-3 py-2 gap-1">
             <Text className="text-sm">Continue</Text>
-            <Key symbol="return" primary className="mx-2" />
+            <Key symbol="⏎" className="mx-2" />
           </View>
         </Fade>
       )}

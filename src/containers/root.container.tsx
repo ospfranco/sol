@@ -2,6 +2,8 @@ import clsx from 'clsx'
 import {BlurView} from 'components/BlurView'
 import {FullCalendar} from 'components/FullCalendar'
 import {GradientView} from 'components/GradientView'
+import {Key} from 'components/Key'
+import {PermissionsBar} from 'components/PermissionsBar'
 import {solNative} from 'lib/SolNative'
 import {observer} from 'mobx-react-lite'
 import React, {useEffect} from 'react'
@@ -90,12 +92,6 @@ export let RootContainer = observer(() => {
   return (
     <BlurView
       className={clsx('rounded-lg border border-color', {
-        'h-18': !store.ui.query,
-        'h-22': !store.ui.isAccessibilityTrusted,
-        'h-24':
-          !store.ui.query &&
-          store.ui.calendarEnabled &&
-          store.ui.calendarAuthorizationStatus === 'notDetermined',
         'h-full':
           !!store.ui.query ||
           (store.ui.calendarEnabled &&
@@ -105,20 +101,7 @@ export let RootContainer = observer(() => {
 
       {!store.ui.query && store.ui.calendarEnabled && <FullCalendar />}
 
-      {!store.ui.isAccessibilityTrusted && (
-        <>
-          <View className="w-full border-lightBorder dark:border-darkBorder border-t" />
-          <TouchableOpacity
-            onPress={() => {
-              solNative.requestAccessibilityAccess()
-              solNative.hideWindow()
-            }}>
-            <Text className="text-xs px-3 py-2">
-              Click to grant accessibility access
-            </Text>
-          </TouchableOpacity>
-        </>
-      )}
+      <PermissionsBar />
     </BlurView>
   )
 })

@@ -30,45 +30,57 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
   }, [selectedIndex])
 
   return (
-    <View className="flex-1 bg-white dark:bg-dark" style={style}>
-      <MainInput placeholder="Search pasteboard history..." showBackButton />
-      <FlatList
-        data={data}
-        className="flex-1"
-        contentContainerClassName="flex-grow"
-        ref={listRef}
-        onScrollToIndexFailed={() => {}}
-        ListEmptyComponent={
-          <View className="flex-1 justify-center items-center">
-            <Text className="dark:text-neutral-700 text-sm text-neutral-500">
-              No items
+    <View className="flex-1" style={style}>
+      <View className="flex-row">
+        <MainInput placeholder="Search pasteboard history..." showBackButton />
+      </View>
+      <View className="flex-1 flex-row">
+        <View className="w-64 ">
+          <FlatList
+            data={data}
+            contentContainerClassName="px-2"
+            ref={listRef}
+            onScrollToIndexFailed={() => {}}
+            showsVerticalScrollIndicator={false}
+            ListEmptyComponent={
+              <View className="flex-1 justify-center items-center">
+                <Text className="dark:text-neutral-700 text-sm text-neutral-500">
+                  No items
+                </Text>
+              </View>
+            }
+            renderItem={({item, index}: any) => {
+              const isActive = index === selectedIndex
+              return (
+                <View
+                  className={clsx('items-center flex-row rounded gap-2 p-2', {
+                    highlight: isActive,
+                    'opacity-80': !isActive,
+                  })}>
+                  <FileIcon
+                    url={decodeURIComponent(
+                      item.bundle?.replace('file://', ''),
+                    )}
+                    className="h-6 w-6"
+                  />
+                  <Text
+                    className={clsx('text-xs text font-mono')}
+                    numberOfLines={1}>
+                    {item.text.trim()}
+                  </Text>
+                </View>
+              )
+            }}
+          />
+        </View>
+        <View className="flex-1 pb-3 pr-3">
+          <View className="flex-1 subBg rounded-lg p-3">
+            <Text className="text-xs" style={{fontFamily: 'Andale Mono'}}>
+              {data[selectedIndex]?.text}
             </Text>
           </View>
-        }
-        renderItem={({item, index}: any) => {
-          const isActive = index === selectedIndex
-          return (
-            <View
-              className={clsx(
-                'mx-2 mb-1 flex-row items-center rounded g-2 p-2',
-                {
-                  'bg-neutral-300 dark:bg-neutral-700': isActive,
-                },
-              )}>
-              <FileIcon
-                url={decodeURIComponent(item.bundle?.replace('file://', ''))}
-                className="h-6 w-6"
-              />
-              <Text
-                className={clsx('text-sm flex-1 dark:text-neutral-200', {
-                  'dark:text-white font-medium': isActive,
-                })}>
-                {item.text.substring(0, 256)}
-              </Text>
-            </View>
-          )
-        }}
-      />
+        </View>
+      </View>
     </View>
   )
 })
