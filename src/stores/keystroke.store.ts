@@ -175,12 +175,6 @@ export const createKeystrokeStore = (root: IRootStore) => {
             }
 
             case Widget.SEARCH: {
-              if (!root.ui.query && !root.ui.isAccessibilityTrusted) {
-                solNative.requestAccessibilityAccess()
-                solNative.hideWindow()
-                return
-              }
-
               if (
                 !root.ui.query &&
                 root.ui.calendarAuthorizationStatus === 'notDetermined'
@@ -188,6 +182,12 @@ export const createKeystrokeStore = (root: IRootStore) => {
                 solNative.requestCalendarAccess().then(() => {
                   root.ui.getCalendarAccess()
                 })
+                solNative.hideWindow()
+                return
+              }
+
+              if (!root.ui.query && !root.ui.isAccessibilityTrusted) {
+                solNative.requestAccessibilityAccess()
                 solNative.hideWindow()
                 return
               }

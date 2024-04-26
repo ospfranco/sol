@@ -91,7 +91,7 @@ export let RootContainer = observer(() => {
 
   return (
     <BlurView
-      className={clsx('rounded-lg border border-color', {
+      className={clsx('rounded-lg', {
         'h-full':
           !!store.ui.query ||
           (store.ui.calendarEnabled &&
