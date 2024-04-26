@@ -173,7 +173,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
             }
 
             case Widget.SEARCH: {
-              if (!root.ui.query && root.ui.isAccessibilityTrusted) {
+              if (!root.ui.query && !root.ui.isAccessibilityTrusted) {
                 solNative.requestAccessibilityAccess()
                 solNative.hideWindow()
                 return
