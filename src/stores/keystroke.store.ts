@@ -46,19 +46,21 @@ export const createKeystrokeStore = (root: IRootStore) => {
         }
         // tab key
         case 48: {
-          // switch (root.ui.focusedWidget) {
-          //   case Widget.SEARCH:
-          //     if (!!root.calendar.filteredEvents.length) {
-          //       root.ui.selectedIndex = 0
-          //       root.ui.focusedWidget = Widget.CALENDAR
-          //     }
-          //     break
+          switch (root.ui.focusedWidget) {
+            //   case Widget.SEARCH:
+            //     if (!!root.calendar.filteredEvents.length) {
+            //       root.ui.selectedIndex = 0
+            //       root.ui.focusedWidget = Widget.CALENDAR
+            //     }
+            //     break
 
-          //   case Widget.CALENDAR:
-          //     root.ui.selectedIndex = 0
-          //     root.ui.focusedWidget = Widget.SEARCH
-          //     break
-          // }
+            //   case Widget.CALENDAR:
+            //     root.ui.selectedIndex = 0
+            //     root.ui.focusedWidget = Widget.SEARCH
+            //     break
+            case Widget.SCRATCHPAD:
+              root.ui.rotateScratchPadColor()
+          }
 
           break
         }

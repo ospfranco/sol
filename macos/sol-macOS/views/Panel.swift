@@ -4,23 +4,14 @@ let appDelegate = NSApp.delegate as? AppDelegate
 
 final class Panel: NSPanel, NSWindowDelegate {
   init(contentRect: NSRect, backing: NSWindow.BackingStoreType, defer flag: Bool) {
-//    #if DEBUG
     super.init(
       contentRect: contentRect,
-      styleMask: [.titled, .fullSizeContentView, .nonactivatingPanel],
+      styleMask: [.borderless, .fullSizeContentView, .nonactivatingPanel],
       backing: backing,
       defer: flag
     )
-//    #else
-//    super.init(
-//      contentRect: contentRect,
-//      styleMask: [.borderless, .fullSizeContentView, .nonactivatingPanel],
-//      backing: backing,
-//      defer: flag
-//    )
-//    #endif
 
-    self.hasShadow = false;
+    self.hasShadow = true;
     self.level = .mainMenu + 3
     self.collectionBehavior.insert(.fullScreenAuxiliary) // Allows the pannel to appear in a fullscreen space
     self.collectionBehavior.insert(.canJoinAllSpaces)

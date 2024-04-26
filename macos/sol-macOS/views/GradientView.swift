@@ -26,8 +26,8 @@ class GradientView: NSView {
   }
   
   // Required to flip touch events
-  override func convert(_ point: NSPoint, from view: NSView?) -> NSPoint {
-    return NSPoint(x: point.x, y: self.frame.height - point.y)
+  override func convert(_ point: NSPoint, from _: NSView?) -> NSPoint {
+    return NSPoint(x: point.x, y: frame.height - point.y)
   }
   
   override var frame: CGRect {

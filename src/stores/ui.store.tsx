@@ -43,6 +43,12 @@ export enum ItemType {
   PREFERENCE_PANE = 'PREFERENCE_PANE',
 }
 
+export enum ScratchPadColor {
+  SYSTEM = 'SYSTEM',
+  BLUE = 'BLUE',
+  ORANGE = 'ORANGE',
+}
+
 export type UIStore = ReturnType<typeof createUIStore>
 
 export const createUIStore = (root: IRootStore) => {
@@ -96,6 +102,8 @@ export const createUIStore = (root: IRootStore) => {
         store.reduceTransparency = parsedStore.reduceTransparency ?? false
         store.history = parsedStore.history ?? []
         store.showUpcomingEvent = parsedStore.showUpcomingEvent ?? true
+        store.scratchPadColor =
+          parsedStore.scratchPadColor ?? ScratchPadColor.SYSTEM
       })
 
       solNative.setLaunchAtLogin(parsedStore.launchAtLogin ?? true)
@@ -168,6 +176,7 @@ export const createUIStore = (root: IRootStore) => {
     history: [] as string[],
     historyPointer: 0,
     showUpcomingEvent: true,
+    scratchPadColor: ScratchPadColor.SYSTEM,
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -297,6 +306,15 @@ export const createUIStore = (root: IRootStore) => {
     //    / /\ \ / __| __| |/ _ \| '_ \/ __|
     //   / ____ \ (__| |_| | (_) | | | \__ \
     //  /_/    \_\___|\__|_|\___/|_| |_|___/
+    rotateScratchPadColor: () => {
+      if (store.scratchPadColor === ScratchPadColor.SYSTEM) {
+        store.scratchPadColor = ScratchPadColor.BLUE
+      } else if (store.scratchPadColor === ScratchPadColor.BLUE) {
+        store.scratchPadColor = ScratchPadColor.ORANGE
+      } else {
+        store.scratchPadColor = ScratchPadColor.SYSTEM
+      }
+    },
     setShowUpcomingEvent: (v: boolean) => {
       store.showUpcomingEvent = v
     },

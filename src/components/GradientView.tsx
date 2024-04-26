@@ -1,7 +1,7 @@
 import {cssInterop} from 'nativewind'
 import {requireNativeComponent, ViewStyle} from 'react-native'
 
-const GradientViewNative = requireNativeComponent<{
+type GradientProps = {
   children?: any
   onLayout?: (e: any) => void
   style?: ViewStyle
@@ -10,9 +10,11 @@ const GradientViewNative = requireNativeComponent<{
   angle: number
   className?: string
   cornerRadius?: number
-}>('GradientView')
+}
 
-export const GradientView = (props: any) => {
+const GradientViewNative = requireNativeComponent<GradientProps>('GradientView')
+
+export const GradientView = (props: GradientProps) => {
   return <GradientViewNative {...props} />
 }
 
