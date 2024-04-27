@@ -120,7 +120,19 @@ export const createClipboardStore = (root: IRootStore) => {
     let storeWithoutItems = {...store}
     storeWithoutItems.items = []
 
-    AsyncStorage.setItem('@clipboard.store', JSON.stringify(storeWithoutItems))
+    try {
+      AsyncStorage.setItem(
+        '@clipboard.store',
+        JSON.stringify(storeWithoutItems),
+      )
+    } catch (e) {
+      console.warn('Could not persist clipboard store', e)
+      AsyncStorage.clear()
+      AsyncStorage.setItem(
+        '@clipboard.store',
+        JSON.stringify(storeWithoutItems),
+      ).catch(e => console.warn('Could re-persist persist clipboard store', e))
+    }
   }
 
   hydrate().then(() => {

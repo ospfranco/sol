@@ -38,7 +38,15 @@ export type EmojiStore = ReturnType<typeof createEmojiStore>
 export const createEmojiStore = (root: IRootStore) => {
   let persist = async () => {
     let plainState = toJS(store)
-    AsyncStorage.setItem('@emoji.store', JSON.stringify(plainState))
+    try {
+      await AsyncStorage.setItem('@emoji.store', JSON.stringify(plainState))
+    } catch (error) {
+      console.error('Error saving emoji store', error)
+      AsyncStorage.clear()
+      AsyncStorage.setItem('@emoji.store', JSON.stringify(plainState)).catch(
+        e => console.warn('Could re-persist persist emoji store', e),
+      )
+    }
   }
 
   let hydrate = async () => {

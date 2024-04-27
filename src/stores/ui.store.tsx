@@ -54,7 +54,15 @@ export type UIStore = ReturnType<typeof createUIStore>
 export const createUIStore = (root: IRootStore) => {
   let persist = async () => {
     let plainState = toJS(store)
-    AsyncStorage.setItem('@ui.store', JSON.stringify(plainState))
+    try {
+      AsyncStorage.setItem('@ui.store', JSON.stringify(plainState))
+    } catch (error) {
+      console.error('Error saving ui store', error)
+      AsyncStorage.clear()
+      AsyncStorage.setItem('@ui.store', JSON.stringify(plainState)).catch(e =>
+        console.warn('Could re-persist persist ui store', e),
+      )
+    }
   }
 
   let hydrate = async () => {
