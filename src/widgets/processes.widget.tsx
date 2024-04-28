@@ -39,7 +39,9 @@ export const ProcessesWidget: FC<Props> = observer(({style}) => {
 
   return (
     <View className="flex-1 " style={style}>
-      <MainInput placeholder="Search processes..." showBackButton />
+      <View className="flex-row">
+        <MainInput placeholder="Search processes..." showBackButton />
+      </View>
       <FlatList
         data={data}
         className="flex-1"
@@ -54,10 +56,11 @@ export const ProcessesWidget: FC<Props> = observer(({style}) => {
         }
         ListHeaderComponent={() => {
           return (
-            <View className="flex-row px-4 py-2 border-b border-lightBorder dark:border-darkBorder ">
+            <View className="flex-row px-4 py-2 border-b border-color mb-2">
+              <Text className="w-28 font-semibold px-4">ID</Text>
               <Text className="flex-1 font-semibold px-4">Process Name</Text>
-              <Text className="flex-1 font-semibold px-4">Memory</Text>
-              <Text className="flex-1 font-semibold px-4">CPU</Text>
+              <Text className="w-28 font-semibold px-4">Memory</Text>
+              <Text className="w-28 font-semibold px-4">CPU</Text>
             </View>
           )
         }}
@@ -65,53 +68,41 @@ export const ProcessesWidget: FC<Props> = observer(({style}) => {
           const process: Process = item as any
           const isActive = index === selectedIndex
           return (
-            <View className="px-2 py-1">
-              <GradientView
-                className={'flex-row px-2'}
-                startColor={isActive ? `${customColors.accent}BB` : '#00000000'}
-                endColor={isActive ? `${customColors.accent}77` : '#00000000'}
-                cornerRadius={10}
-                angle={90}>
-                <Text
-                  className={clsx(
-                    'text-sm flex-1 dark:text-neutral-200 px-4 py-2',
-                    {
-                      'text-white': isActive,
-                    },
-                  )}>
-                  {process.processName}
-                </Text>
-                <Text
-                  className={clsx(
-                    'text-sm flex-1 dark:text-neutral-200 px-4 py-2',
-                    {
-                      'text-white': isActive,
-                    },
-                  )}>
-                  {prettyBytes(process.mem * 1024)}
-                </Text>
-                <Text
-                  className={clsx(
-                    'text-sm flex-1 dark:text-neutral-200 px-4 py-2',
-                    {
-                      'text-white': isActive,
-                    },
-                  )}>
-                  {Math.round(process.cpu)}%
-                </Text>
-              </GradientView>
+            <View
+              className={clsx('px-2 py-1 flex-row rounded mx-2', {
+                highlight: isActive,
+              })}>
+              <Text
+                className={clsx('text-sm w-28 text px-4 py-2', {
+                  'text-white': isActive,
+                })}>
+                {process.pid}
+              </Text>
+              <Text
+                className={clsx('text-sm flex-1 text px-4 py-2', {
+                  'text-white': isActive,
+                })}>
+                {process.processName}
+              </Text>
+              <Text
+                className={clsx('text-sm w-28 text px-4 py-2', {
+                  'text-white': isActive,
+                })}>
+                {prettyBytes(process.mem * 1024)}
+              </Text>
+              <Text
+                className={clsx('text-sm w-28 text px-4 py-2', {
+                  'text-white': isActive,
+                })}>
+                {Math.round(process.cpu)}%
+              </Text>
             </View>
           )
         }}
       />
 
-      <View
-        className="border-t py-2 px-4 border-lightBorder dark:border-darkBorder flex-row items-center justify-end gap-1"
-        style={{
-          backgroundColor: store.ui.isDarkMode ? '#00000018' : '#00000005',
-        }}>
+      <View className="py-2 px-4 flex-row items-center justify-end gap-1 subBg">
         <Text className="text-sm mr-2">Kill process</Text>
-
         <Key symbol={'⏎'} primary />
       </View>
     </View>

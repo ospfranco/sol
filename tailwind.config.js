@@ -33,10 +33,10 @@ module.exports = {
         26: '112px',
       },
       colors: {
-        lightHighlight: {DEFAULT: 'rgba(0, 0, 0, .1)'},
-        darkHighlight: {DEFAULT: 'rgba(255, 255, 255, .07)'},
-        darkBorder: {DEFAULT: '#1B1B1B'},
-        lightBorder: {DEFAULT: 'rgba(0, 0, 0, .1)'},
+        lightHighlight:  'rgba(0, 0, 0, .1)',
+        darkHighlight:  'rgba(255, 255, 255, .07)',
+        darkBorder:  'rgba(255, 255, 255, .1)',
+        lightBorder:  'rgba(0, 0, 0, .1)',
         subBgDark: '#00000020',
         subBgLight: '#FFFFFF77'
       },
