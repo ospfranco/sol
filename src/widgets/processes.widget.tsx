@@ -54,6 +54,7 @@ export const ProcessesWidget: FC<Props> = observer(({style}) => {
             </Text>
           </View>
         }
+        keyExtractor={(item, index) => index.toString()}
         ListHeaderComponent={() => {
           return (
             <View className="flex-row px-4 py-2 border-b border-color mb-2">
