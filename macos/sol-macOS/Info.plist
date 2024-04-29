@@ -17,9 +17,9 @@
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.1.46</string>
+	<string>2.1.47</string>
 	<key>CFBundleVersion</key>
-	<string>260</string>
+	<string>261</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.productivity</string>
 	<key>LSMinimumSystemVersion</key>
@@ -45,12 +45,12 @@
 	<string>Sol needs permission to display your appointments</string>
 	<key>NSCalendarsUsageDescription</key>
 	<string>Sol needs permission to display your appointments</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Allow location access to show Wi-Fi password</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Allow location access to show Wi-Fi password</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Allow location access to show Wi-Fi password</string>
-  <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-  <string>Allow location access to show Wi-Fi password</string>
 	<key>NSMainStoryboardFile</key>
 	<string>Main</string>
 	<key>NSPrincipalClass</key>
