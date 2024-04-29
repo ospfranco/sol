@@ -33,7 +33,7 @@ export function createBaseItems(store: IRootStore) {
     },
     {
       icon: '🖥️',
-      name: 'Restart Mac',
+      name: 'Restart System',
       type: ItemType.CONFIGURATION,
       callback: () => {
         solNative.executeAppleScript('tell application "Finder" to restart')
@@ -41,7 +41,7 @@ export function createBaseItems(store: IRootStore) {
     },
     {
       icon: '🌑',
-      name: 'Power off Mac',
+      name: 'Power Off System',
       type: ItemType.CONFIGURATION,
       callback: () => {
         solNative.executeAppleScript('tell application "Finder" to shut down')
