@@ -46,9 +46,11 @@
 	<key>NSCalendarsUsageDescription</key>
 	<string>Sol needs permission to display your appointments</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Allow location to show Wi-Fi password</string>
+	<string>Allow location access to show Wi-Fi password</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Allow location to show Wi-Fi password</string>
+	<string>Allow location access to show Wi-Fi password</string>
+  <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+  <string>Allow location access to show Wi-Fi password</string>
 	<key>NSMainStoryboardFile</key>
 	<string>Main</string>
 	<key>NSPrincipalClass</key>

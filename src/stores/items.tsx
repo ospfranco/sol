@@ -532,12 +532,16 @@ export function createBaseItems(store: IRootStore) {
       type: ItemType.CONFIGURATION,
       alias: 'wifi',
       callback: () => {
-        const password = solNative.getWifiPassword()
-        if (!password) {
-          solNative.showToast('🟥 Could not retrieve password')
-        } else {
+        try {
+          const password = solNative.getWifiPassword()
+          if (!password) {
+            solNative.showToast(`🟥 Could not retrieve password:`)
+            return
+          }
           Clipboard.setString(password)
           solNative.showToast('✅ Password copied to clipboard')
+        } catch (e) {
+          solNative.showToast(`🟥 Could not retrieve password: ${e}`)
         }
       },
     },
@@ -547,11 +551,16 @@ export function createBaseItems(store: IRootStore) {
       type: ItemType.CONFIGURATION,
       alias: 'wifi',
       callback: () => {
-        const password = solNative.getWifiPassword()
-        if (!password) {
-          solNative.showToast('🟥 Could not retrieve password')
-        } else {
+        try {
+          const password = solNative.getWifiPassword()
+          if (!password) {
+            solNative.showToast(`🟥 Could not retrieve password`)
+            return
+          }
+          Clipboard.setString(password)
           solNative.showToast(`${password}`, 30)
+        } catch (e) {
+          solNative.showToast(`🟥 Could not retrieve password: ${e}`)
         }
       },
     },

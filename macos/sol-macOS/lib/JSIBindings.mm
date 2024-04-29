@@ -68,11 +68,24 @@ void install(jsi::Runtime &rt,
   });
   
   auto getWifiPassword = HOSTFN("getWifiPassword", 0, []) {
+    CLLocationManager *lm = [[CLLocationManager alloc]init];
+    
+    
     if (@available(macOS 14.0, *) ){
-      CLLocationManager *locationManager = [[CLLocationManager alloc]init];
-      [
-        locationManager requestAlwaysAuthorization
-      ];
+      
+      bool location_enabled = [lm locationServicesEnabled];
+      
+      if(!location_enabled) {
+        throw std::runtime_error("Location services are not enabled");
+      }
+      
+      CLAuthorizationStatus authorization_status = [lm authorizationStatus];
+      
+      if(authorization_status == kCLAuthorizationStatusDenied) {
+        throw std::runtime_error("App doesn't have location access");
+      }
+      
+      [lm requestAlwaysAuthorization];
     }
     
     CWWiFiClient *sharedClient = [
@@ -104,7 +117,7 @@ void install(jsi::Runtime &rt,
     CWWiFiClient *sharedClient = [
       CWWiFiClient sharedWiFiClient
     ];
-    CWInterface *interface = [sharedClient interface];
+//    CWInterface *interface = [sharedClient interface];
 //    NSString *ssid = interface.ssid;
     
     struct ifaddrs *interfaces = NULL;
