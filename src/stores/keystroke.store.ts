@@ -179,9 +179,14 @@ export const createKeystrokeStore = (root: IRootStore) => {
                 !root.ui.query &&
                 root.ui.calendarAuthorizationStatus === 'notDetermined'
               ) {
-                solNative.requestCalendarAccess().then(() => {
-                  root.ui.getCalendarAccess()
-                })
+                solNative
+                  .requestCalendarAccess()
+                  .then(() => {
+                    root.ui.getCalendarAccess()
+                  })
+                  .catch(e => {
+                    root.ui.getCalendarAccess()
+                  })
                 solNative.hideWindow()
                 return
               }
