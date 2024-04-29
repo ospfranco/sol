@@ -20,4 +20,8 @@
   .subBg {
     @apply bg-subBgLight dark:bg-subBgDark;
   }
+
+  .input {
+    @apply bg-inputLight dark:bg-inputDark;
+  }
 }

@@ -2,7 +2,7 @@
 
 module.exports = {
   content: ['./src/**/*.{tsx,ts}'],
-  presets: [require("nativewind/preset")],
+  presets: [require('nativewind/preset')],
   theme: {
     minWidth: {
       10: '10px',
@@ -33,12 +33,14 @@ module.exports = {
         26: '112px',
       },
       colors: {
-        lightHighlight:  'rgba(0, 0, 0, .1)',
-        darkHighlight:  'rgba(255, 255, 255, .07)',
-        darkBorder:  'rgba(255, 255, 255, .1)',
-        lightBorder:  'rgba(0, 0, 0, .1)',
+        lightHighlight: 'rgba(0, 0, 0, .1)',
+        darkHighlight: 'rgba(255, 255, 255, .07)',
+        darkBorder: 'rgba(255, 255, 255, .1)',
+        lightBorder: 'rgba(0, 0, 0, .1)',
         subBgDark: '#00000020',
-        subBgLight: '#FFFFFF77'
+        subBgLight: '#FFFFFF77',
+        inputLight: '#00000010',
+        inputDark: '#00000050',
       },
     },
   },

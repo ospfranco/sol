@@ -19,23 +19,14 @@ export const MainInput = observer<Props>(
     const colorScheme = useColorScheme()
 
     return (
-      <View
-        className="h-14 px-3 flex-row items-center gap-1 m-2 rounded-lg flex-1"
-        style={[
-          style,
-          {
-            backgroundColor: colorScheme === 'dark' ? '#00000050' : '#00000010',
-          },
-        ]}>
+      <View className="min-h-[42px] max-h-[200px] px-3 flex-row items-center gap-1 m-2 rounded-lg flex-1 input">
         {showBackButton && (
-          <View className="">
-            <BackButton
-              onPress={() => {
-                store.ui.setQuery('')
-                store.ui.focusWidget(Widget.SEARCH)
-              }}
-            />
-          </View>
+          <BackButton
+            onPress={() => {
+              store.ui.setQuery('')
+              store.ui.focusWidget(Widget.SEARCH)
+            }}
+          />
         )}
         <TextInput
           autoFocus
@@ -43,7 +34,8 @@ export const MainInput = observer<Props>(
           value={store.ui.query}
           onChangeText={store.ui.setQuery}
           // @ts-ignore
-          className="text-3xl flex-1"
+          className="text-2xl flex-1 -mb-1"
+          multiline
           placeholderTextColor={
             colorScheme === 'dark' ? colors.neutral[500] : colors.neutral[400]
           }
