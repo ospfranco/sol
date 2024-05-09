@@ -37,7 +37,10 @@ declare var global: {
     setHeight: (height: number) => void
     resetWindowSize: () => void
     hideWindow: () => void
-    searchFiles: (query: string) => void
+    searchFiles: (
+      paths: string[],
+      query: string,
+    ) => {name: string; path: string; isFolder: boolean}[]
     requestCalendarAccess: () => Promise<void>
     getCalendarAuthorizationStatus: () => CalendarAuthorizationStatus
     getEvents: () => INativeEvent[]

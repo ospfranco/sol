@@ -35,6 +35,7 @@ export enum Widget {
 }
 
 export enum ItemType {
+  FILE = 'FILE',
   APPLICATION = 'APPLICATION',
   CONFIGURATION = 'CONFIGURATION',
   CUSTOM = 'CUSTOM',
@@ -195,7 +196,7 @@ export const createUIStore = (root: IRootStore) => {
     //                        |_|
 
     get items(): Item[] {
-      const allItems = [
+      let allItems = [
         ...store.apps,
         ...baseItems.map(i => {
           if (i.name === 'Clipboard Manager') {
@@ -244,6 +245,24 @@ export const createUIStore = (root: IRootStore) => {
       ]
 
       if (store.query) {
+        const fileResults = solNative.searchFiles(
+          [
+            '/Users/osp/Dropbox (Maestral)',
+            '/Users/osp/Pictures',
+            '/Users/osp/Downloads',
+          ],
+          store.query,
+        )
+
+        allItems = [
+          ...allItems,
+          ...fileResults.map(f => ({
+            type: ItemType.FILE,
+            name: f.name,
+            url: f.path,
+          })),
+        ]
+
         let results = new Fuse(allItems, {
           ...FUSE_OPTIONS,
           sortFn: (a: any, b: any) => {
@@ -429,10 +448,6 @@ export const createUIStore = (root: IRootStore) => {
           if (info.ip) {
             store.temporaryResult = info.ip
           }
-        }
-
-        if (query.length >= 3) {
-          solNative.searchFiles(query)
         }
       }
     },

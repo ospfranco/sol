@@ -23,6 +23,7 @@
 		701EC4612822E33B00597D99 /* AccessibilityElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701EC4602822E33B00597D99 /* AccessibilityElement.swift */; };
 		7034504028238AAB00240BDD /* ScreenDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7034503F28238AAB00240BDD /* ScreenDetector.swift */; };
 		703D78B72916924300F741F0 /* SentryHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 703D78B62916924300F741F0 /* SentryHelper.m */; };
+		703EB24D2BED4E1E00F7B391 /* NSString+Score.m in Sources */ = {isa = PBXBuildFile; fileRef = 703EB24C2BED4E1E00F7B391 /* NSString+Score.m */; };
 		7042A22A2815C06B00874743 /* NSColor.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7042A2292815C06B00874743 /* NSColor.extension.swift */; };
 		7047E80627D4D31400582E1B /* MediaHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7047E80527D4D31400582E1B /* MediaHelper.swift */; };
 		7047E80827D4DAEB00582E1B /* Sequence.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7047E80727D4DAEB00582E1B /* Sequence.extension.swift */; };
@@ -83,6 +84,8 @@
 		7034503F28238AAB00240BDD /* ScreenDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenDetector.swift; sourceTree = "<group>"; };
 		703D78B62916924300F741F0 /* SentryHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SentryHelper.m; sourceTree = "<group>"; };
 		703D78B82916933F00F741F0 /* SentryHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SentryHelper.h; sourceTree = "<group>"; };
+		703EB24C2BED4E1E00F7B391 /* NSString+Score.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+Score.m"; sourceTree = "<group>"; };
+		703EB24E2BED4E3C00F7B391 /* NSString+Score.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+Score.h"; sourceTree = "<group>"; };
 		7042A2292815C06B00874743 /* NSColor.extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSColor.extension.swift; sourceTree = "<group>"; };
 		7047E80527D4D31400582E1B /* MediaHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaHelper.swift; sourceTree = "<group>"; };
 		7047E80727D4DAEB00582E1B /* Sequence.extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sequence.extension.swift; sourceTree = "<group>"; };
@@ -255,6 +258,8 @@
 				70FEADF629E496D1008B5F36 /* processes.h */,
 				70754B522BECECAB00B77EF8 /* FileSearch.mm */,
 				70754B542BECF14200B77EF8 /* FileSearch.h */,
+				703EB24C2BED4E1E00F7B391 /* NSString+Score.m */,
+				703EB24E2BED4E3C00F7B391 /* NSString+Score.h */,
 			);
 			path = lib;
 			sourceTree = "<group>";
@@ -549,6 +554,7 @@
 				70805244298F692E000DB574 /* MouseUtils.swift in Sources */,
 				70EFF77428D5F732009FE998 /* DoNotDisturb.swift in Sources */,
 				7042A22A2815C06B00874743 /* NSColor.extension.swift in Sources */,
+				703EB24D2BED4E1E00F7B391 /* NSString+Score.m in Sources */,
 				70E15D082931FC57007FFE5F /* FS.swift in Sources */,
 				700DF99A28266F0B00C5FD0B /* ClipboardHelper.swift in Sources */,
 				700A18DA279DC17F0096C830 /* FileIcon.swift in Sources */,

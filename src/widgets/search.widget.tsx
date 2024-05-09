@@ -107,6 +107,12 @@ export const SearchWidget: FC<Props> = observer(() => {
             <Text className={'ml-3 darker-text'}>{item.subName}</Text>
           )}
 
+          {item.type === ItemType.FILE && (
+            <Text className="darker-text text-xs">
+              {item.url!.slice(0, 45)}
+            </Text>
+          )}
+
           {!!item.shortcut && (
             <View className="flex-row gap-1 items-center">
               {item.shortcut.split(' ').map((char, i) => {

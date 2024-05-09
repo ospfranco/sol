@@ -146,12 +146,29 @@ void install(jsi::Runtime &rt,
     return res;
   });
 
-// Spotlight search is terrible, disabled it for now
   auto searchFiles = HOSTFN("searchFiles", 1, []) {
-    auto queryStr = arguments[0].asString(rt).utf8(rt);
-    do_searchfs_search(queryStr.c_str());
+    auto paths = arguments[0].asObject(rt).asArray(rt);
+    auto query = arguments[1].asString(rt).utf8(rt);
+    std::vector<File> res;
+    for(size_t i = 0; i < paths.size(rt); i++) {
+      auto path = paths.getValueAtIndex(rt, i).asString(rt).utf8(rt);
+      std::vector<File> path_results = search_files([NSString stringWithUTF8String:path.c_str()], [NSString stringWithUTF8String:query.c_str()]);
+      res.insert(res.end(), path_results.begin(), path_results.end());
+    }
+    
 
-    return {};
+    auto arr_res = jsi::Array(rt, res.size());
+    
+    for (size_t i = 0; i < res.size(); i++) {
+      auto result = res.at(i);
+      auto obj = jsi::Object(rt);
+      obj.setProperty(rt, "name", jsi::String::createFromUtf8(rt, result.name));
+      obj.setProperty(rt, "path", jsi::String::createFromUtf8(rt, result.path));
+      obj.setProperty(rt, "isFolder", result.is_folder);
+      arr_res.setValueAtIndex(rt, i, std::move(obj));
+    }
+
+    return std::move(arr_res);
   });
 
   // auto getMediaInfo = HOSTFN("getMediaInfo", 0, [=]) {
