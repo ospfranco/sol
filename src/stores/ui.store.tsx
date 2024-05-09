@@ -430,6 +430,10 @@ export const createUIStore = (root: IRootStore) => {
             store.temporaryResult = info.ip
           }
         }
+
+        if (query.length >= 3) {
+          solNative.searchFiles(query)
+        }
       }
     },
     onShow: ({target}: {target?: string}) => {

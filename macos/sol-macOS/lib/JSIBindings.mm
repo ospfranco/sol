@@ -11,6 +11,7 @@
 #import "SentryHelper.h"
 #import "JSIUtils.h"
 #import "processes.h"
+#import "FileSearch.h"
 extern "C" {
 #import <CoreWLAN/CoreWLAN.h>
 #import <CoreLocation/CoreLocation.h>
@@ -24,7 +25,6 @@ namespace jsi = facebook::jsi;
 namespace react = facebook::react;
 
 std::shared_ptr<react::CallInvoker> invoker;
-FileSearcher *fileSearcher;
 CalendarHelper *calendarHelper;
 
 NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -32,7 +32,6 @@ NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
 void install(jsi::Runtime &rt,
              std::shared_ptr<react::CallInvoker> callInvoker) {
   invoker = callInvoker;
-  fileSearcher = [[FileSearcher alloc] init];
   calendarHelper = [[CalendarHelper alloc] init];
   dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ssZ";
 
@@ -148,11 +147,12 @@ void install(jsi::Runtime &rt,
   });
 
 // Spotlight search is terrible, disabled it for now
-//  auto searchFiles = HOSTFN("searchFiles", 1, []) {
-//    auto queryStr = arguments[0].asString(rt).utf8(rt);
-//    [fileSearcher searchFile:[NSString stringWithUTF8String:queryStr.c_str()]];
-//    return {};
-//  });
+  auto searchFiles = HOSTFN("searchFiles", 1, []) {
+    auto queryStr = arguments[0].asString(rt).utf8(rt);
+    do_searchfs_search(queryStr.c_str());
+
+    return {};
+  });
 
   // auto getMediaInfo = HOSTFN("getMediaInfo", 0, [=]) {
   //   auto promise =
@@ -446,7 +446,7 @@ void install(jsi::Runtime &rt,
   module.setProperty(rt, "resetWindowSize", std::move(resetWindowSize));
   module.setProperty(rt, "hideWindow", std::move(hideWindow));
   // module.setProperty(rt, "getMediaInfo", std::move(getMediaInfo));
-//  module.setProperty(rt, "searchFiles", std::move(searchFiles));
+ module.setProperty(rt, "searchFiles", std::move(searchFiles));
   module.setProperty(rt, "requestCalendarAccess",
                      std::move(requestCalendarAccess));
   module.setProperty(rt, "getCalendarAuthorizationStatus",
