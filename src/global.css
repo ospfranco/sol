@@ -24,4 +24,8 @@
   .input {
     @apply bg-inputLight dark:bg-inputDark;
   }
+
+  .border-window {
+    @apply border-lightWindowBorder dark:border-darkWindowBorder;
+  }
 }

@@ -23,7 +23,9 @@ export let RootContainer = observer(() => {
 
   if (widget === Widget.CLIPBOARD) {
     return (
-      <BlurView disabled={blurDisabled} className="flex-1 rounded-lg">
+      <BlurView
+        disabled={blurDisabled}
+        className="flex-1 rounded-lg border-window">
         <ClipboardWidget />
       </BlurView>
     )
@@ -31,7 +33,9 @@ export let RootContainer = observer(() => {
 
   if (widget === Widget.EMOJIS) {
     return (
-      <BlurView disabled={blurDisabled} className="flex-1 rounded-lg">
+      <BlurView
+        disabled={blurDisabled}
+        className="flex-1 rounded-lg border-window">
         <EmojisWidget />
       </BlurView>
     )
@@ -39,7 +43,9 @@ export let RootContainer = observer(() => {
 
   if (widget === Widget.SCRATCHPAD) {
     return (
-      <BlurView disabled={blurDisabled} className="flex-1 rounded-lg">
+      <BlurView
+        disabled={blurDisabled}
+        className="flex-1 rounded-lg border-window">
         <ScratchpadWidget />
       </BlurView>
     )
@@ -47,7 +53,9 @@ export let RootContainer = observer(() => {
 
   if (widget === Widget.CREATE_ITEM) {
     return (
-      <BlurView disabled={blurDisabled} className="flex-1 rounded-lg">
+      <BlurView
+        disabled={blurDisabled}
+        className="flex-1 rounded-lg border-window">
         <CreateItemWidget />
       </BlurView>
     )
@@ -55,7 +63,9 @@ export let RootContainer = observer(() => {
 
   if (widget === Widget.ONBOARDING) {
     return (
-      <BlurView disabled={blurDisabled} className="flex-1 rounded-lg">
+      <BlurView
+        disabled={blurDisabled}
+        className="flex-1 rounded-lg border-window">
         <OnboardingWidget />
       </BlurView>
     )
@@ -63,7 +73,9 @@ export let RootContainer = observer(() => {
 
   if (widget === Widget.TRANSLATION) {
     return (
-      <BlurView disabled={blurDisabled} className="flex-1 rounded-lg">
+      <BlurView
+        disabled={blurDisabled}
+        className="flex-1 rounded-lg border-window">
         <TranslationWidget />
       </BlurView>
     )
@@ -71,7 +83,9 @@ export let RootContainer = observer(() => {
 
   if (widget === Widget.SETTINGS) {
     return (
-      <BlurView disabled={blurDisabled} className="flex-1 rounded-lg">
+      <BlurView
+        disabled={blurDisabled}
+        className="flex-1 rounded-lg border-window">
         <SettingsWidget />
       </BlurView>
     )
@@ -79,7 +93,9 @@ export let RootContainer = observer(() => {
 
   if (widget === Widget.PROCESSES) {
     return (
-      <BlurView disabled={blurDisabled} className="flex-1 rounded-lg">
+      <BlurView
+        disabled={blurDisabled}
+        className="flex-1 rounded-lg border-window">
         <ProcessesWidget />
       </BlurView>
     )
@@ -87,7 +103,7 @@ export let RootContainer = observer(() => {
 
   return (
     <BlurView
-      className={clsx('rounded-lg', {
+      className={clsx('rounded-lg border border-window', {
         'h-full':
           !!store.ui.query ||
           (store.ui.calendarEnabled &&

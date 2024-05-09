@@ -33,6 +33,8 @@ module.exports = {
         26: '112px',
       },
       colors: {
+        darkWindowBorder: '#CCCCCC33',
+        lightWindowBorder: '#FFFFFF',
         lightHighlight: 'rgba(0, 0, 0, .1)',
         darkHighlight: 'rgba(255, 255, 255, .07)',
         darkBorder: 'rgba(255, 255, 255, .1)',
