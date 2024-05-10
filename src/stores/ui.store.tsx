@@ -32,6 +32,7 @@ export enum Widget {
   EMOJIS = 'EMOJIS',
   CLIPBOARD = 'CLIPBOARD',
   PROCESSES = 'PROCESSES',
+  FILE_SEARCH = 'FILE_SEARCH',
 }
 
 export enum ItemType {
@@ -113,6 +114,14 @@ export const createUIStore = (root: IRootStore) => {
         store.showUpcomingEvent = parsedStore.showUpcomingEvent ?? true
         store.scratchPadColor =
           parsedStore.scratchPadColor ?? ScratchPadColor.SYSTEM
+        store.searchFolders = parsedStore.searchFolders ?? [
+          `/Users/${solNative.userName()}/Downloads`,
+          `/Users/${solNative.userName()}/Documents`,
+          `/Users/${solNative.userName()}/Desktop`,
+          `/Users/${solNative.userName()}/Pictures`,
+          `/Users/${solNative.userName()}/Movies`,
+          `/Users/${solNative.userName()}/Music`,
+        ]
       })
 
       solNative.setLaunchAtLogin(parsedStore.launchAtLogin ?? true)
@@ -186,6 +195,7 @@ export const createUIStore = (root: IRootStore) => {
     historyPointer: 0,
     showUpcomingEvent: true,
     scratchPadColor: ScratchPadColor.SYSTEM,
+    searchFolders: [] as string[],
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -194,7 +204,22 @@ export const createUIStore = (root: IRootStore) => {
     //   \_____\___/|_| |_| |_| .__/ \__,_|\__\___|\__,_|
     //                        | |
     //                        |_|
+    get files(): Item[] {
+      if (!!store.query && store.focusedWidget === Widget.FILE_SEARCH) {
+        const fileResults = solNative.searchFiles(
+          toJS(store.searchFolders),
+          store.query,
+        )
 
+        return fileResults.map(f => ({
+          type: ItemType.FILE,
+          name: f.name,
+          url: f.path,
+        }))
+      } else {
+        return []
+      }
+    },
     get items(): Item[] {
       let allItems = [
         ...store.apps,
@@ -245,24 +270,6 @@ export const createUIStore = (root: IRootStore) => {
       ]
 
       if (store.query) {
-        const fileResults = solNative.searchFiles(
-          [
-            '/Users/osp/Dropbox (Maestral)',
-            '/Users/osp/Pictures',
-            '/Users/osp/Downloads',
-          ],
-          store.query,
-        )
-
-        allItems = [
-          ...allItems,
-          ...fileResults.map(f => ({
-            type: ItemType.FILE,
-            name: f.name,
-            url: f.path,
-          })),
-        ]
-
         let results = new Fuse(allItems, {
           ...FUSE_OPTIONS,
           sortFn: (a: any, b: any) => {
@@ -666,6 +673,19 @@ export const createUIStore = (root: IRootStore) => {
         return
       }
       store.historyPointer = pointer
+    },
+
+    showFileSearch: () => {
+      store.focusWidget(Widget.FILE_SEARCH)
+      store.query = ''
+    },
+
+    addSearchFolder: (folder: string) => {
+      store.searchFolders.push(folder)
+    },
+
+    removeSearchFolder: (folder: string) => {
+      store.searchFolders = store.searchFolders.filter(f => f !== folder)
     },
   })
 

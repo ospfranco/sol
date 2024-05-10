@@ -358,4 +358,20 @@ class SolNative: RCTEventEmitter {
       self.appDelegate?.setMediaKeyForwardingEnabled(v)
     }
   }
+  
+  @objc func openFilePicker(_ resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+    DispatchQueue.main.async {
+      let panel = NSOpenPanel()
+      panel.allowsMultipleSelection = false
+      panel.canChooseDirectories = true
+      panel.canChooseFiles = false
+      if panel.runModal() == .OK {
+        let fileName = panel.url?.absoluteString
+        resolve(fileName)
+      } else {
+        reject(nil, nil, nil)
+      }
+    }
+  }
+  
 }

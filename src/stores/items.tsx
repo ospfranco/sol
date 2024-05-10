@@ -314,6 +314,15 @@ export function createBaseItems(store: IRootStore) {
       preventClose: true,
     },
     {
+      icon: '📁',
+      name: 'File Search',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        store.ui.showFileSearch()
+      },
+      preventClose: true,
+    },
+    {
       IconComponent: (...props: any[]) => (
         <FileIcon {...props} url="~/Downloads" className="w-6 h-6" />
       ),

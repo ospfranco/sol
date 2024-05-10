@@ -9,6 +9,7 @@ import {Widget} from 'stores/ui.store'
 import {ClipboardWidget} from 'widgets/clipboard.widget'
 import {CreateItemWidget} from 'widgets/createItem.widget'
 import {EmojisWidget} from 'widgets/emojis.widget'
+import {FileSearchWidget} from 'widgets/fileSearch.widget'
 import {OnboardingWidget} from 'widgets/onboarding.widget'
 import {ProcessesWidget} from 'widgets/processes.widget'
 import {ScratchpadWidget} from 'widgets/scratchpad.widget'
@@ -21,6 +22,15 @@ export let RootContainer = observer(() => {
   let widget = store.ui.focusedWidget
   let blurDisabled = store.ui.reduceTransparency
 
+  if (widget === Widget.FILE_SEARCH) {
+    return (
+      <BlurView
+        disabled={blurDisabled}
+        className="flex-1 rounded-lg border-window">
+        <FileSearchWidget />
+      </BlurView>
+    )
+  }
   if (widget === Widget.CLIPBOARD) {
     return (
       <BlurView

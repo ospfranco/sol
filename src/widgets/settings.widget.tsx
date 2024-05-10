@@ -19,6 +19,7 @@ import {Widget} from 'stores/ui.store'
 import {BackButton} from 'components/BackButton'
 import {MyRadioButton} from 'components/MyRadioButton'
 import packageInfo from '../../package.json'
+import {solNative} from 'lib/SolNative'
 
 type ITEM = 'ABOUT' | 'GENERAL' | 'TRANSLATE'
 
@@ -161,6 +162,38 @@ export const SettingsWidget: FC = observer(() => {
                   })}
                 </View>
               </View>
+            </View>
+
+            <View className="p-3 subgBg rounded gap-3">
+              <Text>File Search Paths</Text>
+              {store.ui.searchFolders.map((folder, index) => {
+                return (
+                  <View className="flex-row items-center gap-2">
+                    <Text className="flex-1">{folder}</Text>
+                    <TouchableOpacity
+                      onPress={() => {
+                        store.ui.removeSearchFolder(folder)
+                      }}>
+                      <Text className="text-red-500">Remove</Text>
+                    </TouchableOpacity>
+                  </View>
+                )
+              })}
+              <TouchableOpacity
+                onPress={async () => {
+                  try {
+                    solNative.hideWindow()
+                    let path = await solNative.openFilePicker()
+                    if (path) {
+                      path = path.replace('file://', '')
+                      path = decodeURI(path)
+                      store.ui.addSearchFolder(path)
+                    }
+                    solNative.showWindow()
+                  } catch (e) {}
+                }}>
+                <Text className="text-blue-500">Add folder</Text>
+              </TouchableOpacity>
             </View>
 
             <View className="p-3 subBg rounded gap-3">

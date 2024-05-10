@@ -360,7 +360,7 @@ class AppDelegate: NSObject, NSApplicationDelegate,
     mainWindow.setIsVisible(true)
   }
 
-  func showWindow(target: String? = nil) {
+  @objc func showWindow(target: String? = nil) {
     if useBackgroundOverlay {
       if showWindowOn == "screenWithFrontmost" {
         overlayWindow.setFrame(NSScreen.main!.frame, display: false)

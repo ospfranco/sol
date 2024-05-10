@@ -75,25 +75,25 @@ export const ProcessesWidget: FC<Props> = observer(({style}) => {
               })}>
               <Text
                 className={clsx('text-sm w-28 text px-4 py-2', {
-                  'text-white': isActive,
+                  'dark:text-white': isActive,
                 })}>
                 {process.pid}
               </Text>
               <Text
                 className={clsx('text-sm flex-1 text px-4 py-2', {
-                  'text-white': isActive,
+                  'dark:text-white': isActive,
                 })}>
                 {process.processName}
               </Text>
               <Text
                 className={clsx('text-sm w-28 text px-4 py-2', {
-                  'text-white': isActive,
+                  'dark:text-white': isActive,
                 })}>
                 {prettyBytes(process.mem * 1024)}
               </Text>
               <Text
                 className={clsx('text-sm w-28 text px-4 py-2', {
-                  'text-white': isActive,
+                  'dark:text-white': isActive,
                 })}>
                 {Math.round(process.cpu)}%
               </Text>

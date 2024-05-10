@@ -94,4 +94,5 @@ RCT_EXPORT_METHOD(restart) {
       });
   }
 }
+RCT_EXTERN_METHOD(openFilePicker: (RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject)
 @end

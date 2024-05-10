@@ -69,6 +69,15 @@ export const createKeystrokeStore = (root: IRootStore) => {
         case 36: {
           root.ui.setHistoryPointer(0)
           switch (root.ui.focusedWidget) {
+            case Widget.FILE_SEARCH: {
+              const file = root.ui.files[root.ui.selectedIndex]
+              if (file) {
+                solNative.openFile(file.url!)
+                solNative.hideWindow()
+              }
+              break
+            }
+
             case Widget.PROCESSES: {
               const process =
                 root.processes.filteredProcesses[root.ui.selectedIndex]
@@ -590,6 +599,14 @@ export const createKeystrokeStore = (root: IRootStore) => {
               root.ui.selectedIndex = Math.min(
                 root.ui.selectedIndex + 1,
                 root.processes.processes.length - 1,
+              )
+              break
+            }
+
+            case Widget.FILE_SEARCH: {
+              root.ui.selectedIndex = Math.min(
+                root.ui.selectedIndex + 1,
+                root.ui.files.length - 1,
               )
               break
             }

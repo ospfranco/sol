@@ -76,6 +76,8 @@ class SolNative extends NativeEventEmitter {
   getWifiPassword: typeof global.__SolProxy.getWifiPassword
   getWifiInfo: typeof global.__SolProxy.getWifiInfo
   restart: () => void
+  openFilePicker: () => Promise<string | null>
+  showWindow: typeof global.__SolProxy.showWindow
 
   // Constants
   accentColor: string
@@ -175,6 +177,9 @@ class SolNative extends NativeEventEmitter {
     this.getWifiInfo = global.__SolProxy.getWifiInfo
 
     this.restart = module.restart
+
+    this.openFilePicker = module.openFilePicker
+    this.showWindow = global.__SolProxy.showWindow
   }
 }
 

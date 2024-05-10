@@ -66,6 +66,16 @@ void install(jsi::Runtime &rt,
     return {};
   });
   
+  auto showWindow = HOSTFN("showWindow", 0, []) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+      AppDelegate *appDelegate =
+      (AppDelegate *)[[NSApplication sharedApplication] delegate];
+      [appDelegate showWindowWithTarget:NULL];
+    });
+
+    return {};
+  });
+  
   auto getWifiPassword = HOSTFN("getWifiPassword", 0, []) {
     CLLocationManager *lm = [[CLLocationManager alloc]init];
     
@@ -462,6 +472,7 @@ void install(jsi::Runtime &rt,
   module.setProperty(rt, "setHeight", std::move(setHeight));
   module.setProperty(rt, "resetWindowSize", std::move(resetWindowSize));
   module.setProperty(rt, "hideWindow", std::move(hideWindow));
+  module.setProperty(rt, "showWindow", std::move(showWindow));
   // module.setProperty(rt, "getMediaInfo", std::move(getMediaInfo));
  module.setProperty(rt, "searchFiles", std::move(searchFiles));
   module.setProperty(rt, "requestCalendarAccess",
