@@ -75,7 +75,10 @@ export const FileSearchWidget: FC<Props> = observer(({style}) => {
       />
 
       <View className="py-2 px-4 flex-row items-center justify-end gap-1 subBg">
-        <Text className="text-sm mr-2">Kill process</Text>
+        <Text className="text-sm mr-2">Open Folder</Text>
+        <Key symbol={'⇧'} />
+        <Key symbol={'⏎'} />
+        <Text className="text-sm mx-2">Open</Text>
         <Key symbol={'⏎'} primary />
       </View>
     </View>

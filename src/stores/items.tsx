@@ -573,6 +573,18 @@ export function createBaseItems(store: IRootStore) {
         }
       },
     },
+    // {
+    //   icon: '⌨️',
+    //   name: 'Add VSCode bindings to Xcode',
+    //   type: ItemType.CONFIGURATION,
+    //   callback: async () => {
+    //     await solNative.executeBashScript(
+    //       `touch ~/Library/Developer/Xcode/UserData/KeyBindings/VSCodeKeyBindings.idekeybindings`,
+    //     )
+
+    //     solNative.showToast('✅ Added bindings. Select them from the Xcode preferences')
+    //   },
+    // }
   ]
 
   if (__DEV__) {

@@ -72,8 +72,17 @@ export const createKeystrokeStore = (root: IRootStore) => {
             case Widget.FILE_SEARCH: {
               const file = root.ui.files[root.ui.selectedIndex]
               if (file) {
-                solNative.openFile(file.url!)
-                solNative.hideWindow()
+                if (shift) {
+                  const filePath = file.url!
+                  const directoryPath = filePath.substring(
+                    0,
+                    filePath.lastIndexOf('/'),
+                  )
+                  solNative.openFinderAt(directoryPath)
+                } else {
+                  solNative.openFile(file.url!)
+                  solNative.hideWindow()
+                }
               }
               break
             }

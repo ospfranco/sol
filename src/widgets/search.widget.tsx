@@ -194,7 +194,7 @@ export const SearchWidget: FC<Props> = observer(() => {
                   })}>
                   Select
                 </Text>
-                <Key symbol={'⏎'} />
+                <Key symbol={'⏎'} primary />
               </>
             )}
           </View>
