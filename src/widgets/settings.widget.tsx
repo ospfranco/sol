@@ -164,12 +164,14 @@ export const SettingsWidget: FC = observer(() => {
               </View>
             </View>
 
-            <View className="p-3 subgBg rounded gap-3">
+            <View className="p-3 subBg rounded gap-3">
               <Text>File Search Paths</Text>
               {store.ui.searchFolders.map((folder, index) => {
                 return (
                   <View className="flex-row items-center gap-2">
-                    <Text className="flex-1">{folder}</Text>
+                    <Text className="flex-1 text-neutral-500 dark:text-neutral-200">
+                      {folder}
+                    </Text>
                     <TouchableOpacity
                       onPress={() => {
                         store.ui.removeSearchFolder(folder)
@@ -179,21 +181,23 @@ export const SettingsWidget: FC = observer(() => {
                   </View>
                 )
               })}
-              <TouchableOpacity
-                onPress={async () => {
-                  try {
-                    solNative.hideWindow()
-                    let path = await solNative.openFilePicker()
-                    if (path) {
-                      path = path.replace('file://', '')
-                      path = decodeURI(path)
-                      store.ui.addSearchFolder(path)
-                    }
-                    solNative.showWindow()
-                  } catch (e) {}
-                }}>
-                <Text className="text-blue-500">Add folder</Text>
-              </TouchableOpacity>
+              <View className="justify-end flex-row mt-2">
+                <TouchableOpacity
+                  onPress={async () => {
+                    try {
+                      solNative.hideWindow()
+                      let path = await solNative.openFilePicker()
+                      if (path) {
+                        path = path.replace('file://', '')
+                        path = decodeURI(path)
+                        store.ui.addSearchFolder(path)
+                      }
+                      solNative.showWindow()
+                    } catch (e) {}
+                  }}>
+                  <Text className="text-blue-500">Add folder</Text>
+                </TouchableOpacity>
+              </View>
             </View>
 
             <View className="p-3 subBg rounded gap-3">
