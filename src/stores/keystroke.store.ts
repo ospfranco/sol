@@ -221,13 +221,13 @@ export const createKeystrokeStore = (root: IRootStore) => {
 
               root.ui.addToHistory(root.ui.query)
 
-              if (!!root.ui.query && shift) {
+              if (shift) {
                 root.ui.translateQuery()
                 return
               }
 
               // If there are no items, or if the query is a meta query, open a google search
-              if (!root.ui.items.length || (!!root.ui.query && meta)) {
+              if (!root.ui.items.length || meta) {
                 Linking.openURL(
                   `https://google.com/search?q=${encodeURIComponent(
                     root.ui.query,
@@ -238,7 +238,6 @@ export const createKeystrokeStore = (root: IRootStore) => {
               }
 
               if (
-                !root.ui.query &&
                 !!root.calendar.upcomingEvent &&
                 root.calendar.upcomingEvent.eventStatus !== 3
               ) {
@@ -254,6 +253,13 @@ export const createKeystrokeStore = (root: IRootStore) => {
               let item = root.ui.items[root.ui.selectedIndex]
 
               if (item == null) {
+                return
+              }
+
+              if (item.type === ItemType.TEMPORARY_RESULT) {
+                Clipboard.setString(root.ui.temporaryResult!)
+                solNative.showToast('Copied to clipboard ✅')
+                solNative.hideWindow()
                 return
               }
 
