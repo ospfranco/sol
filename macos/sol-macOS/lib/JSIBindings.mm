@@ -76,7 +76,7 @@ void install(jsi::Runtime &rt,
   });
 
   auto getWifiPassword = HOSTFN("getWifiPassword", 0, []) {
-    
+
     CLLocationManager *lm = [[CLLocationManager alloc] init];
     bool location_enabled = [lm locationServicesEnabled];
 
@@ -322,13 +322,17 @@ void install(jsi::Runtime &rt,
 
       jsi::Object event = jsi::Object(rt);
       event.setProperty(rt, "id", [[ekEvent eventIdentifier] UTF8String]);
-      event.setProperty(rt, "title", [[ekEvent title] UTF8String]);
+      auto title =
+          jsi::String::createFromUtf8(rt, [[ekEvent title] UTF8String]);
+      event.setProperty(rt, "title", std::move(title));
       if ([ekEvent URL] != NULL) {
         event.setProperty(rt, "url",
                           [[[ekEvent URL] absoluteString] UTF8String]);
       }
       if ([ekEvent notes] != NULL) {
-        event.setProperty(rt, "notes", [[ekEvent notes] UTF8String]);
+        auto notes =
+            jsi::String::createFromUtf8(rt, [[ekEvent notes] UTF8String]);
+        event.setProperty(rt, "notes", std::move(notes));
       }
 
       if ([ekEvent location] != NULL) {
