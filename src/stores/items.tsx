@@ -544,7 +544,9 @@ export function createBaseItems(store: IRootStore) {
         try {
           const password = solNative.getWifiPassword()
           if (!password) {
-            solNative.showToast(`🟥 Could not retrieve password:`)
+            solNative.showToast(
+              `🟥 Could not retrieve password, no password found`,
+            )
             return
           }
           Clipboard.setString(password)

@@ -1,6 +1,10 @@
 #include "JSIBindings.hpp"
 #import "CalendarHelper.h"
+#import "FileSearch.h"
+#import "JSIUtils.h"
+#import "SentryHelper.h"
 #include "SolMacros.h"
+#import "processes.h"
 #import <Cocoa/Cocoa.h>
 #import <EventKit/EKCalendar.h>
 #import <EventKit/EKEvent.h>
@@ -8,16 +12,11 @@
 #import <Foundation/Foundation.h>
 #import <iostream>
 #import <sol-Swift.h>
-#import "SentryHelper.h"
-#import "JSIUtils.h"
-#import "processes.h"
-#import "FileSearch.h"
 extern "C" {
-#import <CoreWLAN/CoreWLAN.h>
 #import <CoreLocation/CoreLocation.h>
+#import <CoreWLAN/CoreWLAN.h>
 #import <ifaddrs.h>
 }
-
 
 namespace sol {
 
@@ -39,7 +38,7 @@ void install(jsi::Runtime &rt,
     int height = static_cast<int>(arguments[0].asNumber());
     dispatch_async(dispatch_get_main_queue(), ^{
       AppDelegate *appDelegate =
-      (AppDelegate *)[[NSApplication sharedApplication] delegate];
+          (AppDelegate *)[[NSApplication sharedApplication] delegate];
       [appDelegate setHeight:height];
     });
 
@@ -49,7 +48,7 @@ void install(jsi::Runtime &rt,
   auto resetWindowSize = HOSTFN("resetWindowSize", 0, []) {
     dispatch_async(dispatch_get_main_queue(), ^{
       AppDelegate *appDelegate =
-      (AppDelegate *)[[NSApplication sharedApplication] delegate];
+          (AppDelegate *)[[NSApplication sharedApplication] delegate];
       [appDelegate resetSize];
     });
 
@@ -59,98 +58,95 @@ void install(jsi::Runtime &rt,
   auto hideWindow = HOSTFN("hideWindow", 0, []) {
     dispatch_async(dispatch_get_main_queue(), ^{
       AppDelegate *appDelegate =
-      (AppDelegate *)[[NSApplication sharedApplication] delegate];
+          (AppDelegate *)[[NSApplication sharedApplication] delegate];
       [appDelegate hideWindow];
     });
 
     return {};
   });
-  
+
   auto showWindow = HOSTFN("showWindow", 0, []) {
     dispatch_async(dispatch_get_main_queue(), ^{
       AppDelegate *appDelegate =
-      (AppDelegate *)[[NSApplication sharedApplication] delegate];
+          (AppDelegate *)[[NSApplication sharedApplication] delegate];
       [appDelegate showWindowWithTarget:NULL];
     });
 
     return {};
   });
-  
-  auto getWifiPassword = HOSTFN("getWifiPassword", 0, []) {
-    CLLocationManager *lm = [[CLLocationManager alloc]init];
-    
-    
-    if (@available(macOS 14.0, *) ){
-      
-      bool location_enabled = [lm locationServicesEnabled];
-      
-      if(!location_enabled) {
-        throw std::runtime_error("Location services are not enabled");
-      }
-      
-      CLAuthorizationStatus authorization_status = [lm authorizationStatus];
-      
-      if(authorization_status == kCLAuthorizationStatusDenied) {
-        throw std::runtime_error("App doesn't have location access");
-      }
-      
-      [lm requestAlwaysAuthorization];
-    }
-    
-    CWWiFiClient *sharedClient = [
-      CWWiFiClient sharedWiFiClient
-    ];
-    CWInterface *interface = [sharedClient interface];
-    NSString *ssid = interface.ssid;
-    if(!ssid) {
-      return nil;
-    }
-    NSString * psk = nil;
 
-    OSStatus status = CWKeychainFindWiFiPassword(kCWKeychainDomainSystem, [ssid dataUsingEncoding:NSUTF8StringEncoding], &psk);
-    if(status != errSecSuccess) {
-      return nil;
+  auto getWifiPassword = HOSTFN("getWifiPassword", 0, []) {
+    
+    CLLocationManager *lm = [[CLLocationManager alloc] init];
+    bool location_enabled = [lm locationServicesEnabled];
+
+    if (!location_enabled) {
+      throw std::runtime_error("Location services are not enabled");
     }
-  
+
+    CLAuthorizationStatus authorization_status = [lm authorizationStatus];
+
+    if (authorization_status == kCLAuthorizationStatusDenied) {
+      throw std::runtime_error("App doesn't have location access");
+    }
+
+    [lm requestAlwaysAuthorization];
+
+    CWWiFiClient *sharedClient = [CWWiFiClient sharedWiFiClient];
+    CWInterface *interface = [sharedClient interface];
+    NSString *ssid = [interface ssid];
+    if (!ssid) {
+      throw std::runtime_error("Could not get connected network info");
+    }
+    NSString *psk = nil;
+
+    OSStatus status = CWKeychainFindWiFiPassword(
+        kCWKeychainDomainSystem, [ssid dataUsingEncoding:NSUTF8StringEncoding],
+        &psk);
+    if (status != errSecSuccess) {
+      throw std::runtime_error("OS error code: " + std::to_string(status));
+    }
+
     return sol::NSStringToJsiValue(rt, psk);
   });
-  
+
   auto getWifiInfo = HOSTFN("getWifiInfo", 0, []) {
-    if (@available(macOS 15.0, *) ){
-      CLLocationManager *locationManager = [[CLLocationManager alloc]init];
-      [
-        locationManager requestAlwaysAuthorization
-      ];
+    if (@available(macOS 15.0, *)) {
+      CLLocationManager *locationManager = [[CLLocationManager alloc] init];
+      [locationManager requestAlwaysAuthorization];
     }
-    
-    CWWiFiClient *sharedClient = [
-      CWWiFiClient sharedWiFiClient
-    ];
-//    CWInterface *interface = [sharedClient interface];
-//    NSString *ssid = interface.ssid;
-    
+
+    CWWiFiClient *sharedClient = [CWWiFiClient sharedWiFiClient];
+    //    CWInterface *interface = [sharedClient interface];
+    //    NSString *ssid = interface.ssid;
+
     struct ifaddrs *interfaces = NULL;
     struct ifaddrs *temp_addr = NULL;
     int success = 0;
     getifaddrs(&interfaces);
     NSString *address = @"error";
-    
+
     if (success == 0) {
-        // Loop through linked list of interfaces
-        temp_addr = interfaces;
-        while(temp_addr != NULL) {
-            if(temp_addr->ifa_addr->sa_family == AF_INET) {
-                // Check if interface is en0 which is the wifi connection on the iPhone
-                if([[NSString stringWithUTF8String:temp_addr->ifa_name] isEqualToString:@"en0"]) {
-                    // Get NSString from C String
-                    address = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)];
-                }
-            }
-            temp_addr = temp_addr->ifa_next;
+      // Loop through linked list of interfaces
+      temp_addr = interfaces;
+      while (temp_addr != NULL) {
+        if (temp_addr->ifa_addr->sa_family == AF_INET) {
+          // Check if interface is en0 which is the wifi connection on the
+          // iPhone
+          if ([[NSString stringWithUTF8String:temp_addr->ifa_name]
+                  isEqualToString:@"en0"]) {
+            // Get NSString from C String
+            address = [NSString
+                stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)
+                                                    temp_addr->ifa_addr)
+                                                   ->sin_addr)];
+          }
         }
+        temp_addr = temp_addr->ifa_next;
+      }
     }
     auto res = jsi::Object(rt);
-    if(address) {
+    if (address) {
       res.setProperty(rt, "ip", NSStringToJsiValue(rt, address));
     }
     return res;
@@ -160,15 +156,16 @@ void install(jsi::Runtime &rt,
     auto paths = arguments[0].asObject(rt).asArray(rt);
     auto query = arguments[1].asString(rt).utf8(rt);
     std::vector<File> res;
-    for(size_t i = 0; i < paths.size(rt); i++) {
+    for (size_t i = 0; i < paths.size(rt); i++) {
       auto path = paths.getValueAtIndex(rt, i).asString(rt).utf8(rt);
-      std::vector<File> path_results = search_files([NSString stringWithUTF8String:path.c_str()], [NSString stringWithUTF8String:query.c_str()]);
+      std::vector<File> path_results =
+          search_files([NSString stringWithUTF8String:path.c_str()],
+                       [NSString stringWithUTF8String:query.c_str()]);
       res.insert(res.end(), path_results.begin(), path_results.end());
     }
-    
 
     auto arr_res = jsi::Array(rt, res.size());
-    
+
     for (size_t i = 0; i < res.size(); i++) {
       auto result = res.at(i);
       auto obj = jsi::Object(rt);
@@ -260,7 +257,7 @@ void install(jsi::Runtime &rt,
   });
 
   auto getCalendarAuthorizationStatus =
-  HOSTFN("getCalendarAuthorizationStatus", 0, []) {
+      HOSTFN("getCalendarAuthorizationStatus", 0, []) {
     NSString *status = [calendarHelper getCalendarAuthorizationStatus];
     std::string statusStd = std::string([status UTF8String]);
     return jsi::String::createFromUtf8(rt, statusStd);
@@ -276,11 +273,12 @@ void install(jsi::Runtime &rt,
       bool hasDeclined = false;
 
       // If current user has declined the event... skip
-      if([ekEvent hasAttendees]) {
+      if ([ekEvent hasAttendees]) {
         NSArray<EKParticipant *> *participants = [ekEvent attendees];
-        for(int j = 0; j < participants.count; j++) {
+        for (int j = 0; j < participants.count; j++) {
           EKParticipant *participant = [participants objectAtIndex:j];
-          if([participant isCurrentUser] == YES && [participant participantStatus] == EKParticipantStatusDeclined) {
+          if ([participant isCurrentUser] == YES &&
+              [participant participantStatus] == EKParticipantStatusDeclined) {
             hasDeclined = true;
             break;
           }
@@ -296,7 +294,7 @@ void install(jsi::Runtime &rt,
       // Convert the NSColor to the RGB color space before we can access its
       // components
       NSColor *convertedColor =
-      [color colorUsingColorSpace:[NSColorSpace genericRGBColorSpace]];
+          [color colorUsingColorSpace:[NSColorSpace genericRGBColorSpace]];
 
       if (convertedColor) {
         // Get the red, green, and blue components of the color
@@ -319,7 +317,7 @@ void install(jsi::Runtime &rt,
         // Concatenate the red, green, and blue components' hex strings together
         // with a "#"
         colorString = [NSString stringWithFormat:@"#%@%@%@", redHexValue,
-                       greenHexValue, blueHexValue];
+                                                 greenHexValue, blueHexValue];
       }
 
       jsi::Object event = jsi::Object(rt);
@@ -340,50 +338,46 @@ void install(jsi::Runtime &rt,
       event.setProperty(rt, "color", [colorString UTF8String]);
       if ([ekEvent startDate] != NULL) {
         event.setProperty(
-                          rt, "date",
-                          [[dateFormatter stringFromDate:[ekEvent startDate]] UTF8String]);
+            rt, "date",
+            [[dateFormatter stringFromDate:[ekEvent startDate]] UTF8String]);
       }
       if ([ekEvent endDate] != NULL) {
         event.setProperty(
-                          rt, "endDate",
-                          [[dateFormatter stringFromDate:[ekEvent endDate]] UTF8String]);
+            rt, "endDate",
+            [[dateFormatter stringFromDate:[ekEvent endDate]] UTF8String]);
       }
       event.setProperty(rt, "isAllDay",
                         jsi::Value(static_cast<bool>([ekEvent isAllDay])));
-      
+
       event.setProperty(rt, "eventStatus",
                         jsi::Value(static_cast<int>([ekEvent status])));
-      
+
       event.setProperty(rt, "availability",
                         jsi::Value(static_cast<int>([ekEvent availability])));
-      
-      if([ekEvent hasAttendees]) {
-        for (EKParticipant* participant in ekEvent.attendees)
-          {
-            if ([participant isCurrentUser])
-            {
-              
-              
-              if (participant.participantStatus == EKParticipantStatusAccepted)
-              {
-                event.setProperty(rt, "status", jsi::Value(1));
-              } else if(participant.participantStatus == EKParticipantStatusDeclined) {
-                event.setProperty(rt, "status", jsi::Value(3));
-              } else {
-                event.setProperty(rt, "status", jsi::Value(0));
-              }
 
+      if ([ekEvent hasAttendees]) {
+        for (EKParticipant *participant in ekEvent.attendees) {
+          if ([participant isCurrentUser]) {
+
+            if (participant.participantStatus == EKParticipantStatusAccepted) {
+              event.setProperty(rt, "status", jsi::Value(1));
+            } else if (participant.participantStatus ==
+                       EKParticipantStatusDeclined) {
+              event.setProperty(rt, "status", jsi::Value(3));
+            } else {
+              event.setProperty(rt, "status", jsi::Value(0));
             }
-
           }
+        }
       }
-      
-//      NSLog(@"Event name %@ organizer %@", [[ekEvent title] UTF], [[ekEvent organizer] name]);
-      
-//      if([ekEvent organizer]) {
-//        event.setProperty(rt, "status", jsi::Value(1));
-//      }
-                        
+
+      //      NSLog(@"Event name %@ organizer %@", [[ekEvent title] UTF],
+      //      [[ekEvent organizer] name]);
+
+      //      if([ekEvent organizer]) {
+      //        event.setProperty(rt, "status", jsi::Value(1));
+      //      }
+
       event.setProperty(rt, "declined", jsi::Value(hasDeclined));
 
       events.setValueAtIndex(rt, i, event);
@@ -396,13 +390,13 @@ void install(jsi::Runtime &rt,
     NSError *error;
     NSArray *contents = [FS lsWithPath:path error:&error];
 
-    if(error) {
+    if (error) {
       throw jsi::JSError(rt, sol::NSStringToJsiValue(rt, error.description));
     }
 
     auto res = jsi::Array(rt, contents.count);
 
-    for(int i = 0; i < contents.count; i++) {
+    for (int i = 0; i < contents.count; i++) {
       res.setValueAtIndex(rt, i, sol::NSStringToJsiValue(rt, contents[i]));
     }
 
@@ -416,12 +410,12 @@ void install(jsi::Runtime &rt,
 
     return jsi::Value(exists);
   });
-  
+
   auto readFile = HOSTFN("readFile", 1, []) {
     NSString *path = sol::jsiValueToNSString(rt, arguments[0]);
-    
+
     NSString *contents = [FS readFileWithPath:path];
-    
+
     return sol::NSStringToJsiValue(rt, contents);
   });
 
@@ -429,16 +423,18 @@ void install(jsi::Runtime &rt,
     NSString *userName = NSUserName();
     return sol::NSStringToJsiValue(rt, userName);
   });
-  
+
   auto ps = HOSTFN("ps", 0, []) {
 
     NSPipe *pipe = [[NSPipe alloc] init];
     NSFileHandle *file = [pipe fileHandleForReading];
     NSTask *psTask = [[NSTask alloc] init];
-    
-    [psTask setLaunchPath: @"/bin/ps"];
 
-    [psTask setArguments: [NSArray arrayWithObjects: @"-eo pid,ppid,pcpu,rss,comm", nil]];
+    [psTask setLaunchPath:@"/bin/ps"];
+
+    [psTask
+        setArguments:[NSArray
+                         arrayWithObjects:@"-eo pid,ppid,pcpu,rss,comm", nil]];
     psTask.standardOutput = pipe;
 
     [psTask launch];
@@ -447,23 +443,22 @@ void install(jsi::Runtime &rt,
     data = [file readDataToEndOfFile];
 
     NSString *string;
-    string = [[NSString alloc] initWithData: data
-                                   encoding: NSUTF8StringEncoding];
-    
+    string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+
     return sol::NSStringToJsiValue(rt, string);
   });
-  
+
   auto killProcess = HOSTFN("killProcess", 0, []) {
     NSString *pid = sol::jsiValueToNSString(rt, arguments[0]);
 
     NSTask *killTask = [[NSTask alloc] init];
-    
-    [killTask setLaunchPath: @"/bin/kill"];
-    
-    [killTask setArguments: [NSArray arrayWithObjects: @"-9", pid, nil]];
+
+    [killTask setLaunchPath:@"/bin/kill"];
+
+    [killTask setArguments:[NSArray arrayWithObjects:@"-9", pid, nil]];
 
     [killTask launch];
-    
+
     return {};
   });
 
@@ -474,7 +469,7 @@ void install(jsi::Runtime &rt,
   module.setProperty(rt, "hideWindow", std::move(hideWindow));
   module.setProperty(rt, "showWindow", std::move(showWindow));
   // module.setProperty(rt, "getMediaInfo", std::move(getMediaInfo));
- module.setProperty(rt, "searchFiles", std::move(searchFiles));
+  module.setProperty(rt, "searchFiles", std::move(searchFiles));
   module.setProperty(rt, "requestCalendarAccess",
                      std::move(requestCalendarAccess));
   module.setProperty(rt, "getCalendarAuthorizationStatus",
