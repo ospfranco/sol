@@ -496,9 +496,8 @@ export const createUIStore = (root: IRootStore) => {
             )
             let alias = null
             if (solNative.exists(plistPath)) {
-              let plistContent = solNative.readFile(plistPath)
-
               try {
+                let plistContent = solNative.readFile(plistPath)
                 const properties = plist.parse(plistContent)
                 alias = properties.CFBundleIdentifier
               } catch (e) {
