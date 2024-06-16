@@ -369,8 +369,14 @@ export function createBaseItems(store: IRootStore) {
       ),
       name: 'Developer',
       type: ItemType.CONFIGURATION,
-      callback: () => {
-        Linking.openURL('~/Developer')
+      callback: async () => {
+        try {
+          await Linking.openURL('~/Developer')
+        } catch (e) {
+          solNative.showToast(
+            '🟥 Developer folder not found, try creating ~/Developer 😉',
+          )
+        }
       },
     },
     {

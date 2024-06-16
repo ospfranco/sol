@@ -262,8 +262,16 @@ export const createUIStore = (root: IRootStore) => {
             name: bookmark.title,
             type: ItemType.BOOKMARK,
             iconImage: Assets.Chrome,
-            callback: () => {
-              Linking.openURL(bookmark.url)
+            callback: async () => {
+              if (!bookmark.url) {
+                solNative.showToast('Cannot open bookmark without url')
+              }
+
+              try {
+                await Linking.openURL(bookmark.url)
+              } catch (e) {
+                console.error('Could not open url', e)
+              }
             },
           }
         }),
