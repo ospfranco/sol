@@ -294,7 +294,9 @@ export const createKeystrokeStore = (root: IRootStore) => {
                   try {
                     const canOpenURL = await Linking.canOpenURL(item.text)
                     if (canOpenURL) {
-                      Linking.openURL(item.text)
+                      await Linking.openURL(item.text)
+                    } else {
+                      solNative.showToast(`Could not open URL: ${item.text}`)
                     }
                   } catch (e) {
                     solNative.showToast(`Could not open URL: ${item.text}`)
