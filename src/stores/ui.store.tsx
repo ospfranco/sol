@@ -57,12 +57,11 @@ export const createUIStore = (root: IRootStore) => {
   let persist = async () => {
     let plainState = toJS(store)
     try {
-      AsyncStorage.setItem('@ui.store', JSON.stringify(plainState))
+      await AsyncStorage.setItem('@ui.store', JSON.stringify(plainState))
     } catch (error) {
-      console.error('Error saving ui store', error)
-      AsyncStorage.clear()
-      AsyncStorage.setItem('@ui.store', JSON.stringify(plainState)).catch(e =>
-        console.warn('Could re-persist persist ui store', e),
+      await AsyncStorage.clear()
+      await AsyncStorage.setItem('@ui.store', JSON.stringify(plainState)).catch(
+        e => console.warn('Could re-persist persist ui store', e),
       )
     }
   }
@@ -108,7 +107,8 @@ export const createUIStore = (root: IRootStore) => {
         store.launchAtLogin = parsedStore.launchAtLogin ?? true
         store.useBackgroundOverlay = parsedStore.useBackgroundOverlay ?? true
         store.shouldHideMenubar = parsedStore.shouldHideMenuBar ?? false
-        store.mediaKeyForwardingEnabled = parsedStore.mediaKeyForwarding ?? true
+        store.mediaKeyForwardingEnabled =
+          parsedStore.mediaKeyForwardingEnabled ?? true
         store.reduceTransparency = parsedStore.reduceTransparency ?? false
         store.history = parsedStore.history ?? []
         store.showUpcomingEvent = parsedStore.showUpcomingEvent ?? true

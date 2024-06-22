@@ -42,10 +42,11 @@ export const createEmojiStore = (root: IRootStore) => {
       await AsyncStorage.setItem('@emoji.store', JSON.stringify(plainState))
     } catch (error) {
       console.error('Error saving emoji store', error)
-      AsyncStorage.clear()
-      AsyncStorage.setItem('@emoji.store', JSON.stringify(plainState)).catch(
-        e => console.warn('Could re-persist persist emoji store', e),
-      )
+      await AsyncStorage.clear()
+      await AsyncStorage.setItem(
+        '@emoji.store',
+        JSON.stringify(plainState),
+      ).catch(e => console.warn('Could re-persist persist emoji store', e))
     }
   }
 

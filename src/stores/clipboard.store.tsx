@@ -121,14 +121,14 @@ export const createClipboardStore = (root: IRootStore) => {
     storeWithoutItems.items = []
 
     try {
-      AsyncStorage.setItem(
+      await AsyncStorage.setItem(
         '@clipboard.store',
         JSON.stringify(storeWithoutItems),
       )
     } catch (e) {
       console.warn('Could not persist clipboard store', e)
-      AsyncStorage.clear()
-      AsyncStorage.setItem(
+      await AsyncStorage.clear()
+      await AsyncStorage.setItem(
         '@clipboard.store',
         JSON.stringify(storeWithoutItems),
       ).catch(e => console.warn('Could re-persist persist clipboard store', e))
