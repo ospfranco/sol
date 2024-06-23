@@ -498,8 +498,10 @@ export const createUIStore = (root: IRootStore) => {
             if (solNative.exists(plistPath)) {
               try {
                 let plistContent = solNative.readFile(plistPath)
-                const properties = plist.parse(plistContent)
-                alias = properties.CFBundleIdentifier
+                if (plistContent != null) {
+                  const properties = plist.parse(plistContent)
+                  alias = properties.CFBundleIdentifier
+                }
               } catch (e) {
                 // intentionally left blank
               }
@@ -621,6 +623,9 @@ export const createUIStore = (root: IRootStore) => {
       const exists = solNative.exists(path)
       if (exists) {
         const bookmarksString = solNative.readFile(path)
+        if (!bookmarksString) {
+          return
+        }
         const OGbookmarks = JSON.parse(bookmarksString)
         let bookmarks = OGbookmarks.roots.bookmark_bar.children.map(
           (v: any) => ({
@@ -638,6 +643,9 @@ export const createUIStore = (root: IRootStore) => {
       const exists = solNative.exists(path)
       if (exists) {
         const bookmarksString = solNative.readFile(path)
+        if (!bookmarksString) {
+          return
+        }
         const OGbookmarks = JSON.parse(bookmarksString)
         let bookmarks = OGbookmarks.roots.bookmark_bar.children.map(
           (v: any) => ({

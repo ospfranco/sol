@@ -46,7 +46,7 @@ declare var global: {
     getEvents: () => INativeEvent[]
     ls: (path: string) => string[]
     exists: (path: string) => boolean
-    readFile: (path: string) => string
+    readFile: (path: string) => string | null
     userName: () => string
     ps: () => string
     killProcess: (pid: string) => void

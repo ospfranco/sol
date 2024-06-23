@@ -420,6 +420,10 @@ void install(jsi::Runtime &rt,
 
     NSString *contents = [FS readFileWithPath:path];
 
+    if (contents == nil) {
+      return jsi::Value::null();
+    }
+
     return sol::NSStringToJsiValue(rt, contents);
   });
 

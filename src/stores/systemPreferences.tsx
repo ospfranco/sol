@@ -54,10 +54,10 @@ function extractObjectFromPrefPanePath(path: string, fileName: string) {
   if (plistFileExists) {
     let plistContent = solNative.readFile(path)
 
-    let parsed = plist.parse(plistContent)
+    let parsed = plistContent ? plist.parse(plistContent) : null
 
     return {
-      name: parsed.CFBundleDisplayName,
+      name: parsed?.CFBundleDisplayName ?? nameMappings[fileName],
       preferenceId: path,
       icon: iconMap[fileName],
     }
