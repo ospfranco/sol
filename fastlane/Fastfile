@@ -6,12 +6,26 @@ platform :mac do
   
   xcode_select "/Applications/Xcode.app"
 
-  lane :release do
+  private_lane :gh_release do |options|
+    version = get_version_number(xcodeproj: "./macos/sol.xcodeproj")
+
+    set_github_release(
+      repository_name: "ospfranco/sol",
+      api_token: ENV["GITHUB_TOKEN"],
+      name: version,
+      tag_name: version,
+      upload_assets: [options[:upload_assets]],
+      is_generate_release_notes: true,
+      is_draft: true
+    )
+  end
+
+  private_lane :build_release do |options|
     sh("npm", "run", "bump")
 
     version = get_version_number(xcodeproj: "./macos/sol.xcodeproj")
 
-    path = "/Users/osp/Developer/sol/"
+    path = ENV["PWD"]
     appFileName = path + "Sol.app"
     zipFileName = path + "releases/" + version + ".zip"
     
@@ -37,6 +51,13 @@ platform :mac do
       symlinks: true
     )
 
+    zipFileName
+  end
+
+  lane :release do |options|
+    zip = build_release()
+    gh_release(upload_assets: zip)
+
     sh("npm", "run", "appcast")
 
     puts Dir.pwd
@@ -46,6 +67,8 @@ platform :mac do
       sh("git", "push")
     end
 
+    next if is_ci
+
     sh("cp", "-R", appFileName, "/Applications/")
 
     sh("open", "/Applications/Sol.app")
@@ -53,7 +76,7 @@ platform :mac do
     sh("pingme", "Sol " + version + " released")
   end
 
-  lane :dev do
+  lane :dev do |options|
     path = "/Applications/"
 
     gym(
