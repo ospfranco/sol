@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleDisplayName</key>
+	<string>Sol</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>$(PRODUCT_NAME)</string>
+	<key>CFBundlePackageType</key>
+	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
+	<key>CFBundleShortVersionString</key>
+	<string>2.1.108</string>
+	<key>CFBundleVersion</key>
+	<string>322</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.productivity</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
+	<key>LSUIElement</key>
+	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>localhost</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+		</dict>
+	</dict>
+	<key>NSAppleEventsUsageDescription</key>
+	<string>Sol needs permision to execute apple scripts</string>
+	<key>NSCalendarsFullAccessUsageDescription</key>
+	<string>Sol needs permission to display your appointments</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Sol needs permission to display your appointments</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Allow location access to show Wi-Fi password</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Allow location access to show Wi-Fi password</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Allow location access to show Wi-Fi password</string>
+	<key>NSMainStoryboardFile</key>
+	<string>Main</string>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
+	<key>NSSupportsAutomaticTermination</key>
+	<false/>
+	<key>NSSupportsSuddenTermination</key>
+	<true/>
+	<key>NSSystemAdministrationUsageDescription</key>
+	<string>Sol needs permissions to read bookmarks and other files</string>
+	<key>SUFeedURL</key>
+	<string>https://raw.githubusercontent.com/ospfranco/sol/main/releases/appcast.xml</string>
+	<key>SUPublicEDKey</key>
+	<string>K+wkzEuPN5g0KIQQTxQIVrZAWfMoowpia/yAopR7sMk=</string>
+</dict>
+</plist>

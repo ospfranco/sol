@@ -1,0 +1,30 @@
+<?xml version="1.0" standalone="yes"?>
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+    <channel>
+        <title>Sol</title>
+        <item>
+            <title>2.1.108</title>
+            <pubDate>Sat, 05 Oct 2024 09:43:42 +0200</pubDate>
+            <sparkle:version>322</sparkle:version>
+            <sparkle:shortVersionString>2.1.108</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.108/2.1.108.zip" length="10985321" type="application/octet-stream" sparkle:edSignature="PpIAA5vzoasAldoRqlrXK8atmfBb/VptOMBRVA9r0DBWXtjmztUwD3TTMMVDXpzEulbU/hT2ReMWRwi+Qiq1Dg=="/>
+        </item>
+        <item>
+            <title>2.1.103</title>
+            <pubDate>Mon, 30 Sep 2024 08:55:25 +0200</pubDate>
+            <sparkle:version>317</sparkle:version>
+            <sparkle:shortVersionString>2.1.103</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.103/2.1.103.zip" length="10985686" type="application/octet-stream" sparkle:edSignature="rF8Gtr7GNUf9oclAMKCI6Ab/SBIMdBsiPRcAk1n9k41QoKeoZn8TGqZgD7JgDwaUZlLal8OZwVaCJJLLaJ87AQ=="/>
+        </item>
+        <item>
+            <title>2.1.90</title>
+            <pubDate>Mon, 30 Sep 2024 07:33:58 +0200</pubDate>
+            <sparkle:version>304</sparkle:version>
+            <sparkle:shortVersionString>2.1.90</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.101/2.1.90.zip" length="10985952" type="application/octet-stream" sparkle:edSignature="6Ixho3ow+OQ/yeb+XtklSsERsS1U5XHx8JbW5vuW7knMK1YmCB4XMRUVg0cdAKfiIWsghaund6fFhya2k4gnBA=="/>
+        </item>
+    </channel>
+</rss>

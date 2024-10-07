@@ -1,0 +1,82 @@
+# update_fastlane
+
+default_platform(:mac)
+
+platform :mac do
+  
+  # xcode_select "/Applications/Xcode.app"
+
+  lane :release do
+    sh("yarn", "bump")
+
+    version = get_version_number(xcodeproj: "./macos/sol.xcodeproj")
+
+    path = "/Users/osp/Developer/sol/"
+    appFileName = path + "Sol.app"
+    zipFileName = path + "releases/" + version + ".zip"
+    
+    gym(
+      scheme: "release",
+      configuration: "Release",
+      clean: true,
+      workspace: "./macos/sol.xcworkspace",
+      output_directory: path,
+      export_method: "developer-id"
+    )
+
+    notarize(
+      package: appFileName,
+      bundle_id: "com.ospfranco.sol",
+      username: "ospfranco@protonmail.com",
+      asc_provider: "24CMR7378R"
+    )
+
+    zip(
+      path: appFileName,
+      output_path: zipFileName,
+      symlinks: true
+    )
+
+    set_github_release(
+      repository_name: "ospfranco/sol",
+      api_token: ENV["GITHUB_API_TOKEN"],
+      name: "v" + version,
+      tag_name: version,
+      description: "No release notes provided.",
+      upload_assets: [zipFileName]
+    )
+
+    file_url = "https://github.com/ospfranco/sol/releases/download/" + version + "/" + version + ".zip"
+    
+    
+    Dir.chdir("..") do
+      sh("yarn", "appcast")
+
+      sh("./scripts/appcast.sh", file_url, version)
+
+      Dir.glob("#{path}releases/*.zip").each { |file| File.delete(file) }
+
+      sh("git", "add", ".")
+      sh("git", "commit", "-m", version)
+      sh("git", "push")
+    end
+
+    sh("cp", "-R", appFileName, "/Applications/")
+
+    sh("open", "/Applications/Sol.app")
+
+    sh("pingme", "Sol " + version + " released")
+  end
+
+  lane :dev do
+    path = "/Applications/"
+
+    gym(
+      scheme: "release",
+      workspace: "./macos/sol.xcworkspace",
+      output_directory: path,
+      export_method: "development",
+      silent: true
+    )
+  end
+end
