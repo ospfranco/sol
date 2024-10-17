@@ -52,12 +52,14 @@ class ApplicationSearcher: NSObject {
         let resourceKeys: [URLResourceKey] = [
           .isExecutableKey,
           .isApplicationKey,
+          .isAliasFileKey
         ]
-        let resourceValues = try url.resourceValues(forKeys: Set(resourceKeys))
+        let resolvedUrl = self.resolveFinderAlias(at: url)
+        let resourceValues = try resolvedUrl.resourceValues(forKeys: Set(resourceKeys))
         
         if (resourceValues.isExecutable ?? false) && (resourceValues.isApplication ?? false) {
-          let name = url.deletingPathExtension().lastPathComponent
-          let urlStr = url.absoluteString
+          let name = resolvedUrl.deletingPathExtension().lastPathComponent
+          let urlStr = resolvedUrl.absoluteString
           let firstRunning = runningApps.first(where: {
             $0.bundleURL?.absoluteString == urlStr
           })
@@ -76,6 +78,19 @@ class ApplicationSearcher: NSObject {
       return []
     }
   }
+  
+  private func resolveFinderAlias(at url: URL) -> URL {
+    do {
+        let resourceValues = try url.resourceValues(forKeys: [.isAliasFileKey])
+        if resourceValues.isAliasFile! {
+          let original = try URL(resolvingAliasFileAt: url)
+          return URL(fileURLWithPath: original.path)
+        }
+    } catch  {
+        print("Could not resolve finder alias! \(error)")
+    }
+    return url
+}
 
   private func getApplicationUrlsAt(_ url: URL) -> [URL] {
     let fileManager = FileManager()
