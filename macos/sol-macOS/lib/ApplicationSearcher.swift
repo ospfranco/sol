@@ -2,7 +2,7 @@ import Cocoa
 
 class ApplicationSearcher: NSObject {
   var fixedApps: [URL] = [
-    URL(fileURLWithPath: "/System/Library/CoreServices/Finder.app"),
+    URL(fileURLWithPath: "/System/Library/CoreServices/Finder.app")
   ]
 
   override init() {
@@ -42,21 +42,19 @@ class ApplicationSearcher: NSObject {
       let personalApplicationUrls = getApplicationUrlsAt(userApplicationUrl)
 
       let allApplicationUrls =
-        localApplicationUrls + systemApplicationsUrls +
-        personalApplicationUrls +
-        fixedApps
+        localApplicationUrls + systemApplicationsUrls + personalApplicationUrls + fixedApps
 
       var applications = [Application]()
 
+      let resourceKeys: [URLResourceKey] = [
+        .isExecutableKey,
+        .isApplicationKey,
+      ]
+
       for url in allApplicationUrls {
-        let resourceKeys: [URLResourceKey] = [
-          .isExecutableKey,
-          .isApplicationKey,
-          .isAliasFileKey
-        ]
         let resolvedUrl = self.resolveFinderAlias(at: url)
         let resourceValues = try resolvedUrl.resourceValues(forKeys: Set(resourceKeys))
-        
+
         if (resourceValues.isExecutable ?? false) && (resourceValues.isApplication ?? false) {
           let name = resolvedUrl.deletingPathExtension().lastPathComponent
           let urlStr = resolvedUrl.absoluteString
@@ -64,33 +62,33 @@ class ApplicationSearcher: NSObject {
             $0.bundleURL?.absoluteString == urlStr
           })
 
-          applications.append(Application(
-            name: name,
-            url: urlStr,
-            isRunning: firstRunning != nil
-          ))
+          applications.append(
+            Application(
+              name: name,
+              url: urlStr,
+              isRunning: firstRunning != nil
+            ))
         }
       }
 
       return applications
     } catch {
-      print("Could not get applications! \(error)")
       return []
     }
   }
-  
+
   private func resolveFinderAlias(at url: URL) -> URL {
     do {
-        let resourceValues = try url.resourceValues(forKeys: [.isAliasFileKey])
-        if resourceValues.isAliasFile! {
-          let original = try URL(resolvingAliasFileAt: url)
-          return URL(fileURLWithPath: original.path)
-        }
-    } catch  {
-        print("Could not resolve finder alias! \(error)")
+      let resourceValues = try url.resourceValues(forKeys: [.isAliasFileKey])
+      if resourceValues.isAliasFile! {
+        let original = try URL(resolvingAliasFileAt: url)
+        return URL(fileURLWithPath: original.path)
+      }
+    } catch {
+      print("Could not resolve finder alias! \(error)")
     }
     return url
-}
+  }
 
   private func getApplicationUrlsAt(_ url: URL) -> [URL] {
     let fileManager = FileManager()
@@ -100,7 +98,7 @@ class ApplicationSearcher: NSObject {
           at: url,
           includingPropertiesForKeys: [],
           options: [
-            FileManager.DirectoryEnumerationOptions.skipsPackageDescendants,
+            FileManager.DirectoryEnumerationOptions.skipsPackageDescendants
           ]
         )
 
