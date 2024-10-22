@@ -112,6 +112,7 @@ export const createCalendarStore = (root: IRootStore) => {
     //  /_/    \_\___|\__|_|\___/|_| |_|___/
     fetchEvents: () => {
       if (!root.ui.calendarEnabled && !root.ui.showUpcomingEvent) {
+        solNative.setStatusBarItemTitle('')
         return
       }
 

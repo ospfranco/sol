@@ -427,6 +427,7 @@ export const createUIStore = (root: IRootStore) => {
     },
     setShowUpcomingEvent: (v: boolean) => {
       store.showUpcomingEvent = v
+      root.calendar.fetchEvents()
     },
     showEmojiPicker: () => {
       store.focusWidget(Widget.EMOJIS)

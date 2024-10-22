@@ -104,9 +104,10 @@ export const SettingsWidget: FC = observer(() => {
                     {label: '⌘ Space', value: 'command' as const},
                     {label: '⌥ Space', value: 'option' as const},
                     {label: '⌃ Space', value: 'control' as const},
-                  ].map(({label, value}) => {
+                  ].map(({label, value}, idx) => {
                     return (
                       <MyRadioButton
+                        index={idx}
                         label={label}
                         value={value}
                         onValueChange={() => {

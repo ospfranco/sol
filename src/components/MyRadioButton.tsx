@@ -8,6 +8,7 @@ interface Props {
   onValueChange: (v: boolean) => void
   disabled?: boolean
   selected: boolean
+  index?: number
 }
 
 export const MyRadioButton: FC<Props> = ({
