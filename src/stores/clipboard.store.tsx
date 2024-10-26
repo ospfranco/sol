@@ -46,7 +46,11 @@ export const createClipboardStore = (root: IRootStore) => {
       }
 
       if (store.items.length >= MAX_ITEMS) {
-        minisearch.remove(store.items[store.items.length - 1])
+        try {
+          minisearch.remove(store.items[store.items.length - 1])
+        } catch (e) {
+          console.warn('Could not remove item from minisearch', e)
+        }
         store.items = store.items.slice(0, MAX_ITEMS)
       }
 
