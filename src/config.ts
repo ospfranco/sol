@@ -20,4 +20,6 @@ if (!__DEV__) {
     dsn: SentryDSN,
     enableAppHangTracking: false,
   })
+} else {
+  Sentry.setUser({email: 'ospfranco@gmail.com'})
 }
