@@ -26,6 +26,12 @@ brew install --cask sol
 
 Or manually download the latest [release](https://github.com/ospfranco/sol/tree/main/releases).
 
+## Discord
+
+Join the Discord
+
+https://discord.gg/W9XmqCQCKP
+
 ## Features
 
 - App search
