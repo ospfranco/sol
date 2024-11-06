@@ -1,4 +1,3 @@
-import './global.css'
 import 'config'
 import {RootContainer} from 'containers'
 import 'intl'

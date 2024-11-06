@@ -1061,7 +1061,25 @@ PODS:
     - React-Core
   - RNCPicker (2.7.7):
     - React-Core
-  - RNReanimated (3.12.1):
+  - RNReanimated (3.16.1):
+    - glog
+    - RCT-Folly (= 2022.05.16.00)
+    - React-Core
+    - ReactCommon/turbomodule/core
+    - RNReanimated/reanimated (= 3.16.1)
+    - RNReanimated/worklets (= 3.16.1)
+  - RNReanimated/reanimated (3.16.1):
+    - glog
+    - RCT-Folly (= 2022.05.16.00)
+    - React-Core
+    - ReactCommon/turbomodule/core
+    - RNReanimated/reanimated/apple (= 3.16.1)
+  - RNReanimated/reanimated/apple (3.16.1):
+    - glog
+    - RCT-Folly (= 2022.05.16.00)
+    - React-Core
+    - ReactCommon/turbomodule/core
+  - RNReanimated/worklets (3.16.1):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
@@ -1315,7 +1333,7 @@ SPEC CHECKSUMS:
   ReactCommon: 41305560b33e9d8f059560e65a283d40c6885fa0
   RNCAsyncStorage: 826b603ae9c0f88b5ac4e956801f755109fa4d5c
   RNCPicker: b7873ba797dc586bfaf3307d737cbdc620a9ff3e
-  RNReanimated: 5307ba390921b76ddf9c0aa69876916ad427a61f
+  RNReanimated: 51ba6c9ecdde77caf364c7e5ae59a089c7dd98b3
   RNSentry: e7e5d059d62d6c447d83e14800edc1812a594a5d
   Sentry: f8374b5415bc38dfb5645941b3ae31230fbeae57
   SocketRocket: f6c6249082c011e6de2de60ed641ef8bbe0cfac9
