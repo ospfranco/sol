@@ -2,12 +2,11 @@
   "extends": "@react-native/typescript-config/tsconfig.json",
   "compilerOptions": {
     "lib": ["ES2020"],
-    "allowJs": true,
+    "allowJs": false,
     "strict": true,
     "baseUrl": "./src",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "useDefineForClassFields": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "experimentalDecorators": true,
