@@ -13,7 +13,7 @@
     "nuke": "yarn install && rm -rf macos/build && rm -rf macos/Pods && cd macos && pod install",
     "fix-dependencies": "rnx-align-deps --write",
     "appcast": "./macos/Pods/Sparkle/bin/generate_appcast releases",
-    "pods": "cd macos && bundle exec pod install && xcodebuild -resolvePackageDependencies",
+    "pods": "cd macos && bundle exec pod install && xcodebuild -resolvePackageDependencies -workspace sol.xcworkspace -scheme debug",
     "postinstall": "patch-package",
     "prepare": "husky install",
     "typecheck": "tsc --noEmit"

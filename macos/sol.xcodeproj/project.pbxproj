@@ -27,6 +27,7 @@
 		7042A22A2815C06B00874743 /* NSColor.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7042A2292815C06B00874743 /* NSColor.extension.swift */; };
 		7047E80627D4D31400582E1B /* MediaHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7047E80527D4D31400582E1B /* MediaHelper.swift */; };
 		7047E80827D4DAEB00582E1B /* Sequence.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7047E80727D4DAEB00582E1B /* Sequence.extension.swift */; };
+		7065EBBF2CDB8C2B008C0A74 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 7065EBBE2CDB8C2B008C0A74 /* LaunchAtLogin */; };
 		706D6D532B388C1700941026 /* CoreWLAN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 707B9F4C2B38845000C3A2FC /* CoreWLAN.framework */; };
 		706D6D572B3894E200941026 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 706D6D562B3894E200941026 /* CoreLocation.framework */; };
 		7071D43727B3211700F8A4DC /* DarkMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7071D43527B3211700F8A4DC /* DarkMode.swift */; };
@@ -40,7 +41,6 @@
 		70A07EBB29B48F4000D1885E /* MediaKeyForwarder.m in Sources */ = {isa = PBXBuildFile; fileRef = 70A07EBA29B48F4000D1885E /* MediaKeyForwarder.m */; };
 		70AAC12029F7AB9B004AD3E7 /* GradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AAC11F29F7AB9B004AD3E7 /* GradientView.m */; };
 		70AAC12229F7AC17004AD3E7 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AAC12129F7AC17004AD3E7 /* GradientView.swift */; };
-		70ADD54628B22C1300AAAFD7 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 70ADD54528B22C1300AAAFD7 /* LaunchAtLogin */; };
 		70B2D5902824254B0005D80A /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B2D58F2824254B0005D80A /* WindowManager.swift */; };
 		70B78361279BE866008660F5 /* Panel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B78360279BE866008660F5 /* Panel.swift */; };
 		70B9275F2930A4F700F883A0 /* ShellHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B9275E2930A4F700F883A0 /* ShellHelper.swift */; };
@@ -140,7 +140,7 @@
 			files = (
 				706D6D572B3894E200941026 /* CoreLocation.framework in Frameworks */,
 				706D6D532B388C1700941026 /* CoreWLAN.framework in Frameworks */,
-				70ADD54628B22C1300AAAFD7 /* LaunchAtLogin in Frameworks */,
+				7065EBBF2CDB8C2B008C0A74 /* LaunchAtLogin in Frameworks */,
 				3919C725599C8DA45324A5C6 /* libPods-macOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -315,7 +315,7 @@
 			);
 			name = macOS;
 			packageProductDependencies = (
-				70ADD54528B22C1300AAAFD7 /* LaunchAtLogin */,
+				7065EBBE2CDB8C2B008C0A74 /* LaunchAtLogin */,
 			);
 			productName = sol;
 			productReference = 514201492437B4B30078DB4F /* sol.app */;
@@ -345,7 +345,7 @@
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			packageReferences = (
-				70ADD54428B22C1300AAAFD7 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
+				7065EBBD2CDB8C2B008C0A74 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Legacy" */,
 			);
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
@@ -811,9 +811,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		70ADD54428B22C1300AAAFD7 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */ = {
+		7065EBBD2CDB8C2B008C0A74 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Legacy" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "git@github.com:sindresorhus/LaunchAtLogin.git";
+			repositoryURL = "https://github.com/sindresorhus/LaunchAtLogin-Legacy";
 			requirement = {
 				branch = main;
 				kind = branch;
@@ -822,9 +822,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		70ADD54528B22C1300AAAFD7 /* LaunchAtLogin */ = {
+		7065EBBE2CDB8C2B008C0A74 /* LaunchAtLogin */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 70ADD54428B22C1300AAAFD7 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */;
+			package = 7065EBBD2CDB8C2B008C0A74 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Legacy" */;
 			productName = LaunchAtLogin;
 		};
 /* End XCSwiftPackageProductDependency section */
