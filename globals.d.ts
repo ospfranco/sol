@@ -86,6 +86,7 @@ interface ITrackingProject {
 }
 
 interface Item {
+  id?: string // it will be used by minisearch for indexing
   icon?: string
   iconImage?: ImageURISource | number | ImageURISource[]
   IconComponent?: FC<any>

@@ -306,6 +306,7 @@ export const createUIStore = (root: IRootStore) => {
         ...store.customItems,
         ...store.safariBookmarks.map((bookmark): Item => {
           return {
+            id: bookmark.title,
             name: bookmark.title,
             type: ItemType.BOOKMARK,
             iconImage: Assets.Safari,
@@ -316,6 +317,7 @@ export const createUIStore = (root: IRootStore) => {
         }),
         ...store.braveBookmarks.map((bookmark): Item => {
           return {
+            id: bookmark.title,
             name: bookmark.title,
             type: ItemType.BOOKMARK,
             iconImage: Assets.Brave,
@@ -326,6 +328,7 @@ export const createUIStore = (root: IRootStore) => {
         }),
         ...store.chromeBookmarks.map((bookmark): Item => {
           return {
+            id: bookmark.title,
             name: bookmark.title,
             type: ItemType.BOOKMARK,
             iconImage: Assets.Chrome,
@@ -349,6 +352,13 @@ export const createUIStore = (root: IRootStore) => {
       } else {
         if (minisearch.documentCount === 0) {
           minisearch.addAll(allItems.map((i, idx) => ({id: idx, ...i})))
+        } else {
+          // Add new items to search index
+          for (let item of allItems) {
+            if (!!item.id && !minisearch.has(item.id)) {
+              minisearch.add(item)
+            }
+          }
         }
       }
 
@@ -577,6 +587,7 @@ export const createUIStore = (root: IRootStore) => {
             }
 
             return {
+              id: name,
               type: ItemType.APPLICATION as ItemType.APPLICATION,
               url: decodeURI(url.replace('file://', '')),
               name: name,
