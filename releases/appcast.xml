@@ -3,28 +3,32 @@
     <channel>
         <title>Sol</title>
         <item>
-            <title>2.1.114</title>
-            <pubDate>Sat, 26 Oct 2024 12:53:19 +0200</pubDate>
-            <sparkle:version>328</sparkle:version>
-            <sparkle:shortVersionString>2.1.114</sparkle:shortVersionString>
+            <title>2.1.117</title>
+            <pubDate>Sat, 09 Nov 2024 19:47:39 +0100</pubDate>
+            <sparkle:version>331</sparkle:version>
+            <sparkle:shortVersionString>2.1.117</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.114/2.1.114.zip" length="10987403" type="application/octet-stream" sparkle:edSignature="Tkr//WnMwvLHuXzM78McYeS3bM/uLG8DzI6Qa6SR5xmQJUPVOg1TmAy5edFWBQ90LaK4E2V/n2pSZWPzXGsQCQ=="/>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.117/2.1.117.zip" length="11053059" type="application/octet-stream" sparkle:edSignature="8vE5x3aCKROPKqfdpIzNXZQXU1kxTPCkqzRszHCqb7kGzqq9fx+nAaquyoRSDC310uz5ewUJ9KbJ/R/loNyJAQ=="/>
+            <sparkle:deltas>
+                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/Sol331-330.delta" sparkle:deltaFrom="330" length="17838" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="863040" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,en" sparkle:edSignature="OTMPZFR95648GuAykJKBtAK+QDm5+l7FwQ9eMhfbW1Fe96sB8SSG1LBuH0GX7mcRVd1nmlKQy7VSdKdXwk/RCg=="/>
+                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/Sol331-329.delta" sparkle:deltaFrom="329" length="17690" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="863040" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,en" sparkle:edSignature="bVllCE/r+GPj4I219cvo2S1s/7MT45ueG3Fqo7WK5HlUjaTNObEP7RIc14+QnMAEeKq52qX4CcLgbcR+ftaRCQ=="/>
+            </sparkle:deltas>
         </item>
         <item>
-            <title>2.1.112</title>
-            <pubDate>Tue, 22 Oct 2024 13:43:32 +0200</pubDate>
-            <sparkle:version>326</sparkle:version>
-            <sparkle:shortVersionString>2.1.112</sparkle:shortVersionString>
+            <title>2.1.116</title>
+            <pubDate>Sat, 09 Nov 2024 19:41:12 +0100</pubDate>
+            <sparkle:version>330</sparkle:version>
+            <sparkle:shortVersionString>2.1.116</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.112/2.1.112.zip" length="10987476" type="application/octet-stream" sparkle:edSignature="ggqIjH/yVory17a62xuFsQnLKUaDrvPfgLuKBHpEL8q8xd2daXVFeihh8AnnsdQQ8f8oD6mIJRLWDFk3+MJnDg=="/>
+            <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/2.1.116.zip" length="11053086" type="application/octet-stream" sparkle:edSignature="ORqr3N6CPmKif/wgGnXQrOKDhI0uccGvh/5pFpqPvpB9Kw+LcgDMBgf/Z8pK4zqg+fjatL6aKEjHpnVzUs+6Cg=="/>
         </item>
         <item>
-            <title>2.1.111</title>
-            <pubDate>Fri, 18 Oct 2024 08:20:10 +0200</pubDate>
-            <sparkle:version>325</sparkle:version>
-            <sparkle:shortVersionString>2.1.111</sparkle:shortVersionString>
+            <title>2.1.115</title>
+            <pubDate>Sat, 09 Nov 2024 19:22:40 +0100</pubDate>
+            <sparkle:version>329</sparkle:version>
+            <sparkle:shortVersionString>2.1.115</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.111/2.1.111.zip" length="10987425" type="application/octet-stream" sparkle:edSignature="ryR5EHmboAGm8XCyau+I2rSdDYfyHPHxyOI0kVtEJFB3SQ6hmJzyAfTKOHDKY4dttNVbCCVuoK4agHSpSAaIAA=="/>
+            <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/2.1.115.zip" length="11053077" type="application/octet-stream" sparkle:edSignature="FMs0ZjHqdvQacYIB4iNo99iM9Cu45wfSlzd9pHSV0HWJ67cHJYosXfKmmTUVbFrsOJNe6Q1YwzuOw608Nv5eAg=="/>
         </item>
     </channel>
 </rss>
