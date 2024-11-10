@@ -132,7 +132,11 @@ export const createEmojiStore = (root: IRootStore) => {
 
       const data = !!query ? minisearch.search(query) : rawEmojis
 
-      let emojiChar = data[index].emoji
+      let emoji = data[index]
+      if (!emoji) {
+        return
+      }
+      let emojiChar = emoji.emoji
       if (favorites.length && !query) {
         if (index < EMOJI_ROW_SIZE) {
           emojiChar = favorites[index]?.[0]
