@@ -12,8 +12,7 @@ class BlurView: NSVisualEffectView {
 
   override func didSetProps(_: [String]!) {
     if disabled {
-      material = .fullScreenUI
-      blendingMode = .withinWindow
+      material = .contentBackground
       return
     }
 
@@ -45,8 +44,7 @@ class BlurView: NSVisualEffectView {
     super.init(frame: frame)
 
     if disabled {
-      material = .fullScreenUI
-      blendingMode = .withinWindow
+      material = .contentBackground
       return
     }
 

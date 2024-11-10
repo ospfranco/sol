@@ -142,6 +142,7 @@ export let RootContainer = observer(() => {
   return (
     <BlurView
       materialName="popover"
+      disabled={blurDisabled}
       className={clsx('rounded-xl dark:border dark:border-window', {
         'h-full':
           !!store.ui.query ||
