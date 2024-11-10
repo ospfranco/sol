@@ -215,7 +215,7 @@ export const createUIStore = (root: IRootStore) => {
     //   \____/|_.__/|___/\___|_|    \_/ \__,_|_.__/|_|\___||___/
     note: '',
     isAccessibilityTrusted: false,
-    calendarAuthorizationStatus: 'notDetermined' as CalendarAuthorizationStatus,
+    calendarAuthorizationStatus: null as CalendarAuthorizationStatus | null,
     onboardingStep: 'v1_start' as OnboardingStep,
     globalShortcut: 'option' as 'command' | 'option' | 'control',
     scratchpadShortcut: 'command' as 'command' | 'option' | 'none',
@@ -587,7 +587,7 @@ export const createUIStore = (root: IRootStore) => {
             }
 
             return {
-              id: name,
+              id: url,
               type: ItemType.APPLICATION as ItemType.APPLICATION,
               url: decodeURI(url.replace('file://', '')),
               name: name,
