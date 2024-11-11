@@ -304,9 +304,9 @@ export const createUIStore = (root: IRootStore) => {
           return i
         }),
         ...store.customItems,
-        ...store.safariBookmarks.map((bookmark): Item => {
+        ...store.safariBookmarks.map((bookmark, idx): Item => {
           return {
-            id: bookmark.title,
+            id: `${bookmark.title}_safari_${idx}`,
             name: bookmark.title,
             type: ItemType.BOOKMARK,
             iconImage: Assets.Safari,
@@ -315,9 +315,9 @@ export const createUIStore = (root: IRootStore) => {
             },
           }
         }),
-        ...store.braveBookmarks.map((bookmark): Item => {
+        ...store.braveBookmarks.map((bookmark, idx): Item => {
           return {
-            id: bookmark.title,
+            id: `${bookmark.title}_brave_${idx}`,
             name: bookmark.title,
             type: ItemType.BOOKMARK,
             iconImage: Assets.Brave,
@@ -326,9 +326,9 @@ export const createUIStore = (root: IRootStore) => {
             },
           }
         }),
-        ...store.chromeBookmarks.map((bookmark): Item => {
+        ...store.chromeBookmarks.map((bookmark, idx): Item => {
           return {
-            id: bookmark.title,
+            id: `${bookmark.title}_chrome_${idx}`,
             name: bookmark.title,
             type: ItemType.BOOKMARK,
             iconImage: Assets.Chrome,
@@ -567,38 +567,41 @@ export const createUIStore = (root: IRootStore) => {
       }
 
       solNative.getApps().then(apps => {
-        // Each "app" is a macOS file url, e.g. file:///Applications/SF%20Symbols
-        const cleanApps = apps
-          .map(({name, url, isRunning}) => {
-            const plistPath = decodeURIComponent(
-              url.replace('file://', '') + 'Contents/Info.plist',
-            )
-            let alias = null
-            if (solNative.exists(plistPath)) {
-              try {
-                let plistContent = solNative.readFile(plistPath)
-                if (plistContent != null) {
-                  const properties = plist.parse(plistContent)
-                  alias = properties.CFBundleIdentifier
-                }
-              } catch (e) {
-                // intentionally left blank
-              }
-            }
+        let appsRecord: Record<string, Item> = {}
 
-            return {
-              id: url,
-              type: ItemType.APPLICATION as ItemType.APPLICATION,
-              url: decodeURI(url.replace('file://', '')),
-              name: name,
-              isRunning,
-              alias,
-            } as Item
-          })
-          .filter(app => app.name !== 'sol')
+        for (let {name, url, isRunning} of apps) {
+          if (name === 'sol') {
+            continue
+          }
+
+          const plistPath = decodeURIComponent(
+            url.replace('file://', '') + 'Contents/Info.plist',
+          )
+          let alias = null
+          if (solNative.exists(plistPath)) {
+            try {
+              let plistContent = solNative.readFile(plistPath)
+              if (plistContent != null) {
+                const properties = plist.parse(plistContent)
+                alias = properties.CFBundleIdentifier
+              }
+            } catch (e) {
+              // intentionally left blank
+            }
+          }
+
+          appsRecord[url] = {
+            id: url,
+            type: ItemType.APPLICATION as ItemType.APPLICATION,
+            url: decodeURI(url.replace('file://', '')),
+            name: name,
+            isRunning,
+            alias,
+          }
+        }
 
         runInAction(() => {
-          store.apps = cleanApps
+          store.apps = Object.values(appsRecord)
         })
       })
 
