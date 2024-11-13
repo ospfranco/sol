@@ -50,25 +50,34 @@ class ApplicationSearcher: NSObject {
       let resourceKeys: [URLResourceKey] = [
         .isExecutableKey,
         .isApplicationKey,
+        .isAliasFileKey,
       ]
 
-      for url in allApplicationUrls {
-        let resolvedUrl = self.resolveFinderAlias(at: url)
-        let resourceValues = try resolvedUrl.resourceValues(forKeys: Set(resourceKeys))
+      for var url in allApplicationUrls {
+        do {
+          let resourceValues = try url.resourceValues(forKeys: Set(resourceKeys))
+          if resourceValues.isAliasFile! {
+            let original = try URL(resolvingAliasFileAt: url)
+            url = URL(fileURLWithPath: original.path)
+          }
 
-        if (resourceValues.isExecutable ?? false) && (resourceValues.isApplication ?? false) {
-          let name = resolvedUrl.deletingPathExtension().lastPathComponent
-          let urlStr = resolvedUrl.absoluteString
-          let firstRunning = runningApps.first(where: {
-            $0.bundleURL?.absoluteString == urlStr
-          })
+          if resourceValues.isExecutable! && resourceValues.isApplication! {
+            let name = url.deletingPathExtension().lastPathComponent
+            let urlStr = url.absoluteString
+            let isRunning =
+              runningApps.first(where: {
+                $0.bundleURL?.absoluteString == urlStr
+              }) != nil
 
-          applications.append(
-            Application(
-              name: name,
-              url: urlStr,
-              isRunning: firstRunning != nil
-            ))
+            applications.append(
+              Application(
+                name: name,
+                url: urlStr,
+                isRunning: isRunning
+              ))
+          }
+        } catch {
+          SentrySDK.capture(error: error)
         }
       }
 
@@ -77,19 +86,6 @@ class ApplicationSearcher: NSObject {
       SentrySDK.capture(error: error)
       throw error
     }
-  }
-
-  private func resolveFinderAlias(at url: URL) -> URL {
-    do {
-      let resourceValues = try url.resourceValues(forKeys: [.isAliasFileKey])
-      if resourceValues.isAliasFile! {
-        let original = try URL(resolvingAliasFileAt: url)
-        return URL(fileURLWithPath: original.path)
-      }
-    } catch {
-      SentrySDK.capture(error: error)
-    }
-    return url
   }
 
   private func getApplicationUrlsAt(_ url: URL) -> [URL] {
