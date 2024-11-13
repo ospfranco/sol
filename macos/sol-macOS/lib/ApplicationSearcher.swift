@@ -121,7 +121,6 @@ class ApplicationSearcher: NSObject {
   }
 
   private func getApplicationUrlsAt(_ url: URL) -> [URL] {
-
     do {
       if !url.path.contains(".app") && url.hasDirectoryPath {
         var urls = try fileManager.contentsOfDirectory(
