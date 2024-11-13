@@ -87,7 +87,7 @@ class ApplicationSearcher: NSObject {
         return URL(fileURLWithPath: original.path)
       }
     } catch {
-      print("Could not resolve finder alias! \(error)")
+      SentrySDK.capture(error: error)
     }
     return url
   }
@@ -117,6 +117,7 @@ class ApplicationSearcher: NSObject {
         return [url]
       }
     } catch {
+      SentrySDK.capture(error: error)
       return []
     }
   }
