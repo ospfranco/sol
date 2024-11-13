@@ -2,14 +2,21 @@ import Cocoa
 import Sentry
 
 class ApplicationSearcher: NSObject {
-  var fixedApps: [URL] = [
+  let fileManager = FileManager()
+  let resourceKeys: [URLResourceKey] = [
+    .isExecutableKey,
+    .isApplicationKey,
+    .isAliasFileKey,
+  ]
+
+  var fixedUrls: [URL] = [
     URL(fileURLWithPath: "/System/Library/CoreServices/Finder.app")
   ]
 
   override init() {
     super.init()
     if #unavailable(macOS 14) {
-      fixedApps.append(
+      fixedUrls.append(
         URL(
           fileURLWithPath: "/System/Library/CoreServices/Applications/Screen Sharing.app"
         )
@@ -18,78 +25,93 @@ class ApplicationSearcher: NSObject {
   }
 
   public func getAllApplications() throws -> [Application] {
+    var appUrls: [URL] = []
+    appUrls.append(contentsOf: fixedUrls)
+    let runningApps = NSWorkspace.shared.runningApplications
+    
     do {
-      let runningApps = NSWorkspace.shared.runningApplications
       let localApplicationUrl = try FileManager.default.url(
         for: .applicationDirectory,
         in: .localDomainMask,
         appropriateFor: nil,
         create: false
       )
-      let localApplicationUrls = getApplicationUrlsAt(localApplicationUrl)
+      appUrls.append(contentsOf: getApplicationUrlsAt(localApplicationUrl))
+    } catch {
+      let breadcrumb = Breadcrumb(level: .info, category: "custom")
+      breadcrumb.message = "Error getting all applications at localDomainMask"
+      SentrySDK.addBreadcrumb(breadcrumb)
+      SentrySDK.capture(error: error)
+    }
+
+    do {
       let systemApplicationUrl = try FileManager.default.url(
         for: .applicationDirectory,
         in: .systemDomainMask,
         appropriateFor: nil,
         create: false
       )
-      let systemApplicationsUrls = getApplicationUrlsAt(systemApplicationUrl)
+      appUrls.append(contentsOf: getApplicationUrlsAt(systemApplicationUrl))
+    } catch {
+      let breadcrumb = Breadcrumb(level: .info, category: "custom")
+      breadcrumb.message = "Error getting all applications at systemApplicationUrl"
+      SentrySDK.addBreadcrumb(breadcrumb)
+      SentrySDK.capture(error: error)
+    }
+
+    do {
       let userApplicationUrl = try FileManager.default.url(
         for: .applicationDirectory,
         in: .userDomainMask,
         appropriateFor: nil,
         create: false
       )
-      let personalApplicationUrls = getApplicationUrlsAt(userApplicationUrl)
-
-      let allApplicationUrls =
-        localApplicationUrls + systemApplicationsUrls + personalApplicationUrls + fixedApps
-
-      var applications = [Application]()
-
-      let resourceKeys: [URLResourceKey] = [
-        .isExecutableKey,
-        .isApplicationKey,
-        .isAliasFileKey,
-      ]
-
-      for var url in allApplicationUrls {
-        do {
-          let resourceValues = try url.resourceValues(forKeys: Set(resourceKeys))
-          if resourceValues.isAliasFile! {
-            let original = try URL(resolvingAliasFileAt: url)
-            url = URL(fileURLWithPath: original.path)
-          }
-
-          if resourceValues.isExecutable! && resourceValues.isApplication! {
-            let name = url.deletingPathExtension().lastPathComponent
-            let urlStr = url.absoluteString
-            let isRunning =
-              runningApps.first(where: {
-                $0.bundleURL?.absoluteString == urlStr
-              }) != nil
-
-            applications.append(
-              Application(
-                name: name,
-                url: urlStr,
-                isRunning: isRunning
-              ))
-          }
-        } catch {
-          SentrySDK.capture(error: error)
-        }
-      }
-
-      return applications
+      appUrls.append(contentsOf: getApplicationUrlsAt(userApplicationUrl))
     } catch {
+      let breadcrumb = Breadcrumb(level: .info, category: "custom")
+      breadcrumb.message = "Error getting all applications at userDomainMask"
+      SentrySDK.addBreadcrumb(breadcrumb)
       SentrySDK.capture(error: error)
-      throw error
     }
+
+    var applications = [Application]()
+
+    for var url in appUrls {
+      do {
+        let resourceValues = try url.resourceValues(forKeys: Set(resourceKeys))
+        if resourceValues.isAliasFile! {
+          let original = try URL(resolvingAliasFileAt: url)
+          url = URL(fileURLWithPath: original.path)
+        }
+
+        if resourceValues.isExecutable! && resourceValues.isApplication! {
+          let name = url.deletingPathExtension().lastPathComponent
+          let urlStr = url.absoluteString
+          let isRunning =
+            runningApps.first(where: {
+              $0.bundleURL?.absoluteString == urlStr
+            }) != nil
+
+          applications.append(
+            Application(
+              name: name,
+              url: urlStr,
+              isRunning: isRunning
+            ))
+        }
+      } catch {
+        let breadcrumb = Breadcrumb(level: .info, category: "custom")
+        breadcrumb.message = "Error resolving info for application at \(url)"
+        SentrySDK.addBreadcrumb(breadcrumb)
+        SentrySDK.capture(error: error)
+      }
+    }
+
+    return applications
   }
 
   private func getApplicationUrlsAt(_ url: URL) -> [URL] {
-    let fileManager = FileManager()
+
     do {
       if !url.path.contains(".app") && url.hasDirectoryPath {
         var urls = try fileManager.contentsOfDirectory(
