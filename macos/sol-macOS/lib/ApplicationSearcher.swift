@@ -1,12 +1,20 @@
 import Cocoa
 import Sentry
 
+struct Application {
+  var name: String
+  var url: String
+  var isRunning: Bool
+}
+
 class ApplicationSearcher: NSObject {
   let fileManager = FileManager()
+  let isAliasResourceKey: [URLResourceKey] = [
+    .isAliasFileKey
+  ]
   let resourceKeys: [URLResourceKey] = [
     .isExecutableKey,
     .isApplicationKey,
-    .isAliasFileKey,
   ]
 
   var fixedUrls: [URL] = [
@@ -28,7 +36,7 @@ class ApplicationSearcher: NSObject {
     var appUrls: [URL] = []
     appUrls.append(contentsOf: fixedUrls)
     let runningApps = NSWorkspace.shared.runningApplications
-    
+
     do {
       let localApplicationUrl = try FileManager.default.url(
         for: .applicationDirectory,
@@ -78,12 +86,13 @@ class ApplicationSearcher: NSObject {
 
     for var url in appUrls {
       do {
-        let resourceValues = try url.resourceValues(forKeys: Set(resourceKeys))
+        var resourceValues = try url.resourceValues(forKeys: Set(isAliasResourceKey))
         if resourceValues.isAliasFile! {
           let original = try URL(resolvingAliasFileAt: url)
           url = URL(fileURLWithPath: original.path)
         }
 
+        resourceValues = try url.resourceValues(forKeys: Set(resourceKeys))
         if resourceValues.isExecutable! && resourceValues.isApplication! {
           let name = url.deletingPathExtension().lastPathComponent
           let urlStr = url.absoluteString
@@ -100,6 +109,7 @@ class ApplicationSearcher: NSObject {
             ))
         }
       } catch {
+        print("Could not resolve app url at \(url).")
         let breadcrumb = Breadcrumb(level: .info, category: "custom")
         breadcrumb.message = "Error resolving info for application at \(url)"
         SentrySDK.addBreadcrumb(breadcrumb)
@@ -139,10 +149,4 @@ class ApplicationSearcher: NSObject {
       return []
     }
   }
-}
-
-struct Application {
-  var name: String
-  var url: String
-  var isRunning: Bool
 }
