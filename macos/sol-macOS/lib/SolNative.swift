@@ -56,18 +56,23 @@ class SolNative: RCTEventEmitter {
 
   @objc func getApps(
     _ resolve: @escaping RCTPromiseResolveBlock,
-    rejecter _: RCTPromiseRejectBlock
+    rejecter reject: RCTPromiseRejectBlock
   ) {
-    let apps = applicationSearcher.getAllApplications()
-    let res = apps.map { app in
-      [
-        "url": app.url,
-        "name": app.name,
-        "isRunning": app.isRunning,
-      ] as [String: Any]
+    do {
+      
+      let apps = try applicationSearcher.getAllApplications()
+      let res = apps.map { app in
+        [
+          "url": app.url,
+          "name": app.name,
+          "isRunning": app.isRunning,
+        ] as [String: Any]
+      }
+      
+      resolve(res)
+    } catch {
+      reject(error.localizedDescription, error.localizedDescription, nil)
     }
-
-    resolve(res)
   }
 
   @objc func openFile(_ path: String) {

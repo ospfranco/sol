@@ -12,6 +12,7 @@ import {IRootStore} from 'store'
 import {createBaseItems} from './items'
 import plist from '@expo/plist'
 import MiniSearch from 'minisearch'
+import * as Sentry from '@sentry/react-native'
 
 const exprParser = new Parser()
 
@@ -566,44 +567,50 @@ export const createUIStore = (root: IRootStore) => {
         return
       }
 
-      solNative.getApps().then(apps => {
-        let appsRecord: Record<string, Item> = {}
+      solNative
+        .getApps()
+        .then(apps => {
+          let appsRecord: Record<string, Item> = {}
 
-        for (let {name, url, isRunning} of apps) {
-          if (name === 'sol') {
-            continue
-          }
+          for (let {name, url, isRunning} of apps) {
+            if (name === 'sol') {
+              continue
+            }
 
-          const plistPath = decodeURIComponent(
-            url.replace('file://', '') + 'Contents/Info.plist',
-          )
-          let alias = null
-          if (solNative.exists(plistPath)) {
-            try {
-              let plistContent = solNative.readFile(plistPath)
-              if (plistContent != null) {
-                const properties = plist.parse(plistContent)
-                alias = properties.CFBundleIdentifier
+            const plistPath = decodeURIComponent(
+              url.replace('file://', '') + 'Contents/Info.plist',
+            )
+            let alias = null
+            if (solNative.exists(plistPath)) {
+              try {
+                let plistContent = solNative.readFile(plistPath)
+                if (plistContent != null) {
+                  const properties = plist.parse(plistContent)
+                  alias = properties.CFBundleIdentifier
+                }
+              } catch (e) {
+                // intentionally left blank
               }
-            } catch (e) {
-              // intentionally left blank
+            }
+
+            appsRecord[url] = {
+              id: url,
+              type: ItemType.APPLICATION as ItemType.APPLICATION,
+              url: decodeURI(url.replace('file://', '')),
+              name: name,
+              isRunning,
+              alias,
             }
           }
 
-          appsRecord[url] = {
-            id: url,
-            type: ItemType.APPLICATION as ItemType.APPLICATION,
-            url: decodeURI(url.replace('file://', '')),
-            name: name,
-            isRunning,
-            alias,
-          }
-        }
-
-        runInAction(() => {
-          store.apps = Object.values(appsRecord)
+          runInAction(() => {
+            store.apps = Object.values(appsRecord)
+          })
         })
-      })
+        .catch(e => {
+          solNative.showToast(`Could not get apps: ${e}`, 'error')
+          Sentry.captureException(e)
+        })
 
       setImmediate(() => {
         if (!store.isAccessibilityTrusted) {

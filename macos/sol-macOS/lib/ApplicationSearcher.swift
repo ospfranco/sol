@@ -1,4 +1,5 @@
 import Cocoa
+import Sentry
 
 class ApplicationSearcher: NSObject {
   var fixedApps: [URL] = [
@@ -16,7 +17,7 @@ class ApplicationSearcher: NSObject {
     }
   }
 
-  public func getAllApplications() -> [Application] {
+  public func getAllApplications() throws -> [Application] {
     do {
       let runningApps = NSWorkspace.shared.runningApplications
       let localApplicationUrl = try FileManager.default.url(
@@ -73,7 +74,8 @@ class ApplicationSearcher: NSObject {
 
       return applications
     } catch {
-      return []
+      SentrySDK.capture(error: error)
+      throw error
     }
   }
 
