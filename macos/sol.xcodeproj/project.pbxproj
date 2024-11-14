@@ -386,7 +386,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\nSENTRY_XCODE=\"../node_modules/@sentry/react-native/scripts/sentry-xcode.sh\"\nBUNDLE_REACT_NATIVE=\"/bin/sh $SENTRY_XCODE $REACT_NATIVE_XCODE\"\n\n# RN 0.69+\n/bin/sh -c \"$WITH_ENVIRONMENT \\\"$BUNDLE_REACT_NATIVE\\\"\"\n";
+			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\nSENTRY_XCODE=\"../node_modules/@sentry/react-native/scripts/sentry-xcode.sh\"\nBUNDLE_REACT_NATIVE=\"/bin/sh $SENTRY_XCODE $REACT_NATIVE_XCODE\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT \\\"$BUNDLE_REACT_NATIVE\\\"\"\n";
 		};
 		381D8A6F24576A6C00465D17 /* Start Packager */ = {
 			isa = PBXShellScriptBuildPhase;

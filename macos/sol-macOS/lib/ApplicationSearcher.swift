@@ -60,6 +60,10 @@ class ApplicationSearcher: NSObject {
         create: false
       )
       appUrls.append(contentsOf: getApplicationUrlsAt(systemApplicationUrl))
+      let breadcrumb = Breadcrumb(level: .info, category: "custom")
+      breadcrumb.message =
+        "Apps at system domain mask: \(systemApplicationUrl.path), apps: \(getApplicationUrlsAt(systemApplicationUrl))"
+      SentrySDK.addBreadcrumb(breadcrumb)
     } catch {
       let breadcrumb = Breadcrumb(level: .info, category: "custom")
       breadcrumb.message = "Error getting all applications at systemApplicationUrl"
@@ -86,13 +90,20 @@ class ApplicationSearcher: NSObject {
 
     for var url in appUrls {
       do {
-        var resourceValues = try url.resourceValues(forKeys: Set(isAliasResourceKey))
+        let resourceValues = try url.resourceValues(forKeys: Set(isAliasResourceKey))
         if resourceValues.isAliasFile! {
-          let original = try URL(resolvingAliasFileAt: url)
-          url = URL(fileURLWithPath: original.path)
+          url = try URL(resolvingAliasFileAt: url)
         }
+      } catch {
+        let bc = Breadcrumb(level: .info, category: "custom")
+        bc.message = "Could not resolve alias file at \(url)."
+        SentrySDK.addBreadcrumb(bc)
+        SentrySDK.capture(error: error)
+      }
+      
+      do {
+        let resourceValues = try url.resourceValues(forKeys: Set(resourceKeys))
 
-        resourceValues = try url.resourceValues(forKeys: Set(resourceKeys))
         if resourceValues.isExecutable! && resourceValues.isApplication! {
           let name = url.deletingPathExtension().lastPathComponent
           let urlStr = url.absoluteString
@@ -111,7 +122,8 @@ class ApplicationSearcher: NSObject {
       } catch {
         print("Could not resolve app url at \(url).")
         let breadcrumb = Breadcrumb(level: .info, category: "custom")
-        breadcrumb.message = "Error resolving info for application at \(url)"
+        breadcrumb.message =
+          "Error resolving info for application at \(url): \(error.localizedDescription)"
         SentrySDK.addBreadcrumb(breadcrumb)
         SentrySDK.capture(error: error)
       }
@@ -123,19 +135,23 @@ class ApplicationSearcher: NSObject {
   private func getApplicationUrlsAt(_ url: URL) -> [URL] {
     do {
       if !url.path.contains(".app") && url.hasDirectoryPath {
-        var urls = try fileManager.contentsOfDirectory(
+        var urls: [URL] = []
+        let contents = try fileManager.contentsOfDirectory(
           at: url,
           includingPropertiesForKeys: [],
           options: [
-            FileManager.DirectoryEnumerationOptions.skipsPackageDescendants
+            .skipsSubdirectoryDescendants,
+            .skipsPackageDescendants,
+            .skipsHiddenFiles,
           ]
         )
 
-        urls.forEach {
+        contents.forEach {
           if !$0.path.contains(".app") && $0.hasDirectoryPath {
             let subUrls = getApplicationUrlsAt($0)
-
             urls.append(contentsOf: subUrls)
+          } else {
+            urls.append($0)
           }
         }
 
