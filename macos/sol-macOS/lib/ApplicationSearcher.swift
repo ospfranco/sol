@@ -93,6 +93,13 @@ class ApplicationSearcher: NSObject {
         let resourceValues = try url.resourceValues(forKeys: Set(isAliasResourceKey))
         if resourceValues.isAliasFile! {
           url = try URL(resolvingAliasFileAt: url)
+          if !fileManager.fileExists(atPath: url.path) {
+            let bc = Breadcrumb(level: .info, category: "custom")
+            let path = url.path
+            bc.message = "Alias file at \(path) does not exist."
+            SentrySDK.addBreadcrumb(bc)
+            continue
+          }
         }
       } catch {
         let bc = Breadcrumb(level: .info, category: "custom")
