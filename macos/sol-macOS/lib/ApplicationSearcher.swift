@@ -60,10 +60,6 @@ class ApplicationSearcher: NSObject {
         create: false
       )
       appUrls.append(contentsOf: getApplicationUrlsAt(systemApplicationUrl))
-      let breadcrumb = Breadcrumb(level: .info, category: "custom")
-      breadcrumb.message =
-        "Apps at system domain mask: \(systemApplicationUrl.path), apps: \(getApplicationUrlsAt(systemApplicationUrl))"
-      SentrySDK.addBreadcrumb(breadcrumb)
     } catch {
       let breadcrumb = Breadcrumb(level: .info, category: "custom")
       breadcrumb.message = "Error getting all applications at systemApplicationUrl"
@@ -93,22 +89,19 @@ class ApplicationSearcher: NSObject {
         let resourceValues = try url.resourceValues(forKeys: Set(isAliasResourceKey))
         if resourceValues.isAliasFile! {
           url = try URL(resolvingAliasFileAt: url)
-          if !fileManager.fileExists(atPath: url.path) {
-            let bc = Breadcrumb(level: .info, category: "custom")
-            let path = url.path
-            bc.message = "Alias file at \(path) does not exist."
-            SentrySDK.addBreadcrumb(bc)
-            continue
-          }
         }
       } catch {
-        let bc = Breadcrumb(level: .info, category: "custom")
-        bc.message = "Could not resolve alias file at \(url)."
-        SentrySDK.addBreadcrumb(bc)
-        SentrySDK.capture(error: error)
+        // Could not resolve an alias file. More than likely just a dangling alias from a botched de-installation
+        continue
       }
-      
+
       do {
+        // File doesn't exist but it was listed?! I don't know how this is happening but it does
+        // at least on sentry it is showing
+        if !fileManager.fileExists(atPath: url.path) {
+          continue
+        }
+        
         let resourceValues = try url.resourceValues(forKeys: Set(resourceKeys))
 
         if resourceValues.isExecutable! && resourceValues.isApplication! {
@@ -127,7 +120,6 @@ class ApplicationSearcher: NSObject {
             ))
         }
       } catch {
-        print("Could not resolve app url at \(url).")
         let breadcrumb = Breadcrumb(level: .info, category: "custom")
         breadcrumb.message =
           "Error resolving info for application at \(url): \(error.localizedDescription)"
@@ -139,7 +131,14 @@ class ApplicationSearcher: NSObject {
     return applications
   }
 
-  private func getApplicationUrlsAt(_ url: URL) -> [URL] {
+  private func getApplicationUrlsAt(_ url: URL, depth: Int = 0) -> [URL] {
+    if !fileManager.fileExists(atPath: url.path) {
+      return []
+    }
+    if depth > 2 {
+      return []
+    }
+
     do {
       if !url.path.contains(".app") && url.hasDirectoryPath {
         var urls: [URL] = []
@@ -155,7 +154,7 @@ class ApplicationSearcher: NSObject {
 
         contents.forEach {
           if !$0.path.contains(".app") && $0.hasDirectoryPath {
-            let subUrls = getApplicationUrlsAt($0)
+            let subUrls = getApplicationUrlsAt($0, depth: depth + 1)
             urls.append(contentsOf: subUrls)
           } else {
             urls.append($0)
@@ -167,6 +166,12 @@ class ApplicationSearcher: NSObject {
         return [url]
       }
     } catch {
+      if (error as NSError).domain == NSCocoaErrorDomain
+        && (error as NSError).code == NSFileReadNoPermissionError
+      {
+        return []
+      }
+
       print("Could not resolve apps url at \(url): \(error.localizedDescription)")
       let breadcrumb = Breadcrumb(level: .info, category: "custom")
       breadcrumb.message = "Could not resolve apps url at \(url): \(error.localizedDescription)"
