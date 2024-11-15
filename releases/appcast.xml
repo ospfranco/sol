@@ -3,6 +3,14 @@
     <channel>
         <title>Sol</title>
         <item>
+            <title>2.1.128</title>
+            <pubDate>Fri, 15 Nov 2024 11:54:13 +0700</pubDate>
+            <sparkle:version>342</sparkle:version>
+            <sparkle:shortVersionString>2.1.128</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.128/2.1.128.zip" length="11042987" type="application/octet-stream" sparkle:edSignature="EBcTKe9i1UCz8a3qU1Cra24ByW0I7aDRl+plsNRD17aDrwmqDpqjjlH0D23iU+qc5aWoEzum4SNJ1e14QqLvAg=="/>
+        </item>
+        <item>
             <title>2.1.127</title>
             <pubDate>Thu, 14 Nov 2024 17:00:29 +0700</pubDate>
             <sparkle:version>341</sparkle:version>
@@ -17,14 +25,6 @@
             <sparkle:shortVersionString>2.1.126</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.126/2.1.126.zip" length="11045044" type="application/octet-stream" sparkle:edSignature="LObdPUIga/XJ96sBmuE+dFiMqrvXbtfrabYP++E6lUw6AjSs1wGNf2byVEjnDBPPoaxEKlVw625/EnybLCzrDQ=="/>
-        </item>
-        <item>
-            <title>2.1.125</title>
-            <pubDate>Thu, 14 Nov 2024 03:02:54 +0700</pubDate>
-            <sparkle:version>339</sparkle:version>
-            <sparkle:shortVersionString>2.1.125</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.125/2.1.125.zip" length="10991273" type="application/octet-stream" sparkle:edSignature="9GLXgPnRDdTcIN0pdbOCSRwQ8SyAY+AjgWOv4Fo+tm7r8thxX5UwWQCdOGCgUXwHmITCoiDZ/gN53VxMkMwyCg=="/>
         </item>
     </channel>
 </rss>
