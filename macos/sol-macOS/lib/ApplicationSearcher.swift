@@ -148,7 +148,7 @@ class ApplicationSearcher: NSObject {
           options: [
             .skipsSubdirectoryDescendants,
             .skipsPackageDescendants,
-            .skipsHiddenFiles,
+//            .skipsHiddenFiles, do not skip hidden files, then safari is not listed
           ]
         )
 
