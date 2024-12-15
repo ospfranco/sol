@@ -268,6 +268,20 @@ export function createBaseItems(store: IRootStore) {
       shortcut: '^ ⌥ ⌘ ←',
     },
     {
+      IconComponent: () => {
+        return (
+          <View className="w-6 h-6 p-0.5 rounded items-end justify-end bg-black">
+            <View className="w-1 h-1 p-1 rounded-sm bg-white" />
+          </View>
+        )
+      },
+      name: 'Move window to center',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.moveFrontmostCenter()
+      },
+    },
+    {
       icon: '🖊',
       name: 'Scratchpad',
       preventClose: true,
