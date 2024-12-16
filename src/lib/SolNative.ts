@@ -34,6 +34,7 @@ class SolNative extends NativeEventEmitter {
   resizeFrontmostFullscreen: () => void
   moveFrontmostNextScreen: () => void
   moveFrontmostPrevScreen: () => void
+  moveFrontmostCenter: () => void
   pasteToFrontmostApp: (content: string) => void
   insertToFrontmostApp: (content: string) => void
 
@@ -123,6 +124,7 @@ class SolNative extends NativeEventEmitter {
     this.moveFrontmostNextScreen = module.moveFrontmostNextScreen
     this.moveFrontmostNextScreen = module.moveFrontmostNextScreen
     this.moveFrontmostPrevScreen = module.moveFrontmostPrevScreen
+    this.moveFrontmostCenter = module.moveFrontmostCenter
     this.pasteToFrontmostApp = module.pasteToFrontmostApp
     this.insertToFrontmostApp = module.insertToFrontmostApp
     this.turnOnHorizontalArrowsListeners =

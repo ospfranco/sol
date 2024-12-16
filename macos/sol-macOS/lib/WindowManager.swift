@@ -28,6 +28,7 @@ enum LastAction {
   case topLeft
   case topRight
   case fullScreen
+  case center
 }
 
 class WindowManager {
@@ -264,5 +265,35 @@ class WindowManager {
     lastActions[identifier] = nil
 
     window.setRectOf(CGRect(origin: origin, size: size))
+  }
+
+  func center() {
+    guard let window = AccessibilityElement.frontmostWindow() else {
+      NSSound.beep()
+      return
+    }
+    
+    guard let identifier = window.getIdentifier() else {
+      return
+    }
+    
+    let screens = screenDetector.detectScreens(using: window)
+
+    guard let usableScreens = screens else {
+      NSSound.beep()
+      print("Unable to obtain usable screens")
+      return
+    }
+
+    let normalizedScreenFrame = AccessibilityElement.normalizeCoordinatesOf(usableScreens.frameOfCurrentScreen)
+    let origin = CGPoint(
+      x: normalizedScreenFrame.origin.x + (normalizedScreenFrame.width - window.rectOfElement().width) / 2,
+      y: normalizedScreenFrame.origin.y + (normalizedScreenFrame.height - window.rectOfElement().height) / 2
+    )
+    let size = CGSize(width: window.rectOfElement().width, height: window.rectOfElement().height)
+
+    window.setRectOf(CGRect(origin: origin, size: size))
+    
+    lastActions[identifier] = .center
   }
 }
