@@ -1066,14 +1066,12 @@ PODS:
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
     - ReactCommon/turbomodule/core
-  - RNSentry (5.35.0):
-    - glog
+  - RNSentry (5.24.3):
     - hermes-engine
-    - RCT-Folly (= 2022.05.16.00)
     - React-Core
     - React-hermes
-    - Sentry/HybridSDK (= 8.37.0)
-  - Sentry/HybridSDK (8.37.0)
+    - Sentry/HybridSDK (= 8.36.0)
+  - Sentry/HybridSDK (8.36.0)
   - SocketRocket (0.7.0)
   - Sparkle (2.6.4)
   - Yoga (1.14.0)
@@ -1318,8 +1316,8 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: 826b603ae9c0f88b5ac4e956801f755109fa4d5c
   RNCPicker: b7873ba797dc586bfaf3307d737cbdc620a9ff3e
   RNReanimated: 5307ba390921b76ddf9c0aa69876916ad427a61f
-  RNSentry: f6d9eff9ee0b39d3fbf762f42d818f4edb334a89
-  Sentry: ee060c09b2f7ec1240e95c766ab44c04c7bdb052
+  RNSentry: e7e5d059d62d6c447d83e14800edc1812a594a5d
+  Sentry: f8374b5415bc38dfb5645941b3ae31230fbeae57
   SocketRocket: f6c6249082c011e6de2de60ed641ef8bbe0cfac9
   Sparkle: 5f8960a7a119aa7d45dacc0d5837017170bc5675
   Yoga: cb2862549a9ebfea848ca356ad5e9b72ea57387a
