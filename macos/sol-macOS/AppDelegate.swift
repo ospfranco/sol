@@ -17,7 +17,7 @@ class AppDelegate: NSObject, NSApplicationDelegate,
   private var shiftPressed = false
   private var mainWindow: Panel!
   private var overlayWindow: Overlay!
-  private var toastWindow: Panel!
+  private var toastWindow: Toast!
   private var rootView: RCTRootView!
   private var catchHorizontalArrowsPress = false
   private var catchVerticalArrowsPress = true
@@ -135,7 +135,7 @@ class AppDelegate: NSObject, NSApplicationDelegate,
       defer: false
     )
 
-    toastWindow = Panel(
+    toastWindow = Toast(
       contentRect: NSRect(x: 0, y: 0, width: 250, height: 30)
     )
 
@@ -583,29 +583,38 @@ class AppDelegate: NSObject, NSApplicationDelegate,
 
     let rootView = NSHostingView(rootView: toastView)
     toastWindow.contentView = rootView
-    rootView.wantsLayer = true
-
-    if variant == "error" {
-      rootView.layer?.backgroundColor =
-        NSColor(calibratedRed: 1, green: 0, blue: 0, alpha: 0.1).cgColor
-      rootView.layer?.borderColor = NSColor(calibratedRed: 1, green: 0, blue: 0, alpha: 0.3).cgColor
-    } else {
-      rootView.layer?.borderColor =
-        NSColor(calibratedRed: 0, green: 1, blue: 0.5, alpha: 0.3).cgColor
-      rootView.layer?.backgroundColor =
-        NSColor(calibratedRed: 0, green: 1, blue: 0.5, alpha: 0.1).cgColor
-    }
-
-    rootView.layer?.borderWidth = 1.0
-    rootView.layer?.cornerRadius = 10.0
-    rootView.layer?.masksToBounds = true
+//    toastWindow.wantsLayer = true // Enable layer backing for the window
+//    
+//    if let windowLayer = toastWindow.layer {
+//      windowLayer.cornerRadius = 20.0 // Rounded corners for the window
+//      windowLayer.masksToBounds = true // Clip content to the rounded bounds
+//      windowLayer.borderWidth = 2.0
+//      windowLayer.borderColor = NSColor(calibratedRed: 0, green: 1, blue: 0.5, alpha: 0.2).cgColor // Example color
+//    }
+    
+//    rootView.wantsLayer = true
+//
+//    if variant == "error" {
+//      rootView.layer?.borderColor = NSColor(calibratedRed: 1, green: 0, blue: 0, alpha: 0.2).cgColor
+//    } else {
+//      rootView.layer?.borderColor = NSColor(calibratedRed: 0, green: 1, blue: 0.5, alpha: 0.2).cgColor
+//    }
+//
+//    rootView.layer?.borderWidth = 1.0
+//    rootView.layer?.cornerRadius = 10.0
+//    rootView.layer?.masksToBounds = true
 
     let deadline = timeout != nil ? DispatchTime.now() + timeout!.doubleValue : .now() + 2
+    var y = mainScreen.frame.origin.y + mainScreen.frame.size.height * 0.1
+    
+    if (image != nil) {
+      y += 420
+    }
 
     toastWindow.setFrameOrigin(
       NSPoint(
         x: mainScreen.frame.size.width / 2 - toastWindow.frame.width / 2,
-        y: mainScreen.frame.origin.y + mainScreen.frame.size.height * 0.1
+        y: y
       ))
     toastWindow.makeKeyAndOrderFront(nil)
 

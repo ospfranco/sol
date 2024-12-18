@@ -1,11 +1,6 @@
 import Foundation
 import SwiftUI
 
-//enum Variant {
-//  success
-//  error
-//}
-
 enum Variant {
   case success
   case error
@@ -22,8 +17,8 @@ struct ToastView: View {
         Image(nsImage: image)
           .resizable()
           .aspectRatio(contentMode: .fit)
-          .frame(width: 250, height: 250)
-          .padding(20)
+          .frame(width: 400, height: 400)
+          .padding(10)
       }
       HStack {
         if variant == .success {
@@ -39,14 +34,9 @@ struct ToastView: View {
           .frame(maxWidth: .infinity, maxHeight: .infinity)
       }
     }
-    .padding(EdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15))
-    //    .overlay(
-    //      RoundedRectangle(cornerRadius: 8)
-    //        .stroke(variant == .error ? Color.red.opacity(0.7) : Color.green.opacity(0.7), lineWidth: 1)  // Red border if variant is error, otherwise green border
-    //    )
-    //    .cornerRadius(8)
+    .padding(EdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15))
     .edgesIgnoringSafeArea(.all)
-    .frame(minWidth: 120, minHeight: 20)
+    .frame(minWidth: 120, minHeight: 10)
     .fixedSize()
     .onTapGesture {
       DispatchQueue.main.async {
