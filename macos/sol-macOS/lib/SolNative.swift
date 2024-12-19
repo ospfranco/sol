@@ -59,7 +59,7 @@ class SolNative: RCTEventEmitter {
     rejecter reject: RCTPromiseRejectBlock
   ) {
     do {
-      
+
       let apps = try applicationSearcher.getAllApplications()
       let res = apps.map { app in
         [
@@ -68,7 +68,7 @@ class SolNative: RCTEventEmitter {
           "isRunning": app.isRunning,
         ] as [String: Any]
       }
-      
+
       resolve(res)
     } catch {
       reject(error.localizedDescription, error.localizedDescription, nil)
@@ -237,7 +237,7 @@ class SolNative: RCTEventEmitter {
   @objc func moveFrontmostPrevScreen() {
     WindowManager.sharedInstance.moveToPrevScreen()
   }
-  
+
   @objc func moveFrontmostCenter() {
     WindowManager.sharedInstance.center()
   }
@@ -343,7 +343,7 @@ class SolNative: RCTEventEmitter {
   @objc func showWifiQR(_ SSID: String, password: String) {
     let image = WifiQR(name: SSID, password: password)
     DispatchQueue.main.async {
-      let wifiInfo = "SSID: \(SSID), Password: \(password)"
+      let wifiInfo = "SSID: \(SSID)\nPassword: \(password)"
       self.appDelegate?.showToast(wifiInfo, variant: "success", timeout: 30, image: image)
     }
   }

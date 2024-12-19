@@ -20,14 +20,16 @@ final class Toast: NSWindow, NSWindowDelegate {
     self.isMovable = false
     self.isMovableByWindowBackground = false
     self.isReleasedWhenClosed = false
-    
-    // Access the contentView and enable layer backing
-//    self.contentView?.wantsLayer = true
-//    if let windowLayer = self.contentView?.layer {
-//      windowLayer.cornerRadius = 10.0 // Rounded corners for the window
-//      windowLayer.masksToBounds = true // Clip content to the rounded bounds
-//      windowLayer.borderWidth = 2.0
-//      windowLayer.borderColor = NSColor(calibratedRed: 0, green: 1, blue: 0.5, alpha: 0.2).cgColor
-//    }
+    self.isOpaque = false
+    self.backgroundColor = .clear
+    self.setFrameAutosaveName("")
+  }
+  
+  override var canBecomeKey: Bool {
+    return true
+  }
+  
+  override var canBecomeMain: Bool {
+    return true
   }
 }

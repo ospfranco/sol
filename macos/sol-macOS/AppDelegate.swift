@@ -570,44 +570,26 @@ class AppDelegate: NSObject, NSApplicationDelegate,
   }
 
   func showToast(_ text: String, variant: String, timeout: NSNumber?, image: NSImage?) {
-    guard
-      let mainScreen = showWindowOn == "screenWithFrontmost"
-        ? toastWindow
-          .screen : getScreenWithMouse()
+    let showInFrontmost = showWindowOn == "screenWithFrontmost"
+    guard let mainScreen = showInFrontmost ? toastWindow.screen : getScreenWithMouse()
     else {
       return
     }
+    
+    let variantEnum: ToastVariant = switch variant {
+    case "error": .error
+    case "success": .success
+    default: .none
+    }
 
-    let toastView = ToastView(
-      text: text, variant: variant == "error" ? .error : .success, image: image)
-
+    let toastView = ToastView(text: text, variant: variantEnum, image: image)
     let rootView = NSHostingView(rootView: toastView)
     toastWindow.contentView = rootView
-//    toastWindow.wantsLayer = true // Enable layer backing for the window
-//    
-//    if let windowLayer = toastWindow.layer {
-//      windowLayer.cornerRadius = 20.0 // Rounded corners for the window
-//      windowLayer.masksToBounds = true // Clip content to the rounded bounds
-//      windowLayer.borderWidth = 2.0
-//      windowLayer.borderColor = NSColor(calibratedRed: 0, green: 1, blue: 0.5, alpha: 0.2).cgColor // Example color
-//    }
-    
-//    rootView.wantsLayer = true
-//
-//    if variant == "error" {
-//      rootView.layer?.borderColor = NSColor(calibratedRed: 1, green: 0, blue: 0, alpha: 0.2).cgColor
-//    } else {
-//      rootView.layer?.borderColor = NSColor(calibratedRed: 0, green: 1, blue: 0.5, alpha: 0.2).cgColor
-//    }
-//
-//    rootView.layer?.borderWidth = 1.0
-//    rootView.layer?.cornerRadius = 10.0
-//    rootView.layer?.masksToBounds = true
 
     let deadline = timeout != nil ? DispatchTime.now() + timeout!.doubleValue : .now() + 2
     var y = mainScreen.frame.origin.y + mainScreen.frame.size.height * 0.1
-    
-    if (image != nil) {
+
+    if image != nil {
       y += 420
     }
 
@@ -619,12 +601,12 @@ class AppDelegate: NSObject, NSApplicationDelegate,
     toastWindow.makeKeyAndOrderFront(nil)
 
     DispatchQueue.main.asyncAfter(deadline: deadline) {
-      self.toastWindow.orderOut(nil)
+      self.dismissToast()
     }
   }
 
   func dismissToast() {
-    self.toastWindow.orderOut(nil)
+    toastWindow.orderOut(nil)
   }
 
   func quit() {
