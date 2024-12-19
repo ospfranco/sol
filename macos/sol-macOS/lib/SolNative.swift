@@ -344,7 +344,7 @@ class SolNative: RCTEventEmitter {
     let image = WifiQR(name: SSID, password: password)
     DispatchQueue.main.async {
       let wifiInfo = "SSID: \(SSID)\nPassword: \(password)"
-      self.appDelegate?.showToast(wifiInfo, variant: "success", timeout: 30, image: image)
+      self.appDelegate?.showToast(wifiInfo, variant: "none", timeout: 30, image: image)
     }
   }
 
