@@ -17,12 +17,14 @@ export const createKeystrokeStore = (root: IRootStore) => {
     commandPressed: false,
     shiftPressed: false,
 
+    simulateEnter: () => {
+      store.keyDown({keyCode: 36, meta: false, shift: false})
+    },
     keyDown: async ({
       keyCode,
       meta,
       shift,
     }: {
-      key: string
       keyCode: number
       meta: boolean
       shift: boolean

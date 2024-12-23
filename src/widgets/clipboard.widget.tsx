@@ -4,7 +4,7 @@ import {MainInput} from 'components/MainInput'
 import {useFullSize} from 'hooks/useFullSize'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect, useRef} from 'react'
-import {FlatList, Text, View, ViewStyle} from 'react-native'
+import {FlatList, Text, TouchableOpacity, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
 
 interface Props {
@@ -50,7 +50,11 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
             renderItem={({item, index}: any) => {
               const isActive = index === selectedIndex
               return (
-                <View
+                <TouchableOpacity
+                  onPress={() => {
+                    store.ui.setSelectedIndex(index)
+                    store.keystroke.simulateEnter()
+                  }}
                   className={clsx('items-center flex-row rounded gap-2 p-2', {
                     highlight: isActive,
                     'opacity-80': !isActive,
@@ -66,7 +70,7 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
                     numberOfLines={1}>
                     {item.text.trim()}
                   </Text>
-                </View>
+                </TouchableOpacity>
               )
             }}
           />
