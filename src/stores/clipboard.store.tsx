@@ -8,7 +8,7 @@ import MiniSearch from 'minisearch'
 
 const MAX_ITEMS = 1000
 
-let onTextPastedListener: EmitterSubscription | undefined
+let onCopyListener: EmitterSubscription | undefined
 
 export type ClipboardStore = ReturnType<typeof createClipboardStore>
 
@@ -34,14 +34,17 @@ export const createClipboardStore = (root: IRootStore) => {
   const store = makeAutoObservable({
     items: [] as PasteItem[],
     saveHistory: false,
-    onTextPasted: (obj: {text: string; bundle: string | null}) => {
+    onTextCopied: (obj: {text: string; bundle: string | null}) => {
       if (!obj.text) {
         return
       }
 
-      const alreadyExists = store.items.find(t => t.text === obj.text)
+      const index = store.items.findIndex(t => t.text === obj.text)
 
-      if (alreadyExists) {
+      if (index !== -1) {
+        minisearch.remove(store.items[index])
+        minisearch.add({id: store.items[index].id, obj})
+        store.unshift(index)
         return
       }
 
@@ -79,10 +82,7 @@ export const createClipboardStore = (root: IRootStore) => {
     },
   })
 
-  onTextPastedListener = solNative.addListener(
-    'onTextPasted',
-    store.onTextPasted,
-  )
+  onCopyListener = solNative.addListener('onTextCopied', store.onTextCopied)
 
   const hydrate = async () => {
     const state = await AsyncStorage.getItem('@clipboard.store')

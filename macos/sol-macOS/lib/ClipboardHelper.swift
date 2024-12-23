@@ -3,14 +3,14 @@ import Foundation
 class ClipboardHelper {
   static var frontmostApp: (name: String, bundle: String)?
   
-  static func addOnPasteListener(_ onPaste: @escaping (_ pasteboard:NSPasteboard,_ app: (name: String, bundle: String)?) -> Void) {
+  static func onCopyListener(_ callback: @escaping (_ pasteboard:NSPasteboard,_ app: (name: String, bundle: String)?) -> Void) {
     let pasteboard = NSPasteboard.general
     var changeCount = NSPasteboard.general.changeCount
     NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(activeApp(sender:)), name: NSWorkspace.didActivateApplicationNotification, object: nil)
     
     Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true) { _ in
       if pasteboard.changeCount != changeCount {
-        onPaste(pasteboard, self.frontmostApp)
+        callback(pasteboard, self.frontmostApp)
         changeCount = pasteboard.changeCount
       }
     }

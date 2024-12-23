@@ -76,7 +76,7 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
           />
         </View>
         <View className="flex-1 pb-3 pr-3">
-          <View className="flex-1 subBg rounded-lg p-3 ">
+          <View className="flex-1 dark:bg-black bg-white rounded-lg p-3 ">
             <Text className="text-xs" style={{fontFamily: 'Andale Mono'}}>
               {data[selectedIndex]?.text ?? []}
             </Text>

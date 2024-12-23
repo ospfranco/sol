@@ -170,11 +170,13 @@ class AppDelegate: NSObject, NSApplicationDelegate,
   }
 
   func setupPasteboardListener() {
-    ClipboardHelper.addOnPasteListener {
+    ClipboardHelper.onCopyListener {
       let txt = $0.string(forType: .string)
-      if txt != nil {
-        SolEmitter.sharedInstance.textPasted(txt!, $1?.bundle)
-      }
+      let bundle = $1?.bundle
+      guard let txt else { return }
+      
+      SolEmitter.sharedInstance.textCopied(txt, bundle)
+      
       //      let url = $0.string(forType: .URL)
       //      if url != nil {
       //        handlePastedText(url!, fileExtension: "url")

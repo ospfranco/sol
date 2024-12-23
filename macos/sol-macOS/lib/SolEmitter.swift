@@ -47,8 +47,8 @@ class SolEmitter {
     dispatch(name: "onHide", body: [])
   }
 
-  func textPasted(_ txt: String,_ bundle: String?) {
-    dispatch(name: "onTextPasted", body: [
+  func textCopied(_ txt: String,_ bundle: String?) {
+    dispatch(name: "onTextCopied", body: [
       "text": txt,
       "bundle": bundle
     ])
