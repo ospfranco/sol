@@ -1,7 +1,7 @@
 import Foundation
 import Cocoa
 
-final class Toast: NSWindow, NSWindowDelegate {
+final class Toast: NSPanel, NSWindowDelegate {
   init(contentRect: NSRect) {
     super.init(
       contentRect: contentRect,
@@ -26,10 +26,10 @@ final class Toast: NSWindow, NSWindowDelegate {
   }
   
   override var canBecomeKey: Bool {
-    return true
+    return false
   }
   
   override var canBecomeMain: Bool {
-    return true
+    return false
   }
 }

@@ -174,9 +174,9 @@ class AppDelegate: NSObject, NSApplicationDelegate,
       let txt = $0.string(forType: .string)
       let bundle = $1?.bundle
       guard let txt else { return }
-      
+
       SolEmitter.sharedInstance.textCopied(txt, bundle)
-      
+
       //      let url = $0.string(forType: .URL)
       //      if url != nil {
       //        handlePastedText(url!, fileExtension: "url")
@@ -577,27 +577,34 @@ class AppDelegate: NSObject, NSApplicationDelegate,
     else {
       return
     }
-    
-    let variantEnum: ToastVariant = switch variant {
-    case "error": .error
-    case "success": .success
-    default: .none
-    }
+
+    let variantEnum: ToastVariant =
+      switch variant {
+      case "error": .error
+      case "success": .success
+      default: .none
+      }
 
     let toastView = ToastView(text: text, variant: variantEnum, image: image)
     let rootView = NSHostingView(rootView: toastView)
+    // Force the NSHostingView to size itself based on the SwiftUI view
+    rootView.setFrameSize(rootView.fittingSize)
+
+    // Create the window
     toastWindow.contentView = rootView
+    toastWindow.setContentSize(rootView.fittingSize) // Adjust window size to match the content
 
     let deadline = timeout != nil ? DispatchTime.now() + timeout!.doubleValue : .now() + 2
+    let x = mainScreen.frame.size.width / 2 - toastWindow.frame.width / 2
     var y = mainScreen.frame.origin.y + mainScreen.frame.size.height * 0.1
 
     if image != nil {
-      y += 420
+      y = mainScreen.frame.origin.y + toastWindow.frame.height
     }
 
     toastWindow.setFrameOrigin(
       NSPoint(
-        x: mainScreen.frame.size.width / 2 - toastWindow.frame.width / 2,
+        x: x,
         y: y
       ))
     toastWindow.makeKeyAndOrderFront(nil)
