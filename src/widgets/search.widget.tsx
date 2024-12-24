@@ -6,7 +6,15 @@ import {LoadingBar} from 'components/LoadingBar'
 import {MainInput} from 'components/MainInput'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect, useRef} from 'react'
-import {FlatList, Image, Platform, Text, View, ViewStyle} from 'react-native'
+import {
+  FlatList,
+  Image,
+  Platform,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native'
 import {useStore} from 'store'
 import {ItemType, Widget} from 'stores/ui.store'
 
@@ -53,7 +61,11 @@ export const SearchWidget: FC<Props> = observer(() => {
     }
 
     return (
-      <View
+      <TouchableOpacity
+        onPress={() => {
+          store.ui.setSelectedIndex(index)
+          store.keystroke.simulateEnter()
+        }}
         className={clsx('flex-row items-center rounded-lg py-1 border', {
           'bg-accent': isActive,
           'border-accent': isActive,
@@ -126,7 +138,7 @@ export const SearchWidget: FC<Props> = observer(() => {
             </View>
           )}
         </View>
-      </View>
+      </TouchableOpacity>
     )
   }
 
