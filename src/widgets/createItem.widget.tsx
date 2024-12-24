@@ -74,15 +74,11 @@ export const CreateItemWidget: FC<Props> = observer(({style}) => {
 
   return (
     <View className="flex-1" style={style}>
-      <BackButton onPress={store.ui.onHide} />
+      <BackButton onPress={store.ui.onHide} className="p-4" />
       {!iconSelectorOpen && (
-        <View
-          className={clsx(`flex-1`, {
-            'pt-10': isApplescript,
-            'justify-center': !isApplescript,
-          })}>
+        <View className={clsx(`flex-1 p-12`)}>
           <View className="flex-row items-center py-2">
-            <Text className="mr-2 flex-1 text-right">Icon</Text>
+            <Text className="w-24 font-bold text-right mr-2">Icon</Text>
             <View className="flex-[1.5]">
               <TouchableOpacity
                 onPress={() => setIconSelectorOpen(!iconSelectorOpen)}
@@ -108,8 +104,8 @@ export const CreateItemWidget: FC<Props> = observer(({style}) => {
             </View>
           </View>
           <View className="flex-row items-center py-2">
-            <Text className="mr-2 flex-1 text-right">Name</Text>
-            <View className="flex-[1.5]">
+            <Text className="w-24 font-bold text-right mr-2">Name</Text>
+            <View className="flex-1">
               <Input
                 placeholder="My favorite shortcut..."
                 bordered
@@ -120,37 +116,29 @@ export const CreateItemWidget: FC<Props> = observer(({style}) => {
             </View>
           </View>
           <View className="flex-row items-center py-2">
-            <Text className="mr-2 flex-1 text-right">Applescript</Text>
-            <View className="flex-[1.5]">
+            <Text className="mr-2 w-24 text-right font-bold">Applescript</Text>
+            <View className="flex-1">
               <MySwitch
                 value={isApplescript}
                 onValueChange={setIsAppleScript}
               />
             </View>
           </View>
-          <View
-            className={clsx(`flex-row py-2`, {
-              'items-start': isApplescript,
-              'items-center': !isApplescript,
-            })}>
-            <Text className="mr-2 flex-1 text-right">
+          <View className="flex-row py-2">
+            <Text className="mr-2 w-24 text-right font-bold">
               {isApplescript ? 'Script' : 'Link'}
             </Text>
-            <View className="flex-[1.5]">
-              <Input
-                placeholder="Link or script..."
-                bordered
-                // broken on 0.71.3
-                // multiline={isApplescript}
-                className={clsx({
-                  'w-64': !isApplescript,
-                  'h-48 w-80 p-2': isApplescript,
-                })}
-                inputClassName={isApplescript ? 'h-48' : undefined}
-                value={text}
-                onChangeText={setText}
-              />
-            </View>
+
+            <Input
+              placeholder="Link or script..."
+              bordered
+              // broken on 0.71.3
+              multiline={isApplescript}
+              className={clsx('flex-1 h-52')}
+              inputClassName={'h-52'}
+              value={text}
+              onChangeText={setText}
+            />
           </View>
         </View>
       )}

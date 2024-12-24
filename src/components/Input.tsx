@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import {useBoolean} from 'hooks'
+import {cssInterop} from 'nativewind'
 import React, {FC, MutableRefObject} from 'react'
 import {TextInput, TextInputProps, View, ViewStyle} from 'react-native'
 import colors from 'tailwindcss/colors'
@@ -23,13 +24,16 @@ export const Input: FC<Props> = ({
 }) => {
   const [focused, focusOn, focusOff] = useBoolean(autoFocus)
   const [hovered, hoverOn, hoverOff] = useBoolean(false)
+  console.log('ROPO')
+  console.log(style)
+  console.log(inputStyle)
   return (
     <View
       //@ts-ignore
       onMouseEnter={hoverOn}
       //@ts-ignore
       onMouseLeave={hoverOff}
-      className={clsx('w-full rounded bg-transparent px-2 h-7 justify-center', {
+      className={clsx('w-full rounded bg-transparent px-2 h-7', {
         'border border-lightBorder dark:border-darkBorder':
           !!bordered && !focused && !hovered,
         'border border-accent': !!bordered && !!focused,
@@ -52,3 +56,12 @@ export const Input: FC<Props> = ({
     </View>
   )
 }
+
+cssInterop(Input, {
+  className: 'style',
+  inputClassName: 'inputStyle',
+  nativeStyleToProp: {
+    // @ts-expect-error
+    borderRadius: 'borderRadius',
+  },
+})
