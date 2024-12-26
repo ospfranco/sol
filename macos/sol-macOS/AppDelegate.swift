@@ -167,7 +167,7 @@ class AppDelegate: NSObject, NSApplicationDelegate,
 
   func checkForUpdates() {
     DispatchQueue.main.async {
-      updaterController.checkForUpdates(self)
+      self.updaterController.checkForUpdates(self)
     }
   }
 
