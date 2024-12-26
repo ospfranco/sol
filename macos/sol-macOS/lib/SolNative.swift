@@ -410,5 +410,12 @@ class SolNative: RCTEventEmitter {
       }
     }
   }
+  
+  
+  @objc func setEmojiPickerDisabled(_ v: Bool) {
+    DispatchQueue.main.async {
+      self.appDelegate?.setEmojiPickerDisabled(v)
+    }
+  }
 
 }

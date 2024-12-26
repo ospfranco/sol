@@ -296,6 +296,14 @@ export const SettingsWidget: FC = observer(() => {
                   onValueChange={store.ui.setReduceTransparency}
                 />
               </View>
+              <View className="border-t border-lightBorder dark:border-darkBorder" />
+              <View className="flex-row items-center">
+                <Text className="flex-1">Disable emoji picker</Text>
+                <MySwitch
+                  value={store.ui.emojiPickerDisabled}
+                  onValueChange={store.ui.toggleEmojiPickerDisabled}
+                />
+              </View>
             </View>
           </ScrollView>
         )}

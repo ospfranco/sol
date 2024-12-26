@@ -660,4 +660,12 @@ class AppDelegate: NSObject, NSApplicationDelegate,
       mediaKeyForwarder?.stopEventSession()
     }
   }
+  
+  func setEmojiPickerDisabled(_ disabled: Bool) {
+    if disabled {
+      emojiPickerHotKey.isPaused = true
+    } else {
+      emojiPickerHotKey.isPaused = false
+    }
+  }
 }

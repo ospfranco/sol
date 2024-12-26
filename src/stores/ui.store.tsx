@@ -183,6 +183,7 @@ export const createUIStore = (root: IRootStore) => {
           `/Users/${solNative.userName()}/Movies`,
           `/Users/${solNative.userName()}/Music`,
         ]
+        store.emojiPickerDisabled = parsedStore.emojiPickerDisabled ?? false
       })
 
       solNative.setLaunchAtLogin(parsedStore.launchAtLogin ?? true)
@@ -198,6 +199,7 @@ export const createUIStore = (root: IRootStore) => {
       solNative.useBackgroundOverlay(store.useBackgroundOverlay)
       solNative.shouldHideMenubar(store.shouldHideMenubar)
       solNative.setMediaKeyForwardingEnabled(store.mediaKeyForwardingEnabled)
+      solNative.setEmojiPickerDisabled(store.emojiPickerDisabled)
     } else {
       runInAction(() => {
         store.focusedWidget = Widget.ONBOARDING
@@ -257,6 +259,7 @@ export const createUIStore = (root: IRootStore) => {
     showUpcomingEvent: true,
     scratchPadColor: ScratchPadColor.SYSTEM,
     searchFolders: [] as string[],
+    emojiPickerDisabled: false,
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -797,6 +800,11 @@ export const createUIStore = (root: IRootStore) => {
 
     removeSearchFolder: (folder: string) => {
       store.searchFolders = store.searchFolders.filter(f => f !== folder)
+    },
+
+    toggleEmojiPickerDisabled: () => {
+      store.emojiPickerDisabled = !store.emojiPickerDisabled
+      solNative.setEmojiPickerDisabled(store.emojiPickerDisabled)
     },
   })
 
