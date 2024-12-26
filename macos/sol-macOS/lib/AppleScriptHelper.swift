@@ -2,13 +2,10 @@ import EventKit
 
 struct AppleScriptHelper {
 
-  static func runAppleScript(_ source: String) {
+  static func runAppleScript(_ source: String) -> NSDictionary? {
     var error: NSDictionary?
     NSAppleScript(source: source)?.executeAndReturnError(&error)
-
-    if error != nil {
-      print(error as Any)
-    }
+    return error
   }
 
   static func launchScript(scriptName: String?, bundle: Bundle = Bundle.main) -> Bool? {

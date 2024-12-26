@@ -101,8 +101,21 @@ class SolNative: RCTEventEmitter {
     DarkMode.isEnabled = !DarkMode.isEnabled
   }
 
-  @objc func executeAppleScript(_ source: String) {
-    AppleScriptHelper.runAppleScript(source)
+  @objc func executeAppleScript(
+    _ source: String, resolve: RCTPromiseResolveBlock,
+    reject: RCTPromiseRejectBlock
+  ) {
+
+    let error = AppleScriptHelper.runAppleScript(source)
+    if error == nil {
+      resolve(nil)
+    } else {
+      reject(
+        "AppleScriptError",
+        error!["NSAppleScriptErrorMessage"] as? String,
+        nil
+      )
+    }
   }
 
   @objc func executeBashScript(

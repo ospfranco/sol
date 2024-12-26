@@ -27,24 +27,44 @@ export function createBaseItems(store: IRootStore) {
       iconImage: Assets.SleepIcon,
       name: 'Sleep',
       type: ItemType.CONFIGURATION,
-      callback: () => {
-        solNative.executeAppleScript('tell application "Finder" to sleep')
+      callback: async () => {
+        try {
+          await solNative.executeAppleScript(
+            'tell application "Finder" to sleep',
+          )
+        } catch (e) {
+          solNative.showToast(`Could not sleep: ${e}`, 'error')
+        }
       },
     },
     {
       icon: '🖥️',
       name: 'Restart System',
       type: ItemType.CONFIGURATION,
-      callback: () => {
-        solNative.executeAppleScript('tell application "Finder" to restart')
+      callback: async () => {
+        try {
+          await solNative.executeAppleScript(
+            'tell application "Finder" to restart',
+          )
+          solNative.showToast('Restarting', 'success')
+        } catch (e) {
+          solNative.showToast(`Could not restart: ${e}`, 'error')
+        }
       },
     },
     {
       icon: '🌑',
       name: 'Power Off System',
       type: ItemType.CONFIGURATION,
-      callback: () => {
-        solNative.executeAppleScript('tell application "Finder" to shut down')
+      callback: async () => {
+        try {
+          await solNative.executeAppleScript(
+            'tell application "Finder" to shut down',
+          )
+          solNative.showToast('Shutting down', 'success')
+        } catch (e) {
+          solNative.showToast(`Could not power off: ${e}`, 'error')
+        }
       },
     },
     {
@@ -77,10 +97,14 @@ export function createBaseItems(store: IRootStore) {
       name: 'Lock',
       shortcut: '⌘ ⌥ Q',
       type: ItemType.CONFIGURATION,
-      callback: () => {
-        solNative.executeAppleScript(
-          `tell application "System Events" to keystroke "q" using {control down, command down}`,
-        )
+      callback: async () => {
+        try {
+          await solNative.executeAppleScript(
+            `tell application "System Events" to keystroke "q" using {control down, command down}`,
+          )
+        } catch (e) {
+          solNative.showToast(`Could not lock: ${e}`, 'error')
+        }
       },
     },
     {
@@ -592,6 +616,22 @@ export function createBaseItems(store: IRootStore) {
           solNative.showWifiQR(res.ssid, res.password)
         } catch (e) {
           solNative.showToast(`Could not retrieve password: ${e}`, 'error')
+        }
+      },
+    },
+    {
+      icon: '🗑️',
+      name: 'Empty Trash',
+      type: ItemType.CONFIGURATION,
+      alias: 'trash',
+      callback: async () => {
+        try {
+          await solNative.executeAppleScript(
+            `tell application "Finder" to empty trash`,
+          )
+          solNative.showToast('Trash emptied', 'success')
+        } catch (e) {
+          solNative.showToast(`Could not empty trash: ${e}`, 'error')
         }
       },
     },
