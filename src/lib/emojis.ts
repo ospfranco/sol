@@ -162,6 +162,15 @@ export const emojis: {
     ios_version: '6.0',
   },
   {
+    emoji: '🫠',
+    description: 'melting face smiling',
+    category: 'Smileys & Emotion',
+    aliases: ['melting_face', 'melting'],
+    tags: [],
+    unicode_version: '13.1',
+    ios_version: '14.5',
+  },
+  {
     emoji: '😗',
     description: 'kissing face',
     category: 'Smileys & Emotion',

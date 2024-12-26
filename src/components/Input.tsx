@@ -24,9 +24,6 @@ export const Input: FC<Props> = ({
 }) => {
   const [focused, focusOn, focusOff] = useBoolean(autoFocus)
   const [hovered, hoverOn, hoverOff] = useBoolean(false)
-  console.log('ROPO')
-  console.log(style)
-  console.log(inputStyle)
   return (
     <View
       //@ts-ignore
