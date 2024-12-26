@@ -166,7 +166,9 @@ class AppDelegate: NSObject, NSApplicationDelegate,
   }
 
   func checkForUpdates() {
-    updaterController.checkForUpdates(self)
+    DispatchQueue.main.async {
+      updaterController.checkForUpdates(self)
+    }
   }
 
   func setupPasteboardListener() {
@@ -592,7 +594,7 @@ class AppDelegate: NSObject, NSApplicationDelegate,
 
     // Create the window
     toastWindow.contentView = rootView
-    toastWindow.setContentSize(rootView.fittingSize) // Adjust window size to match the content
+    toastWindow.setContentSize(rootView.fittingSize)  // Adjust window size to match the content
 
     let deadline = timeout != nil ? DispatchTime.now() + timeout!.doubleValue : .now() + 2
     let x = mainScreen.frame.size.width / 2 - toastWindow.frame.width / 2
