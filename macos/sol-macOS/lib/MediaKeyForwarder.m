@@ -144,8 +144,9 @@ static CGEventRef tapEventCallback(CGEventTapProxy proxy, CGEventType type, CGEv
 
 - (BOOL)isITunesRunning {
   NSArray *apps = [[NSWorkspace sharedWorkspace] runningApplications];
+  NSString *musicBundleIdentifier = [self iTunesBundleIdentifier];
   for(NSRunningApplication *app in apps) {
-    if(app.bundleIdentifier == [self iTunesBundleIdentifier]) {
+    if([app.bundleIdentifier isEqual: musicBundleIdentifier]) {
       return YES;
     }
   }
@@ -155,7 +156,7 @@ static CGEventRef tapEventCallback(CGEventTapProxy proxy, CGEventType type, CGEv
 - (BOOL)isSpotifyRunning {
   NSArray *apps = [[NSWorkspace sharedWorkspace] runningApplications];
   for(NSRunningApplication *app in apps) {
-    if([app.bundleIdentifier  isEqual: @"com.spotify.client"]) {
+    if([app.bundleIdentifier isEqual: @"com.spotify.client"]) {
       return YES;
     }
   }
@@ -165,7 +166,7 @@ static CGEventRef tapEventCallback(CGEventTapProxy proxy, CGEventType type, CGEv
 - (NSString *)iTunesBundleIdentifier {
     if ( @available(macOS 10.15, *) )
     {
-        return @"com.apple.music";
+        return @"com.apple.Music";
     }
     else
     {
