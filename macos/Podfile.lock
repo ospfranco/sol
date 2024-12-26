@@ -890,6 +890,10 @@ PODS:
     - React-debug
   - react-native-get-random-values (1.11.0):
     - React-Core
+  - react-native-mmkv (3.2.0):
+    - glog
+    - RCT-Folly (= 2022.05.16.00)
+    - React-Core
   - React-nativeconfig (0.73.35)
   - React-NativeModulesApple (0.73.35):
     - glog
@@ -1131,6 +1135,7 @@ DEPENDENCIES:
   - React-logger (from `../node_modules/react-native-macos/ReactCommon/logger`)
   - React-Mapbuffer (from `../node_modules/react-native-macos/ReactCommon`)
   - react-native-get-random-values (from `../node_modules/react-native-get-random-values`)
+  - react-native-mmkv (from `../node_modules/react-native-mmkv`)
   - React-nativeconfig (from `../node_modules/react-native-macos/ReactCommon`)
   - React-NativeModulesApple (from `../node_modules/react-native-macos/ReactCommon/react/nativemodule/core/platform/ios`)
   - React-perflogger (from `../node_modules/react-native-macos/ReactCommon/reactperflogger`)
@@ -1227,6 +1232,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-macos/ReactCommon"
   react-native-get-random-values:
     :path: "../node_modules/react-native-get-random-values"
+  react-native-mmkv:
+    :path: "../node_modules/react-native-mmkv"
   React-nativeconfig:
     :path: "../node_modules/react-native-macos/ReactCommon"
   React-NativeModulesApple:
@@ -1313,6 +1320,7 @@ SPEC CHECKSUMS:
   React-logger: dda264c25a99d2460245a9e04d9fcb22d0c48f92
   React-Mapbuffer: 4a711fd6e5291a307a9095763698c9264d60e26a
   react-native-get-random-values: d16467cf726c618e9c7a8c3c39c31faa2244bbba
+  react-native-mmkv: d29129a9f96f894fcf08957954c927ec4d3a2223
   React-nativeconfig: a299bdba36363c4808dd8836f3cc24d4cd9c15ab
   React-NativeModulesApple: 2e3ef922bc7c9357cfc3c657cc89f38498d66a03
   React-perflogger: ce7b312ef0f3c85ec6c16f1cc0e81b7be0a7177b

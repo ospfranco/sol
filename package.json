@@ -43,6 +43,7 @@
     "react-native": "^0.73.1",
     "react-native-get-random-values": "^1.8.0",
     "react-native-macos": "^0.73.32",
+    "react-native-mmkv": "^3.2.0",
     "react-native-reanimated": "^3.8.1",
     "uuid": "^9.0.0"
   },

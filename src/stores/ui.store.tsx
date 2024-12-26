@@ -13,6 +13,7 @@ import {createBaseItems} from './items'
 import plist from '@expo/plist'
 import MiniSearch from 'minisearch'
 import * as Sentry from '@sentry/react-native'
+import {storage} from './storage'
 
 const exprParser = new Parser()
 
@@ -119,17 +120,17 @@ export const createUIStore = (root: IRootStore) => {
   let persist = async () => {
     let plainState = toJS(store)
     try {
-      await AsyncStorage.setItem('@ui.store', JSON.stringify(plainState))
-    } catch (error) {
-      await AsyncStorage.clear()
-      await AsyncStorage.setItem('@ui.store', JSON.stringify(plainState)).catch(
-        e => console.warn('Could re-persist persist ui store', e),
-      )
+      storage.set('@ui.store', JSON.stringify(plainState))
+    } catch (e) {
+      Sentry.captureException(e)
     }
   }
 
   let hydrate = async () => {
-    const storeState = await AsyncStorage.getItem('@ui.store')
+    let storeState: string | null | undefined = storage.getString('@ui.store')
+    if (!storeState) {
+      storeState = await AsyncStorage.getItem('@ui.store')
+    }
 
     if (storeState) {
       let parsedStore = JSON.parse(storeState)
