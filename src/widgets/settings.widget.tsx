@@ -127,9 +127,10 @@ export const SettingsWidget: FC = observer(() => {
                     {label: '⌘ ⇧ Space', value: 'command' as const},
                     {label: '⇧ ⌥ Space', value: 'option' as const},
                     {label: 'Disabled', value: 'none' as const},
-                  ].map(({label, value}) => {
+                  ].map(({label, value}, idx) => {
                     return (
                       <MyRadioButton
+                        index={idx}
                         label={label}
                         value={value}
                         onValueChange={() => {
@@ -149,15 +150,39 @@ export const SettingsWidget: FC = observer(() => {
                     {label: '⌘ ⇧ V', value: 'shift' as const},
                     {label: '⌘ ⌥ V', value: 'option' as const},
                     {label: 'Disabled', value: 'none' as const},
-                  ].map(({label, value}) => {
+                  ].map(({label, value}, idx) => {
                     return (
                       <MyRadioButton
+                        index={idx}
                         label={label}
                         value={value}
                         onValueChange={() => {
                           store.ui.setClipboardManagerShortcut(value)
                         }}
                         selected={store.ui.clipboardManagerShortcut === value}
+                      />
+                    )
+                  })}
+                </View>
+              </View>
+              <View className="border-t border-lightBorder dark:border-darkBorder" />
+              <View className="gap-3">
+                <Text className="flex-1">Search Engine</Text>
+                <View className="flex-1">
+                  {[
+                    {label: 'Google', value: 'google' as const},
+                    {label: 'DuckDuckGo', value: 'duckduckgo' as const},
+                    {label: 'Bing', value: 'bing' as const},
+                  ].map(({label, value}, idx) => {
+                    return (
+                      <MyRadioButton
+                        index={idx}
+                        label={label}
+                        value={value}
+                        onValueChange={() => {
+                          store.ui.setSearchEngine(value)
+                        }}
+                        selected={store.ui.searchEngine === value}
                       />
                     )
                   })}
@@ -214,9 +239,10 @@ export const SettingsWidget: FC = observer(() => {
                       label: 'Screen with cursor',
                       value: 'screenWithCursor' as const,
                     },
-                  ].map(({label, value}) => {
+                  ].map(({label, value}, index) => {
                     return (
                       <MyRadioButton
+                        index={index}
                         label={label}
                         value={value}
                         onValueChange={() => {

@@ -253,14 +253,38 @@ export const createKeystrokeStore = (root: IRootStore) => {
 
               // If there are no items, or if the query is a meta (⌘ is pressed) query, open a google search
               if (!root.ui.items.length || meta) {
-                Linking.openURL(
-                  `https://google.com/search?q=${encodeURI(root.ui.query)}`,
-                ).catch(e => {
-                  solNative.showToast(
-                    `Could not open URL: ${root.ui.query}, error: ${e}`,
-                    'error',
-                  )
-                })
+                switch (root.ui.searchEngine) {
+                  case 'google':
+                    Linking.openURL(
+                      `https://google.com/search?q=${encodeURI(root.ui.query)}`,
+                    ).catch(e => {
+                      solNative.showToast(
+                        `Could not open URL: ${root.ui.query}, error: ${e}`,
+                        'error',
+                      )
+                    })
+                    break
+                  case 'duckduckgo':
+                    Linking.openURL(
+                      `https://duckduckgo.com/?q=${encodeURI(root.ui.query)}`,
+                    ).catch(e => {
+                      solNative.showToast(
+                        `Could not open URL: ${root.ui.query}, error: ${e}`,
+                        'error',
+                      )
+                    })
+                    break
+                  case 'bing':
+                    Linking.openURL(
+                      `https://bing.com/search?q=${encodeURI(root.ui.query)}`,
+                    ).catch(e => {
+                      solNative.showToast(
+                        `Could not open URL: ${root.ui.query}, error: ${e}`,
+                        'error',
+                      )
+                    })
+                    break
+                }
 
                 solNative.hideWindow()
                 return

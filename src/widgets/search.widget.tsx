@@ -148,12 +148,7 @@ export const SearchWidget: FC<Props> = observer(() => {
         'flex-1': !!store.ui.query,
       })}>
       <View className="flex-row items-center gap-2 px-3">
-        {!items.length && (
-          <View className="h-6 w-6 items-center justify-center">
-            <Image source={Assets.googleLogo} className="h-4 w-4" />
-          </View>
-        )}
-        <MainInput className="flex-1" hideIcon={!items.length} />
+        <MainInput className="flex-1" />
       </View>
 
       {!!store.ui.query && (

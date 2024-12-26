@@ -113,6 +113,7 @@ let minisearch = new MiniSearch({
 })
 
 export type UIStore = ReturnType<typeof createUIStore>
+type SearchEngine = 'google' | 'bing' | 'duckduckgo'
 
 export const createUIStore = (root: IRootStore) => {
   let persist = async () => {
@@ -184,6 +185,7 @@ export const createUIStore = (root: IRootStore) => {
           `/Users/${solNative.userName()}/Music`,
         ]
         store.emojiPickerDisabled = parsedStore.emojiPickerDisabled ?? false
+        store.searchEngine = parsedStore.searchEngine ?? 'google'
       })
 
       solNative.setLaunchAtLogin(parsedStore.launchAtLogin ?? true)
@@ -220,6 +222,7 @@ export const createUIStore = (root: IRootStore) => {
     isAccessibilityTrusted: false,
     calendarAuthorizationStatus: null as CalendarAuthorizationStatus | null,
     onboardingStep: 'v1_start' as OnboardingStep,
+    searchEngine: 'google' as SearchEngine,
     globalShortcut: 'option' as 'command' | 'option' | 'control',
     scratchpadShortcut: 'command' as 'command' | 'option' | 'none',
     clipboardManagerShortcut: 'shift' as 'shift' | 'option' | 'none',
@@ -805,6 +808,10 @@ export const createUIStore = (root: IRootStore) => {
     toggleEmojiPickerDisabled: () => {
       store.emojiPickerDisabled = !store.emojiPickerDisabled
       solNative.setEmojiPickerDisabled(store.emojiPickerDisabled)
+    },
+
+    setSearchEngine: (engine: SearchEngine) => {
+      store.searchEngine = engine
     },
   })
 

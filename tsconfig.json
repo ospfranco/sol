@@ -5,7 +5,7 @@
     "allowJs": true,
     "strict": true,
     "baseUrl": "./src",
-    "jsx": "react-native",
+    "jsx": "react-jsx",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "useDefineForClassFields": true,
