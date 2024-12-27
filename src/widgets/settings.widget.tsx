@@ -21,7 +21,7 @@ import {MyRadioButton} from 'components/MyRadioButton'
 import packageInfo from '../../package.json'
 import {solNative} from 'lib/SolNative'
 
-type ITEM = 'ABOUT' | 'GENERAL' | 'TRANSLATE'
+type ITEM = 'ABOUT' | 'GENERAL' | 'TRANSLATE' | 'SHORTCUTS'
 
 export const SettingsWidget: FC = observer(() => {
   const store = useStore()
@@ -46,6 +46,12 @@ export const SettingsWidget: FC = observer(() => {
           selected={selected === 'TRANSLATE'}
           onPress={() => setSelected('TRANSLATE')}
           title="Translation"
+        />
+        <SelectableButton
+          className="w-26 items-center "
+          selected={selected === 'SHORTCUTS'}
+          onPress={() => setSelected('SHORTCUTS')}
+          title="Shortcuts"
         />
         <SelectableButton
           className="w-26 items-center "
@@ -84,6 +90,17 @@ export const SettingsWidget: FC = observer(() => {
             </View>
           </View>
         )}
+        {/* 
+        {selected === 'SHORTCUTS' && (
+          <ScrollView
+            className="flex-1 h-full"
+            contentContainerClassName="justify-center p-5 gap-2">
+            <Text className="text-xs">
+              You can set your own global keyboard shortcuts. Follow the syntax
+              "command + shift + option + a".
+            </Text>
+          </ScrollView>
+        )} */}
 
         {selected === 'GENERAL' && (
           <ScrollView
