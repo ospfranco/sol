@@ -89,48 +89,48 @@ class AppDelegate: NSObject, NSApplicationDelegate,
     )
   }
 
-  func applicationShouldHandleReopen(
-    _: NSApplication,
-    hasVisibleWindows _: Bool
-  ) -> Bool {
-    showWindow()
-    return true
-  }
+//  func applicationShouldHandleReopen(
+//    _: NSApplication,
+//    hasVisibleWindows _: Bool
+//  ) -> Bool {
+//    showWindow()
+//    return true
+//  }
 
   func applicationDidFinishLaunching(_: Notification) {
     #if DEBUG
-      let jsCodeLocation: URL =
+      let bundleURL =
         RCTBundleURLProvider
         .sharedSettings()
-        .jsBundleURL(forBundleRoot: "index")
+        .jsBundleURL(forBundleRoot: "index")!
     #else
-      let jsCodeLocation = Bundle.main.url(
+      let bundleURL = Bundle.main.url(
         forResource: "main",
         withExtension: "jsbundle"
       )!
     #endif
 
     rootView = RCTRootView(
-      bundleURL: jsCodeLocation,
+      bundleURL: bundleURL,
       moduleName: "sol",
       initialProperties: nil,
       launchOptions: nil
     )
 
-    mainWindow = Panel(
-      contentRect: NSRect(
-        x: 0,
-        y: 0,
-        width: baseSize.width,
-        height: baseSize.height
-      )
-    )
+//    mainWindow = Panel(
+//      contentRect: NSRect(
+//        x: 0,
+//        y: 0,
+//        width: baseSize.width,
+//        height: baseSize.height
+//      )
+//    )
+//
+//    mainWindow.contentView = rootView
 
-    mainWindow.contentView = rootView
-
-    let windowRect = NSScreen.main!.frame
+    let screenFrame = NSScreen.main!.frame
     overlayWindow = Overlay(
-      contentRect: windowRect,
+      contentRect: screenFrame,
       backing: .buffered,
       defer: false
     )
@@ -142,11 +142,11 @@ class AppDelegate: NSObject, NSApplicationDelegate,
     setupKeyboardListeners()
     setupPasteboardListener()
     setupDisplayConnector()
-    mediaKeyForwarder = MediaKeyForwarder()
+//    mediaKeyForwarder = MediaKeyForwarder()
 
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-      self.showWindow()
-    }
+//    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+//      self.showWindow()
+//    }
   }
 
   func setupDisplayConnector() {
@@ -622,13 +622,6 @@ class AppDelegate: NSObject, NSApplicationDelegate,
 
   func quit() {
     NSApplication.shared.terminate(self)
-  }
-
-  private func applicationShouldHandleReopen(
-    _: NSApplication,
-    hasVisibleWindows _: Bool
-  ) {
-    showWindow()
   }
 
   @objc func statusBarItemCallback(_: AnyObject?) {
