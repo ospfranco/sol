@@ -1,12 +1,10 @@
 import clsx from 'clsx'
-import {solNative} from 'lib/SolNative'
 import {DateTime} from 'luxon'
 import {observer} from 'mobx-react-lite'
 import React, {FC} from 'react'
-import {ScrollView, Text, TouchableOpacity, View} from 'react-native'
+import {ScrollView, Text, View} from 'react-native'
 import {useStore} from 'store'
 import {Key} from './Key'
-import {StyledScrollView} from './StyledScrollView'
 
 export let FullCalendar: FC = observer(() => {
   let store = useStore()
