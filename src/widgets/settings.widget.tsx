@@ -13,24 +13,30 @@ import {
   TouchableOpacity,
   View,
   ScrollView,
+  FlatList,
+  Platform,
+  TextInput,
 } from 'react-native'
 import {useStore} from 'store'
-import {Widget} from 'stores/ui.store'
+import {ItemType, Widget} from 'stores/ui.store'
 import {BackButton} from 'components/BackButton'
 import {MyRadioButton} from 'components/MyRadioButton'
 import packageInfo from '../../package.json'
 import {solNative} from 'lib/SolNative'
+import clsx from 'clsx'
+import {FileIcon} from 'components/FileIcon'
+import {Input} from 'components/Input'
 
 type ITEM = 'ABOUT' | 'GENERAL' | 'TRANSLATE' | 'SHORTCUTS'
 
 export const SettingsWidget: FC = observer(() => {
   const store = useStore()
   useFullSize()
-  const [selected, setSelected] = useState<ITEM>('GENERAL')
+  const [selected, setSelected] = useState<ITEM>('SHORTCUTS')
 
   return (
     <View className="h-full flex-row">
-      <View className="px-4 py-3 gap-1 border-r border-lightBorder dark:border-darkBorder">
+      <View className="p-3 gap-1 border-r border-lightBorder dark:border-darkBorder">
         <BackButton
           onPress={() => store.ui.focusWidget(Widget.SEARCH)}
           className="mb-2"
@@ -47,12 +53,12 @@ export const SettingsWidget: FC = observer(() => {
           onPress={() => setSelected('TRANSLATE')}
           title="Translation"
         />
-        {/* <SelectableButton
+        <SelectableButton
           className="w-26 items-center "
           selected={selected === 'SHORTCUTS'}
           onPress={() => setSelected('SHORTCUTS')}
           title="Shortcuts"
-        /> */}
+        />
         <SelectableButton
           className="w-26 items-center "
           selected={selected === 'ABOUT'}
@@ -90,17 +96,70 @@ export const SettingsWidget: FC = observer(() => {
             </View>
           </View>
         )}
-        {/* 
+
         {selected === 'SHORTCUTS' && (
-          <ScrollView
-            className="flex-1 h-full"
-            contentContainerClassName="justify-center p-5 gap-2">
-            <Text className="text-xs">
+          <View className="flex-1 h-full gap-2 subBg">
+            <Text className="text-xs px-4 pt-4">
               You can set your own global keyboard shortcuts. Follow the syntax
-              "command + shift + option + a".
+              "[cmd + shift + option] + a".
             </Text>
-          </ScrollView>
-        )} */}
+            <View className="px-4 pt-4">
+              <View className="flex-row items-center py-1.5 px-3 rounded-sm bg-gray-100 dark:bg-neutral-800">
+                <Text className="font-bold flex-1">Item</Text>
+                <Text className="font-bold">Shortcut</Text>
+              </View>
+            </View>
+            <FlatList
+              contentContainerClassName="pl-4 pb-4"
+              data={store.ui.items}
+              renderItem={({item, index}) => {
+                return (
+                  <View
+                    className={clsx(
+                      'flex-row items-center py-1.5 px-3 rounded-sm gap-2',
+                      {
+                        'bg-gray-200 dark:bg-neutral-800': index % 2 === 1,
+                      },
+                    )}>
+                    {!!item.url && (
+                      <FileIcon url={item.url} className={'w-6 h-6'} />
+                    )}
+                    {item.type !== ItemType.CUSTOM && !!item.icon && (
+                      <Text>{item.icon}</Text>
+                    )}
+                    {item.type === ItemType.CUSTOM && !!item.icon && (
+                      <View className="w-6 h-6 rounded items-center justify-center bg-white dark:bg-black">
+                        <Image
+                          // @ts-expect-error
+                          source={Icons[item.icon]}
+                          style={{
+                            tintColor: item.color,
+                            height: 16,
+                            width: 16,
+                          }}
+                        />
+                      </View>
+                    )}
+                    {!!item.iconImage && (
+                      <Image
+                        source={item.iconImage}
+                        className="w-6 h-6"
+                        resizeMode="contain"
+                      />
+                    )}
+                    {/* Somehow this component breaks windows build */}
+                    {!!item.IconComponent && <item.IconComponent />}
+                    <Text className="flex-1">{item.name}</Text>
+                    <TextInput
+                      className="w-40 text-xs rounded border border-lightBorder dark:border-darkBorder px-1"
+                      placeholder="Not set"
+                    />
+                  </View>
+                )
+              }}
+            />
+          </View>
+        )}
 
         {selected === 'GENERAL' && (
           <ScrollView

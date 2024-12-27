@@ -73,6 +73,7 @@ interface IPeriod {
 }
 
 interface FileDescription {
+  id: string
   filename: string
   path: string
   kind: string
@@ -86,7 +87,7 @@ interface ITrackingProject {
 }
 
 interface Item {
-  id?: string // it will be used by minisearch for indexing
+  id: string // it will be used by minisearch for indexing
   icon?: string
   iconImage?: ImageURISource | number | ImageURISource[]
   IconComponent?: FC<any>

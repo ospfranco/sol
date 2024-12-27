@@ -263,6 +263,7 @@ export const createUIStore = (root: IRootStore) => {
     scratchPadColor: ScratchPadColor.SYSTEM,
     searchFolders: [] as string[],
     emojiPickerDisabled: false,
+    shortcuts: [] as string[],
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -282,6 +283,7 @@ export const createUIStore = (root: IRootStore) => {
         )
 
         const results = fileResults.map(f => ({
+          id: f.path,
           type: ItemType.FILE,
           name: f.name,
           url: f.path,
@@ -358,7 +360,7 @@ export const createUIStore = (root: IRootStore) => {
         return allItems
       } else {
         if (minisearch.documentCount === 0) {
-          minisearch.addAll(allItems.map((i, idx) => ({id: idx, ...i})))
+          minisearch.addAll(allItems.map((i, idx) => ({...i})))
         } else {
           // Add new items to search index
           for (let item of allItems) {
@@ -378,13 +380,14 @@ export const createUIStore = (root: IRootStore) => {
       })
 
       const temporaryResultItems = !!store.temporaryResult
-        ? [{type: ItemType.TEMPORARY_RESULT, name: ''}]
+        ? [{id: 'temporary', type: ItemType.TEMPORARY_RESULT, name: ''}]
         : []
 
-      const finalResults = [
+      const finalResults: Item[] = [
         ...(CONSTANTS.LESS_VALID_URL.test(store.query)
           ? [
               {
+                id: 'open_url',
                 type: ItemType.CONFIGURATION,
                 name: 'Open Url',
                 icon: '🌎',
@@ -392,7 +395,7 @@ export const createUIStore = (root: IRootStore) => {
                   if (store.query.startsWith('https://')) {
                     Linking.openURL(store.query)
                   } else {
-                    Linking.openURL(`http://${store.query}`)
+                    Linking.openURL(`https://${store.query}`)
                   }
                 },
               },
@@ -401,6 +404,7 @@ export const createUIStore = (root: IRootStore) => {
         ...temporaryResultItems,
         ...results,
         ...store.fileResults.map(f => ({
+          id: f.path,
           name: f.filename,
           subName:
             f.path.length > 60
