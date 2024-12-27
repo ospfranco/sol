@@ -75,20 +75,13 @@ Follow any of the online tutorials to set up your machine for iOS/MacOS React Na
 Once you have everything installed run the following commands
 
 ```sh
-corepack enable # Allows to turn yarn without the need to install it separately
-yarn
-yarn pods
-yarn macos
+bun i
+bun pods
+bun macos
 ```
 
-or
-
-```sh
-corepack enable
-yarn
-yarn pods
-
 # and then open the sol.xcworkspace in Xcode and run the app from there
+
 ```
 
 App is signed with my personal team, so you will have an error there you can ignore as long as you are not packaging the app. But please don't change it, otherwise your PR will be dirty.
@@ -96,3 +89,4 @@ App is signed with my personal team, so you will have an error there you can ign
 ## License
 
 MIT License
+```

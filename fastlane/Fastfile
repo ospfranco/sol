@@ -7,7 +7,7 @@ platform :mac do
   # xcode_select "/Applications/Xcode.app"
 
   lane :release do
-    sh("yarn", "bump")
+    sh("bun", "bump")
 
     version = get_version_number(xcodeproj: "./macos/sol.xcodeproj")
 
@@ -50,7 +50,7 @@ platform :mac do
     
     
     Dir.chdir("..") do
-      sh("yarn", "appcast")
+      sh("bun", "appcast")
 
       sh("./scripts/appcast.sh", file_url, version)
 

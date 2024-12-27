@@ -6,11 +6,10 @@
     "start": "react-native-macos start",
     "macos": "react-native run-macos --scheme debug",
     "test": "jest",
-    "bump": "./bump-version.sh",
+    "bump": "./scripts/bump-version.sh",
     "permissions:reset": "tccutil reset Calendar com.ospfranco.sol && tccutil reset Accessibility com.ospfranco.sol",
     "dev": "bundle exec fastlane dev && rimraf releases/Sol.app && open /Applications/Sol.app",
     "release": "bundle exec fastlane release",
-    "nuke": "yarn install && rm -rf macos/build && rm -rf macos/Pods && cd macos && pod install",
     "fix-dependencies": "rnx-align-deps --write",
     "appcast": "./macos/Pods/Sparkle/bin/generate_appcast releases",
     "pods": "cd macos && bundle exec pod install && rm .xcode.env.local && xcodebuild -resolvePackageDependencies -workspace sol.xcworkspace -scheme debug",
@@ -75,6 +74,5 @@
   },
   "jest": {
     "preset": "react-native"
-  },
-  "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
+  }
 }
