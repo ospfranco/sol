@@ -405,14 +405,14 @@ class AppDelegate: NSObject, NSApplicationDelegate,
   }
 
   @objc func hideWindow() {
-    //        #if !DEBUG
+            #if !DEBUG
     if mainWindow.isVisible {
       overlayWindow.orderOut(self)
       mainWindow.orderOut(self)
       SolEmitter.sharedInstance.onHide()
       settingsHotKey.isPaused = true
     }
-    //        #endif
+            #endif
   }
 
   func setHorizontalArrowCatch(catchHorizontalArrowPress: Bool) {

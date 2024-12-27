@@ -113,7 +113,7 @@ let minisearch = new MiniSearch({
 })
 
 export type UIStore = ReturnType<typeof createUIStore>
-type SearchEngine = 'google' | 'bing' | 'duckduckgo'
+type SearchEngine = 'google' | 'bing' | 'duckduckgo' | 'perplexity'
 
 export const createUIStore = (root: IRootStore) => {
   let persist = async () => {

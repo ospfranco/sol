@@ -29,30 +29,30 @@ export const SettingsWidget: FC = observer(() => {
   const [selected, setSelected] = useState<ITEM>('GENERAL')
 
   return (
-    <View className="h-full">
-      <View className="px-4 py-3 flex-row gap-2 subBg">
-        <View className="flex-1">
-          <BackButton onPress={() => store.ui.focusWidget(Widget.SEARCH)} />
-        </View>
+    <View className="h-full flex-row">
+      <View className="px-4 py-3 gap-1 border-r border-lightBorder dark:border-darkBorder">
+        <BackButton
+          onPress={() => store.ui.focusWidget(Widget.SEARCH)}
+          className="mb-2"
+        />
         <SelectableButton
-          className="w-24 items-center justify-center"
+          className="w-26 items-center"
           selected={selected === 'GENERAL'}
           onPress={() => setSelected('GENERAL')}
           title="General"
         />
         <SelectableButton
-          className="w-24 items-center justify-center"
+          className="w-26 items-center "
           selected={selected === 'TRANSLATE'}
           onPress={() => setSelected('TRANSLATE')}
-          title="Translate"
+          title="Translation"
         />
         <SelectableButton
-          className="w-24 items-center justify-center"
+          className="w-26 items-center "
           selected={selected === 'ABOUT'}
           onPress={() => setSelected('ABOUT')}
           title="About"
         />
-        <View className="flex-1" />
       </View>
 
       <View className="flex-1 h-full">
@@ -89,16 +89,16 @@ export const SettingsWidget: FC = observer(() => {
           <ScrollView
             className="flex-1 h-full"
             contentContainerClassName="justify-center p-5 gap-2">
-            <View className="flex-row items-center p-3 subBg rounded">
+            <View className="flex-row items-center p-3 subBg rounded-lg border border-lightBorder dark:border-darkBorder">
               <Text className="flex-1 text-sm text">Launch on start</Text>
               <MySwitch
                 value={store.ui.launchAtLogin}
                 onValueChange={store.ui.setLaunchAtLogin}
               />
             </View>
-            <View className="p-3 subBg  rounded gap-3">
+            <View className="p-3 subBg rounded gap-3 rounded-lg border border-lightBorder dark:border-darkBorder">
               <View className="gap-3">
-                <Text className="flex-1 text-sm">Global shortcut</Text>
+                <Text className="flex-1 text-sm">Global Shortcut</Text>
                 <View className="flex-1">
                   {[
                     {label: '⌘ Space', value: 'command' as const},
@@ -173,6 +173,7 @@ export const SettingsWidget: FC = observer(() => {
                     {label: 'Google', value: 'google' as const},
                     {label: 'DuckDuckGo', value: 'duckduckgo' as const},
                     {label: 'Bing', value: 'bing' as const},
+                    {label: 'Perplexity', value: 'perplexity' as const},
                   ].map(({label, value}, idx) => {
                     return (
                       <MyRadioButton
@@ -190,12 +191,12 @@ export const SettingsWidget: FC = observer(() => {
               </View>
             </View>
 
-            <View className="p-3 subBg rounded gap-3">
-              <Text>File Search Paths</Text>
-              {store.ui.searchFolders.map((folder, index) => {
+            <View className="p-3 subBg rounded gap-2 rounded-lg border border-lightBorder dark:border-darkBorder">
+              <Text className="mb-1">File Search Paths</Text>
+              {store.ui.searchFolders.map(folder => {
                 return (
-                  <View className="flex-row items-center gap-2">
-                    <Text className="flex-1 text-neutral-500 dark:text-neutral-200">
+                  <View className="flex-row items-center border-b border-lightBorder dark:border-darkBorder pb-2">
+                    <Text className="flex-1 text-neutral-500 dark:text-neutral-400">
                       {folder}
                     </Text>
                     <TouchableOpacity
@@ -226,7 +227,7 @@ export const SettingsWidget: FC = observer(() => {
               </View>
             </View>
 
-            <View className="p-3 subBg rounded gap-3">
+            <View className="p-3 subBg rounded gap-3 rounded-lg border border-lightBorder dark:border-darkBorder">
               <View className="gap-3">
                 <Text className="">Show window on</Text>
                 <View className="flex-1">

@@ -284,6 +284,18 @@ export const createKeystrokeStore = (root: IRootStore) => {
                       )
                     })
                     break
+                  case 'perplexity':
+                    Linking.openURL(
+                      `https://perplexity.ai/search/new?q=${encodeURI(
+                        root.ui.query,
+                      )}`,
+                    ).catch(e => {
+                      solNative.showToast(
+                        `Could not open URL: ${root.ui.query}, error: ${e}`,
+                        'error',
+                      )
+                    })
+                    break
                 }
 
                 solNative.hideWindow()

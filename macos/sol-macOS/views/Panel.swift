@@ -13,7 +13,7 @@ final class Panel: NSPanel, NSWindowDelegate {
 
     self.hasShadow = true
     self.level = .mainMenu + 3
-    self.collectionBehavior.insert(.fullScreenAuxiliary)  // Allows the pannel to appear in a fullscreen space
+    self.collectionBehavior.insert(.fullScreenAuxiliary)
     self.collectionBehavior.insert(.canJoinAllSpaces)
     self.titleVisibility = .hidden
     self.titlebarAppearsTransparent = true

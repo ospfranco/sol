@@ -44,6 +44,7 @@ module.exports = {
         subBgLight: '#FFFFFF77',
         inputLight: '#00000010',
         inputDark: '#00000050',
+        'accent-strong': 'rgb(var(--color-accent) / .65)',
         accent: 'rgb(var(--color-accent) / .25)',
         'accent-dark': 'rgb(var(--color-accent) / .14)',
       },

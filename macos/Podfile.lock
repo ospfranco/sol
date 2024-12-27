@@ -1059,8 +1059,6 @@ PODS:
     - React-perflogger (= 0.73.35)
   - RNCAsyncStorage (1.24.0):
     - React-Core
-  - RNCPicker (2.10.2):
-    - React-Core
   - RNReanimated (3.16.6):
     - glog
     - RCT-Folly (= 2022.05.16.00)
@@ -1152,7 +1150,6 @@ DEPENDENCIES:
   - React-utils (from `../node_modules/react-native-macos/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native-macos/ReactCommon`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
-  - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - "RNSentry (from `../node_modules/@sentry/react-native`)"
   - SocketRocket (from `../node_modules/react-native-macos/third-party-podspecs/SocketRocket.podspec`)
@@ -1269,8 +1266,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-macos/ReactCommon"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
-  RNCPicker:
-    :path: "../node_modules/@react-native-picker/picker"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNSentry:
@@ -1282,16 +1277,16 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost: 0686b6af8cbd638c784fea5afb789be66699823c
-  DoubleConversion: ca54355f8932558971f6643521d62b9bc8231cee
+  DoubleConversion: c914223d2d29c914635ef1b0721d8a77cca6a732
   FBLazyVector: 6b5639f7d70150fe6a91cfbdcbbfee7930799d82
   FBReactNativeSpec: 956febc0d5ab01f66e9add48644d30aa9f9fbfcf
-  fmt: 03574da4b7ba40de39da59677ca66610ce8c4a02
-  glog: 3a72874c0322c7caf24931d3a2777cb7a3090529
+  fmt: cca1eb84179ad528ae1ba9fdf135ed1ac49e19cb
+  glog: 750f96a379703a2d724d2f1fc6cb3a3eff000817
   hermes-engine: d992945b77c506e5164e6a9a77510c9d57472c59
   HotKey: e96d8a2ddbf4591131e2bb3f54e69554d90cdca6
   KeychainAccess: c0c4f7f38f6fc7bbe58f5702e25f7bd2f65abf51
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
-  RCT-Folly: 68e9c0fd4c0f05964afd447041d3ac2d67298f27
+  RCT-Folly: ee9cea19970b26e81481301934279081b7a575e2
   RCTRequired: 8f165b521fb1031cdeae4e5cabaa116bbeef00a5
   RCTTypeSafety: 84dde8c83ecfb87e5b7a601191c0a606435aaa37
   React: c05c8ec2d476327c4c75dff743b030d0767ba21e
@@ -1334,7 +1329,6 @@ SPEC CHECKSUMS:
   React-utils: a6fa5b0ef04c43eb88d9c7b28c551d2c993a21a6
   ReactCommon: d55bdb1eba205b1f019235ed1f33adb0e2c43e57
   RNCAsyncStorage: b6410dead2732b5c72a7fdb1ecb5651bbcf4674b
-  RNCPicker: d8662eb6615e3401acb590c44b97b2af3beb1e53
   RNReanimated: 7acfc29c304e3ddf28723a87b72f4ddb203e928a
   RNSentry: 92311c14e158209fb26592900713bfd73569922e
   Sentry: ee060c09b2f7ec1240e95c766ab44c04c7bdb052
