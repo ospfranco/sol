@@ -1,10 +1,6 @@
-# update_fastlane
-
 default_platform(:mac)
 
 platform :mac do
-  
-  # xcode_select "/Applications/Xcode.app"
 
   lane :release do
     sh("bun", "bump")
