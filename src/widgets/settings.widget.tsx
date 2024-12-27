@@ -47,12 +47,12 @@ export const SettingsWidget: FC = observer(() => {
           onPress={() => setSelected('TRANSLATE')}
           title="Translation"
         />
-        <SelectableButton
+        {/* <SelectableButton
           className="w-26 items-center "
           selected={selected === 'SHORTCUTS'}
           onPress={() => setSelected('SHORTCUTS')}
           title="Shortcuts"
-        />
+        /> */}
         <SelectableButton
           className="w-26 items-center "
           selected={selected === 'ABOUT'}

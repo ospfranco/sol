@@ -17,7 +17,7 @@ export let FullCalendar: FC = observer(() => {
 
   return (
     <ScrollView
-      className="max-h-full border-t border-neutral-200 dark:border-neutral-800"
+      className="max-h-full border-t border-lightBorder dark:border-darkBorder"
       contentContainerClassName="py-2 gap-2 px-4"
       showsVerticalScrollIndicator={false}>
       {Object.entries(store.calendar.groupedEvents).map(([key, group]) => {
@@ -25,7 +25,7 @@ export let FullCalendar: FC = observer(() => {
         return (
           <View
             key={key}
-            className="py-2 gap-2 border-b border-neutral-200 dark:border-neutral-800">
+            className="py-2 gap-2 border-b border-lightBorder dark:border-darkBorder">
             <View className="flex-row items-center gap-1">
               <Text className="capitalize font-medium text-neutral-500 dark:text-neutral-400">
                 {shouldShowRelative
