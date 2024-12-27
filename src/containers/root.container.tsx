@@ -28,7 +28,7 @@ export let RootContainer = observer(() => {
       <BlurView
         materialName="popover"
         disabled={blurDisabled}
-        className="h-full rounded-lg border-window">
+        className="h-full rounded-xl dark:border dark:border-window">
         <View className="bg-window h-full">
           <FileSearchWidget />
         </View>
@@ -40,7 +40,7 @@ export let RootContainer = observer(() => {
       <BlurView
         materialName="popover"
         disabled={blurDisabled}
-        className="h-full rounded-lg border-window">
+        className="h-full rounded-xl dark:border dark:border-window">
         <View className="bg-window h-full">
           <ClipboardWidget />
         </View>
@@ -53,7 +53,7 @@ export let RootContainer = observer(() => {
       <BlurView
         materialName="popover"
         disabled={blurDisabled}
-        className="h-full rounded-lg border-window">
+        className="h-full rounded-xl dark:border dark:border-window">
         <View className="bg-window h-full">
           <EmojisWidget />
         </View>
@@ -66,7 +66,7 @@ export let RootContainer = observer(() => {
       <BlurView
         materialName="popover"
         disabled={blurDisabled}
-        className="h-full rounded-lg border-window">
+        className="h-full rounded-xl dark:border dark:border-window">
         <View className="bg-window h-full">
           <ScratchpadWidget />
         </View>
@@ -79,7 +79,7 @@ export let RootContainer = observer(() => {
       <BlurView
         materialName="popover"
         disabled={blurDisabled}
-        className="h-full rounded-lg border-window">
+        className="h-full rounded-xl dark:border dark:border-window">
         <View className="bg-window h-full">
           <CreateItemWidget />
         </View>
@@ -92,7 +92,7 @@ export let RootContainer = observer(() => {
       <BlurView
         materialName="popover"
         disabled={blurDisabled}
-        className="h-full rounded-lg border-window">
+        className="h-full rounded-xl dark:border dark:border-window">
         <View className="bg-window h-full">
           <OnboardingWidget />
         </View>
@@ -105,7 +105,7 @@ export let RootContainer = observer(() => {
       <BlurView
         materialName="popover"
         disabled={blurDisabled}
-        className="h-full rounded-lg border-window">
+        className="h-full rounded-xl dark:border dark:border-window">
         <View className="bg-window h-full">
           <TranslationWidget />
         </View>
@@ -118,7 +118,7 @@ export let RootContainer = observer(() => {
       <BlurView
         materialName="popover"
         disabled={blurDisabled}
-        className="h-full rounded-lg border-window">
+        className="h-full rounded-xl dark:border dark:border-window">
         <View className="bg-window h-full">
           <SettingsWidget />
         </View>
@@ -131,7 +131,7 @@ export let RootContainer = observer(() => {
       <BlurView
         materialName="popover"
         disabled={blurDisabled}
-        className="h-full rounded-lg border-window">
+        className="h-full rounded-xl dark:border dark:border-window">
         <View className="bg-window h-full">
           <ProcessesWidget />
         </View>
