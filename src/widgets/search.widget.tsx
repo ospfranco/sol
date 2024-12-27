@@ -192,7 +192,7 @@ export const SearchWidget: FC<Props> = observer(() => {
                   className={clsx('text-xs darker-text mr-1', {
                     'font-semibold': !items.length,
                   })}>
-                  G Search
+                  Search
                 </Text>
                 <Key symbol={'⌘'} />
                 <Key symbol={'⏎'} />
