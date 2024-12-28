@@ -204,7 +204,6 @@ export const createUIStore = (root: IRootStore) => {
       solNative.shouldHideMenubar(store.shouldHideMenubar)
       solNative.setMediaKeyForwardingEnabled(store.mediaKeyForwardingEnabled)
       solNative.setEmojiPickerDisabled(store.emojiPickerDisabled)
-      console.log(store.shortcuts)
       solNative.updateHotkeys(toJS(store.shortcuts))
     } else {
       runInAction(() => {

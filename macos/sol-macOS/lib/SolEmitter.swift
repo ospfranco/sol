@@ -42,6 +42,12 @@ class SolEmitter {
       "target": target
     ])
   }
+  
+  func onHotkey(id: String) {
+    dispatch(name: "hotkey", body: [
+      "id": id
+    ])
+  }
 
   func onHide() {
     dispatch(name: "onHide", body: [])

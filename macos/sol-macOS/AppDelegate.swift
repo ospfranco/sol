@@ -140,44 +140,75 @@ class AppDelegate: NSObject, NSApplicationDelegate,
       //      }
     }
   }
-  
-  func updateHotkeys(hotkeyMap: Dictionary<String, String>) {
-    print("Should update hotkeys \(hotkeyMap)")
+
+  func updateHotkeys(hotkeyMap: [String: String]) {
+    hotkeys.forEach { $0.isPaused = true }
+    hotkeys.removeAll()
+
+    for (key, value) in hotkeyMap {
+      let components = value.split(separator: "+").map { String($0) }
+      var modifiers: NSEvent.ModifierFlags = []
+      var keyValue: Key?
+
+      for component in components {
+        switch component.lowercased() {
+        case "command":
+          modifiers.insert(.command)
+        case "control":
+          modifiers.insert(.control)
+        case "option":
+          modifiers.insert(.option)
+        case "shift":
+          modifiers.insert(.shift)
+        default:
+          keyValue = Key(string: component)
+        }
+      }
+
+      guard let finalKey = keyValue else { continue }
+      let hotKey = HotKey(key: finalKey, modifiers: modifiers)
+
+      hotKey.keyDownHandler = { [weak self] in
+        SolEmitter.sharedInstance.onHotkey(id: key)
+      }
+      hotkeys.append(hotKey)
+    }
+
   }
 
   func setupKeyboardListeners() {
-//    rightSideScreenHotKey
-//      .keyDownHandler = { WindowManager.sharedInstance.moveHalf(.right) }
-//    leftSideScreenHotKey
-//      .keyDownHandler = { WindowManager.sharedInstance.moveHalf(.left) }
-//    topSideScreenHotKey
-//      .keyDownHandler = { WindowManager.sharedInstance.moveHalf(.top) }
-//    bottomSideScreenHotKey
-//      .keyDownHandler = { WindowManager.sharedInstance.moveHalf(.bottom) }
-//    fullScreenHotKey.keyDownHandler = WindowManager.sharedInstance.fullscreen
-//    moveToNextScreenHotKey.keyDownHandler =
-//      WindowManager.sharedInstance
-//      .moveToNextScreen
-//    moveToPrevScreenHotKey.keyDownHandler =
-//      WindowManager.sharedInstance
-//      .moveToPrevScreen
-//    topLeftScreenHotKey
-//      .keyDownHandler = {
-//        WindowManager.sharedInstance.moveQuarter(.topLeft)
-//      }
-//    topRightScreenHotKey
-//      .keyDownHandler = { WindowManager.sharedInstance.moveQuarter(.topRight) }
-//    bottomLeftScreenHotKey
-//      .keyDownHandler = {
-//        WindowManager.sharedInstance.moveQuarter(.bottomLeft)
-//      }
-//    bottomRightScreenHotKey
-//      .keyDownHandler = {
-//        WindowManager.sharedInstance.moveQuarter(.bottomRight)
-//      }
-//    scratchpadHotKey?.keyDownHandler = showScratchpad
-//    emojiPickerHotKey.keyDownHandler = showEmojiPicker
-//    clipboardManagerHotKey?.keyDownHandler = showClipboardManager
+    //    rightSideScreenHotKey
+    //      .keyDownHandler = { WindowManager.sharedInstance.moveHalf(.right) }
+    //    leftSideScreenHotKey
+    //      .keyDownHandler = { WindowManager.sharedInstance.moveHalf(.left) }
+    //    topSideScreenHotKey
+    //      .keyDownHandler = { WindowManager.sharedInstance.moveHalf(.top) }
+    //    bottomSideScreenHotKey
+    //      .keyDownHandler = { WindowManager.sharedInstance.moveHalf(.bottom) }
+    //    fullScreenHotKey.keyDownHandler = WindowManager.sharedInstance.fullscreen
+    //    moveToNextScreenHotKey.keyDownHandler =
+    //      WindowManager.sharedInstance
+    //      .moveToNextScreen
+    //    moveToPrevScreenHotKey.keyDownHandler =
+    //      WindowManager.sharedInstance
+    //      .moveToPrevScreen
+    //    topLeftScreenHotKey
+    //      .keyDownHandler = {
+    //        WindowManager.sharedInstance.moveQuarter(.topLeft)
+    //      }
+    //    topRightScreenHotKey
+    //      .keyDownHandler = { WindowManager.sharedInstance.moveQuarter(.topRight) }
+    //    bottomLeftScreenHotKey
+    //      .keyDownHandler = {
+    //        WindowManager.sharedInstance.moveQuarter(.bottomLeft)
+    //      }
+    //    bottomRightScreenHotKey
+    //      .keyDownHandler = {
+    //        WindowManager.sharedInstance.moveQuarter(.bottomRight)
+    //      }
+    //    scratchpadHotKey?.keyDownHandler = showScratchpad
+    //    emojiPickerHotKey.keyDownHandler = showEmojiPicker
+    //    clipboardManagerHotKey?.keyDownHandler = showClipboardManager
     settingsHotKey.keyDownHandler = showSettings
     mainHotKey.keyDownHandler = toggleWindow
 
@@ -408,7 +439,6 @@ class AppDelegate: NSObject, NSApplicationDelegate,
   func setShowWindowOn(_ on: String) {
     showWindowOn = on
   }
-
 
   @objc func setHeight(_ height: Int) {
     var finalHeight = height

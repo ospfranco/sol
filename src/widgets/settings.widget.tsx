@@ -151,6 +151,7 @@ export const SettingsWidget: FC = observer(() => {
                     <TextInput
                       className="w-40 text-xs rounded border border-lightBorder dark:border-darkBorder px-1"
                       placeholder="Not set"
+                      value={store.ui.shortcuts[item.id] ?? ''}
                     />
                   </View>
                 )
