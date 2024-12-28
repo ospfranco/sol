@@ -174,15 +174,15 @@ class SolNative: RCTEventEmitter {
   }
 
   @objc func setScratchpadShortcut(_ key: String) {
-    DispatchQueue.main.async {
-      self.appDelegate?.setScratchpadShortcut(key)
-    }
+//    DispatchQueue.main.async {
+//      self.appDelegate?.setScratchpadShortcut(key)
+//    }
   }
 
   @objc func setClipboardManagerShortcut(_ key: String) {
-    DispatchQueue.main.async {
-      self.appDelegate?.setClipboardManagerShortcut(key)
-    }
+//    DispatchQueue.main.async {
+//      self.appDelegate?.setClipboardManagerShortcut(key)
+//    }
   }
 
   @objc func getAccessibilityStatus(
@@ -306,9 +306,9 @@ class SolNative: RCTEventEmitter {
   }
 
   @objc func setWindowManagement(_ v: Bool) {
-    DispatchQueue.main.async {
-      self.appDelegate?.setWindowManagementShortcuts(v)
-    }
+//    DispatchQueue.main.async {
+//      self.appDelegate?.setWindowManagementShortcuts(v)
+//    }
   }
 
   @objc func toggleDND() {
@@ -411,11 +411,15 @@ class SolNative: RCTEventEmitter {
     }
   }
   
-  
   @objc func setEmojiPickerDisabled(_ v: Bool) {
-    DispatchQueue.main.async {
-      self.appDelegate?.setEmojiPickerDisabled(v)
-    }
+//    DispatchQueue.main.async {
+//      self.appDelegate?.setEmojiPickerDisabled(v)
+//    }
+  }
+  
+  @objc func updateHotkeys(_ hotkeys: NSDictionary) {
+    guard let hotkeys = hotkeys as? [String: String] else { return }
+    self.appDelegate?.updateHotkeys(hotkeyMap: hotkeys)
   }
 
 }

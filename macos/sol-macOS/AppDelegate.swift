@@ -27,56 +27,7 @@ class AppDelegate: NSObject, NSApplicationDelegate,
   public var shouldHideMenuBar = false
   private var mainHotKey = HotKey(key: .space, modifiers: [.command])
   private var updaterController: SPUStandardUpdaterController
-  private let topLeftScreenHotKey = HotKey(
-    key: .u,
-    modifiers: [.option, .control]
-  )
-  private let topRightScreenHotKey = HotKey(
-    key: .i,
-    modifiers: [.option, .control]
-  )
-  private let bottomLeftScreenHotKey = HotKey(
-    key: .j,
-    modifiers: [.option, .control]
-  )
-  private let bottomRightScreenHotKey = HotKey(
-    key: .k,
-    modifiers: [.option, .control]
-  )
-  private let topSideScreenHotKey = HotKey(
-    key: .upArrow,
-    modifiers: [.option, .control]
-  )
-  private let bottomSideScreenHotKey = HotKey(
-    key: .downArrow,
-    modifiers: [.option, .control]
-  )
-  private let rightSideScreenHotKey = HotKey(
-    key: .rightArrow,
-    modifiers: [.option, .control]
-  )
-  private let leftSideScreenHotKey = HotKey(
-    key: .leftArrow,
-    modifiers: [.option, .control]
-  )
-  private let fullScreenHotKey = HotKey(
-    key: .return,
-    modifiers: [.option, .control]
-  )
-  private let moveToNextScreenHotKey = HotKey(
-    key: .rightArrow,
-    modifiers: [.option, .control, .command]
-  )
-  private let moveToPrevScreenHotKey = HotKey(
-    key: .leftArrow,
-    modifiers: [.option, .control, .command]
-  )
-  private var scratchpadHotKey: HotKey?
-  private let emojiPickerHotKey = HotKey(
-    key: .space,
-    modifiers: [.control, .command]
-  )
-  private var clipboardManagerHotKey: HotKey?
+  private var hotkeys: [HotKey] = []
   private let settingsHotKey = HotKey(key: .comma, modifiers: [.command])
   private var statusBarItem: NSStatusItem?
   private var mediaKeyForwarder: MediaKeyForwarder?
@@ -189,40 +140,44 @@ class AppDelegate: NSObject, NSApplicationDelegate,
       //      }
     }
   }
+  
+  func updateHotkeys(hotkeyMap: Dictionary<String, String>) {
+    print("Should update hotkeys \(hotkeyMap)")
+  }
 
   func setupKeyboardListeners() {
-    rightSideScreenHotKey
-      .keyDownHandler = { WindowManager.sharedInstance.moveHalf(.right) }
-    leftSideScreenHotKey
-      .keyDownHandler = { WindowManager.sharedInstance.moveHalf(.left) }
-    topSideScreenHotKey
-      .keyDownHandler = { WindowManager.sharedInstance.moveHalf(.top) }
-    bottomSideScreenHotKey
-      .keyDownHandler = { WindowManager.sharedInstance.moveHalf(.bottom) }
-    fullScreenHotKey.keyDownHandler = WindowManager.sharedInstance.fullscreen
-    moveToNextScreenHotKey.keyDownHandler =
-      WindowManager.sharedInstance
-      .moveToNextScreen
-    moveToPrevScreenHotKey.keyDownHandler =
-      WindowManager.sharedInstance
-      .moveToPrevScreen
-    topLeftScreenHotKey
-      .keyDownHandler = {
-        WindowManager.sharedInstance.moveQuarter(.topLeft)
-      }
-    topRightScreenHotKey
-      .keyDownHandler = { WindowManager.sharedInstance.moveQuarter(.topRight) }
-    bottomLeftScreenHotKey
-      .keyDownHandler = {
-        WindowManager.sharedInstance.moveQuarter(.bottomLeft)
-      }
-    bottomRightScreenHotKey
-      .keyDownHandler = {
-        WindowManager.sharedInstance.moveQuarter(.bottomRight)
-      }
-    scratchpadHotKey?.keyDownHandler = showScratchpad
-    emojiPickerHotKey.keyDownHandler = showEmojiPicker
-    clipboardManagerHotKey?.keyDownHandler = showClipboardManager
+//    rightSideScreenHotKey
+//      .keyDownHandler = { WindowManager.sharedInstance.moveHalf(.right) }
+//    leftSideScreenHotKey
+//      .keyDownHandler = { WindowManager.sharedInstance.moveHalf(.left) }
+//    topSideScreenHotKey
+//      .keyDownHandler = { WindowManager.sharedInstance.moveHalf(.top) }
+//    bottomSideScreenHotKey
+//      .keyDownHandler = { WindowManager.sharedInstance.moveHalf(.bottom) }
+//    fullScreenHotKey.keyDownHandler = WindowManager.sharedInstance.fullscreen
+//    moveToNextScreenHotKey.keyDownHandler =
+//      WindowManager.sharedInstance
+//      .moveToNextScreen
+//    moveToPrevScreenHotKey.keyDownHandler =
+//      WindowManager.sharedInstance
+//      .moveToPrevScreen
+//    topLeftScreenHotKey
+//      .keyDownHandler = {
+//        WindowManager.sharedInstance.moveQuarter(.topLeft)
+//      }
+//    topRightScreenHotKey
+//      .keyDownHandler = { WindowManager.sharedInstance.moveQuarter(.topRight) }
+//    bottomLeftScreenHotKey
+//      .keyDownHandler = {
+//        WindowManager.sharedInstance.moveQuarter(.bottomLeft)
+//      }
+//    bottomRightScreenHotKey
+//      .keyDownHandler = {
+//        WindowManager.sharedInstance.moveQuarter(.bottomRight)
+//      }
+//    scratchpadHotKey?.keyDownHandler = showScratchpad
+//    emojiPickerHotKey.keyDownHandler = showEmojiPicker
+//    clipboardManagerHotKey?.keyDownHandler = showClipboardManager
     settingsHotKey.keyDownHandler = showSettings
     mainHotKey.keyDownHandler = toggleWindow
 
@@ -450,49 +405,10 @@ class AppDelegate: NSObject, NSApplicationDelegate,
     }
   }
 
-  func setScratchpadShortcut(_ key: String) {
-    scratchpadHotKey?.isPaused = true
-
-    if key == "command" {
-      scratchpadHotKey = HotKey(
-        key: .space,
-        modifiers: [.command, .shift],
-        keyDownHandler: showScratchpad
-      )
-    } else if key == "option" {
-      scratchpadHotKey = HotKey(
-        key: .space,
-        modifiers: [.shift, .option],
-        keyDownHandler: showScratchpad
-      )
-    } else {
-      scratchpadHotKey = nil
-    }
-  }
-
   func setShowWindowOn(_ on: String) {
     showWindowOn = on
   }
 
-  func setClipboardManagerShortcut(_ key: String) {
-    clipboardManagerHotKey?.isPaused = true
-
-    if key == "shift" {
-      clipboardManagerHotKey = HotKey(
-        key: .v,
-        modifiers: [.command, .shift],
-        keyDownHandler: showClipboardManager
-      )
-    } else if key == "option" {
-      clipboardManagerHotKey = HotKey(
-        key: .v,
-        modifiers: [.command, .option],
-        keyDownHandler: showClipboardManager
-      )
-    } else {
-      clipboardManagerHotKey = nil
-    }
-  }
 
   @objc func setHeight(_ height: Int) {
     var finalHeight = height
@@ -543,34 +459,6 @@ class AppDelegate: NSObject, NSApplicationDelegate,
     let frame = NSRect(origin: origin, size: size)
     mainWindow.setFrame(frame, display: false)
     mainWindow.center()
-  }
-
-  func setWindowManagementShortcuts(_ on: Bool) {
-    if on {
-      rightSideScreenHotKey.isPaused = false
-      leftSideScreenHotKey.isPaused = false
-      topSideScreenHotKey.isPaused = false
-      bottomSideScreenHotKey.isPaused = false
-      fullScreenHotKey.isPaused = false
-      moveToNextScreenHotKey.isPaused = false
-      moveToPrevScreenHotKey.isPaused = false
-      topLeftScreenHotKey.isPaused = false
-      topRightScreenHotKey.isPaused = false
-      bottomLeftScreenHotKey.isPaused = false
-      bottomRightScreenHotKey.isPaused = false
-    } else {
-      rightSideScreenHotKey.isPaused = true
-      leftSideScreenHotKey.isPaused = true
-      topSideScreenHotKey.isPaused = true
-      bottomSideScreenHotKey.isPaused = true
-      fullScreenHotKey.isPaused = true
-      moveToNextScreenHotKey.isPaused = true
-      moveToPrevScreenHotKey.isPaused = true
-      topLeftScreenHotKey.isPaused = true
-      topRightScreenHotKey.isPaused = true
-      bottomLeftScreenHotKey.isPaused = true
-      bottomRightScreenHotKey.isPaused = true
-    }
   }
 
   func showToast(_ text: String, variant: String, timeout: NSNumber?, image: NSImage?) {
@@ -661,11 +549,4 @@ class AppDelegate: NSObject, NSApplicationDelegate,
     }
   }
 
-  func setEmojiPickerDisabled(_ disabled: Bool) {
-    if disabled {
-      emojiPickerHotKey.isPaused = true
-    } else {
-      emojiPickerHotKey.isPaused = false
-    }
-  }
 }
