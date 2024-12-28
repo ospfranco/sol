@@ -824,7 +824,6 @@ export const createUIStore = (root: IRootStore) => {
     onHotkey({id}: {id: string}) {
       let item = store.items.find(i => i.id === id)
       if (item) {
-        console.log('Hotkey triggered', item.name)
         item.callback?.()
       }
     },

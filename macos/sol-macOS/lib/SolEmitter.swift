@@ -44,7 +44,6 @@ class SolEmitter {
   }
   
   func onHotkey(id: String) {
-    print("dispatching hotkey for \(id)")
     dispatch(name: "hotkey", body: [
       "id": id
     ])

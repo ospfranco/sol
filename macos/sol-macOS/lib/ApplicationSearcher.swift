@@ -172,7 +172,6 @@ class ApplicationSearcher: NSObject {
         return []
       }
 
-      print("Could not resolve apps url at \(url): \(error.localizedDescription)")
       let breadcrumb = Breadcrumb(level: .info, category: "custom")
       breadcrumb.message = "Could not resolve apps url at \(url): \(error.localizedDescription)"
       SentrySDK.addBreadcrumb(breadcrumb)
