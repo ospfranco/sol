@@ -4,6 +4,7 @@ import {FileIcon} from 'components/FileIcon'
 import {Key} from 'components/Key'
 import {LoadingBar} from 'components/LoadingBar'
 import {MainInput} from 'components/MainInput'
+import {renderToKeys} from 'lib/shorcuts'
 import {observer} from 'mobx-react-lite'
 import React, {FC, useEffect, useRef} from 'react'
 import {
@@ -124,9 +125,10 @@ export const SearchWidget: FC<Props> = observer(() => {
             </Text>
           )}
 
-          {!!item.shortcut && (
+          {!!store.ui.shortcuts[item.id] && (
             <View className="flex-row gap-1 items-center">
-              {item.shortcut.split(' ').map((char, i) => {
+              {renderToKeys(store.ui.shortcuts[item.id])}
+              {/* {store.ui.shortcuts[item.id].split('+').map((char, i) => {
                 return (
                   <Key
                     key={i}
@@ -134,7 +136,7 @@ export const SearchWidget: FC<Props> = observer(() => {
                     symbol={char !== 'then' ? char : undefined}
                   />
                 )
-              })}
+              })} */}
             </View>
           )}
         </View>
@@ -203,7 +205,7 @@ export const SearchWidget: FC<Props> = observer(() => {
               className={clsx('text-xs darker-text mr-1', {
                 'font-semibold': !items.length,
               })}>
-              G Search
+              Search
             </Text>
             {!!items.length && <Key symbol={'⌘'} />}
             <Key symbol={'⏎'} primary={!items.length} />

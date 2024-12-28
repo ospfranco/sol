@@ -19,8 +19,6 @@ interface IProps {
 export const Key: FC<IProps> = observer(
   ({title, primary = false, style, symbol}) => {
     let store = useStore()
-    let borderColor1 = store.ui.isDarkMode ? '#66666611' : '#00000011'
-    let borderColor2 = store.ui.isDarkMode ? '#AAAAAA44' : '#00000044'
 
     return (
       <View className="items-center gap-2 flex-row" style={style}>
@@ -34,35 +32,22 @@ export const Key: FC<IProps> = observer(
         )}
 
         {!!symbol && (
-          <BlurView
-            disabled={store.ui.reduceTransparency}
+          <View
             className={
-              'min-w-[18] min-h-[18] items-center justify-center rounded'
+              'w-[20px] h-[20px] items-center justify-center rounded border subBg border-color'
             }>
-            <View
-              className="min-w-[18] px-1 min-h-[18] items-center justify-center"
+            <Text
+              className="text-xs text-center"
               style={{
-                backgroundColor: primary
-                  ? store.ui.isDarkMode
-                    ? `${solNative.accentColor}44`
-                    : `${solNative.accentColor}BB`
+                color: primary
+                  ? '#FFFFFF'
                   : store.ui.isDarkMode
-                  ? '#00000066'
-                  : '#DDDDDD88',
+                  ? colors.neutral[300]
+                  : colors.neutral[500],
               }}>
-              <Text
-                className="text-xs text-center"
-                style={{
-                  color: primary
-                    ? '#FFFFFF'
-                    : store.ui.isDarkMode
-                    ? colors.neutral[300]
-                    : colors.neutral[600],
-                }}>
-                {symbol}
-              </Text>
-            </View>
-          </BlurView>
+              {symbol}
+            </Text>
+          </View>
         )}
       </View>
     )

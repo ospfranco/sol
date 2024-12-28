@@ -101,7 +101,6 @@ export function createBaseItems(store: IRootStore) {
       id: 'lock',
       iconImage: Assets.LockIcon,
       name: 'Lock',
-      shortcut: '⌘ ⌥ Q',
       type: ItemType.CONFIGURATION,
       callback: async () => {
         try {
@@ -148,7 +147,6 @@ export function createBaseItems(store: IRootStore) {
       callback: () => {
         solNative.resizeFrontmostFullscreen()
       },
-      shortcut: '^ ⌥ ↩',
     },
     {
       id: 'resize_right_half',
@@ -164,7 +162,6 @@ export function createBaseItems(store: IRootStore) {
       callback: () => {
         solNative.resizeFrontmostRightHalf()
       },
-      shortcut: '^ ⌥ →',
     },
     {
       id: 'resize_left_half',
@@ -180,7 +177,6 @@ export function createBaseItems(store: IRootStore) {
       callback: () => {
         solNative.resizeFrontmostLeftHalf()
       },
-      shortcut: '^ ⌥ ←',
     },
     {
       id: 'resize_top_half',
@@ -196,7 +192,6 @@ export function createBaseItems(store: IRootStore) {
       callback: () => {
         solNative.resizeFrontmostTopHalf()
       },
-      shortcut: '^ ⌥ ↑',
     },
     {
       id: 'resize_bottom_half',
@@ -212,7 +207,6 @@ export function createBaseItems(store: IRootStore) {
       callback: () => {
         solNative.resizeFrontmostBottomHalf()
       },
-      shortcut: '^ ⌥ ↓',
     },
     {
       id: 'resize_top_left',
@@ -228,7 +222,6 @@ export function createBaseItems(store: IRootStore) {
       callback: () => {
         solNative.resizeTopLeft()
       },
-      shortcut: '^ ⌥ U',
     },
     {
       id: 'resize_top_right',
@@ -244,7 +237,6 @@ export function createBaseItems(store: IRootStore) {
       callback: () => {
         solNative.resizeTopRight()
       },
-      shortcut: '^ ⌥ I',
     },
     {
       id: 'resize_bottom_left',
@@ -260,7 +252,6 @@ export function createBaseItems(store: IRootStore) {
       callback: () => {
         solNative.resizeBottomLeft()
       },
-      shortcut: '^ ⌥ J',
     },
     {
       id: 'resize_bottom_right',
@@ -276,7 +267,6 @@ export function createBaseItems(store: IRootStore) {
       callback: () => {
         solNative.resizeBottomRight()
       },
-      shortcut: '^ ⌥ K',
     },
     {
       id: 'move_next_screen',
@@ -292,7 +282,6 @@ export function createBaseItems(store: IRootStore) {
       callback: () => {
         solNative.moveFrontmostNextScreen()
       },
-      shortcut: '^ ⌥ ⌘ →',
     },
     {
       id: 'move_prev_screen',
@@ -308,7 +297,6 @@ export function createBaseItems(store: IRootStore) {
       callback: () => {
         solNative.moveFrontmostPrevScreen()
       },
-      shortcut: '^ ⌥ ⌘ ←',
     },
     {
       id: 'move_center',
@@ -334,7 +322,6 @@ export function createBaseItems(store: IRootStore) {
       callback: () => {
         store.ui.focusWidget(Widget.SCRATCHPAD)
       },
-      shortcut: '⌘ + ⇧ + Space',
     },
     {
       id: 'emoji_picker',
@@ -345,7 +332,6 @@ export function createBaseItems(store: IRootStore) {
       callback: () => {
         store.ui.showEmojiPicker()
       },
-      shortcut: '⌘ Ctrl Space',
     },
     {
       id: 'check_for_updates',

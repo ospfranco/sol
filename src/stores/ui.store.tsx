@@ -13,6 +13,7 @@ import {createBaseItems} from './items'
 import plist from '@expo/plist'
 import MiniSearch from 'minisearch'
 import * as Sentry from '@sentry/react-native'
+import {defaultShortcuts} from 'lib/shorcuts'
 
 const exprParser = new Parser()
 
@@ -186,6 +187,7 @@ export const createUIStore = (root: IRootStore) => {
         ]
         store.emojiPickerDisabled = parsedStore.emojiPickerDisabled ?? false
         store.searchEngine = parsedStore.searchEngine ?? 'google'
+        store.shortcuts = parsedStore.shortcuts ?? defaultShortcuts
       })
 
       solNative.setLaunchAtLogin(parsedStore.launchAtLogin ?? true)
@@ -202,6 +204,8 @@ export const createUIStore = (root: IRootStore) => {
       solNative.shouldHideMenubar(store.shouldHideMenubar)
       solNative.setMediaKeyForwardingEnabled(store.mediaKeyForwardingEnabled)
       solNative.setEmojiPickerDisabled(store.emojiPickerDisabled)
+
+      console.log(store.shortcuts)
     } else {
       runInAction(() => {
         store.focusedWidget = Widget.ONBOARDING
@@ -263,7 +267,7 @@ export const createUIStore = (root: IRootStore) => {
     scratchPadColor: ScratchPadColor.SYSTEM,
     searchFolders: [] as string[],
     emojiPickerDisabled: false,
-    shortcuts: [] as string[],
+    shortcuts: {} as Record<string, string>,
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -427,7 +431,6 @@ export const createUIStore = (root: IRootStore) => {
 
       return finalResults
     },
-
     get currentItem(): Item | undefined {
       return store.items[store.selectedIndex]
     },

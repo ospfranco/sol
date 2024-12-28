@@ -1,31 +1,29 @@
 import {Assets} from 'assets'
+import clsx from 'clsx'
+import {BackButton} from 'components/BackButton'
 import {Dropdown} from 'components/Dropdown'
+import {FileIcon} from 'components/FileIcon'
+import {MyRadioButton} from 'components/MyRadioButton'
 import {MySwitch} from 'components/MySwitch'
 import {SelectableButton} from 'components/SelectableButton'
 import {useFullSize} from 'hooks/useFullSize'
 import {languages} from 'lib/languages'
+import {solNative} from 'lib/SolNative'
 import {observer} from 'mobx-react-lite'
-import React, {FC, useState} from 'react'
-import {
+import {FC, useState} from 'react'
+import React, {
+  FlatList,
   Image,
   Linking,
+  ScrollView,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
-  ScrollView,
-  FlatList,
-  Platform,
-  TextInput,
 } from 'react-native'
 import {useStore} from 'store'
 import {ItemType, Widget} from 'stores/ui.store'
-import {BackButton} from 'components/BackButton'
-import {MyRadioButton} from 'components/MyRadioButton'
 import packageInfo from '../../package.json'
-import {solNative} from 'lib/SolNative'
-import clsx from 'clsx'
-import {FileIcon} from 'components/FileIcon'
-import {Input} from 'components/Input'
 
 type ITEM = 'ABOUT' | 'GENERAL' | 'TRANSLATE' | 'SHORTCUTS'
 

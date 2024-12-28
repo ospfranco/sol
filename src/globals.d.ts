@@ -86,8 +86,8 @@ interface ITrackingProject {
   periods: IPeriod[]
 }
 
-interface Item {
-  id: string // it will be used by minisearch for indexing
+type Item = {
+  id: string
   icon?: string
   iconImage?: ImageURISource | number | ImageURISource[]
   IconComponent?: FC<any>
@@ -102,7 +102,6 @@ interface Item {
   metaCallback?: () => void
   isApplescript?: boolean
   text?: string
-  shortcut?: string
   isFavorite?: boolean // injected in UI array
   isRunning?: boolean // only apps have this
 }
