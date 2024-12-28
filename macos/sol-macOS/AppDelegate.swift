@@ -160,6 +160,18 @@ class AppDelegate: NSObject, NSApplicationDelegate,
           modifiers.insert(.option)
         case "shift":
           modifiers.insert(.shift)
+        case "space":
+          keyValue = .space
+        case "up":
+          keyValue = .upArrow
+        case "down":
+          keyValue = .downArrow
+        case "left":
+          keyValue = .leftArrow
+        case "right":
+          keyValue = .rightArrow
+        case "return":
+          keyValue = .return
         default:
           keyValue = Key(string: component)
         }
@@ -168,7 +180,7 @@ class AppDelegate: NSObject, NSApplicationDelegate,
       guard let finalKey = keyValue else { continue }
       let hotKey = HotKey(key: finalKey, modifiers: modifiers)
 
-      hotKey.keyDownHandler = { [weak self] in
+      hotKey.keyDownHandler = {
         SolEmitter.sharedInstance.onHotkey(id: key)
       }
       hotkeys.append(hotKey)
@@ -177,38 +189,6 @@ class AppDelegate: NSObject, NSApplicationDelegate,
   }
 
   func setupKeyboardListeners() {
-    //    rightSideScreenHotKey
-    //      .keyDownHandler = { WindowManager.sharedInstance.moveHalf(.right) }
-    //    leftSideScreenHotKey
-    //      .keyDownHandler = { WindowManager.sharedInstance.moveHalf(.left) }
-    //    topSideScreenHotKey
-    //      .keyDownHandler = { WindowManager.sharedInstance.moveHalf(.top) }
-    //    bottomSideScreenHotKey
-    //      .keyDownHandler = { WindowManager.sharedInstance.moveHalf(.bottom) }
-    //    fullScreenHotKey.keyDownHandler = WindowManager.sharedInstance.fullscreen
-    //    moveToNextScreenHotKey.keyDownHandler =
-    //      WindowManager.sharedInstance
-    //      .moveToNextScreen
-    //    moveToPrevScreenHotKey.keyDownHandler =
-    //      WindowManager.sharedInstance
-    //      .moveToPrevScreen
-    //    topLeftScreenHotKey
-    //      .keyDownHandler = {
-    //        WindowManager.sharedInstance.moveQuarter(.topLeft)
-    //      }
-    //    topRightScreenHotKey
-    //      .keyDownHandler = { WindowManager.sharedInstance.moveQuarter(.topRight) }
-    //    bottomLeftScreenHotKey
-    //      .keyDownHandler = {
-    //        WindowManager.sharedInstance.moveQuarter(.bottomLeft)
-    //      }
-    //    bottomRightScreenHotKey
-    //      .keyDownHandler = {
-    //        WindowManager.sharedInstance.moveQuarter(.bottomRight)
-    //      }
-    //    scratchpadHotKey?.keyDownHandler = showScratchpad
-    //    emojiPickerHotKey.keyDownHandler = showEmojiPicker
-    //    clipboardManagerHotKey?.keyDownHandler = showClipboardManager
     settingsHotKey.keyDownHandler = showSettings
     mainHotKey.keyDownHandler = toggleWindow
 
@@ -391,14 +371,14 @@ class AppDelegate: NSObject, NSApplicationDelegate,
   }
 
   @objc func hideWindow() {
-    #if !DEBUG
+//    #if !DEBUG
       if mainWindow.isVisible {
         overlayWindow.orderOut(self)
         mainWindow.orderOut(self)
         SolEmitter.sharedInstance.onHide()
         settingsHotKey.isPaused = true
       }
-    #endif
+//    #endif
   }
 
   func setHorizontalArrowCatch(catchHorizontalArrowPress: Bool) {

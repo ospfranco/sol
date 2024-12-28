@@ -20,6 +20,7 @@ const exprParser = new Parser()
 let onShowListener: EmitterSubscription | undefined
 let onHideListener: EmitterSubscription | undefined
 let onFileSearchListener: EmitterSubscription | undefined
+let onHotkeyListener: EmitterSubscription | undefined
 
 export enum Widget {
   ONBOARDING = 'ONBOARDING',
@@ -187,7 +188,7 @@ export const createUIStore = (root: IRootStore) => {
         ]
         store.emojiPickerDisabled = parsedStore.emojiPickerDisabled ?? false
         store.searchEngine = parsedStore.searchEngine ?? 'google'
-        store.shortcuts = parsedStore.shortcuts ?? defaultShortcuts
+        store.shortcuts = defaultShortcuts
       })
 
       solNative.setLaunchAtLogin(parsedStore.launchAtLogin ?? true)
@@ -819,6 +820,14 @@ export const createUIStore = (root: IRootStore) => {
     setSearchEngine: (engine: SearchEngine) => {
       store.searchEngine = engine
     },
+
+    onHotkey({id}: {id: string}) {
+      let item = store.items.find(i => i.id === id)
+      if (item) {
+        console.log('Hotkey triggered', item.name)
+        item.callback?.()
+      }
+    },
   })
 
   // solNative.setWindowHeight(50)
@@ -834,6 +843,7 @@ export const createUIStore = (root: IRootStore) => {
 
   onShowListener = solNative.addListener('onShow', store.onShow)
   onHideListener = solNative.addListener('onHide', store.onHide)
+  onHotkeyListener = solNative.addListener('hotkey', store.onHotkey)
   onFileSearchListener = solNative.addListener(
     'onFileSearch',
     store.onFileSearch,

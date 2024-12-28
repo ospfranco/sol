@@ -145,7 +145,6 @@ export const SettingsWidget: FC = observer(() => {
                         resizeMode="contain"
                       />
                     )}
-                    {/* Somehow this component breaks windows build */}
                     {!!item.IconComponent && <item.IconComponent />}
                     <Text className="flex-1">{item.name}</Text>
                     <TextInput

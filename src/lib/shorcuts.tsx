@@ -2,7 +2,7 @@ import {Key} from 'components/Key'
 
 export const defaultShortcuts = {
   // 'option+space': 'sol'
-  full_screen: 'control+option+return',
+  resize_fullscreen: 'control+option+return',
   lock: 'command+option+q',
   resize_right_half: 'control+option+right',
   resize_left_half: 'control+option+left',
