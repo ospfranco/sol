@@ -31,6 +31,8 @@ export const SettingsWidget: FC = observer(() => {
   const store = useStore()
   useFullSize()
   const [selected, setSelected] = useState<ITEM>('SHORTCUTS')
+  const shortcuts = store.ui.shortcuts
+  const validatedShortcuts = store.ui.validatedShortcuts
 
   return (
     <View className="h-full flex-row">
@@ -147,10 +149,18 @@ export const SettingsWidget: FC = observer(() => {
                     )}
                     {!!item.IconComponent && <item.IconComponent />}
                     <Text className="flex-1">{item.name}</Text>
+                    {!!shortcuts[item.id] ? (
+                      validatedShortcuts[item.id].valid ? (
+                        <View className="w-2 h-2 rounded-full bg-green-500" />
+                      ) : (
+                        <View className="w-2 h-2 rounded-full bg-red-500" />
+                      )
+                    ) : null}
                     <TextInput
                       className="w-40 text-xs rounded border border-lightBorder dark:border-darkBorder px-1"
                       placeholder="Not set"
-                      value={store.ui.shortcuts[item.id] ?? ''}
+                      value={shortcuts[item.id] ?? ''}
+                      onChangeText={t => store.ui.setShorcut(item.id, t)}
                     />
                   </View>
                 )

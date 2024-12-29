@@ -13,7 +13,7 @@ import {createBaseItems} from './items'
 import plist from '@expo/plist'
 import MiniSearch from 'minisearch'
 import * as Sentry from '@sentry/react-native'
-import {defaultShortcuts} from 'lib/shorcuts'
+import {defaultShortcuts, validShortcutTokensRegex} from 'lib/shorcuts'
 
 const exprParser = new Parser()
 
@@ -188,7 +188,7 @@ export const createUIStore = (root: IRootStore) => {
         ]
         store.emojiPickerDisabled = parsedStore.emojiPickerDisabled ?? false
         store.searchEngine = parsedStore.searchEngine ?? 'google'
-        store.shortcuts = defaultShortcuts
+        store.shortcuts = parsedStore.shortcuts ?? defaultShortcuts
       })
 
       solNative.setLaunchAtLogin(parsedStore.launchAtLogin ?? true)
@@ -434,6 +434,22 @@ export const createUIStore = (root: IRootStore) => {
     get currentItem(): Item | undefined {
       return store.items[store.selectedIndex]
     },
+    get validatedShortcuts(): Record<
+      string,
+      {shortcut: string; valid: boolean}
+    > {
+      let res: Record<string, {shortcut: string; valid: boolean}> = {}
+      for (let key in store.shortcuts) {
+        let shortcut = store.shortcuts[key]
+        let valid = false
+        if (shortcut) {
+          let tokens = shortcut.split('+')
+          valid = tokens.every(token => validShortcutTokensRegex.test(token))
+        }
+        res[key] = {shortcut, valid}
+      }
+      return res
+    },
     //                _   _
     //      /\       | | (_)
     //     /  \   ___| |_ _  ___  _ __  ___
@@ -644,6 +660,7 @@ export const createUIStore = (root: IRootStore) => {
       onShowListener?.remove()
       onHideListener?.remove()
       onFileSearchListener?.remove()
+      onHotkeyListener?.remove()
     },
     getCalendarAccess: () => {
       store.calendarAuthorizationStatus =
@@ -826,6 +843,11 @@ export const createUIStore = (root: IRootStore) => {
       if (item) {
         item.callback?.()
       }
+    },
+
+    setShorcut(id: string, shortcut: string) {
+      store.shortcuts[id] = shortcut
+      solNative.updateHotkeys(toJS(store.shortcuts))
     },
   })
 

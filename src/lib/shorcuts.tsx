@@ -1,5 +1,8 @@
 import {Key} from 'components/Key'
 
+export const validShortcutTokensRegex =
+  /^(control|option|command|shift|return|space|right|left|up|down|[a-z])$/
+
 export const defaultShortcuts = {
   // 'option+space': 'sol'
   resize_fullscreen: 'control+option+return',
