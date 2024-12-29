@@ -3,7 +3,10 @@ default_platform(:mac)
 platform :mac do
 
   lane :release do
-    sh("bun", "bump")
+    Dir.chdir("..") do
+      sh("bun", "i")
+      sh("bun", "bump")
+    end
 
     version = get_version_number(xcodeproj: "./macos/sol.xcodeproj")
 
@@ -62,17 +65,5 @@ platform :mac do
     sh("open", "/Applications/Sol.app")
 
     sh("pingme", "Sol " + version + " released")
-  end
-
-  lane :dev do
-    path = "/Applications/"
-
-    gym(
-      scheme: "release",
-      workspace: "./macos/sol.xcworkspace",
-      output_directory: path,
-      export_method: "development",
-      silent: true
-    )
   end
 end
