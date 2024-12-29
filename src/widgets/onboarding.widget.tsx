@@ -193,7 +193,7 @@ export const OnboardingWidget: FC<Props> = observer(({style}) => {
               <View className="flex-1 flex-row items-center gap-1">
                 <Key symbol="⌘" className="ml-2" />
                 <Key symbol="⌃" className="ml-1" />
-                <Key symbol="Space" className="ml-1" />
+                <Key symbol="␣" className="ml-1" />
               </View>
             </View>
 
@@ -202,7 +202,7 @@ export const OnboardingWidget: FC<Props> = observer(({style}) => {
               <View className="flex-1 flex-row items-center gap-1">
                 <Key symbol="⌘" className="ml-2" />
                 <Key symbol="⇧" className="ml-1" />
-                <Key symbol="Space" className="ml-1" />
+                <Key symbol="␣" className="ml-1" />
               </View>
             </View>
 

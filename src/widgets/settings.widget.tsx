@@ -30,7 +30,7 @@ type ITEM = 'ABOUT' | 'GENERAL' | 'TRANSLATE' | 'SHORTCUTS'
 export const SettingsWidget: FC = observer(() => {
   const store = useStore()
   useFullSize()
-  const [selected, setSelected] = useState<ITEM>('SHORTCUTS')
+  const [selected, setSelected] = useState<ITEM>('GENERAL')
   const shortcuts = store.ui.shortcuts
   const validatedShortcuts = store.ui.validatedShortcuts
 
@@ -67,7 +67,7 @@ export const SettingsWidget: FC = observer(() => {
         />
       </View>
 
-      <View className="flex-1 h-full">
+      <View className="flex-1 h-full bg-white dark:bg-neutral-900">
         {selected === 'ABOUT' && (
           <View className="flex-1 justify-center items-center gap-10 flex-row">
             <Image
@@ -198,52 +198,6 @@ export const SettingsWidget: FC = observer(() => {
                           store.ui.setGlobalShortcut(value)
                         }}
                         selected={store.ui.globalShortcut === value}
-                      />
-                    )
-                  })}
-                </View>
-              </View>
-              <View className="border-t border-lightBorder dark:border-darkBorder" />
-              <View className="gap-3">
-                <Text className="flex-1">Scratchpad shortcut</Text>
-                <View className="flex-1">
-                  {[
-                    {label: '⌘ ⇧ Space', value: 'command' as const},
-                    {label: '⇧ ⌥ Space', value: 'option' as const},
-                    {label: 'Disabled', value: 'none' as const},
-                  ].map(({label, value}, idx) => {
-                    return (
-                      <MyRadioButton
-                        index={idx}
-                        label={label}
-                        value={value}
-                        onValueChange={() => {
-                          store.ui.setScratchpadShortcut(value)
-                        }}
-                        selected={store.ui.scratchpadShortcut === value}
-                      />
-                    )
-                  })}
-                </View>
-              </View>
-              <View className="border-t border-lightBorder dark:border-darkBorder" />
-              <View className="gap-3">
-                <Text className="flex-1">Clipboard manager shortcut</Text>
-                <View className="flex-1">
-                  {[
-                    {label: '⌘ ⇧ V', value: 'shift' as const},
-                    {label: '⌘ ⌥ V', value: 'option' as const},
-                    {label: 'Disabled', value: 'none' as const},
-                  ].map(({label, value}, idx) => {
-                    return (
-                      <MyRadioButton
-                        index={idx}
-                        label={label}
-                        value={value}
-                        onValueChange={() => {
-                          store.ui.setClipboardManagerShortcut(value)
-                        }}
-                        selected={store.ui.clipboardManagerShortcut === value}
                       />
                     )
                   })}
