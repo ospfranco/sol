@@ -206,6 +206,7 @@ export const createUIStore = (root: IRootStore) => {
       solNative.setMediaKeyForwardingEnabled(store.mediaKeyForwardingEnabled)
       solNative.setEmojiPickerDisabled(store.emojiPickerDisabled)
       solNative.updateHotkeys(toJS(store.shortcuts))
+      store.getApps()
     } else {
       runInAction(() => {
         store.focusedWidget = Widget.ONBOARDING
@@ -575,27 +576,7 @@ export const createUIStore = (root: IRootStore) => {
         }
       }
     },
-    onShow: ({target}: {target?: string}) => {
-      if (target === Widget.CLIPBOARD) {
-        store.showClipboardManager()
-        return
-      }
-
-      if (target === Widget.SCRATCHPAD) {
-        store.showScratchpad()
-        return
-      }
-
-      if (target === Widget.EMOJIS) {
-        store.showEmojiPicker()
-        return
-      }
-
-      if (target === Widget.SETTINGS) {
-        store.showSettings()
-        return
-      }
-
+    getApps: () => {
       solNative
         .getApps()
         .then(apps => {
@@ -640,6 +621,29 @@ export const createUIStore = (root: IRootStore) => {
           solNative.showToast(`Could not get apps: ${e}`, 'error')
           Sentry.captureException(e)
         })
+    },
+    onShow: ({target}: {target?: string}) => {
+      if (target === Widget.CLIPBOARD) {
+        store.showClipboardManager()
+        return
+      }
+
+      if (target === Widget.SCRATCHPAD) {
+        store.showScratchpad()
+        return
+      }
+
+      if (target === Widget.EMOJIS) {
+        store.showEmojiPicker()
+        return
+      }
+
+      if (target === Widget.SETTINGS) {
+        store.showSettings()
+        return
+      }
+
+      store.getApps()
 
       setImmediate(() => {
         if (!store.isAccessibilityTrusted) {
@@ -840,8 +844,14 @@ export const createUIStore = (root: IRootStore) => {
 
     onHotkey({id}: {id: string}) {
       let item = store.items.find(i => i.id === id)
-      if (item) {
-        item.callback?.()
+      if (item == null) {
+        return
+      }
+
+      if (item.callback) {
+        item.callback()
+      } else if (item.url) {
+        solNative.openFile(item.url)
       }
     },
 

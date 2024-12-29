@@ -340,7 +340,7 @@ class AppDelegate: NSObject, NSApplicationDelegate,
 
       triggerOverlay(0)
     }
-
+    
     SolEmitter.sharedInstance.onShow(target: target)
 
     // Give react native event listener a bit of time to react
@@ -371,14 +371,14 @@ class AppDelegate: NSObject, NSApplicationDelegate,
   }
 
   @objc func hideWindow() {
-    #if !DEBUG
+//    #if !DEBUG
       if mainWindow.isVisible {
         overlayWindow.orderOut(self)
         mainWindow.orderOut(self)
         SolEmitter.sharedInstance.onHide()
         settingsHotKey.isPaused = true
       }
-    #endif
+//    #endif
   }
 
   func setHorizontalArrowCatch(catchHorizontalArrowPress: Bool) {
