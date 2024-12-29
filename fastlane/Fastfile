@@ -4,7 +4,6 @@ platform :mac do
 
   lane :release do
     Dir.chdir("..") do
-      sh("bun", "i")
       sh("bun", "bump")
     end
 
