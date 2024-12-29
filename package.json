@@ -14,7 +14,6 @@
     "appcast": "./macos/Pods/Sparkle/bin/generate_appcast releases",
     "pods": "cd macos && bundle exec pod install && rm .xcode.env.local && xcodebuild -resolvePackageDependencies -workspace sol.xcworkspace -scheme debug",
     "postinstall": "patch-package",
-    "prepare": "husky install",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -64,7 +63,6 @@
     "babel-jest": "^29.6.3",
     "babel-plugin-module-resolver": "^4.1.0",
     "eslint": "^8.19.0",
-    "husky": "^8.0.3",
     "jest": "^29.6.3",
     "prettier": "^2.8.8",
     "react-test-renderer": "18.2.0",
