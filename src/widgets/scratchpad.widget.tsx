@@ -65,7 +65,7 @@ export const ScratchpadWidget: FC<Props> = observer(({style}) => {
       />
       <View className="flex-row gap-2 subBg justify-end px-4 py-2">
         <Text className={clsx('text-xs darker-text')}>Switch themes</Text>
-        <Key symbol={'tab'} />
+        <Key symbol={'\u21E5'} />
       </View>
     </GradientView>
   )

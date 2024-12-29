@@ -117,6 +117,13 @@ let minisearch = new MiniSearch({
 export type UIStore = ReturnType<typeof createUIStore>
 type SearchEngine = 'google' | 'bing' | 'duckduckgo' | 'perplexity'
 
+const itemsThatShouldShowWindow = [
+  'emoji_picker',
+  'clipboard_manager',
+  'process_manager',
+  'scratchpad',
+]
+
 export const createUIStore = (root: IRootStore) => {
   let persist = async () => {
     let plainState = toJS(store)
@@ -852,6 +859,10 @@ export const createUIStore = (root: IRootStore) => {
         item.callback()
       } else if (item.url) {
         solNative.openFile(item.url)
+      }
+
+      if (itemsThatShouldShowWindow.includes(item.id)) {
+        setTimeout(solNative.showWindow, 0)
       }
     },
 

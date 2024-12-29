@@ -341,17 +341,12 @@ class AppDelegate: NSObject, NSApplicationDelegate,
       triggerOverlay(0)
     }
     
-    SolEmitter.sharedInstance.onShow(target: target)
 
     // Give react native event listener a bit of time to react
     // and switch components
-    if target != nil {
       DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
         self.innerShow()
       }
-    } else {
-      innerShow()
-    }
   }
 
   func showScratchpad() {
