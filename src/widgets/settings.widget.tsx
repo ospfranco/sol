@@ -112,6 +112,7 @@ export const SettingsWidget: FC = observer(() => {
             <FlatList
               contentContainerClassName="pl-4 pb-4"
               data={store.ui.items}
+              keyExtractor={item => item.id}
               renderItem={({item, index}) => {
                 return (
                   <View
@@ -191,7 +192,7 @@ export const SettingsWidget: FC = observer(() => {
                   ].map(({label, value}, idx) => {
                     return (
                       <MyRadioButton
-                        index={idx}
+                        key={idx}
                         label={label}
                         value={value}
                         onValueChange={() => {
@@ -215,7 +216,7 @@ export const SettingsWidget: FC = observer(() => {
                   ].map(({label, value}, idx) => {
                     return (
                       <MyRadioButton
-                        index={idx}
+                        key={idx}
                         label={label}
                         value={value}
                         onValueChange={() => {
@@ -233,7 +234,9 @@ export const SettingsWidget: FC = observer(() => {
               <Text className="mb-1">File Search Paths</Text>
               {store.ui.searchFolders.map(folder => {
                 return (
-                  <View className="flex-row items-center border-b border-lightBorder dark:border-darkBorder pb-2">
+                  <View
+                    key={folder}
+                    className="flex-row items-center border-b border-lightBorder dark:border-darkBorder pb-2">
                     <Text className="flex-1 text-neutral-500 dark:text-neutral-400">
                       {folder}
                     </Text>
@@ -281,7 +284,7 @@ export const SettingsWidget: FC = observer(() => {
                   ].map(({label, value}, index) => {
                     return (
                       <MyRadioButton
-                        index={index}
+                        key={index}
                         label={label}
                         value={value}
                         onValueChange={() => {
