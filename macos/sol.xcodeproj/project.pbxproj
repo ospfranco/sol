@@ -21,6 +21,7 @@
 		700F266B29F50BF6002CA8F1 /* NSBezierPath.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700F266A29F50BF6002CA8F1 /* NSBezierPath.extension.swift */; };
 		700F266D29F52A25002CA8F1 /* CAGradiendLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700F266C29F52A25002CA8F1 /* CAGradiendLayer.swift */; };
 		701086A727989798004C8CCD /* SolEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701086A627989798004C8CCD /* SolEmitter.swift */; };
+		70142B3B2D21812500EA565F /* KeychainAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70142B3A2D21812500EA565F /* KeychainAccess.swift */; };
 		701EC4612822E33B00597D99 /* AccessibilityElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701EC4602822E33B00597D99 /* AccessibilityElement.swift */; };
 		7034504028238AAB00240BDD /* ScreenDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7034503F28238AAB00240BDD /* ScreenDetector.swift */; };
 		703EB24D2BED4E1E00F7B391 /* NSString+Score.m in Sources */ = {isa = PBXBuildFile; fileRef = 703EB24C2BED4E1E00F7B391 /* NSString+Score.m */; };
@@ -81,6 +82,7 @@
 		700F266C29F52A25002CA8F1 /* CAGradiendLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAGradiendLayer.swift; sourceTree = "<group>"; };
 		701086A627989798004C8CCD /* SolEmitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolEmitter.swift; sourceTree = "<group>"; };
 		701086A82798C231004C8CCD /* sol-macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "sol-macOS.entitlements"; sourceTree = "<group>"; };
+		70142B3A2D21812500EA565F /* KeychainAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainAccess.swift; sourceTree = "<group>"; };
 		701EC4602822E33B00597D99 /* AccessibilityElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityElement.swift; sourceTree = "<group>"; };
 		7034503F28238AAB00240BDD /* ScreenDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenDetector.swift; sourceTree = "<group>"; };
 		703EB24C2BED4E1E00F7B391 /* NSString+Score.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+Score.m"; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 		70F7EBEA2795A4BD00CED17A /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				70142B3A2D21812500EA565F /* KeychainAccess.swift */,
 				70E233692A8F4A20008E88D9 /* ITunesApplicationApplication.h */,
 				70A07EB929B48F1F00D1885E /* SpotifyApplication.h */,
 				70A07EBA29B48F4000D1885E /* MediaKeyForwarder.m */,
@@ -549,6 +552,7 @@
 				700A18D8279DBBE40096C830 /* ApplicationSearcher.swift in Sources */,
 				70E80B61294C71520094F1B5 /* NSImage.swift in Sources */,
 				70B927612930ADC100F883A0 /* Toast.swift in Sources */,
+				70142B3B2D21812500EA565F /* KeychainAccess.swift in Sources */,
 				70D1220228DA95C500179A1D /* Overlay.swift in Sources */,
 				700A18DC279DC1F50096C830 /* FileIcon.m in Sources */,
 				70805244298F692E000DB574 /* MouseUtils.swift in Sources */,

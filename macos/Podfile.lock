@@ -15,7 +15,6 @@ PODS:
     - hermes-engine/Pre-built (= 0.73.11)
   - hermes-engine/Pre-built (0.73.11)
   - HotKey (0.2.0)
-  - KeychainAccess (4.2.2)
   - libevent (2.1.12)
   - RCT-Folly (2022.05.16.00):
     - boost
@@ -1103,7 +1102,6 @@ DEPENDENCIES:
   - glog (from `../node_modules/react-native-macos/third-party-podspecs/glog.podspec`)
   - hermes-engine (from `../node_modules/react-native-macos/sdks/hermes-engine/hermes-engine.podspec`)
   - HotKey
-  - KeychainAccess
   - libevent (~> 2.1.12)
   - RCT-Folly (from `../node_modules/react-native-macos/third-party-podspecs/RCT-Folly.podspec`)
   - RCT-Folly/Fabric (from `../node_modules/react-native-macos/third-party-podspecs/RCT-Folly.podspec`)
@@ -1159,7 +1157,6 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - HotKey
-    - KeychainAccess
     - libevent
     - Sentry
     - Sparkle
@@ -1284,7 +1281,6 @@ SPEC CHECKSUMS:
   glog: 750f96a379703a2d724d2f1fc6cb3a3eff000817
   hermes-engine: d992945b77c506e5164e6a9a77510c9d57472c59
   HotKey: e96d8a2ddbf4591131e2bb3f54e69554d90cdca6
-  KeychainAccess: c0c4f7f38f6fc7bbe58f5702e25f7bd2f65abf51
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   RCT-Folly: ee9cea19970b26e81481301934279081b7a575e2
   RCTRequired: 8f165b521fb1031cdeae4e5cabaa116bbeef00a5
@@ -1336,6 +1332,6 @@ SPEC CHECKSUMS:
   Sparkle: 5f8960a7a119aa7d45dacc0d5837017170bc5675
   Yoga: 0639c9c8a20ae8043b0b64e2ef6d7a2cd5806aac
 
-PODFILE CHECKSUM: a6005cfba2a175eec44a82f369db390d73cc93cf
+PODFILE CHECKSUM: 3f7121652b02f37f144ed42d56076a490df40b2e
 
 COCOAPODS: 1.15.2
