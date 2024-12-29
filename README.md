@@ -80,13 +80,10 @@ bun pods
 bun macos
 ```
 
-# and then open the sol.xcworkspace in Xcode and run the app from there
-
-```
+and then open the sol.xcworkspace in Xcode and run the app from there
 
 App is signed with my personal team, so you will have an error there you can ignore as long as you are not packaging the app. But please don't change it, otherwise your PR will be dirty.
 
 ## License
 
 MIT License
-```
