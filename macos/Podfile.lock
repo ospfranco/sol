@@ -1274,11 +1274,11 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost: 0686b6af8cbd638c784fea5afb789be66699823c
-  DoubleConversion: c914223d2d29c914635ef1b0721d8a77cca6a732
+  DoubleConversion: ca54355f8932558971f6643521d62b9bc8231cee
   FBLazyVector: 6b5639f7d70150fe6a91cfbdcbbfee7930799d82
   FBReactNativeSpec: 956febc0d5ab01f66e9add48644d30aa9f9fbfcf
-  fmt: cca1eb84179ad528ae1ba9fdf135ed1ac49e19cb
-  glog: 750f96a379703a2d724d2f1fc6cb3a3eff000817
+  fmt: 03574da4b7ba40de39da59677ca66610ce8c4a02
+  glog: 3a72874c0322c7caf24931d3a2777cb7a3090529
   hermes-engine: d992945b77c506e5164e6a9a77510c9d57472c59
   HotKey: e96d8a2ddbf4591131e2bb3f54e69554d90cdca6
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
