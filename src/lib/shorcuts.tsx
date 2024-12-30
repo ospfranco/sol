@@ -19,6 +19,7 @@ export const defaultShortcuts = {
   move_to_previous_screen: 'control+option+shift+left',
   scratchpad: 'command+shift+space',
   emoji_picker: 'command+control+space',
+  clipboard_manager: 'command+option+v',
 }
 
 export function renderToKeys(shortcut: string) {
