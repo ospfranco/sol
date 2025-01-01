@@ -411,12 +411,6 @@ class SolNative: RCTEventEmitter {
     }
   }
 
-  @objc func setEmojiPickerDisabled(_ v: Bool) {
-    //    DispatchQueue.main.async {
-    //      self.appDelegate?.setEmojiPickerDisabled(v)
-    //    }
-  }
-
   @objc func updateHotkeys(_ hotkeys: NSDictionary) {
     guard let hotkeys = hotkeys as? [String: String] else { return }
     self.appDelegate?.updateHotkeys(hotkeyMap: hotkeys)

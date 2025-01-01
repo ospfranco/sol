@@ -103,6 +103,5 @@ RCT_EXPORT_METHOD(restart) {
 RCT_EXTERN_METHOD(showWifiQR : (NSString)SSID password : (NSString)password)
 RCT_EXTERN_METHOD(openFilePicker : (RCTPromiseResolveBlock)
                       resolve reject : (RCTPromiseRejectBlock)reject)
-RCT_EXTERN_METHOD(setEmojiPickerDisabled : (BOOL)v)
-RCT_EXTERN_METHOD(updateHotkeys: (NSDictionary)hotkeys)
+RCT_EXTERN_METHOD(updateHotkeys : (NSDictionary)hotkeys)
 @end

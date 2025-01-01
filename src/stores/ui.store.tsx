@@ -193,7 +193,6 @@ export const createUIStore = (root: IRootStore) => {
           `/Users/${solNative.userName()}/Movies`,
           `/Users/${solNative.userName()}/Music`,
         ]
-        store.emojiPickerDisabled = parsedStore.emojiPickerDisabled ?? false
         store.searchEngine = parsedStore.searchEngine ?? 'google'
         store.shortcuts = parsedStore.shortcuts ?? defaultShortcuts
       })
@@ -211,7 +210,6 @@ export const createUIStore = (root: IRootStore) => {
       solNative.useBackgroundOverlay(store.useBackgroundOverlay)
       solNative.shouldHideMenubar(store.shouldHideMenubar)
       solNative.setMediaKeyForwardingEnabled(store.mediaKeyForwardingEnabled)
-      solNative.setEmojiPickerDisabled(store.emojiPickerDisabled)
       solNative.updateHotkeys(toJS(store.shortcuts))
       store.getApps()
     } else {
@@ -274,7 +272,6 @@ export const createUIStore = (root: IRootStore) => {
     showUpcomingEvent: true,
     scratchPadColor: ScratchPadColor.SYSTEM,
     searchFolders: [] as string[],
-    emojiPickerDisabled: false,
     shortcuts: {} as Record<string, string>,
     //    _____                            _           _
     //   / ____|                          | |         | |
@@ -838,11 +835,6 @@ export const createUIStore = (root: IRootStore) => {
 
     removeSearchFolder: (folder: string) => {
       store.searchFolders = store.searchFolders.filter(f => f !== folder)
-    },
-
-    toggleEmojiPickerDisabled: () => {
-      store.emojiPickerDisabled = !store.emojiPickerDisabled
-      solNative.setEmojiPickerDisabled(store.emojiPickerDisabled)
     },
 
     setSearchEngine: (engine: SearchEngine) => {

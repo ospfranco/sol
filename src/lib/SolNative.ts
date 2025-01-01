@@ -84,7 +84,6 @@ class SolNative extends NativeEventEmitter {
   openFilePicker: () => Promise<string | null>
   showWindow: typeof global.__SolProxy.showWindow
   showWifiQR: (ssid: string, password: string) => void
-  setEmojiPickerDisabled: (v: boolean) => void
   updateHotkeys: (v: Record<string, string>) => void
 
   // Constants
@@ -191,7 +190,6 @@ class SolNative extends NativeEventEmitter {
     this.showWindow = global.__SolProxy.showWindow
 
     this.showWifiQR = module.showWifiQR
-    this.setEmojiPickerDisabled = module.setEmojiPickerDisabled
     this.updateHotkeys = module.updateHotkeys
   }
 }
