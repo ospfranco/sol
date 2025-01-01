@@ -31,6 +31,7 @@ class ClipboardHelper {
 
   static func insertToFrontmostApp(_ content: String) {
     DispatchQueue.main.async {
+      let appDelegate = NSApp.delegate as? AppDelegate
       appDelegate?.hideWindow()
 
       let source = CGEventSource(stateID: .hidSystemState)
@@ -54,6 +55,7 @@ class ClipboardHelper {
   
   static func pasteToFrontmostApp(_ content: String) {
     DispatchQueue.main.async {
+      let appDelegate = NSApp.delegate as? AppDelegate
       appDelegate?.hideWindow()
 
       let pasteboard = NSPasteboard.general

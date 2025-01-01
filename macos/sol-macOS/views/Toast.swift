@@ -1,7 +1,8 @@
 import Foundation
 import Cocoa
 
-final class Toast: NSPanel, NSWindowDelegate {
+class Toast: NSPanel, NSWindowDelegate {
+  
   init(contentRect: NSRect) {
     super.init(
       contentRect: contentRect,

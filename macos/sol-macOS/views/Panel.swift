@@ -1,8 +1,7 @@
 import Foundation
 
-let appDelegate = NSApp.delegate as? AppDelegate
-
-final class Panel: NSPanel, NSWindowDelegate {
+class Panel: NSPanel, NSWindowDelegate {
+  var onResignKey: (() -> Void)?
   init(contentRect: NSRect) {
     super.init(
       contentRect: contentRect,
@@ -31,10 +30,14 @@ final class Panel: NSPanel, NSWindowDelegate {
   override var canBecomeMain: Bool {
     return true
   }
+  
+  func setOnResignKey(_ onResignKey: @escaping () -> Void) {
+    self.onResignKey = onResignKey
+  }
 
   func windowDidResignKey(_ notification: Notification) {
-    DispatchQueue.main.async {
-      appDelegate?.hideWindow()
+    if let onResignKey = onResignKey {
+      onResignKey()
     }
   }
 }

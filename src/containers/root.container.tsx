@@ -2,8 +2,9 @@ import clsx from 'clsx'
 import {BlurView} from 'components/BlurView'
 import {FullCalendar} from 'components/FullCalendar'
 import {PermissionsBar} from 'components/PermissionsBar'
+import {solNative} from 'lib/SolNative'
 import {observer} from 'mobx-react-lite'
-import React from 'react'
+import React, {useEffect} from 'react'
 import {View} from 'react-native'
 import {useStore} from 'store'
 import {Widget} from 'stores/ui.store'
@@ -138,6 +139,20 @@ export let RootContainer = observer(() => {
       </BlurView>
     )
   }
+
+  useEffect(() => {
+    solNative.setGithubWorkflows({
+      status: 0,
+      workflows: [
+        {
+          repo: 'ospfranco/sol',
+          workflow: 'CI',
+          status: 0,
+          url: 'https://github.com/ospfranco/sol',
+        },
+      ],
+    })
+  }, [])
 
   return (
     <BlurView

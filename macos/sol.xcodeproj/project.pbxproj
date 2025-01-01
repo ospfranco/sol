@@ -28,6 +28,8 @@
 		7042A22A2815C06B00874743 /* NSColor.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7042A2292815C06B00874743 /* NSColor.extension.swift */; };
 		7047E80627D4D31400582E1B /* MediaHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7047E80527D4D31400582E1B /* MediaHelper.swift */; };
 		7047E80827D4DAEB00582E1B /* Sequence.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7047E80727D4DAEB00582E1B /* Sequence.extension.swift */; };
+		705238F92D253D7200F799DC /* StatusBarCustomItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705238F82D253D6C00F799DC /* StatusBarCustomItem.swift */; };
+		705238FB2D25625500F799DC /* GithubMenuBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705238FA2D25625000F799DC /* GithubMenuBarController.swift */; };
 		7065EBBF2CDB8C2B008C0A74 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 7065EBBE2CDB8C2B008C0A74 /* LaunchAtLogin */; };
 		706D6D532B388C1700941026 /* CoreWLAN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 707B9F4C2B38845000C3A2FC /* CoreWLAN.framework */; };
 		706D6D572B3894E200941026 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 706D6D562B3894E200941026 /* CoreLocation.framework */; };
@@ -90,6 +92,8 @@
 		7042A2292815C06B00874743 /* NSColor.extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSColor.extension.swift; sourceTree = "<group>"; };
 		7047E80527D4D31400582E1B /* MediaHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaHelper.swift; sourceTree = "<group>"; };
 		7047E80727D4DAEB00582E1B /* Sequence.extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sequence.extension.swift; sourceTree = "<group>"; };
+		705238F82D253D6C00F799DC /* StatusBarCustomItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarCustomItem.swift; sourceTree = "<group>"; };
+		705238FA2D25625000F799DC /* GithubMenuBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubMenuBarController.swift; sourceTree = "<group>"; };
 		706D6D562B3894E200941026 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.2.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
 		7071D43527B3211700F8A4DC /* DarkMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DarkMode.swift; sourceTree = "<group>"; };
 		7071D43627B3211700F8A4DC /* AppleScriptHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppleScriptHelper.swift; sourceTree = "<group>"; };
@@ -206,6 +210,8 @@
 		7042A22B2815C48E00874743 /* views */ = {
 			isa = PBXGroup;
 			children = (
+				705238FA2D25625000F799DC /* GithubMenuBarController.swift */,
+				705238F82D253D6C00F799DC /* StatusBarCustomItem.swift */,
 				700A18D9279DC17F0096C830 /* FileIcon.swift */,
 				700A18DB279DC1F50096C830 /* FileIcon.m */,
 				70B78360279BE866008660F5 /* Panel.swift */,
@@ -555,6 +561,7 @@
 				700A18DC279DC1F50096C830 /* FileIcon.m in Sources */,
 				70805244298F692E000DB574 /* MouseUtils.swift in Sources */,
 				70EFF77428D5F732009FE998 /* DoNotDisturb.swift in Sources */,
+				705238FB2D25625500F799DC /* GithubMenuBarController.swift in Sources */,
 				7042A22A2815C06B00874743 /* NSColor.extension.swift in Sources */,
 				703EB24D2BED4E1E00F7B391 /* NSString+Score.m in Sources */,
 				70E15D082931FC57007FFE5F /* FS.swift in Sources */,
@@ -563,6 +570,7 @@
 				70754B532BECECAB00B77EF8 /* FileSearch.mm in Sources */,
 				70BED7CB27F4C1A600906E41 /* FileConstants.swift in Sources */,
 				700A99F22C33D6E30049831F /* QRGenerator.swift in Sources */,
+				705238F92D253D7200F799DC /* StatusBarCustomItem.swift in Sources */,
 				70E80B5F294C6EDE0094F1B5 /* MetadataExtractorError.swift in Sources */,
 				70B2D5902824254B0005D80A /* WindowManager.swift in Sources */,
 			);
@@ -603,7 +611,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.5;
 				MARKETING_VERSION = 1.1.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -641,7 +649,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.5;
 				MARKETING_VERSION = 1.1.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",

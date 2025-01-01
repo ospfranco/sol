@@ -85,6 +85,7 @@ class SolNative extends NativeEventEmitter {
   showWindow: typeof global.__SolProxy.showWindow
   showWifiQR: (ssid: string, password: string) => void
   updateHotkeys: (v: Record<string, string>) => void
+  setGithubWorkflows: (config: Record<string, any>) => void
 
   // Constants
   accentColor: string
@@ -191,6 +192,7 @@ class SolNative extends NativeEventEmitter {
 
     this.showWifiQR = module.showWifiQR
     this.updateHotkeys = module.updateHotkeys
+    this.setGithubWorkflows = module.setGithubWorkflows
   }
 }
 

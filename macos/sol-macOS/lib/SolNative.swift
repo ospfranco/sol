@@ -416,4 +416,9 @@ class SolNative: RCTEventEmitter {
     self.appDelegate?.updateHotkeys(hotkeyMap: hotkeys)
   }
 
+  @objc func setGithubWorkflows(_ config: NSDictionary) {
+    guard let config = config as? [String: Any] else { return }
+    self.appDelegate?.setGithubWorkflows(config: config)
+  }
+
 }

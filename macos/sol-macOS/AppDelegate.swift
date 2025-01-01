@@ -31,6 +31,7 @@ class AppDelegate: NSObject, NSApplicationDelegate,
   private let settingsHotKey = HotKey(key: .comma, modifiers: [.command])
   private var statusBarItem: NSStatusItem?
   private var mediaKeyForwarder: MediaKeyForwarder?
+  private var githubMenuBarController: GithubMenuBarController?
 
   override init() {
     updaterController = SPUStandardUpdaterController(
@@ -78,6 +79,12 @@ class AppDelegate: NSObject, NSApplicationDelegate,
     )
 
     mainWindow.contentView = rootView
+//    mainWindow.setContentSize(rootView.fittingSize)
+    mainWindow.setOnResignKey {
+      DispatchQueue.main.async {
+        self.hideWindow()
+      }
+    }
 
     let windowRect = NSScreen.main!.frame
     overlayWindow = Overlay(
@@ -340,13 +347,12 @@ class AppDelegate: NSObject, NSApplicationDelegate,
 
       triggerOverlay(0)
     }
-    
 
     // Give react native event listener a bit of time to react
     // and switch components
-      DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-        self.innerShow()
-      }
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+      self.innerShow()
+    }
   }
 
   func showScratchpad() {
@@ -366,14 +372,14 @@ class AppDelegate: NSObject, NSApplicationDelegate,
   }
 
   @objc func hideWindow() {
-//    #if !DEBUG
-      if mainWindow.isVisible {
-        overlayWindow.orderOut(self)
-        mainWindow.orderOut(self)
-        SolEmitter.sharedInstance.onHide()
-        settingsHotKey.isPaused = true
-      }
-//    #endif
+    //    #if !DEBUG
+    if mainWindow.isVisible {
+      overlayWindow.orderOut(self)
+      mainWindow.orderOut(self)
+      SolEmitter.sharedInstance.onHide()
+      settingsHotKey.isPaused = true
+    }
+    //    #endif
   }
 
   func setHorizontalArrowCatch(catchHorizontalArrowPress: Bool) {
@@ -551,6 +557,37 @@ class AppDelegate: NSObject, NSApplicationDelegate,
       mediaKeyForwarder?.startEventSession()
     } else {
       mediaKeyForwarder?.stopEventSession()
+    }
+  }
+
+  func setGithubWorkflows(config: [String: Any]) {
+    DispatchQueue.main.async {
+      let controller = GithubMenuBarController()
+      
+      controller.setTitleColor(config["status"] as! Int)
+      
+      let jsItems = config["workflows"] as! [[String: Any]]
+      
+      let items: [Item] = jsItems.map{
+        let statusInt = $0["status"] as! Int
+        let repo = $0["repo"] as! String
+        let url = $0["url"] as! String
+        return Item(status: .green, text: repo, url: URL(string: url)!)
+      }
+      
+//      let items: [Item] = [
+//        .init(status: .green, text: "test", url: URL(string: "https://github.com/ospfranco/sol")!),
+//        .init(status: .green, text: "repo2", url: URL(string: "https://github.com/ospfranco/sol")!),
+//        .init(status: .green, text: "repo3", url: URL(string: "https://github.com/ospfranco/sol")!),
+//        .init(status: .green, text: "repo5", url: URL(string: "https://github.com/ospfranco/sol")!),
+//        .init(status: .red, text: "failed", url: URL(string: "https://github.com/ospfranco/sol")!),
+//      ]
+      
+      controller.setItems(items)
+      
+      self.githubMenuBarController?.remove()
+      
+      self.githubMenuBarController = controller
     }
   }
 
