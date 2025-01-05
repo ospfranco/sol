@@ -86,9 +86,7 @@ class AppDelegate: NSObject, NSApplicationDelegate,
       defer: false
     )
 
-    toastWindow = Toast(
-      contentRect: NSRect(x: 0, y: 0, width: 1, height: 1)
-    )
+    toastWindow = Toast(contentRect: .zero)
 
     setupKeyboardListeners()
     setupPasteboardListener()
@@ -493,18 +491,18 @@ class AppDelegate: NSObject, NSApplicationDelegate,
 
     let contentSize = toastView.intrinsicContentSize
     toastView.frame = NSRect(x: 0, y: 0, width: contentSize.width, height: contentSize.height)
-    
+
     let effectView = NSVisualEffectView(
       frame: NSRect(x: 0, y: 0, width: contentSize.width, height: contentSize.height)
     )
     effectView.autoresizingMask = [.width, .height]
-    effectView.material = .hudWindow // Or other material
+    effectView.material = .hudWindow  // Or other material
     effectView.blendingMode = .behindWindow
     effectView.state = .active
-    
+
     toastWindow.contentView = effectView
     toastWindow.contentView!.addSubview(toastView)
-    
+
     // Add the effect view to the content view of the window, NOT the ToastView
     toastWindow
       .setFrame(
@@ -516,7 +514,7 @@ class AppDelegate: NSObject, NSApplicationDelegate,
         ),
         display: true
       )
-    
+
     let x = mainScreen.frame.size.width / 2 - toastWindow.frame.width / 2
     var y = mainScreen.frame.origin.y + mainScreen.frame.size.height * 0.1
 
