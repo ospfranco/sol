@@ -9,7 +9,6 @@ import Cocoa
 import UniformTypeIdentifiers
 
 class NotchHelper {
-
   public static let shared = NotchHelper()
 
   private var currentImageName = ""
@@ -46,7 +45,7 @@ class NotchHelper {
           return
         }
       }
-      //      print("original path:\(path)")
+
       guard let currentWallpaperImage = NSImage(contentsOf: path) else {
         return
       }
@@ -277,7 +276,6 @@ class NotchHelper {
       return nil
     }
     if image.heicWrite(to: destinationURL, options: .withoutOverwriting) {
-      print("destinationURL:\(destinationURL)")
       return destinationURL
     }
     return nil
@@ -292,7 +290,6 @@ class NotchHelper {
     }
     do {
       try data?.write(to: destinationURL, options: .withoutOverwriting)
-      print("destinationURL:\(destinationURL)")
       return destinationURL
     } catch {
       return nil
@@ -301,7 +298,6 @@ class NotchHelper {
   }
 
   private func saveDestination(isProcessed: Bool, imageName: String, type: String) -> URL? {
-
     guard let imagePath = myAppPath?.appendingPathComponent(isProcessed ? "processed" : "original")
     else { return nil }
     if !FileManager.default.fileExists(atPath: imagePath.path) {
