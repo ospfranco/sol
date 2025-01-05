@@ -1,22 +1,8 @@
+import {Icons} from 'assets'
 import clsx from 'clsx'
-import {Dropdown} from 'components/Dropdown'
 import {FileIcon} from 'components/FileIcon'
-import {MyRadioButton} from 'components/MyRadioButton'
-import {MySwitch} from 'components/MySwitch'
-import {useFullSize} from 'hooks/useFullSize'
-import {languages} from 'lib/languages'
-import {solNative} from 'lib/SolNative'
 import {observer} from 'mobx-react-lite'
-import {FC, useState} from 'react'
-import {
-  FlatList,
-  Image,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native'
+import {FlatList, Image, Text, TextInput, View} from 'react-native'
 import {useStore} from 'store'
 import {ItemType} from 'stores/ui.store'
 
@@ -54,17 +40,21 @@ export const Shortcuts = observer(() => {
               {item.type !== ItemType.CUSTOM && !!item.icon && (
                 <Text>{item.icon}</Text>
               )}
+
               {item.type === ItemType.CUSTOM && !!item.icon && (
                 <View className="w-6 h-6 rounded items-center justify-center bg-white dark:bg-black">
-                  <Image
-                    // @ts-expect-error
-                    source={Icons[item.icon]}
-                    style={{
-                      tintColor: item.color,
-                      height: 16,
-                      width: 16,
-                    }}
-                  />
+                  {/* @ts-expect-error */}
+                  {Icons[item.icon] && (
+                    <Image
+                      // @ts-expect-error
+                      source={Icons[item.icon]}
+                      style={{
+                        tintColor: item.color,
+                        height: 16,
+                        width: 16,
+                      }}
+                    />
+                  )}
                 </View>
               )}
               {!!item.iconImage && (
