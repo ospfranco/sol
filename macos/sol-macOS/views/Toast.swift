@@ -1,6 +1,5 @@
-import Foundation
 import Cocoa
-import SwiftUI
+import Foundation
 
 final class Toast: NSPanel, NSWindowDelegate {
   init(contentRect: NSRect) {
@@ -10,7 +9,7 @@ final class Toast: NSPanel, NSWindowDelegate {
       backing: .buffered,
       defer: false
     )
-    
+
     self.level = .floating
     self.collectionBehavior.insert(.fullScreenAuxiliary)
     self.collectionBehavior.insert(.canJoinAllSpaces)
@@ -22,11 +21,11 @@ final class Toast: NSPanel, NSWindowDelegate {
     self.isOpaque = false
     self.setFrameAutosaveName("")
   }
-  
+
   override var canBecomeKey: Bool {
     return false
   }
-  
+
   override var canBecomeMain: Bool {
     return false
   }
