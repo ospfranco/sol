@@ -99,17 +99,15 @@ extension NSImage {
   /// - Parameter size: The target size of the image.
   /// - Returns: The resized image.
   func resizeMaintainingAspectRatio(withSize targetSize: NSSize) -> NSImage? {
-    let newSize: NSSize
-    let widthRatio  = targetSize.width / self.width
+    let widthRatio = targetSize.width / self.width
     let heightRatio = targetSize.height / self.height
+    let scaleFactor = min(widthRatio, heightRatio) // Use the smaller ratio to fit within bounds
     
-    if widthRatio > heightRatio {
-      newSize = NSSize(width: floor(self.width * widthRatio),
-                       height: floor(self.height * widthRatio))
-    } else {
-      newSize = NSSize(width: floor(self.width * heightRatio),
-                       height: floor(self.height * heightRatio))
-    }
+    let newSize = NSSize(
+      width: floor(self.width * scaleFactor),
+      height: floor(self.height * scaleFactor)
+    )
+    
     return self.resize(withSize: newSize)
   }
 }
