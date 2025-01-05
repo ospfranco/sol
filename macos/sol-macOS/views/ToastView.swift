@@ -37,11 +37,13 @@ class ToastView: NSView {
   private var imageView: NSImageView?
   private var gradientLayer: CAGradientLayer?
   private var dotView: NSView?
+  var dismissCallback: (() -> Void)?
   
-  init(text: String, variant: ToastVariant, image: NSImage? = nil) {
+  init(text: String, variant: ToastVariant, image: NSImage? = nil, dismissCallback: (() -> Void)? = nil) {
     self.text = text
     self.variant = variant
     self.image = image
+    self.dismissCallback = dismissCallback
     super.init(frame: .zero)
     
     self.wantsLayer = true  // Enable the layer property for custom layers (e.g., gradient)
@@ -54,8 +56,6 @@ class ToastView: NSView {
   }
   
   private func setupView() {
-
-    
     // Gradient background
     gradientLayer = CAGradientLayer()
     gradientLayer?.colors = variant.gradientColors.map { $0.cgColor }
@@ -75,7 +75,7 @@ class ToastView: NSView {
     // Image handling
     if let image = image {
       imageView = NSImageView(image: image)
-      imageView?.frame = NSRect(x: 10, y: 20, width: 40, height: 40)  // Adjust as needed
+      imageView?.frame = NSRect(x: 0, y: 0, width: 380, height: 380)  // Adjust as needed
       self.addSubview(imageView!)
     }
     
@@ -90,7 +90,8 @@ class ToastView: NSView {
   
   @objc private func dismissToast() {
     // Handle toast dismissal (you can implement your own logic here)
-    self.removeFromSuperview()
+//    self.removeFromSuperview()
+    self.dismissCallback?()
   }
   
   override func mouseDown(with event: NSEvent) {
@@ -100,12 +101,12 @@ class ToastView: NSView {
   // Override intrinsicContentSize to return the minimum size based on content
   override var intrinsicContentSize: NSSize {
     // Calculate the size based on the textLabel's intrinsic content size and optional image
-    let minWidth: CGFloat = 200  // Minimum width
+    let minWidth: CGFloat = 120  // Minimum width
     let padding: CGFloat = 10  // Padding between elements
     
     // If there is an image, adjust width accordingly
     if image != nil {
-      return NSSize(width: 400, height: 400)  // Add space for the image and padding
+      return NSSize(width: 400, height: 400)
     }
     
     // Adjust the height for the text content, allowing room for padding

@@ -479,7 +479,16 @@ class AppDelegate: NSObject, NSApplicationDelegate,
       default: .none
       }
 
-    let toastView = ToastView(text: text, variant: variantEnum, image: image)
+    let toastView = ToastView(
+      text: text,
+      variant: variantEnum,
+      image: image,
+      dismissCallback: {
+        DispatchQueue.main.async {
+          self.dismissToast()
+        }
+      }
+    )
     toastView.layoutSubtreeIfNeeded()  // Ensure layout is performed
 
     let contentSize = toastView.intrinsicContentSize
