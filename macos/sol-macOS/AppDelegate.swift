@@ -86,9 +86,7 @@ class AppDelegate: NSObject, NSApplicationDelegate,
       defer: false
     )
 
-    toastWindow = Toast(
-      contentRect: NSRect(x: 0, y: 0, width: 250, height: 30)
-    )
+    toastWindow = Toast(contentRect: .zero)
 
     setupKeyboardListeners()
     setupPasteboardListener()
@@ -340,13 +338,12 @@ class AppDelegate: NSObject, NSApplicationDelegate,
 
       triggerOverlay(0)
     }
-    
 
     // Give react native event listener a bit of time to react
     // and switch components
-      DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-        self.innerShow()
-      }
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+      self.innerShow()
+    }
   }
 
   func showScratchpad() {
@@ -366,14 +363,14 @@ class AppDelegate: NSObject, NSApplicationDelegate,
   }
 
   @objc func hideWindow() {
-//    #if !DEBUG
-      if mainWindow.isVisible {
-        overlayWindow.orderOut(self)
-        mainWindow.orderOut(self)
-        SolEmitter.sharedInstance.onHide()
-        settingsHotKey.isPaused = true
-      }
-//    #endif
+    //    #if !DEBUG
+    if mainWindow.isVisible {
+      overlayWindow.orderOut(self)
+      mainWindow.orderOut(self)
+      SolEmitter.sharedInstance.onHide()
+      settingsHotKey.isPaused = true
+    }
+    //    #endif
   }
 
   func setHorizontalArrowCatch(catchHorizontalArrowPress: Bool) {
@@ -468,7 +465,7 @@ class AppDelegate: NSObject, NSApplicationDelegate,
 
   func showToast(_ text: String, variant: String, timeout: NSNumber?, image: NSImage?) {
     let showInFrontmost = showWindowOn == "screenWithFrontmost"
-    guard let mainScreen = showInFrontmost ? toastWindow.screen : getScreenWithMouse()
+    guard let mainScreen = showInFrontmost ? getFrontmostScreen() : getScreenWithMouse()
     else {
       return
     }
@@ -480,16 +477,44 @@ class AppDelegate: NSObject, NSApplicationDelegate,
       default: .none
       }
 
-    let toastView = ToastView(text: text, variant: variantEnum, image: image)
-    let rootView = NSHostingView(rootView: toastView)
-    // Force the NSHostingView to size itself based on the SwiftUI view
-    rootView.setFrameSize(rootView.fittingSize)
+    let toastView = ToastView(
+      text: text,
+      variant: variantEnum,
+      image: image,
+      dismissCallback: {
+        DispatchQueue.main.async {
+          self.dismissToast()
+        }
+      }
+    )
+    toastView.layoutSubtreeIfNeeded()  // Ensure layout is performed
 
-    // Create the window
-    toastWindow.contentView = rootView
-    toastWindow.setContentSize(rootView.fittingSize)  // Adjust window size to match the content
+    let contentSize = toastView.intrinsicContentSize
+    toastView.frame = NSRect(x: 0, y: 0, width: contentSize.width, height: contentSize.height)
 
-    let deadline = timeout != nil ? DispatchTime.now() + timeout!.doubleValue : .now() + 2
+    let effectView = NSVisualEffectView(
+      frame: NSRect(x: 0, y: 0, width: contentSize.width, height: contentSize.height)
+    )
+    effectView.autoresizingMask = [.width, .height]
+    effectView.material = .hudWindow  // Or other material
+    effectView.blendingMode = .behindWindow
+    effectView.state = .active
+
+    toastWindow.contentView = effectView
+    toastWindow.contentView!.addSubview(toastView)
+
+    // Add the effect view to the content view of the window, NOT the ToastView
+    toastWindow
+      .setFrame(
+        NSRect(
+          x: 0,
+          y: 0,
+          width: contentSize.width,
+          height: contentSize.height
+        ),
+        display: true
+      )
+
     let x = mainScreen.frame.size.width / 2 - toastWindow.frame.width / 2
     var y = mainScreen.frame.origin.y + mainScreen.frame.size.height * 0.1
 
@@ -502,8 +527,10 @@ class AppDelegate: NSObject, NSApplicationDelegate,
         x: x,
         y: y
       ))
+
     toastWindow.makeKeyAndOrderFront(nil)
 
+    let deadline = timeout != nil ? DispatchTime.now() + timeout!.doubleValue : .now() + 2
     DispatchQueue.main.asyncAfter(deadline: deadline) {
       self.dismissToast()
     }
