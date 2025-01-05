@@ -212,6 +212,7 @@ export const createUIStore = (root: IRootStore) => {
       solNative.setMediaKeyForwardingEnabled(store.mediaKeyForwardingEnabled)
       solNative.updateHotkeys(toJS(store.shortcuts))
       store.getApps()
+      store.migrateCustomItems()
     } else {
       runInAction(() => {
         store.focusedWidget = Widget.ONBOARDING
@@ -377,7 +378,19 @@ export const createUIStore = (root: IRootStore) => {
               })
             }
           }
-          minisearch.addAll(allItems.filter(item => !!item.id))
+          minisearch.addAll(
+            allItems.map(item => {
+              // There might be items without id due to migrations
+              // to avoid a crash, we generate a random id
+              if (item.id) {
+                let newItem = {...item}
+                newItem.id = Math.random().toString()
+                return newItem
+              }
+
+              return item
+            }),
+          )
         } else {
           // Add new items to search index
           for (let item of allItems) {
@@ -869,6 +882,19 @@ export const createUIStore = (root: IRootStore) => {
     setShorcut(id: string, shortcut: string) {
       store.shortcuts[id] = shortcut
       solNative.updateHotkeys(toJS(store.shortcuts))
+    },
+
+    // Old custom items are not migrated to the new format which has an id
+    // This function is used to migrate the old custom items to the new format
+    // by just adding a random id
+    migrateCustomItems() {
+      store.customItems = store.customItems.map(i => {
+        if (i.id) {
+          return i
+        }
+
+        return {...i, id: Math.random().toString()}
+      })
     },
   })
 
