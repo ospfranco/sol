@@ -378,19 +378,7 @@ export const createUIStore = (root: IRootStore) => {
               })
             }
           }
-          minisearch.addAll(
-            allItems.map(item => {
-              // There might be items without id due to migrations
-              // to avoid a crash, we generate a random id
-              if (item.id) {
-                let newItem = {...item}
-                newItem.id = Math.random().toString()
-                return newItem
-              }
-
-              return item
-            }),
-          )
+          minisearch.addAll(allItems)
         } else {
           // Add new items to search index
           for (let item of allItems) {
