@@ -1,5 +1,6 @@
 import Foundation
 import Cocoa
+import SwiftUI
 
 final class Toast: NSPanel, NSWindowDelegate {
   init(contentRect: NSRect) {
@@ -15,13 +16,10 @@ final class Toast: NSPanel, NSWindowDelegate {
     self.collectionBehavior.insert(.canJoinAllSpaces)
     self.titleVisibility = .hidden
     self.titlebarAppearsTransparent = true
-    self.styleMask.remove(.titled)
-    self.styleMask.insert(.fullSizeContentView)
     self.isMovable = false
     self.isMovableByWindowBackground = false
     self.isReleasedWhenClosed = false
     self.isOpaque = false
-    self.backgroundColor = .clear
     self.setFrameAutosaveName("")
   }
   
@@ -32,4 +30,5 @@ final class Toast: NSPanel, NSWindowDelegate {
   override var canBecomeMain: Bool {
     return false
   }
+
 }
