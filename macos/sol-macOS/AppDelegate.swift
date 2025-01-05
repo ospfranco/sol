@@ -482,11 +482,21 @@ class AppDelegate: NSObject, NSApplicationDelegate,
     let toastView = ToastView(text: text, variant: variantEnum, image: image)
     toastView.layoutSubtreeIfNeeded()  // Ensure layout is performed
 
-    // Set frame based on intrinsic size
     let contentSize = toastView.intrinsicContentSize
     toastView.frame = NSRect(x: 0, y: 0, width: contentSize.width, height: contentSize.height)
-
-    toastWindow.contentView = toastView
+    
+    let effectView = NSVisualEffectView(
+      frame: NSRect(x: 0, y: 0, width: contentSize.width, height: contentSize.height)
+    )
+    effectView.autoresizingMask = [.width, .height]
+    effectView.material = .hudWindow // Or other material
+    effectView.blendingMode = .behindWindow
+    effectView.state = .active
+    
+    toastWindow.contentView = effectView
+    toastWindow.contentView!.addSubview(toastView)
+    
+    // Add the effect view to the content view of the window, NOT the ToastView
     toastWindow
       .setFrame(
         NSRect(
@@ -497,7 +507,7 @@ class AppDelegate: NSObject, NSApplicationDelegate,
         ),
         display: true
       )
-
+    
     let x = mainScreen.frame.size.width / 2 - toastWindow.frame.width / 2
     var y = mainScreen.frame.origin.y + mainScreen.frame.size.height * 0.1
 
@@ -512,7 +522,6 @@ class AppDelegate: NSObject, NSApplicationDelegate,
       ))
 
     toastWindow.makeKeyAndOrderFront(nil)
-    //    hostingView.frame = NSRect(x: 0, y: 0, width: 800, height: 800)
 
     let deadline = timeout != nil ? DispatchTime.now() + timeout!.doubleValue : .now() + 2
     DispatchQueue.main.asyncAfter(deadline: deadline) {

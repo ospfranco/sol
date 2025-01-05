@@ -28,23 +28,6 @@ enum ToastVariant {
   }
 }
 
-class VisualEffectBlurView: NSView {
-  override func viewDidMoveToSuperview() {
-    super.viewDidMoveToSuperview()
-    
-    // Add a visual effect view behind this view
-    let visualEffectView = NSVisualEffectView()
-    visualEffectView.blendingMode = .behindWindow
-    visualEffectView.material = .hudWindow
-    visualEffectView.state = .active
-    visualEffectView.frame = self.bounds
-    self.addSubview(visualEffectView, positioned: .below, relativeTo: nil)
-    
-    // Ensure the view updates the visual effect view when layout changes
-    visualEffectView.needsDisplay = true
-  }
-}
-
 class ToastView: NSView {
   var text: String
   var variant: ToastVariant
@@ -71,10 +54,7 @@ class ToastView: NSView {
   }
   
   private func setupView() {
-    // Visual Effect Blur View (optional)
-    let blurView = VisualEffectBlurView()
-    blurView.frame = self.bounds
-    self.addSubview(blurView, positioned: .below, relativeTo: nil)  // Ensure it's behind everything else
+
     
     // Gradient background
     gradientLayer = CAGradientLayer()
@@ -119,13 +99,16 @@ class ToastView: NSView {
   
   // Override intrinsicContentSize to return the minimum size based on content
   override var intrinsicContentSize: NSSize {
-    let minWidth: CGFloat = 200
-    let padding: CGFloat = 10
+    // Calculate the size based on the textLabel's intrinsic content size and optional image
+    let minWidth: CGFloat = 200  // Minimum width
+    let padding: CGFloat = 10  // Padding between elements
     
+    // If there is an image, adjust width accordingly
     if image != nil {
-      return NSSize(width: 400, height: 400)
+      return NSSize(width: 400, height: 400)  // Add space for the image and padding
     }
     
+    // Adjust the height for the text content, allowing room for padding
     let textHeight = textLabel.intrinsicContentSize.height
     let textWidth = textLabel.intrinsicContentSize.width
     let height: CGFloat = textHeight
@@ -140,7 +123,7 @@ class ToastView: NSView {
     gradientLayer?.frame = self.bounds
     
     // Layout the textLabel based on the actual content size
-    let textWidth = self.intrinsicContentSize.width - 2 * 20
+    let textWidth = self.intrinsicContentSize.width - 2 * 20  // Padding for the text
     textLabel.frame = NSRect(x: 20 + 15, y: 10, width: textWidth - 15, height: textLabel.intrinsicContentSize.height)
     
     // Layout the dot view
@@ -156,6 +139,8 @@ class ToastView: NSView {
   
   override func viewDidMoveToSuperview() {
     super.viewDidMoveToSuperview()
+    
+    // Ensure layout is updated once the view is added to the superview
     self.needsLayout = true
   }
 }
