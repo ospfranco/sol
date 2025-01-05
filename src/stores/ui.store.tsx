@@ -369,7 +369,15 @@ export const createUIStore = (root: IRootStore) => {
         return allItems
       } else {
         if (minisearch.documentCount === 0) {
-          minisearch.addAll(allItems.map((i, idx) => ({...i})))
+          for (let item of allItems) {
+            if (!item.id) {
+              Sentry.captureMessage('Item without id', {
+                level: 'warning',
+                extra: {item},
+              })
+            }
+          }
+          minisearch.addAll(allItems.filter(item => !!item.id))
         } else {
           // Add new items to search index
           for (let item of allItems) {
