@@ -120,6 +120,7 @@ export function createBaseItems(store: IRootStore) {
       type: ItemType.CONFIGURATION,
       callback: () => {
         store.ui.focusWidget(Widget.SETTINGS)
+        store.ui.setQuery('')
       },
       preventClose: true,
     },
