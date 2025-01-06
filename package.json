@@ -1,6 +1,6 @@
 {
   "name": "sol",
-  "version": "2.1.155",
+  "version": "2.1.156",
   "private": true,
   "scripts": {
     "start": "react-native-macos start",
@@ -72,5 +72,6 @@
   },
   "jest": {
     "preset": "react-native"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
 }
