@@ -273,7 +273,7 @@ export const createUIStore = (root: IRootStore) => {
     showUpcomingEvent: true,
     scratchPadColor: ScratchPadColor.SYSTEM,
     searchFolders: [] as string[],
-    shortcuts: {} as Record<string, string>,
+    shortcuts: defaultShortcuts as Record<string, string>,
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
