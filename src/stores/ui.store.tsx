@@ -114,6 +114,16 @@ let minisearch = new MiniSearch({
     stopWords.has(term) ? null : term.toLowerCase(),
 })
 
+const userName = solNative.userName()
+let defaultSearchFolders = [
+  `/Users/${userName}/Downloads`,
+  `/Users/${userName}/Documents`,
+  `/Users/${userName}/Desktop`,
+  `/Users/${userName}/Pictures`,
+  `/Users/${userName}/Movies`,
+  `/Users/${userName}/Music`,
+]
+
 export type UIStore = ReturnType<typeof createUIStore>
 type SearchEngine = 'google' | 'bing' | 'duckduckgo' | 'perplexity'
 
@@ -185,14 +195,7 @@ export const createUIStore = (root: IRootStore) => {
         store.showUpcomingEvent = parsedStore.showUpcomingEvent ?? true
         store.scratchPadColor =
           parsedStore.scratchPadColor ?? ScratchPadColor.SYSTEM
-        store.searchFolders = parsedStore.searchFolders ?? [
-          `/Users/${solNative.userName()}/Downloads`,
-          `/Users/${solNative.userName()}/Documents`,
-          `/Users/${solNative.userName()}/Desktop`,
-          `/Users/${solNative.userName()}/Pictures`,
-          `/Users/${solNative.userName()}/Movies`,
-          `/Users/${solNative.userName()}/Music`,
-        ]
+        store.searchFolders = parsedStore.searchFolders ?? defaultSearchFolders
         store.searchEngine = parsedStore.searchEngine ?? 'google'
         store.shortcuts = parsedStore.shortcuts ?? defaultShortcuts
       })
@@ -869,6 +872,11 @@ export const createUIStore = (root: IRootStore) => {
 
     setShorcut(id: string, shortcut: string) {
       store.shortcuts[id] = shortcut
+      solNative.updateHotkeys(toJS(store.shortcuts))
+    },
+
+    restoreDefaultShorcuts() {
+      store.shortcuts = defaultShortcuts
       solNative.updateHotkeys(toJS(store.shortcuts))
     },
 

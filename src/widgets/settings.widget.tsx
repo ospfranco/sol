@@ -14,7 +14,7 @@ export const SettingsWidget: FC = observer(() => {
   useFullSize()
   const [selected, setSelected] = useState<ITEM>('GENERAL')
   return (
-    <View className="h-full flex-row">
+    <View className="h-full flex-row w-full">
       <Sidebar setSelected={setSelected as any} selected={selected} />
       <View className="flex-1 h-full bg-white dark:bg-neutral-900">
         {selected === 'ABOUT' && <About />}

@@ -1,8 +1,17 @@
 import {Icons} from 'assets'
 import clsx from 'clsx'
 import {FileIcon} from 'components/FileIcon'
+import {SelectableButton} from 'components/SelectableButton'
 import {observer} from 'mobx-react-lite'
-import {FlatList, Image, Text, TextInput, View} from 'react-native'
+import {
+  Button,
+  FlatList,
+  Image,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import {useStore} from 'store'
 import {ItemType} from 'stores/ui.store'
 
@@ -13,10 +22,15 @@ export const Shortcuts = observer(() => {
 
   return (
     <View className="flex-1 h-full gap-2 subBg">
-      <Text className="text-xs px-4 pt-4">
-        You can set your own global keyboard shortcuts. Follow the syntax "[cmd
-        + shift + option] + a".
-      </Text>
+      <View className="flex-row gap-8 p-4">
+        <Text className="text-xs flex-1">
+          You can set your own global keyboard shortcuts. Follow the syntax
+          "[cmd + shift + option] + [letter]".
+        </Text>
+        <TouchableOpacity onPress={store.ui.restoreDefaultShorcuts}>
+          <Text className="text-blue-500 text-sm">Restore Defaults</Text>
+        </TouchableOpacity>
+      </View>
       <View className="px-4 pt-4">
         <View className="flex-row items-center py-1.5 px-3 rounded-sm bg-gray-100 dark:bg-neutral-800">
           <Text className="font-bold flex-1">Item</Text>
