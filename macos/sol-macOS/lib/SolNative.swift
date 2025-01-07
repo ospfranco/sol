@@ -173,18 +173,6 @@ class SolNative: RCTEventEmitter {
     }
   }
 
-  @objc func setScratchpadShortcut(_ key: String) {
-    //    DispatchQueue.main.async {
-    //      self.appDelegate?.setScratchpadShortcut(key)
-    //    }
-  }
-
-  @objc func setClipboardManagerShortcut(_ key: String) {
-    //    DispatchQueue.main.async {
-    //      self.appDelegate?.setClipboardManagerShortcut(key)
-    //    }
-  }
-
   @objc func getAccessibilityStatus(
     _ resolve: @escaping RCTPromiseResolveBlock,
     rejecter _: RCTPromiseRejectBlock

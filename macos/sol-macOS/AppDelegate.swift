@@ -149,7 +149,11 @@ class AppDelegate: NSObject, NSApplicationDelegate,
       var keyValue: Key?
 
       for component in components {
-        switch component.lowercased() {
+        switch component
+          .lowercased()
+          .trimmingCharacters(in: .whitespacesAndNewlines) {
+        case "cmd":
+          modifiers.insert(.command)
         case "command":
           modifiers.insert(.command)
         case "control":
