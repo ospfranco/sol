@@ -177,9 +177,6 @@ export const createUIStore = (root: IRootStore) => {
           }, '')
         }
         store.globalShortcut = parsedStore.globalShortcut
-        store.scratchpadShortcut = parsedStore.scratchpadShortcut ?? 'command'
-        store.clipboardManagerShortcut =
-          parsedStore.clipboardManagerShortcut ?? 'shift'
         store.showWindowOn = parsedStore.showWindowOn ?? 'screenWithFrontmost'
         store.windowManagementEnabled =
           parsedStore.windowManagementEnabled ?? true
@@ -202,10 +199,6 @@ export const createUIStore = (root: IRootStore) => {
 
       solNative.setLaunchAtLogin(parsedStore.launchAtLogin ?? true)
       solNative.setGlobalShortcut(parsedStore.globalShortcut)
-      solNative.setScratchpadShortcut(parsedStore.scratchpadShortcut)
-      solNative.setClipboardManagerShortcut(
-        parsedStore.clipboardManagerShortcut,
-      )
       solNative.setShowWindowOn(
         parsedStore.showWindowOn ?? 'screenWithFrontmost',
       )
@@ -549,17 +542,9 @@ export const createUIStore = (root: IRootStore) => {
       solNative.setGlobalShortcut(key)
       store.globalShortcut = key
     },
-    setScratchpadShortcut: (key: 'command' | 'option' | 'none') => {
-      solNative.setScratchpadShortcut(key)
-      store.scratchpadShortcut = key
-    },
     setShowWindowOn: (on: 'screenWithFrontmost' | 'screenWithCursor') => {
       solNative.setShowWindowOn(on)
       store.showWindowOn = on
-    },
-    setClipboardManagerShortcut: (key: 'shift' | 'option' | 'none') => {
-      solNative.setClipboardManagerShortcut(key)
-      store.clipboardManagerShortcut = key
     },
     focusWidget: (widget: Widget) => {
       store.selectedIndex = 0

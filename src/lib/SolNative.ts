@@ -20,8 +20,6 @@ class SolNative extends NativeEventEmitter {
     | undefined
   >
   setGlobalShortcut: (key: 'command' | 'option' | 'control') => void
-  setScratchpadShortcut: (key: 'command' | 'option' | 'none') => void
-  setClipboardManagerShortcut: (key: 'shift' | 'option' | 'none') => void
   getCalendarAuthorizationStatus: typeof global.__SolProxy.getCalendarAuthorizationStatus
   requestCalendarAccess: () => Promise<void>
   requestAccessibilityAccess: () => Promise<void>
@@ -110,7 +108,6 @@ class SolNative extends NativeEventEmitter {
     this.openWithFinder = module.openWithFinder
     this.getMediaInfo = module.getMediaInfo
     this.setGlobalShortcut = module.setGlobalShortcut
-    this.setScratchpadShortcut = module.setScratchpadShortcut
     this.getCalendarAuthorizationStatus =
       global.__SolProxy.getCalendarAuthorizationStatus
     this.requestAccessibilityAccess = module.requestAccessibilityAccess
@@ -137,7 +134,6 @@ class SolNative extends NativeEventEmitter {
     this.checkForUpdates = module.checkForUpdates
     this.turnOnEnterListener = module.turnOnEnterListener
     this.turnOffEnterListener = module.turnOffEnterListener
-    this.setClipboardManagerShortcut = module.setClipboardManagerShortcut
     this.setWindowRelativeSize = module.setWindowRelativeSize
     this.setWindowHeight = module.setWindowHeight
     this.openFinderAt = module.openFinderAt
