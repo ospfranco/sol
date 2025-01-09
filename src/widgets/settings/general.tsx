@@ -205,7 +205,6 @@ export const General = observer(() => {
             onValueChange={store.ui.setReduceTransparency}
           />
         </View>
-        <View className="border-t border-lightBorder dark:border-darkBorder" />
       </View>
     </ScrollView>
   )
