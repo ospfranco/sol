@@ -178,8 +178,6 @@ export const createUIStore = (root: IRootStore) => {
         }
         store.globalShortcut = parsedStore.globalShortcut
         store.showWindowOn = parsedStore.showWindowOn ?? 'screenWithFrontmost'
-        store.windowManagementEnabled =
-          parsedStore.windowManagementEnabled ?? true
         store.calendarEnabled = parsedStore.calendarEnabled ?? true
         store.showAllDayEvents = parsedStore.showAllDayEvents ?? true
         store.launchAtLogin = parsedStore.launchAtLogin ?? true
@@ -202,7 +200,6 @@ export const createUIStore = (root: IRootStore) => {
       solNative.setShowWindowOn(
         parsedStore.showWindowOn ?? 'screenWithFrontmost',
       )
-      solNative.setWindowManagement(store.windowManagementEnabled)
       solNative.useBackgroundOverlay(store.useBackgroundOverlay)
       solNative.shouldHideMenubar(store.shouldHideMenubar)
       solNative.setMediaKeyForwardingEnabled(store.mediaKeyForwardingEnabled)
@@ -250,7 +247,6 @@ export const createUIStore = (root: IRootStore) => {
     secondTranslationLanguage: 'de' as string,
     thirdTranslationLanguage: null as null | string,
     fileResults: [] as FileDescription[],
-    windowManagementEnabled: true,
     calendarEnabled: true,
     showAllDayEvents: true,
     launchAtLogin: true,
@@ -691,10 +687,6 @@ export const createUIStore = (root: IRootStore) => {
     },
     onFileSearch: (files: FileDescription[]) => {
       store.fileResults = files
-    },
-    setWindowManagementEnabled: (v: boolean) => {
-      store.windowManagementEnabled = v
-      solNative.setWindowManagement(v)
     },
     setCalendarEnabled: (v: boolean) => {
       store.calendarEnabled = v

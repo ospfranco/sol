@@ -191,8 +191,10 @@ class SolNative: RCTEventEmitter {
     resolve(accessibilityEnabled)
   }
 
-  @objc func setLaunchAtLogin(_ launchAtLogin: Bool) {
-    LaunchAtLogin.isEnabled = launchAtLogin
+  @objc func setLaunchAtLogin(_ enabled: Bool) {
+    if LaunchAtLogin.isEnabled != enabled {
+      LaunchAtLogin.isEnabled = enabled
+    }
   }
 
   @objc func resizeFrontmostTopHalf() {
@@ -291,12 +293,6 @@ class SolNative: RCTEventEmitter {
 
   @objc func setShowWindowOn(_ on: String) {
     appDelegate?.setShowWindowOn(on)
-  }
-
-  @objc func setWindowManagement(_ v: Bool) {
-    //    DispatchQueue.main.async {
-    //      self.appDelegate?.setWindowManagementShortcuts(v)
-    //    }
   }
 
   @objc func toggleDND() {

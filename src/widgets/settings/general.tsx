@@ -150,16 +150,7 @@ export const General = observer(() => {
         </View>
         <View className="border-t border-lightBorder dark:border-darkBorder" />
         <View className="flex-row items-center">
-          <Text className="flex-1">Window Management Shortcuts</Text>
-
-          <MySwitch
-            value={store.ui.windowManagementEnabled}
-            onValueChange={store.ui.setWindowManagementEnabled}
-          />
-        </View>
-        <View className="border-t border-lightBorder dark:border-darkBorder" />
-        <View className="flex-row items-center">
-          <Text className="flex-1">Show calendar</Text>
+          <Text className="flex-1">Show In-App Calendar</Text>
 
           <MySwitch
             value={store.ui.calendarEnabled}

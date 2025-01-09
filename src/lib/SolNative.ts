@@ -53,7 +53,6 @@ class SolNative extends NativeEventEmitter {
   resizeBottomRight: () => void
   searchFiles: typeof global.__SolProxy.searchFiles
   setShowWindowOn: (on: 'screenWithFrontmost' | 'screenWithCursor') => void
-  setWindowManagement: (v: boolean) => void
   useBackgroundOverlay: (v: boolean) => void
   toggleDND: () => void
   securelyStore: (key: string, value: string) => Promise<void>
@@ -148,7 +147,6 @@ class SolNative extends NativeEventEmitter {
     this.resetWindowSize = global.__SolProxy.resetWindowSize
     this.hideWindow = global.__SolProxy.hideWindow
     this.setShowWindowOn = module.setShowWindowOn
-    this.setWindowManagement = module.setWindowManagement
     this.useBackgroundOverlay = module.useBackgroundOverlay
 
     this.securelyRetrieve = module.securelyRetrieve

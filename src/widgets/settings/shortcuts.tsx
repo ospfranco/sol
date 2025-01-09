@@ -1,10 +1,8 @@
 import {Icons} from 'assets'
 import clsx from 'clsx'
 import {FileIcon} from 'components/FileIcon'
-import {SelectableButton} from 'components/SelectableButton'
 import {observer} from 'mobx-react-lite'
 import {
-  Button,
   FlatList,
   Image,
   Text,

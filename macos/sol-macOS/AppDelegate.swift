@@ -44,7 +44,10 @@ class AppDelegate: NSObject, NSApplicationDelegate,
     _: NSApplication,
     hasVisibleWindows _: Bool
   ) -> Bool {
-    showWindow()
+    if mainWindow != nil && !mainWindow.isVisible {
+      showWindow()
+    }
+    
     return true
   }
 
@@ -60,7 +63,7 @@ class AppDelegate: NSObject, NSApplicationDelegate,
         withExtension: "jsbundle"
       )!
     #endif
-
+    
     rootView = RCTRootView(
       bundleURL: jsCodeLocation,
       moduleName: "sol",
@@ -93,9 +96,7 @@ class AppDelegate: NSObject, NSApplicationDelegate,
     setupDisplayConnector()
     mediaKeyForwarder = MediaKeyForwarder()
 
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-      self.showWindow()
-    }
+    self.showWindow()
   }
 
   func setupDisplayConnector() {
@@ -546,13 +547,6 @@ class AppDelegate: NSObject, NSApplicationDelegate,
 
   func quit() {
     NSApplication.shared.terminate(self)
-  }
-
-  private func applicationShouldHandleReopen(
-    _: NSApplication,
-    hasVisibleWindows _: Bool
-  ) {
-    showWindow()
   }
 
   @objc func statusBarItemCallback(_: AnyObject?) {
