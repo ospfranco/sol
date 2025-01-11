@@ -21,8 +21,18 @@ final class Panel: NSPanel, NSWindowDelegate {
     self.isReleasedWhenClosed = false
     self.isOpaque = false
     self.delegate = self
-//    self.backgroundColor = NSColor.clear
-    self.backgroundColor = NSColor.windowBackgroundColor.withAlphaComponent(0.95)
+    self.backgroundColor = NSColor.windowBackgroundColor.withAlphaComponent(0.2)
+
+    let effectView = NSVisualEffectView(
+      frame: .zero
+    )
+    effectView.autoresizingMask = [.width, .height]
+    effectView.material = .headerView
+    effectView.blendingMode = .behindWindow
+    effectView.state = .active
+
+    self.contentView = effectView
+    self.contentView!.wantsLayer = true
   }
 
   override var canBecomeKey: Bool {

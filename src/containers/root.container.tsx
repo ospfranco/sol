@@ -1,7 +1,6 @@
 import clsx from 'clsx'
 import {FullCalendar} from 'components/FullCalendar'
 import {PermissionsBar} from 'components/PermissionsBar'
-import {solNative} from 'lib/SolNative'
 import {observer} from 'mobx-react-lite'
 import {View} from 'react-native'
 import {useStore} from 'store'
@@ -23,7 +22,7 @@ export const RootContainer = observer(() => {
 
   let subWindow = (
     <View
-      className={clsx('bg-window', {
+      className={clsx({
         fullWindow: !!store.ui.query || store.ui.calendarEnabled,
       })}>
       <SearchWidget />
@@ -36,14 +35,14 @@ export const RootContainer = observer(() => {
 
   if (widget === Widget.FILE_SEARCH) {
     subWindow = (
-      <View className="bg-window fullWindow">
+      <View className="fullWindow">
         <FileSearchWidget />
       </View>
     )
   }
   if (widget === Widget.CLIPBOARD) {
     subWindow = (
-      <View className="bg-window fullWindow">
+      <View className="fullWindow">
         <ClipboardWidget />
       </View>
     )
@@ -51,7 +50,7 @@ export const RootContainer = observer(() => {
 
   if (widget === Widget.EMOJIS) {
     subWindow = (
-      <View className="bg-window fullWindow">
+      <View className="fullWindow">
         <EmojisWidget />
       </View>
     )
@@ -59,7 +58,7 @@ export const RootContainer = observer(() => {
 
   if (widget === Widget.SCRATCHPAD) {
     subWindow = (
-      <View className="bg-window fullWindow">
+      <View className="fullWindow">
         <ScratchpadWidget />
       </View>
     )
@@ -67,7 +66,7 @@ export const RootContainer = observer(() => {
 
   if (widget === Widget.CREATE_ITEM) {
     subWindow = (
-      <View className="bg-window fullWindow">
+      <View className="fullWindow">
         <CreateItemWidget />
       </View>
     )
@@ -75,7 +74,7 @@ export const RootContainer = observer(() => {
 
   if (widget === Widget.ONBOARDING) {
     subWindow = (
-      <View className="bg-window fullWindow">
+      <View className="fullWindow">
         <OnboardingWidget />
       </View>
     )
@@ -83,7 +82,7 @@ export const RootContainer = observer(() => {
 
   if (widget === Widget.TRANSLATION) {
     subWindow = (
-      <View className="bg-window fullWindow">
+      <View className="fullWindow">
         <TranslationWidget />
       </View>
     )
@@ -91,7 +90,7 @@ export const RootContainer = observer(() => {
 
   if (widget === Widget.SETTINGS) {
     subWindow = (
-      <View className="bg-window fullWindow">
+      <View className="fullWindow">
         <SettingsWidget />
       </View>
     )
@@ -99,7 +98,7 @@ export const RootContainer = observer(() => {
 
   if (widget === Widget.PROCESSES) {
     subWindow = (
-      <View className="bg-window fullWindow">
+      <View className="fullWindow">
         <ProcessesWidget />
       </View>
     )

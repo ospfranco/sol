@@ -73,16 +73,6 @@ class AppDelegate: NSObject, NSApplicationDelegate,
       launchOptions: nil
     )
 
-    let effectView = NSVisualEffectView(
-      frame: .zero
-    )
-    effectView.autoresizingMask = [.width, .height]
-    effectView.material = .hudWindow
-    effectView.blendingMode = .behindWindow
-    effectView.state = .active
-    
-    mainWindow.contentView = effectView
-    mainWindow.contentView!.wantsLayer = true
     mainWindow.contentView!.addSubview(rootView)
 
     let screenRect = NSScreen.main!.frame
