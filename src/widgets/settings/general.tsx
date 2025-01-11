@@ -1,31 +1,16 @@
-import clsx from 'clsx'
-import {Dropdown} from 'components/Dropdown'
-import {FileIcon} from 'components/FileIcon'
 import {MyRadioButton} from 'components/MyRadioButton'
 import {MySwitch} from 'components/MySwitch'
-import {useFullSize} from 'hooks/useFullSize'
-import {languages} from 'lib/languages'
 import {solNative} from 'lib/SolNative'
 import {observer} from 'mobx-react-lite'
-import {FC, useState} from 'react'
-import {
-  FlatList,
-  Image,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native'
+import {ScrollView, Text, TouchableOpacity, View} from 'react-native'
 import {useStore} from 'store'
-import {ItemType} from 'stores/ui.store'
 
 export const General = observer(() => {
   const store = useStore()
   return (
     <ScrollView
       className="flex-1 h-full"
-      contentContainerClassName="justify-center p-5 gap-2">
+      contentContainerClassName="justify-center pb-5 px-5 gap-2">
       <View className="flex-row items-center p-3 subBg rounded-lg border border-lightBorder dark:border-darkBorder">
         <Text className="flex-1 text-sm text">Launch on start</Text>
         <MySwitch

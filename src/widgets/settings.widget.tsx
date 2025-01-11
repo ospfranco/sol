@@ -17,9 +17,9 @@ export const SettingsWidget: FC = observer(() => {
     <View className="h-full flex-row w-full">
       <Sidebar setSelected={setSelected as any} selected={selected} />
       <View className="flex-1 h-full bg-white dark:bg-neutral-900">
+        {selected === 'GENERAL' && <General />}
         {selected === 'ABOUT' && <About />}
         {selected === 'SHORTCUTS' && <Shortcuts />}
-        {selected === 'GENERAL' && <General />}
         {selected === 'TRANSLATE' && <Translate />}
       </View>
     </View>
