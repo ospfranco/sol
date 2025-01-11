@@ -72,7 +72,7 @@ export const SearchWidget: FC<Props> = observer(() => {
           'border-accent': isActive,
           'border-transparent': !isActive,
         })}>
-        <View className="flex-1 flex-row items-center px-6 h-9">
+        <View className="flex-1 flex-row items-center pl-6 pr-3 h-9">
           {item.type === ItemType.PREFERENCE_PANE && (
             <Text className={'darker-text text-xs absolute left-2'}>⚙</Text>
           )}
@@ -128,15 +128,6 @@ export const SearchWidget: FC<Props> = observer(() => {
           {!!store.ui.shortcuts[item.id] && (
             <View className="flex-row gap-1 items-center">
               {renderToKeys(store.ui.shortcuts[item.id])}
-              {/* {store.ui.shortcuts[item.id].split('+').map((char, i) => {
-                return (
-                  <Key
-                    key={i}
-                    title={''}
-                    symbol={char !== 'then' ? char : undefined}
-                  />
-                )
-              })} */}
             </View>
           )}
         </View>
