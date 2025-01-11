@@ -6,13 +6,13 @@ final class Panel: NSPanel, NSWindowDelegate {
   init(contentRect: NSRect) {
     super.init(
       contentRect: contentRect,
-      styleMask: [.borderless, .fullSizeContentView, .nonactivatingPanel],
+      styleMask: [.titled, .fullSizeContentView, .nonactivatingPanel],
       backing: .buffered,
       defer: false
     )
 
     self.hasShadow = true
-    self.level = .mainMenu + 3
+    self.level = .floating
     self.collectionBehavior.insert(.fullScreenAuxiliary)
     self.collectionBehavior.insert(.canJoinAllSpaces)
     self.titleVisibility = .hidden
@@ -21,7 +21,8 @@ final class Panel: NSPanel, NSWindowDelegate {
     self.isReleasedWhenClosed = false
     self.isOpaque = false
     self.delegate = self
-    self.backgroundColor = NSColor.clear
+//    self.backgroundColor = NSColor.clear
+    self.backgroundColor = NSColor.windowBackgroundColor.withAlphaComponent(0.95)
   }
 
   override var canBecomeKey: Bool {

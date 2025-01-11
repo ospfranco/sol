@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 @layer base {
+  .fullWindow {
+    height: 450;
+  }
   .text {
     @apply text-neutral-800 dark:text-neutral-200;
   }

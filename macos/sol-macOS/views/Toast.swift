@@ -1,4 +1,3 @@
-import Cocoa
 import Foundation
 
 final class Toast: NSPanel, NSWindowDelegate {

@@ -15,9 +15,11 @@ class AppDelegate: NSObject, NSApplicationDelegate,
   NSUserNotificationCenterDelegate
 {
   private var shiftPressed = false
-  private var mainWindow: Panel!
+  private var mainWindow: Panel = Panel(
+    contentRect: .zero
+  )
   private var overlayWindow: Overlay!
-  private var toastWindow: Toast!
+  private var toastWindow: Toast = Toast(contentRect: .zero)
   private var rootView: RCTRootView!
   private var catchHorizontalArrowsPress = false
   private var catchVerticalArrowsPress = true
@@ -44,7 +46,7 @@ class AppDelegate: NSObject, NSApplicationDelegate,
     _: NSApplication,
     hasVisibleWindows _: Bool
   ) -> Bool {
-    if mainWindow != nil && !mainWindow.isVisible {
+    if !mainWindow.isVisible {
       showWindow()
     }
     
@@ -71,25 +73,24 @@ class AppDelegate: NSObject, NSApplicationDelegate,
       launchOptions: nil
     )
 
-    mainWindow = Panel(
-      contentRect: NSRect(
-        x: 0,
-        y: 0,
-        width: baseSize.width,
-        height: baseSize.height
-      )
+    let effectView = NSVisualEffectView(
+      frame: .zero
     )
+    effectView.autoresizingMask = [.width, .height]
+    effectView.material = .hudWindow
+    effectView.blendingMode = .behindWindow
+    effectView.state = .active
+    
+    mainWindow.contentView = effectView
+    mainWindow.contentView!.wantsLayer = true
+    mainWindow.contentView!.addSubview(rootView)
 
-    mainWindow.contentView = rootView
-
-    let windowRect = NSScreen.main!.frame
+    let screenRect = NSScreen.main!.frame
     overlayWindow = Overlay(
-      contentRect: windowRect,
+      contentRect: screenRect,
       backing: .buffered,
       defer: false
     )
-
-    toastWindow = Toast(contentRect: .zero)
 
     setupKeyboardListeners()
     setupPasteboardListener()
@@ -282,7 +283,7 @@ class AppDelegate: NSObject, NSApplicationDelegate,
   }
 
   func toggleWindow() {
-    if mainWindow != nil && mainWindow.isVisible {
+    if mainWindow.isVisible {
       hideWindow()
     } else {
       showWindow()

@@ -857,6 +857,10 @@ export const createUIStore = (root: IRootStore) => {
       solNative.updateHotkeys(toJS(store.shortcuts))
     },
 
+    setWindowHeight(e: any) {
+      solNative.setWindowHeight(e.nativeEvent.layout.height)
+    },
+
     // Old custom items are not migrated to the new format which has an id
     // This function is used to migrate the old custom items to the new format
     // by just adding a random id
@@ -870,8 +874,6 @@ export const createUIStore = (root: IRootStore) => {
       })
     },
   })
-
-  // solNative.setWindowHeight(50)
 
   Appearance.addChangeListener(store.onColorSchemeChange)
 

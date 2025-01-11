@@ -131,8 +131,6 @@
 		70FEADF429E496BC008B5F36 /* processes.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = processes.mm; sourceTree = "<group>"; };
 		70FEADF629E496D1008B5F36 /* processes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = processes.h; sourceTree = "<group>"; };
 		95E8C102E7DEC7DFB286A43C /* Pods-macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-macOS.release.xcconfig"; path = "Target Support Files/Pods-macOS/Pods-macOS.release.xcconfig"; sourceTree = "<group>"; };
-		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,8 +162,6 @@
 			children = (
 				706D6D562B3894E200941026 /* CoreLocation.framework */,
 				707B9F4C2B38845000C3A2FC /* CoreWLAN.framework */,
-				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				1194CEEB2780EBB1CE91CBEB /* libPods-macOS.a */,
 			);
 			name = Frameworks;
