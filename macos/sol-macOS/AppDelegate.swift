@@ -56,32 +56,13 @@ class AppDelegate: NSObject, NSApplicationDelegate,
       launchOptions: nil
     )
 
-    PanelManager.shared.setRootView(
-      rootView: rootView
-    )
+    PanelManager.shared.setRootView(rootView: rootView)
 
     setupKeyboardListeners()
     setupPasteboardListener()
-    setupDisplayConnector()
     mediaKeyForwarder = MediaKeyForwarder()
 
     PanelManager.shared.showWindow()
-  }
-
-  func setupDisplayConnector() {
-    handleDisplayConnection(notification: nil)
-    NotificationCenter.default.addObserver(
-      self,
-      selector: #selector(handleDisplayConnection),
-      name: NSApplication.didChangeScreenParametersNotification,
-      object: nil
-    )
-  }
-
-  @objc func handleDisplayConnection(notification _: Notification?) {
-    if shouldHideMenuBar {
-      NotchHelper.shared.hideNotch()
-    }
   }
 
   func checkForUpdates() {
@@ -113,7 +94,6 @@ class AppDelegate: NSObject, NSApplicationDelegate,
     HotKeyManager.shared.settingsHotKey.keyDownHandler = showSettings
     HotKeyManager.shared.mainHotKey.keyDownHandler = PanelManager.shared.toggle
     HotKeyManager.shared.setupKeyboardListeners()
-    
   }
 
   func showScratchpad() {

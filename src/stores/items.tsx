@@ -665,6 +665,20 @@ export function createBaseItems(store: IRootStore) {
         }
       },
     },
+    {
+      id: 'hide_notch',
+      icon: '🕶️',
+      name: 'Hide Notch',
+      type: ItemType.CONFIGURATION,
+      callback: async () => {
+        try {
+          await solNative.hideNotch()
+          solNative.showToast('Notch hidden', 'success')
+        } catch (e) {
+          solNative.showToast(`Could not hide notch: ${e}`, 'error')
+        }
+      },
+    },
     // {
     //   icon: '⌨️',
     //   name: 'Add VSCode bindings to Xcode',

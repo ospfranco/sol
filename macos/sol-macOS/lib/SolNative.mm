@@ -80,7 +80,7 @@ RCT_EXTERN_METHOD(securelyRetrieve : (NSString)key resolver : (
     RCTPromiseResolveBlock)resolve rejecter : (RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(showToast : (NSString)text variant : (NSString)
                       variant timeout : (nonnull NSNumber)timeout)
-RCT_EXTERN_METHOD(shouldHideMenubar : (BOOL)v)
+RCT_EXTERN_METHOD(hideNotch)
 RCT_EXTERN_METHOD(hasFullDiskAccess : (RCTPromiseResolveBlock)
                       resolve rejecter : (RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(getSafariBookmarks : (RCTPromiseResolveBlock)

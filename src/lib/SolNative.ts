@@ -69,7 +69,7 @@ class SolNative extends NativeEventEmitter {
   userName: typeof global.__SolProxy.userName
   ps: typeof global.__SolProxy.ps
   killProcess: typeof global.__SolProxy.killProcess
-  shouldHideMenubar: (v: boolean) => void
+  hideNotch: () => void
   hasFullDiskAccess: () => Promise<boolean>
   getSafariBookmarks: () => Promise<any>
   quit: () => void
@@ -167,7 +167,7 @@ class SolNative extends NativeEventEmitter {
     this.accentColor = constants.accentColor
     this.OSVersion = constants.OSVersion
 
-    this.shouldHideMenubar = module.shouldHideMenubar
+    this.hideNotch = module.hideNotch
     this.hasFullDiskAccess = module.hasFullDiskAccess
     this.getSafariBookmarks = module.getSafariBookmarks
 

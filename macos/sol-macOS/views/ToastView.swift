@@ -120,13 +120,12 @@ class ToastView: NSView {
   override func layout() {
     super.layout()
 
-    // Update gradient layer frame
     gradientLayer?.frame = self.bounds
 
     // Layout the textLabel based on the actual content size
-    let textWidth = self.intrinsicContentSize.width - 2 * 20  // Padding for the text
+    let textWidth = self.intrinsicContentSize.width
     textLabel.frame = NSRect(
-      x: 20 + 15, y: 10, width: textWidth - 15, height: textLabel.intrinsicContentSize.height)
+      x: 10, y: 10, width: textWidth, height: textLabel.intrinsicContentSize.height)
 
     // Layout the dot view
     if let dotView = dotView {

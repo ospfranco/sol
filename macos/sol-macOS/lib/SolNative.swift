@@ -328,13 +328,8 @@ class SolNative: RCTEventEmitter {
 //    appDelegate?.useBackgroundOverlay = v
   }
 
-  @objc func shouldHideMenubar(_ v: Bool) {
-    appDelegate?.shouldHideMenuBar = v
-    if v {
-      DispatchQueue.main.async {
-        self.appDelegate?.handleDisplayConnection(notification: nil)
-      }
-    }
+  @objc func hideNotch() {
+    NotchHelper.shared.hideNotch()
   }
 
   @objc func showWifiQR(_ SSID: String, password: String) {

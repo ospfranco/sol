@@ -182,7 +182,6 @@ export const createUIStore = (root: IRootStore) => {
         store.showAllDayEvents = parsedStore.showAllDayEvents ?? true
         store.launchAtLogin = parsedStore.launchAtLogin ?? true
         store.useBackgroundOverlay = parsedStore.useBackgroundOverlay ?? true
-        store.shouldHideMenubar = parsedStore.shouldHideMenuBar ?? false
         store.mediaKeyForwardingEnabled =
           parsedStore.mediaKeyForwardingEnabled ?? true
         store.reduceTransparency = parsedStore.reduceTransparency ?? false
@@ -201,7 +200,6 @@ export const createUIStore = (root: IRootStore) => {
         parsedStore.showWindowOn ?? 'screenWithFrontmost',
       )
       solNative.useBackgroundOverlay(store.useBackgroundOverlay)
-      solNative.shouldHideMenubar(store.shouldHideMenubar)
       solNative.setMediaKeyForwardingEnabled(store.mediaKeyForwardingEnabled)
       solNative.updateHotkeys(toJS(store.shortcuts))
       store.getApps()
@@ -251,7 +249,6 @@ export const createUIStore = (root: IRootStore) => {
     showAllDayEvents: true,
     launchAtLogin: true,
     useBackgroundOverlay: true,
-    shouldHideMenubar: false,
     hasFullDiskAccess: false,
     safariBookmarks: [] as {title: string; url: string}[],
     braveBookmarks: [] as {title: string; url: string}[],
@@ -704,21 +701,6 @@ export const createUIStore = (root: IRootStore) => {
     setUseBackgroundOverlay: (v: boolean) => {
       store.useBackgroundOverlay = v
       solNative.useBackgroundOverlay(v)
-    },
-    setShouldHideMenuBar: (v: boolean) => {
-      store.shouldHideMenubar = v
-      if (v) {
-        solNative.showToast(
-          'Menubar will be blacked out, please wait...',
-          'success',
-        )
-      } else {
-        solNative.showToast(
-          'Done, please restore your wallpaper manually',
-          'success',
-        )
-      }
-      solNative.shouldHideMenubar(v)
     },
     getFullDiskAccessStatus: async () => {
       const hasAccess = await solNative.hasFullDiskAccess()
