@@ -382,7 +382,7 @@ class SolNative: RCTEventEmitter {
 
   @objc func quit() {
     DispatchQueue.main.async {
-      self.appDelegate?.quit()
+      NSApplication.shared.terminate(self)
     }
   }
 

@@ -82,10 +82,6 @@ class AppDelegate: NSObject, NSApplicationDelegate,
     }
   }
 
-  func quit() {
-    NSApplication.shared.terminate(self)
-  }
-
   func setMediaKeyForwardingEnabled(_ enabled: Bool) {
     if enabled {
       mediaKeyForwarder?.startEventSession()
