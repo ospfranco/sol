@@ -1,9 +1,6 @@
-import Cocoa
 import EventKit
 import Foundation
-import HotKey
 import Sparkle
-import SwiftUI
 
 @NSApplicationMain
 @objc
@@ -11,7 +8,6 @@ class AppDelegate: NSObject, NSApplicationDelegate,
   NSUserNotificationCenterDelegate
 {
   private var updaterController: SPUStandardUpdaterController
-  private var statusBarItem: NSStatusItem?
   private var mediaKeyForwarder: MediaKeyForwarder!
 
   override init() {
@@ -53,8 +49,9 @@ class AppDelegate: NSObject, NSApplicationDelegate,
 
     PanelManager.shared.setRootView(rootView: rootView)
 
-    setupKeyboardListeners()
+    HotKeyManager.shared.setupKeyboardListeners()
     setupPasteboardListener()
+    
     mediaKeyForwarder = MediaKeyForwarder()
 
     PanelManager.shared.showWindow()
@@ -85,52 +82,8 @@ class AppDelegate: NSObject, NSApplicationDelegate,
     }
   }
 
-  func setupKeyboardListeners() {
-    HotKeyManager.shared.settingsHotKey.keyDownHandler = showSettings
-    HotKeyManager.shared.mainHotKey.keyDownHandler = PanelManager.shared.toggle
-    HotKeyManager.shared.setupKeyboardListeners()
-  }
-
-  func showScratchpad() {
-    PanelManager.shared.showWindow(target: "SCRATCHPAD")
-  }
-
-  func showEmojiPicker() {
-    PanelManager.shared.showWindow(target: "EMOJIS")
-  }
-
-  func showClipboardManager() {
-    PanelManager.shared.showWindow(target: "CLIPBOARD")
-  }
-
-  func showSettings() {
-    SolEmitter.sharedInstance.onShow(target: "SETTINGS")
-  }
-
   func quit() {
     NSApplication.shared.terminate(self)
-  }
-
-  @objc func statusBarItemCallback(_: AnyObject?) {
-    SolEmitter.sharedInstance.onStatusBarItemClick()
-  }
-
-  func setStatusBarTitle(_ title: String) {
-    if statusBarItem == nil {
-      statusBarItem = NSStatusBar.system
-        .statusItem(withLength: NSStatusItem.variableLength)
-    } else {
-      if title.isEmpty {
-        NSStatusBar.system.removeStatusItem(statusBarItem!)
-        statusBarItem = nil
-      } else {
-        if let button = statusBarItem?.button {
-          button.title = title
-          button.action = #selector(statusBarItemCallback(_:))
-          button.sizeToFit()
-        }
-      }
-    }
   }
 
   func setMediaKeyForwardingEnabled(_ enabled: Bool) {

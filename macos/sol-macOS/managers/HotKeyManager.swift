@@ -15,6 +15,10 @@ final class HotKeyManager {
   static public let shared = HotKeyManager()
   
   public func setupKeyboardListeners() {
+    settingsHotKey.keyDownHandler = {
+      SolEmitter.sharedInstance.onShow(target: "SETTINGS")
+    }
+    mainHotKey.keyDownHandler = PanelManager.shared.toggle
     NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
       //      36 enter
       //      123 arrow left

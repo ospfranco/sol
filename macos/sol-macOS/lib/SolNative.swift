@@ -387,9 +387,7 @@ class SolNative: RCTEventEmitter {
   }
 
   @objc func setStatusBarItemTitle(_ title: String) {
-    DispatchQueue.main.async {
-      self.appDelegate?.setStatusBarTitle(title)
-    }
+    StatusBarItemManager.shared.setStatusBarTitle(title)
   }
 
   @objc func setMediaKeyForwardingEnabled(_ v: Bool) {
