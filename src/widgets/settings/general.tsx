@@ -160,14 +160,6 @@ export const General = observer(() => {
         </View>
         <View className="border-t border-lightBorder dark:border-darkBorder" />
         <View className="flex-row items-center">
-          <Text className="flex-1">Show background overlay</Text>
-          <MySwitch
-            value={store.ui.useBackgroundOverlay}
-            onValueChange={store.ui.setUseBackgroundOverlay}
-          />
-        </View>
-        <View className="border-t border-lightBorder dark:border-darkBorder" />
-        <View className="flex-row items-center">
           <Text className="flex-1">Blacken menubar</Text>
           <MySwitch
             value={store.ui.shouldHideMenubar}
