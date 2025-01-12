@@ -1,6 +1,8 @@
 import HotKey
 
 final class HotKeyManager {
+  let handledKeys: [UInt16] = [53, 123, 124, 126, 125, 36, 48]
+  let numberchars: [String] = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
   public var catchHorizontalArrowsPress = false
   public var catchVerticalArrowsPress = true
   public var catchEnterPress = true
@@ -46,12 +48,12 @@ final class HotKeyManager {
         shift: shiftPressed
       )
       
-      if handledKeys.contains($0.keyCode) {
+      if self.handledKeys.contains($0.keyCode) {
         return nil
       }
       
       if metaPressed && $0.characters != nil
-          && numberchars
+          && self.numberchars
         .contains($0.characters!)
       {
         return nil

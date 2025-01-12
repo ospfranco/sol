@@ -5,16 +5,11 @@ import HotKey
 import Sparkle
 import SwiftUI
 
-let baseSize = NSSize(width: 700, height: 450)
-let handledKeys: [UInt16] = [53, 123, 124, 126, 125, 36, 48]
-let numberchars: [String] = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
-
 @NSApplicationMain
 @objc
 class AppDelegate: NSObject, NSApplicationDelegate,
   NSUserNotificationCenterDelegate
 {
-  public var shouldHideMenuBar = false
   private var updaterController: SPUStandardUpdaterController
   private var statusBarItem: NSStatusItem?
   private var mediaKeyForwarder: MediaKeyForwarder!
@@ -110,41 +105,6 @@ class AppDelegate: NSObject, NSApplicationDelegate,
 
   func showSettings() {
     SolEmitter.sharedInstance.onShow(target: "SETTINGS")
-  }
-
-  func setGlobalShortcut(_ key: String) {
-    HotKeyManager.shared.mainHotKey.isPaused = true
-    if key == "command" {
-      HotKeyManager.shared.mainHotKey = HotKey(
-        key: .space,
-        modifiers: [.command],
-        keyDownHandler: PanelManager.shared.toggle
-      )
-    } else if key == "option" {
-      HotKeyManager.shared.mainHotKey = HotKey(
-        key: .space,
-        modifiers: [.option],
-        keyDownHandler: PanelManager.shared.toggle
-      )
-    } else if key == "control" {
-      HotKeyManager.shared.mainHotKey = HotKey(
-        key: .space,
-        modifiers: [.control],
-        keyDownHandler: PanelManager.shared.toggle
-      )
-    }
-  }
-
-  func setShowWindowOn(_ on: String) {
-    switch on {
-      case "screenWithFrontmost":
-      PanelManager.shared.setPreferredScreen(.frontmost)
-      break
-      default:
-      PanelManager.shared.setPreferredScreen(.withMouse)
-      break
-      
-    }
   }
 
   func quit() {

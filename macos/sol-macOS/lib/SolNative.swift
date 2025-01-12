@@ -1,5 +1,6 @@
 import Foundation
 import LaunchAtLogin
+import HotKey
 
 private let keychain = Keychain(service: "Sol")
 
@@ -168,8 +169,25 @@ class SolNative: RCTEventEmitter {
   }
 
   @objc func setGlobalShortcut(_ key: String) {
-    DispatchQueue.main.async {
-      self.appDelegate?.setGlobalShortcut(key)
+    HotKeyManager.shared.mainHotKey.isPaused = true
+    if key == "command" {
+      HotKeyManager.shared.mainHotKey = HotKey(
+        key: .space,
+        modifiers: [.command],
+        keyDownHandler: PanelManager.shared.toggle
+      )
+    } else if key == "option" {
+      HotKeyManager.shared.mainHotKey = HotKey(
+        key: .space,
+        modifiers: [.option],
+        keyDownHandler: PanelManager.shared.toggle
+      )
+    } else if key == "control" {
+      HotKeyManager.shared.mainHotKey = HotKey(
+        key: .space,
+        modifiers: [.control],
+        keyDownHandler: PanelManager.shared.toggle
+      )
     }
   }
 
@@ -292,7 +310,14 @@ class SolNative: RCTEventEmitter {
   }
 
   @objc func setShowWindowOn(_ on: String) {
-    appDelegate?.setShowWindowOn(on)
+    switch on {
+    case "screenWithFrontmost":
+      PanelManager.shared.setPreferredScreen(.frontmost)
+      break
+    default:
+      PanelManager.shared.setPreferredScreen(.withMouse)
+      break
+    }
   }
 
   @objc func toggleDND() {

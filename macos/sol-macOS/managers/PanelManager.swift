@@ -4,6 +4,7 @@ enum PreferredScreen {
 }
 
 @objc class PanelManager: NSObject {
+  let baseSize = NSSize(width: 700, height: 450)
   public var preferredScreen: PreferredScreen = .frontmost
   private let mainWindow: Panel = Panel(contentRect: .zero)
   private var rootView: RCTRootView?
