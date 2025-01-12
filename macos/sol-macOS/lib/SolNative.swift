@@ -254,27 +254,27 @@ class SolNative: RCTEventEmitter {
   }
 
   @objc func turnOnHorizontalArrowsListeners() {
-    appDelegate?.setHorizontalArrowCatch(catchHorizontalArrowPress: true)
+    HotKeyManager.shared.catchHorizontalArrowsPress = true
   }
 
   @objc func turnOffHorizontalArrowsListeners() {
-    appDelegate?.setHorizontalArrowCatch(catchHorizontalArrowPress: false)
+    HotKeyManager.shared.catchHorizontalArrowsPress = false
   }
 
   @objc func turnOnVerticalArrowsListeners() {
-    appDelegate?.setVerticalArrowCatch(catchVerticalArrowPress: true)
+    HotKeyManager.shared.catchVerticalArrowsPress = true
   }
 
   @objc func turnOffVerticalArrowsListeners() {
-    appDelegate?.setVerticalArrowCatch(catchVerticalArrowPress: false)
-  }
-
-  @objc func turnOffEnterListener() {
-    appDelegate?.setEnterCatch(catchEnter: false)
+    HotKeyManager.shared.catchVerticalArrowsPress = false
   }
 
   @objc func turnOnEnterListener() {
-    appDelegate?.setEnterCatch(catchEnter: true)
+    HotKeyManager.shared.catchEnterPress = true
+  }
+  
+  @objc func turnOffEnterListener() {
+    HotKeyManager.shared.catchEnterPress = false
   }
 
   @objc func checkForUpdates() {
@@ -283,7 +283,7 @@ class SolNative: RCTEventEmitter {
 
   @objc func setWindowRelativeSize(_ relative: NSNumber) {
     DispatchQueue.main.async {
-      self.appDelegate?.setRelativeSize(relative as! Double)
+      PanelManager.shared.setRelativeSize(relative as! Double)
     }
   }
 
@@ -320,12 +320,12 @@ class SolNative: RCTEventEmitter {
 
   @objc func showToast(_ text: String, variant: String, timeout: NSNumber) {
     DispatchQueue.main.async {
-      self.appDelegate?.showToast(text, variant: variant, timeout: timeout, image: nil)
+      ToastManager.shared.showToast(text, variant: variant, timeout: timeout, image: nil)
     }
   }
 
   @objc func useBackgroundOverlay(_ v: Bool) {
-    appDelegate?.useBackgroundOverlay = v
+//    appDelegate?.useBackgroundOverlay = v
   }
 
   @objc func shouldHideMenubar(_ v: Bool) {
@@ -341,7 +341,7 @@ class SolNative: RCTEventEmitter {
     let image = WifiQR(name: SSID, password: password)
     DispatchQueue.main.async {
       let wifiInfo = "SSID: \(SSID)\nPassword: \(password)"
-      self.appDelegate?.showToast(wifiInfo, variant: "none", timeout: 30, image: image)
+      ToastManager.shared.showToast(wifiInfo, variant: "none", timeout: 30, image: image)
     }
   }
 
@@ -397,7 +397,7 @@ class SolNative: RCTEventEmitter {
 
   @objc func updateHotkeys(_ hotkeys: NSDictionary) {
     guard let hotkeys = hotkeys as? [String: String] else { return }
-    self.appDelegate?.updateHotkeys(hotkeyMap: hotkeys)
+    HotKeyManager.shared.updateHotkeys(hotkeyMap: hotkeys)
   }
 
 }

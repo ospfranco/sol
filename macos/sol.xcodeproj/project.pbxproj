@@ -40,6 +40,9 @@
 		70969E1727966ECD00BE3F1C /* SolNative.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70969E1627966ECD00BE3F1C /* SolNative.swift */; };
 		70969E192796719100BE3F1C /* SolNative.mm in Sources */ = {isa = PBXBuildFile; fileRef = 70969E182796719100BE3F1C /* SolNative.mm */; };
 		70A07EBB29B48F4000D1885E /* MediaKeyForwarder.m in Sources */ = {isa = PBXBuildFile; fileRef = 70A07EBA29B48F4000D1885E /* MediaKeyForwarder.m */; };
+		70A25D452D33AF4500165270 /* PanelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A25D442D33AF3E00165270 /* PanelManager.swift */; };
+		70A25D472D33B4D600165270 /* HotKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A25D462D33B4D300165270 /* HotKeyManager.swift */; };
+		70A25D492D33B9CF00165270 /* ToastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A25D482D33B9C500165270 /* ToastManager.swift */; };
 		70AAC12029F7AB9B004AD3E7 /* GradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AAC11F29F7AB9B004AD3E7 /* GradientView.m */; };
 		70AAC12229F7AC17004AD3E7 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AAC12129F7AC17004AD3E7 /* GradientView.swift */; };
 		70B2D5902824254B0005D80A /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B2D58F2824254B0005D80A /* WindowManager.swift */; };
@@ -107,6 +110,9 @@
 		70A07EB929B48F1F00D1885E /* SpotifyApplication.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpotifyApplication.h; sourceTree = "<group>"; };
 		70A07EBA29B48F4000D1885E /* MediaKeyForwarder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MediaKeyForwarder.m; sourceTree = "<group>"; };
 		70A07EBC29B491CF00D1885E /* MediaKeyForwarder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MediaKeyForwarder.h; sourceTree = "<group>"; };
+		70A25D442D33AF3E00165270 /* PanelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelManager.swift; sourceTree = "<group>"; };
+		70A25D462D33B4D300165270 /* HotKeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotKeyManager.swift; sourceTree = "<group>"; };
+		70A25D482D33B9C500165270 /* ToastManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastManager.swift; sourceTree = "<group>"; };
 		70AAC11F29F7AB9B004AD3E7 /* GradientView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GradientView.m; sourceTree = "<group>"; };
 		70AAC12129F7AC17004AD3E7 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		70B2D58F2824254B0005D80A /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
@@ -170,6 +176,7 @@
 		5142014A2437B4B30078DB4F /* sol-macOS */ = {
 			isa = PBXGroup;
 			children = (
+				70A25D432D33AF3400165270 /* managers */,
 				70F7EBEA2795A4BD00CED17A /* lib */,
 				7042A22B2815C48E00874743 /* views */,
 				7042A2282815C05D00874743 /* extensions */,
@@ -214,6 +221,16 @@
 				70AAC12129F7AC17004AD3E7 /* GradientView.swift */,
 			);
 			path = views;
+			sourceTree = "<group>";
+		};
+		70A25D432D33AF3400165270 /* managers */ = {
+			isa = PBXGroup;
+			children = (
+				70A25D482D33B9C500165270 /* ToastManager.swift */,
+				70A25D462D33B4D300165270 /* HotKeyManager.swift */,
+				70A25D442D33AF3E00165270 /* PanelManager.swift */,
+			);
+			path = managers;
 			sourceTree = "<group>";
 		};
 		70F7EBEA2795A4BD00CED17A /* lib */ = {
@@ -559,9 +576,11 @@
 				70A07EBB29B48F4000D1885E /* MediaKeyForwarder.m in Sources */,
 				7071D43827B3211700F8A4DC /* AppleScriptHelper.swift in Sources */,
 				700F266729F501C8002CA8F1 /* BlurView.m in Sources */,
+				70A25D452D33AF4500165270 /* PanelManager.swift in Sources */,
 				70969E192796719100BE3F1C /* SolNative.mm in Sources */,
 				70BED7CD27F4C23D00906E41 /* FileManager.extension.swift in Sources */,
 				70AAC12029F7AB9B004AD3E7 /* GradientView.m in Sources */,
+				70A25D472D33B4D600165270 /* HotKeyManager.swift in Sources */,
 				700A18D8279DBBE40096C830 /* ApplicationSearcher.swift in Sources */,
 				70E80B61294C71520094F1B5 /* NSImage.swift in Sources */,
 				70B927612930ADC100F883A0 /* Toast.swift in Sources */,
@@ -571,6 +590,7 @@
 				70805244298F692E000DB574 /* MouseUtils.swift in Sources */,
 				70EFF77428D5F732009FE998 /* DoNotDisturb.swift in Sources */,
 				7042A22A2815C06B00874743 /* NSColor.extension.swift in Sources */,
+				70A25D492D33B9CF00165270 /* ToastManager.swift in Sources */,
 				703EB24D2BED4E1E00F7B391 /* NSString+Score.m in Sources */,
 				70E15D082931FC57007FFE5F /* FS.swift in Sources */,
 				700DF99A28266F0B00C5FD0B /* ClipboardHelper.swift in Sources */,

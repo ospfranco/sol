@@ -45,7 +45,7 @@ final class Panel: NSPanel, NSWindowDelegate {
 
   func windowDidResignKey(_ notification: Notification) {
     DispatchQueue.main.async {
-      appDelegate?.hideWindow()
+      PanelManager.shared.hideWindow()
     }
   }
 }
