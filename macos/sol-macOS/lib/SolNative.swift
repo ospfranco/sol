@@ -60,17 +60,8 @@ class SolNative: RCTEventEmitter {
     rejecter reject: RCTPromiseRejectBlock
   ) {
     do {
-
       let apps = try applicationSearcher.getAllApplications()
-      let res = apps.map { app in
-        [
-          "url": app.url,
-          "name": app.name,
-          "isRunning": app.isRunning,
-        ] as [String: Any]
-      }
-
-      resolve(res)
+      resolve(apps)
     } catch {
       reject(error.localizedDescription, error.localizedDescription, nil)
     }

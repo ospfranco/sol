@@ -38,6 +38,8 @@ enum PreferredScreen {
     mainWindow.makeKeyAndOrderFront(self)
     
     mainWindow.setIsVisible(true)
+    
+    SolEmitter.sharedInstance.onShow(target: nil)
   }
   
   @objc func showWindow(target: String? = nil) {

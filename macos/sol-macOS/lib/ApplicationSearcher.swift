@@ -1,12 +1,6 @@
 import Cocoa
 import Sentry
 
-struct Application {
-  var name: String
-  var url: String
-  var isRunning: Bool
-}
-
 class ApplicationSearcher: NSObject {
   let fileManager = FileManager()
   let isAliasResourceKey: [URLResourceKey] = [
@@ -32,7 +26,7 @@ class ApplicationSearcher: NSObject {
     }
   }
 
-  public func getAllApplications() throws -> [Application] {
+  public func getAllApplications() throws -> [[String: Any]] {
     var appUrls: [URL] = []
     appUrls.append(contentsOf: fixedUrls)
     let runningApps = NSWorkspace.shared.runningApplications
@@ -82,7 +76,7 @@ class ApplicationSearcher: NSObject {
       SentrySDK.capture(error: error)
     }
 
-    var applications = [Application]()
+    var applications = [[String: Any]]()
 
     for var url in appUrls {
       do {
@@ -101,7 +95,7 @@ class ApplicationSearcher: NSObject {
         if !fileManager.fileExists(atPath: url.path) {
           continue
         }
-        
+
         let resourceValues = try url.resourceValues(forKeys: Set(resourceKeys))
 
         if resourceValues.isExecutable! && resourceValues.isApplication! {
@@ -113,11 +107,12 @@ class ApplicationSearcher: NSObject {
             }) != nil
 
           applications.append(
-            Application(
-              name: name,
-              url: urlStr,
-              isRunning: isRunning
-            ))
+            [
+              "name": name,
+              "url": urlStr,
+              "isRunning": isRunning,
+            ]
+          )
         }
       } catch {
         let breadcrumb = Breadcrumb(level: .info, category: "custom")
@@ -148,7 +143,7 @@ class ApplicationSearcher: NSObject {
           options: [
             .skipsSubdirectoryDescendants,
             .skipsPackageDescendants,
-//            .skipsHiddenFiles, do not skip hidden files, then safari is not listed
+            //            .skipsHiddenFiles, do not skip hidden files, then safari is not listed
           ]
         )
 
