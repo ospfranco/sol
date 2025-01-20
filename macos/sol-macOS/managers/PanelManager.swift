@@ -7,11 +7,11 @@ enum PreferredScreen {
   let baseSize = NSSize(width: 700, height: 450)
   public var preferredScreen: PreferredScreen = .frontmost
   private let mainWindow: Panel = Panel(contentRect: .zero)
-  private var rootView: RCTRootView?
+  private var rootView: NSView?
   
   @objc static public let shared = PanelManager()
   
-  public func setRootView(rootView: RCTRootView) {
+  public func setRootView(rootView: NSView) {
     mainWindow.contentView!.addSubview(rootView)
     self.rootView = rootView
   }

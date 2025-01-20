@@ -1,11 +1,12 @@
 import EventKit
 import Foundation
 import Sparkle
+import React_RCTAppDelegate
 
 @NSApplicationMain
 @objc
-class AppDelegate: NSObject, NSApplicationDelegate,
-  NSUserNotificationCenterDelegate
+class AppDelegate:
+  RCTAppDelegate, NSUserNotificationCenterDelegate
 {
   private var updaterController: SPUStandardUpdaterController
   private var mediaKeyForwarder: MediaKeyForwarder!
@@ -16,45 +17,46 @@ class AppDelegate: NSObject, NSApplicationDelegate,
       updaterDelegate: nil,
       userDriverDelegate: nil
     )
+    super.init()
   }
 
-  func applicationShouldHandleReopen(
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+
+  override func applicationShouldHandleReopen(
     _: NSApplication,
     hasVisibleWindows _: Bool
   ) -> Bool {
     PanelManager.shared.showWindow()
     return true
   }
+  
+  override func sourceURL(for bridge: RCTBridge) -> URL? {
+    self.bundleURL()
+  }
+  
+  override func bundleURL() -> URL? {
+#if DEBUG
+    RCTBundleURLProvider.sharedSettings().jsBundleURL(forBundleRoot: "index")
+#else
+    Bundle.main.url(forResource: "main", withExtension: "jsbundle")
+#endif
+  }
 
-  func applicationDidFinishLaunching(_: Notification) {
-    #if DEBUG
-      let jsCodeLocation: URL =
-        RCTBundleURLProvider
-        .sharedSettings()
-        .jsBundleURL(forBundleRoot: "index")
-    #else
-      let jsCodeLocation = Bundle.main.url(
-        forResource: "main",
-        withExtension: "jsbundle"
-      )!
-    #endif
-    
-    
-    let rootView = RCTRootView(
-      bundleURL: jsCodeLocation,
-      moduleName: "sol",
-      initialProperties: nil,
-      launchOptions: nil
-    )
+  override func applicationDidFinishLaunching(_ notification: Notification) {
+    self.automaticallyLoadReactNativeWindow = false
+    let rootView = self.rootViewFactory.view(withModuleName: "sol")
 
     PanelManager.shared.setRootView(rootView: rootView)
 
     HotKeyManager.shared.setupKeyboardListeners()
     setupPasteboardListener()
-    
+
     mediaKeyForwarder = MediaKeyForwarder()
 
     PanelManager.shared.showWindow()
+    super.applicationDidFinishLaunching(notification)
   }
 
   func checkForUpdates() {
