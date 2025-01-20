@@ -49,7 +49,6 @@ class WindowManager {
 
     guard let usableScreens = screens else {
       NSSound.beep()
-      print("Unable to obtain usable screens")
       return
     }
 
