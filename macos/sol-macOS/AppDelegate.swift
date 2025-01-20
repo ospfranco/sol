@@ -44,6 +44,7 @@ class AppDelegate: RCTAppDelegate {
 
   override func applicationDidFinishLaunching(_ notification: Notification) {
     self.automaticallyLoadReactNativeWindow = false
+    super.applicationDidFinishLaunching(notification)
     
     let rootViewFactoryConfiguration = RCTRootViewFactoryConfiguration(bundleURLBlock: self.bundleURL, newArchEnabled: false, turboModuleEnabled: false, bridgelessEnabled: false)
     
@@ -58,7 +59,6 @@ class AppDelegate: RCTAppDelegate {
     mediaKeyForwarder = MediaKeyForwarder()
 
     PanelManager.shared.showWindow()
-    super.applicationDidFinishLaunching(notification)
   }
 
   func checkForUpdates() {
