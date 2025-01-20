@@ -63,7 +63,7 @@ class GradientView: NSView {
   }
 }
 
-@objc (GradientViewManager)
+@objc(GradientViewManager)
 class GradientViewManager: RCTViewManager {
 
   override static func requiresMainQueueSetup() -> Bool {

@@ -26,7 +26,7 @@ class FileIcon: NSView {
   }
 }
 
-@objc (FileIconManager)
+@objc(FileIconManager)
 class FileIconManager: RCTViewManager {
 
   override static func requiresMainQueueSetup() -> Bool {

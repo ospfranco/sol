@@ -36,9 +36,8 @@ void install(jsi::Runtime &rt,
   auto setHeight = HOSTFN("setHeight", 1, []) {
     int height = static_cast<int>(arguments[0].asNumber());
     dispatch_async(dispatch_get_main_queue(), ^{
-      AppDelegate *appDelegate =
-          (AppDelegate *)[[NSApplication sharedApplication] delegate];
-      [appDelegate setHeight:height];
+      PanelManager *panelManager = [PanelManager shared];
+      [panelManager setHeight:height];
     });
 
     return {};
@@ -46,9 +45,8 @@ void install(jsi::Runtime &rt,
 
   auto resetWindowSize = HOSTFN("resetWindowSize", 0, []) {
     dispatch_async(dispatch_get_main_queue(), ^{
-      AppDelegate *appDelegate =
-          (AppDelegate *)[[NSApplication sharedApplication] delegate];
-      [appDelegate resetSize];
+      PanelManager *panelManager = [PanelManager shared];
+      [panelManager resetSize];
     });
 
     return {};
@@ -56,9 +54,8 @@ void install(jsi::Runtime &rt,
 
   auto hideWindow = HOSTFN("hideWindow", 0, []) {
     dispatch_async(dispatch_get_main_queue(), ^{
-      AppDelegate *appDelegate =
-          (AppDelegate *)[[NSApplication sharedApplication] delegate];
-      [appDelegate hideWindow];
+      PanelManager *panelManager = [PanelManager shared];
+      [panelManager hideWindow];
     });
 
     return {};
@@ -66,9 +63,8 @@ void install(jsi::Runtime &rt,
 
   auto showWindow = HOSTFN("showWindow", 0, []) {
     dispatch_async(dispatch_get_main_queue(), ^{
-      AppDelegate *appDelegate =
-          (AppDelegate *)[[NSApplication sharedApplication] delegate];
-      [appDelegate showWindowWithTarget:NULL];
+      PanelManager *panelManager = [PanelManager shared];
+      [panelManager showWindowWithTarget:NULL];
     });
 
     return {};

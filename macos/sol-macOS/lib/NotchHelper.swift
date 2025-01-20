@@ -9,12 +9,11 @@ import Cocoa
 import UniformTypeIdentifiers
 
 class NotchHelper {
-  
   public static let shared = NotchHelper()
 
   private var currentImageName = ""
 
-  private var myAppPath:URL? {
+  private var myAppPath: URL? {
     let appBundleID = Bundle.main.infoDictionary?["CFBundleName"] as! String
     let paths = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)
     let directory = paths.first
@@ -23,8 +22,9 @@ class NotchHelper {
   }
 
   private func recoverNotch(screen: NSScreen) {
-    let originalPath = myAppPath?.appendingPathComponent("original").appendingPathComponent(currentImageName)
-    guard let originalPath = originalPath else {return}
+    let originalPath = myAppPath?.appendingPathComponent("original").appendingPathComponent(
+      currentImageName)
+    guard let originalPath = originalPath else { return }
     setDesktopImageURL(url: originalPath, screen: screen)
   }
 
@@ -38,19 +38,20 @@ class NotchHelper {
       let appBundleID = Bundle.main.infoDictionary?["CFBundleName"] as! String
       if let myAppPath = myAppPath, path.absoluteString.contains("/\(appBundleID)/original") {
         currentImageName = URL(fileURLWithPath: path.absoluteString).lastPathComponent
-        let processdUrl = myAppPath.appendingPathComponent("processed").appendingPathComponent(currentImageName)
+        let processdUrl = myAppPath.appendingPathComponent("processed").appendingPathComponent(
+          currentImageName)
         if FileManager.default.fileExists(atPath: processdUrl.path) {
           setDesktopImageURL(url: processdUrl, screen: screen)
           return
         }
       }
-      //      print("original path:\(path)")
+
       guard let currentWallpaperImage = NSImage(contentsOf: path) else {
         return
       }
 
       if path.pathExtension == "heic" {
-        var metaDataTag:HeicMetaDataTag?
+        var metaDataTag: HeicMetaDataTag?
         do {
           let imagaDate = try Data(contentsOf: path)
           metaDataTag = try extractMetaData(imageData: imagaDate)
@@ -69,7 +70,7 @@ class NotchHelper {
     }
   }
 
-  private func extractMetaData(imageData:Data) throws -> HeicMetaDataTag {
+  private func extractMetaData(imageData: Data) throws -> HeicMetaDataTag {
     let imageSource = CGImageSourceCreateWithData(imageData as CFData, nil)
     guard let imageSourceValue = imageSource else {
       throw MetadataExtractorError.imageSourceNotCreated
@@ -79,13 +80,12 @@ class NotchHelper {
     guard let imageMetadataValue = imageMetadata else {
       throw MetadataExtractorError.imageMetadataNotCreated
     }
-    var tagType:String = ""
-    var plist:String = ""
-    CGImageMetadataEnumerateTagsUsingBlock(imageMetadataValue, nil, nil) { (value, metadataTag) -> Bool in
+    var tagType: String = ""
+    var plist: String = ""
+    CGImageMetadataEnumerateTagsUsingBlock(imageMetadataValue, nil, nil) {
+      (value, metadataTag) -> Bool in
 
       let valueString = value as String
-      print("---------------------------------------------------")
-      print("Metadata key: \(valueString)")
 
       let tag = CGImageMetadataTagCopyValue(metadataTag)
 
@@ -109,7 +109,8 @@ class NotchHelper {
     return HeicMetaDataTag(type: tagType, plist: plist)
   }
 
-  private func hideHeicDesktopNotch(image:NSImage, metaDataTag:HeicMetaDataTag, screen: NSScreen) {
+  private func hideHeicDesktopNotch(image: NSImage, metaDataTag: HeicMetaDataTag, screen: NSScreen)
+  {
     let imageReps = image.representations
     if imageReps.count == 1 && metaDataTag.type == "" {
       hideSingleDesktopNotch(image: image, screen: screen)
@@ -118,9 +119,12 @@ class NotchHelper {
 
     var imageData: Data? = nil
     let destinationData = NSMutableData()
-    let options = [kCGImageDestinationLossyCompressionQuality: 0.9]
+    let options = [kCGImageDestinationLossyCompressionQuality: 1.0]
 
-    guard let imageDestination = CGImageDestinationCreateWithData(destinationData, AVFileType.heic as CFString, imageReps.count, nil) else {
+    guard
+      let imageDestination = CGImageDestinationCreateWithData(
+        destinationData, AVFileType.heic as CFString, imageReps.count, nil)
+    else {
       return
     }
 
@@ -128,20 +132,23 @@ class NotchHelper {
       if let imageRep = imageReps[index] as? NSBitmapImageRep {
         let nsImage = NSImage()
         nsImage.addRepresentation(imageRep)
-        if let processedImage = hideNotchForEachImageOfHeic(image:nsImage, screen: screen) {
+        if let processedImage = hideNotchForEachImageOfHeic(image: nsImage, screen: screen) {
           if index == 0 {
             let imageMetaData = CGImageMetadataCreateMutable()
-            let imageMetaDataTag = CGImageMetadataTagCreate("http://ns.apple.com/namespace/1.0/" as CFString,
-                                                            "apple_desktop" as CFString,
-                                                            metaDataTag.type as CFString,
-                                                            CGImageMetadataType.string,
-                                                            metaDataTag.plist as CFTypeRef)
-            let success = CGImageMetadataSetTagWithPath(imageMetaData, nil, "xmp:\(metaDataTag.type)" as CFString, imageMetaDataTag!)
+            let imageMetaDataTag = CGImageMetadataTagCreate(
+              "http://ns.apple.com/namespace/1.0/" as CFString,
+              "apple_desktop" as CFString,
+              metaDataTag.type as CFString,
+              CGImageMetadataType.string,
+              metaDataTag.plist as CFTypeRef)
+            let success = CGImageMetadataSetTagWithPath(
+              imageMetaData, nil, "xmp:\(metaDataTag.type)" as CFString, imageMetaDataTag!)
             if !success {
               return
             }
 
-            CGImageDestinationAddImageAndMetadata(imageDestination, processedImage, imageMetaData, options as CFDictionary)
+            CGImageDestinationAddImageAndMetadata(
+              imageDestination, processedImage, imageMetaData, options as CFDictionary)
           } else {
             CGImageDestinationAddImage(imageDestination, processedImage, options as CFDictionary)
           }
@@ -152,23 +159,21 @@ class NotchHelper {
     CGImageDestinationFinalize(imageDestination)
     imageData = destinationData as Data
     let imageName = UUID().uuidString
-    guard let url = saveHeicData(data:imageData, isProcessed: true, imageName: imageName) else {
+    guard let url = saveHeicData(data: imageData, isProcessed: true, imageName: imageName) else {
       return
     }
     let _ = saveHeicData(image: image, isProcessed: false, imageName: imageName)
     setDesktopImageURL(url: url, screen: screen)
   }
 
-  private func hideNotchForEachImageOfHeic(image:NSImage, screen: NSScreen) -> CGImage? {
+  private func hideNotchForEachImageOfHeic(image: NSImage, screen: NSScreen) -> CGImage? {
     guard let finalCGImage = addBlackRect(on: image, screen: screen) else {
       return nil
     }
     return finalCGImage
   }
 
-
-
-  private func hideSingleDesktopNotch(image:NSImage, screen: NSScreen) {
+  private func hideSingleDesktopNotch(image: NSImage, screen: NSScreen) {
 
     let finalCGImage = addBlackRect(on: image, screen: screen)
 
@@ -177,46 +182,51 @@ class NotchHelper {
     }
 
     let imageName = UUID().uuidString
-    guard let imageUrl = saveCGImage(finalCGImage, isProcessed: true, imageName: imageName) else {return}
+    guard let imageUrl = saveCGImage(finalCGImage, isProcessed: true, imageName: imageName) else {
+      return
+    }
     let _ = saveImage(image, isProcessed: false, imageName: imageName)
-    setDesktopImageURL(url:imageUrl, screen: screen)
+    setDesktopImageURL(url: imageUrl, screen: screen)
   }
 
+  private func addBlackRect(on image: NSImage, screen: NSScreen) -> CGImage? {
+    let visibleScreenSizePixels = NSSize(
+      width: screen.visibleFrame.size.width * screen.backingScaleFactor,
+      height: screen.visibleFrame.size.height * screen.backingScaleFactor)
+    let fullScreenSizePixels = NSSize(
+      width: screen.frame.size.width * screen.backingScaleFactor,
+      height: screen.frame.size.height * screen.backingScaleFactor)
+    let barHeight = fullScreenSizePixels.height - visibleScreenSizePixels.height
 
-  private func addBlackRect(on image:NSImage, screen: NSScreen) -> CGImage? {
-    var screenSize:CGSize = .zero
-    screenSize = screen.visibleFrame.size
+    var imageRect = CGRect(
+      origin: .zero,
+      size: CGSize(
+        width: visibleScreenSizePixels.width,
+        height: visibleScreenSizePixels.height))
 
-    let nsscreenSize = NSSize(width: screenSize.width,
-                              height: screenSize.height)
+    guard
+      let wallpaper = image.cgImage(forProposedRect: &imageRect, context: nil, hints: nil)!
+        .crop(toSize: visibleScreenSizePixels)
+    else { return nil }
 
-    guard let resizeWallpaperImage = image
-      .resizeMaintainingAspectRatio(withSize: nsscreenSize) else {return nil}
-
-    var imageRect = CGRect(origin: .zero,
-                           size: CGSize(width: resizeWallpaperImage.width,
-                                        height: resizeWallpaperImage.height))
-    guard let cgwallpaper = resizeWallpaperImage
-      .cgImage(forProposedRect: &imageRect, context: nil, hints: nil) else {
+    guard let context = createContext(size: fullScreenSizePixels) else {
       return nil
     }
 
-    guard let finalWallpaper = cgwallpaper.crop(toSize: screenSize) else {return nil}
-
-
-    let barHeight = screen.frame.height - screen.visibleFrame.size.height
-    var finalCGImage:CGImage? = nil
-
-    if let context = createContext(size: screenSize) {
-      context.draw(finalWallpaper, in: CGRect(origin: .zero, size: screenSize))
-      context.setFillColor(.black)
-      context.fill(CGRect(origin: CGPoint(x: 0, y: screenSize.height - barHeight), size: CGSize(width: screenSize.width, height: barHeight)))
-      finalCGImage = context.makeImage()
-    }
-    return finalCGImage
+    context
+      .draw(
+        wallpaper,
+        in: CGRect(origin: .zero, size: visibleScreenSizePixels)
+      )
+    context.setFillColor(.black)
+    context.fill(
+      CGRect(
+        origin: CGPoint(x: 0, y: fullScreenSizePixels.height - barHeight),
+        size: CGSize(width: fullScreenSizePixels.width, height: barHeight)))
+    return context.makeImage()
   }
 
-  private func setDesktopImageURL(url:URL, screen: NSScreen) {
+  private func setDesktopImageURL(url: URL, screen: NSScreen) {
     do {
       let workspace = NSWorkspace.shared
       try workspace.setDesktopImageURL(url, for: screen, options: [:])
@@ -226,8 +236,11 @@ class NotchHelper {
     }
   }
 
-  private func saveImage(_ image:NSImage, isProcessed:Bool, imageName:String) -> URL? {
-    guard let destinationURL = saveDestination(isProcessed: isProcessed, imageName: imageName, type: "jpg") else {
+  private func saveImage(_ image: NSImage, isProcessed: Bool, imageName: String) -> URL? {
+    guard
+      let destinationURL = saveDestination(
+        isProcessed: isProcessed, imageName: imageName, type: "jpg")
+    else {
       return nil
     }
     if image.jpgWrite(to: destinationURL, options: .withoutOverwriting) {
@@ -237,13 +250,17 @@ class NotchHelper {
     return nil
   }
 
-  private func saveCGImage(_ image: CGImage, isProcessed:Bool, imageName:String) -> URL? {
-    guard let destinationURL = saveDestination(isProcessed: isProcessed, imageName: imageName, type: "jpg") else {
+  private func saveCGImage(_ image: CGImage, isProcessed: Bool, imageName: String) -> URL? {
+    guard
+      let destinationURL = saveDestination(
+        isProcessed: isProcessed, imageName: imageName, type: "jpg")
+    else {
       return nil
     }
     let cfdestinationURL = destinationURL as CFURL
-    let destination = CGImageDestinationCreateWithURL(cfdestinationURL,  UTType.jpeg.identifier as CFString as CFString, 1, nil)
-    guard let destination = destination else {return nil}
+    let destination = CGImageDestinationCreateWithURL(
+      cfdestinationURL, UTType.jpeg.identifier as CFString as CFString, 1, nil)
+    guard let destination = destination else { return nil }
     CGImageDestinationAddImage(destination, image, nil)
     if !CGImageDestinationFinalize(destination) {
       return nil
@@ -251,25 +268,28 @@ class NotchHelper {
     return destinationURL as URL
   }
 
-
-  private func saveHeicData(image:NSImage, isProcessed:Bool, imageName:String) -> URL? {
-    guard let destinationURL = saveDestination(isProcessed: isProcessed, imageName: imageName, type: "heic") else {
+  private func saveHeicData(image: NSImage, isProcessed: Bool, imageName: String) -> URL? {
+    guard
+      let destinationURL = saveDestination(
+        isProcessed: isProcessed, imageName: imageName, type: "heic")
+    else {
       return nil
     }
     if image.heicWrite(to: destinationURL, options: .withoutOverwriting) {
-      print("destinationURL:\(destinationURL)")
       return destinationURL
     }
     return nil
   }
 
-  private func saveHeicData(data:Data?, isProcessed:Bool, imageName:String) -> URL? {
-    guard let destinationURL = saveDestination(isProcessed: isProcessed, imageName: imageName, type: "heic") else {
+  private func saveHeicData(data: Data?, isProcessed: Bool, imageName: String) -> URL? {
+    guard
+      let destinationURL = saveDestination(
+        isProcessed: isProcessed, imageName: imageName, type: "heic")
+    else {
       return nil
     }
     do {
       try data?.write(to: destinationURL, options: .withoutOverwriting)
-      print("destinationURL:\(destinationURL)")
       return destinationURL
     } catch {
       return nil
@@ -277,12 +297,13 @@ class NotchHelper {
 
   }
 
-  private func saveDestination(isProcessed:Bool, imageName:String, type:String) -> URL? {
-
-    guard let imagePath = myAppPath?.appendingPathComponent(isProcessed ? "processed" : "original") else {return nil}
+  private func saveDestination(isProcessed: Bool, imageName: String, type: String) -> URL? {
+    guard let imagePath = myAppPath?.appendingPathComponent(isProcessed ? "processed" : "original")
+    else { return nil }
     if !FileManager.default.fileExists(atPath: imagePath.path) {
       do {
-        try FileManager.default.createDirectory(atPath: imagePath.path, withIntermediateDirectories: true, attributes: nil)
+        try FileManager.default.createDirectory(
+          atPath: imagePath.path, withIntermediateDirectories: true, attributes: nil)
       } catch {
         return nil
       }
@@ -293,17 +314,19 @@ class NotchHelper {
   }
 
   private func createContext(size: CGSize) -> CGContext? {
-    return CGContext(data: nil,
-                     width: Int(size.width),
-                     height: Int(size.height),
-                     bitsPerComponent: 8,
-                     bytesPerRow: 0,
-                     space: CGColorSpaceCreateDeviceRGB(),
-                     bitmapInfo: CGImageAlphaInfo.premultipliedFirst.rawValue | CGBitmapInfo.byteOrder32Little.rawValue)
+    return CGContext(
+      data: nil,
+      width: Int(size.width),
+      height: Int(size.height),
+      bitsPerComponent: 8,
+      bytesPerRow: 0,
+      space: CGColorSpaceCreateDeviceRGB(),
+      bitmapInfo: CGImageAlphaInfo.premultipliedFirst.rawValue
+        | CGBitmapInfo.byteOrder32Little.rawValue)
   }
 }
 
 struct HeicMetaDataTag {
-  let type:String // solor, h24, apr
-  let plist:String //base64 Property List
+  let type: String  // solor, h24, apr
+  let plist: String  //base64 Property List
 }

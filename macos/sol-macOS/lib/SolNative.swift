@@ -1,6 +1,6 @@
 import Foundation
-import KeychainAccess
 import LaunchAtLogin
+import HotKey
 
 private let keychain = Keychain(service: "Sol")
 
@@ -51,6 +51,7 @@ class SolNative: RCTEventEmitter {
       "onTextCopied",
       "onFileSearch",
       "onStatusBarItemClick",
+      "hotkey",
     ]
   }
 
@@ -59,17 +60,8 @@ class SolNative: RCTEventEmitter {
     rejecter reject: RCTPromiseRejectBlock
   ) {
     do {
-
       let apps = try applicationSearcher.getAllApplications()
-      let res = apps.map { app in
-        [
-          "url": app.url,
-          "name": app.name,
-          "isRunning": app.isRunning,
-        ] as [String: Any]
-      }
-
-      resolve(res)
+      resolve(apps)
     } catch {
       reject(error.localizedDescription, error.localizedDescription, nil)
     }
@@ -168,20 +160,25 @@ class SolNative: RCTEventEmitter {
   }
 
   @objc func setGlobalShortcut(_ key: String) {
-    DispatchQueue.main.async {
-      self.appDelegate?.setGlobalShortcut(key)
-    }
-  }
-
-  @objc func setScratchpadShortcut(_ key: String) {
-    DispatchQueue.main.async {
-      self.appDelegate?.setScratchpadShortcut(key)
-    }
-  }
-
-  @objc func setClipboardManagerShortcut(_ key: String) {
-    DispatchQueue.main.async {
-      self.appDelegate?.setClipboardManagerShortcut(key)
+    HotKeyManager.shared.mainHotKey.isPaused = true
+    if key == "command" {
+      HotKeyManager.shared.mainHotKey = HotKey(
+        key: .space,
+        modifiers: [.command],
+        keyDownHandler: PanelManager.shared.toggle
+      )
+    } else if key == "option" {
+      HotKeyManager.shared.mainHotKey = HotKey(
+        key: .space,
+        modifiers: [.option],
+        keyDownHandler: PanelManager.shared.toggle
+      )
+    } else if key == "control" {
+      HotKeyManager.shared.mainHotKey = HotKey(
+        key: .space,
+        modifiers: [.control],
+        keyDownHandler: PanelManager.shared.toggle
+      )
     }
   }
 
@@ -203,8 +200,10 @@ class SolNative: RCTEventEmitter {
     resolve(accessibilityEnabled)
   }
 
-  @objc func setLaunchAtLogin(_ launchAtLogin: Bool) {
-    LaunchAtLogin.isEnabled = launchAtLogin
+  @objc func setLaunchAtLogin(_ enabled: Bool) {
+    if LaunchAtLogin.isEnabled != enabled {
+      LaunchAtLogin.isEnabled = enabled
+    }
   }
 
   @objc func resizeFrontmostTopHalf() {
@@ -264,27 +263,27 @@ class SolNative: RCTEventEmitter {
   }
 
   @objc func turnOnHorizontalArrowsListeners() {
-    appDelegate?.setHorizontalArrowCatch(catchHorizontalArrowPress: true)
+    HotKeyManager.shared.catchHorizontalArrowsPress = true
   }
 
   @objc func turnOffHorizontalArrowsListeners() {
-    appDelegate?.setHorizontalArrowCatch(catchHorizontalArrowPress: false)
+    HotKeyManager.shared.catchHorizontalArrowsPress = false
   }
 
   @objc func turnOnVerticalArrowsListeners() {
-    appDelegate?.setVerticalArrowCatch(catchVerticalArrowPress: true)
+    HotKeyManager.shared.catchVerticalArrowsPress = true
   }
 
   @objc func turnOffVerticalArrowsListeners() {
-    appDelegate?.setVerticalArrowCatch(catchVerticalArrowPress: false)
-  }
-
-  @objc func turnOffEnterListener() {
-    appDelegate?.setEnterCatch(catchEnter: false)
+    HotKeyManager.shared.catchVerticalArrowsPress = false
   }
 
   @objc func turnOnEnterListener() {
-    appDelegate?.setEnterCatch(catchEnter: true)
+    HotKeyManager.shared.catchEnterPress = true
+  }
+  
+  @objc func turnOffEnterListener() {
+    HotKeyManager.shared.catchEnterPress = false
   }
 
   @objc func checkForUpdates() {
@@ -293,7 +292,7 @@ class SolNative: RCTEventEmitter {
 
   @objc func setWindowRelativeSize(_ relative: NSNumber) {
     DispatchQueue.main.async {
-      self.appDelegate?.setRelativeSize(relative as! Double)
+      PanelManager.shared.setRelativeSize(relative as! Double)
     }
   }
 
@@ -302,12 +301,13 @@ class SolNative: RCTEventEmitter {
   }
 
   @objc func setShowWindowOn(_ on: String) {
-    appDelegate?.setShowWindowOn(on)
-  }
-
-  @objc func setWindowManagement(_ v: Bool) {
-    DispatchQueue.main.async {
-      self.appDelegate?.setWindowManagementShortcuts(v)
+    switch on {
+    case "screenWithFrontmost":
+      PanelManager.shared.setPreferredScreen(.frontmost)
+      break
+    default:
+      PanelManager.shared.setPreferredScreen(.withMouse)
+      break
     }
   }
 
@@ -336,28 +336,23 @@ class SolNative: RCTEventEmitter {
 
   @objc func showToast(_ text: String, variant: String, timeout: NSNumber) {
     DispatchQueue.main.async {
-      self.appDelegate?.showToast(text, variant: variant, timeout: timeout, image: nil)
+      ToastManager.shared.showToast(text, variant: variant, timeout: timeout, image: nil)
     }
   }
 
   @objc func useBackgroundOverlay(_ v: Bool) {
-    appDelegate?.useBackgroundOverlay = v
+//    appDelegate?.useBackgroundOverlay = v
   }
 
-  @objc func shouldHideMenubar(_ v: Bool) {
-    appDelegate?.shouldHideMenuBar = v
-    if v {
-      DispatchQueue.main.async {
-        self.appDelegate?.handleDisplayConnection(notification: nil)
-      }
-    }
+  @objc func hideNotch() {
+    NotchHelper.shared.hideNotch()
   }
 
   @objc func showWifiQR(_ SSID: String, password: String) {
     let image = WifiQR(name: SSID, password: password)
     DispatchQueue.main.async {
       let wifiInfo = "SSID: \(SSID)\nPassword: \(password)"
-      self.appDelegate?.showToast(wifiInfo, variant: "none", timeout: 30, image: image)
+      ToastManager.shared.showToast(wifiInfo, variant: "none", timeout: 30, image: image)
     }
   }
 
@@ -378,14 +373,12 @@ class SolNative: RCTEventEmitter {
 
   @objc func quit() {
     DispatchQueue.main.async {
-      self.appDelegate?.quit()
+      NSApplication.shared.terminate(self)
     }
   }
 
   @objc func setStatusBarItemTitle(_ title: String) {
-    DispatchQueue.main.async {
-      self.appDelegate?.setStatusBarTitle(title)
-    }
+    StatusBarItemManager.shared.setStatusBarTitle(title)
   }
 
   @objc func setMediaKeyForwardingEnabled(_ v: Bool) {
@@ -410,12 +403,10 @@ class SolNative: RCTEventEmitter {
       }
     }
   }
-  
-  
-  @objc func setEmojiPickerDisabled(_ v: Bool) {
-    DispatchQueue.main.async {
-      self.appDelegate?.setEmojiPickerDisabled(v)
-    }
+
+  @objc func updateHotkeys(_ hotkeys: NSDictionary) {
+    guard let hotkeys = hotkeys as? [String: String] else { return }
+    HotKeyManager.shared.updateHotkeys(hotkeyMap: hotkeys)
   }
 
 }

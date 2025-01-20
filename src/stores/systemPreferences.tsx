@@ -116,6 +116,7 @@ export function buildSystemPreferenceItem({
   name = name || preferenceId.split('.').pop()!
 
   return {
+    id: preferenceId,
     name: name,
     IconComponent: (props: any[]) => {
       if (icon != null) {
@@ -149,8 +150,9 @@ export function buildSystemPreferenceItem({
   }
 }
 
-const manualPanes = [
+const manualPanes: Item[] = [
   {
+    id: 'wallpaper_settings',
     name: 'Wallpaper',
     IconComponent: (props: any[]) => {
       return <Image source={Assets.wallpaper} className="w-6 h-6" {...props} />
@@ -163,6 +165,7 @@ const manualPanes = [
     },
   },
   {
+    id: 'siri_settings',
     name: 'Siri & Spotlight',
     IconComponent: (props: any[]) => {
       return <Image source={Assets.siri} className="w-6 h-6" {...props} />
@@ -173,6 +176,7 @@ const manualPanes = [
     },
   },
   {
+    id: 'wifi_settings',
     name: 'Wi-Fi',
     IconComponent: (props: any[]) => {
       return <Image source={Assets.wifi} className="w-6 h-6" {...props} />
@@ -186,6 +190,7 @@ const manualPanes = [
     },
   },
   {
+    id: 'sound_settings',
     name: 'Sound',
     IconComponent: (props: any[]) => {
       return <Image source={Assets.sound} className="w-6 h-6" {...props} />
@@ -196,6 +201,7 @@ const manualPanes = [
     },
   },
   {
+    id: 'accessibility_settings',
     name: 'Accessibility',
     IconComponent: (props: any[]) => {
       return (
@@ -210,6 +216,7 @@ const manualPanes = [
     },
   },
   {
+    id: 'password_settings',
     name: 'Touch ID & Password',
     IconComponent: (props: any[]) => {
       return <Image source={Assets.touch} className="w-6 h-6" {...props} />
@@ -220,6 +227,7 @@ const manualPanes = [
     },
   },
   {
+    id: 'display_settings',
     name: 'Display',
     IconComponent: (props: any[]) => {
       return <Image source={Assets.display} className="w-6 h-6" {...props} />
@@ -230,6 +238,7 @@ const manualPanes = [
     },
   },
   {
+    id: 'battery_settings',
     name: 'Battery',
     IconComponent: (props: any[]) => {
       return <Image source={Assets.battery} className="w-6 h-6" {...props} />
@@ -242,6 +251,7 @@ const manualPanes = [
     },
   },
   {
+    id: 'network_settings',
     name: 'Network',
     IconComponent: (props: any[]) => {
       return <Image source={Assets.network} className="w-6 h-6" {...props} />

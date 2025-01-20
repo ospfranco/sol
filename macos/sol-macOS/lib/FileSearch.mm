@@ -16,7 +16,6 @@
 #include <sys/fsgetpath.h>
 #include <sys/mount.h>
 #include "FileSearch.h"
-#include <iostream>
 #include "NSString+Score.h"
 
 std::vector<File> search_files(NSString *basePath, NSString *query) {

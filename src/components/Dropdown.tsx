@@ -12,7 +12,6 @@ import {
   ViewStyle,
 } from 'react-native'
 import {SelectableButton} from './SelectableButton'
-import {StyledScrollView} from './StyledScrollView'
 
 interface Props<T> {
   value: T

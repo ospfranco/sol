@@ -37,16 +37,20 @@ export const SelectableButton: FC<SelectableButtonProps> = ({
       // @ts-expect-error
       enableFocusRing={false}>
       <View
-        className={clsx('p-2 flex-row items-center gap-1 rounded', className, {
-          'rounded-full': rounded,
-          highlight: selected,
-          'bg-neutral-400 dark:bg-neutral-700': hovered,
-        })}>
+        className={clsx(
+          'px-2 py-1.5 flex-row items-center gap-1 rounded',
+          className,
+          {
+            'rounded-full': rounded,
+            'bg-accent-strong': selected,
+            'bg-accent': hovered,
+          },
+        )}>
         {leftItem}
         {!!title && (
           <Text
-            className={clsx(`text-sm text`, {
-              'text-blue-500 dark:text-blue-500': selected,
+            className={clsx(`text-sm`, {
+              'text-white': selected,
             })}>
             {title}
           </Text>

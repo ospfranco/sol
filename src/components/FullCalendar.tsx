@@ -1,12 +1,10 @@
 import clsx from 'clsx'
-import {solNative} from 'lib/SolNative'
 import {DateTime} from 'luxon'
 import {observer} from 'mobx-react-lite'
 import React, {FC} from 'react'
-import {ScrollView, Text, TouchableOpacity, View} from 'react-native'
+import {ScrollView, Text, View} from 'react-native'
 import {useStore} from 'store'
 import {Key} from './Key'
-import {StyledScrollView} from './StyledScrollView'
 
 export let FullCalendar: FC = observer(() => {
   let store = useStore()
@@ -17,13 +15,15 @@ export let FullCalendar: FC = observer(() => {
 
   return (
     <ScrollView
-      className="max-h-full"
-      contentContainerClassName="py-2"
+      className="max-h-full border-t border-lightBorder dark:border-darkBorder"
+      contentContainerClassName="py-2 gap-2 px-4"
       showsVerticalScrollIndicator={false}>
       {Object.entries(store.calendar.groupedEvents).map(([key, group]) => {
         let shouldShowRelative = group.date.diffNow('days').days <= 5
         return (
-          <View key={key} className="px-4 pb-4 gap-2">
+          <View
+            key={key}
+            className="py-2 gap-2 border-b border-lightBorder dark:border-darkBorder">
             <View className="flex-row items-center gap-1">
               <Text className="capitalize font-medium text-neutral-500 dark:text-neutral-400">
                 {shouldShowRelative

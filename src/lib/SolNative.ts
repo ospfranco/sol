@@ -20,8 +20,6 @@ class SolNative extends NativeEventEmitter {
     | undefined
   >
   setGlobalShortcut: (key: 'command' | 'option' | 'control') => void
-  setScratchpadShortcut: (key: 'command' | 'option' | 'none') => void
-  setClipboardManagerShortcut: (key: 'shift' | 'option' | 'none') => void
   getCalendarAuthorizationStatus: typeof global.__SolProxy.getCalendarAuthorizationStatus
   requestCalendarAccess: () => Promise<void>
   requestAccessibilityAccess: () => Promise<void>
@@ -55,7 +53,6 @@ class SolNative extends NativeEventEmitter {
   resizeBottomRight: () => void
   searchFiles: typeof global.__SolProxy.searchFiles
   setShowWindowOn: (on: 'screenWithFrontmost' | 'screenWithCursor') => void
-  setWindowManagement: (v: boolean) => void
   useBackgroundOverlay: (v: boolean) => void
   toggleDND: () => void
   securelyStore: (key: string, value: string) => Promise<void>
@@ -72,7 +69,7 @@ class SolNative extends NativeEventEmitter {
   userName: typeof global.__SolProxy.userName
   ps: typeof global.__SolProxy.ps
   killProcess: typeof global.__SolProxy.killProcess
-  shouldHideMenubar: (v: boolean) => void
+  hideNotch: () => void
   hasFullDiskAccess: () => Promise<boolean>
   getSafariBookmarks: () => Promise<any>
   quit: () => void
@@ -84,7 +81,7 @@ class SolNative extends NativeEventEmitter {
   openFilePicker: () => Promise<string | null>
   showWindow: typeof global.__SolProxy.showWindow
   showWifiQR: (ssid: string, password: string) => void
-  setEmojiPickerDisabled: (v: boolean) => void
+  updateHotkeys: (v: Record<string, string>) => void
 
   // Constants
   accentColor: string
@@ -110,7 +107,6 @@ class SolNative extends NativeEventEmitter {
     this.openWithFinder = module.openWithFinder
     this.getMediaInfo = module.getMediaInfo
     this.setGlobalShortcut = module.setGlobalShortcut
-    this.setScratchpadShortcut = module.setScratchpadShortcut
     this.getCalendarAuthorizationStatus =
       global.__SolProxy.getCalendarAuthorizationStatus
     this.requestAccessibilityAccess = module.requestAccessibilityAccess
@@ -137,7 +133,6 @@ class SolNative extends NativeEventEmitter {
     this.checkForUpdates = module.checkForUpdates
     this.turnOnEnterListener = module.turnOnEnterListener
     this.turnOffEnterListener = module.turnOffEnterListener
-    this.setClipboardManagerShortcut = module.setClipboardManagerShortcut
     this.setWindowRelativeSize = module.setWindowRelativeSize
     this.setWindowHeight = module.setWindowHeight
     this.openFinderAt = module.openFinderAt
@@ -152,7 +147,6 @@ class SolNative extends NativeEventEmitter {
     this.resetWindowSize = global.__SolProxy.resetWindowSize
     this.hideWindow = global.__SolProxy.hideWindow
     this.setShowWindowOn = module.setShowWindowOn
-    this.setWindowManagement = module.setWindowManagement
     this.useBackgroundOverlay = module.useBackgroundOverlay
 
     this.securelyRetrieve = module.securelyRetrieve
@@ -173,7 +167,7 @@ class SolNative extends NativeEventEmitter {
     this.accentColor = constants.accentColor
     this.OSVersion = constants.OSVersion
 
-    this.shouldHideMenubar = module.shouldHideMenubar
+    this.hideNotch = module.hideNotch
     this.hasFullDiskAccess = module.hasFullDiskAccess
     this.getSafariBookmarks = module.getSafariBookmarks
 
@@ -190,7 +184,7 @@ class SolNative extends NativeEventEmitter {
     this.showWindow = global.__SolProxy.showWindow
 
     this.showWifiQR = module.showWifiQR
-    this.setEmojiPickerDisabled = module.setEmojiPickerDisabled
+    this.updateHotkeys = module.updateHotkeys
   }
 }
 

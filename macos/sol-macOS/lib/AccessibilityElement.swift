@@ -23,7 +23,6 @@ class AccessibilityElement {
 
   static func frontmostWindow() -> AccessibilityElement? {
     guard let appElement = AccessibilityElement.frontmostApplication() else {
-      print("Failed to find the application that currently has focus.")
       return nil
     }
 
@@ -124,7 +123,6 @@ class AccessibilityElement {
         return AccessibilityElement(copiedUnderlyingElement as! AXUIElement)
       }
     }
-    print("Unable to obtain accessibility element \(result)")
     return nil
   }
 
