@@ -5,32 +5,30 @@ import React_RCTAppDelegate
 
 @NSApplicationMain
 @objc
-class AppDelegate:
-  RCTAppDelegate, NSUserNotificationCenterDelegate
-{
-  private var updaterController: SPUStandardUpdaterController
+class AppDelegate: RCTAppDelegate {
+  private var updaterController: SPUStandardUpdaterController!
   private var mediaKeyForwarder: MediaKeyForwarder!
 
-  override init() {
-    updaterController = SPUStandardUpdaterController(
-      startingUpdater: true,
-      updaterDelegate: nil,
-      userDriverDelegate: nil
-    )
-    super.init()
-  }
+//  override init() {
+//    updaterController = SPUStandardUpdaterController(
+//      startingUpdater: true,
+//      updaterDelegate: nil,
+//      userDriverDelegate: nil
+//    )
+//    super.init()
+//  }
+//
+//  required init?(coder: NSCoder) {
+//    fatalError("init(coder:) has not been implemented")
+//  }
 
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-
-  override func applicationShouldHandleReopen(
-    _: NSApplication,
-    hasVisibleWindows _: Bool
-  ) -> Bool {
-    PanelManager.shared.showWindow()
-    return true
-  }
+//  override func applicationShouldHandleReopen(
+//    _: NSApplication,
+//    hasVisibleWindows _: Bool
+//  ) -> Bool {
+//    PanelManager.shared.showWindow()
+//    return true
+//  }
   
   override func sourceURL(for bridge: RCTBridge) -> URL? {
     self.bundleURL()
@@ -46,6 +44,10 @@ class AppDelegate:
 
   override func applicationDidFinishLaunching(_ notification: Notification) {
     self.automaticallyLoadReactNativeWindow = false
+    
+    let rootViewFactoryConfiguration = RCTRootViewFactoryConfiguration(bundleURLBlock: self.bundleURL, newArchEnabled: false, turboModuleEnabled: false, bridgelessEnabled: false)
+    
+    self.rootViewFactory = RCTRootViewFactory(configuration: rootViewFactoryConfiguration)
     let rootView = self.rootViewFactory.view(withModuleName: "sol")
 
     PanelManager.shared.setRootView(rootView: rootView)
