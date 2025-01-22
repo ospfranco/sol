@@ -21,6 +21,10 @@ class AppDelegate: RCTAppDelegate {
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
+  
+  override func bridgelessEnabled() -> Bool {
+    return false;
+  }
 
   override func applicationShouldHandleReopen(
     _: NSApplication,
@@ -41,6 +45,11 @@ class AppDelegate: RCTAppDelegate {
       Bundle.main.url(forResource: "main", withExtension: "jsbundle")
     #endif
   }
+  
+  override func customize(_ rootView: RCTRootView) {
+      rootView.backgroundColor = .clear
+    rootView.wantsLayer = true
+    }
 
   override func applicationDidFinishLaunching(_ notification: Notification) {
     self.moduleName = "sol"
@@ -48,11 +57,6 @@ class AppDelegate: RCTAppDelegate {
     self.automaticallyLoadReactNativeWindow = false
     super.applicationDidFinishLaunching(notification)
 
-    let rootViewFactoryConfiguration = RCTRootViewFactoryConfiguration(
-      bundleURLBlock: self.bundleURL, newArchEnabled: false, turboModuleEnabled: true,
-      bridgelessEnabled: false)
-
-    self.rootViewFactory = RCTRootViewFactory(configuration: rootViewFactoryConfiguration)
     let rootView = self.rootViewFactory.view(withModuleName: "sol")
 
     PanelManager.shared.setRootView(rootView: rootView)

@@ -3,17 +3,16 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 prepare_react_native_project!
 
+ENV['RCT_NEW_ARCH_ENABLED'] = '0'
+
 target 'macOS' do
   platform :macos, '11'
   use_native_modules!
 
-  # Flags change depending on the env values.
-  flags = get_default_flags()
-
   use_react_native!(
     :path => '../node_modules/react-native-macos',
     :hermes_enabled => true,
-    :fabric_enabled => ENV['RCT_NEW_ARCH_ENABLED'] == '1',
+    :fabric_enabled => false,
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
