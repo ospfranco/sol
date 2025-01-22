@@ -23,7 +23,9 @@ export const RootContainer = observer(() => {
   let subWindow = (
     <View
       className={clsx({
-        fullWindow: !!store.ui.query || store.ui.calendarEnabled,
+        fullWindow:
+          !!store.ui.query ||
+          (store.ui.calendarEnabled && store.calendar.events.length > 0),
       })}>
       <SearchWidget />
 
