@@ -39,9 +39,7 @@ export const Key: FC<IProps> = observer(
             <Text
               className="text-xs text-center"
               style={{
-                color: primary
-                  ? '#FFFFFF'
-                  : store.ui.isDarkMode
+                color: store.ui.isDarkMode
                   ? colors.neutral[300]
                   : colors.neutral[500],
               }}>
