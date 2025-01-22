@@ -21,9 +21,9 @@ class AppDelegate: RCTAppDelegate {
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
-  
+
   override func bridgelessEnabled() -> Bool {
-    return false;
+    return false
   }
 
   override func applicationShouldHandleReopen(
@@ -45,12 +45,12 @@ class AppDelegate: RCTAppDelegate {
       Bundle.main.url(forResource: "main", withExtension: "jsbundle")
     #endif
   }
-  
+
   override func customize(_ rootView: RCTRootView) {
-      rootView.wantsLayer = true
-      rootView.backgroundColor = .clear
-      rootView.layer?.backgroundColor = .clear
-    }
+    rootView.wantsLayer = true
+    rootView.backgroundColor = .clear
+    rootView.layer?.backgroundColor = .clear
+  }
 
   override func applicationDidFinishLaunching(_ notification: Notification) {
     self.moduleName = "sol"
@@ -83,15 +83,6 @@ class AppDelegate: RCTAppDelegate {
       guard let txt else { return }
 
       SolEmitter.sharedInstance.textCopied(txt, bundle)
-
-      //      let url = $0.string(forType: .URL)
-      //      if url != nil {
-      //        handlePastedText(url!, fileExtension: "url")
-      //      }
-      //      let html = $0.string(forType: .html)
-      //      if html != nil {
-      //        handlePastedText(html!, fileExtension: "html")
-      //      }
     }
   }
 
