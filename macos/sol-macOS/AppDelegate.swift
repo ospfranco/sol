@@ -47,8 +47,9 @@ class AppDelegate: RCTAppDelegate {
   }
   
   override func customize(_ rootView: RCTRootView) {
+      rootView.wantsLayer = true
       rootView.backgroundColor = .clear
-    rootView.wantsLayer = true
+      rootView.layer?.backgroundColor = .clear
     }
 
   override func applicationDidFinishLaunching(_ notification: Notification) {
@@ -59,7 +60,7 @@ class AppDelegate: RCTAppDelegate {
 
     let rootView = self.rootViewFactory.view(withModuleName: "sol")
 
-    PanelManager.shared.setRootView(rootView: rootView)
+    PanelManager.shared.setRootView(rootView: rootView as! RCTRootView)
 
     HotKeyManager.shared.setupKeyboardListeners()
     setupPasteboardListener()
