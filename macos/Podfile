@@ -1,15 +1,18 @@
 require_relative '../node_modules/react-native-macos/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-platform :macos, '11'
 prepare_react_native_project!
 
+ENV['RCT_NEW_ARCH_ENABLED'] = '0'
+
 target 'macOS' do
-  config = use_native_modules!
+  platform :macos, '11'
+  use_native_modules!
 
   use_react_native!(
     :path => '../node_modules/react-native-macos',
     :hermes_enabled => true,
+    :fabric_enabled => false,
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
@@ -17,11 +20,7 @@ target 'macOS' do
   pod 'HotKey'
 
   post_install do |installer|
-    react_native_post_install(
-      installer,
-      config[:reactNativePath],
-      :mac_catalyst_enabled => false
-    )
+    react_native_post_install(installer)
   end
 
 end
