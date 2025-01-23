@@ -5,6 +5,7 @@ import {EmitterSubscription} from 'react-native'
 import {IRootStore} from 'store'
 import {Widget} from './ui.store'
 import MiniSearch from 'minisearch'
+import {storage} from './storage'
 
 const MAX_ITEMS = 1000
 
@@ -85,7 +86,16 @@ export const createClipboardStore = (root: IRootStore) => {
   onCopyListener = solNative.addListener('onTextCopied', store.onTextCopied)
 
   const hydrate = async () => {
-    const state = await AsyncStorage.getItem('@clipboard.store')
+    let state: string | null | undefined
+    try {
+      state = storage.getString('@clipboard.store')
+    } catch {
+      // intentionally left blank
+    }
+    if (!state) {
+      state = await AsyncStorage.getItem('@clipboard.store')
+    }
+
     if (state) {
       const parsedStore = JSON.parse(state)
       store.saveHistory = parsedStore.saveHistory

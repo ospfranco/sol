@@ -4,6 +4,7 @@ import {IRootStore} from 'store'
 import {emojis as rawEmojis_} from '../lib/emojis'
 import {solNative} from 'lib/SolNative'
 import MiniSearch from 'minisearch'
+import {storage} from './storage'
 
 let rawEmojis = rawEmojis_.map((emoji: any, idx) => ({id: idx, ...emoji}))
 
@@ -55,7 +56,15 @@ export const createEmojiStore = (root: IRootStore) => {
   }
 
   let hydrate = async () => {
-    const storeState = await AsyncStorage.getItem('@emoji.store')
+    let storeState: string | null | undefined
+    try {
+      storeState = storage.getString('@emoji.store')
+    } catch {
+      // intentionally left blank
+    }
+    if (!storeState) {
+      storeState = await AsyncStorage.getItem('@emoji.store')
+    }
 
     if (storeState) {
       let parsedStore = JSON.parse(storeState)
