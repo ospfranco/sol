@@ -8,6 +8,9 @@ PODS:
     - hermes-engine/Pre-built (= 0.76.6)
   - hermes-engine/Pre-built (0.76.6)
   - HotKey (0.2.1)
+  - MMKV (2.0.2):
+    - MMKVCore (~> 2.0.2)
+  - MMKVCore (2.0.2)
   - RCT-Folly (2024.01.01.00):
     - boost
     - DoubleConversion
@@ -1246,10 +1249,11 @@ PODS:
     - Yoga
   - react-native-get-random-values (1.11.0):
     - React-Core
-  - react-native-mmkv (3.2.0):
+  - react-native-mmkv (2.12.2):
     - DoubleConversion
     - glog
     - hermes-engine
+    - MMKV (>= 1.3.3)
     - RCT-Folly (= 2024.01.01.00)
     - RCTRequired
     - RCTTypeSafety
@@ -1729,6 +1733,8 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - HotKey
+    - MMKV
+    - MMKVCore
     - Sentry
     - Sparkle
 
@@ -1881,6 +1887,8 @@ SPEC CHECKSUMS:
   glog: 750f96a379703a2d724d2f1fc6cb3a3eff000817
   hermes-engine: 1949ca944b195a8bde7cbf6316b9068e19cf53c6
   HotKey: 400beb7caa29054ea8d864c96f5ba7e5b4852277
+  MMKV: 3eacda84cd1c4fc95cf848d3ecb69d85ed56006c
+  MMKVCore: 508b4d3a8ce031f1b5c8bd235f0517fb3f4c73a9
   RCT-Folly: 38dded4465d7da30a12a3087110693a6799091d4
   RCTDeprecation: 063fc281b30b7dc944c98fe53a7e266dab1a8706
   RCTRequired: 74d3e5dbded3e4e62113ef04f5534b5aebe0f619
@@ -1911,7 +1919,7 @@ SPEC CHECKSUMS:
   React-Mapbuffer: 54c6c6ef2f1aa1325437d7ff9b98d4d9074bc20c
   React-microtasksnativemodule: 21e9f7479e65e2244302cb89872e17b0ada3be7e
   react-native-get-random-values: d16467cf726c618e9c7a8c3c39c31faa2244bbba
-  react-native-mmkv: 58616bb3bb169380ce7132e0d961d9834f2e2612
+  react-native-mmkv: f84bf6f48c906911695f9cd16d39d4fb78fcd5a4
   React-nativeconfig: f751aaeabc49b11e5a0dae4c0e1a709ab55c128c
   React-NativeModulesApple: 624a15426130c68d4097088bc6950ef6ff8668ba
   React-perflogger: 2db18ff24632e5ab5093e4f7f6b61ed830c9f17b

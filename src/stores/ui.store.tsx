@@ -146,9 +146,12 @@ export const createUIStore = (root: IRootStore) => {
   }
 
   let hydrate = async () => {
-    let storeState: string | null | undefined = storage.getString('@ui.store')
-
-    console.warn('Got store state from mmkv', storeState)
+    let storeState: string | null | undefined
+    try {
+      storeState = storage.getString('@ui.store')
+    } catch {
+      // intentionally left blank
+    }
     if (!storeState) {
       storeState = await AsyncStorage.getItem('@ui.store')
     }
