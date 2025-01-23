@@ -1,13 +1,11 @@
-# update_fastlane
-
 default_platform(:mac)
 
 platform :mac do
-  
-  # xcode_select "/Applications/Xcode.app"
 
   lane :release do
-    sh("yarn", "bump")
+    Dir.chdir("..") do
+      sh("bun", "bump")
+    end
 
     version = get_version_number(xcodeproj: "./macos/sol.xcodeproj")
 
@@ -50,7 +48,7 @@ platform :mac do
     
     
     Dir.chdir("..") do
-      sh("yarn", "appcast")
+      sh("bun", "appcast")
 
       sh("./scripts/appcast.sh", file_url, version)
 
@@ -66,17 +64,5 @@ platform :mac do
     sh("open", "/Applications/Sol.app")
 
     sh("pingme", "Sol " + version + " released")
-  end
-
-  lane :dev do
-    path = "/Applications/"
-
-    gym(
-      scheme: "release",
-      workspace: "./macos/sol.xcworkspace",
-      output_directory: path,
-      export_method: "development",
-      silent: true
-    )
   end
 end

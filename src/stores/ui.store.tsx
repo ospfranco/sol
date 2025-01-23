@@ -14,12 +14,14 @@ import plist from '@expo/plist'
 import MiniSearch from 'minisearch'
 import * as Sentry from '@sentry/react-native'
 import {storage} from './storage'
+import {defaultShortcuts, validShortcutTokensRegex} from 'lib/shorcuts'
 
 const exprParser = new Parser()
 
 let onShowListener: EmitterSubscription | undefined
 let onHideListener: EmitterSubscription | undefined
 let onFileSearchListener: EmitterSubscription | undefined
+let onHotkeyListener: EmitterSubscription | undefined
 
 export enum Widget {
   ONBOARDING = 'ONBOARDING',
@@ -113,8 +115,25 @@ let minisearch = new MiniSearch({
     stopWords.has(term) ? null : term.toLowerCase(),
 })
 
+const userName = solNative.userName()
+let defaultSearchFolders = [
+  `/Users/${userName}/Downloads`,
+  `/Users/${userName}/Documents`,
+  `/Users/${userName}/Desktop`,
+  `/Users/${userName}/Pictures`,
+  `/Users/${userName}/Movies`,
+  `/Users/${userName}/Music`,
+]
+
 export type UIStore = ReturnType<typeof createUIStore>
-type SearchEngine = 'google' | 'bing' | 'duckduckgo'
+type SearchEngine = 'google' | 'bing' | 'duckduckgo' | 'perplexity'
+
+const itemsThatShouldShowWindow = [
+  'emoji_picker',
+  'clipboard_manager',
+  'process_manager',
+  'scratchpad',
+]
 
 export const createUIStore = (root: IRootStore) => {
   let persist = async () => {
@@ -128,6 +147,8 @@ export const createUIStore = (root: IRootStore) => {
 
   let hydrate = async () => {
     let storeState: string | null | undefined = storage.getString('@ui.store')
+
+    console.warn('Got store state from mmkv', storeState)
     if (!storeState) {
       storeState = await AsyncStorage.getItem('@ui.store')
     }
@@ -159,17 +180,11 @@ export const createUIStore = (root: IRootStore) => {
           }, '')
         }
         store.globalShortcut = parsedStore.globalShortcut
-        store.scratchpadShortcut = parsedStore.scratchpadShortcut ?? 'command'
-        store.clipboardManagerShortcut =
-          parsedStore.clipboardManagerShortcut ?? 'shift'
         store.showWindowOn = parsedStore.showWindowOn ?? 'screenWithFrontmost'
-        store.windowManagementEnabled =
-          parsedStore.windowManagementEnabled ?? true
         store.calendarEnabled = parsedStore.calendarEnabled ?? true
         store.showAllDayEvents = parsedStore.showAllDayEvents ?? true
         store.launchAtLogin = parsedStore.launchAtLogin ?? true
         store.useBackgroundOverlay = parsedStore.useBackgroundOverlay ?? true
-        store.shouldHideMenubar = parsedStore.shouldHideMenuBar ?? false
         store.mediaKeyForwardingEnabled =
           parsedStore.mediaKeyForwardingEnabled ?? true
         store.reduceTransparency = parsedStore.reduceTransparency ?? false
@@ -177,32 +192,21 @@ export const createUIStore = (root: IRootStore) => {
         store.showUpcomingEvent = parsedStore.showUpcomingEvent ?? true
         store.scratchPadColor =
           parsedStore.scratchPadColor ?? ScratchPadColor.SYSTEM
-        store.searchFolders = parsedStore.searchFolders ?? [
-          `/Users/${solNative.userName()}/Downloads`,
-          `/Users/${solNative.userName()}/Documents`,
-          `/Users/${solNative.userName()}/Desktop`,
-          `/Users/${solNative.userName()}/Pictures`,
-          `/Users/${solNative.userName()}/Movies`,
-          `/Users/${solNative.userName()}/Music`,
-        ]
-        store.emojiPickerDisabled = parsedStore.emojiPickerDisabled ?? false
+        store.searchFolders = parsedStore.searchFolders ?? defaultSearchFolders
         store.searchEngine = parsedStore.searchEngine ?? 'google'
+        store.shortcuts = parsedStore.shortcuts ?? defaultShortcuts
       })
 
       solNative.setLaunchAtLogin(parsedStore.launchAtLogin ?? true)
       solNative.setGlobalShortcut(parsedStore.globalShortcut)
-      solNative.setScratchpadShortcut(parsedStore.scratchpadShortcut)
-      solNative.setClipboardManagerShortcut(
-        parsedStore.clipboardManagerShortcut,
-      )
       solNative.setShowWindowOn(
         parsedStore.showWindowOn ?? 'screenWithFrontmost',
       )
-      solNative.setWindowManagement(store.windowManagementEnabled)
       solNative.useBackgroundOverlay(store.useBackgroundOverlay)
-      solNative.shouldHideMenubar(store.shouldHideMenubar)
       solNative.setMediaKeyForwardingEnabled(store.mediaKeyForwardingEnabled)
-      solNative.setEmojiPickerDisabled(store.emojiPickerDisabled)
+      solNative.updateHotkeys(toJS(store.shortcuts))
+      store.getApps()
+      store.migrateCustomItems()
     } else {
       runInAction(() => {
         store.focusedWidget = Widget.ONBOARDING
@@ -244,12 +248,10 @@ export const createUIStore = (root: IRootStore) => {
     secondTranslationLanguage: 'de' as string,
     thirdTranslationLanguage: null as null | string,
     fileResults: [] as FileDescription[],
-    windowManagementEnabled: true,
     calendarEnabled: true,
     showAllDayEvents: true,
     launchAtLogin: true,
     useBackgroundOverlay: true,
-    shouldHideMenubar: false,
     hasFullDiskAccess: false,
     safariBookmarks: [] as {title: string; url: string}[],
     braveBookmarks: [] as {title: string; url: string}[],
@@ -263,7 +265,7 @@ export const createUIStore = (root: IRootStore) => {
     showUpcomingEvent: true,
     scratchPadColor: ScratchPadColor.SYSTEM,
     searchFolders: [] as string[],
-    emojiPickerDisabled: false,
+    shortcuts: defaultShortcuts as Record<string, string>,
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -283,6 +285,7 @@ export const createUIStore = (root: IRootStore) => {
         )
 
         const results = fileResults.map(f => ({
+          id: f.path,
           type: ItemType.FILE,
           name: f.name,
           url: f.path,
@@ -359,7 +362,15 @@ export const createUIStore = (root: IRootStore) => {
         return allItems
       } else {
         if (minisearch.documentCount === 0) {
-          minisearch.addAll(allItems.map((i, idx) => ({id: idx, ...i})))
+          for (let item of allItems) {
+            if (!item.id) {
+              Sentry.captureMessage('Item without id', {
+                level: 'warning',
+                extra: {item},
+              })
+            }
+          }
+          minisearch.addAll(allItems)
         } else {
           // Add new items to search index
           for (let item of allItems) {
@@ -379,13 +390,14 @@ export const createUIStore = (root: IRootStore) => {
       })
 
       const temporaryResultItems = !!store.temporaryResult
-        ? [{type: ItemType.TEMPORARY_RESULT, name: ''}]
+        ? [{id: 'temporary', type: ItemType.TEMPORARY_RESULT, name: ''}]
         : []
 
-      const finalResults = [
+      const finalResults: Item[] = [
         ...(CONSTANTS.LESS_VALID_URL.test(store.query)
           ? [
               {
+                id: 'open_url',
                 type: ItemType.CONFIGURATION,
                 name: 'Open Url',
                 icon: '🌎',
@@ -393,7 +405,7 @@ export const createUIStore = (root: IRootStore) => {
                   if (store.query.startsWith('https://')) {
                     Linking.openURL(store.query)
                   } else {
-                    Linking.openURL(`http://${store.query}`)
+                    Linking.openURL(`https://${store.query}`)
                   }
                 },
               },
@@ -402,6 +414,7 @@ export const createUIStore = (root: IRootStore) => {
         ...temporaryResultItems,
         ...results,
         ...store.fileResults.map(f => ({
+          id: f.path,
           name: f.filename,
           subName:
             f.path.length > 60
@@ -424,9 +437,24 @@ export const createUIStore = (root: IRootStore) => {
 
       return finalResults
     },
-
     get currentItem(): Item | undefined {
       return store.items[store.selectedIndex]
+    },
+    get validatedShortcuts(): Record<
+      string,
+      {shortcut: string; valid: boolean}
+    > {
+      let res: Record<string, {shortcut: string; valid: boolean}> = {}
+      for (let key in store.shortcuts) {
+        let shortcut = store.shortcuts[key]
+        let valid = false
+        if (shortcut) {
+          let tokens = shortcut.split('+')
+          valid = tokens.every(token => validShortcutTokensRegex.test(token))
+        }
+        res[key] = {shortcut, valid}
+      }
+      return res
     },
     //                _   _
     //      /\       | | (_)
@@ -510,17 +538,9 @@ export const createUIStore = (root: IRootStore) => {
       solNative.setGlobalShortcut(key)
       store.globalShortcut = key
     },
-    setScratchpadShortcut: (key: 'command' | 'option' | 'none') => {
-      solNative.setScratchpadShortcut(key)
-      store.scratchpadShortcut = key
-    },
     setShowWindowOn: (on: 'screenWithFrontmost' | 'screenWithCursor') => {
       solNative.setShowWindowOn(on)
       store.showWindowOn = on
-    },
-    setClipboardManagerShortcut: (key: 'shift' | 'option' | 'none') => {
-      solNative.setClipboardManagerShortcut(key)
-      store.clipboardManagerShortcut = key
     },
     focusWidget: (widget: Widget) => {
       store.selectedIndex = 0
@@ -553,27 +573,7 @@ export const createUIStore = (root: IRootStore) => {
         }
       }
     },
-    onShow: ({target}: {target?: string}) => {
-      if (target === Widget.CLIPBOARD) {
-        store.showClipboardManager()
-        return
-      }
-
-      if (target === Widget.SCRATCHPAD) {
-        store.showScratchpad()
-        return
-      }
-
-      if (target === Widget.EMOJIS) {
-        store.showEmojiPicker()
-        return
-      }
-
-      if (target === Widget.SETTINGS) {
-        store.showSettings()
-        return
-      }
-
+    getApps: () => {
       solNative
         .getApps()
         .then(apps => {
@@ -618,6 +618,29 @@ export const createUIStore = (root: IRootStore) => {
           solNative.showToast(`Could not get apps: ${e}`, 'error')
           Sentry.captureException(e)
         })
+    },
+    onShow: ({target}: {target?: string}) => {
+      if (target === Widget.CLIPBOARD) {
+        store.showClipboardManager()
+        return
+      }
+
+      if (target === Widget.SCRATCHPAD) {
+        store.showScratchpad()
+        return
+      }
+
+      if (target === Widget.EMOJIS) {
+        store.showEmojiPicker()
+        return
+      }
+
+      if (target === Widget.SETTINGS) {
+        store.showSettings()
+        return
+      }
+
+      store.getApps()
 
       setImmediate(() => {
         if (!store.isAccessibilityTrusted) {
@@ -638,6 +661,7 @@ export const createUIStore = (root: IRootStore) => {
       onShowListener?.remove()
       onHideListener?.remove()
       onFileSearchListener?.remove()
+      onHotkeyListener?.remove()
     },
     getCalendarAccess: () => {
       store.calendarAuthorizationStatus =
@@ -664,10 +688,6 @@ export const createUIStore = (root: IRootStore) => {
     onFileSearch: (files: FileDescription[]) => {
       store.fileResults = files
     },
-    setWindowManagementEnabled: (v: boolean) => {
-      store.windowManagementEnabled = v
-      solNative.setWindowManagement(v)
-    },
     setCalendarEnabled: (v: boolean) => {
       store.calendarEnabled = v
       if (v) {
@@ -684,21 +704,6 @@ export const createUIStore = (root: IRootStore) => {
     setUseBackgroundOverlay: (v: boolean) => {
       store.useBackgroundOverlay = v
       solNative.useBackgroundOverlay(v)
-    },
-    setShouldHideMenuBar: (v: boolean) => {
-      store.shouldHideMenubar = v
-      if (v) {
-        solNative.showToast(
-          'Menubar will be blacked out, please wait...',
-          'success',
-        )
-      } else {
-        solNative.showToast(
-          'Done, please restore your wallpaper manually',
-          'success',
-        )
-      }
-      solNative.shouldHideMenubar(v)
     },
     getFullDiskAccessStatus: async () => {
       const hasAccess = await solNative.hasFullDiskAccess()
@@ -806,17 +811,54 @@ export const createUIStore = (root: IRootStore) => {
       store.searchFolders = store.searchFolders.filter(f => f !== folder)
     },
 
-    toggleEmojiPickerDisabled: () => {
-      store.emojiPickerDisabled = !store.emojiPickerDisabled
-      solNative.setEmojiPickerDisabled(store.emojiPickerDisabled)
-    },
-
     setSearchEngine: (engine: SearchEngine) => {
       store.searchEngine = engine
     },
-  })
 
-  // solNative.setWindowHeight(50)
+    onHotkey({id}: {id: string}) {
+      let item = store.items.find(i => i.id === id)
+      if (item == null) {
+        return
+      }
+
+      if (item.callback) {
+        item.callback()
+      } else if (item.url) {
+        solNative.openFile(item.url)
+      }
+
+      if (itemsThatShouldShowWindow.includes(item.id)) {
+        setTimeout(solNative.showWindow, 0)
+      }
+    },
+
+    setShorcut(id: string, shortcut: string) {
+      store.shortcuts[id] = shortcut
+      solNative.updateHotkeys(toJS(store.shortcuts))
+    },
+
+    restoreDefaultShorcuts() {
+      store.shortcuts = defaultShortcuts
+      solNative.updateHotkeys(toJS(store.shortcuts))
+    },
+
+    setWindowHeight(e: any) {
+      solNative.setWindowHeight(e.nativeEvent.layout.height)
+    },
+
+    // Old custom items are not migrated to the new format which has an id
+    // This function is used to migrate the old custom items to the new format
+    // by just adding a random id
+    migrateCustomItems() {
+      store.customItems = store.customItems.map(i => {
+        if (i.id) {
+          return i
+        }
+
+        return {...i, id: Math.random().toString()}
+      })
+    },
+  })
 
   Appearance.addChangeListener(store.onColorSchemeChange)
 
@@ -829,6 +871,7 @@ export const createUIStore = (root: IRootStore) => {
 
   onShowListener = solNative.addListener('onShow', store.onShow)
   onHideListener = solNative.addListener('onHide', store.onHide)
+  onHotkeyListener = solNative.addListener('hotkey', store.onHotkey)
   onFileSearchListener = solNative.addListener(
     'onFileSearch',
     store.onFileSearch,

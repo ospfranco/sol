@@ -31,7 +31,7 @@ class ClipboardHelper {
 
   static func insertToFrontmostApp(_ content: String) {
     DispatchQueue.main.async {
-      appDelegate?.hideWindow()
+      PanelManager.shared.hideWindow()
 
       let source = CGEventSource(stateID: .hidSystemState)
       // event for key down event:
@@ -54,7 +54,7 @@ class ClipboardHelper {
   
   static func pasteToFrontmostApp(_ content: String) {
     DispatchQueue.main.async {
-      appDelegate?.hideWindow()
+      PanelManager.shared.hideWindow()
 
       let pasteboard = NSPasteboard.general
       pasteboard.declareTypes([.string], owner: nil)

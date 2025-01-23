@@ -50,8 +50,8 @@ export const MainInput = observer<Props>(
       leftButton = (
         <TouchableOpacity onPress={reloadApp}>
           <Image
-            source={Assets.Logo}
-            className="w-6 h-6"
+            source={require('../assets/Logo.png')}
+            style={{width: 24, height: 24}}
             tintColor={
               colorScheme === 'dark' ? colors.neutral[400] : colors.neutral[600]
             }

@@ -55,13 +55,9 @@ export const CreateItemWidget: FC<Props> = observer(({style}) => {
     }
   }, [text, setText])
 
-  // TODO create enter listener disable/enable function on solNative
-  // useEffect(() => {
-  //   solNative.arrow
-  // })
-
   const commit = () => {
     store.ui.createCustomItem({
+      id: Math.random().toString(),
       name,
       icon,
       color,

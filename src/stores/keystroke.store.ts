@@ -284,6 +284,18 @@ export const createKeystrokeStore = (root: IRootStore) => {
                       )
                     })
                     break
+                  case 'perplexity':
+                    Linking.openURL(
+                      `https://perplexity.ai/search/new?q=${encodeURI(
+                        root.ui.query,
+                      )}`,
+                    ).catch(e => {
+                      solNative.showToast(
+                        `Could not open URL: ${root.ui.query}, error: ${e}`,
+                        'error',
+                      )
+                    })
+                    break
                 }
 
                 solNative.hideWindow()
@@ -623,15 +635,6 @@ export const createKeystrokeStore = (root: IRootStore) => {
                 root.ui.selectedIndex = root.ui.selectedIndex + EMOJI_ROW_SIZE
               } else {
                 root.ui.selectedIndex = columnIndex
-              }
-              break
-            }
-
-            case Widget.ONBOARDING: {
-              switch (root.ui.onboardingStep) {
-                case 'v1_shortcut': {
-                  root.ui.selectedIndex = (root.ui.selectedIndex + 1) % 3
-                }
               }
               break
             }

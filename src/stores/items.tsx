@@ -14,6 +14,7 @@ const chance = new Chance()
 export function createBaseItems(store: IRootStore) {
   let items: Item[] = [
     {
+      id: 'toggle_appearance',
       iconImage: Assets.DarkModeIcon,
       name: 'Toggle system appearance',
       alias: 'dark',
@@ -24,6 +25,7 @@ export function createBaseItems(store: IRootStore) {
       },
     },
     {
+      id: 'sleep',
       iconImage: Assets.SleepIcon,
       name: 'Sleep',
       type: ItemType.CONFIGURATION,
@@ -38,6 +40,7 @@ export function createBaseItems(store: IRootStore) {
       },
     },
     {
+      id: 'restart',
       icon: '🖥️',
       name: 'Restart System',
       type: ItemType.CONFIGURATION,
@@ -53,6 +56,7 @@ export function createBaseItems(store: IRootStore) {
       },
     },
     {
+      id: 'power_off',
       icon: '🌑',
       name: 'Power Off System',
       type: ItemType.CONFIGURATION,
@@ -68,6 +72,7 @@ export function createBaseItems(store: IRootStore) {
       },
     },
     {
+      id: 'airdrop',
       iconImage: Assets.Airdrop,
       name: 'AirDrop',
       type: ItemType.CONFIGURATION,
@@ -93,9 +98,9 @@ export function createBaseItems(store: IRootStore) {
       },
     },
     {
+      id: 'lock',
       iconImage: Assets.LockIcon,
       name: 'Lock',
-      shortcut: '⌘ ⌥ Q',
       type: ItemType.CONFIGURATION,
       callback: async () => {
         try {
@@ -108,16 +113,19 @@ export function createBaseItems(store: IRootStore) {
       },
     },
     {
+      id: 'settings',
       iconImage: Assets.SettingsIcon,
       name: 'Sol Settings',
       alias: 'preferences',
       type: ItemType.CONFIGURATION,
       callback: () => {
         store.ui.focusWidget(Widget.SETTINGS)
+        store.ui.setQuery('')
       },
       preventClose: true,
     },
     {
+      id: 'create_shorcut',
       icon: '✳️',
       name: 'Create shortcut or script',
       type: ItemType.CONFIGURATION,
@@ -127,6 +135,7 @@ export function createBaseItems(store: IRootStore) {
       preventClose: true,
     },
     {
+      id: 'resize_fullscreen',
       IconComponent: () => {
         return (
           <View className="w-6 h-6 p-0.5 rounded items-center bg-black">
@@ -139,9 +148,9 @@ export function createBaseItems(store: IRootStore) {
       callback: () => {
         solNative.resizeFrontmostFullscreen()
       },
-      shortcut: '^ ⌥ ↩',
     },
     {
+      id: 'resize_right_half',
       IconComponent: () => {
         return (
           <View className="w-6 h-6 p-0.5 rounded items-end bg-black">
@@ -154,9 +163,9 @@ export function createBaseItems(store: IRootStore) {
       callback: () => {
         solNative.resizeFrontmostRightHalf()
       },
-      shortcut: '^ ⌥ →',
     },
     {
+      id: 'resize_left_half',
       IconComponent: () => {
         return (
           <View className="w-6 h-6 p-0.5 rounded items-start bg-black">
@@ -169,9 +178,9 @@ export function createBaseItems(store: IRootStore) {
       callback: () => {
         solNative.resizeFrontmostLeftHalf()
       },
-      shortcut: '^ ⌥ ←',
     },
     {
+      id: 'resize_top_half',
       IconComponent: () => {
         return (
           <View className="w-6 h-6 p-0.5 rounded items-start bg-black">
@@ -184,9 +193,9 @@ export function createBaseItems(store: IRootStore) {
       callback: () => {
         solNative.resizeFrontmostTopHalf()
       },
-      shortcut: '^ ⌥ ↑',
     },
     {
+      id: 'resize_bottom_half',
       IconComponent: () => {
         return (
           <View className="w-6 h-6 p-0.5 rounded justify-end bg-black">
@@ -199,9 +208,9 @@ export function createBaseItems(store: IRootStore) {
       callback: () => {
         solNative.resizeFrontmostBottomHalf()
       },
-      shortcut: '^ ⌥ ↓',
     },
     {
+      id: 'resize_top_left',
       IconComponent: () => {
         return (
           <View className="w-6 h-6 p-0.5 rounded items-start bg-black">
@@ -214,9 +223,9 @@ export function createBaseItems(store: IRootStore) {
       callback: () => {
         solNative.resizeTopLeft()
       },
-      shortcut: '^ ⌥ U',
     },
     {
+      id: 'resize_top_right',
       IconComponent: () => {
         return (
           <View className="w-6 h-6 p-0.5 rounded items-end bg-black">
@@ -229,9 +238,9 @@ export function createBaseItems(store: IRootStore) {
       callback: () => {
         solNative.resizeTopRight()
       },
-      shortcut: '^ ⌥ I',
     },
     {
+      id: 'resize_bottom_left',
       IconComponent: () => {
         return (
           <View className="w-6 h-6 p-0.5 rounded items-start justify-end bg-black">
@@ -244,9 +253,9 @@ export function createBaseItems(store: IRootStore) {
       callback: () => {
         solNative.resizeBottomLeft()
       },
-      shortcut: '^ ⌥ J',
     },
     {
+      id: 'resize_bottom_right',
       IconComponent: () => {
         return (
           <View className="w-6 h-6 p-0.5 rounded items-end justify-end bg-black">
@@ -259,9 +268,9 @@ export function createBaseItems(store: IRootStore) {
       callback: () => {
         solNative.resizeBottomRight()
       },
-      shortcut: '^ ⌥ K',
     },
     {
+      id: 'move_next_screen',
       IconComponent: () => {
         return (
           <View className="w-6 h-6 rounded items-center justify-center bg-black">
@@ -274,9 +283,9 @@ export function createBaseItems(store: IRootStore) {
       callback: () => {
         solNative.moveFrontmostNextScreen()
       },
-      shortcut: '^ ⌥ ⌘ →',
     },
     {
+      id: 'move_prev_screen',
       IconComponent: () => {
         return (
           <View className="w-6 h-6 rounded items-center justify-center bg-black">
@@ -289,9 +298,9 @@ export function createBaseItems(store: IRootStore) {
       callback: () => {
         solNative.moveFrontmostPrevScreen()
       },
-      shortcut: '^ ⌥ ⌘ ←',
     },
     {
+      id: 'move_center',
       IconComponent: () => {
         return (
           <View className="w-6 h-6 p-0.5 rounded items-center justify-center bg-black">
@@ -306,6 +315,7 @@ export function createBaseItems(store: IRootStore) {
       },
     },
     {
+      id: 'scratchpad',
       icon: '🖊',
       name: 'Scratchpad',
       preventClose: true,
@@ -313,9 +323,9 @@ export function createBaseItems(store: IRootStore) {
       callback: () => {
         store.ui.focusWidget(Widget.SCRATCHPAD)
       },
-      shortcut: '⌘ + ⇧ + Space',
     },
     {
+      id: 'emoji_picker',
       icon: '😎',
       name: 'Emoji Picker',
       preventClose: true,
@@ -323,9 +333,9 @@ export function createBaseItems(store: IRootStore) {
       callback: () => {
         store.ui.showEmojiPicker()
       },
-      shortcut: '⌘ Ctrl Space',
     },
     {
+      id: 'check_for_updates',
       icon: '🆙',
       name: 'Check for updates',
       type: ItemType.CONFIGURATION,
@@ -334,6 +344,7 @@ export function createBaseItems(store: IRootStore) {
       },
     },
     {
+      id: 'clipboard_manager',
       icon: '📋',
       name: 'Clipboard Manager',
       type: ItemType.CONFIGURATION,
@@ -343,6 +354,7 @@ export function createBaseItems(store: IRootStore) {
       preventClose: true,
     },
     {
+      id: 'process_manager',
       icon: '🔫',
       name: 'Kill process',
       type: ItemType.CONFIGURATION,
@@ -352,6 +364,7 @@ export function createBaseItems(store: IRootStore) {
       preventClose: true,
     },
     {
+      id: 'file_search',
       icon: '📁',
       name: 'File Search',
       type: ItemType.CONFIGURATION,
@@ -361,6 +374,7 @@ export function createBaseItems(store: IRootStore) {
       preventClose: true,
     },
     {
+      id: 'downloads_folder',
       IconComponent: (...props: any[]) => (
         <FileIcon {...props} url="~/Downloads" className="w-6 h-6" />
       ),
@@ -371,6 +385,7 @@ export function createBaseItems(store: IRootStore) {
       },
     },
     {
+      id: 'desktop_folder',
       IconComponent: (...props: any[]) => {
         return <FileIcon {...props} url="~/Desktop" className="w-6 h-6" />
       },
@@ -381,6 +396,7 @@ export function createBaseItems(store: IRootStore) {
       },
     },
     {
+      id: 'applications_folder',
       IconComponent: (...props: any[]) => (
         <FileIcon {...props} url="/Applications" className="w-6 h-6" />
       ),
@@ -392,6 +408,7 @@ export function createBaseItems(store: IRootStore) {
       },
     },
     {
+      id: 'pictures_folder',
       IconComponent: (...props: any[]) => (
         <FileIcon {...props} url="~/Pictures" className="w-6 h-6" />
       ),
@@ -402,6 +419,7 @@ export function createBaseItems(store: IRootStore) {
       },
     },
     {
+      id: 'developer_folder',
       IconComponent: (...props: any[]) => (
         <FileIcon {...props} url="~/Developer" className="w-6 h-6" />
       ),
@@ -419,6 +437,7 @@ export function createBaseItems(store: IRootStore) {
       },
     },
     {
+      id: 'documents_folder',
       IconComponent: (...props: any[]) => (
         <FileIcon {...props} url="~/Documents" className="w-6 h-6" />
       ),
@@ -429,6 +448,7 @@ export function createBaseItems(store: IRootStore) {
       },
     },
     {
+      id: 'start_google_meet',
       iconImage: Assets.googleLogo,
       name: 'Start Google Meet',
       type: ItemType.CONFIGURATION,
@@ -487,6 +507,7 @@ export function createBaseItems(store: IRootStore) {
       },
     },
     {
+      id: 'clear_derived_data',
       IconComponent: () => (
         <FileIcon url="/Applications/Xcode.app" className="w-6 h-6" />
       ),
@@ -502,6 +523,7 @@ export function createBaseItems(store: IRootStore) {
       },
     },
     {
+      id: 'generate_nano_id',
       icon: '🍔',
       name: 'Generate Nano ID',
       type: ItemType.CONFIGURATION,
@@ -512,6 +534,7 @@ export function createBaseItems(store: IRootStore) {
       },
     },
     {
+      id: 'generate_uuid',
       icon: '🍔',
       name: 'Generate UUID',
       type: ItemType.CONFIGURATION,
@@ -522,6 +545,7 @@ export function createBaseItems(store: IRootStore) {
       },
     },
     {
+      id: 'generate_lorem_ipsum',
       icon: '👴',
       name: 'Generate Lorem Ipsum',
       type: ItemType.CONFIGURATION,
@@ -532,6 +556,7 @@ export function createBaseItems(store: IRootStore) {
       },
     },
     {
+      id: 'quit_sol',
       icon: '💀',
       name: 'Quit/Exit Sol',
       type: ItemType.CONFIGURATION,
@@ -540,6 +565,7 @@ export function createBaseItems(store: IRootStore) {
       },
     },
     {
+      id: 'paste_as_json',
       icon: '📟',
       name: 'Paste as JSON',
       type: ItemType.CONFIGURATION,
@@ -557,6 +583,7 @@ export function createBaseItems(store: IRootStore) {
       },
     },
     {
+      id: 'kill_all_apps',
       icon: '☠️',
       name: 'Kill all apps',
       type: ItemType.CONFIGURATION,
@@ -581,6 +608,7 @@ export function createBaseItems(store: IRootStore) {
     },
     ...systemPreferenceItems,
     {
+      id: 'copy_wifi_password',
       icon: '🔑',
       name: 'Copy Wi-Fi Password to Clipboard',
       type: ItemType.CONFIGURATION,
@@ -600,6 +628,7 @@ export function createBaseItems(store: IRootStore) {
       },
     },
     {
+      id: 'reveal_wifi_password',
       icon: '📶',
       name: 'Reveal Wi-Fi Password',
       type: ItemType.CONFIGURATION,
@@ -620,6 +649,7 @@ export function createBaseItems(store: IRootStore) {
       },
     },
     {
+      id: 'empty_trash',
       icon: '🗑️',
       name: 'Empty Trash',
       type: ItemType.CONFIGURATION,
@@ -632,6 +662,20 @@ export function createBaseItems(store: IRootStore) {
           solNative.showToast('Trash emptied', 'success')
         } catch (e) {
           solNative.showToast(`Could not empty trash: ${e}`, 'error')
+        }
+      },
+    },
+    {
+      id: 'hide_notch',
+      icon: '🕶️',
+      name: 'Hide Notch',
+      type: ItemType.CONFIGURATION,
+      callback: async () => {
+        try {
+          await solNative.hideNotch()
+          solNative.showToast('Notch hidden', 'success')
+        } catch (e) {
+          solNative.showToast(`Could not hide notch: ${e}`, 'error')
         }
       },
     },
@@ -651,6 +695,7 @@ export function createBaseItems(store: IRootStore) {
 
   if (__DEV__) {
     items.push({
+      id: 'restart_onboarding',
       icon: '🐣',
       name: '[DEV] Restart onboarding',
       type: ItemType.CONFIGURATION,
@@ -662,6 +707,7 @@ export function createBaseItems(store: IRootStore) {
     })
 
     items.push({
+      id: 'sucess_toast',
       icon: '🍞',
       name: 'Success toast',
       type: ItemType.CONFIGURATION,
@@ -673,6 +719,7 @@ export function createBaseItems(store: IRootStore) {
       },
     })
     items.push({
+      id: 'error_toast',
       icon: '🍞',
       name: 'error toast',
       type: ItemType.CONFIGURATION,

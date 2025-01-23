@@ -1,36 +1,26 @@
 require_relative '../node_modules/react-native-macos/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-platform :macos, '11'
 prepare_react_native_project!
 
+ENV['RCT_NEW_ARCH_ENABLED'] = '0'
+
 target 'macOS' do
-  config = use_native_modules!
+  platform :macos, '11'
+  use_native_modules!
 
   use_react_native!(
     :path => '../node_modules/react-native-macos',
     :hermes_enabled => true,
+    :fabric_enabled => false,
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
   pod 'Sparkle'
   pod 'HotKey'
-  pod 'KeychainAccess'
 
   post_install do |installer|
-    react_native_post_install(
-      installer,
-      config[:reactNativePath],
-      :mac_catalyst_enabled => false
-    )
-
-    installer.pods_project.targets.each do |target|
-      target.build_configurations.each do |config|
-        if target.name == 'KeychainAccess'
-          config.build_settings['MACOSX_DEPLOYMENT_TARGET'] = '11.0'
-        end
-      end
-    end
+    react_native_post_install(installer)
   end
 
 end

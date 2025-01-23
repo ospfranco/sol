@@ -6,14 +6,14 @@ final class Panel: NSPanel, NSWindowDelegate {
   init(contentRect: NSRect) {
     super.init(
       contentRect: contentRect,
-      styleMask: [.borderless, .fullSizeContentView, .nonactivatingPanel],
+      styleMask: [.titled, .fullSizeContentView, .nonactivatingPanel],
       backing: .buffered,
       defer: false
     )
 
     self.hasShadow = true
-    self.level = .mainMenu + 3
-    self.collectionBehavior.insert(.fullScreenAuxiliary)  // Allows the pannel to appear in a fullscreen space
+    self.level = .floating
+    self.collectionBehavior.insert(.fullScreenAuxiliary)
     self.collectionBehavior.insert(.canJoinAllSpaces)
     self.titleVisibility = .hidden
     self.titlebarAppearsTransparent = true
@@ -21,7 +21,18 @@ final class Panel: NSPanel, NSWindowDelegate {
     self.isReleasedWhenClosed = false
     self.isOpaque = false
     self.delegate = self
-    self.backgroundColor = NSColor.clear
+    self.backgroundColor = NSColor.windowBackgroundColor.withAlphaComponent(0.2)
+
+    let effectView = NSVisualEffectView(
+      frame: .zero
+    )
+    effectView.autoresizingMask = [.width, .height]
+    effectView.material = .headerView
+    effectView.blendingMode = .behindWindow
+    effectView.state = .active
+
+    self.contentView = effectView
+    self.contentView!.wantsLayer = true
   }
 
   override var canBecomeKey: Bool {
@@ -34,7 +45,7 @@ final class Panel: NSPanel, NSWindowDelegate {
 
   func windowDidResignKey(_ notification: Notification) {
     DispatchQueue.main.async {
-      appDelegate?.hideWindow()
+      PanelManager.shared.hideWindow()
     }
   }
 }
