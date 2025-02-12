@@ -1,3 +1,4 @@
+import {captureException} from '@sentry/react-native'
 import {extractMeetingLink} from 'lib/calendar'
 import {solNative} from 'lib/SolNative'
 import {sleep} from 'lib/various'
@@ -122,6 +123,7 @@ export const createCalendarStore = (root: IRootStore) => {
       }
 
       const events = solNative.getEvents()
+
       if (root.ui.calendarEnabled) {
         store.events = events
       }
@@ -130,34 +132,36 @@ export const createCalendarStore = (root: IRootStore) => {
         const upcomingEvent = events.find(e => {
           const lStart = DateTime.fromISO(e.date)
           const lNow = DateTime.now()
+
           return (
             +lStart.plus({minute: 10}) >= +lNow && +lStart <= +lNow.endOf('day')
           )
         })
 
-        if (upcomingEvent) {
-          const lStart = DateTime.fromISO(upcomingEvent.date)
-
-          const minutes = lStart.diffNow('minutes').minutes
-          if (minutes > 0) {
-            const relativeHours = Math.floor(minutes / 60)
-            const relativeHoursStr =
-              relativeHours > 0 ? `${relativeHours}h` : ''
-            const relativeMinutesStr = `${Math.floor(
-              minutes - relativeHours * 60,
-            )}m`
-
-            solNative.setStatusBarItemTitle(
-              `⁝ ${upcomingEvent.title!.trim().substring(0, 18)}${
-                upcomingEvent.title!.length > 18 ? '...' : ''
-              } • ${relativeHoursStr} ${relativeMinutesStr}`,
-            )
-          } else if (minutes <= 0) {
-            solNative.setStatusBarItemTitle(`⏰ ${upcomingEvent.title?.trim()}`)
-          }
-        } else {
+        if (!upcomingEvent) {
           solNative.setStatusBarItemTitle('')
+          return
         }
+
+        const lStart = DateTime.fromISO(upcomingEvent.date)
+        const minutes = lStart.diffNow('minutes').minutes
+
+        if (minutes <= 0) {
+          solNative.setStatusBarItemTitle(`⏰ ${upcomingEvent.title?.trim()}`)
+          return
+        }
+
+        const relativeHours = Math.floor(minutes / 60)
+        const relativeHoursStr = relativeHours > 0 ? `${relativeHours}h` : ''
+        const relativeMinutesStr = `${Math.floor(
+          minutes - relativeHours * 60,
+        )}m`
+
+        solNative.setStatusBarItemTitle(
+          `${upcomingEvent.title!.trim().substring(0, 18)}${
+            upcomingEvent.title!.length > 18 ? '...' : ''
+          } • ${relativeHoursStr} ${relativeMinutesStr}`,
+        )
       }
     },
     cleanUp: () => {
@@ -170,8 +174,15 @@ export const createCalendarStore = (root: IRootStore) => {
         return
       }
 
-      store.fetchEvents()
-      await sleep(10000)
+      if (root.ui.calendarEnabled) {
+        try {
+          store.fetchEvents()
+        } catch (e) {
+          captureException(e)
+        }
+      }
+
+      await sleep(1000)
       store.poll()
     },
     onShow: () => {
@@ -209,9 +220,8 @@ export const createCalendarStore = (root: IRootStore) => {
   })
 
   store.getCalendarAccess()
-  if (root.ui.calendarEnabled) {
-    store.poll()
-  }
+
+  store.poll()
 
   onShowListener = solNative.addListener('onShow', store.onShow)
   onStatusBarItemClickListener = solNative.addListener(
