@@ -6,6 +6,7 @@ import {IRootStore} from 'store'
 import {Widget} from './ui.store'
 import MiniSearch from 'minisearch'
 import {storage} from './storage'
+import {captureException} from '@sentry/react-native'
 
 const MAX_ITEMS = 1000
 
@@ -18,8 +19,6 @@ type PasteItem = {
   text: string
   bundle?: string | null
 }
-
-let id = 0
 
 let minisearch = new MiniSearch({
   fields: ['text', 'bundle'],
@@ -40,27 +39,33 @@ export const createClipboardStore = (root: IRootStore) => {
         return
       }
 
-      const index = store.items.findIndex(t => t.text === obj.text)
+      let newItem = {id: Date.now().valueOf(), ...obj}
 
+      const index = store.items.findIndex(t => t.text === newItem.text)
+      // Item already exists, move to top
       if (index !== -1) {
+        // Re-add to minisearch to update the order
         minisearch.remove(store.items[index])
-        minisearch.add({id: store.items[index].id, obj})
-        store.unshift(index)
+        minisearch.add(store.items[index])
+
+        store.popToTop(index)
         return
       }
 
-      if (store.items.length >= MAX_ITEMS) {
+      // Item does not already exist, put to queue and add to minisearch
+      store.items.unshift(newItem)
+      minisearch.add(newItem)
+
+      // Remove last item from minisearch
+      if (store.items.length > MAX_ITEMS) {
         try {
           minisearch.remove(store.items[store.items.length - 1])
         } catch (e) {
-          console.warn('Could not remove item from minisearch', e)
+          captureException(e)
         }
+
         store.items = store.items.slice(0, MAX_ITEMS)
       }
-
-      store.items.unshift({id, ...obj})
-      minisearch.add({id, obj})
-      id++
     },
     get clipboardItems(): PasteItem[] {
       if (!root.ui.query || root.ui.focusedWidget !== Widget.CLIPBOARD) {
@@ -69,7 +74,7 @@ export const createClipboardStore = (root: IRootStore) => {
 
       return minisearch.search(root.ui.query) as any
     },
-    unshift: (index: number) => {
+    popToTop: (index: number) => {
       const newItems = [...store.items]
       const item = newItems.splice(index, 1)
       newItems.unshift(item[0])
@@ -78,7 +83,7 @@ export const createClipboardStore = (root: IRootStore) => {
     setSaveHistory: (v: boolean) => {
       store.saveHistory = v
       if (!v) {
-        solNative.securelyStore('@sol.clipboard_history', '[]')
+        solNative.securelyStore('@sol.clipboard_history_v2', '[]')
       }
     },
   })
@@ -102,18 +107,16 @@ export const createClipboardStore = (root: IRootStore) => {
     }
 
     if (store.saveHistory) {
-      const entry = await solNative.securelyRetrieve('@sol.clipboard_history')
+      const entry = await solNative.securelyRetrieve(
+        '@sol.clipboard_history_v2',
+      )
+
       if (entry) {
         let items = JSON.parse(entry)
 
-        items = items.map((item: PasteItem) => ({
-          ...item,
-          id: id++,
-        }))
-
-        minisearch.addAll(items)
         runInAction(() => {
           store.items = items
+          minisearch.addAll(store.items)
         })
       }
     }
@@ -124,7 +127,7 @@ export const createClipboardStore = (root: IRootStore) => {
       const history = toJS(store)
       try {
         await solNative.securelyStore(
-          '@sol.clipboard_history',
+          '@sol.clipboard_history_v2',
           JSON.stringify(history.items),
         )
       } catch (e) {

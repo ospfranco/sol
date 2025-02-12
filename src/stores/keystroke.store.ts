@@ -112,7 +112,8 @@ export const createKeystrokeStore = (root: IRootStore) => {
               const originalIndex = root.clipboard.clipboardItems.findIndex(
                 e => entry === e,
               )
-              root.clipboard.unshift(originalIndex)
+
+              root.clipboard.popToTop(originalIndex)
 
               if (entry) {
                 if (meta) {
