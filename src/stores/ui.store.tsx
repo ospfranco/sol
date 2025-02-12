@@ -6,8 +6,12 @@ import {solNative} from 'lib/SolNative'
 import {CONSTANTS} from 'lib/constants'
 import {googleTranslate} from 'lib/translator'
 import {autorun, makeAutoObservable, runInAction, toJS} from 'mobx'
-import React from 'react'
-import {Appearance, EmitterSubscription, Linking} from 'react-native'
+import {
+  Appearance,
+  EmitterSubscription,
+  Linking,
+  NativeEventSubscription,
+} from 'react-native'
 import {IRootStore} from 'store'
 import {createBaseItems} from './items'
 import plist from '@expo/plist'
@@ -22,6 +26,7 @@ let onShowListener: EmitterSubscription | undefined
 let onHideListener: EmitterSubscription | undefined
 let onFileSearchListener: EmitterSubscription | undefined
 let onHotkeyListener: EmitterSubscription | undefined
+let appareanceListener: NativeEventSubscription | undefined
 
 export enum Widget {
   ONBOARDING = 'ONBOARDING',
@@ -665,6 +670,7 @@ export const createUIStore = (root: IRootStore) => {
       onHideListener?.remove()
       onFileSearchListener?.remove()
       onHotkeyListener?.remove()
+      appareanceListener?.remove()
     },
     getCalendarAccess: () => {
       store.calendarAuthorizationStatus =
@@ -781,6 +787,7 @@ export const createUIStore = (root: IRootStore) => {
       colorScheme: 'light' | 'dark' | null | undefined
     }) {
       store.isDarkMode = colorScheme === 'dark'
+      solNative.restart()
     },
 
     setReduceTransparency: (v: boolean) => {
@@ -860,7 +867,7 @@ export const createUIStore = (root: IRootStore) => {
     },
   })
 
-  Appearance.addChangeListener(store.onColorSchemeChange)
+  appareanceListener = Appearance.addChangeListener(store.onColorSchemeChange)
 
   hydrate().then(() => {
     autorun(persist)
