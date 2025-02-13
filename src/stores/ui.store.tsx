@@ -72,7 +72,6 @@ let stopWords = new Set([
   'for',
   'on',
   'with',
-  'what',
   'how',
   'when',
   'where',
@@ -113,8 +112,7 @@ let minisearch = new MiniSearch({
   ],
   searchOptions: {
     prefix: true,
-    fuzzy: 0.2,
-    combineWith: 'AND',
+    fuzzy: true,
   },
   processTerm: (term, _fieldName) =>
     stopWords.has(term) ? null : term.toLowerCase(),
