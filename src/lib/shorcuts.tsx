@@ -1,7 +1,7 @@
 import {Key} from 'components/Key'
 
 export const validShortcutTokensRegex =
-  /^(cmd|control|option|command|shift|return|space|right|left|up|down|[a-z]|[0-9])$/
+  /^(cmd|control|option|command|shift|return|space|right|left|up|down|[a-ú]|[0-9])$/
 
 export const defaultShortcuts = {
   // 'option+space': 'sol'
