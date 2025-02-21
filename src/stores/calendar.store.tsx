@@ -182,7 +182,7 @@ export const createCalendarStore = (root: IRootStore) => {
         }
       }
 
-      await sleep(1000)
+      await sleep(60 * 1000)
       store.poll()
     },
     onShow: () => {
