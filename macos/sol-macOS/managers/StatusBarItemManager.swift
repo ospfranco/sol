@@ -21,10 +21,10 @@ class StatusBarItemManager {
         if let button = self.statusBarItem?.button {
           button.title = title
           button.action = #selector(self.statusBarItemCallback(_:))
+          button.target = self
           button.sizeToFit()
         }
       }
     }
-  
   }
 }
