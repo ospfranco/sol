@@ -3,4 +3,4 @@ bun = "latest"
 ruby = "3.3.0"
 
 [hooks]
-postinstall = "bun install && cd macos && pod install"
+postinstall = "bun install && gem install bundler && bundle install && cd macos && pod install"
