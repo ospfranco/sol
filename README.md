@@ -64,10 +64,8 @@ https://discord.gg/W9XmqCQCKP
 
 You need to set up your machine for macOS development with React Native. Basically you need to install:
 
+- Mise (https://mise.jdx.dev/)
 - Xcode
-- Node (I suggest you use mise)
-- Watchman
-- Ruby 3.x (I suggest you use mise again)
 - Cocoapods
 
 Follow any of the online tutorials to set up your machine for iOS/MacOS React Native development.
@@ -75,14 +73,14 @@ Follow any of the online tutorials to set up your machine for iOS/MacOS React Na
 Once you have everything installed run the following commands
 
 ```sh
-bun i
-bun pods
+# To enable hooks
+mise settings experimental=true
+# Will install all bun, ruby and run the installation of dependencies
+mise install
+
+# You can then run the app with
 bun macos
 ```
-
-and then open the sol.xcworkspace in Xcode and run the app from there
-
-App is signed with my personal team, so you will have an error there you can ignore as long as you are not packaging the app. But please don't change it, otherwise your PR will be dirty.
 
 ## License
 

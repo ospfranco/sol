@@ -1,3 +1,6 @@
 [tools]
 bun = "latest"
 ruby = "3.3.0"
+
+[hooks]
+postinstall = "bun install && cd macos && pod install"
