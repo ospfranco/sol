@@ -35,6 +35,12 @@ export const ProcessesWidget: FC<Props> = observer(({style}) => {
 
   useEffect(() => {
     store.processes.fetchProcesses()
+    let interval = setInterval(() => {
+      store.processes.fetchProcesses()
+    }, 10000)
+    return () => {
+      clearInterval(interval)
+    }
   }, [])
 
   return (
@@ -54,11 +60,12 @@ export const ProcessesWidget: FC<Props> = observer(({style}) => {
             </Text>
           </View>
         }
-        keyExtractor={(item, index) => index.toString()}
+        onScrollToIndexFailed={() => {}}
+        keyExtractor={(_, index) => index.toString()}
         ListHeaderComponent={() => {
           return (
             <View className="flex-row px-4 py-2 border-b border-color mb-2">
-              <Text className="w-28 font-semibold px-4">ID</Text>
+              {/* <Text className="w-28 font-semibold px-4">ID</Text> */}
               <Text className="flex-1 font-semibold px-4">Process Name</Text>
               <Text className="w-28 font-semibold px-4">Memory</Text>
               <Text className="w-28 font-semibold px-4">CPU</Text>
@@ -73,12 +80,12 @@ export const ProcessesWidget: FC<Props> = observer(({style}) => {
               className={clsx('px-2 py-1 flex-row rounded mx-2', {
                 highlight: isActive,
               })}>
-              <Text
+              {/* <Text
                 className={clsx('text-sm w-28 text px-4 py-2', {
                   'dark:text-white': isActive,
                 })}>
                 {process.pid}
-              </Text>
+              </Text> */}
               <Text
                 className={clsx('text-sm flex-1 text px-4 py-2', {
                   'dark:text-white': isActive,

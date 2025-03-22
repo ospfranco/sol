@@ -665,7 +665,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
             case Widget.PROCESSES: {
               root.ui.selectedIndex = Math.min(
                 root.ui.selectedIndex + 1,
-                root.processes.processes.length - 1,
+                root.processes.filteredProcesses.length - 1,
               )
               break
             }
