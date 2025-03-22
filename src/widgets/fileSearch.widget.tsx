@@ -40,7 +40,7 @@ export const FileSearchWidget: FC<Props> = observer(({style}) => {
       <FlatList
         data={data}
         className="flex-1"
-        contentContainerClassName="flex-grow pb-2 pt-1 px-2"
+        contentContainerClassName="flex-grow p-2"
         ref={listRef}
         ListEmptyComponent={
           <View className="flex-1 justify-center items-center">
@@ -49,12 +49,17 @@ export const FileSearchWidget: FC<Props> = observer(({style}) => {
             </Text>
           </View>
         }
-        keyExtractor={(item, index) => index.toString()}
+        getItemLayout={(_, index) => ({
+          length: 42,
+          offset: 42 * index,
+          index,
+        })}
+        keyExtractor={(_, index) => index.toString()}
         renderItem={({item, index}) => {
           const isActive = index === selectedIndex
           return (
             <View
-              className={clsx('flex-row items-center rounded-lg py-2', {
+              className={clsx('flex-row items-center rounded-lg h-12', {
                 highlight: isActive,
               })}>
               <View className="flex-1 flex-row items-center px-6 h-9">
@@ -63,7 +68,6 @@ export const FileSearchWidget: FC<Props> = observer(({style}) => {
                     <FileIcon url={item.url} className={'w-6 h-6'} />
                   </View>
                 )}
-
                 <Text numberOfLines={1} className={'ml-3 text flex-1'}>
                   {item.name}
                 </Text>
