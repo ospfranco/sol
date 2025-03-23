@@ -73,6 +73,7 @@ Follow any of the online tutorials to set up your machine for iOS/MacOS React Na
 Once you have everything installed run the following commands
 
 ```sh
+mise plugin add cocoapods
 # To enable hooks
 mise settings experimental=true
 # Will install all bun, ruby and run the installation of dependencies
