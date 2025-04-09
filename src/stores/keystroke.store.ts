@@ -297,6 +297,19 @@ export const createKeystrokeStore = (root: IRootStore) => {
                       )
                     })
                     break
+                  case 'custom':
+                    Linking.openURL(
+                      root.ui.customSearchUrl.replace(
+                        '%s',
+                        encodeURI(root.ui.query),
+                      ),
+                    ).catch(e => {
+                      solNative.showToast(
+                        `Could not open URL: ${root.ui.query}, error: ${e}`,
+                        'error',
+                      )
+                    })
+                    break
                 }
 
                 solNative.hideWindow()

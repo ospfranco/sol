@@ -129,7 +129,7 @@ let defaultSearchFolders = [
 ]
 
 export type UIStore = ReturnType<typeof createUIStore>
-type SearchEngine = 'google' | 'bing' | 'duckduckgo' | 'perplexity'
+type SearchEngine = 'google' | 'bing' | 'duckduckgo' | 'perplexity' | 'custom'
 
 const itemsThatShouldShowWindow = [
   'emoji_picker',
@@ -200,6 +200,7 @@ export const createUIStore = (root: IRootStore) => {
           parsedStore.scratchPadColor ?? ScratchPadColor.SYSTEM
         store.searchFolders = parsedStore.searchFolders ?? defaultSearchFolders
         store.searchEngine = parsedStore.searchEngine ?? 'google'
+        store.customSearchUrl = parsedStore.customSearchUrl ?? 'https://google.com/search?q=%s'
         store.shortcuts = parsedStore.shortcuts ?? defaultShortcuts
       })
 
@@ -234,6 +235,7 @@ export const createUIStore = (root: IRootStore) => {
     calendarAuthorizationStatus: null as CalendarAuthorizationStatus | null,
     onboardingStep: 'v1_start' as OnboardingStep,
     searchEngine: 'google' as SearchEngine,
+    customSearchUrl: 'https://google.com/search?q=%s' as string,
     globalShortcut: 'option' as 'command' | 'option' | 'control',
     scratchpadShortcut: 'command' as 'command' | 'option' | 'none',
     clipboardManagerShortcut: 'shift' as 'shift' | 'option' | 'none',
@@ -820,6 +822,10 @@ export const createUIStore = (root: IRootStore) => {
       store.searchEngine = engine
     },
 
+    setCustomSearchUrl: (url: string) => {
+      store.customSearchUrl = url
+    },
+    
     onHotkey({id}: {id: string}) {
       let item = store.items.find(i => i.id === id)
       if (item == null) {
