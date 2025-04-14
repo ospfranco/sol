@@ -1,3 +1,4 @@
+import { Input } from 'components/Input'
 import {MyRadioButton} from 'components/MyRadioButton'
 import {MySwitch} from 'components/MySwitch'
 import {solNative} from 'lib/SolNative'
@@ -50,17 +51,38 @@ export const General = observer(() => {
               {label: 'DuckDuckGo', value: 'duckduckgo' as const},
               {label: 'Bing', value: 'bing' as const},
               {label: 'Perplexity', value: 'perplexity' as const},
+              {label: 'Custom', value: 'custom' as const},
             ].map(({label, value}, idx) => {
               return (
-                <MyRadioButton
-                  key={idx}
-                  label={label}
-                  value={value}
-                  onValueChange={() => {
-                    store.ui.setSearchEngine(value)
-                  }}
-                  selected={store.ui.searchEngine === value}
-                />
+                <View className="flex flex-row gap-2 items-start" key={idx}>
+                  <MyRadioButton
+                    label={label}
+                    value={value}
+                    onValueChange={() => {
+                      store.ui.setSearchEngine(value)
+                    }}
+                    selected={store.ui.searchEngine === value}
+                  />
+                  {value === 'custom' && (
+                    <View className="flex-1">
+                      <Input
+                        className="w-80 text-xs rounded border border-lightBorder dark:border-darkBorder px-1"
+                        inputClassName={
+                          store.ui.searchEngine !== 'custom'
+                            ? 'opacity-45 dark:text-white'
+                            : ''
+                        }
+                        readOnly={store.ui.searchEngine !== 'custom'}
+                        value={store.ui.customSearchUrl}
+                        onChangeText={e => store.ui.setCustomSearchUrl(e)}
+                        placeholder="https://google.com/search?q=%s"
+                      />
+                      <Text className="text-xs text-neutral-500 dark:text-neutral-400 mt-1 ml-1">
+                        Use %s in place of the search term
+                      </Text>
+                    </View>
+                  )}
+                </View>
               )
             })}
           </View>
