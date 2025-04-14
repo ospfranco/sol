@@ -741,13 +741,17 @@ export const createUIStore = (root: IRootStore) => {
           return
         }
         const OGbookmarks = JSON.parse(bookmarksString)
-        let bookmarks = OGbookmarks.roots.bookmark_bar.children.map(
-          (v: any) => ({
-            title: v.name,
-            url: v.url,
-          }),
-        )
-
+        let bookmarks: {title: string; url: string}[] = []
+        const traverse = (nodes: any[]) => {
+          nodes.forEach(node => {
+            if (node.type === 'folder') {
+              traverse(node.children)
+            } else if (node.type === 'url') {
+              bookmarks.push({title: node.name, url: node.url})
+            }
+          })
+        }
+        traverse(OGbookmarks.roots.bookmark_bar.children)
         store.braveBookmarks = bookmarks
       }
     },
