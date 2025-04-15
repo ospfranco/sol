@@ -104,6 +104,7 @@ type Item = {
   text?: string
   isFavorite?: boolean // injected in UI array
   isRunning?: boolean // only apps have this
+  bookmarkFolder? : null | string // only bookmarks have this 
 }
 
 type OnboardingStep =
