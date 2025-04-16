@@ -130,6 +130,12 @@ export const SearchWidget: FC<Props> = observer(() => {
               {renderToKeys(store.ui.shortcuts[item.id])}
             </View>
           )}
+          {item.type === ItemType.BOOKMARK && !!item.bookmarkFolder && (
+            <Text className="flex-row gap-1 items-center">{`${item.bookmarkFolder.substring(
+              0,
+              16,
+            )}${item.bookmarkFolder.length > 16 ? '...' : ''}`}</Text>
+          )}
         </View>
       </TouchableOpacity>
     )
