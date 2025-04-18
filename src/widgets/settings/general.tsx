@@ -6,6 +6,12 @@ import {observer} from 'mobx-react-lite'
 import {ScrollView, Text, TouchableOpacity, View} from 'react-native'
 import {useStore} from 'store'
 
+export const isValidCustomSearchEngineUrl = (url: string) => {
+  if (url.trim() === '') return false
+  const searchPatternRegex =
+    /^https?:\/\/(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?|localhost|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(:\d+)?(\/[^\s?#]*)?\?[\w-]+=%s$/
+  return searchPatternRegex.test(url)
+}
 export const General = observer(() => {
   const store = useStore()
   return (
@@ -65,18 +71,28 @@ export const General = observer(() => {
                   />
                   {value === 'custom' && (
                     <View className="flex-1">
-                      <Input
-                        className="w-80 text-xs rounded border border-lightBorder dark:border-darkBorder px-1"
-                        inputClassName={
-                          store.ui.searchEngine !== 'custom'
-                            ? 'opacity-45 dark:text-white'
-                            : ''
-                        }
-                        readOnly={store.ui.searchEngine !== 'custom'}
-                        value={store.ui.customSearchUrl}
-                        onChangeText={e => store.ui.setCustomSearchUrl(e)}
-                        placeholder="https://google.com/search?q=%s"
-                      />
+                      <View className="flex-row items-center gap-2">
+                        <Input
+                          className="w-80 text-xs rounded border border-lightBorder dark:border-darkBorder px-1"
+                          inputClassName={
+                            store.ui.searchEngine !== 'custom'
+                              ? 'opacity-45 dark:text-white'
+                              : ''
+                          }
+                          readOnly={store.ui.searchEngine !== 'custom'}
+                          value={store.ui.customSearchUrl}
+                          onChangeText={e => store.ui.setCustomSearchUrl(e)}
+                          placeholder="https://google.com/search?q=%s"
+                        />
+                        {store.ui.searchEngine === 'custom' &&
+                          (isValidCustomSearchEngineUrl(
+                            store.ui.customSearchUrl,
+                          ) ? (
+                            <View className="w-2 h-2 rounded-full bg-green-500" />
+                          ) : (
+                            <View className="w-2 h-2 rounded-full bg-red-500" />
+                          ))}
+                      </View>
                       <Text className="text-xs text-neutral-500 dark:text-neutral-400 mt-1 ml-1">
                         Use %s in place of the search term
                       </Text>

@@ -6,6 +6,7 @@ import {Clipboard, EmitterSubscription, Linking} from 'react-native'
 import {IRootStore} from 'store'
 import {ItemType, Widget} from './ui.store'
 import {EMOJI_ROW_SIZE} from './emoji.store'
+import { isValidCustomSearchEngineUrl } from 'widgets/settings/general'
 
 let keyDownListener: EmitterSubscription | undefined
 let keyUpListener: EmitterSubscription | undefined
@@ -298,17 +299,24 @@ export const createKeystrokeStore = (root: IRootStore) => {
                     })
                     break
                   case 'custom':
-                    Linking.openURL(
-                      root.ui.customSearchUrl.replace(
-                        '%s',
-                        encodeURI(root.ui.query),
-                      ),
-                    ).catch(e => {
+                    if (isValidCustomSearchEngineUrl(root.ui.customSearchUrl)) {
+                      Linking.openURL(
+                        root.ui.customSearchUrl.replace(
+                          '%s',
+                          encodeURI(root.ui.query),
+                        ),
+                      ).catch(e => {
+                        solNative.showToast(
+                          `Could not open URL: ${root.ui.query}, error: ${e}`,
+                          'error',
+                        )
+                      })
+                    } else {
                       solNative.showToast(
-                        `Could not open URL: ${root.ui.query}, error: ${e}`,
+                        `Invalid search URL. Please ensure the URL is a valid search engine URL and includes a query parameter. Example: https://google.com/search?q=%s`,
                         'error',
                       )
-                    })
+                    }
                     break
                 }
 
