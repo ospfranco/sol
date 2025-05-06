@@ -109,6 +109,7 @@ let minisearch = new MiniSearch({
     'shortcut',
     'isFavorite',
     'isRunning',
+    'bookmarkFolder',
   ],
   searchOptions: {
     prefix: true,
@@ -262,9 +263,17 @@ export const createUIStore = (root: IRootStore) => {
     launchAtLogin: true,
     useBackgroundOverlay: true,
     hasFullDiskAccess: false,
-    safariBookmarks: [] as {title: string; url: string}[],
-    braveBookmarks: [] as {title: string; url: string}[],
-    chromeBookmarks: [] as {title: string; url: string}[],
+    safariBookmarks: [] as {
+      title: string
+      url: string
+      bookmarkFolder: string | null
+    }[],
+    braveBookmarks: [] as {title: string; url: string; bookmarkFolder: string | null}[],
+    chromeBookmarks: [] as {
+      title: string
+      url: string
+      bookmarkFolder: string | null
+    }[],
     mediaKeyForwardingEnabled: true,
     targetHeight: 64,
     isDarkMode: Appearance.getColorScheme() === 'dark',
@@ -329,6 +338,7 @@ export const createUIStore = (root: IRootStore) => {
             id: `${bookmark.title}_safari_${idx}`,
             name: bookmark.title,
             type: ItemType.BOOKMARK,
+            bookmarkFolder: null,
             iconImage: Assets.Safari,
             callback: () => {
               Linking.openURL(bookmark.url)
@@ -339,6 +349,7 @@ export const createUIStore = (root: IRootStore) => {
           return {
             id: `${bookmark.title}_brave_${idx}`,
             name: bookmark.title,
+            bookmarkFolder: bookmark.bookmarkFolder,
             type: ItemType.BOOKMARK,
             iconImage: Assets.Brave,
             callback: () => {
@@ -351,6 +362,7 @@ export const createUIStore = (root: IRootStore) => {
             id: `${bookmark.title}_chrome_${idx}`,
             name: bookmark.title,
             type: ItemType.BOOKMARK,
+            bookmarkFolder: bookmark.bookmarkFolder,
             iconImage: Assets.Chrome,
             callback: async () => {
               if (!bookmark.url) {
@@ -755,13 +767,21 @@ export const createUIStore = (root: IRootStore) => {
           return
         }
         const OGbookmarks = JSON.parse(bookmarksString)
-        let bookmarks = OGbookmarks.roots.bookmark_bar.children.map(
-          (v: any) => ({
-            title: v.name,
-            url: v.url,
-          }),
-        )
-
+        let bookmarks: {
+          title: string
+          url: string
+          bookmarkFolder: null | string
+        }[] = []
+        const traverse = (nodes: any[], bookmarkFolder: null | string) => {
+          nodes.forEach(node => {
+            if (node.type === 'folder') {
+              traverse(node.children, node.name)
+            } else if (node.type === 'url') {
+              bookmarks.push({title: node.name, url: node.url, bookmarkFolder})
+            }
+          })
+        }
+        traverse(OGbookmarks.roots.bookmark_bar.children, null)
         store.braveBookmarks = bookmarks
       }
     },
@@ -775,13 +795,18 @@ export const createUIStore = (root: IRootStore) => {
           return
         }
         const OGbookmarks = JSON.parse(bookmarksString)
-        let bookmarks = OGbookmarks.roots.bookmark_bar.children.map(
-          (v: any) => ({
-            title: v.name,
-            url: v.url,
-          }),
-        )
-
+        let bookmarks: {title: string; url: string; bookmarkFolder: null | string}[] =
+          []
+        const traverse = (nodes: any[], bookmarkFolder: null | string) => {
+          nodes.forEach(node => {
+            if (node.type === 'folder') {
+              traverse(node.children, node.name)
+            } else if (node.type === 'url') {
+              bookmarks.push({title: node.name, url: node.url, bookmarkFolder})
+            }
+          })
+        }
+        traverse(OGbookmarks.roots.bookmark_bar.children, null)
         store.chromeBookmarks = bookmarks
       }
     },
