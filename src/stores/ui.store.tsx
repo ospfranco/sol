@@ -200,7 +200,8 @@ export const createUIStore = (root: IRootStore) => {
           parsedStore.scratchPadColor ?? ScratchPadColor.SYSTEM
         store.searchFolders = parsedStore.searchFolders ?? defaultSearchFolders
         store.searchEngine = parsedStore.searchEngine ?? 'google'
-        store.customSearchUrl = parsedStore.customSearchUrl ?? 'https://google.com/search?q=%s'
+        store.customSearchUrl =
+          parsedStore.customSearchUrl ?? 'https://google.com/search?q=%s'
         store.shortcuts = parsedStore.shortcuts ?? defaultShortcuts
       })
 
@@ -484,8 +485,12 @@ export const createUIStore = (root: IRootStore) => {
       root.calendar.fetchEvents()
     },
     showEmojiPicker: () => {
-      store.focusWidget(Widget.EMOJIS)
       store.query = ''
+      if (store.focusedWidget === Widget.EMOJIS) {
+        store.focusedWidget = Widget.SEARCH
+      } else {
+        store.focusWidget(Widget.EMOJIS)
+      }
     },
     showSettings: () => {
       store.focusWidget(Widget.SETTINGS)
@@ -684,11 +689,20 @@ export const createUIStore = (root: IRootStore) => {
       })
     },
     showScratchpad: () => {
-      store.focusWidget(Widget.SCRATCHPAD)
+      console.warn('SHOW SCRATCHPAD')
+      if (store.focusedWidget === Widget.SCRATCHPAD) {
+        store.focusWidget(Widget.SEARCH)
+      } else {
+        store.focusWidget(Widget.SCRATCHPAD)
+      }
     },
     showClipboardManager: () => {
       store.query = ''
-      store.focusWidget(Widget.CLIPBOARD)
+      if (store.focusedWidget === Widget.CLIPBOARD) {
+        store.focusWidget(Widget.SEARCH)
+      } else {
+        store.focusWidget(Widget.CLIPBOARD)
+      }
     },
     showProcessManager: () => {
       store.query = ''
@@ -825,9 +839,10 @@ export const createUIStore = (root: IRootStore) => {
     setCustomSearchUrl: (url: string) => {
       store.customSearchUrl = url
     },
-    
+
     onHotkey({id}: {id: string}) {
       let item = store.items.find(i => i.id === id)
+
       if (item == null) {
         return
       }

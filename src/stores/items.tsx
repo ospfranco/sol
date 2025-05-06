@@ -316,12 +316,12 @@ export function createBaseItems(store: IRootStore) {
     },
     {
       id: 'scratchpad',
-      icon: '🖊',
+      icon: '🗒️',
       name: 'Scratchpad',
       preventClose: true,
       type: ItemType.CONFIGURATION,
       callback: () => {
-        store.ui.focusWidget(Widget.SCRATCHPAD)
+        store.ui.showScratchpad()
       },
     },
     {

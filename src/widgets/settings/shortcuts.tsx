@@ -17,6 +17,8 @@ export const Shortcuts = observer(() => {
   const store = useStore()
   const shortcuts = store.ui.shortcuts
   const validatedShortcuts = store.ui.validatedShortcuts
+  let items = store.ui.items
+  items.sort((a, b) => (a.name > b.name ? 1 : -1))
 
   return (
     <View className="flex-1 h-full gap-2 subBg">
@@ -37,7 +39,7 @@ export const Shortcuts = observer(() => {
       </View>
       <FlatList
         contentContainerClassName="pl-4 pb-4"
-        data={store.ui.items}
+        data={items}
         keyExtractor={item => item.id}
         renderItem={({item, index}) => {
           return (
