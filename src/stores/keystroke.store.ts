@@ -16,6 +16,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
   let store = makeAutoObservable({
     commandPressed: false,
     shiftPressed: false,
+    controlPressed: false,
 
     simulateEnter: () => {
       store.keyDown({keyCode: 36, meta: false, shift: false})
@@ -29,8 +30,22 @@ export const createKeystrokeStore = (root: IRootStore) => {
       meta: boolean
       shift: boolean
     }) => {
-      // console.warn('keyCode', keyCode)
       switch (keyCode) {
+        // "j" key
+        case 38: {
+          // simulate a down key press
+          if (store.controlPressed) {
+            store.keyDown({keyCode: 125, meta: false, shift: false})
+          }
+          break
+        }
+        // "k" key
+        case 40: {
+          if (store.controlPressed) {
+            store.keyDown({keyCode: 126, meta: false, shift: false})
+          }
+          break
+        }
         // delete key
         case 51: {
           if (
@@ -754,6 +769,12 @@ export const createKeystrokeStore = (root: IRootStore) => {
           store.shiftPressed = true
           break
         }
+
+        // control key
+        case 59: {
+          store.controlPressed = true
+          break
+        }
       }
     },
     keyUp: async ({
@@ -771,6 +792,11 @@ export const createKeystrokeStore = (root: IRootStore) => {
 
         case 60: {
           store.shiftPressed = false
+          break
+        }
+
+        case 59: {
+          store.controlPressed = false
           break
         }
 

@@ -19,21 +19,23 @@ class SolEmitter {
   }
 
   // You can add more typesafety here if you want to
-  func keyDown(key: String?, keyCode: UInt16, meta: Bool, shift: Bool) {
+  func keyDown(key: String?, keyCode: UInt16, meta: Bool, shift: Bool, control: Bool) {
     dispatch(name: "keyDown", body: [
       "key": key!,
       "keyCode": keyCode,
       "meta": meta,
-      "shift": shift
+      "shift": shift,
+      "control": control
     ])
   }
 
-  func keyUp(key: String?, keyCode: UInt16, meta: Bool, shift: Bool) {
+  func keyUp(key: String?, keyCode: UInt16, meta: Bool, shift: Bool, control: Bool) {
     dispatch(name: "keyUp", body: [
       "key": key!,
       "keyCode": keyCode,
       "meta": meta,
-      "shift": shift
+      "shift": shift,
+      "control": control
     ])
   }
 
