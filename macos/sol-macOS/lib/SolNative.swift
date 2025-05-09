@@ -253,6 +253,10 @@ class SolNative: RCTEventEmitter {
   @objc func moveFrontmostCenter() {
     WindowManager.sharedInstance.center()
   }
+  
+  @objc func moveFrontmostToNextSpace() {
+    WindowManager.sharedInstance.moveFrontmostToNextSpace()
+  }
 
   @objc func pasteToFrontmostApp(_ content: String) {
     ClipboardHelper.pasteToFrontmostApp(content)

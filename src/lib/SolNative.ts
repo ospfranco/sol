@@ -33,6 +33,7 @@ class SolNative extends NativeEventEmitter {
   moveFrontmostNextScreen: () => void
   moveFrontmostPrevScreen: () => void
   moveFrontmostCenter: () => void
+  moveFrontmostToNextSpace: () => void
   pasteToFrontmostApp: (content: string) => void
   insertToFrontmostApp: (content: string) => void
 
@@ -185,6 +186,8 @@ class SolNative extends NativeEventEmitter {
 
     this.showWifiQR = module.showWifiQR
     this.updateHotkeys = module.updateHotkeys
+
+    this.moveFrontmostToNextSpace = module.moveFrontmostToNextSpace
   }
 }
 
