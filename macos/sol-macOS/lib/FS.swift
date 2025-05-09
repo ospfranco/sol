@@ -21,4 +21,15 @@ import Foundation
       return nil
     }
   }
+  
+  static func copyFileFromUrl(_ url: URL, toPath path: String) throws {
+    if exists(path: path) {
+      try FileManager.default.removeItem(at: URL(fileURLWithPath: path))
+    }
+    try FileManager.default.copyItem(at: url, to: URL(fileURLWithPath: path))
+  }
+  
+  static func delete(_ path: String) throws {
+    try FileManager.default.removeItem(at: URL(fileURLWithPath: path))
+  }
 }

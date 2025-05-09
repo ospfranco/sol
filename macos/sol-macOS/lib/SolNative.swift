@@ -49,6 +49,7 @@ class SolNative: RCTEventEmitter {
       "onShow",
       "onHide",
       "onTextCopied",
+      "onFileCopied",
       "onFileSearch",
       "onStatusBarItemClick",
       "hotkey",
