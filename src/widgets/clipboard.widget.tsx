@@ -111,7 +111,7 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
                     uri: `file://${data[selectedIndex].url}`,
                   }}
                   className="flex-1 rounded-lg"
-                  resizeMode="contain"
+                  style={{resizeMode: 'contain'}}
                 />
               )}
             {!!data[selectedIndex].url &&
