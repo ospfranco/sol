@@ -32,23 +32,6 @@ enum LastAction {
   case center
 }
 
-// Declare the private Apple APIs for spaces
-// Declare the CGSCopySpaces function
-@_silgen_name("CGSCopySpaces")
-func CGSCopySpaces(_ connection: Int, _ selector: Int) -> CFArray?
-
-// Declare constants for space selectors
-let kCGSSpaceCurrent = 1
-let kCGSSpaceAll = 2
-
-// Declare the CGSMainConnectionID function
-@_silgen_name("CGSMainConnectionID")
-func CGSMainConnectionID() -> Int
-
-// Declare the CGSManagedDisplaySetCurrentSpace function
-@_silgen_name("CGSManagedDisplaySetCurrentSpace")
-func CGSManagedDisplaySetCurrentSpace(_ connection: Int, _ space: Int)
-
 class WindowManager {
   public static let sharedInstance = WindowManager()
 
@@ -340,22 +323,71 @@ class WindowManager {
     guard let identifier = window.getIdentifier() else {
       return
     }
-    f
-    let mainConnectionId = CGSMainConnectionID()
-    let allSpaces = CGSCopySpaces(mainConnectionId, 4) as? [Int]
 
-    guard let currentSpace = CGSCopySpaces(mainConnectionId, kCGSSpaceCurrent) as? [Int],
-          let nextSpace = CGSCopySpaces(mainConnectionId, kCGSSpaceAll) as? [Int],
-      let currentIndex = nextSpace.firstIndex(of: currentSpace.first ?? -1),
-      currentIndex + 1 < nextSpace.count
-    else {
-      NSSound.beep()
+    let mainConnectionId = CGSMainConnectionID()
+    let defaultConnectionId = _CGSDefaultConnection()
+
+    print("Main connection id \(mainConnectionId)")
+    print("Default connection id \(defaultConnectionId)")
+
+    guard let allSpacesUnmanaged = CGSCopySpaces(mainConnectionId, kCGSAllSpacesMask) else {
+      print("Failed to retrieve spaces")
       return
     }
 
-    let targetSpace = nextSpace[currentIndex + 1]
-    CGSManagedDisplaySetCurrentSpace(CGSMainConnectionID(), targetSpace)
+    let allSpaces = (allSpacesUnmanaged.takeRetainedValue() as NSArray).compactMap { $0 as? Int }
+    print("allSpaces \(allSpaces)")
 
+    let currentSpaceId = CGSGetActiveSpace(mainConnectionId)
+    print("CurrentSpaceId \(currentSpaceId)")
+
+    //    let currentSpaceName = CGSSpaceCopyName(mainConnectionId, currentSpaceId)
+    //    print("currentSpaceName \(currentSpaceName!.takeUnretainedValue())")
+    let currentIndex = allSpaces.firstIndex(of: currentSpaceId) ?? -1
+    print("Current index: \(currentIndex)")
+    let nextIndex = (currentIndex + 1) % allSpaces.count
+
+    print("Next Index \(nextIndex)")
+    let nextSpace = allSpaces[nextIndex]
     lastActions[identifier] = nil
+
+    //    let windowArray = CFArrayCreate(nil, [identifier] as [UnsafeRawPointer], 1, nil)
+    //    let spaceArray = CFArrayCreate(nil, [nextSpace] as [UnsafeRawPointer], 1, nil)
+
+    //    CGSRemoveWindowsFromSpaces(
+    //      mainConnectionId, windowArray, currentSpacesUnmanaged.takeRetainedValue())
+    //    CGSAddWindowsToSpaces(mainConnectionId, windowArray, spaceArray)
+
+    // Set the next space as active
+    //    if let mainDisplay = kCGSPackagesMainDisplayIdentifier?.takeUnretainedValue() {
+    //      print("Main display identifier: \(mainDisplay)")
+    //      print("Change display to next space: \(nextSpace)")
+    //      CGSManagedDisplaySetCurrentSpace(mainConnectionId, mainDisplay, nextSpace)
+    //    }
+
+    // let currentDisplay = CGSCopyManagedDisplayForSpace(
+    //   mainConnectionId,
+    //   currentSpaceId
+    // )
+
+    // CGSManagedDisplaySetCurrentSpace(
+    //   mainConnectionId,
+    //   currentDisplay!.takeUnretainedValue(),
+    //   nextSpace
+    // )
+
+    //    if let currentDisplayUnmanaged = CGSCopyManagedDisplayForSpace(mainConnectionId, currentSpaceId)
+    //    {
+    //      let currentDisplay = currentDisplayUnmanaged.takeUnretainedValue()
+    //      print("Current Display ID: \(currentDisplay)")
+    //
+    //      // Set the next space as active for the current display
+    //      CGSManagedDisplaySetCurrentSpace(mainConnectionId, currentDisplay, nextSpace)
+    //      print("Set next space \(nextSpace) for display \(currentDisplay)")
+    //    } else {
+    //      print("Failed to retrieve the display ID for the current space")
+    //    }
+
+    CGSShowSpaces(mainConnectionId, allSpacesUnmanaged.takeUnretainedValue())
   }
 }

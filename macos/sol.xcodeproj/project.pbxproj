@@ -106,6 +106,7 @@
 		70911D4C28BB22620005FD0E /* JSIBindings.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = JSIBindings.mm; sourceTree = "<group>"; };
 		70911D4D28BB22620005FD0E /* JSIBindings.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = JSIBindings.hpp; sourceTree = "<group>"; };
 		70911D4F28BB23AC0005FD0E /* SolMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SolMacros.h; sourceTree = "<group>"; };
+		709664D52DCF7B9A00E9DDAA /* CSGSpace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSGSpace.h; sourceTree = "<group>"; };
 		70969E1627966ECD00BE3F1C /* SolNative.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolNative.swift; sourceTree = "<group>"; };
 		70969E182796719100BE3F1C /* SolNative.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SolNative.mm; sourceTree = "<group>"; };
 		70A07EB929B48F1F00D1885E /* SpotifyApplication.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpotifyApplication.h; sourceTree = "<group>"; };
@@ -239,6 +240,7 @@
 		70F7EBEA2795A4BD00CED17A /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				709664D52DCF7B9A00E9DDAA /* CSGSpace.h */,
 				70142B3A2D21812500EA565F /* KeychainAccess.swift */,
 				70E233692A8F4A20008E88D9 /* ITunesApplicationApplication.h */,
 				70A07EB929B48F1F00D1885E /* SpotifyApplication.h */,
