@@ -1,6 +1,8 @@
 #include <Carbon/Carbon.h>
 
-typedef size_t CGSSpaceID;
+typedef uint64_t CGSManagedDisplay;
+extern CGSManagedDisplay kCGSPackagesMainDisplayIdentifier;
+typedef uint64_t CGSSpaceID;
 typedef size_t CGSConnectionID;
 
 /// Representations of the possible types of spaces the system can create.
@@ -99,13 +101,14 @@ typedef enum {
 
 // /// Gets the ID of the space currently visible to the user.
 CG_EXTERN CGSSpaceID CGSGetActiveSpace(CGSConnectionID cid);
-CG_EXTERN CFStringRef CGSCopyManagedDisplayForSpace(CGSConnectionID cid, CGSSpaceID space);
+//CG_EXTERN CFStringRef CGSCopyManagedDisplayForSpace(CGSConnectionID cid, CGSSpaceID space);
+extern CGSManagedDisplay CGSCopyManagedDisplayForSpace(const CGSConnectionID cid, CGSSpaceID space);
 // /// Returns an array of PIDs of applications that have ownership of a given
 // /// space.
 // CG_EXTERN CFArrayRef CGSSpaceCopyOwners(CGSConnectionID cid, CGSSpaceID sid);
 
 /// Returns an array of all space IDs.
-CG_EXTERN CFArrayRef CGSCopySpaces(CGSConnectionID cid, CGSSpaceMask mask);
+extern CFArrayRef CGSCopySpaces(CGSConnectionID cid, CGSSpaceMask mask);
 CG_EXTERN CGSConnectionID CGSMainConnectionID(void);
 CG_EXTERN CGSConnectionID _CGSDefaultConnection(void);
 
@@ -146,10 +149,7 @@ CG_EXTERN CGSConnectionID _CGSDefaultConnection(void);
                                            CFArrayRef windows,
                                            CFArrayRef spaces);
 
- CG_EXTERN CFStringRef kCGSPackagesMainDisplayIdentifier;
-
 // /// Changes the active space for a given display.
-CG_EXTERN void CGSManagedDisplaySetCurrentSpace(CGSConnectionID cid,
-                                                CFStringRef display,
-                                                CGSSpaceID space);
+extern void CGSManagedDisplaySetCurrentSpace(const CGSConnectionID cid, CGSManagedDisplay display, CGSSpaceID space);
+//extern void CGSManagedDisplaySetCurrentSpace(const CGSConnectionID cid, CFStringRef display, CGSSpaceID space);
 
