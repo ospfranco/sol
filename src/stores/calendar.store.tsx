@@ -11,6 +11,7 @@ const DAYS_TO_PARSE = 14
 
 let onShowListener: EmitterSubscription | undefined
 let onStatusBarItemClickListener: EmitterSubscription | undefined
+let pollingInterval: NodeJS.Timeout | undefined
 
 export type CalendarStore = ReturnType<typeof createCalendarStore>
 
@@ -24,7 +25,6 @@ export const createCalendarStore = (root: IRootStore) => {
     //   \____/|_.__/|___/\___|_|    \_/ \__,_|_.__/|_|\___||___/
 
     calendarAuthorizationStatus: 'notDetermined' as CalendarAuthorizationStatus,
-    keepPolling: true,
     events: [] as INativeEvent[],
 
     //    _____                            _           _
@@ -165,28 +165,21 @@ export const createCalendarStore = (root: IRootStore) => {
       )
     },
     cleanUp: () => {
-      store.keepPolling = false
+      pollingInterval && clearTimeout(pollingInterval)
       onShowListener?.remove()
       onStatusBarItemClickListener?.remove()
     },
     poll: async () => {
-      solNative.log('Polling calendar store')
-
-      if (!store.keepPolling) {
-        return
-      }
-
-      if (root.ui.calendarEnabled) {
-        try {
-          store.fetchEvents()
-        } catch (e) {
-          captureException(e)
-          console.error('Error fetching calendar events', e)
+      pollingInterval = setInterval(() => {
+        if (root.ui.calendarEnabled) {
+          try {
+            store.fetchEvents()
+          } catch (e) {
+            captureException(e)
+            console.error('Error fetching calendar events', e)
+          }
         }
-      }
-
-      await sleep(1000)
-      store.poll()
+      })
     },
     onShow: () => {
       store.fetchEvents()
