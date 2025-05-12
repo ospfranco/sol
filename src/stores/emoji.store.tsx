@@ -17,10 +17,12 @@ export interface Emoji {
 }
 
 let minisearch = new MiniSearch({
-  fields: ['description', 'category', 'aliases'],
+  fields: ['description', 'category', 'aliases', 'tags'],
   storeFields: ['emoji'],
   searchOptions: {
     prefix: true,
+    fuzzy: 0.2,
+    boost: { description: 2, aliases: 1.5, tags: 1 }
   },
 })
 
