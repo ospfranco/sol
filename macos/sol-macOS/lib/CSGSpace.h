@@ -1,11 +1,12 @@
 #include <Carbon/Carbon.h>
 
-typedef void *CGSConnectionID;
+typedef size_t *CGSConnectionID;
 // extern CGSConnectionID _CGSDefaultConnection(void);
 
 typedef CFStringRef CGSManagedDisplay;
 extern CGSManagedDisplay kCGSPackagesMainDisplayIdentifier;
 typedef uint64_t CGSSpace;
+typedef uint64_t CGSMoveWindowCompatID;
 
 /// Representations of the possible types of spaces the system can create.
 typedef enum {
@@ -102,19 +103,17 @@ CG_EXTERN CFStringRef CGSSpaceCopyName(CGSConnectionID cid, CGSSpace sid);
 // #pragma mark - Global Space Properties
 
 // /// Gets the ID of the space currently visible to the user.
-CG_EXTERN CGSSpace CGSGetActiveSpace(CGSConnectionID cid);
-// CG_EXTERN CFStringRef CGSCopyManagedDisplayForSpace(CGSConnectionID cid,
-// CGSSpace space);
-extern CGSManagedDisplay
-CGSCopyManagedDisplayForSpace(const CGSConnectionID cid, CGSSpace space);
+extern CGSSpace CGSGetActiveSpace(CGSConnectionID cid);
+
+extern CGSManagedDisplay CGSCopyManagedDisplayForSpace(const CGSConnectionID cid, CGSSpace space);
 // /// Returns an array of PIDs of applications that have ownership of a given
 // /// space.
 // CG_EXTERN CFArrayRef CGSSpaceCopyOwners(CGSConnectionID cid, CGSSpace sid);
 
 /// Returns an array of all space IDs.
 extern CFArrayRef CGSCopySpaces(CGSConnectionID cid, CGSSpaceMask mask);
-CG_EXTERN CGSConnectionID CGSMainConnectionID(void);
-CG_EXTERN CGSConnectionID _CGSDefaultConnection(void);
+extern CGSConnectionID CGSMainConnectionID(void);
+extern CGSConnectionID _CGSDefaultConnection(void);
 
 /// Given an array of window numbers, returns the IDs of the spaces those
 /// windows lie on.
@@ -153,9 +152,11 @@ CG_EXTERN void CGSRemoveWindowsFromSpaces(CGSConnectionID cid,
                                           CFArrayRef windows,
                                           CFArrayRef spaces);
 
-// /// Changes the active space for a given display.
+/// Changes the active space for a given display.
 extern void CGSManagedDisplaySetCurrentSpace(const CGSConnectionID cid,
                                              CGSManagedDisplay display,
                                              CGSSpace space);
 // extern void CGSManagedDisplaySetCurrentSpace(const CGSConnectionID cid,
 // CFStringRef display, CGSSpace space);
+
+extern void CGSSpaceSetCompatID(const CGSConnectionID cid, CGSSpace space, CGSMoveWindowCompatID compatId);

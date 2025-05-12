@@ -39,6 +39,8 @@
 		70911D4E28BB22620005FD0E /* JSIBindings.mm in Sources */ = {isa = PBXBuildFile; fileRef = 70911D4C28BB22620005FD0E /* JSIBindings.mm */; };
 		70969E1727966ECD00BE3F1C /* SolNative.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70969E1627966ECD00BE3F1C /* SolNative.swift */; };
 		70969E192796719100BE3F1C /* SolNative.mm in Sources */ = {isa = PBXBuildFile; fileRef = 70969E182796719100BE3F1C /* SolNative.mm */; };
+		709B38B72DD1E84D00997905 /* WindowManagerObjc.h in Sources */ = {isa = PBXBuildFile; fileRef = 709B38B62DD1E84700997905 /* WindowManagerObjc.h */; };
+		709B38B92DD1E8A600997905 /* WindowManagerObjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 709B38B82DD1E89E00997905 /* WindowManagerObjc.m */; };
 		70A07EBB29B48F4000D1885E /* MediaKeyForwarder.m in Sources */ = {isa = PBXBuildFile; fileRef = 70A07EBA29B48F4000D1885E /* MediaKeyForwarder.m */; };
 		70A25D452D33AF4500165270 /* PanelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A25D442D33AF3E00165270 /* PanelManager.swift */; };
 		70A25D472D33B4D600165270 /* HotKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A25D462D33B4D300165270 /* HotKeyManager.swift */; };
@@ -109,6 +111,8 @@
 		709664D52DCF7B9A00E9DDAA /* CSGSpace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSGSpace.h; sourceTree = "<group>"; };
 		70969E1627966ECD00BE3F1C /* SolNative.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolNative.swift; sourceTree = "<group>"; };
 		70969E182796719100BE3F1C /* SolNative.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SolNative.mm; sourceTree = "<group>"; };
+		709B38B62DD1E84700997905 /* WindowManagerObjc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WindowManagerObjc.h; sourceTree = "<group>"; };
+		709B38B82DD1E89E00997905 /* WindowManagerObjc.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WindowManagerObjc.m; sourceTree = "<group>"; };
 		70A07EB929B48F1F00D1885E /* SpotifyApplication.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpotifyApplication.h; sourceTree = "<group>"; };
 		70A07EBA29B48F4000D1885E /* MediaKeyForwarder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MediaKeyForwarder.m; sourceTree = "<group>"; };
 		70A07EBC29B491CF00D1885E /* MediaKeyForwarder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MediaKeyForwarder.h; sourceTree = "<group>"; };
@@ -240,6 +244,8 @@
 		70F7EBEA2795A4BD00CED17A /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				709B38B82DD1E89E00997905 /* WindowManagerObjc.m */,
+				709B38B62DD1E84700997905 /* WindowManagerObjc.h */,
 				709664D52DCF7B9A00E9DDAA /* CSGSpace.h */,
 				70142B3A2D21812500EA565F /* KeychainAccess.swift */,
 				70E233692A8F4A20008E88D9 /* ITunesApplicationApplication.h */,
@@ -599,11 +605,13 @@
 				70EFF77428D5F732009FE998 /* DoNotDisturb.swift in Sources */,
 				7042A22A2815C06B00874743 /* NSColor.extension.swift in Sources */,
 				70A25D492D33B9CF00165270 /* ToastManager.swift in Sources */,
+				709B38B72DD1E84D00997905 /* WindowManagerObjc.h in Sources */,
 				703EB24D2BED4E1E00F7B391 /* NSString+Score.m in Sources */,
 				70E15D082931FC57007FFE5F /* FS.swift in Sources */,
 				700DF99A28266F0B00C5FD0B /* ClipboardHelper.swift in Sources */,
 				700A18DA279DC17F0096C830 /* FileIcon.swift in Sources */,
 				70754B532BECECAB00B77EF8 /* FileSearch.mm in Sources */,
+				709B38B92DD1E8A600997905 /* WindowManagerObjc.m in Sources */,
 				70BED7CB27F4C1A600906E41 /* FileConstants.swift in Sources */,
 				700A99F22C33D6E30049831F /* QRGenerator.swift in Sources */,
 				70E80B5F294C6EDE0094F1B5 /* MetadataExtractorError.swift in Sources */,
