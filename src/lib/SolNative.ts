@@ -84,6 +84,8 @@ class SolNative extends NativeEventEmitter {
   showWifiQR: (ssid: string, password: string) => void
   updateHotkeys: (v: Record<string, string>) => void
 
+  log: (message: string) => void
+
   // Constants
   accentColor: string
   OSVersion: number
@@ -188,6 +190,7 @@ class SolNative extends NativeEventEmitter {
     this.updateHotkeys = module.updateHotkeys
 
     this.moveFrontmostToNextSpace = module.moveFrontmostToNextSpace
+    this.log = global.__SolProxy.log
   }
 }
 
