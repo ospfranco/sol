@@ -324,20 +324,20 @@ class WindowManager {
       return
     }
 
-    let mainConnectionId = CGSMainConnectionID()
+//    let mainConnectionId = CGSMainConnectionID()
     let defaultConnectionId = _CGSDefaultConnection()
+//
+//    print("Main connection id \(mainConnectionId)")
+//    print("Default connection id \(defaultConnectionId)")
 
-    print("Main connection id \(mainConnectionId)")
-    print("Default connection id \(defaultConnectionId)")
-
-    guard let allSpaces = CGSCopySpaces(mainConnectionId, kCGSAllSpacesMask).takeUnretainedValue() as? [NSNumber] else {
+    guard let allSpaces = CGSCopySpaces(defaultConnectionId, kCGSAllSpacesMask).takeUnretainedValue() as? [NSNumber] else {
       return
     }
 
 //    let allSpaces = (allSpacesUnmanaged.takeRetainedValue() as NSArray).compactMap { $0 as? UInt64 }
     print("allSpaces \(allSpaces)")
 
-    let currentSpaceId = CGSGetActiveSpace(mainConnectionId)
+    let currentSpaceId = CGSGetActiveSpace(defaultConnectionId)
     print("CurrentSpaceId \(currentSpaceId)")
 //
 //    //    let currentSpaceName = CGSSpaceCopyName(mainConnectionId, currentSpaceId)
@@ -367,18 +367,20 @@ class WindowManager {
     //    }
 
      let currentDisplay = CGSCopyManagedDisplayForSpace(
-       mainConnectionId,
+      defaultConnectionId,
        currentSpaceId
      )
     
     print("Current display \(currentDisplay)")
     
-    print("main display identifier \(kCGSPackagesMainDisplayIdentifier)")
+    print(
+      "main display identifier \(kCGSPackagesMainDisplayIdentifier.takeUnretainedValue())"
+    )
 
      CGSManagedDisplaySetCurrentSpace(
-       mainConnectionId,
-       kCGSPackagesMainDisplayIdentifier,
-       nextSpace.uint64Value
+       defaultConnectionId,
+       kCGSPackagesMainDisplayIdentifier.takeUnretainedValue(),
+       148
      )
 
     //    if let currentDisplayUnmanaged = CGSCopyManagedDisplayForSpace(mainConnectionId, currentSpaceId)

@@ -1,9 +1,11 @@
 #include <Carbon/Carbon.h>
 
-typedef uint64_t CGSManagedDisplay;
+typedef void *CGSConnectionID;
+// extern CGSConnectionID _CGSDefaultConnection(void);
+
+typedef CFStringRef CGSManagedDisplay;
 extern CGSManagedDisplay kCGSPackagesMainDisplayIdentifier;
-typedef uint64_t CGSSpaceID;
-typedef size_t CGSConnectionID;
+typedef uint64_t CGSSpace;
 
 /// Representations of the possible types of spaces the system can create.
 typedef enum {
@@ -45,30 +47,30 @@ typedef enum {
 ///
 ///     "type": CFNumberRef
 // ///     "uuid": CFStringRef
-// CG_EXTERN CGSSpaceID CGSSpaceCreate(CGSConnectionID cid, void *null,
+// CG_EXTERN CGSSpace CGSSpaceCreate(CGSConnectionID cid, void *null,
 //                                     CFDictionaryRef options);
 
 // /// Removes and destroys the space corresponding to the given space ID.
-// CG_EXTERN void CGSSpaceDestroy(CGSConnectionID cid, CGSSpaceID sid);
+// CG_EXTERN void CGSSpaceDestroy(CGSConnectionID cid, CGSSpace sid);
 
 // #pragma mark - Configuring Spaces
 
 // /// Get and set the human-readable name of a space.
- CG_EXTERN CFStringRef CGSSpaceCopyName(CGSConnectionID cid, CGSSpaceID sid);
-// CG_EXTERN CGError CGSSpaceSetName(CGSConnectionID cid, CGSSpaceID sid,
+CG_EXTERN CFStringRef CGSSpaceCopyName(CGSConnectionID cid, CGSSpace sid);
+// CG_EXTERN CGError CGSSpaceSetName(CGSConnectionID cid, CGSSpace sid,
 //                                   CFStringRef name);
 
 // /// Get and set the affine transform of a space.
 // CG_EXTERN CGAffineTransform CGSSpaceGetTransform(CGSConnectionID cid,
-//                                                  CGSSpaceID space);
-// CG_EXTERN void CGSSpaceSetTransform(CGSConnectionID cid, CGSSpaceID space,
+//                                                  CGSSpace space);
+// CG_EXTERN void CGSSpaceSetTransform(CGSConnectionID cid, CGSSpace space,
 //                                     CGAffineTransform transform);
 
 // /// Gets and sets the region the space occupies.  You are responsible for
 // /// releasing the region object.
-// CG_EXTERN void CGSSpaceSetShape(CGSConnectionID cid, CGSSpaceID space,
+// CG_EXTERN void CGSSpaceSetShape(CGSConnectionID cid, CGSSpace space,
 //                                 CGSRegionRef shape);
-// CG_EXTERN CGSRegionRef CGSSpaceCopyShape(CGSConnectionID cid, CGSSpaceID
+// CG_EXTERN CGSRegionRef CGSSpaceCopyShape(CGSConnectionID cid, CGSSpace
 // space);
 
 // #pragma mark - Space Properties
@@ -76,10 +78,10 @@ typedef enum {
 // /// Copies and returns a region the space occupies.  You are responsible for
 // /// releasing the region object.
 // CG_EXTERN CGSRegionRef CGSSpaceCopyManagedShape(CGSConnectionID cid,
-//                                                 CGSSpaceID sid);
+//                                                 CGSSpace sid);
 
 // /// Gets the type of a space.
-// CG_EXTERN CGSSpaceType CGSSpaceGetType(CGSConnectionID cid, CGSSpaceID sid);
+// CG_EXTERN CGSSpaceType CGSSpaceGetType(CGSConnectionID cid, CGSSpace sid);
 
 // /// Gets the current space management mode.
 // ///
@@ -100,12 +102,14 @@ typedef enum {
 // #pragma mark - Global Space Properties
 
 // /// Gets the ID of the space currently visible to the user.
-CG_EXTERN CGSSpaceID CGSGetActiveSpace(CGSConnectionID cid);
-//CG_EXTERN CFStringRef CGSCopyManagedDisplayForSpace(CGSConnectionID cid, CGSSpaceID space);
-extern CGSManagedDisplay CGSCopyManagedDisplayForSpace(const CGSConnectionID cid, CGSSpaceID space);
+CG_EXTERN CGSSpace CGSGetActiveSpace(CGSConnectionID cid);
+// CG_EXTERN CFStringRef CGSCopyManagedDisplayForSpace(CGSConnectionID cid,
+// CGSSpace space);
+extern CGSManagedDisplay
+CGSCopyManagedDisplayForSpace(const CGSConnectionID cid, CGSSpace space);
 // /// Returns an array of PIDs of applications that have ownership of a given
 // /// space.
-// CG_EXTERN CFArrayRef CGSSpaceCopyOwners(CGSConnectionID cid, CGSSpaceID sid);
+// CG_EXTERN CFArrayRef CGSSpaceCopyOwners(CGSConnectionID cid, CGSSpace sid);
 
 /// Returns an array of all space IDs.
 extern CFArrayRef CGSCopySpaces(CGSConnectionID cid, CGSSpaceMask mask);
@@ -122,17 +126,17 @@ CG_EXTERN CGSConnectionID _CGSDefaultConnection(void);
 
 // /// Connection-local data in a given space.
 // CG_EXTERN CFDictionaryRef CGSSpaceCopyValues(CGSConnectionID cid,
-//                                              CGSSpaceID space);
-// CG_EXTERN CGError CGSSpaceSetValues(CGSConnectionID cid, CGSSpaceID sid,
+//                                              CGSSpace space);
+// CG_EXTERN CGError CGSSpaceSetValues(CGSConnectionID cid, CGSSpace sid,
 //                                     CFDictionaryRef values);
 // CG_EXTERN CGError CGSSpaceRemoveValuesForKeys(CGSConnectionID cid,
-//                                               CGSSpaceID sid,
+//                                               CGSSpace sid,
 //                                               CFArrayRef values);
 
 // #pragma mark - Displaying Spaces
 
 // /// Given an array of space IDs, each space is shown to the user.
- CG_EXTERN void CGSShowSpaces(CGSConnectionID cid, CFArrayRef spaces);
+CG_EXTERN void CGSShowSpaces(CGSConnectionID cid, CFArrayRef spaces);
 
 // /// Given an array of space IDs, each space is hidden from the user.
 // CG_EXTERN void CGSHideSpaces(CGSConnectionID cid, CFArrayRef spaces);
@@ -140,16 +144,18 @@ CG_EXTERN CGSConnectionID _CGSDefaultConnection(void);
 // /// Given an array of window numbers and an array of space IDs, adds each
 // window
 // /// to each space.
- CG_EXTERN void CGSAddWindowsToSpaces(CGSConnectionID cid, CFArrayRef windows,
-                                      CFArrayRef spaces);
+CG_EXTERN void CGSAddWindowsToSpaces(CGSConnectionID cid, CFArrayRef windows,
+                                     CFArrayRef spaces);
 
 // /// Given an array of window numbers and an array of space IDs, removes each
 // /// window from each space.
- CG_EXTERN void CGSRemoveWindowsFromSpaces(CGSConnectionID cid,
-                                           CFArrayRef windows,
-                                           CFArrayRef spaces);
+CG_EXTERN void CGSRemoveWindowsFromSpaces(CGSConnectionID cid,
+                                          CFArrayRef windows,
+                                          CFArrayRef spaces);
 
 // /// Changes the active space for a given display.
-extern void CGSManagedDisplaySetCurrentSpace(const CGSConnectionID cid, CGSManagedDisplay display, CGSSpaceID space);
-//extern void CGSManagedDisplaySetCurrentSpace(const CGSConnectionID cid, CFStringRef display, CGSSpaceID space);
-
+extern void CGSManagedDisplaySetCurrentSpace(const CGSConnectionID cid,
+                                             CGSManagedDisplay display,
+                                             CGSSpace space);
+// extern void CGSManagedDisplaySetCurrentSpace(const CGSConnectionID cid,
+// CFStringRef display, CGSSpace space);
