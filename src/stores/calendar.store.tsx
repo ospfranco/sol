@@ -189,25 +189,31 @@ export const createCalendarStore = (root: IRootStore) => {
         solNative.getCalendarAuthorizationStatus()
     },
     onStatusBarItemClick: () => {
-      const event = root.calendar.filteredEvents[0]
-      if (event) {
-        let eventLink: string | null | undefined = event.url
+      const event = root.calendar.upcomingEvent
 
-        if (!eventLink) {
-          eventLink = extractMeetingLink(event.notes, event.location)
-        }
+      if (!event) {
+        Linking.openURL('ical://')
+        return
+      }
 
-        if (eventLink) {
-          try {
-            Linking.openURL(eventLink)
-          } catch (e) {
-            solNative.showToast(
-              `Failed to open event link: ${eventLink}`,
-              'error',
-            )
-          }
-        } else {
-          Linking.openURL('ical://')
+      console.warn('Event', JSON.stringify(event))
+
+      let eventLink: string | null | undefined = event.url
+
+      if (!eventLink) {
+        eventLink = extractMeetingLink(event.notes, event.location)
+      }
+
+      console.warn('Event link', eventLink)
+
+      if (eventLink) {
+        try {
+          Linking.openURL(eventLink)
+        } catch (e) {
+          solNative.showToast(
+            `Failed to open event link: ${eventLink}`,
+            'error',
+          )
         }
       } else {
         Linking.openURL('ical://')
