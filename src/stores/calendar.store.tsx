@@ -179,7 +179,7 @@ export const createCalendarStore = (root: IRootStore) => {
             console.error('Error fetching calendar events', e)
           }
         }
-      })
+      }, 3000)
     },
     onShow: () => {
       store.fetchEvents()
