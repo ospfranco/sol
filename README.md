@@ -1,6 +1,6 @@
 # Sol
 
-![Header](Header.png)
+![Header](Header.jpg)
 
 <br/>
 <div align="center">
