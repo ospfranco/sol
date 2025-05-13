@@ -1,6 +1,6 @@
 #include <Carbon/Carbon.h>
 
-typedef size_t *CGSConnectionID;
+typedef uint64_t *CGSConnectionID;
 // extern CGSConnectionID _CGSDefaultConnection(void);
 
 typedef CFStringRef CGSManagedDisplay;
@@ -138,7 +138,7 @@ extern CGSConnectionID _CGSDefaultConnection(void);
 CG_EXTERN void CGSShowSpaces(CGSConnectionID cid, CFArrayRef spaces);
 
 // /// Given an array of space IDs, each space is hidden from the user.
-// CG_EXTERN void CGSHideSpaces(CGSConnectionID cid, CFArrayRef spaces);
+ CG_EXTERN void CGSHideSpaces(CGSConnectionID cid, CFArrayRef spaces);
 
 // /// Given an array of window numbers and an array of space IDs, adds each
 // window
@@ -160,3 +160,7 @@ extern void CGSManagedDisplaySetCurrentSpace(const CGSConnectionID cid,
 // CFStringRef display, CGSSpace space);
 
 extern void CGSSpaceSetCompatID(const CGSConnectionID cid, CGSSpace space, CGSMoveWindowCompatID compatId);
+extern void CGSManagedDisplaySetIsAnimating(const CGSConnectionID cid,
+                                            CGSManagedDisplay display, bool isAnimating);
+extern CFArrayRef CGSCopyManagedDisplaySpaces(const CGSConnectionID cid);
+extern void CGSSetWindowListWorkspace(const CGSConnectionID cid,  CGWindowID windowIds[], NSUInteger count, CGSSpace space);

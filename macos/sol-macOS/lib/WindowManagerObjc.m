@@ -1,9 +1,10 @@
 #import "WindowManagerObjc.h"
-#import "CSGSpace.h"
+#import "CGSSpace.h"
 
-//@implementation WindowManagerObjc
-//
-//@end
+static NSString *const CGSScreenIDKey = @"Display Identifier";
+static NSString *const CGSSpaceIDKey = @"ManagedSpaceID";
+static NSString *const CGSSpacesKey = @"Spaces";
+
 
 void initWindowManagerObjc() {
   CGSConnectionID connectionId = CGSMainConnectionID();
@@ -12,7 +13,17 @@ void initWindowManagerObjc() {
     return;
   }
 
-  NSArray *allSpaces = (__bridge NSArray *)allSpacesRef;
+//  NSArray *allSpaces = (__bridge NSArray *)allSpacesRef;
+  NSMutableArray *allSpaces = [NSMutableArray array];
+  NSArray *displaySpacesInfo = CFBridgingRelease(CGSCopyManagedDisplaySpaces(CGSMainConnectionID()));
+  
+  for (NSDictionary<NSString *, id> *spacesInfo in displaySpacesInfo) {
+    NSArray<NSNumber *> *identifiers = [spacesInfo[CGSSpacesKey] valueForKey:CGSSpaceIDKey];
+    
+    for (NSNumber *identifier in identifiers) {
+      [allSpaces addObject: [NSNumber numberWithUnsignedLongLong: identifier.unsignedLongValue]];
+    }
+  }
   NSLog(@"allSpaces %@", allSpaces);
 
   uint64_t currentSpaceId = CGSGetActiveSpace(connectionId);
@@ -32,14 +43,21 @@ void initWindowManagerObjc() {
   NSLog(@"ConnectionId %p", connectionId);
   
   CFStringRef currentDisplay = CGSCopyManagedDisplayForSpace(connectionId, currentSpaceId);
+  
+  NSLog(@"Current display %@", currentDisplay);
+//  NSArray *destinationSpace = @[ @(nextSpace.unsignedLongLongValue) ];
+//  CGSShowSpaces(connectionId, (__bridge CFArrayRef)destinationSpace);
+//  NSArray *sourceSpace = @[ @(currentSpaceId)];
+//  CGSHideSpaces(connectionId, (__bridge CFArrayRef) sourceSpace);
 
-[NSThread sleepForTimeInterval:1.0]; 
+//  CGSManagedDisplaySetIsAnimating(connectionId, currentDisplay, true);
     CGSManagedDisplaySetCurrentSpace(
       connectionId,
 //      kCGSPackagesMainDisplayIdentifier,
                                      currentDisplay,
       nextSpace.unsignedLongLongValue
     );
+//  CGSManagedDisplaySetIsAnimating(connectionId, currentDisplay, false);
 
   CFRelease(allSpacesRef);
 }

@@ -316,14 +316,14 @@ class WindowManager {
 
   func moveFrontmostToNextSpace() {
     DispatchQueue.main.async {
-//      guard let window = AccessibilityElement.frontmostWindow() else {
-//        NSSound.beep()
-//        return
-//      }
-//
-//      guard let identifier = window.getIdentifier() else {
-//        return
-//      }
+      guard let window = AccessibilityElement.frontmostWindow() else {
+        NSSound.beep()
+        return
+      }
+
+      guard let windowIdentifier = window.getIdentifier() else {
+        return
+      }
 
       //    let mainConnectionId = CGSMainConnectionID()
       let connectionId = CGSMainConnectionID()
@@ -355,9 +355,33 @@ class WindowManager {
       //
       print("Next Index \(nextIndex)")
       let nextSpace = allSpaces[nextIndex]
-//      self.lastActions[identifier] = nil
+      self.lastActions[windowIdentifier] = nil
 
-      //    let windowArray = CFArrayCreate(nil, [identifier] as [UnsafeRawPointer], 1, nil)
+      let windowIdNumber = NSNumber(value: windowIdentifier)
+      let windowIdArray = [windowIdNumber] as NSArray
+      let windowArray = windowIdArray as CFArray
+      //
+      //      let nextSpaceArray: CFArray = [nextSpace] as CFArray
+      //      let previousSpaceArray: CFArray = [currentSpaceId as NSNumber] as CFArray
+      //      CGSRemoveWindowsFromSpaces(connectionId, windowArray, previousSpaceArray)
+      //      CGSAddWindowsToSpaces(
+      //        connectionId,
+      //        windowArray,
+      //        nextSpaceArray
+      //      )
+
+      CGSSpaceSetCompatID(connectionId, nextSpace.uint64Value, 4000)
+      let windowList = UnsafeMutablePointer<CGWindowID>.allocate(capacity: 1)
+      windowList.pointee = CGWindowID(windowIdentifier)
+      CGSSetWindowListWorkspace(connectionId, windowList, 1, 4000)
+      windowList.deallocate()
+      CGSSpaceSetCompatID(connectionId, nextSpace.uint64Value, 0)
+
+      // Make the window key and bring it to the front
+      if let axWindow = AXUIElementCreateApplication(pid_t(window.getIdentifier()!)) as? AXUIElement
+      {
+        AXUIElementPerformAction(axWindow, kAXRaiseAction as CFString)
+      }
       //    let spaceArray = CFArrayCreate(nil, [nextSpace] as [UnsafeRawPointer], 1, nil)
 
       //    CGSRemoveWindowsFromSpaces(
@@ -377,23 +401,22 @@ class WindowManager {
       //     )
       //
       //    print("Current display \(currentDisplay)")
-      
-      print("ConnectionId \(connectionId!)")
-
-      print(
-        "main display identifier \(kCGSPackagesMainDisplayIdentifier.takeUnretainedValue())"
-      )
-      let mainDisplayIdentifier = kCGSPackagesMainDisplayIdentifier.takeRetainedValue() as CFString
-
-      CGSManagedDisplaySetCurrentSpace(
-        connectionId!,
-        //       currentDisplay!.takeUnretainedValue(),
-//        kCGSPackagesMainDisplayIdentifier.takeUnretainedValue(),
-        "Main" as CFString,
-        nextSpace.uint64Value
-      )
-
-      print("🟦 Should have changed the space!!!")
+      //
+      //      print("ConnectionId \(connectionId!)")
+      //
+      //      print(
+      //        "main display identifier \(kCGSPackagesMainDisplayIdentifier.takeUnretainedValue())"
+      //      )
+      //      let mainDisplayIdentifier = kCGSPackagesMainDisplayIdentifier.takeRetainedValue() as CFString
+      //
+      //            CGSManagedDisplaySetCurrentSpace(
+      //              connectionId!,
+      //              //       currentDisplay!.takeUnretainedValue(),
+      //              kCGSPackagesMainDisplayIdentifier.takeUnretainedValue(),
+      //              nextSpace.uint64Value
+      //            )
+      //
+      //      print("🟦 Should have changed the space!!!")
 
     }
 
