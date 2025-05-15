@@ -300,6 +300,24 @@ export function createBaseItems(store: IRootStore) {
       },
     },
     {
+      id: 'move_to_previous_space',
+      icon: '⬅️',
+      name: 'Move window to previous space',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.moveFrontmostToPreviousSpace()
+      },
+    },
+    {
+      id: 'move_to_next_space',
+      icon: '➡️',
+      name: 'Move window to next space',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.moveFrontmostToNextSpace()
+      },
+    },
+    {
       id: 'move_center',
       IconComponent: () => {
         return (

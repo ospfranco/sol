@@ -1,6 +1,8 @@
 #ifndef MediaKeyForwarder_h
 #define MediaKeyForwarder_h
 
+#import <Foundation/Foundation.h>
+
 @interface MediaKeyForwarder:NSObject
 {
   CFMachPortRef eventPort;
