@@ -315,110 +315,51 @@ class WindowManager {
   }
 
   func moveFrontmostToNextSpace() {
-    DispatchQueue.main.async {
-      guard let window = AccessibilityElement.frontmostWindow() else {
-        NSSound.beep()
-        return
-      }
-
-      guard let windowIdentifier = window.getIdentifier() else {
-        return
-      }
-
-      //    let mainConnectionId = CGSMainConnectionID()
-      let connectionId = CGSMainConnectionID()
-      //
-      //    print("Main connection id \(mainConnectionId)")
-      //    print("Default connection id \(connectionId)")
-
-      guard
-        let allSpaces = CGSCopySpaces(connectionId, kCGSAllSpacesMask).takeUnretainedValue()
-          as? [NSNumber]
-      else {
-        return
-      }
-
-      //    let allSpaces = (allSpacesUnmanaged.takeRetainedValue() as NSArray).compactMap { $0 as? UInt64 }
-      print("allSpaces \(allSpaces)")
-
-      let currentSpaceId = CGSGetActiveSpace(connectionId)
-      print("CurrentSpaceId \(currentSpaceId)")
-      //
-      //    //    let currentSpaceName = CGSSpaceCopyName(mainConnectionId, currentSpaceId)
-      //    //    print("currentSpaceName \(currentSpaceName!.takeUnretainedValue())")
-      let currentIndex =
-        allSpaces.firstIndex(
-          of: currentSpaceId as NSNumber
-        ) ?? -1
-      print("Current index: \(currentIndex)")
-      let nextIndex = (currentIndex + 1) % allSpaces.count
-      //
-      print("Next Index \(nextIndex)")
-      let nextSpace = allSpaces[nextIndex]
-      self.lastActions[windowIdentifier] = nil
-
-      let windowIdNumber = NSNumber(value: windowIdentifier)
-      let windowIdArray = [windowIdNumber] as NSArray
-      let windowArray = windowIdArray as CFArray
-      //
-      //      let nextSpaceArray: CFArray = [nextSpace] as CFArray
-      //      let previousSpaceArray: CFArray = [currentSpaceId as NSNumber] as CFArray
-      //      CGSRemoveWindowsFromSpaces(connectionId, windowArray, previousSpaceArray)
-      //      CGSAddWindowsToSpaces(
-      //        connectionId,
-      //        windowArray,
-      //        nextSpaceArray
-      //      )
-
-      CGSSpaceSetCompatID(connectionId, nextSpace.uint64Value, 4000)
-      let windowList = UnsafeMutablePointer<CGWindowID>.allocate(capacity: 1)
-      windowList.pointee = CGWindowID(windowIdentifier)
-      CGSSetWindowListWorkspace(connectionId, windowList, 1, 4000)
-      windowList.deallocate()
-      CGSSpaceSetCompatID(connectionId, nextSpace.uint64Value, 0)
-
-      // Make the window key and bring it to the front
-      if let axWindow = AXUIElementCreateApplication(pid_t(window.getIdentifier()!)) as? AXUIElement
-      {
-        AXUIElementPerformAction(axWindow, kAXRaiseAction as CFString)
-      }
-      //    let spaceArray = CFArrayCreate(nil, [nextSpace] as [UnsafeRawPointer], 1, nil)
-
-      //    CGSRemoveWindowsFromSpaces(
-      //      mainConnectionId, windowArray, currentSpacesUnmanaged.takeRetainedValue())
-      //    CGSAddWindowsToSpaces(mainConnectionId, windowArray, spaceArray)
-
-      // Set the next space as active
-      //    if let mainDisplay = kCGSPackagesMainDisplayIdentifier?.takeUnretainedValue() {
-      //      print("Main display identifier: \(mainDisplay)")
-      //      print("Change display to next space: \(nextSpace)")
-      //      CGSManagedDisplaySetCurrentSpace(mainConnectionId, mainDisplay, nextSpace)
-      //    }
-
-      //     let currentDisplay = CGSCopyManagedDisplayForSpace(
-      //      connectionId,
-      //       currentSpaceId
-      //     )
-      //
-      //    print("Current display \(currentDisplay)")
-      //
-      //      print("ConnectionId \(connectionId!)")
-      //
-      //      print(
-      //        "main display identifier \(kCGSPackagesMainDisplayIdentifier.takeUnretainedValue())"
-      //      )
-      //      let mainDisplayIdentifier = kCGSPackagesMainDisplayIdentifier.takeRetainedValue() as CFString
-      //
-      //            CGSManagedDisplaySetCurrentSpace(
-      //              connectionId!,
-      //              //       currentDisplay!.takeUnretainedValue(),
-      //              kCGSPackagesMainDisplayIdentifier.takeUnretainedValue(),
-      //              nextSpace.uint64Value
-      //            )
-      //
-      //      print("🟦 Should have changed the space!!!")
-
+    PanelManager.shared.hideWindow()
+    guard let window = AccessibilityElement.frontmostWindow() else {
+      NSSound.beep()
+      return
     }
 
+    // Ensure mouse position restoration
+    let originalMouseLocation = CGEvent(source: nil)?.location
+    defer {
+      if let position = originalMouseLocation {
+        CGWarpMouseCursorPosition(position)
+      }
+    }
+
+    // More reliable window detection
+    let windowFrame = window.rectOfElement()
+    let titleBarPosition = CGPoint(
+      x: windowFrame.origin.x + windowFrame.width / 2,  // Center of title bar
+      y: windowFrame.origin.y + 5  // Slightly into title bar
+    )
+
+    // Create a mouse down event at the title bar
+    let mouseDown = CGEvent(
+      mouseEventSource: nil, mouseType: .leftMouseDown,
+      mouseCursorPosition: titleBarPosition, mouseButton: .left)
+    mouseDown?.post(tap: .cghidEventTap)
+
+    // Short pause to ensure the window is grabbed
+    usleep(100000)  // 0.1 seconds
+
+    let script = """
+      tell application "System Events"
+          key code 124 using control down
+      end tell
+      """
+
+    let error = AppleScriptHelper.runAppleScript(script)
+
+    // Short pause to ensure space switching completes
+    usleep(300000)  // 0.3 seconds
+
+    // // Release the mouse
+    let mouseUp = CGEvent(
+      mouseEventSource: nil, mouseType: .leftMouseUp,
+      mouseCursorPosition: titleBarPosition, mouseButton: .left)
+    mouseUp?.post(tap: .cghidEventTap)
   }
 }
