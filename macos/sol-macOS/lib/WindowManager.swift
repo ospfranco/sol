@@ -314,6 +314,55 @@ class WindowManager {
     lastActions[identifier] = .center
   }
 
+  func moveFrontmostToPreviousSpace() {
+    PanelManager.shared.hideWindow()
+    guard let window = AccessibilityElement.frontmostWindow() else {
+      NSSound.beep()
+      return
+    }
+
+    // Ensure mouse position restoration
+    let originalMouseLocation = CGEvent(source: nil)?.location
+    defer {
+      if let position = originalMouseLocation {
+        CGWarpMouseCursorPosition(position)
+      }
+    }
+
+    // More reliable window detection
+    let windowFrame = window.rectOfElement()
+    let titleBarPosition = CGPoint(
+      x: windowFrame.origin.x + windowFrame.width / 2,  // Center of title bar
+      y: windowFrame.origin.y + 5  // Slightly into title bar
+    )
+
+    // Create a mouse down event at the title bar
+    let mouseDown = CGEvent(
+      mouseEventSource: nil, mouseType: .leftMouseDown,
+      mouseCursorPosition: titleBarPosition, mouseButton: .left)
+    mouseDown?.post(tap: .cghidEventTap)
+
+    // Short pause to ensure the window is grabbed
+    usleep(100000)  // 0.1 seconds
+
+    let script = """
+      tell application "System Events"
+          key code 123 using control down
+      end tell
+      """
+
+    _ = AppleScriptHelper.runAppleScript(script)
+
+    // Short pause to ensure space switching completes
+    usleep(300000)  // 0.3 seconds
+
+    // Release the mouse
+    let mouseUp = CGEvent(
+      mouseEventSource: nil, mouseType: .leftMouseUp,
+      mouseCursorPosition: titleBarPosition, mouseButton: .left)
+    mouseUp?.post(tap: .cghidEventTap)
+  }
+
   func moveFrontmostToNextSpace() {
     PanelManager.shared.hideWindow()
     guard let window = AccessibilityElement.frontmostWindow() else {
@@ -351,7 +400,7 @@ class WindowManager {
       end tell
       """
 
-    let error = AppleScriptHelper.runAppleScript(script)
+    let _ = AppleScriptHelper.runAppleScript(script)
 
     // Short pause to ensure space switching completes
     usleep(300000)  // 0.3 seconds

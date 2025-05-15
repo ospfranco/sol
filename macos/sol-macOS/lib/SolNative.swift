@@ -255,12 +255,11 @@ class SolNative: RCTEventEmitter {
   }
 
   @objc func moveFrontmostToNextSpace() {
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
       WindowManager.sharedInstance.moveFrontmostToNextSpace()
-    }
-//    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-//      initWindowManagerObjc()
-//    }
+  }
+  
+  @objc func moveFrontmostToPreviousSpace() {
+    WindowManager.sharedInstance.moveFrontmostToPreviousSpace()
   }
 
   @objc func pasteToFrontmostApp(_ content: String) {
