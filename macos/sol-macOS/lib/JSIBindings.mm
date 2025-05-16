@@ -10,7 +10,11 @@
 #import <EventKit/EKParticipant.h>
 #import <Foundation/Foundation.h>
 #import <iostream>
+#ifdef DEBUG
+#import <sol_debug-Swift.h>
+#else
 #import <sol-Swift.h>
+#endif
 extern "C" {
 #import <CoreLocation/CoreLocation.h>
 #import <CoreWLAN/CoreWLAN.h>
@@ -470,6 +474,12 @@ void install(jsi::Runtime &rt,
 
     return {};
   });
+  
+  auto log = HOSTFN("log", 0, []) {
+    NSString *msg = sol::jsiValueToNSString(rt, arguments[0]);
+    NSLog(@"%@", msg);
+    return {};
+  });
 
   jsi::Object module = jsi::Object(rt);
 
@@ -492,6 +502,7 @@ void install(jsi::Runtime &rt,
   module.setProperty(rt, "killProcess", std::move(killProcess));
   module.setProperty(rt, "getWifiPassword", std::move(getWifiPassword));
   module.setProperty(rt, "getWifiInfo", std::move(getWifiInfo));
+  module.setProperty(rt, "log", std::move(log));
 
   rt.global().setProperty(rt, "__SolProxy", std::move(module));
 }

@@ -1,6 +1,6 @@
 import Foundation
-import LaunchAtLogin
 import HotKey
+import LaunchAtLogin
 
 private let keychain = Keychain(service: "Sol")
 
@@ -255,6 +255,14 @@ class SolNative: RCTEventEmitter {
     WindowManager.sharedInstance.center()
   }
 
+  @objc func moveFrontmostToNextSpace() {
+      WindowManager.sharedInstance.moveFrontmostToNextSpace()
+  }
+  
+  @objc func moveFrontmostToPreviousSpace() {
+    WindowManager.sharedInstance.moveFrontmostToPreviousSpace()
+  }
+
   @objc func pasteToFrontmostApp(_ content: String) {
     ClipboardHelper.pasteToFrontmostApp(content)
   }
@@ -282,7 +290,7 @@ class SolNative: RCTEventEmitter {
   @objc func turnOnEnterListener() {
     HotKeyManager.shared.catchEnterPress = true
   }
-  
+
   @objc func turnOffEnterListener() {
     HotKeyManager.shared.catchEnterPress = false
   }
@@ -342,7 +350,7 @@ class SolNative: RCTEventEmitter {
   }
 
   @objc func useBackgroundOverlay(_ v: Bool) {
-//    appDelegate?.useBackgroundOverlay = v
+    //    appDelegate?.useBackgroundOverlay = v
   }
 
   @objc func hideNotch() {

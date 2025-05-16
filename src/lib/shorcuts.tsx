@@ -32,6 +32,7 @@ export function renderToKeys(shortcut: string) {
       case 'option':
         char = '⌥'
         break
+      case 'cmd':
       case 'command':
         char = '⌘'
         break

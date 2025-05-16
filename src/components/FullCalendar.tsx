@@ -58,14 +58,14 @@ export let FullCalendar: FC = observer(() => {
 
                   <Text
                     numberOfLines={1}
-                    className={clsx({
+                    className={clsx('flex-1 pr-10', {
                       'line-through': event.declined || event.eventStatus === 3,
                       'font-semibold':
                         store.calendar.upcomingEvent?.id === event.id,
                     })}>
                     {event.title?.trim()}
                   </Text>
-                  <View className="flex-1" />
+
                   {store.calendar.upcomingEvent?.id === event.id &&
                     event.eventStatus !== 3 &&
                     !!store.calendar.upcomingEvent.eventLink && (
@@ -77,11 +77,15 @@ export let FullCalendar: FC = observer(() => {
                       />
                     )}
                   {!event.isAllDay && (
-                    <Text className="dark:text-neutral-400 ">
-                      <Text className="dark:text-white">
+                    <Text
+                      className="dark:text-neutral-400"
+                      style={{
+                        fontFamily: 'JetBrains Mono',
+                      }}>
+                      <Text className="dark:text-white ">
                         {lStart.toFormat('HH:mm')}
                       </Text>{' '}
-                      | {lEnd.toFormat('HH:mm')}
+                      {'→'} {lEnd.toFormat('HH:mm')}
                     </Text>
                   )}
                   {/* {event.isAllDay && (

@@ -162,7 +162,7 @@ async function translate(
       return result
     }
   } catch (error) {
-    console.log(error)
+    // console.log(error)
   }
 
   return undefined

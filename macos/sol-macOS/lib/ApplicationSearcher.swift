@@ -2,6 +2,7 @@ import Cocoa
 import Sentry
 
 class ApplicationSearcher: NSObject {
+  let searchDepth = 4
   let fileManager = FileManager()
   let isAliasResourceKey: [URLResourceKey] = [
     .isAliasFileKey
@@ -130,7 +131,7 @@ class ApplicationSearcher: NSObject {
     if !fileManager.fileExists(atPath: url.path) {
       return []
     }
-    if depth > 2 {
+    if depth > searchDepth {
       return []
     }
 
