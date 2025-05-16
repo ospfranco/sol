@@ -58,7 +58,7 @@ class AppDelegate: RCTAppDelegate {
     self.automaticallyLoadReactNativeWindow = false
     super.applicationDidFinishLaunching(notification)
 
-    let rootView = self.rootViewFactory.view(withModuleName: "sol")
+    let rootView = self.rootViewFactory().view(withModuleName: "sol")
 
     PanelManager.shared.setRootView(rootView: rootView as! RCTRootView)
 
