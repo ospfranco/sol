@@ -23,6 +23,7 @@
 		701086A727989798004C8CCD /* SolEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701086A627989798004C8CCD /* SolEmitter.swift */; };
 		70142B3B2D21812500EA565F /* KeychainAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70142B3A2D21812500EA565F /* KeychainAccess.swift */; };
 		701EC4612822E33B00597D99 /* AccessibilityElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701EC4602822E33B00597D99 /* AccessibilityElement.swift */; };
+		703407412DD71869004D7D3D /* JetBrainsMono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 703407402DD71869004D7D3D /* JetBrainsMono.ttf */; };
 		7034504028238AAB00240BDD /* ScreenDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7034503F28238AAB00240BDD /* ScreenDetector.swift */; };
 		703EB24D2BED4E1E00F7B391 /* NSString+Score.m in Sources */ = {isa = PBXBuildFile; fileRef = 703EB24C2BED4E1E00F7B391 /* NSString+Score.m */; };
 		7042A22A2815C06B00874743 /* NSColor.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7042A2292815C06B00874743 /* NSColor.extension.swift */; };
@@ -88,6 +89,7 @@
 		701086A82798C231004C8CCD /* sol-macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "sol-macOS.entitlements"; sourceTree = "<group>"; };
 		70142B3A2D21812500EA565F /* KeychainAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainAccess.swift; sourceTree = "<group>"; };
 		701EC4602822E33B00597D99 /* AccessibilityElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityElement.swift; sourceTree = "<group>"; };
+		703407402DD71869004D7D3D /* JetBrainsMono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = JetBrainsMono.ttf; sourceTree = "<group>"; };
 		7034503F28238AAB00240BDD /* ScreenDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenDetector.swift; sourceTree = "<group>"; };
 		703EB24C2BED4E1E00F7B391 /* NSString+Score.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+Score.m"; sourceTree = "<group>"; };
 		703EB24E2BED4E3C00F7B391 /* NSString+Score.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+Score.h"; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 		5142014A2437B4B30078DB4F /* sol-macOS */ = {
 			isa = PBXGroup;
 			children = (
+				7034073F2DD7182B004D7D3D /* fonts */,
 				70A25D432D33AF3400165270 /* managers */,
 				70F7EBEA2795A4BD00CED17A /* lib */,
 				7042A22B2815C48E00874743 /* views */,
@@ -192,6 +195,14 @@
 				70EA99E82794967E008E54FD /* sol-macOS-Bridging-Header.h */,
 			);
 			path = "sol-macOS";
+			sourceTree = "<group>";
+		};
+		7034073F2DD7182B004D7D3D /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				703407402DD71869004D7D3D /* JetBrainsMono.ttf */,
+			);
+			path = fonts;
 			sourceTree = "<group>";
 		};
 		7042A2282815C05D00874743 /* extensions */ = {
@@ -375,6 +386,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				514201522437B4B40078DB4F /* Assets.xcassets in Resources */,
+				703407412DD71869004D7D3D /* JetBrainsMono.ttf in Resources */,
 				514201552437B4B40078DB4F /* Main.storyboard in Resources */,
 				AA45E5A772F1EC270ADCC02C /* PrivacyInfo.xcprivacy in Resources */,
 			);
