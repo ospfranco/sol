@@ -29,8 +29,6 @@ function isPngOrJpg(url: string) {
 }
 
 export const ClipboardWidget: FC<Props> = observer(({style}) => {
-  useFullSize()
-
   const store = useStore()
   const data = store.clipboard.clipboardItems
   const selectedIndex = store.ui.selectedIndex
