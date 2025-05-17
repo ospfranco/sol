@@ -1,4 +1,4 @@
-import { Input } from 'components/Input'
+import {Input} from 'components/Input'
 import {MyRadioButton} from 'components/MyRadioButton'
 import {MySwitch} from 'components/MySwitch'
 import {solNative} from 'lib/SolNative'
@@ -178,6 +178,14 @@ export const General = observer(() => {
           <MySwitch
             value={store.ui.calendarEnabled}
             onValueChange={store.ui.setCalendarEnabled}
+          />
+        </View>
+        <View className="border-t border-lightBorder dark:border-darkBorder" />
+        <View className="flex-row items-center">
+          <Text className="flex-1">Show In-App Browser Bookmarks</Text>
+          <MySwitch
+            value={store.ui.showInAppBrowserBookMarks}
+            onValueChange={store.ui.setShowInAppBrowserBookmarks}
           />
         </View>
         <View className="border-t border-lightBorder dark:border-darkBorder" />

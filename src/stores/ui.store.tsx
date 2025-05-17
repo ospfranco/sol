@@ -5,7 +5,7 @@ import {Parser} from 'expr-eval'
 import {solNative} from 'lib/SolNative'
 import {CONSTANTS} from 'lib/constants'
 import {googleTranslate} from 'lib/translator'
-import {autorun, makeAutoObservable, runInAction, toJS} from 'mobx'
+import {autorun, makeAutoObservable, reaction, runInAction, toJS} from 'mobx'
 import {
   Appearance,
   EmitterSubscription,
@@ -204,6 +204,8 @@ export const createUIStore = (root: IRootStore) => {
         store.customSearchUrl =
           parsedStore.customSearchUrl ?? 'https://google.com/search?q=%s'
         store.shortcuts = parsedStore.shortcuts ?? defaultShortcuts
+        store.showInAppBrowserBookMarks =
+          parsedStore.showInAppBrowserBookMarks ?? true
       })
 
       solNative.setLaunchAtLogin(parsedStore.launchAtLogin ?? true)
@@ -268,7 +270,11 @@ export const createUIStore = (root: IRootStore) => {
       url: string
       bookmarkFolder: string | null
     }[],
-    braveBookmarks: [] as {title: string; url: string; bookmarkFolder: string | null}[],
+    braveBookmarks: [] as {
+      title: string
+      url: string
+      bookmarkFolder: string | null
+    }[],
     chromeBookmarks: [] as {
       title: string
       url: string
@@ -284,6 +290,7 @@ export const createUIStore = (root: IRootStore) => {
     scratchPadColor: ScratchPadColor.SYSTEM,
     searchFolders: [] as string[],
     shortcuts: defaultShortcuts as Record<string, string>,
+    showInAppBrowserBookMarks: true,
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -333,50 +340,59 @@ export const createUIStore = (root: IRootStore) => {
           return i
         }),
         ...store.customItems,
-        ...store.safariBookmarks.map((bookmark, idx): Item => {
-          return {
-            id: `${bookmark.title}_safari_${idx}`,
-            name: bookmark.title,
-            type: ItemType.BOOKMARK,
-            bookmarkFolder: null,
-            iconImage: Assets.Safari,
-            callback: () => {
-              Linking.openURL(bookmark.url)
-            },
-          }
-        }),
-        ...store.braveBookmarks.map((bookmark, idx): Item => {
-          return {
-            id: `${bookmark.title}_brave_${idx}`,
-            name: bookmark.title,
-            bookmarkFolder: bookmark.bookmarkFolder,
-            type: ItemType.BOOKMARK,
-            iconImage: Assets.Brave,
-            callback: () => {
-              Linking.openURL(bookmark.url)
-            },
-          }
-        }),
-        ...store.chromeBookmarks.map((bookmark, idx): Item => {
-          return {
-            id: `${bookmark.title}_chrome_${idx}`,
-            name: bookmark.title,
-            type: ItemType.BOOKMARK,
-            bookmarkFolder: bookmark.bookmarkFolder,
-            iconImage: Assets.Chrome,
-            callback: async () => {
-              if (!bookmark.url) {
-                solNative.showToast('Cannot open bookmark without url', 'error')
+        ...(store.showInAppBrowserBookMarks
+          ? store.safariBookmarks.map((bookmark, idx): Item => {
+              return {
+                id: `${bookmark.title}_safari_${idx}`,
+                name: bookmark.title,
+                type: ItemType.BOOKMARK,
+                bookmarkFolder: null,
+                iconImage: Assets.Safari,
+                callback: () => {
+                  Linking.openURL(bookmark.url)
+                },
               }
+            })
+          : []),
+        ...(store.showInAppBrowserBookMarks
+          ? store.braveBookmarks.map((bookmark, idx): Item => {
+              return {
+                id: `${bookmark.title}_brave_${idx}`,
+                name: bookmark.title,
+                bookmarkFolder: bookmark.bookmarkFolder,
+                type: ItemType.BOOKMARK,
+                iconImage: Assets.Brave,
+                callback: () => {
+                  Linking.openURL(bookmark.url)
+                },
+              }
+            })
+          : []),
+        ...(store.showInAppBrowserBookMarks
+          ? store.chromeBookmarks.map((bookmark, idx): Item => {
+              return {
+                id: `${bookmark.title}_chrome_${idx}`,
+                name: bookmark.title,
+                type: ItemType.BOOKMARK,
+                bookmarkFolder: bookmark.bookmarkFolder,
+                iconImage: Assets.Chrome,
+                callback: async () => {
+                  if (!bookmark.url) {
+                    solNative.showToast(
+                      'Cannot open bookmark without url',
+                      'error',
+                    )
+                  }
 
-              try {
-                await Linking.openURL(bookmark.url)
-              } catch (e) {
-                solNative.showToast(`Could not open url: ${e}`, 'error')
+                  try {
+                    await Linking.openURL(bookmark.url)
+                  } catch (e) {
+                    solNative.showToast(`Could not open url: ${e}`, 'error')
+                  }
+                },
               }
-            },
-          }
-        }),
+            })
+          : []),
       ]
 
       if (!store.query) {
@@ -795,8 +811,11 @@ export const createUIStore = (root: IRootStore) => {
           return
         }
         const OGbookmarks = JSON.parse(bookmarksString)
-        let bookmarks: {title: string; url: string; bookmarkFolder: null | string}[] =
-          []
+        let bookmarks: {
+          title: string
+          url: string
+          bookmarkFolder: null | string
+        }[] = []
         const traverse = (nodes: any[], bookmarkFolder: null | string) => {
           nodes.forEach(node => {
             if (node.type === 'folder') {
@@ -897,6 +916,10 @@ export const createUIStore = (root: IRootStore) => {
       solNative.setWindowHeight(e.nativeEvent.layout.height)
     },
 
+    setShowInAppBrowserBookmarks: (v: boolean) => {
+      store.showInAppBrowserBookMarks = v
+    },
+
     // Old custom items are not migrated to the new format which has an id
     // This function is used to migrate the old custom items to the new format
     // by just adding a random id
@@ -910,6 +933,13 @@ export const createUIStore = (root: IRootStore) => {
       })
     },
   })
+
+  reaction(
+    () => [store.showInAppBrowserBookMarks],
+    () => {
+      minisearch.removeAll()
+    },
+  )
 
   appareanceListener = Appearance.addChangeListener(store.onColorSchemeChange)
 
