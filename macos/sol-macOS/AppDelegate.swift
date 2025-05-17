@@ -77,12 +77,42 @@ class AppDelegate: RCTAppDelegate {
   }
 
   func setupPasteboardListener() {
-    ClipboardHelper.onCopyListener {
-      let txt = $0.string(forType: .string)
+    ClipboardHelper.addOnCopyListener {
       let bundle = $1?.bundle
-      guard let txt else { return }
-
-      SolEmitter.sharedInstance.textCopied(txt, bundle)
+      
+      let data = $0.data(forType: .fileURL)
+      
+      if data != nil {
+        // Copy the file url to temp directory
+        do {
+          guard let filename = $0.string(forType: .string) else {
+            print("Could not get file name")
+            return
+          }
+          guard let url = URL(
+            dataRepresentation: data!,
+            relativeTo: nil
+          ) else {
+            print("COuld not get file url")
+            return
+          }
+          
+          let tempFile = NSTemporaryDirectory() + filename
+          // Copy the file to the temp dir
+          try FS.copyFileFromUrl(url, toPath: tempFile)
+          SolEmitter.sharedInstance.fileCopied(filename, tempFile, bundle)
+        } catch {
+          let errorDesc = error.localizedDescription
+          print("Could not copy file to temp folder \(errorDesc)")
+        }
+        return
+      }
+      
+      // Try to parse first as string
+      let txt = $0.string(forType: .string)
+      if txt != nil {
+        SolEmitter.sharedInstance.textCopied(txt!, bundle)
+      }
     }
   }
 

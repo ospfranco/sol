@@ -29,6 +29,7 @@ let createRootStore = (): IRootStore => {
     store.ui.cleanUp()
     store.calendar.cleanUp()
     store.keystroke.cleanUp()
+    store.clipboard.cleanUp()
   }
 
   return store
