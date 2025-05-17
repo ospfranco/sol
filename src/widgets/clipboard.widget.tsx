@@ -1,9 +1,8 @@
 import clsx from 'clsx'
 import {FileIcon} from 'components/FileIcon'
 import {MainInput} from 'components/MainInput'
-import {useFullSize} from 'hooks/useFullSize'
 import {observer} from 'mobx-react-lite'
-import React, {FC, useEffect, useRef} from 'react'
+import {FC, useEffect, useRef} from 'react'
 import {
   FlatList,
   Image,
@@ -44,7 +43,7 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
   }, [selectedIndex])
 
   return (
-    <View className="flex-1" style={style}>
+    <View className="flex-1">
       <View className="flex-row px-3">
         <MainInput placeholder="Search pasteboard history..." showBackButton />
       </View>
@@ -52,6 +51,7 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
         <View className="w-64">
           <FlatList
             data={data}
+            className="w-full"
             contentContainerClassName="px-2 flex-grow"
             ref={listRef}
             onScrollToIndexFailed={() => {}}
@@ -82,7 +82,7 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
                   />
 
                   <Text
-                    className={clsx('text-xs text font-mono')}
+                    className="text-xs text font-mono flex-1"
                     numberOfLines={1}>
                     {item.text.trim()}
                   </Text>
@@ -96,33 +96,37 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
           />
         </View>
         <View className="flex-1 pb-3 pr-3">
-          <View className="flex-1 dark:bg-black bg-white rounded-lg p-3">
-            {!data[selectedIndex].url && (
-              <Text className="text-xs" style={{fontFamily: 'Andale Mono'}}>
-                {data[selectedIndex]?.text ?? []}
-              </Text>
-            )}
-            {!!data[selectedIndex].url &&
-              isPngOrJpg(data[selectedIndex].url) && (
-                <Image
-                  source={{
-                    uri: `file://${data[selectedIndex].url}`,
-                  }}
-                  className="flex-1 rounded-lg"
-                  style={{resizeMode: 'contain'}}
-                />
+          {!!data[selectedIndex] && (
+            <View className="flex-1 dark:bg-black bg-white rounded-lg p-3">
+              {!data[selectedIndex].url && (
+                <Text
+                  className="text-xs"
+                  style={{fontFamily: 'JetBrains Mono'}}>
+                  {data[selectedIndex]?.text ?? []}
+                </Text>
               )}
-            {!!data[selectedIndex].url &&
-              !isPngOrJpg(data[selectedIndex].url) && (
-                <View className="flex-1 w-full items-center justify-center">
-                  <FileIcon
-                    url={`file://${data[selectedIndex].url}`}
-                    className="h-20 w-20"
+              {!!data[selectedIndex].url &&
+                isPngOrJpg(data[selectedIndex].url) && (
+                  <Image
+                    source={{
+                      uri: `file://${data[selectedIndex].url}`,
+                    }}
+                    className="flex-1 rounded-lg"
+                    style={{resizeMode: 'contain'}}
                   />
-                  <Text>{data[selectedIndex].text}</Text>
-                </View>
-              )}
-          </View>
+                )}
+              {!!data[selectedIndex].url &&
+                !isPngOrJpg(data[selectedIndex].url) && (
+                  <View className="flex-1 w-full items-center justify-center">
+                    <FileIcon
+                      url={`file://${data[selectedIndex].url}`}
+                      className="h-20 w-20"
+                    />
+                    <Text>{data[selectedIndex].text}</Text>
+                  </View>
+                )}
+            </View>
+          )}
         </View>
       </View>
     </View>

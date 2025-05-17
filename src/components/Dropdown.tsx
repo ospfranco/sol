@@ -1,7 +1,6 @@
 import {Assets} from 'assets'
 import clsx from 'clsx'
 import {useBoolean} from 'hooks'
-import React from 'react'
 import {
   Image,
   ScrollView,
@@ -31,6 +30,7 @@ export const Dropdown = ({
   options,
   onValueChange,
   upward = false,
+  className,
 }: Props<string | number>) => {
   const [isOpen, open, close] = useBoolean()
   const [isHovered, hoverOn, hoverOff] = useBoolean()
@@ -53,6 +53,7 @@ export const Dropdown = ({
             'border-neutral-300 dark:border-neutral-700': !isHovered,
             'border-accent': isOpen,
           },
+          className,
         )}
         style={style}>
         <Text className="flex-1 text-sm ml-2">

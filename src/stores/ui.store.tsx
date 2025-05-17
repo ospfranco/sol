@@ -19,6 +19,11 @@ import MiniSearch from 'minisearch'
 import * as Sentry from '@sentry/react-native'
 import {storage} from './storage'
 import {defaultShortcuts, validShortcutTokensRegex} from 'lib/shorcuts'
+import OpenAI from 'openai'
+import {times} from 'lodash'
+const client = new OpenAI({
+  apiKey: 'blah',
+})
 
 const exprParser = new Parser()
 
@@ -41,6 +46,7 @@ export enum Widget {
   CLIPBOARD = 'CLIPBOARD',
   PROCESSES = 'PROCESSES',
   FILE_SEARCH = 'FILE_SEARCH',
+  CHATGPT = 'CHATGPT',
 }
 
 export enum ItemType {
@@ -268,7 +274,11 @@ export const createUIStore = (root: IRootStore) => {
       url: string
       bookmarkFolder: string | null
     }[],
-    braveBookmarks: [] as {title: string; url: string; bookmarkFolder: string | null}[],
+    braveBookmarks: [] as {
+      title: string
+      url: string
+      bookmarkFolder: string | null
+    }[],
     chromeBookmarks: [] as {
       title: string
       url: string
@@ -276,7 +286,7 @@ export const createUIStore = (root: IRootStore) => {
     }[],
     mediaKeyForwardingEnabled: true,
     targetHeight: 64,
-    isDarkMode: Appearance.getColorScheme() === 'dark',
+    isDarkMode: true,
     reduceTransparency: false,
     history: [] as string[],
     historyPointer: 0,
@@ -284,6 +294,7 @@ export const createUIStore = (root: IRootStore) => {
     scratchPadColor: ScratchPadColor.SYSTEM,
     searchFolders: [] as string[],
     shortcuts: defaultShortcuts as Record<string, string>,
+    openAIMessages: [] as any[],
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -795,8 +806,11 @@ export const createUIStore = (root: IRootStore) => {
           return
         }
         const OGbookmarks = JSON.parse(bookmarksString)
-        let bookmarks: {title: string; url: string; bookmarkFolder: null | string}[] =
-          []
+        let bookmarks: {
+          title: string
+          url: string
+          bookmarkFolder: null | string
+        }[] = []
         const traverse = (nodes: any[], bookmarkFolder: null | string) => {
           nodes.forEach(node => {
             if (node.type === 'folder') {
@@ -909,6 +923,29 @@ export const createUIStore = (root: IRootStore) => {
         return {...i, id: Math.random().toString()}
       })
     },
+
+    sendOpenAIMessage: async (message: any) => {
+      store.openAIMessages.push(message)
+
+      try {
+        const response = await client.responses.create({
+          model: 'gpt-4o',
+          input: 'Write a one-sentence bedtime story about a unicorn.',
+        })
+
+        runInAction(() => {
+          store.openAIMessages.push({
+            id: response.id,
+            role: 'assistant',
+            content: response.output_text,
+            timestamp: +Date.now(),
+          })
+        })
+      } catch (e) {
+        console.error('Error sending OpenAI message')
+        console.error(e.toString())
+      }
+    },
   })
 
   appareanceListener = Appearance.addChangeListener(store.onColorSchemeChange)
@@ -918,6 +955,7 @@ export const createUIStore = (root: IRootStore) => {
     store.getCalendarAccess()
     store.getAccessibilityStatus()
     store.getFullDiskAccessStatus()
+    store.isDarkMode = Appearance.getColorScheme() === 'dark'
   })
 
   onShowListener = solNative.addListener('onShow', store.onShow)

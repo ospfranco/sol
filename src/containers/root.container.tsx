@@ -5,6 +5,7 @@ import {observer} from 'mobx-react-lite'
 import {View} from 'react-native'
 import {useStore} from 'store'
 import {Widget} from 'stores/ui.store'
+import {ChatGPTWidget} from 'widgets/chatGPT.widget'
 import {ClipboardWidget} from 'widgets/clipboard.widget'
 import {CreateItemWidget} from 'widgets/createItem.widget'
 import {EmojisWidget} from 'widgets/emojis.widget'
@@ -35,6 +36,13 @@ export const RootContainer = observer(() => {
     </View>
   )
 
+  if (widget === Widget.CHATGPT) {
+    subWindow = (
+      <View className="fullWindow">
+        <ChatGPTWidget />
+      </View>
+    )
+  }
   if (widget === Widget.FILE_SEARCH) {
     subWindow = (
       <View className="fullWindow">

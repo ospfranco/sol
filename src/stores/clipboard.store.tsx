@@ -148,8 +148,12 @@ export const createClipboardStore = (root: IRootStore) => {
     }
 
     if (state) {
-      const parsedStore = JSON.parse(state)
-      store.saveHistory = parsedStore.saveHistory
+      try {
+        const parsedStore = JSON.parse(state)
+        store.saveHistory = parsedStore.saveHistory
+      } catch (e) {
+        console.warn('Could not parse clipboard store', e)
+      }
     }
 
     if (store.saveHistory) {

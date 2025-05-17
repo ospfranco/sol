@@ -704,18 +704,18 @@ export function createBaseItems(store: IRootStore) {
         }
       },
     },
-    // {
-    //   icon: '⌨️',
-    //   name: 'Add VSCode bindings to Xcode',
-    //   type: ItemType.CONFIGURATION,
-    //   callback: async () => {
-    //     await solNative.executeBashScript(
-    //       `touch ~/Library/Developer/Xcode/UserData/KeyBindings/VSCodeKeyBindings.idekeybindings`,
-    //     )
-
-    //     solNative.showToast('✅ Added bindings. Select them from the Xcode preferences')
-    //   },
-    // }
+    {
+      id: 'chatgpt',
+      icon: '🤖',
+      name: 'ChatGPT',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.showWindow()
+        store.ui.focusWidget(Widget.CHATGPT)
+        store.ui.setQuery('')
+      },
+      preventClose: true,
+    },
   ]
 
   if (__DEV__) {
