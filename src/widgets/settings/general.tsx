@@ -25,7 +25,7 @@ export const General = observer(() => {
           onValueChange={store.ui.setLaunchAtLogin}
         />
       </View>
-      <View className="p-3 subBg rounded gap-3 rounded-lg border border-lightBorder dark:border-darkBorder">
+      <View className="p-3 subBg gap-3 rounded-lg border border-lightBorder dark:border-darkBorder">
         <View className="gap-3">
           <Text className="flex-1 text-sm">Global Shortcut</Text>
           <View className="flex-1">
@@ -105,7 +105,7 @@ export const General = observer(() => {
         </View>
       </View>
 
-      <View className="p-3 subBg rounded gap-2 rounded-lg border border-lightBorder dark:border-darkBorder">
+      <View className="p-3 subBg gap-2 rounded-lg border border-lightBorder dark:border-darkBorder">
         <Text className="mb-1">File Search Paths</Text>
         {store.ui.searchFolders.map(folder => {
           return (
@@ -143,7 +143,7 @@ export const General = observer(() => {
         </View>
       </View>
 
-      <View className="p-3 subBg rounded gap-3 rounded-lg border border-lightBorder dark:border-darkBorder">
+      <View className="p-3 subBg gap-3 rounded-lg border border-lightBorder dark:border-darkBorder">
         <View className="gap-3">
           <Text className="">Show window on</Text>
           <View className="flex-1">
@@ -182,7 +182,7 @@ export const General = observer(() => {
         </View>
         <View className="border-t border-lightBorder dark:border-darkBorder" />
         <View className="flex-row items-center">
-          <Text className="flex-1">Show In-App Browser Bookmarks</Text>
+          <Text className="flex-1">Show Browser Bookmarks</Text>
           <MySwitch
             value={store.ui.showInAppBrowserBookMarks}
             onValueChange={store.ui.setShowInAppBrowserBookmarks}

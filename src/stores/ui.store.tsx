@@ -5,7 +5,14 @@ import {Parser} from 'expr-eval'
 import {solNative} from 'lib/SolNative'
 import {CONSTANTS} from 'lib/constants'
 import {googleTranslate} from 'lib/translator'
-import {autorun, makeAutoObservable, reaction, runInAction, toJS} from 'mobx'
+import {
+  autorun,
+  IReactionDisposer,
+  makeAutoObservable,
+  reaction,
+  runInAction,
+  toJS,
+} from 'mobx'
 import {
   Appearance,
   EmitterSubscription,
@@ -27,6 +34,7 @@ let onHideListener: EmitterSubscription | undefined
 let onFileSearchListener: EmitterSubscription | undefined
 let onHotkeyListener: EmitterSubscription | undefined
 let appareanceListener: NativeEventSubscription | undefined
+let bookmarksDisposer: IReactionDisposer | undefined
 
 export enum Widget {
   ONBOARDING = 'ONBOARDING',
@@ -69,7 +77,6 @@ let stopWords = new Set([
   'google',
   'is',
   'of',
-  'for',
   'on',
   'with',
   'how',
@@ -704,6 +711,7 @@ export const createUIStore = (root: IRootStore) => {
       onFileSearchListener?.remove()
       onHotkeyListener?.remove()
       appareanceListener?.remove()
+      bookmarksDisposer?.()
     },
     getCalendarAccess: () => {
       store.calendarAuthorizationStatus =
@@ -934,7 +942,7 @@ export const createUIStore = (root: IRootStore) => {
     },
   })
 
-  reaction(
+  bookmarksDisposer = reaction(
     () => [store.showInAppBrowserBookMarks],
     () => {
       minisearch.removeAll()
