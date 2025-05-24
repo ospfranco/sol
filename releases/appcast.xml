@@ -3,6 +3,14 @@
     <channel>
         <title>Sol</title>
         <item>
+            <title>2.1.194</title>
+            <pubDate>Sat, 24 May 2025 12:55:43 +0200</pubDate>
+            <sparkle:version>408</sparkle:version>
+            <sparkle:shortVersionString>2.1.194</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.194/2.1.194.zip" length="13266679" type="application/octet-stream" sparkle:edSignature="7RQM6Nv8U/HFKTbxn53HgnDW9ciBwbJYu3BMdKjTM8nE9K3Nk9xjS2QRj77yp1Ertx2BGSgt3ebDSLTpHvdeDw=="/>
+        </item>
+        <item>
             <title>2.1.193</title>
             <pubDate>Sat, 24 May 2025 09:22:19 +0200</pubDate>
             <sparkle:version>407</sparkle:version>
@@ -20,14 +28,6 @@
             <sparkle:deltas>
                 <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/Sol406-405.delta" sparkle:deltaFrom="405" length="18246" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="862784" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,en" sparkle:edSignature="BjE+YhR2IBS8hm7IufmN0+en7UMG7/kQ9twkMamf1Q0/g4y9WJmQG1YNaGYuQVj9T7vZ0T5nMmh/ptLmCSxKAw=="/>
             </sparkle:deltas>
-        </item>
-        <item>
-            <title>2.1.191</title>
-            <pubDate>Sun, 18 May 2025 08:39:55 +0200</pubDate>
-            <sparkle:version>405</sparkle:version>
-            <sparkle:shortVersionString>2.1.191</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/2.1.191.zip" length="13018529" type="application/octet-stream" sparkle:edSignature="p8m9k8FcWB2WxHmCb7F2lxJ3JnQE6NP8WHnb60OXXItiAQ5EO92QUjeclprDIfCUv9+MlvpFKeE9kV4HgvzvAA=="/>
         </item>
     </channel>
 </rss>
