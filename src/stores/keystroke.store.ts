@@ -6,7 +6,7 @@ import {Clipboard, EmitterSubscription, Linking} from 'react-native'
 import {IRootStore} from 'store'
 import {ItemType, Widget} from './ui.store'
 import {EMOJI_ROW_SIZE} from './emoji.store'
-import { isValidCustomSearchEngineUrl } from 'widgets/settings/general'
+import {isValidCustomSearchEngineUrl} from 'widgets/settings/general'
 
 let keyDownListener: EmitterSubscription | undefined
 let keyUpListener: EmitterSubscription | undefined
@@ -440,11 +440,11 @@ export const createKeystrokeStore = (root: IRootStore) => {
                 root.calendar.filteredEvents[root.ui.selectedIndex]
               let groupIndex = -1
               let itemIndex = -1
-              let groups = Object.values(root.calendar.groupedEvents)
+              let groups = root.calendar.groupedEvents
               for (let ii = 0; ii < groups.length; ii++) {
                 const group = groups[ii]
-                for (let jj = 0; jj < group.events.length; jj++) {
-                  const event = group.events[jj]
+                for (let jj = 0; jj < group.data.length; jj++) {
+                  const event = group.data[jj]
                   if (event.id === selectedEvent.id) {
                     itemIndex = jj
                     groupIndex = ii
@@ -460,7 +460,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
 
               while (
                 nextGroupIndex >= 0 &&
-                !groups[nextGroupIndex].events.length
+                !groups[nextGroupIndex].data.length
               ) {
                 nextGroupIndex--
               }
@@ -470,7 +470,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
               }
 
               itemIndex = Math.min(
-                groups[nextGroupIndex].events.length - 1,
+                groups[nextGroupIndex].data.length - 1,
                 itemIndex,
               )
 
@@ -478,7 +478,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
                 return
               }
 
-              const nextEvent = groups[nextGroupIndex].events[itemIndex]
+              const nextEvent = groups[nextGroupIndex].data[itemIndex]
               const nextIndex = root.calendar.filteredEvents.findIndex(
                 e => e.id === nextEvent.id,
               )
@@ -528,8 +528,8 @@ export const createKeystrokeStore = (root: IRootStore) => {
               let groups = Object.values(root.calendar.groupedEvents)
               for (let ii = 0; ii < groups.length; ii++) {
                 const group = groups[ii]
-                for (let jj = 0; jj < group.events.length; jj++) {
-                  const event = group.events[jj]
+                for (let jj = 0; jj < group.data.length; jj++) {
+                  const event = group.data[jj]
                   if (event.id === selectedEvent.id) {
                     itemIndex = jj
                     groupIndex = ii
@@ -545,7 +545,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
 
               while (
                 nextGroupIndex < groups.length &&
-                !groups[nextGroupIndex].events.length
+                !groups[nextGroupIndex].data.length
               ) {
                 nextGroupIndex++
               }
@@ -555,7 +555,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
               }
 
               itemIndex = Math.min(
-                groups[nextGroupIndex].events.length - 1,
+                groups[nextGroupIndex].data.length - 1,
                 itemIndex,
               )
 
@@ -563,7 +563,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
                 return
               }
 
-              const nextEvent = groups[nextGroupIndex].events[itemIndex]
+              const nextEvent = groups[nextGroupIndex].data[itemIndex]
               const nextIndex = root.calendar.filteredEvents.findIndex(
                 e => e.id === nextEvent.id,
               )

@@ -131,10 +131,10 @@ export const createClipboardStore = (root: IRootStore) => {
     'onTextCopied',
     store.onTextCopied,
   )
-  onFileCopiedListener = solNative.addListener(
-    'onFileCopied',
-    store.onFileCopied,
-  )
+  // onFileCopiedListener = solNative.addListener(
+  //   'onFileCopied',
+  //   store.onFileCopied,
+  // )
 
   const hydrate = async () => {
     let state: string | null | undefined

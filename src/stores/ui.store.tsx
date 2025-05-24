@@ -296,6 +296,7 @@ export const createUIStore = (root: IRootStore) => {
     searchFolders: [] as string[],
     shortcuts: defaultShortcuts as Record<string, string>,
     showInAppBrowserBookMarks: true,
+    hoveredEventId: null as string | null,
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -504,6 +505,9 @@ export const createUIStore = (root: IRootStore) => {
     //    / /\ \ / __| __| |/ _ \| '_ \/ __|
     //   / ____ \ (__| |_| | (_) | | | \__ \
     //  /_/    \_\___|\__|_|\___/|_| |_|___/
+    setHoveredEventId: (id: string | null) => {
+      store.hoveredEventId = id
+    },
     rotateScratchPadColor: () => {
       if (store.scratchPadColor === ScratchPadColor.SYSTEM) {
         store.scratchPadColor = ScratchPadColor.BLUE

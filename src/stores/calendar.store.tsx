@@ -57,13 +57,12 @@ export const createCalendarStore = (root: IRootStore) => {
         return {...found, eventLink}
       }
     },
-    get groupedEvents(): Record<
-      string,
-      {date: DateTime; events: Array<INativeEvent>}
-    > {
+    get groupedEvents(): Array<{
+      date: DateTime
+      data: Array<INativeEvent>
+    }> {
       const events = store.events
-      let acc: Record<string, {date: DateTime; events: Array<INativeEvent>}> =
-        {}
+      let acc: Record<string, {date: DateTime; data: Array<INativeEvent>}> = {}
       let now = DateTime.now().startOf('day')
       for (let ii = 0; ii < DAYS_TO_PARSE; ii++) {
         const targetDate = now.plus({days: ii})
@@ -86,12 +85,12 @@ export const createCalendarStore = (root: IRootStore) => {
         if (todayEvents.length > 0) {
           acc[targetDate.toISODate()] = {
             date: targetDate,
-            events: todayEvents,
+            data: todayEvents,
           }
         }
       }
 
-      return acc
+      return Object.values(acc)
     },
     get filteredEvents(): INativeEvent[] {
       const events = store.events

@@ -1,9 +1,8 @@
 import clsx from 'clsx'
 import {FileIcon} from 'components/FileIcon'
 import {MainInput} from 'components/MainInput'
-import {useFullSize} from 'hooks/useFullSize'
 import {observer} from 'mobx-react-lite'
-import React, {FC, useEffect, useRef} from 'react'
+import {FC, useEffect, useRef} from 'react'
 import {
   FlatList,
   Image,
@@ -96,13 +95,14 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
           />
         </View>
         <View className="flex-1 pb-3 pr-3">
-          <View className="flex-1 dark:bg-black bg-white rounded-lg p-3">
-            {!data[selectedIndex].url && (
-              <Text className="text-xs" style={{fontFamily: 'Andale Mono'}}>
-                {data[selectedIndex]?.text ?? []}
-              </Text>
-            )}
-            {!!data[selectedIndex].url &&
+          {!!data[selectedIndex] && (
+            <View className="flex-1 dark:bg-black bg-white rounded-lg p-3">
+              {!data[selectedIndex].url && (
+                <Text className="text-xs" style={{fontFamily: 'Andale Mono'}}>
+                  {data[selectedIndex]?.text ?? []}
+                </Text>
+              )}
+              {/* {!!data[selectedIndex].url &&
               isPngOrJpg(data[selectedIndex].url) && (
                 <Image
                   source={{
@@ -111,18 +111,19 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
                   className="flex-1 rounded-lg"
                   style={{resizeMode: 'contain'}}
                 />
-              )}
-            {!!data[selectedIndex].url &&
-              !isPngOrJpg(data[selectedIndex].url) && (
-                <View className="flex-1 w-full items-center justify-center">
-                  <FileIcon
-                    url={`file://${data[selectedIndex].url}`}
-                    className="h-20 w-20"
-                  />
-                  <Text>{data[selectedIndex].text}</Text>
-                </View>
-              )}
-          </View>
+              )} */}
+              {!!data[selectedIndex].url &&
+                !isPngOrJpg(data[selectedIndex].url) && (
+                  <View className="flex-1 w-full items-center justify-center">
+                    <FileIcon
+                      url={`file://${data[selectedIndex].url}`}
+                      className="h-20 w-20"
+                    />
+                    <Text>{data[selectedIndex].text}</Text>
+                  </View>
+                )}
+            </View>
+          )}
         </View>
       </View>
     </View>
