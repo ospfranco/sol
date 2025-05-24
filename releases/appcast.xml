@@ -3,6 +3,14 @@
     <channel>
         <title>Sol</title>
         <item>
+            <title>2.1.195</title>
+            <pubDate>Sat, 24 May 2025 19:43:20 +0200</pubDate>
+            <sparkle:version>409</sparkle:version>
+            <sparkle:shortVersionString>2.1.195</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.195/2.1.195.zip" length="13266730" type="application/octet-stream" sparkle:edSignature="yZ2XMx3TH9gNXSj2RN6lF2XRPALkj/QMTdgt48c4bsQ4z23XQ/OWRufUoOnabgJmK8ir70qv9H6TjipzfaXOAQ=="/>
+        </item>
+        <item>
             <title>2.1.194</title>
             <pubDate>Sat, 24 May 2025 12:55:43 +0200</pubDate>
             <sparkle:version>408</sparkle:version>
@@ -17,17 +25,6 @@
             <sparkle:shortVersionString>2.1.193</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.193/2.1.193.zip" length="13386635" type="application/octet-stream" sparkle:edSignature="ejFuD6ng3zZXwLJIrC6nkiVUDnbkvbkRxeKzcdlD55wzQpXq2hj/e1v7nAwckwXocSVXKujL696+3r9rG7DOCw=="/>
-        </item>
-        <item>
-            <title>2.1.192</title>
-            <pubDate>Sun, 18 May 2025 08:47:29 +0200</pubDate>
-            <sparkle:version>406</sparkle:version>
-            <sparkle:shortVersionString>2.1.192</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.192/2.1.192.zip" length="13018377" type="application/octet-stream" sparkle:edSignature="7D6XjW3jUs9dzdRmSDxgGrQBmKCL6RT6NRaGtb5upQbNOk/+MUHamFCNzKqXsCyeurU7nYk+2ZgJ5CS8bDwpDg=="/>
-            <sparkle:deltas>
-                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/Sol406-405.delta" sparkle:deltaFrom="405" length="18246" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="862784" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,en" sparkle:edSignature="BjE+YhR2IBS8hm7IufmN0+en7UMG7/kQ9twkMamf1Q0/g4y9WJmQG1YNaGYuQVj9T7vZ0T5nMmh/ptLmCSxKAw=="/>
-            </sparkle:deltas>
         </item>
     </channel>
 </rss>
