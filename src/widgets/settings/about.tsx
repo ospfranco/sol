@@ -10,10 +10,10 @@ export const About = observer(() => {
   return (
     <View className="flex-1 justify-center items-center gap-2">
       <Image
-        source={Assets.logoTransparent}
+        source={Assets.logoMinimal}
         style={{
-          height: 280,
-          width: 280,
+          height: 200,
+          width: 200,
         }}
       />
       <View className="gap-2 items-center">

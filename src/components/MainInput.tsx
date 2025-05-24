@@ -49,13 +49,7 @@ export const MainInput = observer<Props>(
     if (!showBackButton) {
       leftButton = (
         <TouchableOpacity onPress={reloadApp}>
-          <Image
-            source={require('../assets/Logo.png')}
-            style={{width: 24, height: 24}}
-            tintColor={
-              colorScheme === 'dark' ? colors.neutral[400] : colors.neutral[600]
-            }
-          />
+          <Image source={Assets.logoMinimal} style={{width: 20, height: 20}} />
         </TouchableOpacity>
       )
     }

@@ -102,11 +102,10 @@ export const OnboardingWidget: FC<Props> = observer(({style}) => {
           <View className="flex-1" />
           <View className="flex-row items-center">
             <Image
-              source={Assets.Logo}
+              source={Assets.logoMinimal}
               style={{
                 height: 120,
                 width: 120,
-                tintColor: colorScheme === 'dark' ? 'white' : 'black',
               }}
             />
           </View>

@@ -58,7 +58,7 @@ export let FullCalendar: FC = observer(() => {
 
                   <Text
                     numberOfLines={1}
-                    className={clsx('flex-1 pr-10', {
+                    className={clsx('flex-1 pr-10 text-sm', {
                       'line-through': event.declined || event.eventStatus === 3,
                       'font-semibold':
                         store.calendar.upcomingEvent?.id === event.id,
@@ -78,7 +78,7 @@ export let FullCalendar: FC = observer(() => {
                     )}
                   {!event.isAllDay && (
                     <Text
-                      className="dark:text-neutral-400"
+                      className="dark:text-neutral-400 text-xxs"
                       style={{
                         fontFamily: 'JetBrains Mono',
                       }}>

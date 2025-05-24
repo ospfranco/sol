@@ -126,7 +126,6 @@ import googleLogo from './assets/google.png'
 import GoogleMaps from './assets/GoogleMapsIcon.png'
 import googleTranslateLogo from './assets/google_translate.png'
 import LockIcon from './assets/LockIcon.png'
-import Logo from './assets/Logo.png'
 import SearchIcon from './assets/SearchIcon.png'
 import SleepIcon from './assets/SleepIcon.png'
 import SolBlackSmall from './assets/SolBlackSmall.png'
@@ -155,7 +154,7 @@ import translate from './assets/translate.png'
 import shortcuts from './assets/shortcuts.png'
 import smallLogo from './assets/smallLogo.png'
 import close from './assets/close.png'
-import logoTransparent from './assets/logoTransparent.png'
+import logoMinimal from './assets/logoMinimal.png'
 
 export const Assets = {
   Brave,
@@ -164,7 +163,6 @@ export const Assets = {
   googleTranslateLogo,
   SolBlackSmall,
   SolWhiteSmall,
-  Logo,
   Airdrop,
   Star,
   StarFilled,
@@ -200,7 +198,7 @@ export const Assets = {
   shortcuts,
   smallLogo,
   close,
-  logoTransparent,
+  logoMinimal,
 }
 
 export const Icons = {
