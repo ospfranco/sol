@@ -1,3 +1,4 @@
+import {Assets} from 'assets'
 import {BackButton} from 'components/BackButton'
 import {SelectableButton} from 'components/SelectableButton'
 import {View} from 'react-native'
@@ -14,31 +15,33 @@ export const Sidebar = ({
   const store = useStore()
 
   return (
-    <View className="p-3 gap-1 border-r border-lightBorder dark:border-darkBorder">
+    <View className="p-3 w-56">
       <BackButton
         onPress={() => store.ui.focusWidget(Widget.SEARCH)}
         className="mb-2"
       />
       <SelectableButton
-        className="w-26 items-center"
+        icon={Assets.macosSettings}
         selected={selected === 'GENERAL'}
         onPress={() => setSelected('GENERAL')}
         title="General"
       />
       <SelectableButton
-        className="w-26 items-center "
+        icon={Assets.translate}
         selected={selected === 'TRANSLATE'}
         onPress={() => setSelected('TRANSLATE')}
         title="Translation"
       />
       <SelectableButton
-        className="w-26 items-center "
+        icon={Assets.shortcuts}
+        className="items-center "
         selected={selected === 'SHORTCUTS'}
         onPress={() => setSelected('SHORTCUTS')}
         title="Shortcuts"
       />
       <SelectableButton
-        className="w-26 items-center "
+        icon={Assets.smallLogo}
+        className="items-center "
         selected={selected === 'ABOUT'}
         onPress={() => setSelected('ABOUT')}
         title="About"

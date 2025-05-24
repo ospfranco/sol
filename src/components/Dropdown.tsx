@@ -1,7 +1,6 @@
 import {Assets} from 'assets'
 import clsx from 'clsx'
 import {useBoolean} from 'hooks'
-import React from 'react'
 import {
   Image,
   ScrollView,
@@ -12,6 +11,8 @@ import {
   ViewStyle,
 } from 'react-native'
 import {SelectableButton} from './SelectableButton'
+import {useState} from 'react'
+import {set} from 'lodash'
 
 interface Props<T> {
   value: T
@@ -35,10 +36,26 @@ export const Dropdown = ({
   const [isOpen, open, close] = useBoolean()
   const [isHovered, hoverOn, hoverOff] = useBoolean()
   const colorScheme = useColorScheme()
+  const [x, setX] = useState(0)
+  const [y, setY] = useState(0)
+  const [width, setWidth] = useState(0)
+  const [height, setHeight] = useState(0)
 
   return (
     <View>
       <TouchableOpacity
+        onLayout={e => {
+          const {
+            x: layoutX,
+            y: layoutY,
+            width: layoutWidth,
+            height: layoutHeight,
+          } = e.nativeEvent.layout
+          setX(layoutX)
+          setY(layoutY)
+          setHeight(layoutHeight)
+          setWidth(layoutWidth)
+        }}
         // @ts-expect-error
         onMouseEnter={hoverOn}
         onMouseLeave={hoverOff}
@@ -47,10 +64,9 @@ export const Dropdown = ({
           isOpen ? close() : open()
         }}
         className={clsx(
-          `w-32 rounded justify-center items-center border flex-row py-1`,
+          `w-48 rounded justify-center items-center border flex-row py-1 border-neutral-300 dark:border-neutral-700`,
           {
-            'dark:border-gray-200': isHovered,
-            'border-neutral-300 dark:border-neutral-700': !isHovered,
+            'dark:bg-neutral-700': isHovered,
             'border-accent': isOpen,
           },
         )}
@@ -62,21 +78,21 @@ export const Dropdown = ({
           source={isOpen ? Assets.ChevronUp : Assets.ChevronDown}
           className="h-4 w-4 mr-2"
           style={{
-            tintColor: colorScheme === 'dark' ? 'white' : 'black',
+            tintColor: colorScheme === 'dark' ? '#777' : 'black',
           }}
         />
       </TouchableOpacity>
       {isOpen && (
         <ScrollView
           className={clsx(
-            `w-32 rounded border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 max-h-32 absolute`,
-            {
-              'top-7': !upward,
-              'bottom-7': upward,
-            },
+            `w-48 mt-0.5 rounded border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 max-h-32 absolute`,
           )}
-          style={style}
-          contentContainerClassName="justify-center items-center"
+          style={{
+            top: y + height + 1,
+            left: x,
+            width: width,
+          }}
+          contentContainerClassName="gap-1 py-1 px-1.5"
           showsVerticalScrollIndicator={false}>
           {options.map((o, i) => (
             <SelectableButton

@@ -2,13 +2,14 @@ import clsx from 'clsx'
 import {useBoolean} from 'hooks'
 import React, {FC} from 'react'
 import {
+  ImageSourcePropType,
   Text,
-  TouchableOpacity,
   TouchableOpacityProps,
   View,
   ViewStyle,
+  Image,
+  TouchableWithoutFeedback,
 } from 'react-native'
-import colors from '../colors'
 
 interface SelectableButtonProps extends TouchableOpacityProps {
   selected: boolean
@@ -17,6 +18,7 @@ interface SelectableButtonProps extends TouchableOpacityProps {
   className?: string
   leftItem?: React.ReactNode
   rounded?: boolean
+  icon?: ImageSourcePropType
 }
 
 export const SelectableButton: FC<SelectableButtonProps> = ({
@@ -26,11 +28,12 @@ export const SelectableButton: FC<SelectableButtonProps> = ({
   leftItem,
   rounded,
   className,
+  icon,
   ...props
 }) => {
   const [hovered, hoverOn, hoverOff] = useBoolean()
   return (
-    <TouchableOpacity
+    <TouchableWithoutFeedback
       onMouseEnter={hoverOn}
       onMouseLeave={hoverOff}
       {...props}
@@ -38,7 +41,7 @@ export const SelectableButton: FC<SelectableButtonProps> = ({
       enableFocusRing={false}>
       <View
         className={clsx(
-          'px-2 py-1.5 flex-row items-center gap-1 rounded',
+          'px-1.5 py-1 flex-row items-center gap-1.5 rounded',
           className,
           {
             'rounded-full': rounded,
@@ -46,6 +49,7 @@ export const SelectableButton: FC<SelectableButtonProps> = ({
             'bg-accent': hovered,
           },
         )}>
+        {!!icon && <Image source={icon} className="w-6 h-6" />}
         {leftItem}
         {!!title && (
           <Text
@@ -56,6 +60,6 @@ export const SelectableButton: FC<SelectableButtonProps> = ({
           </Text>
         )}
       </View>
-    </TouchableOpacity>
+    </TouchableWithoutFeedback>
   )
 }

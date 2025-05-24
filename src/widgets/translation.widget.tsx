@@ -4,12 +4,9 @@ import {useFullSize} from 'hooks/useFullSize'
 import {solNative} from 'lib/SolNative'
 import {languages} from 'lib/languages'
 import {observer} from 'mobx-react-lite'
-import React, {FC, useEffect} from 'react'
+import {FC, useEffect} from 'react'
 import {StyleProp, Text, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
-import customColors from '../colors'
-import {BackButton} from 'components/BackButton'
-import {Widget} from 'stores/ui.store'
 
 interface Props {
   style?: StyleProp<ViewStyle>
@@ -17,7 +14,6 @@ interface Props {
 }
 
 export const TranslationWidget: FC<Props> = observer(({style}) => {
-  useFullSize()
   const store = useStore()
 
   useEffect(() => {

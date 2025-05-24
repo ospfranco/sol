@@ -150,6 +150,12 @@ import touch from './assets/touch.png'
 import display from './assets/display.png'
 import battery from './assets/battery.png'
 import network from './assets/network.png'
+import macosSettings from './assets/macosSettings.png'
+import translate from './assets/translate.png'
+import shortcuts from './assets/shortcuts.png'
+import smallLogo from './assets/smallLogo.png'
+import close from './assets/close.png'
+import logoTransparent from './assets/logoTransparent.png'
 
 export const Assets = {
   Brave,
@@ -189,6 +195,12 @@ export const Assets = {
   display,
   battery,
   network,
+  macosSettings,
+  translate,
+  shortcuts,
+  smallLogo,
+  close,
+  logoTransparent,
 }
 
 export const Icons = {

@@ -33,9 +33,12 @@ export const Key: FC<IProps> = observer(
 
         {!!symbol && (
           <View
-            className={
-              'w-[20px] h-[20px] items-center justify-center rounded border subBg border-color'
-            }>
+            className={clsx(
+              'w-[20px] h-[20px] items-center justify-center rounded border subBg border-color',
+              {
+                'bg-accent border-accent': primary,
+              },
+            )}>
             <Text
               className="text-xs text-center"
               style={{

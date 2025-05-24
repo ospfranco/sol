@@ -21,24 +21,20 @@ export const Shortcuts = observer(() => {
   items.sort((a, b) => (a.name > b.name ? 1 : -1))
 
   return (
-    <View className="flex-1 h-full gap-2 subBg">
+    <View className="flex-1 h-full gap-1">
       <View className="flex-row gap-8 p-4">
-        <Text className="text-xs flex-1">
-          You can set your own global keyboard shortcuts. Follow the syntax
-          "[cmd + shift + option] + [letter]".
-        </Text>
+        <View className="flex-1">
+          <Text className="text">System Wide Shortcuts</Text>
+          <Text className="text-xs text-neutral-500 dark:text-neutral-400">
+            Follow the syntax "[cmd + shift + option] + [letter]"
+          </Text>
+        </View>
         <TouchableOpacity onPress={store.ui.restoreDefaultShorcuts}>
           <Text className="text-blue-500 text-sm">Restore Defaults</Text>
         </TouchableOpacity>
       </View>
-      <View className="px-4 pt-4">
-        <View className="flex-row items-center py-1.5 px-3 rounded-sm bg-gray-100 dark:bg-neutral-800">
-          <Text className="font-bold flex-1">Item</Text>
-          <Text className="font-bold">Shortcut</Text>
-        </View>
-      </View>
       <FlatList
-        contentContainerClassName="pl-4 pb-4"
+        contentContainerClassName="px-4 pb-4"
         data={items}
         keyExtractor={item => item.id}
         renderItem={({item, index}) => {
@@ -47,7 +43,7 @@ export const Shortcuts = observer(() => {
               className={clsx(
                 'flex-row items-center py-1.5 px-3 rounded-sm gap-2',
                 {
-                  'bg-gray-200 dark:bg-neutral-800': index % 2 === 1,
+                  'bg-gray-200 dark:subBg': index % 2 === 1,
                 },
               )}>
               {!!item.url && <FileIcon url={item.url} className={'w-6 h-6'} />}

@@ -1,9 +1,11 @@
+import {Assets} from 'assets'
+import clsx from 'clsx'
+import {Dropdown} from 'components/Dropdown'
 import {Input} from 'components/Input'
-import {MyRadioButton} from 'components/MyRadioButton'
 import {MySwitch} from 'components/MySwitch'
 import {solNative} from 'lib/SolNative'
 import {observer} from 'mobx-react-lite'
-import {ScrollView, Text, TouchableOpacity, View} from 'react-native'
+import {Image, ScrollView, Text, TouchableOpacity, View} from 'react-native'
 import {useStore} from 'store'
 
 export const isValidCustomSearchEngineUrl = (url: string) => {
@@ -17,113 +19,113 @@ export const General = observer(() => {
   return (
     <ScrollView
       className="flex-1 h-full"
-      contentContainerClassName="justify-center pb-5 px-5 gap-2">
+      contentContainerClassName="justify-center pb-5 px-5 -mt-4 gap-2">
       <View className="flex-row items-center p-3 subBg rounded-lg border border-lightBorder dark:border-darkBorder">
-        <Text className="flex-1 text-sm text">Launch on start</Text>
+        <View className="flex-1">
+          <Text className="text-sm text">Open at Login</Text>
+          <Text className="text-xxs text-neutral-500 dark:text-neutral-400">
+            Launch Sol when your computer starts
+          </Text>
+        </View>
         <MySwitch
           value={store.ui.launchAtLogin}
           onValueChange={store.ui.setLaunchAtLogin}
         />
       </View>
-      <View className="p-3 subBg gap-3 rounded-lg border border-lightBorder dark:border-darkBorder">
-        <View className="gap-3">
+      <View className="z-20 p-3 subBg gap-3 rounded-lg border border-lightBorder dark:border-darkBorder">
+        <View className="flex-row items-center z-30">
           <Text className="flex-1 text-sm">Global Shortcut</Text>
-          <View className="flex-1">
-            {[
-              {label: '⌘ Space', value: 'command' as const},
-              {label: '⌥ Space', value: 'option' as const},
-              {label: '⌃ Space', value: 'control' as const},
-            ].map(({label, value}, idx) => {
-              return (
-                <MyRadioButton
-                  key={idx}
-                  label={label}
-                  value={value}
-                  onValueChange={() => {
-                    store.ui.setGlobalShortcut(value)
-                  }}
-                  selected={store.ui.globalShortcut === value}
-                />
-              )
-            })}
-          </View>
+          <Dropdown
+            className="w-64"
+            value={store.ui.globalShortcut}
+            onValueChange={v => {
+              store.ui.setGlobalShortcut(v as any)
+            }}
+            options={[
+              {label: '⌘ + ␣', value: 'command' as const},
+              {label: '⌥ + ␣', value: 'option' as const},
+              {label: '⌃ + ␣', value: 'control' as const},
+            ]}
+          />
         </View>
         <View className="border-t border-lightBorder dark:border-darkBorder" />
-        <View className="gap-3">
+        <View className="flex-row items-center z-20">
           <Text className="flex-1">Search Engine</Text>
-          <View className="flex-1">
-            {[
+          <Dropdown
+            className="w-64"
+            value={store.ui.searchEngine}
+            onValueChange={v => {
+              store.ui.setSearchEngine(v as any)
+            }}
+            options={[
               {label: 'Google', value: 'google' as const},
               {label: 'DuckDuckGo', value: 'duckduckgo' as const},
               {label: 'Bing', value: 'bing' as const},
-              {label: 'Perplexity', value: 'perplexity' as const},
               {label: 'Custom', value: 'custom' as const},
-            ].map(({label, value}, idx) => {
-              return (
-                <View className="flex flex-row gap-2 items-start" key={idx}>
-                  <MyRadioButton
-                    label={label}
-                    value={value}
-                    onValueChange={() => {
-                      store.ui.setSearchEngine(value)
-                    }}
-                    selected={store.ui.searchEngine === value}
-                  />
-                  {value === 'custom' && (
-                    <View className="flex-1">
-                      <View className="flex-row items-center gap-2">
-                        <Input
-                          className="w-80 text-xs rounded border border-lightBorder dark:border-darkBorder px-1"
-                          inputClassName={
-                            store.ui.searchEngine !== 'custom'
-                              ? 'opacity-45 dark:text-white'
-                              : ''
-                          }
-                          readOnly={store.ui.searchEngine !== 'custom'}
-                          value={store.ui.customSearchUrl}
-                          onChangeText={e => store.ui.setCustomSearchUrl(e)}
-                          placeholder="https://google.com/search?q=%s"
-                        />
-                        {store.ui.searchEngine === 'custom' &&
-                          (isValidCustomSearchEngineUrl(
-                            store.ui.customSearchUrl,
-                          ) ? (
-                            <View className="w-2 h-2 rounded-full bg-green-500" />
-                          ) : (
-                            <View className="w-2 h-2 rounded-full bg-red-500" />
-                          ))}
-                      </View>
-                      <Text className="text-xs text-neutral-500 dark:text-neutral-400 mt-1 ml-1">
-                        Use %s in place of the search term
-                      </Text>
-                    </View>
-                  )}
-                </View>
-              )
-            })}
-          </View>
+            ]}
+          />
         </View>
+        {store.ui.searchEngine === 'custom' && (
+          <View className="items-end z-10">
+            <View className="flex-row items-center gap-2">
+              {store.ui.searchEngine === 'custom' &&
+                (isValidCustomSearchEngineUrl(store.ui.customSearchUrl) ? (
+                  <View className="w-2 h-2 rounded-full bg-green-500" />
+                ) : (
+                  <View className="w-2 h-2 rounded-full bg-red-500" />
+                ))}
+              <Input
+                className="w-80 text-xs rounded border border-lightBorder dark:border-darkBorder px-1"
+                inputClassName={
+                  store.ui.searchEngine !== 'custom'
+                    ? 'opacity-45 dark:text-white'
+                    : ''
+                }
+                readOnly={store.ui.searchEngine !== 'custom'}
+                value={store.ui.customSearchUrl}
+                onChangeText={e => store.ui.setCustomSearchUrl(e)}
+                placeholder="https://google.com/search?q=%s"
+              />
+            </View>
+            <Text className="text-xs text-neutral-500 dark:text-neutral-400 mt-1 ml-1">
+              Use %s in place of the search term
+            </Text>
+          </View>
+        )}
       </View>
 
-      <View className="p-3 subBg gap-2 rounded-lg border border-lightBorder dark:border-darkBorder">
-        <Text className="mb-1">File Search Paths</Text>
-        {store.ui.searchFolders.map(folder => {
-          return (
-            <View
-              key={folder}
-              className="flex-row items-center border-b border-lightBorder dark:border-darkBorder pb-2">
-              <Text className="flex-1 text-neutral-500 dark:text-neutral-400">
-                {folder}
-              </Text>
-              <TouchableOpacity
-                onPress={() => {
-                  store.ui.removeSearchFolder(folder)
-                }}>
-                <Text className="text-red-500">Remove</Text>
-              </TouchableOpacity>
-            </View>
-          )
-        })}
+      <View className="z-10 p-3 gap-1 subBg rounded-lg border border-lightBorder dark:border-darkBorder">
+        <Text className="">File Search Paths</Text>
+        <Text className="text-xxs text-neutral-500 dark:text-neutral-400">
+          Add folders for the Search Files functionality.
+        </Text>
+        <View className="mt-2">
+          {store.ui.searchFolders.map((folder, idx) => {
+            return (
+              <View
+                key={folder}
+                className={clsx('flex-row items-center p-2', {
+                  'rounded-t-lg': idx === 0,
+                  'rounded-b-lg': idx === store.ui.searchFolders.length - 1,
+                  'bg-neutral-100 dark:bg-neutral-900': idx % 2 === 0,
+                  'bg-neutral-200 dark:bg-neutral-800': idx % 2 !== 0,
+                })}>
+                <Text className="flex-1 text-sm">{folder}</Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    store.ui.removeSearchFolder(folder)
+                  }}>
+                  <Image
+                    source={Assets.close}
+                    className="h-4 w-4"
+                    style={{tintColor: 'red'}}
+                  />
+                  {/* <Text className="text-red-500">Remove</Text> */}
+                </TouchableOpacity>
+              </View>
+            )
+          })}
+        </View>
         <View className="justify-end flex-row mt-2">
           <TouchableOpacity
             onPress={async () => {
@@ -144,34 +146,24 @@ export const General = observer(() => {
       </View>
 
       <View className="p-3 subBg gap-3 rounded-lg border border-lightBorder dark:border-darkBorder">
-        <View className="gap-3">
-          <Text className="">Show window on</Text>
-          <View className="flex-1">
-            {[
+        <View className="flex-row items-center z-20">
+          <Text className="flex-1">Show Window on Screen with</Text>
+          <Dropdown
+            className="w-64"
+            value={store.ui.showWindowOn}
+            onValueChange={v => {
+              store.ui.setShowWindowOn(v as any)
+            }}
+            options={[
               {
-                label: 'Frontmost window screen',
+                label: 'Frontmost Window',
                 value: 'screenWithFrontmost' as const,
               },
-              {
-                label: 'Screen with cursor',
-                value: 'screenWithCursor' as const,
-              },
-            ].map(({label, value}, index) => {
-              return (
-                <MyRadioButton
-                  key={index}
-                  label={label}
-                  value={value}
-                  onValueChange={() => {
-                    store.ui.setShowWindowOn(value)
-                  }}
-                  selected={store.ui.showWindowOn === value}
-                />
-              )
-            })}
-          </View>
+              {label: 'Cursor Screen', value: 'screenWithCursor' as const},
+            ]}
+          />
         </View>
-        <View className="border-t border-lightBorder dark:border-darkBorder" />
+        <View className="border-t border-lightBorder dark:border-darkBorder z-0" />
         <View className="flex-row items-center">
           <Text className="flex-1">Show In-App Calendar</Text>
 
@@ -210,14 +202,6 @@ export const General = observer(() => {
           <MySwitch
             value={store.ui.mediaKeyForwardingEnabled}
             onValueChange={store.ui.setMediaKeyForwardingEnabled}
-          />
-        </View>
-        <View className="border-t border-lightBorder dark:border-darkBorder" />
-        <View className="flex-row items-center">
-          <Text className="flex-1">Reduce transparency</Text>
-          <MySwitch
-            value={store.ui.reduceTransparency}
-            onValueChange={store.ui.setReduceTransparency}
           />
         </View>
       </View>

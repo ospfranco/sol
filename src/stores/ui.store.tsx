@@ -201,7 +201,6 @@ export const createUIStore = (root: IRootStore) => {
         store.useBackgroundOverlay = parsedStore.useBackgroundOverlay ?? true
         store.mediaKeyForwardingEnabled =
           parsedStore.mediaKeyForwardingEnabled ?? true
-        store.reduceTransparency = parsedStore.reduceTransparency ?? false
         store.history = parsedStore.history ?? []
         store.showUpcomingEvent = parsedStore.showUpcomingEvent ?? true
         store.scratchPadColor =
@@ -290,7 +289,6 @@ export const createUIStore = (root: IRootStore) => {
     mediaKeyForwardingEnabled: true,
     targetHeight: 64,
     isDarkMode: Appearance.getColorScheme() === 'dark',
-    reduceTransparency: false,
     history: [] as string[],
     historyPointer: 0,
     showUpcomingEvent: true,
@@ -854,10 +852,6 @@ export const createUIStore = (root: IRootStore) => {
     }) {
       store.isDarkMode = colorScheme === 'dark'
       solNative.restart()
-    },
-
-    setReduceTransparency: (v: boolean) => {
-      store.reduceTransparency = v
     },
 
     addToHistory: (query: string) => {
