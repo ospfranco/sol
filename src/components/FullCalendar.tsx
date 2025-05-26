@@ -12,6 +12,7 @@ import {
 import {useStore} from 'store'
 import {Key} from './Key'
 import {useBoolean} from 'hooks'
+import {LoadingBar} from './LoadingBar'
 
 const CalendarItem = ({item}: {item: INativeEvent}) => {
   let store = useStore()
@@ -93,26 +94,31 @@ export let FullCalendar: FC = observer(() => {
   }
 
   return (
-    <SectionList
-      sections={groupedEvents}
-      renderSectionHeader={({section}) => {
-        let shouldShowRelative = section.date.diffNow('days').days <= 5
-        return (
-          <View className="mx-2 py-2 mb-1 gap-1 border-b border-lightBorder dark:border-darkBorder">
-            <View className="flex-row items-center gap-1">
-              <Text className="capitalize font-medium text-neutral-500 dark:text-neutral-400 text-sm">
-                {shouldShowRelative
-                  ? section.date.toRelativeCalendar()
-                  : section.date.toFormat('dd MMM')}
-              </Text>
-              <Text className="capitalize text-neutral-400 dark:text-neutral-500 font-normal text-sm">
-                | {section.date.toFormat(shouldShowRelative ? 'ccc dd' : 'ccc')}
-              </Text>
+    <>
+      <LoadingBar />
+      <SectionList
+        showsVerticalScrollIndicator={false}
+        sections={groupedEvents}
+        renderSectionHeader={({section}) => {
+          let shouldShowRelative = section.date.diffNow('days').days <= 5
+          return (
+            <View className="mx-2 py-2 mb-1 gap-1 border-b border-lightBorder dark:border-darkBorder">
+              <View className="flex-row items-center gap-1">
+                <Text className="capitalize font-medium text-neutral-500 dark:text-neutral-400 text-sm">
+                  {shouldShowRelative
+                    ? section.date.toRelativeCalendar()
+                    : section.date.toFormat('dd MMM')}
+                </Text>
+                <Text className="capitalize text-neutral-400 dark:text-neutral-500 font-normal text-sm">
+                  |{' '}
+                  {section.date.toFormat(shouldShowRelative ? 'ccc dd' : 'ccc')}
+                </Text>
+              </View>
             </View>
-          </View>
-        )
-      }}
-      renderItem={renderItem}
-    />
+          )
+        }}
+        renderItem={renderItem}
+      />
+    </>
   )
 })

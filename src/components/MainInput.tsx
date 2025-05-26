@@ -1,11 +1,5 @@
 import {observer} from 'mobx-react-lite'
-import {
-  DevSettings,
-  Image,
-  TouchableOpacity,
-  View,
-  useColorScheme,
-} from 'react-native'
+import {DevSettings, Image, TouchableOpacity, View} from 'react-native'
 import {TextInput} from 'react-native-macos'
 import {useStore} from 'store'
 import colors from 'tailwindcss/colors'
@@ -23,13 +17,12 @@ type Props = {
 
 export const MainInput = observer<Props>(
   ({
-    placeholder = 'What would you like to do?',
+    placeholder = 'Search for apps and commands...',
     showBackButton,
-    style,
     hideIcon,
   }) => {
     const store = useStore()
-    const colorScheme = useColorScheme()
+    const isDarkMode = store.ui.isDarkMode
     const reloadApp = async () => {
       DevSettings.reload()
     }
@@ -49,7 +42,10 @@ export const MainInput = observer<Props>(
     if (!showBackButton) {
       leftButton = (
         <TouchableOpacity onPress={reloadApp}>
-          <Image source={Assets.logoMinimal} style={{width: 20, height: 20}} />
+          <Image
+            source={isDarkMode ? Assets.logoMinimal : Assets.logoMinimalWhite}
+            style={{width: 20, height: 20}}
+          />
         </TouchableOpacity>
       )
     }
@@ -68,9 +64,9 @@ export const MainInput = observer<Props>(
           onChangeText={store.ui.setQuery}
           // @ts-ignore
           className="text-lg flex-1"
-          cursorColor={colorScheme === 'dark' ? colors.white : colors.black}
+          cursorColor={isDarkMode ? colors.white : colors.black}
           placeholder={placeholder}
-          placeholderTextColor={colorScheme === 'dark' ? '#555' : '#888'}
+          placeholderTextColor={isDarkMode ? '#555' : '#888'}
         />
       </View>
     )

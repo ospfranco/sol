@@ -155,6 +155,7 @@ import shortcuts from './assets/shortcuts.png'
 import smallLogo from './assets/smallLogo.png'
 import close from './assets/close.png'
 import logoMinimal from './assets/logoMinimal.png'
+import logoMinimalWhite from './assets/logoMinimalWhite.png'
 
 export const Assets = {
   Brave,
@@ -199,6 +200,7 @@ export const Assets = {
   smallLogo,
   close,
   logoMinimal,
+  logoMinimalWhite,
 }
 
 export const Icons = {
