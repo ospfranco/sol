@@ -78,9 +78,11 @@ const CalendarItem = ({item}: {item: INativeEvent}) => {
             {lStart.hasSame(DateTime.now(), 'day') &&
               lStart > DateTime.now() && (
                 <Text>
-                  {'  in '}
+                  {'in '}
                   {lStart.diffNow(['hours', 'minutes']).hours >= 1
-                    ? `${Math.floor(lStart.diffNow('minutes').hours)}h `
+                    ? `${Math.floor(
+                        lStart.diffNow(['hours', 'minutes']).hours,
+                      )}h `
                     : ''}
                   {lStart.diffNow('minutes').minutes > 0
                     ? `${Math.round(lStart.diffNow('minutes').minutes % 60)}m`
