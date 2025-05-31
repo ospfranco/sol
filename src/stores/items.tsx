@@ -727,6 +727,7 @@ export function createBaseItems(store: IRootStore) {
       callback: () => {
         store.ui.onboardingStep = 'v1_start'
         store.ui.focusWidget(Widget.ONBOARDING)
+        store.ui.setHasDismissedGettingStarted(false)
       },
       preventClose: true,
     })

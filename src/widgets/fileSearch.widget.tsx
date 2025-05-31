@@ -5,16 +5,15 @@ import {LoadingBar} from 'components/LoadingBar'
 import {MainInput} from 'components/MainInput'
 import {useFullSize} from 'hooks/useFullSize'
 import {observer} from 'mobx-react-lite'
-import React, {FC, useEffect, useRef} from 'react'
-import {FlatList, Text, View, ViewStyle} from 'react-native'
+import {FC, useEffect, useRef} from 'react'
+import {FlatList, Text, View} from 'react-native'
 import {useStore} from 'store'
 
 interface Props {
-  style?: ViewStyle
   className?: string
 }
 
-export const FileSearchWidget: FC<Props> = observer(({style}) => {
+export const FileSearchWidget: FC<Props> = observer(() => {
   useFullSize()
 
   const store = useStore()
@@ -32,7 +31,7 @@ export const FileSearchWidget: FC<Props> = observer(({style}) => {
   }, [selectedIndex])
 
   return (
-    <View className="flex-1 " style={style}>
+    <View className="flex-1">
       <View className="flex-row px-3">
         <MainInput placeholder="Search for files..." showBackButton />
       </View>

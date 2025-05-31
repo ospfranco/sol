@@ -212,6 +212,8 @@ export const createUIStore = (root: IRootStore) => {
         store.shortcuts = parsedStore.shortcuts ?? defaultShortcuts
         store.showInAppBrowserBookMarks =
           parsedStore.showInAppBrowserBookMarks ?? true
+        store.hasDismissedGettingStarted =
+          parsedStore.hasDismissedGettingStarted ?? false
       })
 
       solNative.setLaunchAtLogin(parsedStore.launchAtLogin ?? true)
@@ -297,6 +299,7 @@ export const createUIStore = (root: IRootStore) => {
     shortcuts: defaultShortcuts as Record<string, string>,
     showInAppBrowserBookMarks: true,
     hoveredEventId: null as string | null,
+    hasDismissedGettingStarted: false,
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -937,6 +940,9 @@ export const createUIStore = (root: IRootStore) => {
 
         return {...i, id: Math.random().toString()}
       })
+    },
+    setHasDismissedGettingStarted: (v: boolean) => {
+      store.hasDismissedGettingStarted = v
     },
   })
 

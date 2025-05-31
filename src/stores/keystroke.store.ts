@@ -238,6 +238,18 @@ export const createKeystrokeStore = (root: IRootStore) => {
               }
 
               if (!root.ui.query) {
+                if (!root.ui.hasDismissedGettingStarted) {
+                  Linking.openURL('https://sol.ospfranco.com/docs').catch(e => {
+                    solNative.showToast(
+                      `Could not open URL: https://sol.ospfranco.com/docs, error: ${e}`,
+                      'error',
+                    )
+                  })
+                  solNative.hideWindow()
+                  root.ui.setHasDismissedGettingStarted(true)
+                  return
+                }
+
                 if (
                   !!root.calendar.upcomingEvent &&
                   root.calendar.upcomingEvent.eventStatus !== 3

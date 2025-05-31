@@ -20,7 +20,6 @@ import {useStore} from 'store'
 import {ItemType, Widget} from 'stores/ui.store'
 
 type Props = {
-  style?: ViewStyle
   className?: string
 }
 
