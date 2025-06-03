@@ -1,5 +1,26 @@
 import Cocoa
+import CoreServices
 import Sentry
+
+class Application {
+  public var name: String
+  public var url: String
+  public var isRunning: Bool
+
+  init(name: String, url: String, isRunning: Bool) {
+    self.name = name
+    self.url = url
+    self.isRunning = isRunning
+  }
+
+  func toDictionary() -> [String: Any] {
+    return [
+      "name": name,
+      "url": url,
+      "isRunning": isRunning,
+    ]
+  }
+}
 
 class ApplicationSearcher: NSObject {
   let searchDepth = 4
@@ -12,9 +33,20 @@ class ApplicationSearcher: NSObject {
     .isApplicationKey,
   ]
 
+  // File watching
+  private var eventStream: FSEventStreamRef?
+  private var lastApplications: [Application] = []
+  private var isWatchingFolders = false
+
+  // Callback for application changes
+  public var onApplicationsChanged: (([Application]) -> Void)?
+
   var fixedUrls: [URL] = [
     URL(fileURLWithPath: "/System/Library/CoreServices/Finder.app")
   ]
+
+  // Application directories to watch
+  private var watchedDirectories: [String] = []
 
   override init() {
     super.init()
@@ -27,19 +59,161 @@ class ApplicationSearcher: NSObject {
     }
   }
 
-  public func getAllApplications() throws -> [[String: Any]] {
+  deinit {
+    stopWatchingFolders()
+  }
+
+  // Start watching application directories for changes
+  public func startWatchingFolders() {
+    if isWatchingFolders {
+      return
+    }
+
+    do {
+      // Get all the application directories we want to watch
+      let directoriesUrls = try getApplicationDirectories()
+      for url in directoriesUrls {
+        watchedDirectories.append(url.path)
+      }
+
+      // Get initial applications
+      lastApplications = try getAllApplications()
+
+      // Set up the FSEvents stream
+      var context = FSEventStreamContext(
+        version: 0,
+        info: Unmanaged.passUnretained(self).toOpaque(),
+        retain: nil,
+        release: nil,
+        copyDescription: nil
+      )
+
+      let callback: FSEventStreamCallback = {
+        (
+          streamRef: ConstFSEventStreamRef,
+          clientCallBackInfo: UnsafeMutableRawPointer?,
+          numEvents: Int,
+          eventPaths: UnsafeMutableRawPointer,
+          eventFlags: UnsafePointer<FSEventStreamEventFlags>,
+          eventIds: UnsafePointer<FSEventStreamEventId>
+        ) in
+        // Get reference to self from context
+        guard let info = clientCallBackInfo else { return }
+        let myself = Unmanaged<ApplicationSearcher>.fromOpaque(info).takeUnretainedValue()
+
+        // Process file changes
+        myself.processFileChanges()
+      }
+
+      // Create paths array for FSEvents
+      let pathsToWatch = watchedDirectories as CFArray
+
+      // Create event stream
+      eventStream = FSEventStreamCreate(
+        kCFAllocatorDefault,
+        callback,
+        &context,
+        pathsToWatch,
+        FSEventStreamEventId(kFSEventStreamEventIdSinceNow),
+        1.0,  // 1 second latency
+        FSEventStreamCreateFlags(kFSEventStreamCreateFlagFileEvents)
+      )
+
+      if let eventStream = eventStream {
+        // Set to the main dispatch queue
+        FSEventStreamSetDispatchQueue(eventStream, DispatchQueue.main)
+        FSEventStreamStart(eventStream)
+        isWatchingFolders = true
+      }
+    } catch {
+      let breadcrumb = Breadcrumb(level: .error, category: "custom")
+      breadcrumb.message =
+        "Failed to start watching application folders: \(error.localizedDescription)"
+      SentrySDK.addBreadcrumb(breadcrumb)
+      SentrySDK.capture(error: error)
+    }
+  }
+
+  public func stopWatchingFolders() {
+    if let eventStream = eventStream, isWatchingFolders {
+      FSEventStreamStop(eventStream)
+      FSEventStreamInvalidate(eventStream)
+      FSEventStreamRelease(eventStream)
+      self.eventStream = nil
+      isWatchingFolders = false
+    }
+  }
+
+  private func processFileChanges() {
+    // Delay processing to batch events together
+    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+      guard let self = self else { return }
+
+      do {
+        // Get current applications
+        let currentApplications = try self.getAllApplications()
+
+        // Compare with previous applications
+        if self.lastApplications.count != currentApplications.count {
+          self.lastApplications = currentApplications
+          self.onApplicationsChanged?(currentApplications)
+        }
+      } catch {
+        let breadcrumb = Breadcrumb(level: .error, category: "custom")
+        breadcrumb.message = "Error processing application changes: \(error.localizedDescription)"
+        SentrySDK.addBreadcrumb(breadcrumb)
+        SentrySDK.capture(error: error)
+      }
+    }
+  }
+
+  private func getApplicationDirectories() throws -> [URL] {
+    var directories: [URL] = []
+
+    // Get local application directory
+    if let localApplicationUrl = try? FileManager.default.url(
+      for: .applicationDirectory,
+      in: .localDomainMask,
+      appropriateFor: nil,
+      create: false
+    ) {
+      directories.append(localApplicationUrl)
+    }
+
+    // Get system application directory
+    if let systemApplicationUrl = try? FileManager.default.url(
+      for: .applicationDirectory,
+      in: .systemDomainMask,
+      appropriateFor: nil,
+      create: false
+    ) {
+      directories.append(systemApplicationUrl)
+    }
+
+    // Get user application directory
+    if let userApplicationUrl = try? FileManager.default.url(
+      for: .applicationDirectory,
+      in: .userDomainMask,
+      appropriateFor: nil,
+      create: false
+    ) {
+      directories.append(userApplicationUrl)
+    }
+
+    return directories
+  }
+
+  public func getAllApplications() throws -> [Application] {
     var appUrls: [URL] = []
     appUrls.append(contentsOf: fixedUrls)
     let runningApps = NSWorkspace.shared.runningApplications
 
     do {
-      let localApplicationUrl = try FileManager.default.url(
-        for: .applicationDirectory,
-        in: .localDomainMask,
-        appropriateFor: nil,
-        create: false
-      )
-      appUrls.append(contentsOf: getApplicationUrlsAt(localApplicationUrl))
+      let directories = try getApplicationDirectories()
+      for directory in directories {
+        appUrls.append(contentsOf: getApplicationUrlsAt(directory))
+      }
+
     } catch {
       let breadcrumb = Breadcrumb(level: .info, category: "custom")
       breadcrumb.message = "Error getting all applications at localDomainMask"
@@ -47,37 +221,7 @@ class ApplicationSearcher: NSObject {
       SentrySDK.capture(error: error)
     }
 
-    do {
-      let systemApplicationUrl = try FileManager.default.url(
-        for: .applicationDirectory,
-        in: .systemDomainMask,
-        appropriateFor: nil,
-        create: false
-      )
-      appUrls.append(contentsOf: getApplicationUrlsAt(systemApplicationUrl))
-    } catch {
-      let breadcrumb = Breadcrumb(level: .info, category: "custom")
-      breadcrumb.message = "Error getting all applications at systemApplicationUrl"
-      SentrySDK.addBreadcrumb(breadcrumb)
-      SentrySDK.capture(error: error)
-    }
-
-    do {
-      let userApplicationUrl = try FileManager.default.url(
-        for: .applicationDirectory,
-        in: .userDomainMask,
-        appropriateFor: nil,
-        create: false
-      )
-      appUrls.append(contentsOf: getApplicationUrlsAt(userApplicationUrl))
-    } catch {
-      let breadcrumb = Breadcrumb(level: .info, category: "custom")
-      breadcrumb.message = "Error getting all applications at userDomainMask"
-      SentrySDK.addBreadcrumb(breadcrumb)
-      SentrySDK.capture(error: error)
-    }
-
-    var applications = [[String: Any]]()
+    var applications = [Application]()
 
     for var url in appUrls {
       do {
@@ -108,11 +252,7 @@ class ApplicationSearcher: NSObject {
             }) != nil
 
           applications.append(
-            [
-              "name": name,
-              "url": urlStr,
-              "isRunning": isRunning,
-            ]
+            Application(name: name, url: urlStr, isRunning: isRunning)
           )
         }
       } catch {
@@ -131,6 +271,7 @@ class ApplicationSearcher: NSObject {
     if !fileManager.fileExists(atPath: url.path) {
       return []
     }
+
     if depth > searchDepth {
       return []
     }

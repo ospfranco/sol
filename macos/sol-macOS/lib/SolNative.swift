@@ -12,6 +12,15 @@ class SolNative: RCTEventEmitter {
   override init() {
     super.init()
     SolEmitter.sharedInstance.registerEmitter(emitter: self)
+    applicationSearcher.onApplicationsChanged = { applications in
+      self.sendEvent(
+        withName: "applicationsChanged",
+        body: applications.map {
+          $0.toDictionary()
+        })
+    }
+
+    applicationSearcher.startWatchingFolders()
   }
 
   @objc override func constantsToExport() -> [AnyHashable: Any]! {
@@ -53,6 +62,7 @@ class SolNative: RCTEventEmitter {
       "onFileSearch",
       "onStatusBarItemClick",
       "hotkey",
+      "applicationsChanged",
     ]
   }
 
@@ -62,7 +72,7 @@ class SolNative: RCTEventEmitter {
   ) {
     do {
       let apps = try applicationSearcher.getAllApplications()
-      resolve(apps)
+      resolve(apps.map { $0.toDictionary() })
     } catch {
       reject(error.localizedDescription, error.localizedDescription, nil)
     }
@@ -256,9 +266,9 @@ class SolNative: RCTEventEmitter {
   }
 
   @objc func moveFrontmostToNextSpace() {
-      WindowManager.sharedInstance.moveFrontmostToNextSpace()
+    WindowManager.sharedInstance.moveFrontmostToNextSpace()
   }
-  
+
   @objc func moveFrontmostToPreviousSpace() {
     WindowManager.sharedInstance.moveFrontmostToPreviousSpace()
   }
@@ -345,7 +355,8 @@ class SolNative: RCTEventEmitter {
 
   @objc func showToast(_ text: String, variant: String, timeout: NSNumber) {
     DispatchQueue.main.async {
-      ToastManager.shared.showToast(text, variant: variant, timeout: timeout, image: nil)
+      ToastManager.shared.showToast(
+        text, variant: variant, timeout: timeout, image: nil)
     }
   }
 
@@ -361,7 +372,8 @@ class SolNative: RCTEventEmitter {
     let image = WifiQR(name: SSID, password: password)
     DispatchQueue.main.async {
       let wifiInfo = "SSID: \(SSID)\nPassword: \(password)"
-      ToastManager.shared.showToast(wifiInfo, variant: "none", timeout: 30, image: image)
+      ToastManager.shared.showToast(
+        wifiInfo, variant: "none", timeout: 30, image: image)
     }
   }
 
@@ -397,7 +409,8 @@ class SolNative: RCTEventEmitter {
   }
 
   @objc func openFilePicker(
-    _ resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock
+    _ resolve: @escaping RCTPromiseResolveBlock,
+    reject: @escaping RCTPromiseRejectBlock
   ) {
     DispatchQueue.main.async {
       let panel = NSOpenPanel()

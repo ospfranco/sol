@@ -33,6 +33,7 @@ let onShowListener: EmitterSubscription | undefined
 let onHideListener: EmitterSubscription | undefined
 let onFileSearchListener: EmitterSubscription | undefined
 let onHotkeyListener: EmitterSubscription | undefined
+let onAppsChangedListener: EmitterSubscription | undefined
 let appareanceListener: NativeEventSubscription | undefined
 let bookmarksDisposer: IReactionDisposer | undefined
 
@@ -418,9 +419,9 @@ export const createUIStore = (root: IRootStore) => {
           }
           minisearch.addAll(allItems)
         } else {
-          // Add new items to search index
+          // Update the search index by adding any new items
           for (let item of allItems) {
-            if (!!item.id && !minisearch.has(item.id)) {
+            if (!minisearch.has(item.id)) {
               minisearch.add(item)
             }
           }
@@ -626,47 +627,55 @@ export const createUIStore = (root: IRootStore) => {
         }
       }
     },
+    updateApps: (
+      apps: Array<{name: string; url: string; isRunning: boolean}>,
+    ) => {
+      let appsRecord: Record<string, Item> = {}
+
+      for (let {name, url, isRunning} of apps) {
+        if (name === 'sol') {
+          continue
+        }
+
+        let alias = null
+        const plistPath = decodeURIComponent(
+          url.replace('file://', '') + 'Contents/Info.plist',
+        )
+
+        if (solNative.exists(plistPath)) {
+          try {
+            let plistContent = solNative.readFile(plistPath)
+            if (plistContent != null) {
+              const properties = plist.parse(plistContent)
+              alias = properties.CFBundleIdentifier
+            }
+          } catch (e) {
+            // intentionally left blank
+          }
+        }
+
+        appsRecord[url] = {
+          id: url,
+          type: ItemType.APPLICATION as ItemType.APPLICATION,
+          url: decodeURI(url.replace('file://', '')),
+          name: name,
+          isRunning,
+          alias,
+        }
+      }
+
+      // minisearch is stupid and there is no way to remove a single item via scanning
+      // so we remove all items and add them again
+      minisearch.removeAll()
+
+      runInAction(() => {
+        store.apps = Object.values(appsRecord)
+      })
+    },
     getApps: () => {
       solNative
         .getApps()
-        .then(apps => {
-          let appsRecord: Record<string, Item> = {}
-
-          for (let {name, url, isRunning} of apps) {
-            if (name === 'sol') {
-              continue
-            }
-
-            const plistPath = decodeURIComponent(
-              url.replace('file://', '') + 'Contents/Info.plist',
-            )
-            let alias = null
-            if (solNative.exists(plistPath)) {
-              try {
-                let plistContent = solNative.readFile(plistPath)
-                if (plistContent != null) {
-                  const properties = plist.parse(plistContent)
-                  alias = properties.CFBundleIdentifier
-                }
-              } catch (e) {
-                // intentionally left blank
-              }
-            }
-
-            appsRecord[url] = {
-              id: url,
-              type: ItemType.APPLICATION as ItemType.APPLICATION,
-              url: decodeURI(url.replace('file://', '')),
-              name: name,
-              isRunning,
-              alias,
-            }
-          }
-
-          runInAction(() => {
-            store.apps = Object.values(appsRecord)
-          })
-        })
+        .then(store.updateApps)
         .catch(e => {
           solNative.showToast(`Could not get apps: ${e}`, 'error')
           Sentry.captureException(e)
@@ -693,8 +702,6 @@ export const createUIStore = (root: IRootStore) => {
         return
       }
 
-      store.getApps()
-
       setImmediate(() => {
         if (!store.isAccessibilityTrusted) {
           store.getAccessibilityStatus()
@@ -715,6 +722,7 @@ export const createUIStore = (root: IRootStore) => {
       onHideListener?.remove()
       onFileSearchListener?.remove()
       onHotkeyListener?.remove()
+      onAppsChangedListener?.remove()
       appareanceListener?.remove()
       bookmarksDisposer?.()
     },
@@ -944,6 +952,11 @@ export const createUIStore = (root: IRootStore) => {
     setHasDismissedGettingStarted: (v: boolean) => {
       store.hasDismissedGettingStarted = v
     },
+    applicationsChanged: (
+      apps: Array<{name: string; url: string; isRunning: boolean}>,
+    ) => {
+      store.updateApps(apps)
+    },
   })
 
   bookmarksDisposer = reaction(
@@ -965,6 +978,10 @@ export const createUIStore = (root: IRootStore) => {
   onShowListener = solNative.addListener('onShow', store.onShow)
   onHideListener = solNative.addListener('onHide', store.onHide)
   onHotkeyListener = solNative.addListener('hotkey', store.onHotkey)
+  onAppsChangedListener = solNative.addListener(
+    'applicationsChanged',
+    store.applicationsChanged,
+  )
   onFileSearchListener = solNative.addListener(
     'onFileSearch',
     store.onFileSearch,
