@@ -16,30 +16,6 @@ enum PreferredScreen {
     self.rootView = rootView
   }
 
-  func innerShow() {
-    HotKeyManager.shared.settingsHotKey.isPaused = false
-    mainWindow.setIsVisible(false)
-    mainWindow.makeKeyAndOrderFront(self)
-
-    guard
-      let screen =
-        (preferredScreen == .frontmost ? getFrontmostScreen() : getScreenWithMouse())
-    else {
-      return
-    }
-
-    let yOffset = screen.visibleFrame.height * 0.3
-    let x = screen.visibleFrame.midX - baseSize.width / 2
-    let y = screen.visibleFrame.midY - mainWindow.frame.height + yOffset
-    mainWindow.setFrameOrigin(NSPoint(x: floor(x), y: floor(y)))
-
-    mainWindow.makeKeyAndOrderFront(self)
-
-    mainWindow.setIsVisible(true)
-
-    SolEmitter.sharedInstance.onShow(target: nil)
-  }
-
   @objc func showWindow(target: String? = nil) {
     if mainWindow.isVisible {
       return
@@ -47,9 +23,27 @@ enum PreferredScreen {
 
     // Give react native event listener a bit of time to react
     // and switch components
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-      self.innerShow()
+    HotKeyManager.shared.settingsHotKey.isPaused = false
+    mainWindow.setIsVisible(false)
+    mainWindow.makeKeyAndOrderFront(self)
+    
+    guard
+      let screen =
+        (preferredScreen == .frontmost ? getFrontmostScreen() : getScreenWithMouse())
+    else {
+      return
     }
+    
+    let yOffset = screen.visibleFrame.height * 0.3
+    let x = screen.visibleFrame.midX - baseSize.width / 2
+    let y = screen.visibleFrame.midY - mainWindow.frame.height + yOffset
+    mainWindow.setFrameOrigin(NSPoint(x: floor(x), y: floor(y)))
+    
+    mainWindow.makeKeyAndOrderFront(self)
+    
+    mainWindow.setIsVisible(true)
+    
+    SolEmitter.sharedInstance.onShow(target: nil)
   }
 
   @objc func hideWindow() {
