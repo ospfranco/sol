@@ -3,6 +3,14 @@
     <channel>
         <title>Sol</title>
         <item>
+            <title>2.1.205</title>
+            <pubDate>Wed, 04 Jun 2025 20:15:06 +0200</pubDate>
+            <sparkle:version>419</sparkle:version>
+            <sparkle:shortVersionString>2.1.205</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.205/2.1.205.zip" length="13617237" type="application/octet-stream" sparkle:edSignature="jUL2P6gGI4W31R6dvJA3HmKb2i2j4jjp0BbtoxJNhus2KiqoNYFqj7rUBUJ74W7q+aa4fwGZd7cxBa2qZKg0Dw=="/>
+        </item>
+        <item>
             <title>2.1.204</title>
             <pubDate>Wed, 04 Jun 2025 19:06:24 +0200</pubDate>
             <sparkle:version>418</sparkle:version>
@@ -17,14 +25,6 @@
             <sparkle:shortVersionString>2.1.203</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.203/2.1.203.zip" length="13616885" type="application/octet-stream" sparkle:edSignature="6IryTKFmAsP5ZbGKlH/nUJpeVCsP83WN/Q98p2HP6c7NCZFT5CASqNXgVjTwnrZO+iKHHsaBlQYvsyjBbYDqBg=="/>
-        </item>
-        <item>
-            <title>2.1.202</title>
-            <pubDate>Tue, 03 Jun 2025 21:51:41 +0200</pubDate>
-            <sparkle:version>416</sparkle:version>
-            <sparkle:shortVersionString>2.1.202</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.202/2.1.202.zip" length="13616906" type="application/octet-stream" sparkle:edSignature="9UxPylHrnSiWxxwEbGJ1g61cWWBP1VsJ0HrvbtIYP2F9zSaV/rLvjBnaOFwsYbaoil05VncA+gv1ND3cJtZ4BA=="/>
         </item>
     </channel>
 </rss>
