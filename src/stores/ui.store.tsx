@@ -695,6 +695,9 @@ export const createUIStore = (root: IRootStore) => {
           case Widget.SETTINGS:
             store.showSettings()
             return
+
+          default:
+            store.getApps()
         }
       }
 

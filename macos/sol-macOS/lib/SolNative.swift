@@ -11,13 +11,13 @@ class SolNative: RCTEventEmitter {
   override init() {
     super.init()
     SolEmitter.sharedInstance.registerEmitter(emitter: self)
-    ApplicationSearcher.shared.onApplicationsChanged = {
-      self.sendEvent(
-        withName: "applicationsChanged",
-        body: nil)
-    }
-
-    ApplicationSearcher.shared.startWatchingFolders()
+//    ApplicationSearcher.shared.onApplicationsChanged = {
+//      self.sendEvent(
+//        withName: "applicationsChanged",
+//        body: nil)
+//    }
+//
+//    ApplicationSearcher.shared.startWatchingFolders()
   }
 
   @objc override func constantsToExport() -> [AnyHashable: Any]! {
