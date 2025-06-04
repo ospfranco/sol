@@ -4,7 +4,7 @@ import {observer} from 'mobx-react-lite'
 import {FC} from 'react'
 import {
   Linking,
-  SectionList,
+  ScrollView,
   Text,
   TouchableWithoutFeedback,
   View,
@@ -18,7 +18,6 @@ const CalendarItem = ({item}: {item: INativeEvent}) => {
   let store = useStore()
   let [hovered, hoverOn, hoverOff] = useBoolean()
   let lStart = DateTime.fromISO(item.date)
-  // let lEnd = DateTime.fromISO(item.endDate)
 
   return (
     <TouchableWithoutFeedback
@@ -108,35 +107,35 @@ export let FullCalendar: FC = observer(() => {
 
   const groupedEvents = store.calendar.groupedEvents
 
-  const renderItem = ({item}: {item: INativeEvent}) => {
-    return <CalendarItem item={item} />
-  }
-
   return (
     <>
       <LoadingBar />
-      <SectionList
-        sections={groupedEvents}
-        renderSectionHeader={({section}) => {
+      <ScrollView
+        contentContainerStyle={{paddingBottom: 20}}
+        showsVerticalScrollIndicator={false}>
+        {groupedEvents.map(section => {
           let isToday = section.date.hasSame(DateTime.now(), 'day')
           let shouldShowRelative = section.date.diffNow('days').days <= 5
-
           return (
-            <View className="mx-2 p-2 mb-1 gap-1 border-b border-lightBorder dark:border-darkBorder">
-              <Text className="capitalize text-neutral-400 dark:text-neutral-500 text-sm">
-                {isToday
-                  ? 'Today'
-                  : shouldShowRelative
-                  ? section.date.toRelativeCalendar({
-                      unit: 'days',
-                    })
-                  : section.date.toFormat('cccc dd')}
-              </Text>
+            <View key={section.date.toISO()}>
+              <View className="mx-2 p-2 mb-1 gap-1 border-b border-lightBorder dark:border-darkBorder">
+                <Text className="capitalize text-neutral-400 dark:text-neutral-500 text-sm">
+                  {isToday
+                    ? 'Today'
+                    : shouldShowRelative
+                    ? section.date.toRelativeCalendar({
+                        unit: 'days',
+                      })
+                    : section.date.toFormat('cccc dd')}
+                </Text>
+              </View>
+              {section.data.map((item: INativeEvent) => (
+                <CalendarItem key={item.id} item={item} />
+              ))}
             </View>
           )
-        }}
-        renderItem={renderItem}
-      />
+        })}
+      </ScrollView>
     </>
   )
 })
