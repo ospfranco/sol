@@ -7,20 +7,17 @@ private let keychain = Keychain(service: "Sol")
 @objc(SolNative)
 class SolNative: RCTEventEmitter {
   let appDelegate = NSApp.delegate as? AppDelegate
-  let applicationSearcher = ApplicationSearcher()
 
   override init() {
     super.init()
     SolEmitter.sharedInstance.registerEmitter(emitter: self)
-    applicationSearcher.onApplicationsChanged = { applications in
+    ApplicationSearcher.shared.onApplicationsChanged = {
       self.sendEvent(
         withName: "applicationsChanged",
-        body: applications.map {
-          $0.toDictionary()
-        })
+        body: nil)
     }
 
-    applicationSearcher.startWatchingFolders()
+    ApplicationSearcher.shared.startWatchingFolders()
   }
 
   @objc override func constantsToExport() -> [AnyHashable: Any]! {
@@ -71,8 +68,8 @@ class SolNative: RCTEventEmitter {
     rejecter reject: RCTPromiseRejectBlock
   ) {
     do {
-      let apps = try applicationSearcher.getAllApplications()
-      resolve(apps.map { $0.toDictionary() })
+      let apps = try ApplicationSearcher.shared.getAllApplications()
+      resolve(apps)
     } catch {
       reject(error.localizedDescription, error.localizedDescription, nil)
     }

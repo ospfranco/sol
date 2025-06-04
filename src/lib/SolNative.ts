@@ -87,6 +87,8 @@ class SolNative extends NativeEventEmitter {
 
   log: (message: string) => void
 
+  getApplications: typeof global.__SolProxy.getApplications
+
   // Constants
   accentColor: string
   OSVersion: number
@@ -193,6 +195,7 @@ class SolNative extends NativeEventEmitter {
     this.moveFrontmostToNextSpace = module.moveFrontmostToNextSpace
     this.moveFrontmostToPreviousSpace = module.moveFrontmostToPreviousSpace
     this.log = global.__SolProxy.log
+    this.getApplications = global.__SolProxy.getApplications
   }
 }
 

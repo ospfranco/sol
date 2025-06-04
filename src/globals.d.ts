@@ -54,6 +54,13 @@ declare var global: {
     getWifiInfo: () => {ip: string | undefined}
     showWindow: () => void
     log: (message: string) => void
+    getApplications: () => Promise<
+      Array<{
+        name: string
+        url: string
+        isRunning: boolean
+      }>
+    >
   }
 }
 

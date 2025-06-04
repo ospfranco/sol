@@ -673,13 +673,9 @@ export const createUIStore = (root: IRootStore) => {
       })
     },
     getApps: () => {
-      solNative
-        .getApps()
-        .then(store.updateApps)
-        .catch(e => {
-          solNative.showToast(`Could not get apps: ${e}`, 'error')
-          Sentry.captureException(e)
-        })
+      solNative.getApplications().then(apps => {
+        store.updateApps(apps)
+      })
     },
     onShow: ({target}: {target?: string}) => {
       if (target != null) {
@@ -954,10 +950,8 @@ export const createUIStore = (root: IRootStore) => {
     setHasDismissedGettingStarted: (v: boolean) => {
       store.hasDismissedGettingStarted = v
     },
-    applicationsChanged: (
-      apps: Array<{name: string; url: string; isRunning: boolean}>,
-    ) => {
-      store.updateApps(apps)
+    applicationsChanged: () => {
+      store.getApps()
     },
   })
 

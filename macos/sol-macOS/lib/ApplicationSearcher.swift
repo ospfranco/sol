@@ -22,7 +22,7 @@ class Application {
   }
 }
 
-class ApplicationSearcher: NSObject {
+@objc public class ApplicationSearcher: NSObject {
   let searchDepth = 4
   let fileManager = FileManager()
   let isAliasResourceKey: [URLResourceKey] = [
@@ -32,14 +32,16 @@ class ApplicationSearcher: NSObject {
     .isExecutableKey,
     .isApplicationKey,
   ]
+  
+  @objc public static let shared = ApplicationSearcher()
 
   // File watching
   private var eventStream: FSEventStreamRef?
-  private var lastApplications: [Application] = []
+  private var lastApplications: [[String: Any]] = []
   private var isWatchingFolders = false
 
   // Callback for application changes
-  public var onApplicationsChanged: (([Application]) -> Void)?
+  public var onApplicationsChanged: (() -> Void)?
 
   var fixedUrls: [URL] = [
     URL(fileURLWithPath: "/System/Library/CoreServices/Finder.app")
@@ -115,7 +117,7 @@ class ApplicationSearcher: NSObject {
         &context,
         pathsToWatch,
         FSEventStreamEventId(kFSEventStreamEventIdSinceNow),
-        30.0,
+        10.0,
         FSEventStreamCreateFlags(kFSEventStreamCreateFlagFileEvents)
       )
 
@@ -148,48 +150,8 @@ class ApplicationSearcher: NSObject {
     // Delay processing to batch events together
     DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 1.0) { [weak self] in
       guard let self = self else { return }
-
-      do {
-        // Get current applications
-        let currentApplications = try self.getAllApplications()
-
-        // More sophisticated comparison than just count
-        let hasChanges = self.detectSignificantChanges(
-          old: self.lastApplications, new: currentApplications)
-
-        if hasChanges {
-          self.lastApplications = currentApplications
-          // Dispatch UI updates to main thread
-          DispatchQueue.main.async {
-            self.onApplicationsChanged?(currentApplications)
-          }
-        }
-      } catch {
-        let breadcrumb = Breadcrumb(level: .error, category: "custom")
-        breadcrumb.message = "Error processing application changes: \(error.localizedDescription)"
-        SentrySDK.addBreadcrumb(breadcrumb)
-        SentrySDK.capture(error: error)
-      }
+      self.onApplicationsChanged?()
     }
-  }
-
-  private func detectSignificantChanges(old: [Application], new: [Application]) -> Bool {
-    // Check count first as it's fastest
-    if old.count != new.count { return true }
-
-    // Create sets of application URLs for quick comparison
-    let oldUrls = Set(old.map { $0.url })
-    let newUrls = Set(new.map { $0.url })
-
-    // Check if any applications were added or removed
-    if oldUrls != newUrls { return true }
-
-    // Check for running state changes
-    for (oldApp, newApp) in zip(old, new) where oldApp.url == newApp.url {
-      if oldApp.isRunning != newApp.isRunning { return true }
-    }
-
-    return false
   }
 
   private func getApplicationDirectories() throws -> [URL] {
@@ -228,7 +190,7 @@ class ApplicationSearcher: NSObject {
     return directories
   }
 
-  public func getAllApplications() throws -> [Application] {
+  @objc public func getAllApplications() -> [[String: Any]] {
     var appUrls: [URL] = []
     appUrls.append(contentsOf: fixedUrls)
     let runningApps = NSWorkspace.shared.runningApplications
@@ -289,7 +251,7 @@ class ApplicationSearcher: NSObject {
       }
     }
 
-    return applications
+    return applications.map { $0.toDictionary() }
   }
 
   private func getApplicationUrlsAt(_ url: URL, depth: Int = 0) -> [URL] {

@@ -37,7 +37,7 @@ void install(jsi::Runtime &rt,
   calendarHelper = [[CalendarHelper alloc] init];
   dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ssZ";
 
-  auto setHeight = HOSTFN("setHeight", 1, []) {
+  auto setHeight = HOSTFN("setHeight", []) {
     int height = static_cast<int>(arguments[0].asNumber());
     dispatch_async(dispatch_get_main_queue(), ^{
       PanelManager *panelManager = [PanelManager shared];
@@ -47,7 +47,7 @@ void install(jsi::Runtime &rt,
     return {};
   });
 
-  auto resetWindowSize = HOSTFN("resetWindowSize", 0, []) {
+  auto resetWindowSize = HOSTFN("resetWindowSize", []) {
     dispatch_async(dispatch_get_main_queue(), ^{
       PanelManager *panelManager = [PanelManager shared];
       [panelManager resetSize];
@@ -56,7 +56,7 @@ void install(jsi::Runtime &rt,
     return {};
   });
 
-  auto hideWindow = HOSTFN("hideWindow", 0, []) {
+  auto hideWindow = HOSTFN("hideWindow", []) {
     dispatch_async(dispatch_get_main_queue(), ^{
       PanelManager *panelManager = [PanelManager shared];
       [panelManager hideWindow];
@@ -65,7 +65,7 @@ void install(jsi::Runtime &rt,
     return {};
   });
 
-  auto showWindow = HOSTFN("showWindow", 0, []) {
+  auto showWindow = HOSTFN("showWindow", []) {
     dispatch_async(dispatch_get_main_queue(), ^{
       PanelManager *panelManager = [PanelManager shared];
       [panelManager showWindowWithTarget:NULL];
@@ -74,7 +74,7 @@ void install(jsi::Runtime &rt,
     return {};
   });
 
-  auto getWifiPassword = HOSTFN("getWifiPassword", 0, []) {
+  auto getWifiPassword = HOSTFN("getWifiPassword", []) {
 
     CLLocationManager *lm = [[CLLocationManager alloc] init];
     bool location_enabled = [lm locationServicesEnabled];
@@ -105,7 +105,7 @@ void install(jsi::Runtime &rt,
     if (status != errSecSuccess) {
       throw std::runtime_error("OS error code: " + std::to_string(status));
     }
-    
+
     auto jsi_password = sol::NSStringToJsiValue(rt, psk);
     auto jsi_ssid = sol::NSStringToJsiValue(rt, ssid);
     auto res = jsi::Object(rt);
@@ -115,13 +115,13 @@ void install(jsi::Runtime &rt,
     return res;
   });
 
-  auto getWifiInfo = HOSTFN("getWifiInfo", 0, []) {
+  auto getWifiInfo = HOSTFN("getWifiInfo", []) {
     if (@available(macOS 15.0, *)) {
       CLLocationManager *locationManager = [[CLLocationManager alloc] init];
       [locationManager requestAlwaysAuthorization];
     }
 
-    CWWiFiClient *sharedClient = [CWWiFiClient sharedWiFiClient];
+    //    CWWiFiClient *sharedClient = [CWWiFiClient sharedWiFiClient];
     //    CWInterface *interface = [sharedClient interface];
     //    NSString *ssid = interface.ssid;
 
@@ -157,7 +157,7 @@ void install(jsi::Runtime &rt,
     return res;
   });
 
-  auto searchFiles = HOSTFN("searchFiles", 1, []) {
+  auto searchFiles = HOSTFN("searchFiles", []) {
     auto paths = arguments[0].asObject(rt).asArray(rt);
     auto query = arguments[1].asString(rt).utf8(rt);
     std::vector<File> res;
@@ -246,10 +246,10 @@ void install(jsi::Runtime &rt,
   //   return promise;
   // });
 
-  auto requestCalendarAccess = HOSTFN("requestCalendarAccess", 0, []) {
+  auto requestCalendarAccess = HOSTFN("requestCalendarAccess", []) {
     auto promiseConstructor = rt.global().getPropertyAsFunction(rt, "Promise");
 
-    auto promise = promiseConstructor.callAsConstructor(rt, HOSTFN("executor", 2, []) {
+    auto promise = promiseConstructor.callAsConstructor(rt, HOSTFN("executor", []) {
       auto resolve = std::make_shared<jsi::Value>(rt, arguments[0]);
 
       [calendarHelper requestCalendarAccess:^{
@@ -262,13 +262,13 @@ void install(jsi::Runtime &rt,
   });
 
   auto getCalendarAuthorizationStatus =
-      HOSTFN("getCalendarAuthorizationStatus", 0, []) {
+      HOSTFN("getCalendarAuthorizationStatus", []) {
     NSString *status = [calendarHelper getCalendarAuthorizationStatus];
     std::string statusStd = std::string([status UTF8String]);
     return jsi::String::createFromUtf8(rt, statusStd);
   });
 
-  auto getEvents = HOSTFN("getEvents", 0, []) {
+  auto getEvents = HOSTFN("getEvents", []) {
     NSArray<EKEvent *> *ekEvents = [calendarHelper getEvents];
     auto events = jsi::Array(rt, ekEvents.count);
     NSString *colorString = @"";
@@ -394,7 +394,7 @@ void install(jsi::Runtime &rt,
     return events;
   });
 
-  auto ls = HOSTFN("ls", 1, []) {
+  auto ls = HOSTFN("ls", []) {
     NSString *path = sol::jsiValueToNSString(rt, arguments[0]);
     NSError *error;
     NSArray *contents = [FS lsWithPath:path error:&error];
@@ -412,7 +412,7 @@ void install(jsi::Runtime &rt,
     return res;
   });
 
-  auto exists = HOSTFN("exists", 1, []) {
+  auto exists = HOSTFN("exists", []) {
     NSString *path = sol::jsiValueToNSString(rt, arguments[0]);
 
     bool exists = static_cast<bool>([FS existsWithPath:path]);
@@ -420,7 +420,7 @@ void install(jsi::Runtime &rt,
     return jsi::Value(exists);
   });
 
-  auto readFile = HOSTFN("readFile", 1, []) {
+  auto readFile = HOSTFN("readFile", []) {
     NSString *path = sol::jsiValueToNSString(rt, arguments[0]);
 
     NSString *contents = [FS readFileWithPath:path];
@@ -432,12 +432,12 @@ void install(jsi::Runtime &rt,
     return sol::NSStringToJsiValue(rt, contents);
   });
 
-  auto userName = HOSTFN("userName", 0, []) {
+  auto userName = HOSTFN("userName", []) {
     NSString *userName = NSUserName();
     return sol::NSStringToJsiValue(rt, userName);
   });
 
-  auto ps = HOSTFN("ps", 0, []) {
+  auto ps = HOSTFN("ps", []) {
 
     NSPipe *pipe = [[NSPipe alloc] init];
     NSFileHandle *file = [pipe fileHandleForReading];
@@ -461,7 +461,7 @@ void install(jsi::Runtime &rt,
     return sol::NSStringToJsiValue(rt, string);
   });
 
-  auto killProcess = HOSTFN("killProcess", 0, []) {
+  auto killProcess = HOSTFN("killProcess", []) {
     NSString *pid = sol::jsiValueToNSString(rt, arguments[0]);
 
     NSTask *killTask = [[NSTask alloc] init];
@@ -474,11 +474,50 @@ void install(jsi::Runtime &rt,
 
     return {};
   });
-  
-  auto log = HOSTFN("log", 0, []) {
+
+  auto log = HOSTFN("log", []) {
     NSString *msg = sol::jsiValueToNSString(rt, arguments[0]);
     NSLog(@"%@", msg);
     return {};
+  });
+
+  auto getApplications = HOSTFN("getApplications", []) {
+    auto promiseCtr = rt.global().getPropertyAsFunction(rt, "Promise");
+    auto promise = promiseCtr.callAsConstructor(
+        rt, HOSTFN("executor", []) {
+      auto resolve = std::make_shared<jsi::Value>(rt, arguments[0]);
+      auto reject = std::make_shared<jsi::Value>(rt, arguments[1]);
+
+          dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), ^{
+            NSArray *apps = [[ApplicationSearcher shared] getAllApplications];
+            
+            
+            invoker->invokeAsync([resolve, apps, &rt]() mutable {
+              jsi::Array appsArray(rt, apps.count);
+              for (NSUInteger i = 0; i < apps.count; i++) {
+                NSDictionary *nsApp = [apps objectAtIndex:i];
+                jsi::Object app = jsi::Object(rt);
+                
+                NSString *nsName = [nsApp valueForKey:@"name"];
+                jsi::String name = jsi::String::createFromUtf8(rt, [nsName UTF8String]);
+                app.setProperty(rt, "name", name);
+                
+                NSString *nsUrl = [nsApp valueForKey:@"url"];
+                jsi::String url = jsi::String::createFromUtf8(rt, [nsUrl UTF8String]);
+                app.setProperty(rt, "url", url);
+                
+                app.setProperty(rt, "isRunning", jsi::Value([nsApp valueForKey:@"isRunning"]));
+                
+                appsArray.setValueAtIndex(rt, i, app);
+              }
+              
+              resolve->asObject(rt).asFunction(rt).call(rt, std::move(appsArray));
+            });
+          });
+      return {};
+        }));
+
+    return promise;
   });
 
   jsi::Object module = jsi::Object(rt);
@@ -503,6 +542,7 @@ void install(jsi::Runtime &rt,
   module.setProperty(rt, "getWifiPassword", std::move(getWifiPassword));
   module.setProperty(rt, "getWifiInfo", std::move(getWifiInfo));
   module.setProperty(rt, "log", std::move(log));
+  module.setProperty(rt, "getApplications", std::move(getApplications));
 
   rt.global().setProperty(rt, "__SolProxy", std::move(module));
 }
