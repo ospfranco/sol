@@ -115,13 +115,13 @@ class ApplicationSearcher: NSObject {
         &context,
         pathsToWatch,
         FSEventStreamEventId(kFSEventStreamEventIdSinceNow),
-        1.0,  // 1 second latency
+        30.0,
         FSEventStreamCreateFlags(kFSEventStreamCreateFlagFileEvents)
       )
 
       if let eventStream = eventStream {
-        // Set to the main dispatch queue
-        FSEventStreamSetDispatchQueue(eventStream, DispatchQueue.main)
+        let backgroundQueue = DispatchQueue(label: "com.sol.fsevents", qos: .utility)
+        FSEventStreamSetDispatchQueue(eventStream, backgroundQueue)
         FSEventStreamStart(eventStream)
         isWatchingFolders = true
       }
@@ -146,17 +146,23 @@ class ApplicationSearcher: NSObject {
 
   private func processFileChanges() {
     // Delay processing to batch events together
-    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+    DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 1.0) { [weak self] in
       guard let self = self else { return }
 
       do {
         // Get current applications
         let currentApplications = try self.getAllApplications()
 
-        // Compare with previous applications
-        if self.lastApplications.count != currentApplications.count {
+        // More sophisticated comparison than just count
+        let hasChanges = self.detectSignificantChanges(
+          old: self.lastApplications, new: currentApplications)
+
+        if hasChanges {
           self.lastApplications = currentApplications
-          self.onApplicationsChanged?(currentApplications)
+          // Dispatch UI updates to main thread
+          DispatchQueue.main.async {
+            self.onApplicationsChanged?(currentApplications)
+          }
         }
       } catch {
         let breadcrumb = Breadcrumb(level: .error, category: "custom")
@@ -165,6 +171,25 @@ class ApplicationSearcher: NSObject {
         SentrySDK.capture(error: error)
       }
     }
+  }
+
+  private func detectSignificantChanges(old: [Application], new: [Application]) -> Bool {
+    // Check count first as it's fastest
+    if old.count != new.count { return true }
+
+    // Create sets of application URLs for quick comparison
+    let oldUrls = Set(old.map { $0.url })
+    let newUrls = Set(new.map { $0.url })
+
+    // Check if any applications were added or removed
+    if oldUrls != newUrls { return true }
+
+    // Check for running state changes
+    for (oldApp, newApp) in zip(old, new) where oldApp.url == newApp.url {
+      if oldApp.isRunning != newApp.isRunning { return true }
+    }
+
+    return false
   }
 
   private func getApplicationDirectories() throws -> [URL] {
