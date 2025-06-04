@@ -682,24 +682,24 @@ export const createUIStore = (root: IRootStore) => {
         })
     },
     onShow: ({target}: {target?: string}) => {
-      if (target === Widget.CLIPBOARD) {
-        store.showClipboardManager()
-        return
-      }
+      if (target != null) {
+        switch (target) {
+          case Widget.CLIPBOARD:
+            store.showClipboardManager()
+            return
 
-      if (target === Widget.SCRATCHPAD) {
-        store.showScratchpad()
-        return
-      }
+          case Widget.SCRATCHPAD:
+            store.showScratchpad()
+            return
 
-      if (target === Widget.EMOJIS) {
-        store.showEmojiPicker()
-        return
-      }
+          case Widget.EMOJIS:
+            store.showEmojiPicker()
+            return
 
-      if (target === Widget.SETTINGS) {
-        store.showSettings()
-        return
+          case Widget.SETTINGS:
+            store.showSettings()
+            return
+        }
       }
 
       setImmediate(() => {
@@ -707,7 +707,9 @@ export const createUIStore = (root: IRootStore) => {
           store.getAccessibilityStatus()
         }
 
-        store.getFullDiskAccessStatus()
+        if (!store.hasFullDiskAccess) {
+          store.getFullDiskAccessStatus()
+        }
       })
     },
     onHide: () => {
