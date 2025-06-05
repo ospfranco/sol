@@ -5,6 +5,7 @@ import {FC} from 'react'
 import {
   Linking,
   ScrollView,
+  StyleSheet,
   Text,
   TouchableWithoutFeedback,
   View,
@@ -111,22 +112,16 @@ export let FullCalendar: FC = observer(() => {
     <>
       <LoadingBar />
       <ScrollView
-        contentContainerStyle={{paddingBottom: 20}}
+        contentContainerStyle={STYLES.container}
         showsVerticalScrollIndicator={false}>
         {groupedEvents.map(section => {
-          let isToday = section.date.hasSame(DateTime.now(), 'day')
-          let shouldShowRelative = section.date.diffNow('days').days <= 5
           return (
             <View key={section.date.toISO()}>
               <View className="mx-2 p-2 mb-1 gap-1 border-b border-lightBorder dark:border-darkBorder">
                 <Text className="capitalize text-neutral-400 dark:text-neutral-500 text-sm">
-                  {isToday
-                    ? 'Today'
-                    : shouldShowRelative
-                    ? section.date.toRelativeCalendar({
-                        unit: 'days',
-                      })
-                    : section.date.toFormat('cccc dd')}
+                  {section.date.toRelativeCalendar({
+                    unit: 'days',
+                  })}
                 </Text>
               </View>
               {section.data.map((item: INativeEvent) => (
@@ -138,4 +133,10 @@ export let FullCalendar: FC = observer(() => {
       </ScrollView>
     </>
   )
+})
+
+const STYLES = StyleSheet.create({
+  container: {
+    paddingBottom: 20,
+  },
 })

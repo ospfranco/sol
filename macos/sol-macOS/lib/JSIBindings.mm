@@ -269,129 +269,157 @@ void install(jsi::Runtime &rt,
   });
 
   auto getEvents = HOSTFN("getEvents", []) {
-    NSArray<EKEvent *> *ekEvents = [calendarHelper getEvents];
-    auto events = jsi::Array(rt, ekEvents.count);
-    NSString *colorString = @"";
+    auto promiseCtr = rt.global().getPropertyAsFunction(rt, "Promise");
+    auto promise = promiseCtr.callAsConstructor(
+                                                rt, HOSTFN("executor", []) {
+      auto resolve = std::make_shared<jsi::Value>(rt, arguments[0]);
 
-    for (int i = 0; i < ekEvents.count; i++) {
-      EKEvent *ekEvent = [ekEvents objectAtIndex:i];
-      bool hasDeclined = false;
+      dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), ^{
+        NSArray<EKEvent *> *ekEvents = [calendarHelper getEvents];
 
-      // If current user has declined the event... skip
-      if ([ekEvent hasAttendees]) {
-        NSArray<EKParticipant *> *participants = [ekEvent attendees];
-        for (int j = 0; j < participants.count; j++) {
-          EKParticipant *participant = [participants objectAtIndex:j];
-          if ([participant isCurrentUser] == YES &&
-              [participant participantStatus] == EKParticipantStatusDeclined) {
-            hasDeclined = true;
-            break;
-          }
-        }
-      }
+        invoker->invokeAsync([resolve, ekEvents = ekEvents, &rt]() mutable {
+          auto events = jsi::Array(rt, ekEvents.count);
+          NSString *colorString = @"";
+          auto count = ekEvents.count;
 
-      auto color = [[ekEvent calendar] color];
+          for (int i = 0; i < ekEvents.count; i++) {
+            EKEvent *ekEvent = [ekEvents objectAtIndex:i];
+            //            bool hasDeclined = false;
 
-      CGFloat redFloatValue, greenFloatValue, blueFloatValue;
-      int redIntValue, greenIntValue, blueIntValue;
-      NSString *redHexValue, *greenHexValue, *blueHexValue;
-
-      // Convert the NSColor to the RGB color space before we can access its
-      // components
-      NSColor *convertedColor =
-          [color colorUsingColorSpace:[NSColorSpace genericRGBColorSpace]];
-
-      if (convertedColor) {
-        // Get the red, green, and blue components of the color
-        [convertedColor getRed:&redFloatValue
-                         green:&greenFloatValue
-                          blue:&blueFloatValue
-                         alpha:NULL];
-
-        // Convert the components to numbers (unsigned decimal integer) between
-        // 0 and 255
-        redIntValue = redFloatValue * 255.99999f;
-        greenIntValue = greenFloatValue * 255.99999f;
-        blueIntValue = blueFloatValue * 255.99999f;
-
-        // Convert the numbers to hex strings
-        redHexValue = [NSString stringWithFormat:@"%02x", redIntValue];
-        greenHexValue = [NSString stringWithFormat:@"%02x", greenIntValue];
-        blueHexValue = [NSString stringWithFormat:@"%02x", blueIntValue];
-
-        // Concatenate the red, green, and blue components' hex strings together
-        // with a "#"
-        colorString = [NSString stringWithFormat:@"#%@%@%@", redHexValue,
-                                                 greenHexValue, blueHexValue];
-      }
-
-      jsi::Object event = jsi::Object(rt);
-      event.setProperty(rt, "id", [[ekEvent eventIdentifier] UTF8String]);
-      auto title =
-          jsi::String::createFromUtf8(rt, [[ekEvent title] UTF8String]);
-      event.setProperty(rt, "title", std::move(title));
-      if ([ekEvent URL] != NULL) {
-        event.setProperty(rt, "url",
-                          [[[ekEvent URL] absoluteString] UTF8String]);
-      }
-      if ([ekEvent notes] != NULL) {
-        auto notes =
-            jsi::String::createFromUtf8(rt, [[ekEvent notes] UTF8String]);
-        event.setProperty(rt, "notes", std::move(notes));
-      }
-
-      if ([ekEvent location] != NULL) {
-        event.setProperty(rt, "location", [[ekEvent location] UTF8String]);
-      }
-
-      event.setProperty(rt, "color", [colorString UTF8String]);
-      if ([ekEvent startDate] != NULL) {
-        event.setProperty(
-            rt, "date",
-            [[dateFormatter stringFromDate:[ekEvent startDate]] UTF8String]);
-      }
-      if ([ekEvent endDate] != NULL) {
-        event.setProperty(
-            rt, "endDate",
-            [[dateFormatter stringFromDate:[ekEvent endDate]] UTF8String]);
-      }
-      event.setProperty(rt, "isAllDay",
-                        jsi::Value(static_cast<bool>([ekEvent isAllDay])));
-
-      event.setProperty(rt, "eventStatus",
-                        jsi::Value(static_cast<int>([ekEvent status])));
-
-      event.setProperty(rt, "availability",
-                        jsi::Value(static_cast<int>([ekEvent availability])));
-
-      if ([ekEvent hasAttendees]) {
-        for (EKParticipant *participant in ekEvent.attendees) {
-          if ([participant isCurrentUser]) {
-
-            if (participant.participantStatus == EKParticipantStatusAccepted) {
-              event.setProperty(rt, "status", jsi::Value(1));
-            } else if (participant.participantStatus ==
-                       EKParticipantStatusDeclined) {
-              event.setProperty(rt, "status", jsi::Value(3));
-            } else {
-              event.setProperty(rt, "status", jsi::Value(0));
+            // If current user has declined the event: skip
+            if ([ekEvent hasAttendees]) {
+              NSArray<EKParticipant *> *participants = [ekEvent attendees];
+              for (int j = 0; j < participants.count; j++) {
+                EKParticipant *participant = [participants objectAtIndex:j];
+                if ([participant isCurrentUser] == YES &&
+                    [participant participantStatus] ==
+                        EKParticipantStatusDeclined) {
+                  continue;
+                }
+              }
             }
+
+            auto color = [[ekEvent calendar] color];
+            
+            CGFloat redFloatValue, greenFloatValue, blueFloatValue;
+            int redIntValue, greenIntValue, blueIntValue;
+            NSString *redHexValue, *greenHexValue, *blueHexValue;
+            
+            // Convert the NSColor to the RGB color space before we can access its
+            // components
+            NSColor *convertedColor =
+            [color colorUsingColorSpace:[NSColorSpace genericRGBColorSpace]];
+            
+            if (convertedColor) {
+              // Get the red, green, and blue components of the color
+              [convertedColor getRed:&redFloatValue
+                               green:&greenFloatValue
+                                blue:&blueFloatValue
+                               alpha:NULL];
+              
+              // Convert the components to numbers (unsigned decimal integer) between
+              // 0 and 255
+              redIntValue = redFloatValue * 255.99999f;
+              greenIntValue = greenFloatValue * 255.99999f;
+              blueIntValue = blueFloatValue * 255.99999f;
+              
+              // Convert the numbers to hex strings
+              redHexValue = [NSString stringWithFormat:@"%02x", redIntValue];
+              greenHexValue = [NSString stringWithFormat:@"%02x", greenIntValue];
+              blueHexValue = [NSString stringWithFormat:@"%02x", blueIntValue];
+              
+              // Concatenate the red, green, and blue components' hex strings together
+              // with a "#"
+              colorString = [NSString stringWithFormat:@"#%@%@%@", redHexValue,
+                             greenHexValue, blueHexValue];
+            }
+
+
+            jsi::Object event = jsi::Object(rt);
+            event.setProperty(rt, "id", [[ekEvent eventIdentifier] UTF8String]);
+            auto title =
+                jsi::String::createFromUtf8(rt, [[ekEvent title] UTF8String]);
+            event.setProperty(rt, "title", title);
+            if ([ekEvent URL] != NULL) {
+              event.setProperty(rt, "url",
+                                [[[ekEvent URL] absoluteString] UTF8String]);
+            }
+            if ([ekEvent notes] != NULL) {
+              auto notes =
+                  jsi::String::createFromUtf8(rt, [[ekEvent notes] UTF8String]);
+              event.setProperty(rt, "notes", std::move(notes));
+            }
+
+            if ([ekEvent location] != NULL) {
+              event.setProperty(rt, "location",
+                                [[ekEvent location] UTF8String]);
+            }
+
+            event.setProperty(rt, "color", [colorString UTF8String]);
+            if ([ekEvent startDate] != NULL) {
+              event.setProperty(
+                  rt, "date",
+                  [[dateFormatter stringFromDate:[ekEvent startDate]]
+                      UTF8String]);
+            }
+            if ([ekEvent endDate] != NULL) {
+              event.setProperty(
+                  rt, "endDate",
+                  [[dateFormatter stringFromDate:[ekEvent endDate]]
+                      UTF8String]);
+            }
+            event.setProperty(
+                rt, "isAllDay",
+                jsi::Value(static_cast<bool>([ekEvent isAllDay])));
+
+            event.setProperty(rt, "eventStatus",
+                              jsi::Value(static_cast<int>([ekEvent status])));
+
+            event.setProperty(
+                rt, "availability",
+                jsi::Value(static_cast<int>([ekEvent availability])));
+
+            //            if ([ekEvent hasAttendees]) {
+            //              for (EKParticipant *participant in
+            //              ekEvent.attendees) {
+            //                if ([participant isCurrentUser]) {
+            //
+            //                  if (participant.participantStatus ==
+            //                      EKParticipantStatusAccepted) {
+            //                    event.setProperty(rt, "status",
+            //                    jsi::Value(1));
+            //                  } else if (participant.participantStatus ==
+            //                             EKParticipantStatusDeclined) {
+            //                    event.setProperty(rt, "status",
+            //                    jsi::Value(3));
+            //                  } else {
+            //                    event.setProperty(rt, "status",
+            //                    jsi::Value(0));
+            //                  }
+            //                }
+            //              }
+            //            }
+
+            //      NSLog(@"Event name %@ organizer %@", [[ekEvent title] UTF],
+            //      [[ekEvent organizer] name]);
+
+            //      if([ekEvent organizer]) {
+            //        event.setProperty(rt, "status", jsi::Value(1));
+            //      }
+
+            //            event.setProperty(rt, "declined",
+            //            jsi::Value(hasDeclined));
+
+            events.setValueAtIndex(rt, i, event);
           }
-        }
-      }
 
-      //      NSLog(@"Event name %@ organizer %@", [[ekEvent title] UTF],
-      //      [[ekEvent organizer] name]);
+          resolve->asObject(rt).asFunction(rt).call(rt, events);
+        });
+      });
+      return {};
+                                                }));
 
-      //      if([ekEvent organizer]) {
-      //        event.setProperty(rt, "status", jsi::Value(1));
-      //      }
-
-      event.setProperty(rt, "declined", jsi::Value(hasDeclined));
-
-      events.setValueAtIndex(rt, i, event);
-    }
-    return events;
+    return promise;
   });
 
   auto ls = HOSTFN("ls", []) {
@@ -488,32 +516,34 @@ void install(jsi::Runtime &rt,
       auto resolve = std::make_shared<jsi::Value>(rt, arguments[0]);
       auto reject = std::make_shared<jsi::Value>(rt, arguments[1]);
 
-          dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), ^{
-            NSArray *apps = [[ApplicationSearcher shared] getAllApplications];
-            
-            
-            invoker->invokeAsync([resolve, apps, &rt]() mutable {
-              jsi::Array appsArray(rt, apps.count);
-              for (NSUInteger i = 0; i < apps.count; i++) {
-                NSDictionary *nsApp = [apps objectAtIndex:i];
-                jsi::Object app = jsi::Object(rt);
-                
-                NSString *nsName = [nsApp valueForKey:@"name"];
-                jsi::String name = jsi::String::createFromUtf8(rt, [nsName UTF8String]);
-                app.setProperty(rt, "name", name);
-                
-                NSString *nsUrl = [nsApp valueForKey:@"url"];
-                jsi::String url = jsi::String::createFromUtf8(rt, [nsUrl UTF8String]);
-                app.setProperty(rt, "url", url);
-                
-                app.setProperty(rt, "isRunning", jsi::Value([nsApp valueForKey:@"isRunning"]));
-                
-                appsArray.setValueAtIndex(rt, i, app);
-              }
-              
-              resolve->asObject(rt).asFunction(rt).call(rt, std::move(appsArray));
-            });
-          });
+      dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), ^{
+        NSArray *apps = [[ApplicationSearcher shared] getAllApplications];
+
+        invoker->invokeAsync([resolve, apps, &rt]() mutable {
+          jsi::Array appsArray(rt, apps.count);
+          for (NSUInteger i = 0; i < apps.count; i++) {
+            NSDictionary *nsApp = [apps objectAtIndex:i];
+            jsi::Object app = jsi::Object(rt);
+
+            NSString *nsName = [nsApp valueForKey:@"name"];
+            jsi::String name =
+                jsi::String::createFromUtf8(rt, [nsName UTF8String]);
+            app.setProperty(rt, "name", name);
+
+            NSString *nsUrl = [nsApp valueForKey:@"url"];
+            jsi::String url =
+                jsi::String::createFromUtf8(rt, [nsUrl UTF8String]);
+            app.setProperty(rt, "url", url);
+
+            app.setProperty(rt, "isRunning",
+                            jsi::Value([nsApp valueForKey:@"isRunning"]));
+
+            appsArray.setValueAtIndex(rt, i, app);
+          }
+
+          resolve->asObject(rt).asFunction(rt).call(rt, std::move(appsArray));
+        });
+      });
       return {};
         }));
 

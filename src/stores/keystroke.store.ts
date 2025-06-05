@@ -450,54 +450,54 @@ export const createKeystrokeStore = (root: IRootStore) => {
             }
 
             case Widget.CALENDAR:
-              const selectedEvent =
-                root.calendar.filteredEvents[root.ui.selectedIndex]
-              let groupIndex = -1
-              let itemIndex = -1
-              let groups = root.calendar.groupedEvents
-              for (let ii = 0; ii < groups.length; ii++) {
-                const group = groups[ii]
-                for (let jj = 0; jj < group.data.length; jj++) {
-                  const event = group.data[jj]
-                  if (event.id === selectedEvent.id) {
-                    itemIndex = jj
-                    groupIndex = ii
-                  }
-                }
-              }
+              // const selectedEvent =
+              //   root.calendar.filteredEvents[root.ui.selectedIndex]
+              // let groupIndex = -1
+              // let itemIndex = -1
+              // let groups = root.calendar.groupedEvents
+              // for (let ii = 0; ii < groups.length; ii++) {
+              //   const group = groups[ii]
+              //   for (let jj = 0; jj < group.data.length; jj++) {
+              //     const event = group.data[jj]
+              //     if (event.id === selectedEvent.id) {
+              //       itemIndex = jj
+              //       groupIndex = ii
+              //     }
+              //   }
+              // }
 
-              if (groupIndex === -1 || itemIndex === -1) {
-                throw new Error('Could not find Item something is wrong')
-              }
+              // if (groupIndex === -1 || itemIndex === -1) {
+              //   throw new Error('Could not find Item something is wrong')
+              // }
 
-              let nextGroupIndex = groupIndex - 1
+              // let nextGroupIndex = groupIndex - 1
 
-              while (
-                nextGroupIndex >= 0 &&
-                !groups[nextGroupIndex].data.length
-              ) {
-                nextGroupIndex--
-              }
+              // while (
+              //   nextGroupIndex >= 0 &&
+              //   !groups[nextGroupIndex].data.length
+              // ) {
+              //   nextGroupIndex--
+              // }
 
-              if (nextGroupIndex === -1) {
-                return
-              }
+              // if (nextGroupIndex === -1) {
+              //   return
+              // }
 
-              itemIndex = Math.min(
-                groups[nextGroupIndex].data.length - 1,
-                itemIndex,
-              )
+              // itemIndex = Math.min(
+              //   groups[nextGroupIndex].data.length - 1,
+              //   itemIndex,
+              // )
 
-              if (itemIndex === -1) {
-                return
-              }
+              // if (itemIndex === -1) {
+              //   return
+              // }
 
-              const nextEvent = groups[nextGroupIndex].data[itemIndex]
-              const nextIndex = root.calendar.filteredEvents.findIndex(
-                e => e.id === nextEvent.id,
-              )
+              // const nextEvent = groups[nextGroupIndex].data[itemIndex]
+              // const nextIndex = root.calendar.filteredEvents.findIndex(
+              //   e => e.id === nextEvent.id,
+              // )
 
-              root.ui.selectedIndex = nextIndex
+              // root.ui.selectedIndex = nextIndex
 
               break
 

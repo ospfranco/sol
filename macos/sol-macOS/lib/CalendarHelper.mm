@@ -38,9 +38,9 @@
 
   NSCalendar *gregorian = [[NSCalendar alloc]
       initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-  NSDateComponents *fiveDaysComponent = [[NSDateComponents alloc] init];
-  fiveDaysComponent.day = 30;
-  NSDate *nextDate = [gregorian dateByAddingComponents:fiveDaysComponent
+  NSDateComponents *nextDays = [[NSDateComponents alloc] init];
+  nextDays.day = 14;
+  NSDate *nextDate = [gregorian dateByAddingComponents:nextDays
                                                 toDate:[NSDate date]
                                                options:0];
 

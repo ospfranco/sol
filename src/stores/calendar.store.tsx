@@ -3,7 +3,7 @@ import {extractMeetingLink} from 'lib/calendar'
 import {solNative} from 'lib/SolNative'
 import {sleep} from 'lib/various'
 import {DateTime} from 'luxon'
-import {makeAutoObservable} from 'mobx'
+import {makeAutoObservable, runInAction} from 'mobx'
 import {EmitterSubscription, Linking} from 'react-native'
 import {IRootStore} from 'store'
 
@@ -63,31 +63,25 @@ export const createCalendarStore = (root: IRootStore) => {
     }> {
       const events = store.events
       let acc: Record<string, {date: DateTime; data: Array<INativeEvent>}> = {}
-      let now = DateTime.now().startOf('day')
-      for (let ii = 0; ii < DAYS_TO_PARSE; ii++) {
-        const targetDate = now.plus({days: ii})
+      for (let i = 0; i < events.length; i++) {
+        const e = events[i]
+        const lEventDate = DateTime.fromISO(e.date)
+        const lEventDay = lEventDate.startOf('day')
+        const diffDays = lEventDay.diffNow('days').days
 
-        const todayEvents = events.filter(e => {
-          const lEventDate = DateTime.fromISO(e.date)
-          const lEventEndDate = DateTime.fromISO(e.endDate)
+        if (diffDays > DAYS_TO_PARSE) {
+          break
+        }
 
-          if (
-            e.isAllDay &&
-            +targetDate >= +lEventDate &&
-            +targetDate <= +lEventEndDate
-          ) {
-            return true
-          }
-
-          return lEventDate.toISODate() === targetDate.toISODate()
-        })
-
-        if (todayEvents.length > 0) {
-          acc[targetDate.toISODate()] = {
-            date: targetDate,
-            data: todayEvents,
+        const dayISODate = lEventDay.toISODate()
+        if (!acc[dayISODate]) {
+          acc[dayISODate] = {
+            date: lEventDay,
+            data: [],
           }
         }
+
+        acc[dayISODate].data.push(e)
       }
 
       return Object.values(acc)
@@ -110,7 +104,7 @@ export const createCalendarStore = (root: IRootStore) => {
     //    / /\ \ / __| __| |/ _ \| '_ \/ __|
     //   / ____ \ (__| |_| | (_) | | | \__ \
     //  /_/    \_\___|\__|_|\___/|_| |_|___/
-    fetchEvents: () => {
+    fetchEvents: async () => {
       if (!root.ui.calendarEnabled && !root.ui.showUpcomingEvent) {
         solNative.setStatusBarItemTitle('')
         return
@@ -121,47 +115,51 @@ export const createCalendarStore = (root: IRootStore) => {
         return
       }
 
-      const events = solNative.getEvents()
+      const events = await solNative.getEvents()
 
-      if (root.ui.calendarEnabled) {
-        store.events = events
-      }
+      runInAction(() => {
+        if (root.ui.calendarEnabled) {
+          store.events = events
+        }
 
-      if (!root.ui.showUpcomingEvent) {
-        return
-      }
+        if (!root.ui.showUpcomingEvent) {
+          return
+        }
 
-      const upcomingEvent = events.find(e => {
-        const lStart = DateTime.fromISO(e.date)
-        const lNow = DateTime.now()
+        const upcomingEvent = events.find(e => {
+          const lStart = DateTime.fromISO(e.date)
+          const lNow = DateTime.now()
 
-        return (
-          +lStart.plus({minute: 10}) >= +lNow && +lStart <= +lNow.endOf('day')
+          return (
+            +lStart.plus({minute: 10}) >= +lNow && +lStart <= +lNow.endOf('day')
+          )
+        })
+
+        if (!upcomingEvent) {
+          solNative.setStatusBarItemTitle('')
+          return
+        }
+
+        const lStart = DateTime.fromISO(upcomingEvent.date)
+        const minutes = lStart.diffNow('minutes').minutes
+
+        if (minutes <= 0) {
+          solNative.setStatusBarItemTitle(`⏰ ${upcomingEvent.title?.trim()}`)
+          return
+        }
+
+        const relativeHours = Math.floor(minutes / 60)
+        const relativeHoursStr = relativeHours > 0 ? `${relativeHours}h` : ''
+        const relativeMinutesStr = `${Math.floor(
+          minutes - relativeHours * 60,
+        )}m`
+
+        solNative.setStatusBarItemTitle(
+          `${upcomingEvent.title!.trim().substring(0, 18)}${
+            upcomingEvent.title!.length > 18 ? '...' : ''
+          } • ${relativeHoursStr} ${relativeMinutesStr}`,
         )
       })
-
-      if (!upcomingEvent) {
-        solNative.setStatusBarItemTitle('')
-        return
-      }
-
-      const lStart = DateTime.fromISO(upcomingEvent.date)
-      const minutes = lStart.diffNow('minutes').minutes
-
-      if (minutes <= 0) {
-        solNative.setStatusBarItemTitle(`⏰ ${upcomingEvent.title?.trim()}`)
-        return
-      }
-
-      const relativeHours = Math.floor(minutes / 60)
-      const relativeHoursStr = relativeHours > 0 ? `${relativeHours}h` : ''
-      const relativeMinutesStr = `${Math.floor(minutes - relativeHours * 60)}m`
-
-      solNative.setStatusBarItemTitle(
-        `${upcomingEvent.title!.trim().substring(0, 18)}${
-          upcomingEvent.title!.length > 18 ? '...' : ''
-        } • ${relativeHoursStr} ${relativeMinutesStr}`,
-      )
     },
     cleanUp: () => {
       pollingInterval && clearTimeout(pollingInterval)
@@ -178,7 +176,7 @@ export const createCalendarStore = (root: IRootStore) => {
             console.error('Error fetching calendar events', e)
           }
         }
-      }, 3000)
+      }, 1000 * 60)
     },
     onShow: () => {
       store.fetchEvents()

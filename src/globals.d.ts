@@ -43,7 +43,7 @@ declare var global: {
     ) => {name: string; path: string; isFolder: boolean}[]
     requestCalendarAccess: () => Promise<void>
     getCalendarAuthorizationStatus: () => CalendarAuthorizationStatus
-    getEvents: () => INativeEvent[]
+    getEvents: () => Promise<INativeEvent[]>
     ls: (path: string) => string[]
     exists: (path: string) => boolean
     readFile: (path: string) => string | null
