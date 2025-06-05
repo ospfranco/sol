@@ -118,7 +118,7 @@ export const createCalendarStore = (root: IRootStore) => {
       const events = await solNative.getEvents()
 
       runInAction(() => {
-        if (root.ui.calendarEnabled) {
+        if (root.ui.calendarEnabled && root.ui.isVisible) {
           store.events = events
         }
 

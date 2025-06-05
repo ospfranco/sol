@@ -199,7 +199,6 @@ export const createUIStore = (root: IRootStore) => {
         store.calendarEnabled = parsedStore.calendarEnabled ?? true
         store.showAllDayEvents = parsedStore.showAllDayEvents ?? true
         store.launchAtLogin = parsedStore.launchAtLogin ?? true
-        store.useBackgroundOverlay = parsedStore.useBackgroundOverlay ?? true
         store.mediaKeyForwardingEnabled =
           parsedStore.mediaKeyForwardingEnabled ?? true
         store.history = parsedStore.history ?? []
@@ -222,7 +221,6 @@ export const createUIStore = (root: IRootStore) => {
       solNative.setShowWindowOn(
         parsedStore.showWindowOn ?? 'screenWithFrontmost',
       )
-      solNative.useBackgroundOverlay(store.useBackgroundOverlay)
       solNative.setMediaKeyForwardingEnabled(store.mediaKeyForwardingEnabled)
       solNative.updateHotkeys(toJS(store.shortcuts))
       store.getApps()
@@ -272,7 +270,6 @@ export const createUIStore = (root: IRootStore) => {
     calendarEnabled: true,
     showAllDayEvents: true,
     launchAtLogin: true,
-    useBackgroundOverlay: true,
     hasFullDiskAccess: false,
     safariBookmarks: [] as {
       title: string
@@ -301,6 +298,7 @@ export const createUIStore = (root: IRootStore) => {
     showInAppBrowserBookMarks: true,
     hoveredEventId: null as string | null,
     hasDismissedGettingStarted: false,
+    isVisible: false,
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -678,6 +676,7 @@ export const createUIStore = (root: IRootStore) => {
       })
     },
     onShow: ({target}: {target?: string}) => {
+      store.isVisible = true
       if (target != null) {
         switch (target) {
           case Widget.CLIPBOARD:
@@ -712,6 +711,7 @@ export const createUIStore = (root: IRootStore) => {
       })
     },
     onHide: () => {
+      store.isVisible = false
       store.focusedWidget = Widget.SEARCH
       store.setQuery('')
       store.selectedIndex = 0
@@ -770,10 +770,6 @@ export const createUIStore = (root: IRootStore) => {
     setLaunchAtLogin: (v: boolean) => {
       store.launchAtLogin = v
       solNative.setLaunchAtLogin(v)
-    },
-    setUseBackgroundOverlay: (v: boolean) => {
-      store.useBackgroundOverlay = v
-      solNative.useBackgroundOverlay(v)
     },
     getFullDiskAccessStatus: async () => {
       const hasAccess = await solNative.hasFullDiskAccess()
