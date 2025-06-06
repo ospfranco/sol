@@ -111,9 +111,7 @@ export let FullCalendar: FC = observer(() => {
   return (
     <>
       <LoadingBar />
-      <ScrollView
-        contentContainerStyle={STYLES.container}
-        showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false}>
         {groupedEvents.map(section => {
           return (
             <View key={section.date.toISO()}>
@@ -133,10 +131,4 @@ export let FullCalendar: FC = observer(() => {
       </ScrollView>
     </>
   )
-})
-
-const STYLES = StyleSheet.create({
-  container: {
-    paddingBottom: 20,
-  },
 })
