@@ -32,7 +32,7 @@ class Application {
     .isExecutableKey,
     .isApplicationKey,
   ]
-  
+
   @objc public static let shared = ApplicationSearcher()
 
   // File watching
@@ -52,11 +52,18 @@ class Application {
 
   override init() {
     super.init()
+    
     if #unavailable(macOS 14) {
       fixedUrls.append(
         URL(
           fileURLWithPath: "/System/Library/CoreServices/Applications/Screen Sharing.app"
         )
+      )
+    }
+    
+    if #available(macOS 15, *) {
+      fixedUrls.append(
+        URL(fileURLWithPath: "/System/Library/CoreServices/Applications/Keychain Access.app")
       )
     }
   }
