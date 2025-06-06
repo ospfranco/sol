@@ -75,7 +75,6 @@ let stopWords = new Set([
   'in',
   'a',
   'the',
-  'google',
   'is',
   'of',
   'on',
@@ -119,12 +118,9 @@ let minisearch = new MiniSearch({
     'isRunning',
     'bookmarkFolder',
   ],
-  searchOptions: {
-    prefix: true,
-    fuzzy: true,
+  tokenize: (text: string, fieldName?: string) => {
+    return text.split(/[\s\.]+/)
   },
-  processTerm: (term, _fieldName) =>
-    stopWords.has(term) ? null : term.toLowerCase(),
 })
 
 const userName = solNative.userName()
@@ -172,7 +168,20 @@ export const createUIStore = (root: IRootStore) => {
       let parsedStore = JSON.parse(storeState)
 
       runInAction(() => {
-        store.frequencies = parsedStore.frequencies
+        if (parsedStore.frequencies) {
+          const values = Object.values(parsedStore.frequencies)
+          const maxValue = Math.max(...(values as number[]))
+          if (maxValue > 100) {
+            store.frequencies = Object.fromEntries(
+              Object.entries(parsedStore.frequencies).map(([key, value]) => [
+                key,
+                Math.floor(((value as number) / maxValue) * 100),
+              ]),
+            )
+          } else {
+            store.frequencies = parsedStore.frequencies
+          }
+        }
         store.onboardingStep = parsedStore.onboardingStep
         store.firstTranslationLanguage =
           parsedStore.firstTranslationLanguage ?? 'en'
@@ -403,36 +412,51 @@ export const createUIStore = (root: IRootStore) => {
           : []),
       ]
 
+      // If the query is empty, return all items
       if (!store.query) {
         return allItems
-      } else {
-        if (minisearch.documentCount === 0) {
-          for (let item of allItems) {
-            if (!item.id) {
-              Sentry.captureMessage('Item without id', {
-                level: 'warning',
-                extra: {item},
-              })
-            }
+      }
+
+      if (minisearch.documentCount === 0) {
+        for (let item of allItems) {
+          if (!item.id) {
+            Sentry.captureMessage('Item without id', {
+              level: 'warning',
+              extra: {item},
+            })
           }
-          minisearch.addAll(allItems)
-        } else {
-          // Update the search index by adding any new items
-          for (let item of allItems) {
-            if (!minisearch.has(item.id)) {
-              minisearch.add(item)
-            }
+        }
+        minisearch.addAll(allItems)
+      } else {
+        // Update the search index by adding any new items
+        for (let item of allItems) {
+          if (!minisearch.has(item.id)) {
+            minisearch.add(item)
           }
         }
       }
 
-      let results: Item[] = minisearch.search(store.query) as any
+      let maxFreq = Math.max(...Object.values(store.frequencies))
 
-      results = results.sort((a, b) => {
-        const freqA = store.frequencies[a.name] ?? 0
-        const freqB = store.frequencies[b.name] ?? 0
-        return freqB - freqA
-      })
+      let results: Item[] = minisearch.search(store.query, {
+        boost: {
+          name: 2,
+        },
+        prefix: true,
+        fuzzy: true,
+        // Slightly boost items that have a frequency
+        boostDocument: (
+          documentId: any,
+          term: string,
+          storedFields?: Record<string, any>,
+        ) => {
+          const freq = store.frequencies[storedFields!.name] ?? 0
+          if (freq === 0) {
+            return 1
+          }
+          return maxFreq > 0 ? 1 + freq / maxFreq : 1
+        },
+      }) as any
 
       const temporaryResultItems = !!store.temporaryResult
         ? [{id: 'temporary', type: ItemType.TEMPORARY_RESULT, name: ''}]
