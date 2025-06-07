@@ -13,14 +13,69 @@ interface Props {
   className?: string
 }
 
-const ROW_HEIGHT = 110
+const EmojiRow = observer(
+  ({item: emojiRow, index: rowIndex}: {item: Emoji[]; index: number}) => {
+    const store = useStore()
+
+    const selectedIndex = store.ui.selectedIndex
+    const storeRowIndex = Math.floor(selectedIndex / EMOJI_ROW_SIZE)
+    const storeSubIndex = selectedIndex % EMOJI_ROW_SIZE
+
+    let res = []
+    for (let i = 0; i < emojiRow.length; i++) {
+      const isSelected = i === storeSubIndex && rowIndex === storeRowIndex
+      const emoji = emojiRow[i]
+
+      res.push(
+        <TouchableOpacity
+          onPress={() => {
+            store.emoji.insert(rowIndex * EMOJI_ROW_SIZE + i)
+          }}
+          className={clsx(
+            `items-center justify-center w-[96] h-[96] rounded border border-transparent`,
+            {
+              'bg-neutral-300 border-neutral-400 dark:bg-neutral-900 dark:border-neutral-700':
+                isSelected,
+            },
+          )}
+          key={`${i}_${rowIndex}`}>
+          <Text className="text-6xl">{emoji.emoji}</Text>
+        </TouchableOpacity>,
+      )
+    }
+
+    if (emojiRow.length < EMOJI_ROW_SIZE) {
+      res.push(<View className="flex-1" key="end" />)
+    }
+
+    return (
+      <View
+        className={clsx(`flex-row`, {
+          'border-b border-lightBorder dark:border-neutral-700 pb-3 mb-2':
+            rowIndex === 0 &&
+            !!Object.entries(store.emoji.frequentlyUsedEmojis).length &&
+            !store.ui.query,
+        })}>
+        {res}
+      </View>
+    )
+  },
+)
+
+const EmptyList = () => {
+  return (
+    <View className="flex-1 justify-center items-center">
+      <Text className="dark:text-gray-400 text-gray-500 text-sm">
+        No emoji found
+      </Text>
+    </View>
+  )
+}
 
 export const EmojisWidget: FC<Props> = observer(({style}) => {
   const store = useStore()
-
   const selectedIndex = store.ui.selectedIndex
   const storeRowIndex = Math.floor(selectedIndex / EMOJI_ROW_SIZE)
-  const storeSubIndex = selectedIndex % EMOJI_ROW_SIZE
   const listRef = useRef<LegendListRef | null>(null)
   const emojis = store.emoji.emojis
 
@@ -40,87 +95,25 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
     }
   }, [storeRowIndex])
 
-  const EmptyList = () => {
-    return (
-      <View className="flex-1 justify-center items-center">
-        <Text className="dark:text-gray-400 text-gray-500 text-sm">
-          No emoji found
-        </Text>
-      </View>
-    )
-  }
-
-  const renderItem = useCallback(
-    ({item: emojiRow, index: rowIndex}: {item: Emoji[]; index: number}) => {
-      let res = []
-      for (let i = 0; i < emojiRow.length; i++) {
-        const isSelected = i === storeSubIndex && rowIndex === storeRowIndex
-        const emoji = emojiRow[i]
-
-        res.push(
-          <TouchableOpacity
-            // @ts-ignore
-            // onMouseEnter={() => {
-            //   store.ui.setSelectedIndex(rowIndex * EMOJI_ROW_SIZE + i)
-            // }}
-            onPress={() => {
-              store.emoji.insert(rowIndex * EMOJI_ROW_SIZE + i)
-            }}
-            className={clsx(
-              `items-center justify-center w-[96] h-[96] rounded border border-transparent`,
-              {
-                'bg-neutral-300 border-neutral-400 dark:bg-neutral-900 dark:border-neutral-700':
-                  isSelected,
-              },
-            )}
-            key={`${i}_${rowIndex}`}>
-            <Text className="text-6xl">{emoji.emoji}</Text>
-          </TouchableOpacity>,
-        )
-      }
-
-      if (emojiRow.length < EMOJI_ROW_SIZE) {
-        res.push(<View className="flex-1" key="end" />)
-      }
-
-      return (
-        <View
-          style={{height: ROW_HEIGHT}}
-          className={clsx(`flex-row`, {
-            'border-b border-lightBorder dark:border-neutral-700 pb-3 mb-2':
-              rowIndex === 0 &&
-              !!Object.entries(store.emoji.frequentlyUsedEmojis).length &&
-              !store.ui.query,
-          })}>
-          {res}
-        </View>
-      )
-    },
-    [storeSubIndex, storeRowIndex],
-  )
-
   return (
     <View className="h-full">
       <View className="flex-row px-3">
-        <MainInput placeholder="Search emojis..." showBackButton />
+        <MainInput placeholder="Search Emojis..." showBackButton />
       </View>
       <LegendList
         ref={listRef}
         className="flex-1"
         // contentContainerClassName="flex-grow p-3"
-        contentContainerStyle={{paddingHorizontal: 12, paddingTop: 8}}
+        contentContainerStyle={{
+          paddingHorizontal: 12,
+          paddingTop: 8,
+          flexGrow: 1,
+        }}
         data={emojis}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={EmptyList}
-        // recycleItems
-        // getItemLayout={(_, index) => ({
-        //   length: ROW_HEIGHT,
-        //   offset: ROW_HEIGHT * index,
-        //   index,
-        // })}
-        // windowSize={1}
         keyExtractor={(_, index) => index.toString()}
-        renderItem={renderItem}
+        renderItem={EmojiRow}
       />
     </View>
   )
