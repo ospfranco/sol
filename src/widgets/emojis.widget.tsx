@@ -32,7 +32,7 @@ const EmojiRow = observer(
             store.emoji.insert(rowIndex * EMOJI_ROW_SIZE + i)
           }}
           className={clsx(
-            `items-center justify-center w-[96] h-[96] rounded border border-transparent`,
+            `items-center justify-center w-[96] h-[96] rounded-lg`,
             {
               'bg-neutral-300 border-neutral-400 dark:bg-neutral-900 dark:border-neutral-700':
                 isSelected,
@@ -103,7 +103,6 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
       <LegendList
         ref={listRef}
         className="flex-1"
-        // contentContainerClassName="flex-grow p-3"
         contentContainerStyle={{
           paddingHorizontal: 12,
           paddingTop: 8,
@@ -113,7 +112,8 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={EmptyList}
         keyExtractor={(_, index) => index.toString()}
-        renderItem={EmojiRow}
+        renderItem={({item, index}) => <EmojiRow item={item} index={index} />}
+        recycleItems
       />
     </View>
   )

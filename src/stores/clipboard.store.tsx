@@ -25,9 +25,10 @@ type PasteItem = {
 let minisearch = new MiniSearch({
   fields: ['text', 'bundle'],
   storeFields: ['text', 'url', 'bundle'],
+  tokenize: (text: string, fieldName?: string) => text.split(/[\s\.]+/),
   searchOptions: {
     boost: {text: 2},
-    fuzzy: 0.2,
+    fuzzy: true,
     prefix: true,
   },
 })

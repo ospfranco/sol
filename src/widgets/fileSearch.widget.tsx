@@ -7,7 +7,7 @@ import {MainInput} from 'components/MainInput'
 import {useFullSize} from 'hooks/useFullSize'
 import {observer} from 'mobx-react-lite'
 import {FC, useEffect, useRef} from 'react'
-import {Text, View} from 'react-native'
+import {StyleSheet, Text, View} from 'react-native'
 import {useStore} from 'store'
 
 interface Props {
@@ -40,7 +40,7 @@ export const FileSearchWidget: FC<Props> = observer(() => {
       <LegendList
         data={data}
         className="flex-1"
-        contentContainerClassName="flex-grow p-2"
+        contentContainerStyle={STYLES.contentContainer}
         ref={listRef}
         ListEmptyComponent={
           <View className="flex-1 justify-center items-center">
@@ -86,4 +86,12 @@ export const FileSearchWidget: FC<Props> = observer(() => {
       )}
     </View>
   )
+})
+
+const STYLES = StyleSheet.create({
+  contentContainer: {
+    flexGrow: 1,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+  },
 })

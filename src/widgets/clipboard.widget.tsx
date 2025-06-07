@@ -1,10 +1,11 @@
 import {LegendList, LegendListRef} from '@legendapp/list'
 import clsx from 'clsx'
 import {FileIcon} from 'components/FileIcon'
+import {LoadingBar} from 'components/LoadingBar'
 import {MainInput} from 'components/MainInput'
 import {observer} from 'mobx-react-lite'
 import {FC, useEffect, useRef} from 'react'
-import {Text, TouchableOpacity, View, ViewStyle} from 'react-native'
+import {StyleSheet, Text, TouchableOpacity, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
 
 interface Props {
@@ -37,16 +38,18 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
   }, [selectedIndex])
 
   return (
-    <View className="flex-1" style={style}>
+    <View className="flex-1">
       <View className="flex-row px-3">
         <MainInput placeholder="Search pasteboard history..." showBackButton />
       </View>
+      <LoadingBar />
       <View className="flex-1 flex-row">
         <View className="w-64">
           <LegendList
             data={data}
-            contentContainerClassName="px-2 flex-grow"
+            contentContainerStyle={STYLES.contentContainer}
             ref={listRef}
+            recycleItems
             ListEmptyComponent={
               <View className="flex-1 justify-center items-center">
                 <Text className="darker-text">[ ]</Text>
@@ -61,7 +64,7 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
                     store.keystroke.simulateEnter()
                   }}
                   className={clsx('items-center flex-row rounded gap-2 p-2', {
-                    highlight: isActive,
+                    'bg-accent': isActive,
                     'opacity-80': !isActive,
                   })}>
                   <FileIcon
@@ -73,7 +76,7 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
                   />
 
                   <Text
-                    className={clsx('text-xs text font-mono')}
+                    className={clsx('text-xs text flex-1')}
                     numberOfLines={1}>
                     {item.text.trim()}
                   </Text>
@@ -86,11 +89,11 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
             }}
           />
         </View>
-        <View className="flex-1 pb-3 pr-3">
+        <View className="flex-1 p-3">
           {!!data[selectedIndex] && (
-            <View className="flex-1 dark:bg-black bg-white rounded-lg p-3">
+            <View className="flex-1 dark:bg-black/50 bg-white rounded-lg px-3">
               {!data[selectedIndex].url && (
-                <Text className="text-xs" style={{fontFamily: 'Andale Mono'}}>
+                <Text className="text-xs">
                   {data[selectedIndex]?.text ?? []}
                 </Text>
               )}
@@ -120,4 +123,12 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
       </View>
     </View>
   )
+})
+
+const STYLES = StyleSheet.create({
+  contentContainer: {
+    flexGrow: 1,
+    paddingVertical: 6,
+    paddingLeft: 8,
+  },
 })
