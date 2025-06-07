@@ -1,10 +1,16 @@
-import {LegendList, LegendListRef} from '@legendapp/list'
 import clsx from 'clsx'
 import {FileIcon} from 'components/FileIcon'
 import {MainInput} from 'components/MainInput'
 import {observer} from 'mobx-react-lite'
 import {FC, useEffect, useRef} from 'react'
-import {Text, TouchableOpacity, View, ViewStyle} from 'react-native'
+import {
+  FlatList,
+  Image,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native'
 import {useStore} from 'store'
 
 interface Props {
@@ -25,7 +31,7 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
   const store = useStore()
   const data = store.clipboard.clipboardItems
   const selectedIndex = store.ui.selectedIndex
-  const listRef = useRef<LegendListRef | null>(null)
+  const listRef = useRef<FlatList | null>(null)
 
   useEffect(() => {
     if (data.length > 0 && selectedIndex < data.length) {
@@ -43,10 +49,12 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
       </View>
       <View className="flex-1 flex-row">
         <View className="w-64">
-          <LegendList
+          <FlatList
             data={data}
             contentContainerClassName="px-2 flex-grow"
             ref={listRef}
+            onScrollToIndexFailed={() => {}}
+            showsVerticalScrollIndicator={false}
             ListEmptyComponent={
               <View className="flex-1 justify-center items-center">
                 <Text className="darker-text">[ ]</Text>

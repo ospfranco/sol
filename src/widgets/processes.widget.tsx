@@ -1,14 +1,15 @@
-import {LegendList, LegendListRef} from '@legendapp/list'
 import clsx from 'clsx'
+import {GradientView} from 'components/GradientView'
 import {Key} from 'components/Key'
 import {MainInput} from 'components/MainInput'
 import {useFullSize} from 'hooks/useFullSize'
 import {observer} from 'mobx-react-lite'
 import prettyBytes from 'pretty-bytes'
-import {FC, useEffect, useRef} from 'react'
-import {Text, View, ViewStyle} from 'react-native'
+import React, {FC, useEffect, useRef} from 'react'
+import {FlatList, Text, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
 import {Process} from 'stores/processes.store'
+import customColors from '../colors'
 
 interface Props {
   style?: ViewStyle
@@ -21,7 +22,7 @@ export const ProcessesWidget: FC<Props> = observer(({style}) => {
   const store = useStore()
   const data = store.processes.filteredProcesses
   const selectedIndex = store.ui.selectedIndex
-  const listRef = useRef<LegendListRef | null>(null)
+  const listRef = useRef<FlatList | null>(null)
 
   useEffect(() => {
     if (data.length > 0) {
@@ -47,7 +48,7 @@ export const ProcessesWidget: FC<Props> = observer(({style}) => {
       <View className="flex-row px-3">
         <MainInput placeholder="Search processes..." showBackButton />
       </View>
-      <LegendList
+      <FlatList
         data={data}
         className="flex-1"
         contentContainerClassName="flex-grow"
@@ -59,6 +60,7 @@ export const ProcessesWidget: FC<Props> = observer(({style}) => {
             </Text>
           </View>
         }
+        onScrollToIndexFailed={() => {}}
         keyExtractor={(_, index) => index.toString()}
         ListHeaderComponent={() => {
           return (

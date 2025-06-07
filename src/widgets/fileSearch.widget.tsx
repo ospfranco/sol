@@ -1,4 +1,3 @@
-import {LegendList, LegendListRef} from '@legendapp/list'
 import clsx from 'clsx'
 import {FileIcon} from 'components/FileIcon'
 import {Key} from 'components/Key'
@@ -7,7 +6,7 @@ import {MainInput} from 'components/MainInput'
 import {useFullSize} from 'hooks/useFullSize'
 import {observer} from 'mobx-react-lite'
 import {FC, useEffect, useRef} from 'react'
-import {Text, View} from 'react-native'
+import {FlatList, Text, View} from 'react-native'
 import {useStore} from 'store'
 
 interface Props {
@@ -20,7 +19,7 @@ export const FileSearchWidget: FC<Props> = observer(() => {
   const store = useStore()
   const data = store.ui.files
   const selectedIndex = store.ui.selectedIndex
-  const listRef = useRef<LegendListRef | null>(null)
+  const listRef = useRef<FlatList | null>(null)
 
   useEffect(() => {
     if (data.length && store.ui.selectedIndex < data.length) {
@@ -37,7 +36,7 @@ export const FileSearchWidget: FC<Props> = observer(() => {
         <MainInput placeholder="Search for files..." showBackButton />
       </View>
       <LoadingBar />
-      <LegendList
+      <FlatList
         data={data}
         className="flex-1"
         contentContainerClassName="flex-grow p-2"
@@ -49,6 +48,11 @@ export const FileSearchWidget: FC<Props> = observer(() => {
             </Text>
           </View>
         }
+        getItemLayout={(_, index) => ({
+          length: 42,
+          offset: 42 * index,
+          index,
+        })}
         keyExtractor={(_, index) => index.toString()}
         renderItem={({item, index}) => {
           const isActive = index === selectedIndex

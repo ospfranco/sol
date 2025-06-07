@@ -1,5 +1,4 @@
-import {LegendList, LegendListRef} from '@legendapp/list'
-import {Icons} from 'assets'
+import {Assets, Icons} from 'assets'
 import clsx from 'clsx'
 import {FileIcon} from 'components/FileIcon'
 import {Key} from 'components/Key'
@@ -7,8 +6,16 @@ import {LoadingBar} from 'components/LoadingBar'
 import {MainInput} from 'components/MainInput'
 import {renderToKeys} from 'lib/shorcuts'
 import {observer} from 'mobx-react-lite'
-import {FC, useEffect, useRef} from 'react'
-import {Image, Platform, Text, TouchableOpacity, View} from 'react-native'
+import React, {FC, useEffect, useRef} from 'react'
+import {
+  FlatList,
+  Image,
+  Platform,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native'
 import {useStore} from 'store'
 import {ItemType, Widget} from 'stores/ui.store'
 
@@ -19,7 +26,7 @@ type Props = {
 export const SearchWidget: FC<Props> = observer(() => {
   const store = useStore()
   const focused = store.ui.focusedWidget === Widget.SEARCH
-  const listRef = useRef<LegendListRef | null>(null)
+  const listRef = useRef<FlatList | null>(null)
   const items = store.ui.items
 
   useEffect(() => {
@@ -145,10 +152,12 @@ export const SearchWidget: FC<Props> = observer(() => {
       {!!store.ui.query && (
         <>
           <LoadingBar />
-          <LegendList
+          <FlatList
             className="flex-1"
+            windowSize={8}
             contentContainerClassName="flex-grow p-2"
             ref={listRef}
+            onScrollToIndexFailed={() => {}}
             data={items}
             keyExtractor={(item: any, i) => `${item.name}-${item.type}-${i}`}
             renderItem={renderItem as any}

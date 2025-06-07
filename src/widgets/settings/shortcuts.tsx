@@ -1,9 +1,15 @@
-import {LegendList} from '@legendapp/list'
 import {Icons} from 'assets'
 import clsx from 'clsx'
 import {FileIcon} from 'components/FileIcon'
 import {observer} from 'mobx-react-lite'
-import {Image, Text, TextInput, TouchableOpacity, View} from 'react-native'
+import {
+  FlatList,
+  Image,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import {useStore} from 'store'
 import {ItemType} from 'stores/ui.store'
 
@@ -27,7 +33,7 @@ export const Shortcuts = observer(() => {
           <Text className="text-blue-500 text-sm">Restore Defaults</Text>
         </TouchableOpacity>
       </View>
-      <LegendList
+      <FlatList
         contentContainerClassName="px-4 pb-4"
         data={items}
         keyExtractor={item => item.id}
