@@ -1,12 +1,12 @@
 import clsx from 'clsx'
 import {MainInput} from 'components/MainInput'
-import {useFullSize} from 'hooks/useFullSize'
 import {solNative} from 'lib/SolNative'
 import {observer} from 'mobx-react-lite'
-import React, {FC, useCallback, useEffect, useRef} from 'react'
-import {FlatList, Text, View, ViewStyle, TouchableOpacity} from 'react-native'
+import {FC, useCallback, useEffect, useRef} from 'react'
+import {Text, View, ViewStyle, TouchableOpacity} from 'react-native'
 import {useStore} from 'store'
 import {EMOJI_ROW_SIZE, Emoji} from 'stores/emoji.store'
+import {LegendList, LegendListRef} from '@legendapp/list'
 
 interface Props {
   style?: ViewStyle
@@ -16,13 +16,12 @@ interface Props {
 const ROW_HEIGHT = 110
 
 export const EmojisWidget: FC<Props> = observer(({style}) => {
-  useFullSize()
   const store = useStore()
 
   const selectedIndex = store.ui.selectedIndex
   const storeRowIndex = Math.floor(selectedIndex / EMOJI_ROW_SIZE)
   const storeSubIndex = selectedIndex % EMOJI_ROW_SIZE
-  const listRef = useRef<FlatList | null>(null)
+  const listRef = useRef<LegendListRef | null>(null)
   const emojis = store.emoji.emojis
 
   useEffect(() => {
@@ -101,25 +100,26 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
   )
 
   return (
-    <View className="h-full" style={style}>
+    <View className="h-full">
       <View className="flex-row px-3">
         <MainInput placeholder="Search emojis..." showBackButton />
       </View>
-      <FlatList
+      <LegendList
         ref={listRef}
         className="flex-1"
-        contentContainerClassName="flex-grow p-3"
+        // contentContainerClassName="flex-grow p-3"
+        contentContainerStyle={{paddingHorizontal: 12, paddingTop: 8}}
         data={emojis}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={EmptyList}
-        getItemLayout={(_, index) => ({
-          length: ROW_HEIGHT,
-          offset: ROW_HEIGHT * index,
-          index,
-        })}
-        windowSize={1}
+        // recycleItems
+        // getItemLayout={(_, index) => ({
+        //   length: ROW_HEIGHT,
+        //   offset: ROW_HEIGHT * index,
+        //   index,
+        // })}
+        // windowSize={1}
         keyExtractor={(_, index) => index.toString()}
-        // @ts-ignore
         renderItem={renderItem}
       />
     </View>

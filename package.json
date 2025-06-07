@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@expo/plist": "^0.0.20",
+    "@legendapp/list": "^1.0.15",
     "@react-native-async-storage/async-storage": "^1.23.1",
     "@sentry/react-native": "5.35.0",
     "assert": "^2.0.0",
@@ -31,13 +32,13 @@
     "mobx": "^6.13.5",
     "mobx-react-lite": "^4.1.0",
     "nanoid": "^4.0.0",
-    "nativewind": "4.0.36",
+    "nativewind": "4.1.23",
     "pretty-bytes": "^6.1.1",
     "react": "19.0.0",
     "react-native": "^0.78.2",
     "react-native-get-random-values": "^1.8.0",
-    "react-native-mmkv": "2.12.2",
     "react-native-macos": "^0.78.3",
+    "react-native-mmkv": "2.12.2",
     "react-native-reanimated": "^3.8.1",
     "uuid": "^9.0.0"
   },
@@ -63,8 +64,7 @@
     "eslint": "^8.19.0",
     "prettier": "^2.8.8",
     "rimraf": "^3.0.2",
-    "tailwindcss": "3.4.3",
+    "tailwindcss": "3.4.17",
     "typescript": "5.0.4"
-  },
-  "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
+  }
 }
