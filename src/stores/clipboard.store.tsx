@@ -15,7 +15,7 @@ let onFileCopiedListener: EmitterSubscription | undefined
 
 export type ClipboardStore = ReturnType<typeof createClipboardStore>
 
-type PasteItem = {
+export type PasteItem = {
   id: number
   text: string
   url?: string | null

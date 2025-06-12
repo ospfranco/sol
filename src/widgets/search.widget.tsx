@@ -89,7 +89,11 @@ const ItemRow = observer(({item, index}: {item: Item; index: number}) => {
         {/* Somehow this component breaks windows build */}
         {(Platform.OS === 'macos' || Platform.OS === 'ios') &&
           !!item.IconComponent && <item.IconComponent />}
-        <Text numberOfLines={1} className={'ml-3 text max-w-xl'}>
+        <Text
+          numberOfLines={1}
+          className={clsx('ml-3 text max-w-xl', {
+            'text-white': isActive,
+          })}>
           {item.name}
         </Text>
 
@@ -161,9 +165,7 @@ export const SearchWidget: FC = observer(() => {
             ref={listRef}
             data={items}
             keyExtractor={item => item.id}
-            renderItem={({item, index}) => (
-              <ItemRow item={item} index={index} />
-            )}
+            renderItem={ItemRow}
             showsVerticalScrollIndicator={false}
             ListEmptyComponent={EmptyComponent}
             recycleItems

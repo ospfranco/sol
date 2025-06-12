@@ -7,11 +7,48 @@ import {observer} from 'mobx-react-lite'
 import {FC, useEffect, useRef} from 'react'
 import {StyleSheet, Text, TouchableOpacity, View, ViewStyle} from 'react-native'
 import {useStore} from 'store'
+import {PasteItem} from 'stores/clipboard.store'
 
 interface Props {
   style?: ViewStyle
   className?: string
 }
+
+const RenderItem = observer(
+  ({item, index}: {item: PasteItem; index: number}) => {
+    const store = useStore()
+    const selectedIndex = store.ui.selectedIndex
+    const isActive = index === selectedIndex
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          store.ui.setSelectedIndex(index)
+          store.keystroke.simulateEnter()
+        }}
+        className={clsx('items-center flex-row rounded gap-2 p-2', {
+          'bg-accent': isActive,
+          'opacity-80': !isActive,
+        })}>
+        <FileIcon
+          url={decodeURIComponent(
+            item.bundle?.replace('file://', '') ??
+              item.url?.replace('file://', '') ??
+              '',
+          )}
+          className="h-6 w-6"
+        />
+
+        <Text className={clsx('text-xs text flex-1')} numberOfLines={1}>
+          {item.text.trim()}
+        </Text>
+
+        {/* {!!item.url && (
+        <Image src={`file://${item.url}`} className="h-20 w-20" />
+      )} */}
+      </TouchableOpacity>
+    )
+  },
+)
 
 function isPngOrJpg(url: string) {
   let lowercaseUrl = url.toLowerCase()
@@ -55,38 +92,7 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
                 <Text className="darker-text">[ ]</Text>
               </View>
             }
-            renderItem={({item, index}: any) => {
-              const isActive = index === selectedIndex
-              return (
-                <TouchableOpacity
-                  onPress={() => {
-                    store.ui.setSelectedIndex(index)
-                    store.keystroke.simulateEnter()
-                  }}
-                  className={clsx('items-center flex-row rounded gap-2 p-2', {
-                    'bg-accent': isActive,
-                    'opacity-80': !isActive,
-                  })}>
-                  <FileIcon
-                    url={decodeURIComponent(
-                      item.bundle?.replace('file://', '') ??
-                        item.url?.replace('file://', ''),
-                    )}
-                    className="h-6 w-6"
-                  />
-
-                  <Text
-                    className={clsx('text-xs text flex-1')}
-                    numberOfLines={1}>
-                    {item.text.trim()}
-                  </Text>
-
-                  {/* {!!item.url && (
-                    <Image src={`file://${item.url}`} className="h-20 w-20" />
-                  )} */}
-                </TouchableOpacity>
-              )
-            }}
+            renderItem={RenderItem}
           />
         </View>
         <View className="flex-1 p-3">

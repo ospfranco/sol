@@ -58,6 +58,7 @@ const CalendarItem = ({item}: {item: INativeEvent}) => {
             {
               'line-through': item.declined || item.eventStatus === 3,
               'font-semibold': store.calendar.upcomingEvent?.id === item.id,
+              'text-white': hovered,
             },
           )}>
           {item.title?.trim()}
@@ -71,7 +72,9 @@ const CalendarItem = ({item}: {item: INativeEvent}) => {
 
         {!item.isAllDay && (
           <Text
-            className="dark:text-neutral-400 text-xxs"
+            className={clsx('dark:text-neutral-400 text-xxs', {
+              'text-white dark:text-white': hovered,
+            })}
             style={{
               fontFamily: 'JetBrains Mono',
             }}>
