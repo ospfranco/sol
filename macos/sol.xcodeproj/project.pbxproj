@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		3919C725599C8DA45324A5C6 /* libPods-macOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1194CEEB2780EBB1CE91CBEB /* libPods-macOS.a */; };
 		514201522437B4B40078DB4F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 514201512437B4B40078DB4F /* Assets.xcassets */; };
-		514201552437B4B40078DB4F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 514201532437B4B40078DB4F /* Main.storyboard */; };
 		7008230D296A9D5800E8978A /* BookmarkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7008230C296A9D5800E8978A /* BookmarkHelper.swift */; };
 		700A18D8279DBBE40096C830 /* ApplicationSearcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700A18D7279DBBE40096C830 /* ApplicationSearcher.swift */; };
 		700A18DA279DC17F0096C830 /* FileIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700A18D9279DC17F0096C830 /* FileIcon.swift */; };
@@ -47,6 +46,7 @@
 		70A25D4B2D33E15E00165270 /* StatusBarItemManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A25D4A2D33E15800165270 /* StatusBarItemManager.swift */; };
 		70AAC12029F7AB9B004AD3E7 /* GradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AAC11F29F7AB9B004AD3E7 /* GradientView.m */; };
 		70AAC12229F7AC17004AD3E7 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AAC12129F7AC17004AD3E7 /* GradientView.swift */; };
+		70B156A82DFC036D00CD18F1 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B156A72DFC036B00CD18F1 /* main.swift */; };
 		70B2D5902824254B0005D80A /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B2D58F2824254B0005D80A /* WindowManager.swift */; };
 		70B78361279BE866008660F5 /* Panel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B78360279BE866008660F5 /* Panel.swift */; };
 		70B9275F2930A4F700F883A0 /* ShellHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B9275E2930A4F700F883A0 /* ShellHelper.swift */; };
@@ -72,7 +72,6 @@
 		434AA4134E3E6A10DF347D75 /* Pods-macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-macOS.debug.xcconfig"; path = "Target Support Files/Pods-macOS/Pods-macOS.debug.xcconfig"; sourceTree = "<group>"; };
 		514201492437B4B30078DB4F /* sol-debug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "sol-debug.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		514201512437B4B40078DB4F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		514201542437B4B40078DB4F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		514201562437B4B40078DB4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		514201592437B4B40078DB4F /* sol.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = sol.entitlements; sourceTree = "<group>"; };
 		7008230C296A9D5800E8978A /* BookmarkHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkHelper.swift; sourceTree = "<group>"; };
@@ -119,6 +118,7 @@
 		70A25D4A2D33E15800165270 /* StatusBarItemManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarItemManager.swift; sourceTree = "<group>"; };
 		70AAC11F29F7AB9B004AD3E7 /* GradientView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GradientView.m; sourceTree = "<group>"; };
 		70AAC12129F7AC17004AD3E7 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		70B156A72DFC036B00CD18F1 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		70B2D58F2824254B0005D80A /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
 		70B78360279BE866008660F5 /* Panel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Panel.swift; sourceTree = "<group>"; };
 		70B9275E2930A4F700F883A0 /* ShellHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShellHelper.swift; sourceTree = "<group>"; };
@@ -181,6 +181,7 @@
 		5142014A2437B4B30078DB4F /* sol-macOS */ = {
 			isa = PBXGroup;
 			children = (
+				70B156A72DFC036B00CD18F1 /* main.swift */,
 				7034073F2DD7182B004D7D3D /* fonts */,
 				70A25D432D33AF3400165270 /* managers */,
 				70F7EBEA2795A4BD00CED17A /* lib */,
@@ -188,7 +189,6 @@
 				7042A2282815C05D00874743 /* extensions */,
 				701086A82798C231004C8CCD /* sol-macOS.entitlements */,
 				514201512437B4B40078DB4F /* Assets.xcassets */,
-				514201532437B4B40078DB4F /* Main.storyboard */,
 				514201562437B4B40078DB4F /* Info.plist */,
 				514201592437B4B40078DB4F /* sol.entitlements */,
 				70EA99E92794967E008E54FD /* AppDelegate.swift */,
@@ -387,7 +387,6 @@
 			files = (
 				514201522437B4B40078DB4F /* Assets.xcassets in Resources */,
 				703407412DD71869004D7D3D /* JetBrainsMono.ttf in Resources */,
-				514201552437B4B40078DB4F /* Main.storyboard in Resources */,
 				AA45E5A772F1EC270ADCC02C /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -570,6 +569,7 @@
 			files = (
 				7047E80627D4D31400582E1B /* MediaHelper.swift in Sources */,
 				70EA99EA2794967E008E54FD /* AppDelegate.swift in Sources */,
+				70B156A82DFC036D00CD18F1 /* main.swift in Sources */,
 				70AAC12229F7AC17004AD3E7 /* GradientView.swift in Sources */,
 				7008230D296A9D5800E8978A /* BookmarkHelper.swift in Sources */,
 				70E15D0A293290E9007FFE5F /* JSIUtils.mm in Sources */,
@@ -622,17 +622,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		514201532437B4B40078DB4F /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				514201542437B4B40078DB4F /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		5142015B2437B4B40078DB4F /* Debug */ = {

@@ -3,19 +3,18 @@ import Foundation
 import React_RCTAppDelegate
 import Sparkle
 
-@NSApplicationMain
 @objc
 class AppDelegate: RCTAppDelegate {
   private var updaterController: SPUStandardUpdaterController!
   private var mediaKeyForwarder: MediaKeyForwarder!
 
   override init() {
+    super.init()
     updaterController = SPUStandardUpdaterController(
       startingUpdater: true,
       updaterDelegate: nil,
       userDriverDelegate: nil
     )
-    super.init()
   }
 
   required init?(coder: NSCoder) {
@@ -53,6 +52,7 @@ class AppDelegate: RCTAppDelegate {
   }
 
   override func applicationDidFinishLaunching(_ notification: Notification) {
+    print("Application did finish launching!")
     self.moduleName = "sol"
     self.initialProps = [:]
     self.automaticallyLoadReactNativeWindow = false
