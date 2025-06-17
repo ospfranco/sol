@@ -11,14 +11,14 @@
     "release": "bundle exec fastlane release",
     "fix-dependencies": "rnx-align-deps --write",
     "appcast": "./macos/Pods/Sparkle/bin/generate_appcast releases",
-    "pods": "cd macos && bundle exec pod install && rm .xcode.env.local && xcodebuild -resolvePackageDependencies -workspace sol.xcworkspace -scheme debug",
+    "pods": "cd macos && rm -rf Podfile.lock && bundle exec pod install && rm .xcode.env.local && xcodebuild -resolvePackageDependencies -workspace sol.xcworkspace -scheme debug",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@expo/plist": "^0.0.20",
     "@legendapp/list": "^1.0.17",
     "@react-native-async-storage/async-storage": "^1.23.1",
-    "@sentry/react-native": "5.35.0",
+    "@sentry/react-native": "6.15.0",
     "assert": "^2.0.0",
     "axios": "^0.25.0",
     "chance": "^1.1.9",
@@ -66,5 +66,6 @@
     "rimraf": "^3.0.2",
     "tailwindcss": "3.4.17",
     "typescript": "5.0.4"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
 }

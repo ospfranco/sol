@@ -53,6 +53,8 @@
 	<string>Allow location access to show Wi-Fi password</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Allow location access to show Wi-Fi password</string>
+	<key>NSMainStoryboardFile</key>
+	<string>Main</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>NSSupportsAutomaticTermination</key>

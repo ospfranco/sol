@@ -21,8 +21,6 @@ enum PreferredScreen {
       return
     }
 
-    // Give react native event listener a bit of time to react
-    // and switch components
     HotKeyManager.shared.settingsHotKey.isPaused = false
     mainWindow.setIsVisible(false)
     mainWindow.makeKeyAndOrderFront(self)
