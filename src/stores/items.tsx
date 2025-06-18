@@ -355,7 +355,7 @@ export function createBaseItems(store: IRootStore) {
     {
       id: 'check_for_updates',
       icon: '🆙',
-      name: 'Check for updates',
+      name: 'Check for Sol updates',
       type: ItemType.CONFIGURATION,
       callback: () => {
         solNative.checkForUpdates()
