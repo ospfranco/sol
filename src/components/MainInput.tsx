@@ -55,7 +55,7 @@ export const MainInput = observer<Props>(
     }
 
     return (
-      <View className="min-h-[42px] flex-row items-center gap-2 my-1 flex-1">
+      <View className="min-h-[42px] flex-row items-center gap-2 my-1 flex-1 px-2">
         {leftButton}
         <TextInput
           autoFocus
@@ -66,7 +66,7 @@ export const MainInput = observer<Props>(
           className="text-lg flex-1"
           cursorColor={isDarkMode ? colors.white : colors.black}
           placeholder={placeholder}
-          placeholderTextColor={isDarkMode ? '#555' : '#888'}
+          placeholderTextColor={isDarkMode ? '#888' : '#888'}
         />
       </View>
     )

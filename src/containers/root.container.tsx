@@ -22,7 +22,7 @@ export const RootContainer = observer(() => {
 
   let subWindow = (
     <View
-      className={clsx({
+      className={clsx('dark:bg-gray-900/10', {
         fullWindow:
           !!store.ui.query ||
           (store.ui.calendarEnabled && store.calendar.events.length > 0),

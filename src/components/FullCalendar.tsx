@@ -37,9 +37,12 @@ const CalendarItem = ({item}: {item: INativeEvent}) => {
         }
       }}>
       <View
-        className={clsx('flex-row items-center gap-1 mx-1 px-2 py-1 rounded', {
-          'bg-accent': hovered,
-        })}>
+        className={clsx(
+          'flex-row items-center gap-1 mx-2 px-2 py-1 rounded-lg',
+          {
+            'bg-accent': hovered,
+          },
+        )}>
         <View
           className={clsx('rounded-full justify-center items-center', {
             'h-2 w-2 mx-1 rotate-45': item.status === 1,
@@ -118,7 +121,7 @@ export let FullCalendar: FC = observer(() => {
         {groupedEvents.map(section => {
           return (
             <View key={section.date.toISO()}>
-              <View className="mx-2 p-2 mb-1 gap-1 border-b border-lightBorder dark:border-darkBorder">
+              <View className="mx-3 p-2 gap-1">
                 <Text className="capitalize text-neutral-400 dark:text-neutral-500 text-sm">
                   {section.date.toRelativeCalendar({
                     unit: 'days',

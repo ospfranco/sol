@@ -45,7 +45,7 @@ module.exports = {
         inputLight: '#00000010',
         inputDark: '#00000050',
         'accent-strong': 'rgb(var(--color-accent) / .80)',
-        accent: 'rgb(var(--color-accent) / .40)',
+        accent: 'rgb(var(--color-accent) / .30)',
         'accent-dark': 'rgb(var(--color-accent) / .14)',
       },
     },

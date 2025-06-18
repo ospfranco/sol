@@ -48,19 +48,12 @@ const ItemRow = observer(({item, index}: {item: Item; index: number}) => {
         store.ui.setSelectedIndex(index)
         store.keystroke.simulateEnter()
       }}
-      className={clsx('flex-row items-center rounded-lg py-1', {
+      className={clsx('flex-row items-center rounded-xl py-1', {
         'bg-accent': isActive,
       })}>
-      <View className="flex-1 flex-row items-center pl-6 pr-3 h-9">
-        {item.type === ItemType.PREFERENCE_PANE && (
-          <Text className={'darker-text text-xs absolute left-2'}>⚙</Text>
-        )}
-
-        {item.type === ItemType.BOOKMARK && (
-          <Text className="text-xxs absolute darker-text left-2">↗</Text>
-        )}
+      <View className="flex-1 flex-row items-center px-3 h-10">
         {item.isRunning && (
-          <View className="absolute left-2.5 h-[6px] w-[6px] rounded-full bg-neutral-600 dark:bg-neutral-400" />
+          <View className="absolute bottom-0 left-[19px] h-[4px] w-[4px] rounded-full bg-neutral-600 dark:bg-neutral-400" />
         )}
         {!!item.url && <FileIcon url={item.url} className={'w-6 h-6'} />}
         {item.type !== ItemType.CUSTOM && !!item.icon && (
@@ -98,6 +91,11 @@ const ItemRow = observer(({item, index}: {item: Item; index: number}) => {
         </Text>
 
         <View className="flex-1" />
+
+        {item.type === ItemType.BOOKMARK && (
+          <Text className="darker-text text-xs">Browser Bookmark</Text>
+        )}
+
         {!!item.subName && (
           <Text className={'ml-3 darker-text'}>{item.subName}</Text>
         )}
@@ -153,7 +151,7 @@ export const SearchWidget: FC = observer(() => {
         'flex-1': !!store.ui.query,
       })}>
       <View className="flex-row items-center gap-2 px-3">
-        <MainInput className="flex-1" />
+        <MainInput className="flex-1" hideIcon />
       </View>
 
       {!!store.ui.query && (
