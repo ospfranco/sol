@@ -5,9 +5,17 @@ PODS:
   - FBLazyVector (0.78.3)
   - fmt (11.0.2)
   - glog (0.3.5)
-  - hermes-engine (0.78.2):
-    - hermes-engine/Pre-built (= 0.78.2)
-  - hermes-engine/Pre-built (0.78.2)
+  - hermes-engine (0.78.3):
+    - hermes-engine/cdp (= 0.78.3)
+    - hermes-engine/Hermes (= 0.78.3)
+    - hermes-engine/inspector (= 0.78.3)
+    - hermes-engine/inspector_chrome (= 0.78.3)
+    - hermes-engine/Public (= 0.78.3)
+  - hermes-engine/cdp (0.78.3)
+  - hermes-engine/Hermes (0.78.3)
+  - hermes-engine/inspector (0.78.3)
+  - hermes-engine/inspector_chrome (0.78.3)
+  - hermes-engine/Public (0.78.3)
   - HotKey (0.2.1)
   - MMKV (2.2.2):
     - MMKVCore (~> 2.2.2)
@@ -1943,7 +1951,7 @@ SPEC CHECKSUMS:
   FBLazyVector: b61b46a4137164b884a21e2ae3e289e1ccef5700
   fmt: f6af2d677a106e3e44c9536a4c0c7f03ab53c854
   glog: b7594b792ee4e02ed1f44b01d046ca25fa713e3d
-  hermes-engine: 2771b98fb813fdc6f92edd7c9c0035ecabf9fee7
+  hermes-engine: 9487112ab580311b6fdc6c13927893067edecdf7
   HotKey: 400beb7caa29054ea8d864c96f5ba7e5b4852277
   MMKV: b4802ebd5a7c68fc0c4a5ccb4926fbdfb62d68e0
   MMKVCore: a255341a3746955f50da2ad9121b18cb2b346e61
