@@ -1,7 +1,6 @@
 import clsx from 'clsx'
 import {useBoolean} from 'hooks'
-import {cssInterop} from 'nativewind'
-import React, {FC, MutableRefObject} from 'react'
+import {FC, MutableRefObject} from 'react'
 import {TextInput, TextInputProps, View, ViewStyle} from 'react-native'
 import colors from 'tailwindcss/colors'
 
@@ -30,13 +29,16 @@ export const Input: FC<Props> = ({
       onMouseEnter={hoverOn}
       //@ts-ignore
       onMouseLeave={hoverOff}
-      className={clsx('w-full rounded bg-transparent px-2 h-7', {
-        'border border-lightBorder dark:border-darkBorder':
-          !!bordered && !focused && !hovered,
-        'border border-accent': !!bordered && !!focused,
-        'border border-neutral-500 dark:border-white':
-          !!bordered && !focused && !!hovered,
-      })}
+      className={clsx(
+        'flex-1 justify-center items-center rounded bg-transparent px-2 h-8',
+        {
+          'border border-lightBorder dark:border-darkBorder':
+            !!bordered && !focused && !hovered,
+          'border border-accent': !!bordered && !!focused,
+          'border border-neutral-500 dark:border-white':
+            !!bordered && !focused && !!hovered,
+        },
+      )}
       style={style}>
       <TextInput
         // @ts-ignore
@@ -48,17 +50,11 @@ export const Input: FC<Props> = ({
         style={inputStyle}
         autoFocus={autoFocus}
         placeholderTextColor={colors.neutral[400]}
-        {...props}
+        placeholder={props.placeholder}
+        value={props.value}
+        onChangeText={props.onChangeText}
+        readOnly={props.readOnly}
       />
     </View>
   )
 }
-
-cssInterop(Input, {
-  className: 'style',
-  inputClassName: 'inputStyle',
-  nativeStyleToProp: {
-    // @ts-expect-error
-    borderRadius: 'borderRadius',
-  },
-})

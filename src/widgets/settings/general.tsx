@@ -14,6 +14,7 @@ export const isValidCustomSearchEngineUrl = (url: string) => {
     /^https?:\/\/(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?|localhost|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(:\d+)?(\/[^\s?#]*)?\?[\w-]+=%s$/
   return searchPatternRegex.test(url)
 }
+
 export const General = observer(() => {
   const store = useStore()
   return (
@@ -67,7 +68,7 @@ export const General = observer(() => {
         </View>
         {store.ui.searchEngine === 'custom' && (
           <View className="items-end z-10">
-            <View className="flex-row items-center gap-2">
+            <View className="w-80 flex-row items-center gap-1">
               {store.ui.searchEngine === 'custom' &&
                 (isValidCustomSearchEngineUrl(store.ui.customSearchUrl) ? (
                   <View className="w-2 h-2 rounded-full bg-green-500" />
@@ -75,12 +76,9 @@ export const General = observer(() => {
                   <View className="w-2 h-2 rounded-full bg-red-500" />
                 ))}
               <Input
-                className="w-80 text-xs rounded border border-lightBorder dark:border-darkBorder px-1"
-                inputClassName={
-                  store.ui.searchEngine !== 'custom'
-                    ? 'opacity-45 dark:text-white'
-                    : ''
-                }
+                bordered
+                className="w-full text-xs rounded border border-lightBorder dark:border-darkBorder px-1"
+                inputClassName="w-full"
                 readOnly={store.ui.searchEngine !== 'custom'}
                 value={store.ui.customSearchUrl}
                 onChangeText={e => store.ui.setCustomSearchUrl(e)}
