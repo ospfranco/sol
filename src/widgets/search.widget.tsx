@@ -93,15 +93,30 @@ const ItemRow = observer(({item, index}: {item: Item; index: number}) => {
         <View className="flex-1" />
 
         {item.type === ItemType.BOOKMARK && (
-          <Text className="darker-text text-xs">Browser Bookmark</Text>
+          <Text
+            className={clsx('darker-text text-xs', {
+              'text-white dark:text-white': isActive,
+            })}>
+            Browser Bookmark
+          </Text>
         )}
 
         {!!item.subName && (
-          <Text className={'ml-3 darker-text'}>{item.subName}</Text>
+          <Text
+            className={clsx('darker-text text-xs', {
+              'text-white dark:text-white': isActive,
+            })}>
+            {item.subName}
+          </Text>
         )}
 
         {item.type === ItemType.FILE && (
-          <Text className="darker-text text-xs">{item.url!.slice(0, 45)}</Text>
+          <Text
+            className={clsx('darker-text text-xs', {
+              'text-white dark:text-white': isActive,
+            })}>
+            {item.url!.slice(0, 45)}
+          </Text>
         )}
 
         {!!store.ui.shortcuts[item.id] && (

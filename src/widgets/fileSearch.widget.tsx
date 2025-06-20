@@ -14,9 +14,41 @@ interface Props {
   className?: string
 }
 
-export const FileSearchWidget: FC<Props> = observer(() => {
-  useFullSize()
+const RenderItem = observer(({item, index}: any) => {
+  const store = useStore()
+  const selectedIndex = store.ui.selectedIndex
 
+  const isActive = index === selectedIndex
+  return (
+    <View
+      className={clsx('flex-row items-center rounded-lg h-12', {
+        highlight: isActive,
+      })}>
+      <View className="flex-1 flex-row items-center px-6 h-9">
+        {!!item.url && (
+          <View className="gap-1 items-center flex-row">
+            <FileIcon url={item.url} className={'w-6 h-6'} />
+          </View>
+        )}
+        <Text
+          numberOfLines={1}
+          className={clsx('ml-3 flex-1', {
+            'text-white dark:text-white': isActive,
+          })}>
+          {item.name}
+        </Text>
+        <Text
+          className={clsx('darker-text text-xs', {
+            'text-white dark:text-white': isActive,
+          })}>
+          {item.url!.slice(0, 45)}
+        </Text>
+      </View>
+    </View>
+  )
+})
+
+export const FileSearchWidget: FC<Props> = observer(() => {
   const store = useStore()
   const data = store.ui.files
   const selectedIndex = store.ui.selectedIndex
@@ -50,29 +82,7 @@ export const FileSearchWidget: FC<Props> = observer(() => {
           </View>
         }
         keyExtractor={(_, index) => index.toString()}
-        renderItem={({item, index}) => {
-          const isActive = index === selectedIndex
-          return (
-            <View
-              className={clsx('flex-row items-center rounded-lg h-12', {
-                highlight: isActive,
-              })}>
-              <View className="flex-1 flex-row items-center px-6 h-9">
-                {!!item.url && (
-                  <View className="gap-1 items-center flex-row">
-                    <FileIcon url={item.url} className={'w-6 h-6'} />
-                  </View>
-                )}
-                <Text numberOfLines={1} className={'ml-3 text flex-1'}>
-                  {item.name}
-                </Text>
-                <Text className="darker-text text-xs">
-                  {item.url!.slice(0, 45)}
-                </Text>
-              </View>
-            </View>
-          )
-        }}
+        renderItem={RenderItem}
       />
 
       {data.length > 0 && (
