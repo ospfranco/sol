@@ -308,6 +308,8 @@ export const createUIStore = (root: IRootStore) => {
     hoveredEventId: null as string | null,
     hasDismissedGettingStarted: false,
     isVisible: false,
+    showKeyboardRecorder: false,
+    keyboardRecorderSelectedItem: null as string | null,
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -508,22 +510,6 @@ export const createUIStore = (root: IRootStore) => {
     },
     get currentItem(): Item | undefined {
       return store.items[store.selectedIndex]
-    },
-    get validatedShortcuts(): Record<
-      string,
-      {shortcut: string; valid: boolean}
-    > {
-      let res: Record<string, {shortcut: string; valid: boolean}> = {}
-      for (let key in store.shortcuts) {
-        let shortcut = store.shortcuts[key]
-        let valid = false
-        if (shortcut) {
-          let tokens = shortcut.split('+')
-          valid = tokens.every(token => validShortcutTokensRegex.test(token))
-        }
-        res[key] = {shortcut, valid}
-      }
-      return res
     },
     //                _   _
     //      /\       | | (_)
@@ -940,7 +926,7 @@ export const createUIStore = (root: IRootStore) => {
       }
     },
 
-    setShorcut(id: string, shortcut: string) {
+    setShortcut(id: string, shortcut: string) {
       store.shortcuts[id] = shortcut
       solNative.updateHotkeys(toJS(store.shortcuts))
     },
@@ -975,6 +961,19 @@ export const createUIStore = (root: IRootStore) => {
     },
     applicationsChanged: () => {
       store.getApps()
+    },
+    setShowKeyboardRecorderForItem: (show: boolean, itemId: string) => {
+      store.showKeyboardRecorder = show
+      store.keyboardRecorderSelectedItem = itemId
+    },
+    setShortcutFromUI: (shortcut: string[]) => {
+      store.showKeyboardRecorder = false
+      let itemId = store.keyboardRecorderSelectedItem
+      store.keyboardRecorderSelectedItem = null
+      if (!itemId) {
+        return
+      }
+      store.setShortcut(itemId, shortcut.join('+'))
     },
   })
 

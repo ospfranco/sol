@@ -1,11 +1,9 @@
 import clsx from 'clsx'
-import React, {FC} from 'react'
+import {FC} from 'react'
 import {Text, View, ViewStyle} from 'react-native'
 import colors from 'tailwindcss/colors'
-import {BlurView} from './BlurView'
 import {observer} from 'mobx-react-lite'
 import {useStore} from 'store'
-import {solNative} from 'lib/SolNative'
 
 interface IProps {
   title?: string

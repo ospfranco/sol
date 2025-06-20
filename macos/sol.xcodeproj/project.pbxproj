@@ -30,6 +30,9 @@
 		7047E80627D4D31400582E1B /* MediaHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7047E80527D4D31400582E1B /* MediaHelper.swift */; };
 		7047E80827D4DAEB00582E1B /* Sequence.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7047E80727D4DAEB00582E1B /* Sequence.extension.swift */; };
 		7065EBBF2CDB8C2B008C0A74 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 7065EBBE2CDB8C2B008C0A74 /* LaunchAtLogin */; };
+		706ABFAB2E059FC2000C0F30 /* KeyboardShortcutRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706ABFAA2E059FC2000C0F30 /* KeyboardShortcutRecorder.swift */; };
+		706ABFAE2E059FCF000C0F30 /* KeyboardShortcutRecorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706ABFAD2E059FCF000C0F30 /* KeyboardShortcutRecorderView.swift */; };
+		706ABFAF2E059FCF000C0F30 /* KeyboardShortcutRecorderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 706ABFAC2E059FCF000C0F30 /* KeyboardShortcutRecorderView.m */; };
 		706D6D532B388C1700941026 /* CoreWLAN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 707B9F4C2B38845000C3A2FC /* CoreWLAN.framework */; };
 		706D6D572B3894E200941026 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 706D6D562B3894E200941026 /* CoreLocation.framework */; };
 		7071D43727B3211700F8A4DC /* DarkMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7071D43527B3211700F8A4DC /* DarkMode.swift */; };
@@ -96,6 +99,9 @@
 		7042A2292815C06B00874743 /* NSColor.extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSColor.extension.swift; sourceTree = "<group>"; };
 		7047E80527D4D31400582E1B /* MediaHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaHelper.swift; sourceTree = "<group>"; };
 		7047E80727D4DAEB00582E1B /* Sequence.extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sequence.extension.swift; sourceTree = "<group>"; };
+		706ABFAA2E059FC2000C0F30 /* KeyboardShortcutRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardShortcutRecorder.swift; sourceTree = "<group>"; };
+		706ABFAC2E059FCF000C0F30 /* KeyboardShortcutRecorderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KeyboardShortcutRecorderView.m; sourceTree = "<group>"; };
+		706ABFAD2E059FCF000C0F30 /* KeyboardShortcutRecorderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardShortcutRecorderView.swift; sourceTree = "<group>"; };
 		706D6D562B3894E200941026 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.2.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
 		7071D43527B3211700F8A4DC /* DarkMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DarkMode.swift; sourceTree = "<group>"; };
 		7071D43627B3211700F8A4DC /* AppleScriptHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppleScriptHelper.swift; sourceTree = "<group>"; };
@@ -222,6 +228,8 @@
 		7042A22B2815C48E00874743 /* views */ = {
 			isa = PBXGroup;
 			children = (
+				706ABFAC2E059FCF000C0F30 /* KeyboardShortcutRecorderView.m */,
+				706ABFAD2E059FCF000C0F30 /* KeyboardShortcutRecorderView.swift */,
 				700A18D9279DC17F0096C830 /* FileIcon.swift */,
 				700A18DB279DC1F50096C830 /* FileIcon.m */,
 				70B78360279BE866008660F5 /* Panel.swift */,
@@ -250,6 +258,7 @@
 		70F7EBEA2795A4BD00CED17A /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				706ABFAA2E059FC2000C0F30 /* KeyboardShortcutRecorder.swift */,
 				70142B3A2D21812500EA565F /* KeychainAccess.swift */,
 				70E233692A8F4A20008E88D9 /* ITunesApplicationApplication.h */,
 				70A07EB929B48F1F00D1885E /* SpotifyApplication.h */,
@@ -602,6 +611,7 @@
 				700A18D8279DBBE40096C830 /* ApplicationSearcher.swift in Sources */,
 				70E80B61294C71520094F1B5 /* NSImage.swift in Sources */,
 				70B927612930ADC100F883A0 /* Toast.swift in Sources */,
+				706ABFAB2E059FC2000C0F30 /* KeyboardShortcutRecorder.swift in Sources */,
 				70142B3B2D21812500EA565F /* KeychainAccess.swift in Sources */,
 				70D1220228DA95C500179A1D /* Overlay.swift in Sources */,
 				700A18DC279DC1F50096C830 /* FileIcon.m in Sources */,
@@ -613,6 +623,8 @@
 				70E15D082931FC57007FFE5F /* FS.swift in Sources */,
 				700DF99A28266F0B00C5FD0B /* ClipboardHelper.swift in Sources */,
 				700A18DA279DC17F0096C830 /* FileIcon.swift in Sources */,
+				706ABFAE2E059FCF000C0F30 /* KeyboardShortcutRecorderView.swift in Sources */,
+				706ABFAF2E059FCF000C0F30 /* KeyboardShortcutRecorderView.m in Sources */,
 				70754B532BECECAB00B77EF8 /* FileSearch.mm in Sources */,
 				70BED7CB27F4C1A600906E41 /* FileConstants.swift in Sources */,
 				700A99F22C33D6E30049831F /* QRGenerator.swift in Sources */,

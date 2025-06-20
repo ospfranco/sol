@@ -149,14 +149,22 @@ final class HotKeyManager {
           .lowercased()
           .trimmingCharacters(in: .whitespacesAndNewlines)
         {
+        case "⌘":
+            modifiers.insert(.command)
         case "cmd":
-          modifiers.insert(.command)
+            modifiers.insert(.command)
         case "command":
           modifiers.insert(.command)
+        case "⌃":
+            modifiers.insert(.control)
         case "control":
           modifiers.insert(.control)
+        case "⌥":
+            modifiers.insert(.option)
         case "option":
           modifiers.insert(.option)
+        case "⇧":
+            modifiers.insert(.shift)
         case "shift":
           modifiers.insert(.shift)
         case "space":
