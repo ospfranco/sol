@@ -5,17 +5,9 @@ PODS:
   - FBLazyVector (0.78.3)
   - fmt (11.0.2)
   - glog (0.3.5)
-  - hermes-engine (0.78.3):
-    - hermes-engine/cdp (= 0.78.3)
-    - hermes-engine/Hermes (= 0.78.3)
-    - hermes-engine/inspector (= 0.78.3)
-    - hermes-engine/inspector_chrome (= 0.78.3)
-    - hermes-engine/Public (= 0.78.3)
-  - hermes-engine/cdp (0.78.3)
-  - hermes-engine/Hermes (0.78.3)
-  - hermes-engine/inspector (0.78.3)
-  - hermes-engine/inspector_chrome (0.78.3)
-  - hermes-engine/Public (0.78.3)
+  - hermes-engine (0.78.2):
+    - hermes-engine/Pre-built (= 0.78.2)
+  - hermes-engine/Pre-built (0.78.2)
   - HotKey (0.2.1)
   - MMKV (2.2.2):
     - MMKVCore (~> 2.2.2)
@@ -1708,7 +1700,7 @@ PODS:
     - Yoga
   - Sentry/HybridSDK (8.52.0)
   - SocketRocket (0.7.1)
-  - Sparkle (2.7.0)
+  - Sparkle (2.7.1)
   - Yoga (0.0.0)
 
 DEPENDENCIES:
@@ -1951,7 +1943,7 @@ SPEC CHECKSUMS:
   FBLazyVector: b61b46a4137164b884a21e2ae3e289e1ccef5700
   fmt: f6af2d677a106e3e44c9536a4c0c7f03ab53c854
   glog: b7594b792ee4e02ed1f44b01d046ca25fa713e3d
-  hermes-engine: 9487112ab580311b6fdc6c13927893067edecdf7
+  hermes-engine: 2771b98fb813fdc6f92edd7c9c0035ecabf9fee7
   HotKey: 400beb7caa29054ea8d864c96f5ba7e5b4852277
   MMKV: b4802ebd5a7c68fc0c4a5ccb4926fbdfb62d68e0
   MMKVCore: a255341a3746955f50da2ad9121b18cb2b346e61
@@ -2020,7 +2012,7 @@ SPEC CHECKSUMS:
   RNSentry: a3bfa264a9b92526de7c1e96f928177c989524f7
   Sentry: 6838d39e8bfc183a8bb6eb1c5e1b730c773ef1c1
   SocketRocket: 03f7111df1a343b162bf5b06ead333be808e1e0a
-  Sparkle: 9c328bdcfbcaf8f030c4b678eadfd0fcb03822d8
+  Sparkle: 5f93557176b762f712e8cd80680778bf23c7348c
   Yoga: f89a870053f1a8fbee8c98e35a1b9eff44ce2015
 
 PODFILE CHECKSUM: 09d9f4d8690650f7bbc4a5e78de155d44c82904c
