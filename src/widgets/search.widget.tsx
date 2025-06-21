@@ -53,7 +53,14 @@ const ItemRow = observer(({item, index}: {item: Item; index: number}) => {
       })}>
       <View className="flex-1 flex-row items-center px-3 h-10">
         {item.isRunning && (
-          <View className="absolute bottom-0 left-[19px] h-[4px] w-[4px] rounded-full bg-neutral-600 dark:bg-neutral-400" />
+          <View
+            className={clsx(
+              'absolute bottom-1 left-[19px] h-[3px] w-[3px] rounded-full bg-neutral-600 dark:bg-neutral-400',
+              {
+                'bg-white dark:bg-white': isActive,
+              },
+            )}
+          />
         )}
         {!!item.url && <FileIcon url={item.url} className={'w-6 h-6'} />}
         {item.type !== ItemType.CUSTOM && !!item.icon && (

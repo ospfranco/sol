@@ -21,8 +21,7 @@ export const Translate = observer(() => {
             value={store.ui.firstTranslationLanguage}
             onValueChange={v => store.ui.setFirstTranslationLanguage(v as any)}
             options={Object.values(languages).map(v => ({
-              // @ts-expect-error
-              label: `${v.name} ${v.flag ?? ''}`,
+              label: v.name,
               value: v.code,
             }))}
           />
@@ -35,8 +34,7 @@ export const Translate = observer(() => {
             value={store.ui.secondTranslationLanguage}
             onValueChange={v => store.ui.setSecondTranslationLanguage(v as any)}
             options={Object.values(languages).map((v, index) => ({
-              // @ts-expect-error
-              label: `${v.name} ${v.flag ?? ''}`,
+              label: v.name,
               value: v.code,
             }))}
           />
@@ -49,8 +47,7 @@ export const Translate = observer(() => {
             value={store.ui.thirdTranslationLanguage ?? ''}
             onValueChange={v => store.ui.setThirdTranslationLanguage(v as any)}
             options={Object.values(languages).map(v => ({
-              // @ts-expect-error
-              label: `${v.name} ${v.flag ?? ''}`,
+              label: v.name,
               value: v.code,
             }))}
           />

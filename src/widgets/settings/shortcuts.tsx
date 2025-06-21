@@ -73,7 +73,7 @@ const RenderItem = observer(({item, index}: any) => {
                 </TouchableOpacity>
               </View>
             ) : (
-              <Text className="text-xs darker-text">Click to set</Text>
+              <Text className="text-xs text-accent">Click to set</Text>
             )}
           </View>
         </View>
@@ -89,21 +89,23 @@ export const Shortcuts = observer(() => {
   items.sort((a, b) => (a.name > b.name ? 1 : -1))
 
   return (
-    <View className="flex-1 h-full gap-1">
-      <View className="flex-row gap-8 p-4">
-        <View className="flex-1">
-          <Text className="text">System Wide Shortcuts</Text>
+    <View className="flex-1 h-full p-4">
+      <View className="p-3 gap-1 subBg rounded-lg border border-lightBorder dark:border-darkBorder">
+        <View className="flex-row gap-8 p-4">
+          <View className="flex-1">
+            <Text className="text">System Wide Shortcuts</Text>
+          </View>
+          <TouchableOpacity onPress={store.ui.restoreDefaultShorcuts}>
+            <Text className="text-blue-500 text-sm">Restore Defaults</Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity onPress={store.ui.restoreDefaultShorcuts}>
-          <Text className="text-blue-500 text-sm">Restore Defaults</Text>
-        </TouchableOpacity>
+        <LegendList
+          contentContainerClassName="px-4 pb-4"
+          data={items}
+          keyExtractor={item => item.id}
+          renderItem={RenderItem}
+        />
       </View>
-      <LegendList
-        contentContainerClassName="px-4 pb-4"
-        data={items}
-        keyExtractor={item => item.id}
-        renderItem={RenderItem}
-      />
     </View>
   )
 })

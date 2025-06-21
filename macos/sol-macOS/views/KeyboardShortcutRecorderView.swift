@@ -33,12 +33,12 @@ class KeyboardShortcutRecorderView: NSView {
       textField.centerYAnchor.constraint(equalTo: centerYAnchor),
     ])
 
-//    let clickGesture = NSClickGestureRecognizer(target: self, action: #selector(toggleRecording))
-//    addGestureRecognizer(clickGesture)
+    //    let clickGesture = NSClickGestureRecognizer(target: self, action: #selector(toggleRecording))
+    //    addGestureRecognizer(clickGesture)
 
     recorder.onShortcut = { [weak self] keys in
       self?.textField.stringValue = keys.joined(separator: " + ")
-//      self?.stopRecording()
+      //      self?.stopRecording()
       // Call the callback with the shortcut
       if let onShortcutChange = self?.onShortcutChange {
         onShortcutChange([
@@ -46,13 +46,13 @@ class KeyboardShortcutRecorderView: NSView {
         ])
       }
     }
-    
+
     startRecording()
   }
 
   private func startRecording() {
     isRecording = true
-    textField.stringValue = "Recording... Press shortcut"
+    textField.stringValue = "Recording..."
     recorder.startRecording()
   }
 

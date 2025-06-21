@@ -967,7 +967,10 @@ export const createUIStore = (root: IRootStore) => {
       store.keyboardRecorderSelectedItem = itemId
     },
     setShortcutFromUI: (shortcut: string[]) => {
-      store.showKeyboardRecorder = false
+      setTimeout(() => {
+        store.showKeyboardRecorder = false
+      }, 1000)
+
       let itemId = store.keyboardRecorderSelectedItem
       store.keyboardRecorderSelectedItem = null
       if (!itemId) {

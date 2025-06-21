@@ -54,7 +54,7 @@ export const SelectableButton: FC<SelectableButtonProps> = ({
         {!!title && (
           <Text
             className={clsx(`text-sm`, {
-              'text-white': selected,
+              'text-white': selected || hovered,
             })}>
             {title}
           </Text>
