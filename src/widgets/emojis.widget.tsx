@@ -2,11 +2,12 @@ import clsx from 'clsx'
 import {MainInput} from 'components/MainInput'
 import {solNative} from 'lib/SolNative'
 import {observer} from 'mobx-react-lite'
-import {FC, useCallback, useEffect, useRef} from 'react'
+import {FC, useEffect, useRef} from 'react'
 import {Text, View, ViewStyle, TouchableOpacity} from 'react-native'
 import {useStore} from 'store'
 import {EMOJI_ROW_SIZE, Emoji} from 'stores/emoji.store'
 import {LegendList, LegendListRef} from '@legendapp/list'
+import {LoadingBar} from 'components/LoadingBar'
 
 interface Props {
   style?: ViewStyle
@@ -34,12 +35,11 @@ const EmojiRow = observer(
           className={clsx(
             `items-center justify-center w-[96] h-[96] rounded-lg`,
             {
-              'bg-neutral-300 border-neutral-400 dark:bg-neutral-900 dark:border-neutral-700':
-                isSelected,
+              'bg-accent': isSelected,
             },
           )}
           key={`${i}_${rowIndex}`}>
-          <Text className="text-6xl">{emoji.emoji}</Text>
+          <Text className="text-5xl">{emoji.emoji}</Text>
         </TouchableOpacity>,
       )
     }
@@ -100,6 +100,7 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
       <View className="flex-row px-3">
         <MainInput placeholder="Search Emojis..." showBackButton />
       </View>
+      <LoadingBar />
       <LegendList
         ref={listRef}
         className="flex-1"
