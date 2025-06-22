@@ -121,15 +121,12 @@ import Watch from './assets/customIcons/Watch.png'
 import World from './assets/customIcons/World.png'
 import DarkModeIcon from './assets/DarkModeIcon.png'
 import DocumentIcon from './assets/DocumentIcon.png'
-import Giphy from './assets/Giphy.png'
 import googleLogo from './assets/google.png'
 import GoogleMaps from './assets/GoogleMapsIcon.png'
 import googleTranslateLogo from './assets/google_translate.png'
 import LockIcon from './assets/LockIcon.png'
 import SearchIcon from './assets/SearchIcon.png'
 import SleepIcon from './assets/SleepIcon.png'
-import SolBlackSmall from './assets/SolBlackSmall.png'
-import SolWhiteSmall from './assets/SolWhiteSmall.png'
 import Star from './assets/star.png'
 import StarFilled from './assets/starFilled.png'
 import Safari from './assets/safari.png'
@@ -156,14 +153,15 @@ import smallLogo from './assets/smallLogo.png'
 import close from './assets/close.png'
 import logoMinimal from './assets/logoMinimal.png'
 import logoMinimalWhite from './assets/logoMinimalWhite.png'
+import power from './assets/power.png'
+import restart from './assets/restart.png'
+import toggle from './assets/toggle.png'
 
 export const Assets = {
   Brave,
   Safari,
   googleLogo,
   googleTranslateLogo,
-  SolBlackSmall,
-  SolWhiteSmall,
   Airdrop,
   Star,
   StarFilled,
@@ -174,7 +172,6 @@ export const Assets = {
   CheckIcon,
   CheckCircleIcon,
   DocumentIcon,
-  Giphy,
   SearchIcon,
   ChevronLeft,
   ChevronDown,
@@ -201,6 +198,9 @@ export const Assets = {
   close,
   logoMinimal,
   logoMinimalWhite,
+  power,
+  restart,
+  toggle,
 }
 
 export const Icons = {

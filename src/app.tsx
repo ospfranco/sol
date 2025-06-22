@@ -15,6 +15,7 @@ const userTheme = vars({
 
 LogBox.ignoreLogs(['Sending '])
 
+// @ts-ignore
 remapProps(LegendList, {
   className: 'style',
   contentContainerClassName: 'contentContainerStyle',

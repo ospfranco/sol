@@ -15,7 +15,7 @@ export function createBaseItems(store: IRootStore) {
   let items: Item[] = [
     {
       id: 'toggle_appearance',
-      iconImage: Assets.DarkModeIcon,
+      iconImage: Assets.toggle,
       name: 'Toggle system appearance',
       alias: 'dark',
       type: ItemType.CONFIGURATION,
@@ -41,7 +41,7 @@ export function createBaseItems(store: IRootStore) {
     },
     {
       id: 'restart',
-      icon: '🖥️',
+      iconImage: Assets.restart,
       name: 'Restart',
       preventClose: true,
       type: ItemType.CONFIGURATION,
@@ -60,7 +60,7 @@ export function createBaseItems(store: IRootStore) {
     },
     {
       id: 'shut_down',
-      icon: '🌑',
+      iconImage: Assets.power,
       name: 'Shut Down',
       type: ItemType.CONFIGURATION,
       preventClose: true,

@@ -50,7 +50,10 @@ const RenderItem = observer(
   },
 )
 
-function isPngOrJpg(url: string) {
+function isPngOrJpg(url: string | null | undefined) {
+  if (!url) {
+    return false
+  }
   let lowercaseUrl = url.toLowerCase()
   return (
     lowercaseUrl.includes('.png') ||
