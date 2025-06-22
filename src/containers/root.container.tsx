@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import {FullCalendar} from 'components/FullCalendar'
 import {PermissionsBar} from 'components/PermissionsBar'
 import {observer} from 'mobx-react-lite'
-import {View} from 'react-native'
+import {Text, TouchableOpacity, View} from 'react-native'
 import {useStore} from 'store'
 import {Widget} from 'stores/ui.store'
 import {ClipboardWidget} from 'widgets/clipboard.widget'
@@ -106,5 +106,27 @@ export const RootContainer = observer(() => {
     )
   }
 
-  return <View onLayout={store.ui.setWindowHeight}>{subWindow}</View>
+  return (
+    <View>
+      <View onLayout={store.ui.setWindowHeight}>{subWindow}</View>
+      {store.ui.confirmDialogShown && (
+        <View className="absolute bottom-0 top-0 left-0 right-0 bg-black/50 items-center justify-center">
+          <View className="dark:bg-neutral-800 p-6 gap-1 rounded-xl border border-color">
+            <Text className="text font-semibold">{store.ui.confirmTitle}</Text>
+            <Text className="text mb-2">Are you sure you want to proceed?</Text>
+            <TouchableOpacity>
+              <View className="rounded-full bg-accent-strong w-full p-2 items-center justify-center">
+                <Text>Proceed</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <View className="rounded-full w-full p-2 dark:bg-neutral-600 items-center justify-center">
+                <Text>Cancel</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
+    </View>
+  )
 })

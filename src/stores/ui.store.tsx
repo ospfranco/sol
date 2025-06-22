@@ -310,6 +310,9 @@ export const createUIStore = (root: IRootStore) => {
     isVisible: false,
     showKeyboardRecorder: false,
     keyboardRecorderSelectedItem: null as string | null,
+    confirmDialogShown: false,
+    confirmCallback: null as (() => any) | null,
+    confirmTitle: null as string | null,
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -977,6 +980,21 @@ export const createUIStore = (root: IRootStore) => {
         return
       }
       store.setShortcut(itemId, shortcut.join('+'))
+    },
+    confirm: async (title: string, callback: () => any) => {
+      store.confirmDialogShown = true
+      store.confirmCallback = callback
+      store.confirmTitle = title
+    },
+    closeConfirm: () => {
+      store.confirmDialogShown = false
+      store.confirmCallback = null
+      store.confirmTitle = null
+    },
+    executeConfirmCallback: async () => {
+      let callback = store.confirmCallback
+      store.closeConfirm()
+      await callback?.()
     },
   })
 

@@ -85,6 +85,11 @@ export const createKeystrokeStore = (root: IRootStore) => {
 
         // enter key
         case 36: {
+          if (root.ui.confirmDialogShown) {
+            root.ui.executeConfirmCallback()
+            return
+          }
+
           root.ui.setHistoryPointer(0)
           switch (root.ui.focusedWidget) {
             case Widget.FILE_SEARCH: {
@@ -423,6 +428,11 @@ export const createKeystrokeStore = (root: IRootStore) => {
 
         // esc key
         case 53: {
+          if (root.ui.confirmDialogShown) {
+            root.ui.closeConfirm()
+            return
+          }
+
           switch (root.ui.focusedWidget) {
             case Widget.SEARCH:
             case Widget.EMOJIS:

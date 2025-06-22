@@ -42,30 +42,36 @@ export function createBaseItems(store: IRootStore) {
     {
       id: 'restart',
       icon: '🖥️',
-      name: 'Restart System',
+      name: 'Restart',
+      preventClose: true,
       type: ItemType.CONFIGURATION,
       callback: async () => {
-        try {
-          await solNative.executeAppleScript(
-            'tell application "Finder" to restart',
-          )
-          solNative.showToast('Restarting', 'success')
-        } catch (e) {
-          solNative.showToast(`Could not restart: ${e}`, 'error')
-        }
+        store.ui.confirm('Restart Computer', async () => {
+          try {
+            await solNative.executeAppleScript(
+              'tell application "Finder" to restart',
+            )
+            solNative.showToast('Restarting', 'success')
+          } catch (e) {
+            solNative.showToast(`Could not restart: ${e}`, 'error')
+          }
+        })
       },
     },
     {
-      id: 'power_off',
+      id: 'shut_down',
       icon: '🌑',
-      name: 'Power Off System',
+      name: 'Shut Down',
       type: ItemType.CONFIGURATION,
+      preventClose: true,
       callback: async () => {
         try {
-          await solNative.executeAppleScript(
-            'tell application "Finder" to shut down',
-          )
-          solNative.showToast('Shutting down', 'success')
+          store.ui.confirm('Shut Down', async () => {
+            await solNative.executeAppleScript(
+              'tell application "Finder" to shut down',
+            )
+            solNative.showToast('Shutting down', 'success')
+          })
         } catch (e) {
           solNative.showToast(`Could not power off: ${e}`, 'error')
         }
@@ -678,16 +684,19 @@ export function createBaseItems(store: IRootStore) {
       icon: '🗑️',
       name: 'Empty Trash',
       type: ItemType.CONFIGURATION,
+      preventClose: true,
       alias: 'trash',
       callback: async () => {
-        try {
-          await solNative.executeAppleScript(
-            `tell application "Finder" to empty trash`,
-          )
-          solNative.showToast('Trash emptied', 'success')
-        } catch (e) {
-          solNative.showToast(`Could not empty trash: ${e}`, 'error')
-        }
+        store.ui.confirm('Clear Trash', async () => {
+          try {
+            await solNative.executeAppleScript(
+              `tell application "Finder" to empty trash`,
+            )
+            solNative.showToast('Trash emptied', 'success')
+          } catch (e) {
+            solNative.showToast(`Could not empty trash: ${e}`, 'error')
+          }
+        })
       },
     },
     {
