@@ -111,7 +111,7 @@ export const RootContainer = observer(() => {
       <View onLayout={store.ui.setWindowHeight}>{subWindow}</View>
       {store.ui.confirmDialogShown && (
         <View className="absolute bottom-0 top-0 left-0 right-0 bg-black/50 items-center justify-center">
-          <View className="dark:bg-neutral-800 p-6 gap-1 rounded-xl border border-color">
+          <View className="bg-white dark:bg-neutral-800 p-6 gap-1 rounded-xl border border-color">
             <Text className="text font-semibold">{store.ui.confirmTitle}</Text>
             <Text className="text mb-2">Are you sure you want to proceed?</Text>
             <TouchableOpacity
@@ -119,14 +119,14 @@ export const RootContainer = observer(() => {
                 store.ui.executeConfirmCallback()
               }}>
               <View className="rounded-full bg-accent-strong w-full p-2 items-center justify-center">
-                <Text>Proceed</Text>
+                <Text className="text-white">Proceed</Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
                 store.ui.closeConfirm()
               }}>
-              <View className="rounded-full w-full p-2 dark:bg-neutral-600 items-center justify-center">
+              <View className="rounded-full w-full p-2 bg-neutral-200 dark:bg-neutral-600 items-center justify-center">
                 <Text>Cancel</Text>
               </View>
             </TouchableOpacity>
