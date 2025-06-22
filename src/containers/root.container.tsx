@@ -114,12 +114,18 @@ export const RootContainer = observer(() => {
           <View className="dark:bg-neutral-800 p-6 gap-1 rounded-xl border border-color">
             <Text className="text font-semibold">{store.ui.confirmTitle}</Text>
             <Text className="text mb-2">Are you sure you want to proceed?</Text>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                store.ui.executeConfirmCallback()
+              }}>
               <View className="rounded-full bg-accent-strong w-full p-2 items-center justify-center">
                 <Text>Proceed</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                store.ui.closeConfirm()
+              }}>
               <View className="rounded-full w-full p-2 dark:bg-neutral-600 items-center justify-center">
                 <Text>Cancel</Text>
               </View>
