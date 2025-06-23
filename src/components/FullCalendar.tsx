@@ -1,41 +1,43 @@
 import clsx from 'clsx'
 import {DateTime} from 'luxon'
 import {observer} from 'mobx-react-lite'
-import {FC} from 'react'
-import {
-  Linking,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native'
+import {FC, useCallback, useMemo} from 'react'
+import {Linking, Text, TouchableWithoutFeedback, View} from 'react-native'
 import {useStore} from 'store'
 import {Key} from './Key'
 import {useBoolean} from 'hooks'
 import {LoadingBar} from './LoadingBar'
+import {LegendList} from '@legendapp/list'
 
 const CalendarItem = ({item}: {item: INativeEvent}) => {
   let store = useStore()
   let [hovered, hoverOn, hoverOff] = useBoolean()
   let lStart = DateTime.fromISO(item.date)
 
+  let pressCallback = useCallback(() => {
+    try {
+      if (item.eventLink) {
+        Linking.openURL(item.eventLink)
+      } else {
+        Linking.openURL('ical://' + item.id)
+      }
+    } catch (error) {
+      console.error('Failed to open calendar event:', error)
+    }
+  }, [item])
+
+  const style = useMemo(() => {
+    return {
+      backgroundColor: item.color,
+    }
+  }, [item])
+
   return (
     <TouchableWithoutFeedback
       // @ts-expect-error
       onMouseEnter={hoverOn}
       onMouseLeave={hoverOff}
-      onPress={() => {
-        try {
-          if (item.eventLink) {
-            Linking.openURL(item.eventLink)
-          } else {
-            Linking.openURL('ical://' + item.id)
-          }
-        } catch (error) {
-          console.error('Failed to open calendar event:', error)
-        }
-      }}>
+      onPress={pressCallback}>
       <View
         className={clsx(
           'flex-row items-center gap-1 mx-2 px-2 py-1 rounded-lg',
@@ -44,14 +46,12 @@ const CalendarItem = ({item}: {item: INativeEvent}) => {
           },
         )}>
         <View
-          className={clsx('rounded-full justify-center items-center', {
+          className={clsx(`rounded-full justify-center items-center`, {
             'h-2 w-2 mx-1 rotate-45': item.status === 1,
             'h-2 w-2 mx-1': item.status !== 1,
             'rounded-sm': item.isAllDay,
           })}
-          style={{
-            backgroundColor: item.color,
-          }}
+          style={style}
         />
 
         <Text
@@ -59,19 +59,12 @@ const CalendarItem = ({item}: {item: INativeEvent}) => {
           className={clsx(
             'flex-1 pr-10 text-sm dark:text-stone-300 text-neutral-600',
             {
-              'line-through': item.declined || item.eventStatus === 3,
               'font-semibold': store.calendar.upcomingEvent?.id === item.id,
               'text-white': hovered,
             },
           )}>
           {item.title?.trim()}
         </Text>
-
-        {store.calendar.upcomingEvent?.id === item.id &&
-          item.eventStatus !== 3 &&
-          !!store.calendar.upcomingEvent.eventLink && (
-            <Key className="mr-2" title={'Join'} symbol="return" primary />
-          )}
 
         {!item.isAllDay && (
           <Text
@@ -105,6 +98,23 @@ const CalendarItem = ({item}: {item: INativeEvent}) => {
   )
 }
 
+const RenderItem = ({item}: any) => {
+  return (
+    <View>
+      <View className="mx-3 p-2 gap-1">
+        <Text className="capitalize text-neutral-400 dark:text-neutral-500 text-sm">
+          {item.date.toRelativeCalendar({
+            unit: 'days',
+          })}
+        </Text>
+      </View>
+      {item.data.map((item: INativeEvent) => (
+        <CalendarItem key={item.id} item={item} />
+      ))}
+    </View>
+  )
+}
+
 export let FullCalendar: FC = observer(() => {
   let store = useStore()
 
@@ -117,24 +127,15 @@ export let FullCalendar: FC = observer(() => {
   return (
     <>
       <LoadingBar />
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {groupedEvents.map(section => {
-          return (
-            <View key={section.date.toISO()}>
-              <View className="mx-3 p-2 gap-1">
-                <Text className="capitalize text-neutral-400 dark:text-neutral-500 text-sm">
-                  {section.date.toRelativeCalendar({
-                    unit: 'days',
-                  })}
-                </Text>
-              </View>
-              {section.data.map((item: INativeEvent) => (
-                <CalendarItem key={item.id} item={item} />
-              ))}
-            </View>
-          )
-        })}
-      </ScrollView>
+      <LegendList
+        data={groupedEvents}
+        className="flex-1"
+        showsVerticalScrollIndicator={false}
+        keyExtractor={section => section.date.toString()}
+        renderItem={RenderItem}
+        contentContainerStyle={{flexGrow: 1}}
+        recycleItems
+      />
     </>
   )
 })
