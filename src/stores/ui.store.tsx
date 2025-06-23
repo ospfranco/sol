@@ -25,7 +25,7 @@ import plist from '@expo/plist'
 import MiniSearch from 'minisearch'
 import * as Sentry from '@sentry/react-native'
 import {storage} from './storage'
-import {defaultShortcuts, validShortcutTokensRegex} from 'lib/shorcuts'
+import {defaultShortcuts} from 'lib/shorcuts'
 
 const exprParser = new Parser()
 
@@ -68,33 +68,6 @@ export enum ScratchPadColor {
   ORANGE = 'ORANGE',
 }
 
-let stopWords = new Set([
-  'and',
-  'or',
-  'to',
-  'in',
-  'a',
-  'the',
-  'is',
-  'of',
-  'on',
-  'with',
-  'how',
-  'when',
-  'where',
-  'why',
-  'who',
-  'which',
-  'at',
-  'from',
-  'by',
-  'that',
-  'this',
-  'my',
-  'your',
-  'do',
-])
-
 let minisearch = new MiniSearch({
   fields: ['name', 'alias'],
   storeFields: [
@@ -118,9 +91,8 @@ let minisearch = new MiniSearch({
     'isRunning',
     'bookmarkFolder',
   ],
-  tokenize: (text: string, fieldName?: string) => {
-    return text.split(/[\s\.]+/)
-  },
+  tokenize: (text: string, fieldName?: string) =>
+    text.toLowerCase().split(/[\s\.]+/),
 })
 
 const userName = solNative.userName()
@@ -142,6 +114,14 @@ const itemsThatShouldShowWindow = [
   'process_manager',
   'scratchpad',
 ]
+
+function getInitials(name: string) {
+  return name
+    .toLowerCase()
+    .split(' ')
+    .map(s => s.charAt(0))
+    .join('')
+}
 
 export const createUIStore = (root: IRootStore) => {
   let persist = async () => {
@@ -648,22 +628,24 @@ export const createUIStore = (root: IRootStore) => {
           continue
         }
 
-        let alias = null
-        const plistPath = decodeURIComponent(
-          url.replace('file://', '') + 'Contents/Info.plist',
-        )
+        let alias = getInitials(name)
+        // const plistPath = decodeURIComponent(
+        //   url.replace('file://', '') + 'Contents/Info.plist',
+        // )
 
-        if (solNative.exists(plistPath)) {
-          try {
-            let plistContent = solNative.readFile(plistPath)
-            if (plistContent != null) {
-              const properties = plist.parse(plistContent)
-              alias = properties.CFBundleIdentifier
-            }
-          } catch (e) {
-            // intentionally left blank
-          }
-        }
+        // if (solNative.exists(plistPath)) {
+        //   try {
+        //     let plistContent = solNative.readFile(plistPath)
+        //     if (plistContent != null) {
+        //       const properties = plist.parse(plistContent)
+        //       alias = properties.CFBundleIdentifier ?? '' + getInitials(name)
+        //     } else {
+        //       alias = getInitials(name)
+        //     }
+        //   } catch (e) {
+        //     // intentionally left blank
+        //   }
+        // }
 
         appsRecord[url] = {
           id: url,

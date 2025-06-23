@@ -25,9 +25,11 @@ class Application {
 @objc public class ApplicationSearcher: NSObject {
   let searchDepth = 4
   let fileManager = FileManager()
+  
   let isAliasResourceKey: [URLResourceKey] = [
     .isAliasFileKey
   ]
+  
   let resourceKeys: [URLResourceKey] = [
     .isExecutableKey,
     .isApplicationKey,
@@ -86,7 +88,7 @@ class Application {
       }
 
       // Get initial applications
-      lastApplications = try getAllApplications()
+      lastApplications = getAllApplications()
 
       // Set up the FSEvents stream
       var context = FSEventStreamContext(
@@ -215,7 +217,7 @@ class Application {
       SentrySDK.capture(error: error)
     }
 
-    var applications = [Application]()
+    var applications = [String:Application]()
 
     for var url in appUrls {
       do {
@@ -240,14 +242,8 @@ class Application {
         if resourceValues.isExecutable! && resourceValues.isApplication! {
           let name = url.deletingPathExtension().lastPathComponent
           let urlStr = url.absoluteString
-          let isRunning =
-            runningApps.first(where: {
-              $0.bundleURL?.absoluteString == urlStr
-            }) != nil
-
-          applications.append(
-            Application(name: name, url: urlStr, isRunning: isRunning)
-          )
+          
+          applications[urlStr] = Application(name: name, url: urlStr, isRunning: false)
         }
       } catch {
         let breadcrumb = Breadcrumb(level: .info, category: "custom")
@@ -257,8 +253,17 @@ class Application {
         SentrySDK.capture(error: error)
       }
     }
+    
+    // Iterate through the running apps and mark those running
+    for runningApp in runningApps {
+      if let runningBundleUrl = runningApp.bundleURL?.absoluteString {
+        if let application =  applications[runningBundleUrl] {
+          application.isRunning = true
+        }
+      }
+    }
 
-    return applications.map { $0.toDictionary() }
+    return applications.values.map { $0.toDictionary() }
   }
 
   private func getApplicationUrlsAt(_ url: URL, depth: Int = 0) -> [URL] {
