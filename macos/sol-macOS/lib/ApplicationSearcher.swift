@@ -25,11 +25,11 @@ class Application {
 @objc public class ApplicationSearcher: NSObject {
   let searchDepth = 4
   let fileManager = FileManager()
-  
+
   let isAliasResourceKey: [URLResourceKey] = [
     .isAliasFileKey
   ]
-  
+
   let resourceKeys: [URLResourceKey] = [
     .isExecutableKey,
     .isApplicationKey,
@@ -49,23 +49,43 @@ class Application {
     URL(fileURLWithPath: "/System/Library/CoreServices/Finder.app")
   ]
 
+  let ignoredPatterns: Set<String> = [
+    "Audio MIDI Setup.app",
+    "Script Editor.app",
+    "Grapher.app",
+    "Screenshot.app",
+    "Airport Utility.app",
+    "ColorSync Utility.app",
+    "Bluetooth File Exchange.app",
+    "Tips",
+    "Siri.app",
+    ".DS_Store",
+    ".localized",
+    "Icon",
+    "en_US.strings",
+    "Tips.app"
+  ]
+
   // Application directories to watch
   private var watchedDirectories: [String] = []
 
   override init() {
     super.init()
-    
+
     if #unavailable(macOS 14) {
       fixedUrls.append(
         URL(
-          fileURLWithPath: "/System/Library/CoreServices/Applications/Screen Sharing.app"
+          fileURLWithPath:
+            "/System/Library/CoreServices/Applications/Screen Sharing.app"
         )
       )
     }
-    
+
     if #available(macOS 15, *) {
       fixedUrls.append(
-        URL(fileURLWithPath: "/System/Library/CoreServices/Applications/Keychain Access.app")
+        URL(
+          fileURLWithPath:
+            "/System/Library/CoreServices/Applications/Keychain Access.app")
       )
     }
   }
@@ -110,7 +130,8 @@ class Application {
         ) in
         // Get reference to self from context
         guard let info = clientCallBackInfo else { return }
-        let myself = Unmanaged<ApplicationSearcher>.fromOpaque(info).takeUnretainedValue()
+        let myself = Unmanaged<ApplicationSearcher>.fromOpaque(info)
+          .takeUnretainedValue()
 
         // Process file changes
         myself.processFileChanges()
@@ -131,7 +152,8 @@ class Application {
       )
 
       if let eventStream = eventStream {
-        let backgroundQueue = DispatchQueue(label: "com.sol.fsevents", qos: .utility)
+        let backgroundQueue = DispatchQueue(
+          label: "com.sol.fsevents", qos: .utility)
         FSEventStreamSetDispatchQueue(eventStream, backgroundQueue)
         FSEventStreamStart(eventStream)
         isWatchingFolders = true
@@ -157,7 +179,8 @@ class Application {
 
   private func processFileChanges() {
     // Delay processing to batch events together
-    DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 1.0) { [weak self] in
+    DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 1.0) {
+      [weak self] in
       guard let self = self else { return }
       self.onApplicationsChanged?()
     }
@@ -202,6 +225,7 @@ class Application {
   @objc public func getAllApplications() -> [[String: Any]] {
     var appUrls: [URL] = []
     appUrls.append(contentsOf: fixedUrls)
+
     let runningApps = NSWorkspace.shared.runningApplications
 
     do {
@@ -209,7 +233,6 @@ class Application {
       for directory in directories {
         appUrls.append(contentsOf: getApplicationUrlsAt(directory))
       }
-
     } catch {
       let breadcrumb = Breadcrumb(level: .info, category: "custom")
       breadcrumb.message = "Error getting all applications at localDomainMask"
@@ -217,11 +240,12 @@ class Application {
       SentrySDK.capture(error: error)
     }
 
-    var applications = [String:Application]()
+    var applications = [String: Application]()
 
     for var url in appUrls {
       do {
-        let resourceValues = try url.resourceValues(forKeys: Set(isAliasResourceKey))
+        let resourceValues = try url.resourceValues(
+          forKeys: Set(isAliasResourceKey))
         if resourceValues.isAliasFile! {
           url = try URL(resolvingAliasFileAt: url)
         }
@@ -242,8 +266,9 @@ class Application {
         if resourceValues.isExecutable! && resourceValues.isApplication! {
           let name = url.deletingPathExtension().lastPathComponent
           let urlStr = url.absoluteString
-          
-          applications[urlStr] = Application(name: name, url: urlStr, isRunning: false)
+
+          applications[urlStr] = Application(
+            name: name, url: urlStr, isRunning: false)
         }
       } catch {
         let breadcrumb = Breadcrumb(level: .info, category: "custom")
@@ -253,11 +278,11 @@ class Application {
         SentrySDK.capture(error: error)
       }
     }
-    
+
     // Iterate through the running apps and mark those running
     for runningApp in runningApps {
       if let runningBundleUrl = runningApp.bundleURL?.absoluteString {
-        if let application =  applications[runningBundleUrl] {
+        if let application = applications[runningBundleUrl] {
           application.isRunning = true
         }
       }
@@ -274,9 +299,18 @@ class Application {
     if depth > searchDepth {
       return []
     }
+    
+    if ignoredPatterns.contains(url.lastPathComponent) {
+      return []
+    }
+
+    if url.pathExtension == "app" {
+      return [url]
+    }
+    
 
     do {
-      if !url.path.contains(".app") && url.hasDirectoryPath {
+      if url.hasDirectoryPath {
         var urls: [URL] = []
         let contents = try fileManager.contentsOfDirectory(
           at: url,
@@ -284,22 +318,17 @@ class Application {
           options: [
             .skipsSubdirectoryDescendants,
             .skipsPackageDescendants,
-            //            .skipsHiddenFiles, do not skip hidden files, then safari is not listed
           ]
         )
 
         contents.forEach {
-          if !$0.path.contains(".app") && $0.hasDirectoryPath {
-            let subUrls = getApplicationUrlsAt($0, depth: depth + 1)
-            urls.append(contentsOf: subUrls)
-          } else {
-            urls.append($0)
-          }
+          let subUrls = getApplicationUrlsAt($0, depth: depth + 1)
+          urls.append(contentsOf: subUrls)
         }
 
         return urls
       } else {
-        return [url]
+        return []
       }
     } catch {
       if (error as NSError).domain == NSCocoaErrorDomain
@@ -309,7 +338,8 @@ class Application {
       }
 
       let breadcrumb = Breadcrumb(level: .info, category: "custom")
-      breadcrumb.message = "Could not resolve apps url at \(url): \(error.localizedDescription)"
+      breadcrumb.message =
+        "Could not resolve apps url at \(url): \(error.localizedDescription)"
       SentrySDK.addBreadcrumb(breadcrumb)
       SentrySDK.capture(error: error)
       return []
