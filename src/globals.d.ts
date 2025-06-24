@@ -97,7 +97,8 @@ interface ITrackingProject {
 type Item = {
   id: string
   icon?: string
-  iconImage?: ImageURISource | number | ImageURISource[]
+  iconImage?: any
+  faviconFallback?: any
   IconComponent?: FC<any>
   color?: string
   url?: string

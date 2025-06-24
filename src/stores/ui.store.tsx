@@ -1,6 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import {Assets} from 'assets'
-import {FileIcon} from 'components/FileIcon'
 import {Parser} from 'expr-eval'
 import {solNative} from 'lib/SolNative'
 import {CONSTANTS} from 'lib/constants'
@@ -21,7 +20,6 @@ import {
 } from 'react-native'
 import {IRootStore} from 'store'
 import {createBaseItems} from './items'
-import plist from '@expo/plist'
 import MiniSearch from 'minisearch'
 import * as Sentry from '@sentry/react-native'
 import {storage} from './storage'
@@ -90,9 +88,10 @@ let minisearch = new MiniSearch({
     'isFavorite',
     'isRunning',
     'bookmarkFolder',
+    'faviconFallback',
   ],
   tokenize: (text: string, fieldName?: string) =>
-    text.toLowerCase().split(/[\s\.]+/),
+    text.toLowerCase().split(/[\s\.-]+/),
 })
 
 const userName = solNative.userName()
@@ -121,6 +120,20 @@ function getInitials(name: string) {
     .split(' ')
     .map(s => s.charAt(0))
     .join('')
+}
+
+function traverse(
+  bookmarks: any[],
+  nodes: any[],
+  bookmarkFolder: null | string,
+) {
+  nodes.forEach(node => {
+    if (node.type === 'folder') {
+      traverse(bookmarks, node.children, node.name)
+    } else if (node.type === 'url') {
+      bookmarks.push({title: node.name, url: node.url, bookmarkFolder})
+    }
+  })
 }
 
 export const createUIStore = (root: IRootStore) => {
@@ -212,6 +225,8 @@ export const createUIStore = (root: IRootStore) => {
       )
       solNative.setMediaKeyForwardingEnabled(store.mediaKeyForwardingEnabled)
       solNative.updateHotkeys(toJS(store.shortcuts))
+
+      store.username = solNative.userName()
       store.getApps()
       store.migrateCustomItems()
     } else {
@@ -230,6 +245,7 @@ export const createUIStore = (root: IRootStore) => {
     //  | |  | | '_ \/ __|/ _ \ '__\ \ / / _` | '_ \| |/ _ \/ __|
     //  | |__| | |_) \__ \  __/ |   \ V / (_| | |_) | |  __/\__ \
     //   \____/|_.__/|___/\___|_|    \_/ \__,_|_.__/|_|\___||___/
+    username: '',
     note: '',
     isAccessibilityTrusted: false,
     calendarAuthorizationStatus: null as CalendarAuthorizationStatus | null,
@@ -260,21 +276,9 @@ export const createUIStore = (root: IRootStore) => {
     showAllDayEvents: true,
     launchAtLogin: true,
     hasFullDiskAccess: false,
-    safariBookmarks: [] as {
-      title: string
-      url: string
-      bookmarkFolder: string | null
-    }[],
-    braveBookmarks: [] as {
-      title: string
-      url: string
-      bookmarkFolder: string | null
-    }[],
-    chromeBookmarks: [] as {
-      title: string
-      url: string
-      bookmarkFolder: string | null
-    }[],
+    safariBookmarks: [] as Item[],
+    braveBookmarks: [] as Item[],
+    chromeBookmarks: [] as Item[],
     mediaKeyForwardingEnabled: true,
     targetHeight: 64,
     isDarkMode: Appearance.getColorScheme() === 'dark',
@@ -328,72 +332,14 @@ export const createUIStore = (root: IRootStore) => {
     get items(): Item[] {
       let allItems = [
         ...store.apps,
-        ...baseItems.map(i => {
-          if (i.name === 'Clipboard Manager') {
-            return {
-              ...i,
-              shortcut:
-                store.clipboardManagerShortcut === 'option'
-                  ? '⌘ + ⌥ + V'
-                  : '⌘ + ⇧ + V',
-            }
-          }
-
-          return i
-        }),
+        ...baseItems,
         ...store.customItems,
         ...(store.showInAppBrowserBookMarks
-          ? store.safariBookmarks.map((bookmark, idx): Item => {
-              return {
-                id: `${bookmark.title}_safari_${idx}`,
-                name: bookmark.title,
-                type: ItemType.BOOKMARK,
-                bookmarkFolder: null,
-                iconImage: Assets.Safari,
-                callback: () => {
-                  Linking.openURL(bookmark.url)
-                },
-              }
-            })
-          : []),
-        ...(store.showInAppBrowserBookMarks
-          ? store.braveBookmarks.map((bookmark, idx): Item => {
-              return {
-                id: `${bookmark.title}_brave_${idx}`,
-                name: bookmark.title,
-                bookmarkFolder: bookmark.bookmarkFolder,
-                type: ItemType.BOOKMARK,
-                iconImage: Assets.Brave,
-                callback: () => {
-                  Linking.openURL(bookmark.url)
-                },
-              }
-            })
-          : []),
-        ...(store.showInAppBrowserBookMarks
-          ? store.chromeBookmarks.map((bookmark, idx): Item => {
-              return {
-                id: `${bookmark.title}_chrome_${idx}`,
-                name: bookmark.title,
-                type: ItemType.BOOKMARK,
-                bookmarkFolder: bookmark.bookmarkFolder,
-                iconImage: Assets.Chrome,
-                callback: async () => {
-                  if (!bookmark.url) {
-                    solNative.showToast(
-                      'Cannot open bookmark without url',
-                      'error',
-                    )
-                  }
-
-                  try {
-                    await Linking.openURL(bookmark.url)
-                  } catch (e) {
-                    solNative.showToast(`Could not open url: ${e}`, 'error')
-                  }
-                },
-              }
-            })
+          ? [
+              ...store.safariBookmarks,
+              ...store.braveBookmarks,
+              ...store.chromeBookmarks,
+            ]
           : []),
       ]
 
@@ -403,17 +349,8 @@ export const createUIStore = (root: IRootStore) => {
       }
 
       if (minisearch.documentCount === 0) {
-        for (let item of allItems) {
-          if (!item.id) {
-            Sentry.captureMessage('Item without id', {
-              level: 'warning',
-              extra: {item},
-            })
-          }
-        }
         minisearch.addAll(allItems)
       } else {
-        // Update the search index by adding any new items
         for (let item of allItems) {
           if (!minisearch.has(item.id)) {
             minisearch.add(item)
@@ -453,7 +390,7 @@ export const createUIStore = (root: IRootStore) => {
               {
                 id: 'open_url',
                 type: ItemType.CONFIGURATION,
-                name: 'Open Url',
+                name: 'Open URL',
                 icon: '🌎',
                 callback: () => {
                   if (store.query.startsWith('https://')) {
@@ -467,26 +404,6 @@ export const createUIStore = (root: IRootStore) => {
           : []),
         ...temporaryResultItems,
         ...results,
-        ...store.fileResults.map(f => ({
-          id: f.path,
-          name: f.filename,
-          subName:
-            f.path.length > 60
-              ? `...${f.path.substring(f.path.length - 60, f.path.length)}`
-              : f.path,
-          type: ItemType.CONFIGURATION,
-          IconComponent: (...props: any[]) => (
-            <FileIcon url={f.path} className="w-4 h-4" {...props} />
-          ),
-          callback: () => {
-            Linking.openURL(f.path)
-          },
-          metaCallback: () => {
-            if (f.kind !== 'Folder') {
-              Linking.openURL(f.location)
-            }
-          },
-        })),
       ]
 
       return finalResults
@@ -779,40 +696,66 @@ export const createUIStore = (root: IRootStore) => {
     },
     getSafariBookmarks: async () => {
       if (store.hasFullDiskAccess) {
-        const safariBookmarks = await solNative.getSafariBookmarks()
+        const safariBookmarksRaw = await solNative.getSafariBookmarks()
 
         runInAction(() => {
-          store.safariBookmarks = safariBookmarks
+          store.safariBookmarks = safariBookmarksRaw.map(
+            (bookmark: any, idx: number): Item => {
+              return {
+                id: `${bookmark.title}_safari`,
+                name: bookmark.title,
+                type: ItemType.BOOKMARK,
+                bookmarkFolder: null,
+                faviconFallback: Assets.Safari,
+                url: bookmark.url,
+                callback: () => {
+                  Linking.openURL(bookmark.url)
+                },
+              }
+            },
+          )
         })
       }
     },
     getBraveBookmarks: async () => {
-      const username = solNative.userName()
-      const path = `/Users/${username}/Library/Application Support/BraveSoftware/Brave-Browser/Default/Bookmarks`
+      const path = `/Users/${store.username}/Library/Application Support/BraveSoftware/Brave-Browser/Default/Bookmarks`
       const exists = solNative.exists(path)
-      if (exists) {
-        const bookmarksString = solNative.readFile(path)
-        if (!bookmarksString) {
-          return
-        }
-        const OGbookmarks = JSON.parse(bookmarksString)
-        let bookmarks: {
-          title: string
-          url: string
-          bookmarkFolder: null | string
-        }[] = []
-        const traverse = (nodes: any[], bookmarkFolder: null | string) => {
-          nodes.forEach(node => {
-            if (node.type === 'folder') {
-              traverse(node.children, node.name)
-            } else if (node.type === 'url') {
-              bookmarks.push({title: node.name, url: node.url, bookmarkFolder})
-            }
-          })
-        }
-        traverse(OGbookmarks.roots.bookmark_bar.children, null)
-        store.braveBookmarks = bookmarks
+      if (!exists) {
+        return
       }
+
+      const bookmarksString = solNative.readFile(path)
+      if (!bookmarksString) {
+        return
+      }
+
+      const OGbookmarks = JSON.parse(bookmarksString)
+
+      let bookmarks: {
+        title: string
+        url: string
+        bookmarkFolder: null | string
+      }[] = []
+
+      traverse(bookmarks, OGbookmarks.roots.bookmark_bar.children, null)
+
+      store.braveBookmarks = bookmarks.map((bookmark, idx): Item => {
+        return {
+          id: `${bookmark.title}_brave_${idx}`,
+          name: bookmark.title,
+          bookmarkFolder: bookmark.bookmarkFolder,
+          type: ItemType.BOOKMARK,
+          faviconFallback: Assets.Brave,
+          url: bookmark.url,
+          callback: () => {
+            try {
+              Linking.openURL(bookmark.url)
+            } catch (e) {
+              // intentionally left blank
+            }
+          },
+        }
+      })
     },
     getChromeBookmarks: async () => {
       const username = solNative.userName()
@@ -829,17 +772,21 @@ export const createUIStore = (root: IRootStore) => {
           url: string
           bookmarkFolder: null | string
         }[] = []
-        const traverse = (nodes: any[], bookmarkFolder: null | string) => {
-          nodes.forEach(node => {
-            if (node.type === 'folder') {
-              traverse(node.children, node.name)
-            } else if (node.type === 'url') {
-              bookmarks.push({title: node.name, url: node.url, bookmarkFolder})
-            }
-          })
-        }
-        traverse(OGbookmarks.roots.bookmark_bar.children, null)
-        store.chromeBookmarks = bookmarks
+
+        traverse(bookmarks, OGbookmarks.roots.bookmark_bar.children, null)
+        store.chromeBookmarks = bookmarks.map((bookmark, idx): Item => {
+          return {
+            id: `${bookmark.title}_brave_${idx}`,
+            name: bookmark.title,
+            bookmarkFolder: bookmark.bookmarkFolder,
+            type: ItemType.BOOKMARK,
+            faviconFallback: Assets.Chrome,
+            url: bookmark.url,
+            callback: () => {
+              Linking.openURL(bookmark.url)
+            },
+          }
+        })
       }
     },
 

@@ -15,7 +15,6 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@expo/plist": "^0.0.20",
     "@legendapp/list": "^1.0.17",
     "@react-native-async-storage/async-storage": "^1.23.1",
     "@sentry/react-native": "6.15.0",
@@ -40,6 +39,7 @@
     "react-native-macos": "^0.78.3",
     "react-native-mmkv": "2.12.2",
     "react-native-reanimated": "^3.8.1",
+    "react-native-url-polyfill": "^2.0.0",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

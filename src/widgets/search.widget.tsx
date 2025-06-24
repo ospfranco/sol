@@ -1,6 +1,7 @@
 import {LegendList, LegendListRef} from '@legendapp/list'
 import {Icons} from 'assets'
 import clsx from 'clsx'
+import Favicon from 'components/Favicon'
 import {FileIcon} from 'components/FileIcon'
 import {Key} from 'components/Key'
 import {LoadingBar} from 'components/LoadingBar'
@@ -62,7 +63,9 @@ const ItemRow = observer(({item, index}: {item: Item; index: number}) => {
             )}
           />
         )}
-        {!!item.url && <FileIcon url={item.url} className={'w-6 h-6'} />}
+        {!!item.url && item.type != ItemType.BOOKMARK && (
+          <FileIcon url={item.url} className={'w-6 h-6'} />
+        )}
         {item.type !== ItemType.CUSTOM && !!item.icon && (
           <Text>{item.icon}</Text>
         )}
@@ -86,7 +89,11 @@ const ItemRow = observer(({item, index}: {item: Item; index: number}) => {
             resizeMode="contain"
           />
         )}
-        {/* Somehow this component breaks windows build */}
+
+        {item.type === ItemType.BOOKMARK && (
+          <Favicon url={item.url!} fallback={item.faviconFallback} />
+        )}
+
         {(Platform.OS === 'macos' || Platform.OS === 'ios') &&
           !!item.IconComponent && <item.IconComponent />}
         <Text
@@ -102,7 +109,7 @@ const ItemRow = observer(({item, index}: {item: Item; index: number}) => {
         {item.type === ItemType.BOOKMARK && (
           <Text
             className={clsx('darker-text text-xs', {
-              'text-white dark:text-white': isActive,
+              'text-white dark:text-neutral-200': isActive,
             })}>
             Browser Bookmark
           </Text>
