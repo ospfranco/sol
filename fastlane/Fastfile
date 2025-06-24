@@ -26,7 +26,8 @@ platform :mac do
       package: appFileName,
       bundle_id: "com.ospfranco.sol",
       username: "ospfranco@protonmail.com",
-      asc_provider: "24CMR7378R"
+      asc_provider: "24CMR7378R",
+      verbose: true
     )
 
     zip(
