@@ -702,7 +702,7 @@ export const createUIStore = (root: IRootStore) => {
           store.safariBookmarks = safariBookmarksRaw.map(
             (bookmark: any, idx: number): Item => {
               return {
-                id: `${bookmark.title}_safari`,
+                id: `${bookmark.title}_safari_${idx}`,
                 name: bookmark.title,
                 type: ItemType.BOOKMARK,
                 bookmarkFolder: null,

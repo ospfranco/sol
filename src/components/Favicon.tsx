@@ -20,13 +20,11 @@ const Favicon = ({url, fallback}: {url: string; fallback: any}) => {
     )
   }
 
-  console.log(fallback)
-
   return (
-    <View className="relative dark:bg-black">
+    <View className="relative dark:bg-transparent">
       <Image
         source={{uri: firstFail ? fallbackUrl : faviconUrl}}
-        className="w-5 h-5 rounded-lg"
+        className="w-5 h-5 rounded"
         resizeMode="contain"
         onError={() => failedFirst(true)}
       />
