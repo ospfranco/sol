@@ -36,15 +36,26 @@ export const createCalendarStore = (root: IRootStore) => {
     //                        | |
     //                        |_|
 
-    get upcomingEvent(): INativeEvent | undefined {
+    get upcomingEvent(): INativeEvent | null {
+      const lNow = DateTime.now()
       let found = store.events.find(e => {
         const lStart = DateTime.fromISO(e.date)
-        const lNow = DateTime.now()
+        const lEnd = DateTime.fromISO(e.endDate || e.date)
 
-        return (
-          +lStart.plus({minutes: 20}) >= +lNow &&
-          +lStart.diffNow('minutes').minutes <= 15
-        )
+        let isCurrentlyOngoing = +lNow >= +lStart && +lNow <= +lEnd
+
+        if (isCurrentlyOngoing) {
+          return true
+        }
+
+        let isUpcoming =
+          +lStart >= +lNow && +lStart <= +lNow.plus({minutes: 20})
+
+        if (isUpcoming) {
+          return true
+        }
+
+        return false
       })
 
       if (found) {
@@ -56,6 +67,8 @@ export const createCalendarStore = (root: IRootStore) => {
 
         return {...found, eventLink}
       }
+
+      return null
     },
     get groupedEvents(): Array<{
       date: DateTime
@@ -105,7 +118,7 @@ export const createCalendarStore = (root: IRootStore) => {
     //   / ____ \ (__| |_| | (_) | | | \__ \
     //  /_/    \_\___|\__|_|\___/|_| |_|___/
     fetchEvents: async () => {
-      if (!root.ui.calendarEnabled && !root.ui.showUpcomingEvent) {
+      if (!root.ui.showUpcomingEvent) {
         solNative.setStatusBarItemTitle('')
         return
       }
@@ -118,7 +131,7 @@ export const createCalendarStore = (root: IRootStore) => {
       const events = await solNative.getEvents()
 
       runInAction(() => {
-        if (root.ui.calendarEnabled && root.ui.isVisible) {
+        if (root.ui.isVisible) {
           store.events = events
         }
 
@@ -126,14 +139,7 @@ export const createCalendarStore = (root: IRootStore) => {
           return
         }
 
-        const upcomingEvent = events.find(e => {
-          const lStart = DateTime.fromISO(e.date)
-          const lNow = DateTime.now()
-
-          return (
-            +lStart.plus({minute: 10}) >= +lNow && +lStart <= +lNow.endOf('day')
-          )
-        })
+        const upcomingEvent = store.upcomingEvent
 
         if (!upcomingEvent) {
           solNative.setStatusBarItemTitle('')
@@ -144,7 +150,7 @@ export const createCalendarStore = (root: IRootStore) => {
         const minutes = lStart.diffNow('minutes').minutes
 
         if (minutes <= 0) {
-          solNative.setStatusBarItemTitle(`⏰ ${upcomingEvent.title?.trim()}`)
+          solNative.setStatusBarItemTitle(upcomingEvent.title?.trim() ?? '')
           return
         }
 
@@ -162,11 +168,17 @@ export const createCalendarStore = (root: IRootStore) => {
       })
     },
     cleanUp: () => {
-      pollingInterval && clearTimeout(pollingInterval)
+      pollingInterval && clearInterval(pollingInterval)
       onShowListener?.remove()
       onStatusBarItemClickListener?.remove()
     },
     poll: async () => {
+      if (pollingInterval) {
+        clearInterval(pollingInterval)
+      }
+
+      store.fetchEvents()
+
       pollingInterval = setInterval(() => {
         if (root.ui.calendarEnabled) {
           try {
@@ -179,6 +191,7 @@ export const createCalendarStore = (root: IRootStore) => {
       }, 1000 * 60)
     },
     onShow: () => {
+      store.poll()
       store.fetchEvents()
     },
     getCalendarAccess: () => {
@@ -186,22 +199,18 @@ export const createCalendarStore = (root: IRootStore) => {
         solNative.getCalendarAuthorizationStatus()
     },
     onStatusBarItemClick: () => {
-      const event = root.calendar.upcomingEvent
+      const event = store.upcomingEvent
 
       if (!event) {
         Linking.openURL('ical://')
         return
       }
 
-      console.warn('Event', JSON.stringify(event))
-
       let eventLink: string | null | undefined = event.url
 
       if (!eventLink) {
         eventLink = extractMeetingLink(event.notes, event.location)
       }
-
-      console.warn('Event link', eventLink)
 
       if (eventLink) {
         try {
