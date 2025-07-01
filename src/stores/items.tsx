@@ -8,6 +8,7 @@ import {nanoid} from 'nanoid'
 import {v4 as uuidv4} from 'uuid'
 import {systemPreferenceItems} from './systemPreferences'
 import Chance from 'chance'
+import {DateTime} from 'luxon'
 
 const chance = new Chance()
 
@@ -544,6 +545,32 @@ export function createBaseItems(store: IRootStore) {
         )
 
         solNative.showToast('Cleared', 'success')
+      },
+    },
+    {
+      id: 'get_node_version',
+      icon: '🟢',
+      name: 'Get Node Version',
+      type: ItemType.CONFIGURATION,
+      callback: async () => {
+        try {
+          const start = DateTime.now()
+          const output = solNative.executeBashScriptSync(
+            '/usr/local/bin/node --version',
+          )
+          const duration = DateTime.now().diff(
+            start,
+            'milliseconds',
+          ).milliseconds
+          solNative.showToast(
+            `Node version SYNC ${output}: (retrieved in ${duration.toFixed(
+              2,
+            )} ms)`,
+            'success',
+          )
+        } catch (e) {
+          solNative.showToast(`Could not get Node version: ${e}`, 'error')
+        }
       },
     },
     {

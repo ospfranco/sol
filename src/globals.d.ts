@@ -61,6 +61,8 @@ declare var global: {
         isRunning: boolean
       }>
     >
+    executeBashScript: (script: string) => Promise<string>
+    executeBashScriptSync: (script: string) => string
   }
 }
 

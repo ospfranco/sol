@@ -300,40 +300,41 @@ void install(jsi::Runtime &rt,
             }
 
             auto color = [[ekEvent calendar] color];
-            
+
             CGFloat redFloatValue, greenFloatValue, blueFloatValue;
             int redIntValue, greenIntValue, blueIntValue;
             NSString *redHexValue, *greenHexValue, *blueHexValue;
-            
-            // Convert the NSColor to the RGB color space before we can access its
-            // components
-            NSColor *convertedColor =
-            [color colorUsingColorSpace:[NSColorSpace genericRGBColorSpace]];
-            
+
+            // Convert the NSColor to the RGB color space before we can access
+            // its components
+            NSColor *convertedColor = [color
+                colorUsingColorSpace:[NSColorSpace genericRGBColorSpace]];
+
             if (convertedColor) {
               // Get the red, green, and blue components of the color
               [convertedColor getRed:&redFloatValue
                                green:&greenFloatValue
                                 blue:&blueFloatValue
                                alpha:NULL];
-              
-              // Convert the components to numbers (unsigned decimal integer) between
-              // 0 and 255
+
+              // Convert the components to numbers (unsigned decimal integer)
+              // between 0 and 255
               redIntValue = redFloatValue * 255.99999f;
               greenIntValue = greenFloatValue * 255.99999f;
               blueIntValue = blueFloatValue * 255.99999f;
-              
+
               // Convert the numbers to hex strings
               redHexValue = [NSString stringWithFormat:@"%02x", redIntValue];
-              greenHexValue = [NSString stringWithFormat:@"%02x", greenIntValue];
+              greenHexValue =
+                  [NSString stringWithFormat:@"%02x", greenIntValue];
               blueHexValue = [NSString stringWithFormat:@"%02x", blueIntValue];
-              
-              // Concatenate the red, green, and blue components' hex strings together
-              // with a "#"
-              colorString = [NSString stringWithFormat:@"#%@%@%@", redHexValue,
-                             greenHexValue, blueHexValue];
-            }
 
+              // Concatenate the red, green, and blue components' hex strings
+              // together with a "#"
+              colorString =
+                  [NSString stringWithFormat:@"#%@%@%@", redHexValue,
+                                             greenHexValue, blueHexValue];
+            }
 
             jsi::Object event = jsi::Object(rt);
             event.setProperty(rt, "id", [[ekEvent eventIdentifier] UTF8String]);
@@ -550,31 +551,96 @@ void install(jsi::Runtime &rt,
     return promise;
   });
 
-  jsi::Object module = jsi::Object(rt);
+  auto executeBashScript = HOSTFN("executeBashScript", []) { std::string script =
+      arguments[0].asString(rt).utf8(rt);
+  auto promiseCtr = rt.global().getPropertyAsFunction(rt, "Promise");
+    auto promise = promiseCtr.callAsConstructor(
+                                                rt, HOSTFN("executor", [script]) {
+    auto resolve = std::make_shared<jsi::Value>(rt, arguments[0]);
+    auto reject = std::make_shared<jsi::Value>(rt, arguments[1]);
 
-  module.setProperty(rt, "setHeight", std::move(setHeight));
-  module.setProperty(rt, "resetWindowSize", std::move(resetWindowSize));
-  module.setProperty(rt, "hideWindow", std::move(hideWindow));
-  module.setProperty(rt, "showWindow", std::move(showWindow));
-  // module.setProperty(rt, "getMediaInfo", std::move(getMediaInfo));
-  module.setProperty(rt, "searchFiles", std::move(searchFiles));
-  module.setProperty(rt, "requestCalendarAccess",
-                     std::move(requestCalendarAccess));
-  module.setProperty(rt, "getCalendarAuthorizationStatus",
-                     std::move(getCalendarAuthorizationStatus));
-  module.setProperty(rt, "getEvents", std::move(getEvents));
-  module.setProperty(rt, "ls", std::move(ls));
-  module.setProperty(rt, "exists", std::move(exists));
-  module.setProperty(rt, "userName", std::move(userName));
-  module.setProperty(rt, "readFile", std::move(readFile));
-  module.setProperty(rt, "ps", std::move(ps));
-  module.setProperty(rt, "killProcess", std::move(killProcess));
-  module.setProperty(rt, "getWifiPassword", std::move(getWifiPassword));
-  module.setProperty(rt, "getWifiInfo", std::move(getWifiInfo));
-  module.setProperty(rt, "log", std::move(log));
-  module.setProperty(rt, "getApplications", std::move(getApplications));
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INTERACTIVE, 0), ^{
+      FILE *pipe = popen(script.c_str(), "r");
+      if (!pipe) {
+        return;
+      }
 
-  rt.global().setProperty(rt, "__SolProxy", std::move(module));
+      NSMutableString *output = [NSMutableString string];
+      char buffer[128];
+
+      while (fgets(buffer, sizeof(buffer), pipe) != NULL) {
+        [output appendString:[NSString stringWithUTF8String:buffer]];
+      }
+
+      pclose(pipe);
+      //
+      //            NSData *data = [[pipe fileHandleForReading]
+      //            readDataToEndOfFile]; NSString *output =
+      //                [[NSString alloc] initWithData:data
+      //                                      encoding:NSUTF8StringEncoding];
+
+      invoker->invokeAsync([resolve, output, &rt]() mutable {
+        jsi::String output2 =
+            jsi::String::createFromUtf8(rt, [output UTF8String]);
+
+        resolve->asObject(rt).asFunction(rt).call(rt, std::move(output2));
+      });
+    });
+    return {};
+                                                }));
+
+    return promise;
+});
+
+auto executeBashScriptSync = HOSTFN("executeBashScript", []) {
+  std::string script = arguments[0].asString(rt).utf8(rt);
+
+  FILE *pipe = popen(script.c_str(), "r");
+//  if (!pipe) {
+//    return ;
+//  }
+
+  NSMutableString *output = [NSMutableString string];
+  char buffer[128];
+
+  while (fgets(buffer, sizeof(buffer), pipe) != NULL) {
+    [output appendString:[NSString stringWithUTF8String:buffer]];
+  }
+
+  pclose(pipe);
+
+  jsi::String output2 = jsi::String::createFromUtf8(rt, [output UTF8String]);
+  return output2;
+});
+
+jsi::Object module = jsi::Object(rt);
+
+module.setProperty(rt, "setHeight", std::move(setHeight));
+module.setProperty(rt, "resetWindowSize", std::move(resetWindowSize));
+module.setProperty(rt, "hideWindow", std::move(hideWindow));
+module.setProperty(rt, "showWindow", std::move(showWindow));
+// module.setProperty(rt, "getMediaInfo", std::move(getMediaInfo));
+module.setProperty(rt, "searchFiles", std::move(searchFiles));
+module.setProperty(rt, "requestCalendarAccess",
+                   std::move(requestCalendarAccess));
+module.setProperty(rt, "getCalendarAuthorizationStatus",
+                   std::move(getCalendarAuthorizationStatus));
+module.setProperty(rt, "getEvents", std::move(getEvents));
+module.setProperty(rt, "ls", std::move(ls));
+module.setProperty(rt, "exists", std::move(exists));
+module.setProperty(rt, "userName", std::move(userName));
+module.setProperty(rt, "readFile", std::move(readFile));
+module.setProperty(rt, "ps", std::move(ps));
+module.setProperty(rt, "killProcess", std::move(killProcess));
+module.setProperty(rt, "getWifiPassword", std::move(getWifiPassword));
+module.setProperty(rt, "getWifiInfo", std::move(getWifiInfo));
+module.setProperty(rt, "log", std::move(log));
+module.setProperty(rt, "getApplications", std::move(getApplications));
+module.setProperty(rt, "executeBashScript", std::move(executeBashScript));
+module.setProperty(rt, "executeBashScriptSync",
+                   std::move(executeBashScriptSync));
+
+rt.global().setProperty(rt, "__SolProxy", std::move(module));
 }
 
 } // namespace sol

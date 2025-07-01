@@ -59,7 +59,8 @@ class SolNative extends NativeEventEmitter {
   toggleDND: () => void
   securelyStore: (key: string, value: string) => Promise<void>
   securelyRetrieve: (key: string) => Promise<string | null>
-  executeBashScript: (script: string) => Promise<void>
+  executeBashScript: (script: string) => Promise<string>
+  executeBashScriptSync: typeof global.__SolProxy.executeBashScriptSync
   showToast: (
     text: string,
     variant: 'success' | 'error',
@@ -108,7 +109,9 @@ class SolNative extends NativeEventEmitter {
     this.getApps = module.getApps
     this.openFile = module.openFile
     this.toggleDarkMode = module.toggleDarkMode
-    this.executeBashScript = module.executeBashScript
+    // this.executeBashScript = module.executeBashScript
+    this.executeBashScript = global.__SolProxy.executeBashScript
+    this.executeBashScriptSync = global.__SolProxy.executeBashScriptSync
     this.executeAppleScript = module.executeAppleScript
     this.openWithFinder = module.openWithFinder
     this.getMediaInfo = module.getMediaInfo
