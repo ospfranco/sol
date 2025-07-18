@@ -1,7 +1,6 @@
 import {captureException} from '@sentry/react-native'
 import {extractMeetingLink} from 'lib/calendar'
 import {solNative} from 'lib/SolNative'
-import {sleep} from 'lib/various'
 import {DateTime} from 'luxon'
 import {makeAutoObservable, runInAction} from 'mobx'
 import {EmitterSubscription, Linking} from 'react-native'
@@ -11,7 +10,7 @@ const DAYS_TO_PARSE = 14
 
 let onShowListener: EmitterSubscription | undefined
 let onStatusBarItemClickListener: EmitterSubscription | undefined
-let pollingInterval: NodeJS.Timeout | undefined
+let pollingTimeout: NodeJS.Timeout | undefined
 
 export type CalendarStore = ReturnType<typeof createCalendarStore>
 
@@ -168,21 +167,18 @@ export const createCalendarStore = (root: IRootStore) => {
       })
     },
     cleanUp: () => {
-      pollingInterval && clearInterval(pollingInterval)
+      pollingTimeout && clearTimeout(pollingTimeout)
       onShowListener?.remove()
       onStatusBarItemClickListener?.remove()
     },
     poll: async () => {
-      if (pollingInterval) {
-        clearInterval(pollingInterval)
-      }
-
       store.fetchEvents()
 
-      pollingInterval = setInterval(() => {
+      pollingTimeout = setTimeout(() => {
         if (root.ui.calendarEnabled) {
           try {
             store.fetchEvents()
+            store.poll()
           } catch (e) {
             captureException(e)
             console.error('Error fetching calendar events', e)
