@@ -47,8 +47,7 @@ export const createCalendarStore = (root: IRootStore) => {
           return true
         }
 
-        let isUpcoming =
-          +lStart >= +lNow && +lStart <= +lNow.plus({minutes: 20})
+        let isUpcoming = +lStart >= +lNow && +lStart <= +lNow.endOf('day')
 
         if (isUpcoming) {
           return true
