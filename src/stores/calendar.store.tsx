@@ -170,9 +170,7 @@ export const createCalendarStore = (root: IRootStore) => {
       onShowListener?.remove()
       onStatusBarItemClickListener?.remove()
     },
-    poll: async () => {
-      store.fetchEvents()
-
+    poll: () => {
       pollingTimeout = setTimeout(() => {
         if (root.ui.calendarEnabled) {
           try {
@@ -181,6 +179,7 @@ export const createCalendarStore = (root: IRootStore) => {
           } catch (e) {
             captureException(e)
             console.error('Error fetching calendar events', e)
+            store.poll()
           }
         }
       }, 1000 * 60)
