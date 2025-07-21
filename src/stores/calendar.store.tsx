@@ -185,7 +185,6 @@ export const createCalendarStore = (root: IRootStore) => {
       }, 1000 * 60)
     },
     onShow: () => {
-      store.poll()
       store.fetchEvents()
     },
     getCalendarAccess: () => {
