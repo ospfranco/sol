@@ -175,10 +175,10 @@ export const createCalendarStore = (root: IRootStore) => {
         if (root.ui.calendarEnabled) {
           try {
             store.fetchEvents()
-            store.poll()
           } catch (e) {
             captureException(e)
             console.error('Error fetching calendar events', e)
+          } finally {
             store.poll()
           }
         }
