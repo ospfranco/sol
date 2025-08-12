@@ -105,9 +105,11 @@ export const CreateItemWidget: FC<Props> = observer(({style}) => {
               <Input
                 placeholder="My favorite shortcut..."
                 bordered
-                className="w-64"
+                className={'flex-1'}
+                inputClassName={'w-full'}
                 value={name}
                 onChangeText={setName}
+                textAlign="center"
               />
             </View>
           </View>
@@ -130,10 +132,11 @@ export const CreateItemWidget: FC<Props> = observer(({style}) => {
               bordered
               // broken on 0.71.3
               multiline={isApplescript}
-              className={clsx('flex-1 h-52')}
-              inputClassName={'h-52'}
+              className={'flex-1'}
+              inputClassName={'w-full'}
               value={text}
               onChangeText={setText}
+              textAlign="center"
             />
           </View>
         </View>

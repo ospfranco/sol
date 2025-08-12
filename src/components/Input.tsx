@@ -54,6 +54,7 @@ export const Input: FC<Props> = ({
         value={props.value}
         onChangeText={props.onChangeText}
         readOnly={props.readOnly}
+        textAlign={props.textAlign}
       />
     </View>
   )
