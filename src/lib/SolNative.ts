@@ -53,6 +53,11 @@ class SolNative extends NativeEventEmitter {
   resizeTopRight: () => void
   resizeBottomLeft: () => void
   resizeBottomRight: () => void
+  resizeLeftThird: () => void
+  resizeCenterThird: () => void
+  resizeRightThird: () => void
+  resizeLeftTwoThirds: () => void
+  resizeRightTwoThirds: () => void
   searchFiles: typeof global.__SolProxy.searchFiles
   setShowWindowOn: (on: 'screenWithFrontmost' | 'screenWithCursor') => void
   useBackgroundOverlay: (v: boolean) => void
@@ -146,6 +151,11 @@ class SolNative extends NativeEventEmitter {
     this.resizeTopRight = module.resizeTopRight
     this.resizeBottomLeft = module.resizeBottomLeft
     this.resizeBottomRight = module.resizeBottomRight
+    this.resizeLeftThird = module.resizeLeftThird
+    this.resizeCenterThird = module.resizeCenterThird
+    this.resizeRightThird = module.resizeRightThird
+    this.resizeLeftTwoThirds = module.resizeLeftTwoThirds
+    this.resizeRightTwoThirds = module.resizeRightTwoThirds
     this.toggleDND = module.toggleDND
     this.searchFiles = global.__SolProxy.searchFiles
 

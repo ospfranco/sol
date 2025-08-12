@@ -8,6 +8,17 @@ enum Quarter {
   case bottomRight
 }
 
+enum Third {
+  case left
+  case center
+  case right
+}
+
+enum TwoThirds {
+  case left
+  case right
+}
+
 enum ScreenHalf {
   case top
   case bottom
@@ -186,6 +197,94 @@ class WindowManager {
       width: normalizedScreenFrame.width / 2, height: normalizedScreenFrame.height / 2)
 
     window.setRectOf(CGRect(origin: origin, size: size))
+  }
+
+  func moveThird(_ third: Third) {
+    guard let window = AccessibilityElement.frontmostWindow()
+    else {
+      NSSound.beep()
+      return
+    }
+
+    let screens = screenDetector.detectScreens(using: window)
+
+    guard let usableScreens = screens else {
+      NSSound.beep()
+      print("Unable to obtain usable screens")
+      return
+    }
+
+    let normalizedScreenFrame = AccessibilityElement.normalizeCoordinatesOf(
+      usableScreens.frameOfCurrentScreen)
+    guard let identifier = window.getIdentifier() else {
+      return
+    }
+
+    var origin = CGPoint(x: normalizedScreenFrame.origin.x, y: normalizedScreenFrame.origin.y)
+
+    switch third {
+        case .left:
+            origin = CGPoint(x: normalizedScreenFrame.origin.x, y: normalizedScreenFrame.origin.y)
+            lastActions[identifier] = .leftThird
+
+        case .center:
+            origin = CGPoint(
+                x: normalizedScreenFrame.origin.x + normalizedScreenFrame.width / 3,
+                y: normalizedScreenFrame.origin.y)
+            lastActions[identifier] = .center
+
+        case .right:
+            origin = CGPoint(
+                x: normalizedScreenFrame.origin.x + (normalizedScreenFrame.width / 3) * 2,
+                y: normalizedScreenFrame.origin.y)
+            lastActions[identifier] = .rightThird
+    }
+
+    let size = CGSize(
+      width: normalizedScreenFrame.width / 3, height: normalizedScreenFrame.height)
+
+    window.setRectOf(CGRect(origin: origin, size: size))
+  }
+
+  func moveTwoThirds(_ twoThirds: TwoThirds) {
+      guard let window = AccessibilityElement.frontmostWindow()
+      else {
+        NSSound.beep()
+        return
+      }
+
+      let screens = screenDetector.detectScreens(using: window)
+
+      guard let usableScreens = screens else {
+        NSSound.beep()
+        print("Unable to obtain usable screens")
+        return
+      }
+
+      let normalizedScreenFrame = AccessibilityElement.normalizeCoordinatesOf(
+        usableScreens.frameOfCurrentScreen)
+      guard let identifier = window.getIdentifier() else {
+        return
+      }
+
+      var origin = CGPoint(x: normalizedScreenFrame.origin.x, y: normalizedScreenFrame.origin.y)
+
+      switch twoThirds {
+          case .left:
+              origin = CGPoint(x: normalizedScreenFrame.origin.x, y: normalizedScreenFrame.origin.y)
+              lastActions[identifier] = .leftTwoThirds
+
+          case .right:
+              origin = CGPoint(
+                  x: normalizedScreenFrame.origin.x + normalizedScreenFrame.width / 3,
+                  y: normalizedScreenFrame.origin.y)
+              lastActions[identifier] = .rightTwoThirds
+      }
+
+      let size = CGSize(
+        width: normalizedScreenFrame.width / 3 * 2, height: normalizedScreenFrame.height)
+
+      window.setRectOf(CGRect(origin: origin, size: size))
   }
 
   func fullscreen() {

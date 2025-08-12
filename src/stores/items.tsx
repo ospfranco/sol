@@ -276,6 +276,81 @@ export function createBaseItems(store: IRootStore) {
       },
     },
     {
+      id: 'resize_left_third',
+      IconComponent: () => {
+        return (
+          <View className="w-6 h-6 p-0.5 rounded items-start bg-black">
+            <View className="w-[33%] h-5 rounded-sm bg-white" />
+          </View>
+        )
+      },
+      name: 'Resize window to left third',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.resizeLeftThird()
+      },
+    },
+    {
+      id: 'resize_center_third',
+      IconComponent: () => {
+        return (
+          <View className="w-6 h-6 p-0.5 rounded items-center bg-black">
+            <View className="w-[33%] h-5 rounded-sm bg-white" />
+          </View>
+        )
+      },
+      name: 'Resize window to center third',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.resizeCenterThird()
+      },
+    },
+    {
+      id: 'resize_right_third',
+      IconComponent: () => {
+        return (
+          <View className="w-6 h-6 p-0.5 rounded items-end bg-black">
+            <View className="w-[33%] h-5 rounded-sm bg-white" />
+          </View>
+        )
+      },
+      name: 'Resize window to right third',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.resizeRightThird()
+      },
+    },
+    {
+      id: 'resize_left_two_thirds',
+      IconComponent: () => {
+        return (
+          <View className="w-6 h-6 p-0.5 rounded items-start bg-black">
+            <View className="w-[66%] h-5 rounded-sm bg-white" />
+          </View>
+        )
+      },
+      name: 'Resize window to left two-thirds',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.resizeLeftTwoThirds()
+      },
+    },
+    {
+      id: 'resize_right_two_thirds',
+      IconComponent: () => {
+        return (
+          <View className="w-6 h-6 p-0.5 rounded items-end bg-black">
+            <View className="w-[66%] h-5 rounded-sm bg-white" />
+          </View>
+        )
+      },
+      name: 'Resize window to right two-thirds',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.resizeRightTwoThirds()
+      },
+    },
+    {
       id: 'move_next_screen',
       IconComponent: () => {
         return (
@@ -519,7 +594,7 @@ export function createBaseItems(store: IRootStore) {
             display notification "Google Meet link copied to clipboard" with title "Link Copied" sound name "Frog"
             return
           end if
-          
+
           if (myurl contains baseUrl) then
             display notification "Google Meet could not be copied" with title "Couldn't copy Google Meet link" sound name "Frog"
           else
@@ -617,10 +692,10 @@ export function createBaseItems(store: IRootStore) {
           tell application "System Events"
             set allApps to displayed name of (every process whose background only is false) as list
           end tell
-          
-          -- leave some apps open 
+
+          -- leave some apps open
           set exclusions to {"AppleScript Editor", "Automator", "Finder", "LaunchBar"}
-          
+
           -- quit each app
           repeat with thisApp in allApps
             set thisApp to thisApp as text
