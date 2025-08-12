@@ -594,7 +594,7 @@ export function createBaseItems(store: IRootStore) {
             display notification "Google Meet link copied to clipboard" with title "Link Copied" sound name "Frog"
             return
           end if
-
+          
           if (myurl contains baseUrl) then
             display notification "Google Meet could not be copied" with title "Couldn't copy Google Meet link" sound name "Frog"
           else
@@ -692,10 +692,10 @@ export function createBaseItems(store: IRootStore) {
           tell application "System Events"
             set allApps to displayed name of (every process whose background only is false) as list
           end tell
-
-          -- leave some apps open
+          
+          -- leave some apps open 
           set exclusions to {"AppleScript Editor", "Automator", "Finder", "LaunchBar"}
-
+          
           -- quit each app
           repeat with thisApp in allApps
             set thisApp to thisApp as text
