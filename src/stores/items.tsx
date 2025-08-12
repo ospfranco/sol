@@ -276,6 +276,81 @@ export function createBaseItems(store: IRootStore) {
       },
     },
     {
+      id: 'resize_left_third',
+      IconComponent: () => {
+        return (
+          <View className="w-6 h-6 p-0.5 rounded items-start bg-black">
+            <View className="w-[33%] h-5 rounded-sm bg-white" />
+          </View>
+        )
+      },
+      name: 'Resize window to left third',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.resizeLeftThird()
+      },
+    },
+    {
+      id: 'resize_center_third',
+      IconComponent: () => {
+        return (
+          <View className="w-6 h-6 p-0.5 rounded items-center bg-black">
+            <View className="w-[33%] h-5 rounded-sm bg-white" />
+          </View>
+        )
+      },
+      name: 'Resize window to center third',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.resizeCenterThird()
+      },
+    },
+    {
+      id: 'resize_right_third',
+      IconComponent: () => {
+        return (
+          <View className="w-6 h-6 p-0.5 rounded items-end bg-black">
+            <View className="w-[33%] h-5 rounded-sm bg-white" />
+          </View>
+        )
+      },
+      name: 'Resize window to right third',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.resizeRightThird()
+      },
+    },
+    {
+      id: 'resize_left_two_thirds',
+      IconComponent: () => {
+        return (
+          <View className="w-6 h-6 p-0.5 rounded items-start bg-black">
+            <View className="w-[66%] h-5 rounded-sm bg-white" />
+          </View>
+        )
+      },
+      name: 'Resize window to left two-thirds',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.resizeLeftTwoThirds()
+      },
+    },
+    {
+      id: 'resize_right_two_thirds',
+      IconComponent: () => {
+        return (
+          <View className="w-6 h-6 p-0.5 rounded items-end bg-black">
+            <View className="w-[66%] h-5 rounded-sm bg-white" />
+          </View>
+        )
+      },
+      name: 'Resize window to right two-thirds',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.resizeRightTwoThirds()
+      },
+    },
+    {
       id: 'move_next_screen',
       IconComponent: () => {
         return (
