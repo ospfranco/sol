@@ -9,9 +9,9 @@ PODS:
     - hermes-engine/Pre-built (= 0.78.2)
   - hermes-engine/Pre-built (0.78.2)
   - HotKey (0.2.1)
-  - MMKV (2.2.2):
-    - MMKVCore (~> 2.2.2)
-  - MMKVCore (2.2.2)
+  - MMKV (2.2.3):
+    - MMKVCore (~> 2.2.3)
+  - MMKVCore (2.2.3)
   - RCT-Folly (2024.11.18.00):
     - boost
     - DoubleConversion
@@ -1945,8 +1945,8 @@ SPEC CHECKSUMS:
   glog: b7594b792ee4e02ed1f44b01d046ca25fa713e3d
   hermes-engine: 2771b98fb813fdc6f92edd7c9c0035ecabf9fee7
   HotKey: 400beb7caa29054ea8d864c96f5ba7e5b4852277
-  MMKV: b4802ebd5a7c68fc0c4a5ccb4926fbdfb62d68e0
-  MMKVCore: a255341a3746955f50da2ad9121b18cb2b346e61
+  MMKV: 941e8774da0e6fdf12c6b3fcc833ca687ae5a42d
+  MMKVCore: 6d5cc1bacce539f4c974985dfe646fb65a5d27d2
   RCT-Folly: e8b53d8c0d2d9df4a6a8b0a368a1a91fc62a88cb
   RCTDeprecation: cf39863b43871c2031050605fb884019b6193910
   RCTRequired: 8e45f166ea2d154c59dd209c5bb710ad3ac0e752
