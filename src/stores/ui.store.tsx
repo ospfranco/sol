@@ -24,6 +24,7 @@ import MiniSearch from 'minisearch'
 import * as Sentry from '@sentry/react-native'
 import {storage} from './storage'
 import {defaultShortcuts} from 'lib/shorcuts'
+import {current} from 'tailwindcss/colors'
 
 const exprParser = new Parser()
 
@@ -538,6 +539,7 @@ export const createUIStore = (root: IRootStore) => {
     updateApps: (
       apps: Array<{name: string; url: string; isRunning: boolean}>,
     ) => {
+      // First update the app list
       let appsRecord: Record<string, Item> = {}
 
       for (let {name, url, isRunning} of apps) {
@@ -581,6 +583,15 @@ export const createUIStore = (root: IRootStore) => {
       runInAction(() => {
         store.apps = Object.values(appsRecord)
       })
+
+      // As a courtesy, we also remove keyboard shortcuts for applications that are no longer found
+      const shorcutsKeys = Object.keys(root.ui.shortcuts)
+      const ids = store.items.map(i => i.id)
+      for (const shortcutKey of shorcutsKeys) {
+        if (!ids.includes(shortcutKey)) {
+          delete root.ui.shortcuts[shortcutKey]
+        }
+      }
     },
     getApps: () => {
       solNative.getApplications().then(apps => {
