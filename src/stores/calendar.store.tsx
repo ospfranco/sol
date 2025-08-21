@@ -38,6 +38,10 @@ export const createCalendarStore = (root: IRootStore) => {
     get upcomingEvent(): INativeEvent | null {
       const lNow = DateTime.now()
       let found = store.events.find(e => {
+        if (e.isAllDay) {
+          return false // Skip all-day events
+        }
+
         const lStart = DateTime.fromISO(e.date)
         const lEnd = DateTime.fromISO(e.endDate || e.date)
 
