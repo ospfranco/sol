@@ -122,7 +122,6 @@ export const createCalendarStore = (root: IRootStore) => {
     fetchEvents: async () => {
       if (!root.ui.showUpcomingEvent) {
         solNative.setStatusBarItemTitle('')
-        return
       }
 
       if (store.calendarAuthorizationStatus !== 'authorized') {
