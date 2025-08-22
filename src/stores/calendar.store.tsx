@@ -6,7 +6,7 @@ import {makeAutoObservable, runInAction} from 'mobx'
 import {EmitterSubscription, Linking} from 'react-native'
 import {IRootStore} from 'store'
 
-const DAYS_TO_PARSE = 14
+const MAX_DAYS_AHEAD = 14
 
 let onShowListener: EmitterSubscription | undefined
 let onStatusBarItemClickListener: EmitterSubscription | undefined
@@ -84,7 +84,12 @@ export const createCalendarStore = (root: IRootStore) => {
         const lEventDay = lEventDate.startOf('day')
         const diffDays = lEventDay.diffNow('days').days
 
-        if (diffDays > DAYS_TO_PARSE) {
+        // Skip past events
+        if (diffDays <= -1) {
+          continue
+        }
+
+        if (diffDays > MAX_DAYS_AHEAD) {
           break
         }
 
