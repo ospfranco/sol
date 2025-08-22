@@ -6,6 +6,7 @@ import {renderToKeys} from 'lib/shorcuts'
 import {observer} from 'mobx-react-lite'
 import {
   Image,
+  StyleSheet,
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -91,7 +92,7 @@ export const Shortcuts = observer(() => {
   return (
     <View className="flex-1 h-full p-4">
       <View className="p-3 gap-1 subBg rounded-lg border border-lightBorder dark:border-darkBorder">
-        <View className="flex-row gap-8 p-4">
+        <View className="absolute flex-row w-full pl-6 pr-4 py-6">
           <View className="flex-1">
             <Text className="text">System Wide Shortcuts</Text>
           </View>
@@ -100,6 +101,7 @@ export const Shortcuts = observer(() => {
           </TouchableOpacity>
         </View>
         <LegendList
+          style={STYLES.container}
           contentContainerClassName="px-4 pb-4"
           data={items}
           keyExtractor={item => item.id}
@@ -108,4 +110,10 @@ export const Shortcuts = observer(() => {
       </View>
     </View>
   )
+})
+
+const STYLES = StyleSheet.create({
+  container: {
+    marginTop: 40,
+  },
 })
