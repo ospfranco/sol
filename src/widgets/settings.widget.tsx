@@ -16,7 +16,7 @@ export const SettingsWidget: FC = observer(() => {
   const showKeyboardRecorder = store.ui.showKeyboardRecorder
   const [selected, setSelected] = useState<ITEM>('GENERAL')
   return (
-    <View className="h-full flex-row w-full">
+    <View className="flex-1 flex-row">
       <Sidebar setSelected={setSelected as any} selected={selected} />
       <View className="flex-1 h-full bg-neutral-100 dark:bg-neutral-800">
         {selected === 'GENERAL' && <General />}

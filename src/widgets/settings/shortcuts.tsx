@@ -90,7 +90,7 @@ export const Shortcuts = observer(() => {
 
   return (
     <View className="flex-1 h-full p-4">
-      <View className="p-3 gap-1 subBg rounded-lg border border-lightBorder dark:border-darkBorder">
+      <View className="flex-1 p-2 gap-1 subBg rounded-lg border border-lightBorder dark:border-darkBorder">
         <View className="flex-row gap-8 p-4">
           <View className="flex-1">
             <Text className="text">System Wide Shortcuts</Text>
