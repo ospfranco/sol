@@ -585,13 +585,13 @@ export const createUIStore = (root: IRootStore) => {
       })
 
       // As a courtesy, we also remove keyboard shortcuts for applications that are no longer found
-      const shorcutsKeys = Object.keys(root.ui.shortcuts)
-      const ids = store.items.map(i => i.id)
-      for (const shortcutKey of shorcutsKeys) {
-        if (!ids.includes(shortcutKey)) {
-          delete root.ui.shortcuts[shortcutKey]
-        }
-      }
+      // const shorcutsKeys = Object.keys(root.ui.shortcuts)
+      // const ids = store.items.map(i => i.id)
+      // for (const shortcutKey of shorcutsKeys) {
+      //   if (!ids.includes(shortcutKey)) {
+      //     delete root.ui.shortcuts[shortcutKey]
+      //   }
+      // }
     },
     getApps: () => {
       solNative.getApplications().then(apps => {
