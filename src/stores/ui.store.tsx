@@ -24,7 +24,6 @@ import MiniSearch from 'minisearch'
 import * as Sentry from '@sentry/react-native'
 import {storage} from './storage'
 import {defaultShortcuts} from 'lib/shorcuts'
-import {current} from 'tailwindcss/colors'
 
 const exprParser = new Parser()
 
@@ -346,7 +345,9 @@ export const createUIStore = (root: IRootStore) => {
 
       // If the query is empty, return all items
       if (!store.query) {
-        return allItems
+        return allItems.sort((a, b) =>
+          a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1,
+        )
       }
 
       if (minisearch.documentCount === 0) {

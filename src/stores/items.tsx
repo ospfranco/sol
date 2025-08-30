@@ -366,7 +366,7 @@ export function createBaseItems(store: IRootStore) {
       },
     },
     {
-      id: 'move_prev_screen',
+      id: 'move_previous_screen',
       IconComponent: () => {
         return (
           <View className="w-6 h-6 rounded items-center justify-center bg-black">

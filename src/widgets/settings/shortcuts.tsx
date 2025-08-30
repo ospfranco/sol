@@ -1,6 +1,7 @@
 import {LegendList} from '@legendapp/list'
 import {Assets, Icons} from 'assets'
 import clsx from 'clsx'
+import Favicon from 'components/Favicon'
 import {FileIcon} from 'components/FileIcon'
 import {renderToKeys} from 'lib/shorcuts'
 import {observer} from 'mobx-react-lite'
@@ -23,7 +24,9 @@ const RenderItem = observer(({item, index}: any) => {
       className={clsx('flex-row items-center py-1.5 px-3 rounded-sm gap-2', {
         'bg-gray-200 dark:subBg': index % 2 === 1,
       })}>
-      {!!item.url && <FileIcon url={item.url} className={'w-6 h-6'} />}
+      {!!item.url && item.type != ItemType.BOOKMARK && (
+        <FileIcon url={item.url} className={'w-6 h-6'} />
+      )}
       {item.type !== ItemType.CUSTOM && !!item.icon && <Text>{item.icon}</Text>}
 
       {item.type === ItemType.CUSTOM && !!item.icon && (
@@ -50,7 +53,12 @@ const RenderItem = observer(({item, index}: any) => {
         />
       )}
       {!!item.IconComponent && <item.IconComponent />}
-      <Text className="flex-1">{item.name}</Text>
+      {item.type === ItemType.BOOKMARK && (
+        <Favicon url={item.url!} fallback={item.faviconFallback} />
+      )}
+      <Text className="flex-1" numberOfLines={1}>
+        {item.name}
+      </Text>
 
       <TouchableWithoutFeedback
         onPress={() => {
@@ -86,20 +94,20 @@ export const Shortcuts = observer(() => {
   const store = useStore()
 
   let items = store.ui.items
-  items.sort((a, b) => (a.name > b.name ? 1 : -1))
 
   return (
     <View className="flex-1 h-full p-4">
       <View className="flex-1 p-2 gap-1 subBg rounded-lg border border-lightBorder dark:border-darkBorder">
         <View className="flex-row gap-8 p-4">
           <View className="flex-1">
-            <Text className="text">System Wide Shortcuts</Text>
+            <Text className="text">Global Shortcuts</Text>
           </View>
           <TouchableOpacity onPress={store.ui.restoreDefaultShorcuts}>
             <Text className="text-blue-500 text-sm">Restore Defaults</Text>
           </TouchableOpacity>
         </View>
         <LegendList
+          className="flex-1"
           contentContainerClassName="px-4 pb-4"
           data={items}
           keyExtractor={item => item.id}
