@@ -1,7 +1,17 @@
 import {useState} from 'react'
 import {Image, View} from 'react-native'
 
-const Favicon = ({url, fallback}: {url: string; fallback: any}) => {
+const Favicon = ({
+  url,
+  fallback,
+  style,
+  className,
+}: {
+  url: string
+  fallback: any
+  style?: any
+  className?: string
+}) => {
   const [firstFail, failedFirst] = useState(false)
   const [secondFail, failedSecond] = useState(false)
   const parsedUrl = new URL(url)
@@ -13,7 +23,8 @@ const Favicon = ({url, fallback}: {url: string; fallback: any}) => {
     return (
       <Image
         source={fallback}
-        className="w-5 h-5 rounded-lg"
+        style={style}
+        className={`w-5 h-5 rounded-lg ${className}`}
         resizeMode="contain"
         onError={() => failedSecond(true)}
       />
@@ -24,7 +35,8 @@ const Favicon = ({url, fallback}: {url: string; fallback: any}) => {
     <View className="relative dark:bg-transparent">
       <Image
         source={{uri: firstFail ? fallbackUrl : faviconUrl}}
-        className="w-5 h-5 rounded"
+        className={`w-5 h-5 rounded ${className}`}
+        style={style}
         resizeMode="contain"
         onError={() => failedFirst(true)}
       />

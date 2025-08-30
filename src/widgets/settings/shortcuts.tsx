@@ -54,7 +54,11 @@ const RenderItem = observer(({item, index}: any) => {
       )}
       {!!item.IconComponent && <item.IconComponent />}
       {item.type === ItemType.BOOKMARK && (
-        <Favicon url={item.url!} fallback={item.faviconFallback} />
+        <Favicon
+          url={item.url!}
+          fallback={item.faviconFallback}
+          className="h-6 w-6"
+        />
       )}
       <Text className="flex-1" numberOfLines={1}>
         {item.name}
