@@ -155,8 +155,12 @@ export const createCalendarStore = (root: IRootStore) => {
         const lStart = DateTime.fromISO(upcomingEvent.date)
         const minutes = lStart.diffNow('minutes').minutes
 
+        const title = `${upcomingEvent.title!.trim().substring(0, 18)}${
+          upcomingEvent.title!.length > 18 ? '...' : ''
+        }`
+
         if (minutes <= 0) {
-          solNative.setStatusBarItemTitle(upcomingEvent.title?.trim() ?? '')
+          solNative.setStatusBarItemTitle(title)
           return
         }
 
@@ -167,9 +171,7 @@ export const createCalendarStore = (root: IRootStore) => {
         )}m`
 
         solNative.setStatusBarItemTitle(
-          `${upcomingEvent.title!.trim().substring(0, 18)}${
-            upcomingEvent.title!.length > 18 ? '...' : ''
-          } • ${relativeHoursStr} ${relativeMinutesStr}`,
+          `${title} • ${relativeHoursStr} ${relativeMinutesStr}`,
         )
       })
     },
