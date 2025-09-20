@@ -116,6 +116,7 @@ export const Shortcuts = observer(() => {
           data={items}
           keyExtractor={item => item.id}
           renderItem={RenderItem}
+          recycleItems
         />
       </View>
     </View>
