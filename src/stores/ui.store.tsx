@@ -637,7 +637,9 @@ export const createUIStore = (root: IRootStore) => {
     onHide: () => {
       store.isVisible = false
       store.focusedWidget = Widget.SEARCH
-      store.setQuery('')
+      if (store.temporaryResult == null) {
+        store.setQuery('')
+      }
       store.selectedIndex = 0
       store.translationResults = []
       store.historyPointer = 0
