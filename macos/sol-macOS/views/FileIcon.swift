@@ -2,6 +2,7 @@ import Cocoa
 
 class FileIcon: NSView {
   let image = NSImageView()
+
   @objc var url: NSString = "" {
     didSet {
       self.setupView()
@@ -9,7 +10,7 @@ class FileIcon: NSView {
   }
 
   override init(frame: CGRect) {
-  super.init(frame: frame)
+    super.init(frame: frame)
   }
 
   required init?(coder aDecoder: NSCoder) {
@@ -17,7 +18,9 @@ class FileIcon: NSView {
   }
 
   private func setupView() {
-    let url = URL(fileURLWithPath: (self.url as String).replacingOccurrences(of: "~", with: FileManager.default.homeDirectoryForCurrentUser.path))
+    let url = URL(
+      fileURLWithPath: (self.url as String).replacingOccurrences(
+        of: "~", with: FileManager.default.homeDirectoryForCurrentUser.path))
 
     let icon = NSWorkspace.shared.icon(forFile: url.path)
     self.image.image = icon

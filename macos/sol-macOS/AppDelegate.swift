@@ -65,7 +65,7 @@ class AppDelegate: RCTAppDelegate {
     HotKeyManager.shared.setupKeyboardListeners()
     setupPasteboardListener()
 
-//    mediaKeyForwarder = MediaKeyForwarder()
+    mediaKeyForwarder = MediaKeyForwarder()
 
     PanelManager.shared.showWindow()
   }
@@ -79,9 +79,9 @@ class AppDelegate: RCTAppDelegate {
   func setupPasteboardListener() {
     ClipboardHelper.addOnCopyListener {
       let bundle = $1?.bundle
-      
+
       let data = $0.data(forType: .fileURL)
-      
+
       if data != nil {
         // Copy the file url to temp directory
         do {
@@ -89,14 +89,16 @@ class AppDelegate: RCTAppDelegate {
             print("Could not get file name")
             return
           }
-          guard let url = URL(
-            dataRepresentation: data!,
-            relativeTo: nil
-          ) else {
+          guard
+            let url = URL(
+              dataRepresentation: data!,
+              relativeTo: nil
+            )
+          else {
             print("COuld not get file url")
             return
           }
-          
+
           let tempFile = NSTemporaryDirectory() + filename
           // Copy the file to the temp dir
           try FS.copyFileFromUrl(url, toPath: tempFile)
@@ -107,7 +109,7 @@ class AppDelegate: RCTAppDelegate {
         }
         return
       }
-      
+
       // Try to parse first as string
       let txt = $0.string(forType: .string)
       if txt != nil {

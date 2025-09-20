@@ -36,7 +36,7 @@
     "react": "19.0.0",
     "react-native": "^0.78.2",
     "react-native-get-random-values": "^1.8.0",
-    "react-native-macos": "0.78.6",
+    "react-native-macos": "0.79.0",
     "react-native-mmkv": "2.12.2",
     "react-native-reanimated": "^3.8.1",
     "react-native-url-polyfill": "^2.0.0",

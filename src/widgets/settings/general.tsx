@@ -194,6 +194,18 @@ export const General = observer(() => {
             onValueChange={store.clipboard.setSaveHistory}
           />
         </View>
+        <View className="border-t border-lightBorder dark:border-darkBorder" />
+        <View className="flex-row items-center">
+          <Text className="flex-1">Forward Media Keys to Music Player</Text>
+          <MySwitch
+            value={store.ui.mediaKeyForwardingEnabled}
+            onValueChange={() => {
+              store.ui.setMediaKeyForwardingEnabled(
+                !store.ui.mediaKeyForwardingEnabled,
+              )
+            }}
+          />
+        </View>
       </View>
     </ScrollView>
   )

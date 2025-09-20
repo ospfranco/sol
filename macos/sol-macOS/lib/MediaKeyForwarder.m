@@ -10,26 +10,14 @@
 -(instancetype)init {
   eventPort = CGEventTapCreate( kCGSessionEventTap, kCGHeadInsertEventTap, kCGEventTapOptionDefault, CGEventMaskBit(NX_SYSDEFINED), tapEventCallback, (__bridge void * _Nullable)(self));
   
-  if ( eventPort == NULL )
-  {
+  if ( eventPort == NULL ) {
     eventPort = CGEventTapCreate( kCGSessionEventTap, kCGHeadInsertEventTap, kCGEventTapOptionDefault, NX_SYSDEFINEDMASK, tapEventCallback, (__bridge void * _Nullable)(self));
   }
   
-  if ( eventPort != NULL )
-  {
-    
+  if ( eventPort != NULL ) {
     eventPortSource = CFMachPortCreateRunLoopSource( kCFAllocatorSystemDefault, eventPort, 0 );
     
     [self startEventSession];
-    
-  }
-  else
-  {
-//    NSAlert *alert = [[NSAlert alloc] init];
-//    [alert setMessageText:@"Error"];
-//    [alert setInformativeText:@"Cannot start spotify event listening. Please add Sol to the \"Security & Privacy\" pane in System Preferences. Check \"Accessibility\" and \"Automation\" under the \"Privacy\" tab."];
-//    [alert addButtonWithTitle:@"Ok"];
-//    [alert runModal];
   }
   
   return self;
@@ -178,7 +166,7 @@ static CGEventRef tapEventCallback(CGEventTapProxy proxy, CGEventType type, CGEv
 {
   if (eventPortSource != NULL && !CFRunLoopContainsSource(CFRunLoopGetCurrent(), eventPortSource, kCFRunLoopCommonModes)) {
     CFRunLoopAddSource( CFRunLoopGetCurrent(), eventPortSource, kCFRunLoopCommonModes );
-    CFRunLoopRun();
+    // CFRunLoopRun();
   }
 }
 
@@ -186,7 +174,7 @@ static CGEventRef tapEventCallback(CGEventTapProxy proxy, CGEventType type, CGEv
 {
   if (eventPortSource != NULL && CFRunLoopContainsSource(CFRunLoopGetCurrent(), eventPortSource, kCFRunLoopCommonModes)) {
     CFRunLoopRemoveSource( CFRunLoopGetCurrent(), eventPortSource, kCFRunLoopCommonModes );
-    CFRunLoopStop(CFRunLoopGetCurrent());
+    // CFRunLoopStop(CFRunLoopGetCurrent());
   }
 }
 
