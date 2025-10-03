@@ -67,12 +67,8 @@ class SolNative: RCTEventEmitter {
     _ resolve: @escaping RCTPromiseResolveBlock,
     rejecter reject: RCTPromiseRejectBlock
   ) {
-    do {
-      let apps = try ApplicationSearcher.shared.getAllApplications()
+      let apps = ApplicationSearcher.shared.getAllApplications()
       resolve(apps)
-    } catch {
-      reject(error.localizedDescription, error.localizedDescription, nil)
-    }
   }
 
   @objc func openFile(_ path: String) {

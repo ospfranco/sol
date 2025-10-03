@@ -16,10 +16,11 @@ final class HotKeyManager {
   static public let shared = HotKeyManager()
 
   public func setupKeyboardListeners() {
-    settingsHotKey.keyDownHandler = {
+    settingsHotKey.keyUpHandler = {
       SolEmitter.sharedInstance.onShow(target: "SETTINGS")
     }
-    mainHotKey.keyDownHandler = PanelManager.shared.toggle
+    mainHotKey.keyUpHandler = PanelManager.shared.toggle
+    
     NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
       //      36 enter
       //      123 arrow left
@@ -136,7 +137,7 @@ final class HotKeyManager {
   }
 
   func updateHotkeys(hotkeyMap: [String: String]) {
-    hotkeys.forEach { $0.isPaused = true }
+    print("Hotkeys being removed!")
     hotkeys.removeAll()
 
     for (key, value) in hotkeyMap {
@@ -150,21 +151,21 @@ final class HotKeyManager {
           .trimmingCharacters(in: .whitespacesAndNewlines)
         {
         case "⌘":
-            modifiers.insert(.command)
+          modifiers.insert(.command)
         case "cmd":
-            modifiers.insert(.command)
+          modifiers.insert(.command)
         case "command":
           modifiers.insert(.command)
         case "⌃":
-            modifiers.insert(.control)
+          modifiers.insert(.control)
         case "control":
           modifiers.insert(.control)
         case "⌥":
-            modifiers.insert(.option)
+          modifiers.insert(.option)
         case "option":
           modifiers.insert(.option)
         case "⇧":
-            modifiers.insert(.shift)
+          modifiers.insert(.shift)
         case "shift":
           modifiers.insert(.shift)
         case "space":
@@ -187,7 +188,7 @@ final class HotKeyManager {
       guard let finalKey = keyValue else { continue }
       let hotKey = HotKey(key: finalKey, modifiers: modifiers)
 
-      hotKey.keyDownHandler = {
+      hotKey.keyUpHandler = {
         SolEmitter.sharedInstance.onHotkey(id: key)
       }
       hotkeys.append(hotKey)
