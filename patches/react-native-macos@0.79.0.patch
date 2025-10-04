@@ -1,0 +1,20 @@
+diff --git a/React/CoreModules/RCTAppearance.mm b/React/CoreModules/RCTAppearance.mm
+index 4053d54a9e1a120b24e0ec55a835716f626139fa..d24a563ab314e387467a199bdd544d7f51ac5888 100644
+--- a/React/CoreModules/RCTAppearance.mm
++++ b/React/CoreModules/RCTAppearance.mm
+@@ -166,7 +166,7 @@ RCT_EXPORT_METHOD(setColorScheme : (NSString *)style)
+   } else if ([style isEqualToString:@"dark"]) {
+     appearance = [NSAppearance appearanceNamed:NSAppearanceNameDarkAqua];
+   }
+-  RCTSharedApplication().appearance = appearance;
++  // RCTSharedApplication().appearance = appearance;
+ #endif // macOS]
+ }
+ 
+diff --git a/node_modules/react-native-macos/scripts/.packager.env b/scripts/.packager.env
+new file mode 100644
+index 0000000000000000000000000000000000000000..361f5fb47d34aca545859cfa4b794257949172b0
+--- /dev/null
++++ b/scripts/.packager.env
+@@ -0,0 +1 @@
++export RCT_METRO_PORT=8081

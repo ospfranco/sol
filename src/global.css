@@ -6,24 +6,31 @@
   .fullWindow {
     height: 450;
   }
+
   .text {
     @apply text-neutral-800 dark:text-neutral-200;
   }
+
   .darker-text {
-    @apply text-neutral-700 dark:text-neutral-400;
+    @apply text-neutral-500 dark:text-neutral-400;
   }
+
   .highlight {
     @apply bg-accent dark:bg-accent-dark;
   }
+
   .border-window {
     @apply border-lightBorder dark:border-[#FFFFFF25];
   }
+
   .border-color {
     @apply border-lightBorder dark:border-darkBorder;
   }
+
   .subBg {
     @apply bg-subBgLight dark:bg-subBgDark;
   }
+
   .bg-window {
     @apply dark:bg-[#00000066] bg-[#FFFFFFAA];
   }

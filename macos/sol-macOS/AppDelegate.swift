@@ -56,11 +56,12 @@ class AppDelegate: RCTAppDelegate {
     self.moduleName = "sol"
     self.initialProps = [:]
     self.automaticallyLoadReactNativeWindow = false
+
     super.applicationDidFinishLaunching(notification)
 
     let rootView = self.rootViewFactory().view(withModuleName: "sol")
 
-    PanelManager.shared.setRootView(rootView: rootView as! RCTRootView)
+    PanelManager.shared.setRootView(rootView)
 
     HotKeyManager.shared.setupKeyboardListeners()
     setupPasteboardListener()

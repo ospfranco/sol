@@ -24,6 +24,7 @@ import MiniSearch from 'minisearch'
 import * as Sentry from '@sentry/react-native'
 import {storage} from './storage'
 import {defaultShortcuts} from 'lib/shorcuts'
+import {colorScheme as nativeWindColorScheme } from 'nativewind'
 
 const exprParser = new Parser()
 
@@ -818,8 +819,14 @@ export const createUIStore = (root: IRootStore) => {
     }: {
       colorScheme: 'light' | 'dark' | null | undefined
     }) {
-      store.isDarkMode = colorScheme === 'dark'
-      solNative.restart()
+      console.log("Changed theme to", colorScheme)
+      if(colorScheme === 'dark') {
+        store.isDarkMode = true
+        // nativeWindColorScheme.set("dark")
+      } else {
+        store.isDarkMode = false
+        // nativeWindColorScheme.set("light")
+      }
     },
 
     addToHistory: (query: string) => {
@@ -948,15 +955,15 @@ export const createUIStore = (root: IRootStore) => {
     },
   )
 
-  appareanceListener = Appearance.addChangeListener(store.onColorSchemeChange)
-
+  
   hydrate().then(() => {
     autorun(persist)
     store.getCalendarAccess()
     store.getAccessibilityStatus()
     store.getFullDiskAccessStatus()
   })
-
+  
+  appareanceListener = Appearance.addChangeListener(store.onColorSchemeChange)
   onShowListener = solNative.addListener('onShow', store.onShow)
   onHideListener = solNative.addListener('onHide', store.onHide)
   onHotkeyListener = solNative.addListener('hotkey', store.onHotkey)

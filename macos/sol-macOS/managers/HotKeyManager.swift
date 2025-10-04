@@ -20,7 +20,7 @@ final class HotKeyManager {
       SolEmitter.sharedInstance.onShow(target: "SETTINGS")
     }
     mainHotKey.keyUpHandler = PanelManager.shared.toggle
-    
+
     NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
       //      36 enter
       //      123 arrow left
@@ -137,7 +137,6 @@ final class HotKeyManager {
   }
 
   func updateHotkeys(hotkeyMap: [String: String]) {
-    print("Hotkeys being removed!")
     hotkeys.removeAll()
 
     for (key, value) in hotkeyMap {

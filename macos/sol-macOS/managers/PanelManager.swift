@@ -7,23 +7,17 @@ enum PreferredScreen {
   let baseSize = NSSize(width: 700, height: 450)
   public var preferredScreen: PreferredScreen = .frontmost
   private let mainWindow: Panel = Panel(contentRect: .zero)
-  private var rootView: RCTRootView?
+  private var rootView: NSView?
 
   @objc static public let shared = PanelManager()
 
-  public func setRootView(rootView: RCTRootView) {
+  public func setRootView(_ rootView: NSView) {
     mainWindow.contentView!.addSubview(rootView)
     self.rootView = rootView
   }
 
   @objc func showWindow(target: String? = nil) {
-    if mainWindow.isVisible {
-      return
-    }
-
     HotKeyManager.shared.settingsHotKey.isPaused = false
-    mainWindow.setIsVisible(false)
-    mainWindow.makeKeyAndOrderFront(self)
     
     guard
       let screen =
@@ -38,8 +32,6 @@ enum PreferredScreen {
     mainWindow.setFrameOrigin(NSPoint(x: floor(x), y: floor(y)))
     
     mainWindow.makeKeyAndOrderFront(self)
-    
-    mainWindow.setIsVisible(true)
     
     SolEmitter.sharedInstance.onShow(target: nil)
   }

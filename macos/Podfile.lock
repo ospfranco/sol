@@ -1364,6 +1364,8 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - react-native-safe-area-context (5.4.0):
+    - React-Core
   - React-NativeModulesApple (0.79.0):
     - glog
     - hermes-engine
@@ -1812,7 +1814,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNSentry (6.15.0):
+  - RNSentry (7.2.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1835,9 +1837,9 @@ PODS:
     - ReactCodegen
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
-    - Sentry/HybridSDK (= 8.52.0)
+    - Sentry/HybridSDK (= 8.56.1)
     - Yoga
-  - Sentry/HybridSDK (8.52.0)
+  - Sentry/HybridSDK (8.56.1)
   - SocketRocket (0.7.1)
   - Sparkle (2.8.0)
   - Yoga (0.0.0)
@@ -1886,6 +1888,7 @@ DEPENDENCIES:
   - React-microtasksnativemodule (from `../node_modules/react-native-macos/ReactCommon/react/nativemodule/microtasks`)
   - react-native-get-random-values (from `../node_modules/react-native-get-random-values`)
   - react-native-mmkv (from `../node_modules/react-native-mmkv`)
+  - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - React-NativeModulesApple (from `../node_modules/react-native-macos/ReactCommon/react/nativemodule/core/platform/ios`)
   - React-oscompat (from `../node_modules/react-native-macos/ReactCommon/oscompat`)
   - React-perflogger (from `../node_modules/react-native-macos/ReactCommon/reactperflogger`)
@@ -2014,6 +2017,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-get-random-values"
   react-native-mmkv:
     :path: "../node_modules/react-native-mmkv"
+  react-native-safe-area-context:
+    :path: "../node_modules/react-native-safe-area-context"
   React-NativeModulesApple:
     :path: "../node_modules/react-native-macos/ReactCommon/react/nativemodule/core/platform/ios"
   React-oscompat:
@@ -2131,6 +2136,7 @@ SPEC CHECKSUMS:
   React-microtasksnativemodule: ae37563c9c6d7e035310598d47e96cc8880461f6
   react-native-get-random-values: d16467cf726c618e9c7a8c3c39c31faa2244bbba
   react-native-mmkv: c72597014b52bbbbeac6b996fe4199007bffefdb
+  react-native-safe-area-context: 9d72abf6d8473da73033b597090a80b709c0b2f1
   React-NativeModulesApple: a426299adfeb1475725fe03ba6396274f7e91232
   React-oscompat: 2098ea5138dec4d965bd9f0fac95fc8419f64087
   React-perflogger: a0b5553ee2c4577708376bb577674eaf01413ca2
@@ -2164,8 +2170,8 @@ SPEC CHECKSUMS:
   ReactCommon: debd7f6b3b2872b251efebf93935e5fad0fb01b5
   RNCAsyncStorage: b44e8a4e798c3e1f56bffccd0f591f674fb9198f
   RNReanimated: 2a551d22723d2b5d08e786b0c457766ec9e9a00f
-  RNSentry: 3cbac219aedf0845b0dca2aba0c9ae17b1e909b6
-  Sentry: 6838d39e8bfc183a8bb6eb1c5e1b730c773ef1c1
+  RNSentry: eeaaa1a61ce59874fb46bba120042464618723e6
+  Sentry: b3ec44d01708fce73f99b544beb57e890eca4406
   SocketRocket: 03f7111df1a343b162bf5b06ead333be808e1e0a
   Sparkle: 16aaef9876ab6b3d49633d26e8e5b77e0d52b0e2
   Yoga: 45ce05cb11db042ba2e5e51a2dfaf0ff63d269f9

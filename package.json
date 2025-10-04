@@ -15,11 +15,12 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@legendapp/list": "^1.1.4",
+    "@expo/plist": "^0.4.7",
+    "@legendapp/list": "2.0.9",
     "@react-native-async-storage/async-storage": "2.2.0",
-    "@sentry/react-native": "6.15.0",
+    "@sentry/react-native": "7.2.0",
     "assert": "^2.0.0",
-    "axios": "^0.25.0",
+    "axios": "1.12.2",
     "chance": "^1.1.9",
     "clsx": "2.1.1",
     "expr-eval": "^2.0.2",
@@ -39,6 +40,7 @@
     "react-native-macos": "0.79.0",
     "react-native-mmkv": "2.12.2",
     "react-native-reanimated": "^3.8.1",
+    "react-native-safe-area-context": "5.4.0",
     "react-native-url-polyfill": "^2.0.0",
     "uuid": "^9.0.0"
   },
@@ -64,12 +66,14 @@
     "babel-plugin-module-resolver": "^4.1.0",
     "eslint": "^8.19.0",
     "prettier": "^2.8.8",
+    "prettier-plugin-tailwindcss": "^0.5.11",
     "rimraf": "^3.0.2",
-    "tailwindcss": "3.4.17",
+    "tailwindcss": "^3.4.17",
     "typescript": "5.0.4"
   },
   "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610",
   "patchedDependencies": {
-    "react-native-macos@0.78.3": "patches/react-native-macos@0.78.3.patch"
+    "react-native-macos@0.78.3": "patches/react-native-macos@0.78.3.patch",
+    "react-native-macos@0.79.0": "patches/react-native-macos@0.79.0.patch"
   }
 }
