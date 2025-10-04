@@ -1,21 +1,21 @@
-import {NativeEventEmitter, NativeModules} from 'react-native'
+import { NativeEventEmitter, NativeModules } from 'react-native'
 
 class SolNative extends NativeEventEmitter {
   openFile: (path: string) => void
   openWithFinder: (path: string) => void
   hideWindow: typeof global.__SolProxy.hideWindow
   getEvents: typeof global.__SolProxy.getEvents
-  getApps: () => Promise<Array<{name: string; url: string; isRunning: boolean}>>
+  getApps: () => Promise<Array<{ name: string; url: string; isRunning: boolean }>>
   toggleDarkMode: () => void
   executeAppleScript: (source: string) => void
   getMediaInfo: () => Promise<
     | {
-        title: string
-        artist: string
-        artwork: string
-        bundleIdentifier: string
-        url: string
-      }
+      title: string
+      artist: string
+      artwork: string
+      bundleIdentifier: string
+      url: string
+    }
     | null
     | undefined
   >
@@ -89,10 +89,9 @@ class SolNative extends NativeEventEmitter {
   showWindow: typeof global.__SolProxy.showWindow
   showWifiQR: (ssid: string, password: string) => void
   updateHotkeys: (v: Record<string, string>) => void
-
   log: (message: string) => void
-
   getApplications: typeof global.__SolProxy.getApplications
+  setHyperKeyEnabled: (v: boolean) => void
 
   // Constants
   accentColor: string
@@ -206,6 +205,7 @@ class SolNative extends NativeEventEmitter {
     this.moveFrontmostToPreviousSpace = module.moveFrontmostToPreviousSpace
     this.log = global.__SolProxy.log
     this.getApplications = global.__SolProxy.getApplications
+    this.setHyperKeyEnabled = module.setHyperKeyEnabled
   }
 }
 

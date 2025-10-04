@@ -63,7 +63,6 @@ class AppDelegate: RCTAppDelegate {
 
     PanelManager.shared.setRootView(rootView)
 
-    HotKeyManager.shared.setupKeyboardListeners()
     setupPasteboardListener()
 
     mediaKeyForwarder = MediaKeyForwarder()

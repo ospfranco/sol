@@ -217,6 +217,7 @@ export const createUIStore = (root: IRootStore) => {
           parsedStore.showInAppBrowserBookMarks ?? true
         store.hasDismissedGettingStarted =
           parsedStore.hasDismissedGettingStarted ?? false
+        store.hyperKeyEnabled = parsedStore.hyperKeyEnabled ?? false
       })
 
       solNative.setLaunchAtLogin(parsedStore.launchAtLogin ?? true)
@@ -225,6 +226,7 @@ export const createUIStore = (root: IRootStore) => {
         parsedStore.showWindowOn ?? 'screenWithFrontmost',
       )
       solNative.setMediaKeyForwardingEnabled(store.mediaKeyForwardingEnabled)
+      solNative.setHyperKeyEnabled(store.hyperKeyEnabled)
       solNative.updateHotkeys(toJS(store.shortcuts))
 
       store.username = solNative.userName()
@@ -298,6 +300,7 @@ export const createUIStore = (root: IRootStore) => {
     confirmDialogShown: false,
     confirmCallback: null as (() => any) | null,
     confirmTitle: null as string | null,
+    hyperKeyEnabled: false,
     //    _____                            _           _
     //   / ____|                          | |         | |
     //  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -422,6 +425,10 @@ export const createUIStore = (root: IRootStore) => {
     //  /_/    \_\___|\__|_|\___/|_| |_|___/
     setHoveredEventId: (id: string | null) => {
       store.hoveredEventId = id
+    },
+    setHyperKeyEnabled: (enabled: boolean) => {
+      store.hyperKeyEnabled = enabled
+      solNative.setHyperKeyEnabled(enabled)
     },
     rotateScratchPadColor: () => {
       if (store.scratchPadColor === ScratchPadColor.SYSTEM) {

@@ -67,8 +67,8 @@ class SolNative: RCTEventEmitter {
     _ resolve: @escaping RCTPromiseResolveBlock,
     rejecter reject: RCTPromiseRejectBlock
   ) {
-      let apps = ApplicationSearcher.shared.getAllApplications()
-      resolve(apps)
+    let apps = ApplicationSearcher.shared.getAllApplications()
+    resolve(apps)
   }
 
   @objc func openFile(_ path: String) {
@@ -442,6 +442,19 @@ class SolNative: RCTEventEmitter {
   @objc func updateHotkeys(_ hotkeys: NSDictionary) {
     guard let hotkeys = hotkeys as? [String: String] else { return }
     HotKeyManager.shared.updateHotkeys(hotkeyMap: hotkeys)
+  }
+
+  @objc func setHyperKeyEnabled(_ enabled: Bool) {
+    if enabled {
+      DispatchQueue.main.async {
+        HotKeyManager.shared.setupCapsLockMonitoring()
+      }
+    } else {
+      DispatchQueue.main.async {
+      
+        HotKeyManager.shared.resetCapsLockMonitoring()
+      }
+    }
   }
 
 }

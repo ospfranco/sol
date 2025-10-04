@@ -1,10 +1,11 @@
-import {LegendList} from '@legendapp/list'
-import {Assets, Icons} from 'assets'
+import { LegendList } from '@legendapp/list'
+import { Assets, Icons } from 'assets'
 import clsx from 'clsx'
 import Favicon from 'components/Favicon'
-import {FileIcon} from 'components/FileIcon'
-import {renderToKeys} from 'lib/shorcuts'
-import {observer} from 'mobx-react-lite'
+import { FileIcon } from 'components/FileIcon'
+import { MySwitch } from 'components/MySwitch'
+import { renderToKeys } from 'lib/shorcuts'
+import { observer } from 'mobx-react-lite'
 import {
   Image,
   Text,
@@ -12,10 +13,10 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native'
-import {useStore} from 'store'
-import {ItemType} from 'stores/ui.store'
+import { useStore } from 'store'
+import { ItemType } from 'stores/ui.store'
 
-const RenderItem = observer(({item, index}: any) => {
+const RenderItem = observer(({ item, index }: any) => {
   const store = useStore()
   const itemShortcut = store.ui.shortcuts[item.id]
 
@@ -80,7 +81,7 @@ const RenderItem = observer(({item, index}: any) => {
                   <Image
                     source={Assets.close}
                     className="h-4 w-4 ml-2"
-                    style={{tintColor: 'red'}}
+                    style={{ tintColor: 'red' }}
                   />
                 </TouchableOpacity>
               </View>
@@ -110,6 +111,13 @@ export const Shortcuts = observer(() => {
             <Text className="text-blue-500 text-sm">Restore Defaults</Text>
           </TouchableOpacity>
         </View>
+        <View className="border-t border-lightBorder dark:border-darkBorder z-0" />
+        <View className='flex-row p-3 justify-between'>
+          <Text>Enable Hyper Key (Caps Lock into ⌘ + ⌥ + ⌃ + ⇧)</Text>
+          <MySwitch value={store.ui.hyperKeyEnabled}
+            onValueChange={store.ui.setHyperKeyEnabled} />
+        </View>
+        <View className="border-t border-lightBorder dark:border-darkBorder z-0" />
         <LegendList
           className="flex-1"
           contentContainerClassName="px-4 pb-4"
