@@ -1,15 +1,15 @@
 import clsx from 'clsx'
-import {DateTime} from 'luxon'
-import {observer} from 'mobx-react-lite'
-import {FC, useCallback, useMemo} from 'react'
-import {Linking, Text, TouchableWithoutFeedback, View} from 'react-native'
-import {useStore} from 'store'
-import {Key} from './Key'
-import {useBoolean} from 'hooks'
-import {LoadingBar} from './LoadingBar'
-import {LegendList} from '@legendapp/list'
+import { DateTime } from 'luxon'
+import { observer } from 'mobx-react-lite'
+import { FC, useCallback, useMemo } from 'react'
+import { Linking, Text, TouchableWithoutFeedback, View } from 'react-native'
+import { useStore } from 'store'
+import { Key } from './Key'
+import { useBoolean } from 'hooks'
+import { LoadingBar } from './LoadingBar'
+import { LegendList } from '@legendapp/list'
 
-const CalendarItem = ({item}: {item: INativeEvent}) => {
+const CalendarItem = ({ item }: { item: INativeEvent }) => {
   let store = useStore()
   let [hovered, hoverOn, hoverOff] = useBoolean()
   let lStart = DateTime.fromISO(item.date)
@@ -80,8 +80,8 @@ const CalendarItem = ({item}: {item: INativeEvent}) => {
                   {'in '}
                   {lStart.diffNow(['hours', 'minutes']).hours >= 1
                     ? `${Math.floor(
-                        lStart.diffNow(['hours', 'minutes']).hours,
-                      )}h `
+                      lStart.diffNow(['hours', 'minutes']).hours,
+                    )}h `
                     : ''}
                   {lStart.diffNow('minutes').minutes > 0
                     ? `${Math.round(lStart.diffNow('minutes').minutes % 60)}m`
@@ -98,7 +98,7 @@ const CalendarItem = ({item}: {item: INativeEvent}) => {
   )
 }
 
-const RenderItem = ({item}: any) => {
+const RenderItem = ({ item }: any) => {
   return (
     <View>
       <View className="mx-3 p-2 gap-1">
@@ -133,9 +133,17 @@ export let FullCalendar: FC = observer(() => {
         showsVerticalScrollIndicator={false}
         keyExtractor={section => section.date.toString()}
         renderItem={RenderItem}
-        contentContainerStyle={{flexGrow: 1}}
+        contentContainerStyle={{ flexGrow: 1 }}
         recycleItems
       />
+      {store.calendar.upcomingEvent &&
+        <View className="subBg flex-row items-center justify-end gap-1 py-2 px-4">
+          <Text className={'text-xs darker-text mr-1'}>
+            Open Upcoming Event "{store.calendar.upcomingEvent.title?.substring(0, 20)}"
+          </Text>
+          <Key symbol={'⏎'} />
+        </View>
+      }
     </>
   )
 })

@@ -1,8 +1,7 @@
-import Foundation
 import Carbon
 import Cocoa
+import Foundation
 import HotKey
-
 
 final class HotKeyManager {
   let handledKeys: [UInt16] = [53, 123, 124, 126, 125, 36, 48]
@@ -78,7 +77,6 @@ final class HotKeyManager {
 
       return $0
     }
-    
 
     NSEvent.addLocalMonitorForEvents(matching: .flagsChanged) {
       if $0.modifierFlags.contains(.command) {
@@ -144,13 +142,13 @@ final class HotKeyManager {
       return $0
     }
   }
-  
+
   deinit {
     resetCapsLockMapping()
     if let eventTap = eventTap {
       CFMachPortInvalidate(eventTap)
     }
-    
+
     if let src = runLoopSource {
       CFRunLoopRemoveSource(CFRunLoopGetCurrent(), src, .commonModes)
     }
@@ -223,11 +221,11 @@ final class HotKeyManager {
       [
         "HIDKeyboardModifierMappingSrc": 0x7_0000_0039,
         "HIDKeyboardModifierMappingDst": 0x7_0000_006D,
-      ],
+      ]
     ]
     executeHidutil(payload: ["UserKeyMapping": mapping])
   }
-  
+
   private func executeHidutil(payload: [String: Any]) {
     guard
       let data = try? JSONSerialization.data(
@@ -245,7 +243,6 @@ final class HotKeyManager {
     } catch { NSLog("hidutil failed: \(error)") }
   }
 
-  
   func resetCapsLockMonitoring() {
     resetCapsLockMapping()
     if let eventTap = eventTap {
@@ -256,26 +253,27 @@ final class HotKeyManager {
 
   func setupCapsLockMonitoring() {
     let mask =
-    (1 << CGEventType.keyDown.rawValue)
-    | (1 << CGEventType.keyUp.rawValue)
-    | (1 << CGEventType.flagsChanged.rawValue)
-    
-    guard let tap = CGEvent.tapCreate(
-      tap: .cgSessionEventTap,
-      place: .headInsertEventTap,
-      options: .defaultTap,
-      eventsOfInterest: CGEventMask(mask),
-      callback: { (proxy, type, event, refcon) -> Unmanaged<CGEvent>? in
-        let manager = Unmanaged<HotKeyManager>.fromOpaque(refcon!).takeUnretainedValue()
-        return manager.handleCapsLockEvent(proxy: proxy, type: type, event: event)
-      },
-      userInfo: Unmanaged.passUnretained(self).toOpaque()
-    ) else {
+      (1 << CGEventType.keyDown.rawValue)
+      | (1 << CGEventType.keyUp.rawValue)
+      | (1 << CGEventType.flagsChanged.rawValue)
+
+    guard
+      let tap = CGEvent.tapCreate(
+        tap: .cgSessionEventTap,
+        place: .headInsertEventTap,
+        options: .defaultTap,
+        eventsOfInterest: CGEventMask(mask),
+        callback: { (proxy, type, event, refcon) -> Unmanaged<CGEvent>? in
+          let manager = Unmanaged<HotKeyManager>.fromOpaque(refcon!).takeUnretainedValue()
+          return manager.handleCapsLockEvent(proxy: proxy, type: type, event: event)
+        },
+        userInfo: Unmanaged.passUnretained(self).toOpaque()
+      )
+    else {
       print("Failed to create event tap for caps lock monitoring")
       return
     }
-    
-    
+
     print("Created event tap correctly! 🟩")
     eventTap = tap
 
@@ -296,60 +294,58 @@ final class HotKeyManager {
         if type == .keyDown {
           print("F18 Key down")
           f18Down = true
-//          lastKeyDown = Date()
-//          quickPressHandled = false
+          //          lastKeyDown = Date()
+          //          quickPressHandled = false
         } else {
           print("F18 key up")
           f18Down = false
-//          handleQuickPress()
+          //          handleQuickPress()
         }
         return nil
       }
     }
-    
+
     // Long press is ALWAYS hyperkey - apply hyperkey modifiers when F18 is held
     if f18Down {
       return handleHyperKeyModifiers(type: type, event: event)
     }
-    
+
     return Unmanaged.passUnretained(event)
   }
-  
-  
+
   private func handleHyperKeyModifiers(type _: CGEventType, event: CGEvent) -> Unmanaged<CGEvent>? {
     // Only modify non-F18 key events
     let code = UInt8(event.getIntegerValueField(.keyboardEventKeycode))
     if code != UInt8(kVK_F18) {
       // Get the current flags from the event
       let currentFlags = event.flags
-      
+
       // Create base hyper key modifiers (Command + Control + Option)
       var hyperFlags: CGEventFlags = [.maskCommand, .maskControl, .maskAlternate]
-      
+
       // Add shift by default if includeShift flag is set
-//      if includeShift {
-        hyperFlags.insert(.maskShift)
-//      }
-      
+      //      if includeShift {
+      hyperFlags.insert(.maskShift)
+      //      }
+
       // Preserve any manually added modifiers that are already present in the event
-//      if !includeShift && currentFlags.contains(.maskShift) {
-//        hyperFlags.insert(.maskShift)
-//      }
-      
+      //      if !includeShift && currentFlags.contains(.maskShift) {
+      //        hyperFlags.insert(.maskShift)
+      //      }
+
       // Preserve any other potential modifiers
       if currentFlags.contains(.maskSecondaryFn) {
         hyperFlags.insert(.maskSecondaryFn)
       }
-      
+
       // Apply the combined flags to the event
       event.flags = hyperFlags
-      
+
       // Mark as handled since we used it as a modifier
-//      quickPressHandled = true
+      //      quickPressHandled = true
     }
-    
+
     return Unmanaged.passUnretained(event)
   }
-
 
 }
