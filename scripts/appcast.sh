@@ -2,7 +2,7 @@
 
 url="$1"
 version="$2"
-release_notes="$3
+release_notes="$3"
 
 echo "🟠 Creating release version $version"
 echo "Release Notes"
