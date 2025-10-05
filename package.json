@@ -10,7 +10,6 @@
     "dev": "bundle exec fastlane dev && rimraf releases/Sol.app && open /Applications/Sol.app",
     "release": "bundle exec fastlane release",
     "fix-dependencies": "rnx-align-deps --write",
-    "appcast": "./macos/Pods/Sparkle/bin/generate_appcast releases",
     "pods": "cd macos && rm -rf Podfile.lock && bundle exec pod install && rm .xcode.env.local && xcodebuild -resolvePackageDependencies -workspace sol.xcworkspace -scheme debug",
     "typecheck": "tsc --noEmit"
   },
