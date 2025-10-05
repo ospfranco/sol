@@ -3,32 +3,32 @@
     <channel>
         <title>Sol</title>
         <item>
-            <title>2.1.263</title>
-            <description><![CDATA[This is a release note]]></description>
-            <pubDate>Sun, 05 Oct 2025 09:21:31 +0200</pubDate>
-            <sparkle:version>477</sparkle:version>
-            <sparkle:shortVersionString>2.1.263</sparkle:shortVersionString>
+            <title>2.1.268</title>
+            <pubDate>Sun, 05 Oct 2025 10:37:19 +0200</pubDate>
+            <sparkle:version>482</sparkle:version>
+            <sparkle:shortVersionString>2.1.268</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
-            <enclosure url="http://blah.com" length="14227198" type="application/octet-stream" sparkle:edSignature="B16Tn3riSnF8ow/sT7oJumc9MiNzt8uVQ3rVixyOV7d2OAJ+YzShA6iT1WbC2OERMAP4tHZD7AFYIshB56q6Cw=="/>
-        </item>
-        <item>
-            <title>2.1.262</title>
-            <pubDate>Sun, 05 Oct 2025 04:51:16 +0200</pubDate>
-            <sparkle:version>476</sparkle:version>
-            <sparkle:shortVersionString>2.1.262</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.262/2.1.262.zip" length="14227176" type="application/octet-stream" sparkle:edSignature="iHhyglgBp9Gc654Ldgc4i+wzvG7hzssq5tOo+UuSFH1neDKAN9Y3vj7x0UusscU+vTYXgn2wkBbJPFh+BwACBw=="/>
-        </item>
-        <item>
-            <title>2.1.261</title>
-            <pubDate>Sun, 05 Oct 2025 04:17:52 +0200</pubDate>
-            <sparkle:version>475</sparkle:version>
-            <sparkle:shortVersionString>2.1.261</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.261/2.1.261.zip" length="14227101" type="application/octet-stream" sparkle:edSignature="Z5ew+fTbc4cwv3BHUl943Gp8jG/QgJgSagZ3v9XqAPXVwDUU3xnQU4M6x1NVABKIE9rJz0CMXj2o17j8vHcyBQ=="/>
+            <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/2.1.268.zip" length="14227148" type="application/octet-stream" sparkle:edSignature="KpJVF4/L2xoPq4A2Ew23NM4StKbs0480j+KwYbOtA51pItoNDkPpO1BRnJC8jG3auUZaq8W2Kf3dF14YqF0WAg=="/>
             <sparkle:deltas>
-                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/Sol475-474.delta" sparkle:deltaFrom="474" length="18642" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="858560" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="gF9Fqv58x//DPPGfBOS/8nDLDwXas/xdN85TUEFVVTPCBm3/yvYUp7hcJNTjNfHlOzeUaf/tYEfuAsuhJZy9CA=="/>
+                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/Sol482-481.delta" sparkle:deltaFrom="481" length="19790" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="858560" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="7Eps+LdN0EwCuX6NXahKygRu+xX/Y9iHu9paYoE9wF8b4rxDA6kjNKu00vCVbIP6mxRIkdPCAIrFsqzjg5sXDw=="/>
+                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/Sol482-480.delta" sparkle:deltaFrom="480" length="19234" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="858560" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="OZ8BIg1J5eV44msUI4Hcnj2hKUARDJhAFG6uAX00KyclXsPPJ/IkL69irAAUR4WBBiO0/D+Zq49hioy4dTBUCg=="/>
             </sparkle:deltas>
+        </item>
+        <item>
+            <title>2.1.267</title>
+            <pubDate>Sun, 05 Oct 2025 10:28:03 +0200</pubDate>
+            <sparkle:version>481</sparkle:version>
+            <sparkle:shortVersionString>2.1.267</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/2.1.267.zip" length="14227156" type="application/octet-stream" sparkle:edSignature="sfrouMg5Ry06O4IgkcrL1Q2UteQzrXb2uO8n31bqWbwxSGIaA+exeDMyhfMzXpoAgn8oj/xAeqWFhec5YtBPBA=="/>
+        </item>
+        <item>
+            <title>2.1.266</title>
+            <pubDate>Sun, 05 Oct 2025 09:37:57 +0200</pubDate>
+            <sparkle:version>480</sparkle:version>
+            <sparkle:shortVersionString>2.1.266</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/2.1.266.zip" length="14227189" type="application/octet-stream" sparkle:edSignature="8wexayOukoRvBZZMZXsYdQKUUWycZpYKa7vaD53JWmxTSdEvOwSCpwlCvU484p7vY7NVOYMkZtjncGUR3L8pBA=="/>
         </item>
     </channel>
 </rss>
