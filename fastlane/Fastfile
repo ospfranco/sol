@@ -51,7 +51,7 @@ platform :mac do
     Dir.chdir("..") do
       sh("./macos/Pods/Sparkle/bin/generate_appcast", "releases")
 
-      sh("./scripts/appcast.sh", file_url, version, release_notes)
+      sh("./scripts/appcast.js", file_url, version, release_notes)
 
       Dir.glob("#{path}releases/*.zip").each { |file| File.delete(file) }
 
