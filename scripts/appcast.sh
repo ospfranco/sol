@@ -28,13 +28,19 @@ fi
 
 xml=${xml//"$url_to_replace"/"$url"}
 
-# Add release notes to the first item (most recent version)
+# Add release notes to the specific version
 if [ -n "$release_notes" ]; then
-    # Escape special characters in release notes for XML
-    escaped_notes=$(echo "$release_notes" | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g; s/'"'"'/\&#39;/g')
+    # No need to escape when using CDATA
     
-    # Use a simpler sed approach
-    xml=$(echo "$xml" | sed "s|<title>$version</title>|<title>$version</title>\n            <description><![CDATA[$escaped_notes]]></description>|")
+    # Use awk instead of sed for better newline handling
+    xml=$(echo "$xml" | awk -v version="$version" -v notes="$release_notes" '
+        $0 ~ "<title>" version "</title>" {
+            print $0
+            print "            <description><![CDATA[" notes "]]></description>"
+            next
+        }
+        { print }
+    ')
 fi
 
 # Check if xml is not empty before writing
