@@ -5,6 +5,8 @@ version="$2"
 release_notes="$3"
 
 echo "🟠 Creating release version $version"
+echo "Release Notes"
+echo "$release_notes"
 
 url_to_replace="https://raw.githubusercontent.com/ospfranco/sol/main/releases/$version.zip"
 
