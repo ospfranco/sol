@@ -38,11 +38,12 @@ platform :mac do
     set_github_release(
       repository_name: "ospfranco/sol",
       api_token: ENV["GITHUB_API_TOKEN"],
-      name: "v" + version,
       tag_name: version,
-      description: "No release notes provided.",
+      is_generate_release_notes: true,
       upload_assets: [zipFileName]
     )
+
+    release_notes = lane_context[SharedValues::SET_GITHUB_RELEASE_JSON]["body"]
 
     file_url = "https://github.com/ospfranco/sol/releases/download/" + version + "/" + version + ".zip"
     
@@ -50,7 +51,7 @@ platform :mac do
     Dir.chdir("..") do
       sh("bun", "appcast")
 
-      sh("./scripts/appcast.sh", file_url, version)
+      sh("./scripts/appcast.sh", file_url, version, release_notes)
 
       Dir.glob("#{path}releases/*.zip").each { |file| File.delete(file) }
 
