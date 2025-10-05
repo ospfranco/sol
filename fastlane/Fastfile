@@ -49,7 +49,7 @@ platform :mac do
     
     
     Dir.chdir("..") do
-      sh("bun", "appcast")
+      sh("./macos/Pods/Sparkle/bin/generate_appcast", "releases")
 
       sh("./scripts/appcast.sh", file_url, version, release_notes)
 
