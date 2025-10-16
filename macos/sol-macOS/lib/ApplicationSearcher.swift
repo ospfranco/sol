@@ -33,6 +33,7 @@ class Application {
   let resourceKeys: [URLResourceKey] = [
     .isExecutableKey,
     .isApplicationKey,
+    .isSymbolicLinkKey,
   ]
 
   @objc public static let shared = ApplicationSearcher()
@@ -63,7 +64,7 @@ class Application {
     ".localized",
     "Icon",
     "en_US.strings",
-    "Tips.app"
+    "Tips.app",
   ]
 
   // Application directories to watch
@@ -299,7 +300,7 @@ class Application {
     if depth > searchDepth {
       return []
     }
-    
+
     if ignoredPatterns.contains(url.lastPathComponent) {
       return []
     }
@@ -307,13 +308,37 @@ class Application {
     if url.pathExtension == "app" {
       return [url]
     }
-    
+
+    // Check if this is a symbolic link and resolve it
+    var resolvedUrl = url
+    do {
+      let resourceValues = try url.resourceValues(forKeys: Set([.isSymbolicLinkKey]))
+      if resourceValues.isSymbolicLink == true {
+        resolvedUrl = url.resolvingSymlinksInPath()
+
+        // Check if the resolved path still exists and is not in ignored patterns
+        if !fileManager.fileExists(atPath: resolvedUrl.path) {
+          return []
+        }
+
+        if ignoredPatterns.contains(resolvedUrl.lastPathComponent) {
+          return []
+        }
+
+        // If the symbolic link points to an app, return it
+        if resolvedUrl.pathExtension == "app" {
+          return [resolvedUrl]
+        }
+      }
+    } catch {
+      // If we can't determine if it's a symbolic link, continue with the original URL
+    }
 
     do {
-      if url.hasDirectoryPath {
+      if resolvedUrl.hasDirectoryPath {
         var urls: [URL] = []
         let contents = try fileManager.contentsOfDirectory(
-          at: url,
+          at: resolvedUrl,
           includingPropertiesForKeys: [],
           options: [
             .skipsSubdirectoryDescendants,
