@@ -550,6 +550,40 @@ void install(jsi::Runtime &rt,
     return promise;
   });
 
+  auto mkdir = HOSTFN("mkdir", []) {
+    NSString *path = sol::jsiValueToNSString(rt, arguments[0]);
+    NSError *error = nil;
+    
+    BOOL success = [[NSFileManager defaultManager] 
+                    createDirectoryAtPath:path 
+                    withIntermediateDirectories:YES 
+                    attributes:nil 
+                    error:&error];
+    
+    if (!success || error) {
+      throw jsi::JSError(rt, sol::NSStringToJsiValue(rt, error.localizedDescription));
+    }
+    
+    return jsi::Value(success);
+  });
+
+  auto cp = HOSTFN("cp", []) {
+    NSString *sourcePath = sol::jsiValueToNSString(rt, arguments[0]);
+    NSString *destPath = sol::jsiValueToNSString(rt, arguments[1]);
+    NSError *error = nil;
+    
+    BOOL success = [[NSFileManager defaultManager] 
+                    copyItemAtPath:sourcePath 
+                    toPath:destPath 
+                    error:&error];
+    
+    if (!success || error) {
+      throw jsi::JSError(rt, sol::NSStringToJsiValue(rt, error.localizedDescription));
+    }
+    
+    return jsi::Value(success);
+  });
+
   jsi::Object module = jsi::Object(rt);
 
   module.setProperty(rt, "setHeight", std::move(setHeight));
@@ -573,6 +607,8 @@ void install(jsi::Runtime &rt,
   module.setProperty(rt, "getWifiInfo", std::move(getWifiInfo));
   module.setProperty(rt, "log", std::move(log));
   module.setProperty(rt, "getApplications", std::move(getApplications));
+  module.setProperty(rt, "mkdir", std::move(mkdir));
+  module.setProperty(rt, "cp", std::move(cp));
 
   rt.global().setProperty(rt, "__SolProxy", std::move(module));
 }

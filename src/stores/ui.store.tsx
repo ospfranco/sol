@@ -1,9 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import {Assets} from 'assets'
-import {Parser} from 'expr-eval'
-import {solNative} from 'lib/SolNative'
-import {CONSTANTS} from 'lib/constants'
-import {googleTranslate} from 'lib/translator'
+import { Assets } from 'assets'
+import { Parser } from 'expr-eval'
+import { solNative } from 'lib/SolNative'
+import { CONSTANTS } from 'lib/constants'
+import { googleTranslate } from 'lib/translator'
 import {
   autorun,
   IReactionDisposer,
@@ -18,13 +18,12 @@ import {
   Linking,
   NativeEventSubscription,
 } from 'react-native'
-import {IRootStore} from 'store'
-import {createBaseItems} from './items'
+import { IRootStore } from 'store'
+import { createBaseItems } from './items'
 import MiniSearch from 'minisearch'
 import * as Sentry from '@sentry/react-native'
-import {storage} from './storage'
-import {defaultShortcuts} from 'lib/shorcuts'
-import {colorScheme as nativeWindColorScheme } from 'nativewind'
+import { storage } from './storage'
+import { defaultShortcuts } from 'lib/shorcuts'
 
 const exprParser = new Parser()
 
@@ -132,7 +131,7 @@ function traverse(
     if (node.type === 'folder') {
       traverse(bookmarks, node.children, node.name)
     } else if (node.type === 'url') {
-      bookmarks.push({title: node.name, url: node.url, bookmarkFolder})
+      bookmarks.push({ title: node.name, url: node.url, bookmarkFolder })
     }
   })
 }
@@ -340,10 +339,10 @@ export const createUIStore = (root: IRootStore) => {
         ...store.customItems,
         ...(store.showInAppBrowserBookMarks
           ? [
-              ...store.safariBookmarks,
-              ...store.braveBookmarks,
-              ...store.chromeBookmarks,
-            ]
+            ...store.safariBookmarks,
+            ...store.braveBookmarks,
+            ...store.chromeBookmarks,
+          ]
           : []),
       ]
 
@@ -387,26 +386,26 @@ export const createUIStore = (root: IRootStore) => {
       }) as any
 
       const temporaryResultItems = !!store.temporaryResult
-        ? [{id: 'temporary', type: ItemType.TEMPORARY_RESULT, name: ''}]
+        ? [{ id: 'temporary', type: ItemType.TEMPORARY_RESULT, name: '' }]
         : []
 
       const finalResults: Item[] = [
         ...(CONSTANTS.LESS_VALID_URL.test(store.query)
           ? [
-              {
-                id: 'open_url',
-                type: ItemType.CONFIGURATION,
-                name: 'Open URL',
-                icon: '🌎',
-                callback: () => {
-                  if (store.query.startsWith('https://')) {
-                    Linking.openURL(store.query)
-                  } else {
-                    Linking.openURL(`https://${store.query}`)
-                  }
-                },
+            {
+              id: 'open_url',
+              type: ItemType.CONFIGURATION,
+              name: 'Open URL',
+              icon: '🌎',
+              callback: () => {
+                if (store.query.startsWith('https://')) {
+                  Linking.openURL(store.query)
+                } else {
+                  Linking.openURL(`https://${store.query}`)
+                }
               },
-            ]
+            },
+          ]
           : []),
         ...temporaryResultItems,
         ...results,
@@ -546,12 +545,12 @@ export const createUIStore = (root: IRootStore) => {
       }
     },
     updateApps: (
-      apps: Array<{name: string; url: string; isRunning: boolean}>,
+      apps: Array<{ name: string; url: string; isRunning: boolean }>,
     ) => {
       // First update the app list
       let appsRecord: Record<string, Item> = {}
 
-      for (let {name, url, isRunning} of apps) {
+      for (let { name, url, isRunning } of apps) {
         if (name === 'sol') {
           continue
         }
@@ -607,7 +606,7 @@ export const createUIStore = (root: IRootStore) => {
         store.updateApps(apps)
       })
     },
-    onShow: ({target}: {target?: string}) => {
+    onShow: ({ target }: { target?: string }) => {
       store.isVisible = true
       if (target != null) {
         switch (target) {
@@ -827,7 +826,7 @@ export const createUIStore = (root: IRootStore) => {
       colorScheme: 'light' | 'dark' | null | undefined
     }) {
       console.log("Changed theme to", colorScheme)
-      if(colorScheme === 'dark') {
+      if (colorScheme === 'dark') {
         store.isDarkMode = true
         // nativeWindColorScheme.set("dark")
       } else {
@@ -868,7 +867,7 @@ export const createUIStore = (root: IRootStore) => {
       store.customSearchUrl = url
     },
 
-    onHotkey({id}: {id: string}) {
+    onHotkey({ id }: { id: string }) {
       let item = store.items.find(i => i.id === id)
 
       if (item == null) {
@@ -913,7 +912,7 @@ export const createUIStore = (root: IRootStore) => {
           return i
         }
 
-        return {...i, id: Math.random().toString()}
+        return { ...i, id: Math.random().toString() }
       })
     },
     setHasDismissedGettingStarted: (v: boolean) => {
@@ -962,14 +961,14 @@ export const createUIStore = (root: IRootStore) => {
     },
   )
 
-  
+
   hydrate().then(() => {
     autorun(persist)
     store.getCalendarAccess()
     store.getAccessibilityStatus()
     store.getFullDiskAccessStatus()
   })
-  
+
   appareanceListener = Appearance.addChangeListener(store.onColorSchemeChange)
   onShowListener = solNative.addListener('onShow', store.onShow)
   onHideListener = solNative.addListener('onHide', store.onHide)
