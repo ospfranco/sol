@@ -3,6 +3,19 @@
     <channel>
         <title>Sol</title>
         <item>
+            <title>2.1.271</title>
+            <description><![CDATA[## What's Changed
+* Search for apps in symbolic links by @ospfranco in https://github.com/ospfranco/sol/pull/206
+
+
+**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.270...2.1.271]]></description>
+            <pubDate>Thu, 16 Oct 2025 18:45:04 +0200</pubDate>
+            <sparkle:version>485</sparkle:version>
+            <sparkle:shortVersionString>2.1.271</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.271/2.1.271.zip" length="14229413" type="application/octet-stream" sparkle:edSignature="n86UdWdej710wZHUnGgGSflEuHz/kh2ofEr4marabnAQuPERE14as6LXlAiJYO+WYWfb1valDAKPZu7iNGv2Bw=="/>
+        </item>
+        <item>
             <title>2.1.270</title>
             <description><![CDATA[## What's Changed
 * Migrate app settings file location to $HOME/.config/sol by @ospfranco in https://github.com/ospfranco/sol/pull/205
@@ -31,18 +44,6 @@
                 <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/Sol483-482.delta" sparkle:deltaFrom="482" length="19686" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="858560" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="NrW/IAdvh0BZ6P8U+HClKKYILUkn5vfNUpS1lZhWxmfXbCdUvlcLxPOHJsJpzs8uU/7RslOEI7SRNhPSa2WeCA=="/>
                 <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/Sol483-481.delta" sparkle:deltaFrom="481" length="19790" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="858560" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="WRoX6WtiNglQbC6xchNZVI2Tnm+BdtD0YwthStY04m6w4LNUo9Mw5/2IXOsiXUUJnIHKb7CWm35WQl12fkZ1Dg=="/>
                 <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/Sol483-480.delta" sparkle:deltaFrom="480" length="19790" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="858560" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="mu93sqezmdS87GULy04SdyQDjdI6gcuIZAiYPVxdwAU79PFMcq+7LPGSs8VoyNF6E4D+/O4ORa/LEK+i5xM9BQ=="/>
-            </sparkle:deltas>
-        </item>
-        <item>
-            <title>2.1.268</title>
-            <pubDate>Sun, 05 Oct 2025 10:37:19 +0200</pubDate>
-            <sparkle:version>482</sparkle:version>
-            <sparkle:shortVersionString>2.1.268</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/2.1.268.zip" length="14227148" type="application/octet-stream" sparkle:edSignature="KpJVF4/L2xoPq4A2Ew23NM4StKbs0480j+KwYbOtA51pItoNDkPpO1BRnJC8jG3auUZaq8W2Kf3dF14YqF0WAg=="/>
-            <sparkle:deltas>
-                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/Sol482-481.delta" sparkle:deltaFrom="481" length="19790" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="858560" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="7Eps+LdN0EwCuX6NXahKygRu+xX/Y9iHu9paYoE9wF8b4rxDA6kjNKu00vCVbIP6mxRIkdPCAIrFsqzjg5sXDw=="/>
-                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/Sol482-480.delta" sparkle:deltaFrom="480" length="19234" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="858560" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="OZ8BIg1J5eV44msUI4Hcnj2hKUARDJhAFG6uAX00KyclXsPPJ/IkL69irAAUR4WBBiO0/D+Zq49hioy4dTBUCg=="/>
             </sparkle:deltas>
         </item>
     </channel>
