@@ -94,6 +94,7 @@ class SolNative extends NativeEventEmitter {
   setHyperKeyEnabled: (v: boolean) => void
   mkdir: typeof global.__SolProxy.mkdir
   cp: typeof global.__SolProxy.cp
+  del: typeof global.__SolProxy.del
 
   // Constants
   accentColor: string
@@ -180,6 +181,7 @@ class SolNative extends NativeEventEmitter {
     this.killProcess = global.__SolProxy.killProcess
     this.mkdir = global.__SolProxy.mkdir
     this.cp = global.__SolProxy.cp
+    this.del = global.__SolProxy.del
 
     const constants = module.getConstants()
 

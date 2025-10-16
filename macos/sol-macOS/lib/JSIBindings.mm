@@ -584,6 +584,21 @@ void install(jsi::Runtime &rt,
     return jsi::Value(success);
   });
 
+  auto del = HOSTFN("del", []) {
+    NSString *path = sol::jsiValueToNSString(rt, arguments[0]);
+    NSError *error = nil;
+    
+    BOOL success = [[NSFileManager defaultManager] 
+                    removeItemAtPath:path 
+                    error:&error];
+    
+    if (!success || error) {
+      throw jsi::JSError(rt, sol::NSStringToJsiValue(rt, error.localizedDescription));
+    }
+    
+    return jsi::Value(success);
+  });
+
   jsi::Object module = jsi::Object(rt);
 
   module.setProperty(rt, "setHeight", std::move(setHeight));
@@ -609,6 +624,7 @@ void install(jsi::Runtime &rt,
   module.setProperty(rt, "getApplications", std::move(getApplications));
   module.setProperty(rt, "mkdir", std::move(mkdir));
   module.setProperty(rt, "cp", std::move(cp));
+  module.setProperty(rt, "del", std::move(del));
 
   rt.global().setProperty(rt, "__SolProxy", std::move(module));
 }

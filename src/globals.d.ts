@@ -63,6 +63,7 @@ declare var global: {
     >
     mkdir: (path: string) => boolean
     cp: (sourcePath: string, destPath: string) => boolean
+    del: (path: string) => boolean
   }
 }
 

@@ -37,6 +37,15 @@ const migrateStorage = () => {
           `${newStoragePath}/mmkv.default.crc`
         )
         console.log('Successfully migrated storage to', newStoragePath)
+
+        // Delete old storage files after successful migration
+        try {
+          solNative.del(`${oldStoragePath}/mmkv.default`)
+          solNative.del(`${oldStoragePath}/mmkv.default.crc`)
+          console.log('Successfully deleted old storage files')
+        } catch (deleteError) {
+          console.error('Failed to delete old storage files:', deleteError)
+        }
       }
     } catch (error) {
       console.error('Failed to migrate storage:', error)
