@@ -72,7 +72,6 @@
   },
   "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610",
   "patchedDependencies": {
-    "react-native-macos@0.78.3": "patches/react-native-macos@0.78.3.patch",
     "react-native-macos@0.79.0": "patches/react-native-macos@0.79.0.patch"
   }
 }
