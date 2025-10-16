@@ -40,7 +40,7 @@ declare var global: {
     searchFiles: (
       paths: string[],
       query: string,
-    ) => {name: string; path: string; isFolder: boolean}[]
+    ) => { name: string; path: string; isFolder: boolean }[]
     requestCalendarAccess: () => Promise<void>
     getCalendarAuthorizationStatus: () => CalendarAuthorizationStatus
     getEvents: () => Promise<INativeEvent[]>
@@ -50,8 +50,8 @@ declare var global: {
     userName: () => string
     ps: () => string
     killProcess: (pid: string) => void
-    getWifiPassword: () => {password: string; ssid: string} | null
-    getWifiInfo: () => {ip: string | undefined}
+    getWifiPassword: () => { password: string; ssid: string } | null
+    getWifiInfo: () => { ip: string | undefined }
     showWindow: () => void
     log: (message: string) => void
     getApplications: () => Promise<
@@ -61,6 +61,9 @@ declare var global: {
         isRunning: boolean
       }>
     >
+    mkdir: (path: string) => boolean
+    cp: (sourcePath: string, destPath: string) => boolean
+    del: (path: string) => boolean
   }
 }
 
