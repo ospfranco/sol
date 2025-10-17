@@ -1,12 +1,12 @@
-import {Assets} from 'assets'
-import {IRootStore} from 'store'
-import {ItemType, Widget} from './ui.store'
-import {solNative} from 'lib/SolNative'
-import {Clipboard, Linking, Text, View} from 'react-native'
-import {FileIcon} from 'components/FileIcon'
-import {nanoid} from 'nanoid'
-import {v4 as uuidv4} from 'uuid'
-import {systemPreferenceItems} from './systemPreferences'
+import { Assets } from 'assets'
+import { IRootStore } from 'store'
+import { ItemType, Widget } from './ui.store'
+import { solNative } from 'lib/SolNative'
+import { Clipboard, Linking, Text, View } from 'react-native'
+import { FileIcon } from 'components/FileIcon'
+import { nanoid } from 'nanoid'
+import { v4 as uuidv4 } from 'uuid'
+import { systemPreferenceItems } from './systemPreferences'
 import Chance from 'chance'
 
 const chance = new Chance()
@@ -820,6 +820,7 @@ export function createBaseItems(store: IRootStore) {
       icon: '🍞',
       name: 'Success toast',
       type: ItemType.CONFIGURATION,
+      preventClose: true,
       callback: () => {
         solNative.showToast(
           'This is a Toast test with a long test to make sure everything fits! 🍞',
