@@ -18,33 +18,28 @@ enum PreferredScreen {
 
   @objc func showWindow(target: String? = nil) {
     HotKeyManager.shared.settingsHotKey.isPaused = false
-    
+
     guard
       let screen =
         (preferredScreen == .frontmost ? getFrontmostScreen() : getScreenWithMouse())
     else {
       return
     }
-    
+
     let yOffset = screen.visibleFrame.height * 0.3
     let x = screen.visibleFrame.midX - baseSize.width / 2
     let y = screen.visibleFrame.midY - mainWindow.frame.height + yOffset
     mainWindow.setFrameOrigin(NSPoint(x: floor(x), y: floor(y)))
-    
+
     mainWindow.makeKeyAndOrderFront(self)
-    
+
     SolEmitter.sharedInstance.onShow(target: nil)
   }
 
   @objc func hideWindow() {
-    //    #if !DEBUG
-    if mainWindow.isVisible {
-      //      overlayWindow.orderOut(self)
-      mainWindow.orderOut(self)
-      SolEmitter.sharedInstance.onHide()
-      HotKeyManager.shared.settingsHotKey.isPaused = true
-    }
-    //    #endif
+    mainWindow.orderOut(self)
+    SolEmitter.sharedInstance.onHide()
+    HotKeyManager.shared.settingsHotKey.isPaused = true
   }
 
   @objc func resetSize() {
@@ -114,7 +109,6 @@ enum PreferredScreen {
   }
 
   func getFrontmostScreen() -> NSScreen? {
-    mainWindow.center()
     return mainWindow.screen ?? NSScreen.main
   }
 

@@ -70,7 +70,7 @@ class ToastManager {
         y: y
       ))
 
-    toastWindow.makeKeyAndOrderFront(nil)
+    toastWindow.orderFront(nil)
 
     let deadline =
       timeout != nil ? DispatchTime.now() + timeout!.doubleValue : .now() + 2
