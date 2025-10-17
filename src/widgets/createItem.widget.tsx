@@ -1,15 +1,15 @@
-import {Icons} from 'assets'
+import { Icons } from 'assets'
 import clsx from 'clsx'
-import {BackButton} from 'components/BackButton'
-import {Input} from 'components/Input'
-import {MySwitch} from 'components/MySwitch'
-import {SolButton} from 'components/SolButton'
-import {solNative} from 'lib/SolNative'
-import {observer} from 'mobx-react-lite'
-import React, {FC, useEffect, useState} from 'react'
-import {Image, Text, TouchableOpacity, View, ViewStyle} from 'react-native'
-import {useStore} from 'store'
-import {ItemType} from 'stores/ui.store'
+import { BackButton } from 'components/BackButton'
+import { Input } from 'components/Input'
+import { MySwitch } from 'components/MySwitch'
+import { SolButton } from 'components/SolButton'
+import { solNative } from 'lib/SolNative'
+import { observer } from 'mobx-react-lite'
+import React, { FC, useEffect, useState } from 'react'
+import { Image, Text, TouchableOpacity, View, ViewStyle } from 'react-native'
+import { useStore } from 'store'
+import { ItemType } from 'stores/ui.store'
 
 interface Props {
   style?: ViewStyle
@@ -33,7 +33,7 @@ export const USER_COLOR_PALETTE = [
   '#c52828',
 ]
 
-export const CreateItemWidget: FC<Props> = observer(({style}) => {
+export const CreateItemWidget: FC<Props> = observer(({ style }) => {
   const store = useStore()
   const [icon, setIcon] = useState('Apple')
   const [color, setColor] = useState(
@@ -103,18 +103,16 @@ export const CreateItemWidget: FC<Props> = observer(({style}) => {
             <Text className="w-24 font-bold text-right mr-2">Name</Text>
             <View className="flex-1">
               <Input
-                placeholder="My favorite shortcut..."
+                placeholder="Name of your link or script"
                 bordered
-                className={'flex-1'}
-                inputClassName={'w-full'}
                 value={name}
                 onChangeText={setName}
-                textAlign="center"
+                autoFocus
               />
             </View>
           </View>
           <View className="flex-row items-center py-2">
-            <Text className="mr-2 w-24 text-right font-bold">Applescript</Text>
+            <Text className="mr-2 w-24 text-right font-bold">AppleScript</Text>
             <View className="flex-1">
               <MySwitch
                 value={isApplescript}
@@ -122,7 +120,7 @@ export const CreateItemWidget: FC<Props> = observer(({style}) => {
               />
             </View>
           </View>
-          <View className="flex-row py-2">
+          <View className="flex-row py-2 items-center">
             <Text className="mr-2 w-24 text-right font-bold">
               {isApplescript ? 'Script' : 'Link'}
             </Text>
@@ -133,10 +131,8 @@ export const CreateItemWidget: FC<Props> = observer(({style}) => {
               // broken on 0.71.3
               multiline={isApplescript}
               className={'flex-1'}
-              inputClassName={'w-full'}
               value={text}
               onChangeText={setText}
-              textAlign="center"
             />
           </View>
         </View>

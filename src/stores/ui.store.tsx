@@ -67,7 +67,7 @@ export enum ScratchPadColor {
 }
 
 let minisearch = new MiniSearch({
-  fields: ['name', 'alias'],
+  fields: ['name', 'alias', 'type'],
   storeFields: [
     'name',
     'icon',
