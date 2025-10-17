@@ -1,28 +1,75 @@
+import Carbon
 import Cocoa
 
 class KeyboardShortcutRecorder {
-  private var monitor: Any?
   private var isActive = false
   var onShortcut: (([String]) -> Void)?
+  private var eventTap: CFMachPort?
+  private var runLoopSource: CFRunLoopSource?
 
   func startRecording() {
     guard !isActive else { return }
     isActive = true
-    monitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in
-      guard let self = self else { return event }
-      let keys = self.keysFrom(event: event)
-      self.onShortcut?(keys)
-      // Return nil to prevent the event from propagating, or event to allow it
-      return nil
+
+    // Create a CGEvent tap to intercept events before system shortcuts
+    let mask = (1 << CGEventType.keyDown.rawValue)
+
+    guard
+      let tap = CGEvent.tapCreate(
+        tap: .cgSessionEventTap,
+        place: .headInsertEventTap,
+        options: .defaultTap,
+        eventsOfInterest: CGEventMask(mask),
+        callback: { (proxy, type, event, refcon) -> Unmanaged<CGEvent>? in
+          let recorder = Unmanaged<KeyboardShortcutRecorder>.fromOpaque(refcon!)
+            .takeUnretainedValue()
+          return recorder.handleEvent(proxy: proxy, type: type, event: event)
+        },
+        userInfo: Unmanaged.passUnretained(self).toOpaque()
+      )
+    else {
+      print("Failed to create event tap for keyboard shortcut recording")
+      return
     }
+
+    eventTap = tap
+    runLoopSource = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, tap, 0)
+    CFRunLoopAddSource(CFRunLoopGetCurrent(), runLoopSource, .commonModes)
+    CGEvent.tapEnable(tap: tap, enable: true)
   }
 
   func stopRecording() {
-    if let monitor = monitor {
-      NSEvent.removeMonitor(monitor)
-      self.monitor = nil
+    if let tap = eventTap {
+      CGEvent.tapEnable(tap: tap, enable: false)
+      CFMachPortInvalidate(tap)
+      eventTap = nil
     }
+
+    if let source = runLoopSource {
+      CFRunLoopRemoveSource(CFRunLoopGetCurrent(), source, .commonModes)
+      runLoopSource = nil
+    }
+
     isActive = false
+  }
+
+  private func handleEvent(proxy: CGEventTapProxy, type: CGEventType, event: CGEvent) -> Unmanaged<
+    CGEvent
+  >? {
+    if type == .keyDown {
+      // Convert CGEvent to NSEvent to use our existing parsing logic
+      if let nsEvent = NSEvent(cgEvent: event) {
+        let keys = keysFrom(event: nsEvent)
+
+        // Call the callback directly on main thread if already on main, otherwise dispatch
+        self.onShortcut?(keys)
+      }
+
+      // Consume the event to prevent it from triggering system shortcuts
+      return nil
+    }
+
+    return Unmanaged.passUnretained(event)
   }
 
   private func keysFrom(event: NSEvent) -> [String] {

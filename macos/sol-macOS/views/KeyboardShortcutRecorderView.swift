@@ -50,6 +50,17 @@ class KeyboardShortcutRecorderView: NSView {
     startRecording()
   }
 
+  deinit {
+    // CRITICAL: Stop recording when view is deallocated
+    recorder.stopRecording()
+  }
+
+  override func removeFromSuperview() {
+    // Stop recording when view is removed from hierarchy
+    recorder.stopRecording()
+    super.removeFromSuperview()
+  }
+
   private func startRecording() {
     isRecording = true
     textField.stringValue = "Recording..."
