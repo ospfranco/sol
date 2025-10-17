@@ -274,7 +274,6 @@ final class HotKeyManager {
       return
     }
 
-    print("Created event tap correctly! 🟩")
     eventTap = tap
 
     runLoopSource = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, tap, 0)
@@ -292,14 +291,9 @@ final class HotKeyManager {
       let code = UInt8(event.getIntegerValueField(.keyboardEventKeycode))
       if code == UInt8(kVK_F18) {
         if type == .keyDown {
-          print("F18 Key down")
           f18Down = true
-          //          lastKeyDown = Date()
-          //          quickPressHandled = false
         } else {
-          print("F18 key up")
           f18Down = false
-          //          handleQuickPress()
         }
         return nil
       }
@@ -313,7 +307,7 @@ final class HotKeyManager {
     return Unmanaged.passUnretained(event)
   }
 
-  private func handleHyperKeyModifiers(type _: CGEventType, event: CGEvent) -> Unmanaged<CGEvent>? {
+  private func handleHyperKeyModifiers(type: CGEventType, event: CGEvent) -> Unmanaged<CGEvent>? {
     // Only modify non-F18 key events
     let code = UInt8(event.getIntegerValueField(.keyboardEventKeycode))
     if code != UInt8(kVK_F18) {
@@ -328,21 +322,11 @@ final class HotKeyManager {
       hyperFlags.insert(.maskShift)
       //      }
 
-      // Preserve any manually added modifiers that are already present in the event
-      //      if !includeShift && currentFlags.contains(.maskShift) {
-      //        hyperFlags.insert(.maskShift)
-      //      }
+      // if currentFlags.contains(.maskSecondaryFn) {
+      //   hyperFlags.insert(.maskSecondaryFn)
+      // }
 
-      // Preserve any other potential modifiers
-      if currentFlags.contains(.maskSecondaryFn) {
-        hyperFlags.insert(.maskSecondaryFn)
-      }
-
-      // Apply the combined flags to the event
       event.flags = hyperFlags
-
-      // Mark as handled since we used it as a modifier
-      //      quickPressHandled = true
     }
 
     return Unmanaged.passUnretained(event)
