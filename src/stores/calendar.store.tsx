@@ -1,10 +1,10 @@
-import {captureException} from '@sentry/react-native'
-import {extractMeetingLink} from 'lib/calendar'
-import {solNative} from 'lib/SolNative'
-import {DateTime} from 'luxon'
-import {makeAutoObservable, runInAction} from 'mobx'
-import {EmitterSubscription, Linking} from 'react-native'
-import {IRootStore} from 'store'
+import { captureException } from '@sentry/react-native'
+import { extractMeetingLink } from 'lib/calendar'
+import { solNative } from 'lib/SolNative'
+import { DateTime } from 'luxon'
+import { makeAutoObservable, runInAction } from 'mobx'
+import { EmitterSubscription, Linking } from 'react-native'
+import { IRootStore } from 'store'
 
 const MAX_DAYS_AHEAD = 14
 
@@ -67,7 +67,7 @@ export const createCalendarStore = (root: IRootStore) => {
           eventLink = extractMeetingLink(found.notes, found.location)
         }
 
-        return {...found, eventLink}
+        return { ...found, eventLink }
       }
 
       return null
@@ -77,7 +77,7 @@ export const createCalendarStore = (root: IRootStore) => {
       data: Array<INativeEvent>
     }> {
       const events = store.events
-      let acc: Record<string, {date: DateTime; data: Array<INativeEvent>}> = {}
+      let acc: Record<string, { date: DateTime; data: Array<INativeEvent> }> = {}
       for (let i = 0; i < events.length; i++) {
         const e = events[i]
         const lEventDate = DateTime.fromISO(e.date)
@@ -134,46 +134,50 @@ export const createCalendarStore = (root: IRootStore) => {
         return
       }
 
-      const events = await solNative.getEvents()
+      try {
+        const events = await solNative.getEvents()
 
-      runInAction(() => {
-        if (root.ui.isVisible) {
-          store.events = events
-        }
+        runInAction(() => {
+          if (root.ui.isVisible) {
+            store.events = events
+          }
 
-        if (!root.ui.showUpcomingEvent) {
-          return
-        }
+          if (!root.ui.showUpcomingEvent) {
+            return
+          }
 
-        const upcomingEvent = store.upcomingEvent
+          const upcomingEvent = store.upcomingEvent
 
-        if (!upcomingEvent) {
-          solNative.setStatusBarItemTitle('')
-          return
-        }
+          if (!upcomingEvent) {
+            solNative.setStatusBarItemTitle('')
+            return
+          }
 
-        const lStart = DateTime.fromISO(upcomingEvent.date)
-        const minutes = lStart.diffNow('minutes').minutes
+          const lStart = DateTime.fromISO(upcomingEvent.date)
+          const minutes = lStart.diffNow('minutes').minutes
 
-        const title = `${upcomingEvent.title!.trim().substring(0, 18)}${
-          upcomingEvent.title!.length > 18 ? '...' : ''
-        }`
+          const title = `${upcomingEvent.title!.trim().substring(0, 18)}${upcomingEvent.title!.length > 18 ? '...' : ''
+            }`
 
-        if (minutes <= 0) {
-          solNative.setStatusBarItemTitle(title)
-          return
-        }
+          if (minutes <= 0) {
+            solNative.setStatusBarItemTitle(title)
+            return
+          }
 
-        const relativeHours = Math.floor(minutes / 60)
-        const relativeHoursStr = relativeHours > 0 ? `${relativeHours}h` : ''
-        const relativeMinutesStr = `${Math.floor(
-          minutes - relativeHours * 60,
-        )}m`
+          const relativeHours = Math.floor(minutes / 60)
+          const relativeHoursStr = relativeHours > 0 ? `${relativeHours}h` : ''
+          const relativeMinutesStr = `${Math.floor(
+            minutes - relativeHours * 60,
+          )}m`
 
-        solNative.setStatusBarItemTitle(
-          `${title} • ${relativeHoursStr} ${relativeMinutesStr}`,
-        )
-      })
+          solNative.setStatusBarItemTitle(
+            `${title} • ${relativeHoursStr} ${relativeMinutesStr}`,
+          )
+        })
+      } catch (error) {
+        captureException(error)
+        console.error('Failed to fetch calendar events:', error)
+      }
     },
     cleanUp: () => {
       pollingTimeout && clearTimeout(pollingTimeout)

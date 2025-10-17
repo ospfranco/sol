@@ -34,21 +34,31 @@
 }
 
 - (NSArray<EKEvent *> *)getEvents {
-  NSArray *calendars = [_store calendarsForEntityType:EKEntityTypeEvent];
+  @try {
+    NSArray *calendars = [_store calendarsForEntityType:EKEntityTypeEvent];
+    
+    if (!calendars || calendars.count == 0) {
+      NSLog(@"No calendars available");
+      return @[];
+    }
 
-  NSCalendar *gregorian = [[NSCalendar alloc]
-      initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-  NSDateComponents *nextDays = [[NSDateComponents alloc] init];
-  nextDays.day = 14;
-  NSDate *nextDate = [gregorian dateByAddingComponents:nextDays
-                                                toDate:[NSDate date]
-                                               options:0];
+    NSCalendar *gregorian = [[NSCalendar alloc]
+        initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSDateComponents *nextDays = [[NSDateComponents alloc] init];
+    nextDays.day = 14;
+    NSDate *nextDate = [gregorian dateByAddingComponents:nextDays
+                                                  toDate:[NSDate date]
+                                                 options:0];
 
-  NSPredicate *predicate = [_store predicateForEventsWithStartDate:[NSDate date]
-                                                           endDate:nextDate
-                                                         calendars:calendars];
-  NSArray<EKEvent *> *events = [_store eventsMatchingPredicate:predicate];
-  return events;
+    NSPredicate *predicate = [_store predicateForEventsWithStartDate:[NSDate date]
+                                                             endDate:nextDate
+                                                           calendars:calendars];
+    NSArray<EKEvent *> *events = [_store eventsMatchingPredicate:predicate];
+    return events ? events : @[];
+  } @catch (NSException *exception) {
+    NSLog(@"Error fetching events: %@", exception);
+    return @[];
+  }
 }
 
 - (NSString *)getCalendarAuthorizationStatus {
