@@ -3,6 +3,21 @@
     <channel>
         <title>Sol</title>
         <item>
+            <title>2.1.272</title>
+            <description><![CDATA[## What's Changed
+* Fixes hyper key plus lower system events by @ospfranco in https://github.com/ospfranco/sol/pull/207
+* Fix toast re-centering window by @ospfranco in https://github.com/ospfranco/sol/pull/208
+* Add error handling on initialization by @ospfranco in https://github.com/ospfranco/sol/pull/209
+
+
+**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.271...2.1.272]]></description>
+            <pubDate>Fri, 17 Oct 2025 15:07:33 +0200</pubDate>
+            <sparkle:version>486</sparkle:version>
+            <sparkle:shortVersionString>2.1.272</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.272/2.1.272.zip" length="14233489" type="application/octet-stream" sparkle:edSignature="LwY5pXdvesL7UzsTZcOjIM5ibYAGLVLfPosMSjHMtX5D+zliR/i3KOFGNu8L6U+vw3iX+fzMh9Kif8AOvQS8Dw=="/>
+        </item>
+        <item>
             <title>2.1.271</title>
             <description><![CDATA[## What's Changed
 * Search for apps in symbolic links by @ospfranco in https://github.com/ospfranco/sol/pull/206
@@ -27,24 +42,6 @@
             <sparkle:shortVersionString>2.1.270</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.270/2.1.270.zip" length="14229220" type="application/octet-stream" sparkle:edSignature="r9gVLCTPR9ny7czHGaY/ktIsQqdOXmRaOUL6lXB7iivoa8/IYEwNfKdctJly4TVzQZu7+YpjFAvaU5q+Jcw1CA=="/>
-        </item>
-        <item>
-            <title>2.1.269</title>
-            <description><![CDATA[## What's Changed
-* Turn script to bun by @ospfranco in https://github.com/ospfranco/sol/pull/203
-
-
-**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.268...2.1.269]]></description>
-            <pubDate>Sun, 05 Oct 2025 10:47:31 +0200</pubDate>
-            <sparkle:version>483</sparkle:version>
-            <sparkle:shortVersionString>2.1.269</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.269/2.1.269.zip" length="14227145" type="application/octet-stream" sparkle:edSignature="8nz/y0QHypn4jTkOVb77tRXUCaZCaDzsaRS3SoXbMRnPeY3RCLjXgDtGIpbe2HT/uB4KQUO7aD8tmN3bIIGhDQ=="/>
-            <sparkle:deltas>
-                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/Sol483-482.delta" sparkle:deltaFrom="482" length="19686" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="858560" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="NrW/IAdvh0BZ6P8U+HClKKYILUkn5vfNUpS1lZhWxmfXbCdUvlcLxPOHJsJpzs8uU/7RslOEI7SRNhPSa2WeCA=="/>
-                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/Sol483-481.delta" sparkle:deltaFrom="481" length="19790" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="858560" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="WRoX6WtiNglQbC6xchNZVI2Tnm+BdtD0YwthStY04m6w4LNUo9Mw5/2IXOsiXUUJnIHKb7CWm35WQl12fkZ1Dg=="/>
-                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/Sol483-480.delta" sparkle:deltaFrom="480" length="19790" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="858560" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="mu93sqezmdS87GULy04SdyQDjdI6gcuIZAiYPVxdwAU79PFMcq+7LPGSs8VoyNF6E4D+/O4ORa/LEK+i5xM9BQ=="/>
-            </sparkle:deltas>
         </item>
     </channel>
 </rss>
