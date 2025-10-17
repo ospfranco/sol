@@ -6,8 +6,8 @@ import { MySwitch } from 'components/MySwitch'
 import { SolButton } from 'components/SolButton'
 import { solNative } from 'lib/SolNative'
 import { observer } from 'mobx-react-lite'
-import React, { FC, useEffect, useState } from 'react'
-import { Image, Text, TouchableOpacity, View, ViewStyle } from 'react-native'
+import React, { FC, useEffect, useRef, useState } from 'react'
+import { Image, Text, TextInput, TouchableOpacity, View, ViewStyle } from 'react-native'
 import { useStore } from 'store'
 import { ItemType } from 'stores/ui.store'
 
@@ -35,17 +35,39 @@ export const USER_COLOR_PALETTE = [
 
 export const CreateItemWidget: FC<Props> = observer(({ style }) => {
   const store = useStore()
-  const [icon, setIcon] = useState('Apple')
+  const editingItem = store.ui.editingCustomItem
+  const isEditing = !!editingItem
+
+  const [icon, setIcon] = useState(editingItem?.icon || 'Apple')
   const [color, setColor] = useState(
-    store.ui.isDarkMode ? USER_COLOR_PALETTE[1] : USER_COLOR_PALETTE[0],
+    editingItem?.color || (store.ui.isDarkMode ? USER_COLOR_PALETTE[1] : USER_COLOR_PALETTE[0]),
   )
-  const [isApplescript, setIsAppleScript] = useState(false)
-  const [name, setName] = useState('')
-  const [text, setText] = useState('')
+  const [isApplescript, setIsAppleScript] = useState(editingItem?.isApplescript || false)
+  const [name, setName] = useState(editingItem?.name || '')
+  const [text, setText] = useState(editingItem?.text || '')
   const [iconSelectorOpen, setIconSelectorOpen] = useState(false)
+  const [focusedField, setFocusedField] = useState(0)
+
+  const nameInputRef = useRef<TextInput>(null)
+  const textInputRef = useRef<TextInput>(null)
 
   useEffect(() => {
     const subscription = solNative.addListener('keyDown', e => {
+      // Tab key
+      if (e.keyCode === 48 && !iconSelectorOpen) {
+        e.preventDefault?.()
+        if (focusedField === 0) {
+          // Move from name to text field
+          setFocusedField(1)
+          textInputRef.current?.focus()
+        } else {
+          // Move from text back to name field
+          setFocusedField(0)
+          nameInputRef.current?.focus()
+        }
+        return
+      }
+
       if (isApplescript && e.keyCode === 36) {
         setText(text + '\n')
       }
@@ -53,18 +75,26 @@ export const CreateItemWidget: FC<Props> = observer(({ style }) => {
     return () => {
       subscription.remove()
     }
-  }, [text, setText])
+  }, [text, setText, isApplescript, iconSelectorOpen, focusedField])
 
   const commit = () => {
-    store.ui.createCustomItem({
-      id: Math.random().toString(),
+    const item = {
+      id: isEditing ? editingItem.id : Math.random().toString(),
       name,
       icon,
       color,
       text,
       isApplescript,
       type: ItemType.CUSTOM,
-    })
+    }
+
+    if (isEditing) {
+      store.ui.updateCustomItem(item)
+    } else {
+      store.ui.createCustomItem(item)
+    }
+
+    store.ui.setEditingCustomItem(null)
     store.ui.onHide()
   }
 
@@ -103,10 +133,12 @@ export const CreateItemWidget: FC<Props> = observer(({ style }) => {
             <Text className="w-24 font-bold text-right mr-2">Name</Text>
             <View className="flex-1">
               <Input
+                inputRef={nameInputRef}
                 placeholder="Name of your link or script"
                 bordered
                 value={name}
                 onChangeText={setName}
+                onFocus={() => setFocusedField(0)}
                 autoFocus
               />
             </View>
@@ -126,6 +158,7 @@ export const CreateItemWidget: FC<Props> = observer(({ style }) => {
             </Text>
 
             <Input
+              inputRef={textInputRef}
               placeholder="Link or script..."
               bordered
               // broken on 0.71.3
@@ -133,6 +166,7 @@ export const CreateItemWidget: FC<Props> = observer(({ style }) => {
               className={'flex-1'}
               value={text}
               onChangeText={setText}
+              onFocus={() => setFocusedField(1)}
             />
           </View>
         </View>
@@ -186,7 +220,7 @@ export const CreateItemWidget: FC<Props> = observer(({ style }) => {
         </View>
       )}
       <View className="border-t border-lightBorder dark:border-darkBorder items-end px-3 py-2 bg-gray-100 dark:bg-neutral-700">
-        <SolButton title="Create" onPress={commit} />
+        <SolButton title={isEditing ? "Update" : "Create"} onPress={commit} />
       </View>
     </View>
   )

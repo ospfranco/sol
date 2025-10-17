@@ -210,6 +210,10 @@ export const SearchWidget: FC = observer(() => {
           <View className="py-2 px-4 flex-row items-center justify-end gap-1 subBg">
             {store.ui.currentItem?.type === ItemType.CUSTOM && (
               <>
+                <Text className="text-xs darker-text mr-1">Edit</Text>
+                <Key symbol={'⌘'} />
+                <Key symbol={'E'} />
+                <View className="mx-2" />
                 <Text className="text-xs darker-text mr-1">Delete</Text>
                 <Key symbol={'⇧'} />
                 <Key symbol={'⌫'} />

@@ -265,6 +265,7 @@ export const createUIStore = (root: IRootStore) => {
     focusedWidget: Widget.SEARCH,
     events: [] as INativeEvent[],
     customItems: [] as Item[],
+    editingCustomItem: null as Item | null,
     apps: [] as Item[],
     isLoading: false,
     translationResults: [] as string[],
@@ -462,6 +463,22 @@ export const createUIStore = (root: IRootStore) => {
     createCustomItem: (item: Item) => {
       store.customItems.push(item)
     },
+    updateCustomItem: (updatedItem: Item) => {
+      const index = store.customItems.findIndex(i => i.id === updatedItem.id)
+      if (index !== -1) {
+        store.customItems[index] = updatedItem
+        minisearch.discard(updatedItem.id)
+      }
+    },
+    deleteCustomItem: (itemId: string) => {
+      store.customItems = store.customItems.filter(i => i.id !== itemId)
+      if (minisearch.has(itemId)) {
+        minisearch.discard(itemId)
+      }
+    },
+    setEditingCustomItem: (item: Item | null) => {
+      store.editingCustomItem = item
+    },
     translateQuery: async () => {
       store.isLoading = true
       store.translationResults = []
@@ -644,6 +661,7 @@ export const createUIStore = (root: IRootStore) => {
     onHide: () => {
       store.isVisible = false
       store.focusedWidget = Widget.SEARCH
+      store.editingCustomItem = null
       if (store.temporaryResult == null) {
         store.setQuery('')
       }
