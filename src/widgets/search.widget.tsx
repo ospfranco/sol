@@ -1,14 +1,14 @@
-import {LegendList, LegendListRef} from '@legendapp/list'
-import {Icons} from 'assets'
+import { LegendList, LegendListRef } from '@legendapp/list'
+import { Icons } from 'assets'
 import clsx from 'clsx'
 import Favicon from 'components/Favicon'
-import {FileIcon} from 'components/FileIcon'
-import {Key} from 'components/Key'
-import {LoadingBar} from 'components/LoadingBar'
-import {MainInput} from 'components/MainInput'
-import {renderToKeys} from 'lib/shorcuts'
-import {observer} from 'mobx-react-lite'
-import {FC, useEffect, useRef} from 'react'
+import { FileIcon } from 'components/FileIcon'
+import { Key } from 'components/Key'
+import { LoadingBar } from 'components/LoadingBar'
+import { MainInput } from 'components/MainInput'
+import { renderToKeys } from 'lib/shorcuts'
+import { observer } from 'mobx-react-lite'
+import { FC, useEffect, useRef } from 'react'
 import {
   Image,
   Platform,
@@ -17,10 +17,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
-import {useStore} from 'store'
-import {ItemType, Widget} from 'stores/ui.store'
+import { useStore } from 'store'
+import { ItemType, Widget } from 'stores/ui.store'
 
-const ItemRow = observer(({item, index}: {item: Item; index: number}) => {
+const ItemRow = observer(({ item, index }: { item: Item; index: number }) => {
   const store = useStore()
   const isActive = index === store.ui.selectedIndex
 
@@ -115,6 +115,15 @@ const ItemRow = observer(({item, index}: {item: Item; index: number}) => {
           </Text>
         )}
 
+        {item.type === ItemType.CUSTOM && (
+          <Text
+            className={clsx('darker-text text-xs', {
+              'text-white dark:text-neutral-200': isActive,
+            })}>
+            Custom
+          </Text>
+        )}
+
         {!!item.subName && (
           <Text
             className={clsx('darker-text text-xs', {
@@ -201,9 +210,13 @@ export const SearchWidget: FC = observer(() => {
           <View className="py-2 px-4 flex-row items-center justify-end gap-1 subBg">
             {store.ui.currentItem?.type === ItemType.CUSTOM && (
               <>
+                <Text className="text-xs darker-text mr-1">Edit</Text>
+                <Key symbol={'⌘'} />
+                <Key symbol={'E'} />
+                <View className="mx-2" />
                 <Text className="text-xs darker-text mr-1">Delete</Text>
                 <Key symbol={'⇧'} />
-                <Key symbol={'delete'} />
+                <Key symbol={'⌫'} />
                 <View className="mx-2" />
               </>
             )}

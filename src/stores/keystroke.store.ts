@@ -1,12 +1,12 @@
-import {extractMeetingLink} from 'lib/calendar'
+import { extractMeetingLink } from 'lib/calendar'
 
-import {solNative} from 'lib/SolNative'
-import {makeAutoObservable} from 'mobx'
-import {Clipboard, EmitterSubscription, Linking} from 'react-native'
-import {IRootStore} from 'store'
-import {ItemType, Widget} from './ui.store'
-import {EMOJI_ROW_SIZE} from './emoji.store'
-import {isValidCustomSearchEngineUrl} from 'widgets/settings/general'
+import { solNative } from 'lib/SolNative'
+import { makeAutoObservable } from 'mobx'
+import { Clipboard, EmitterSubscription, Linking } from 'react-native'
+import { IRootStore } from 'store'
+import { ItemType, Widget } from './ui.store'
+import { EMOJI_ROW_SIZE } from './emoji.store'
+import { isValidCustomSearchEngineUrl } from 'widgets/settings/general'
 
 let keyDownListener: EmitterSubscription | undefined
 let keyUpListener: EmitterSubscription | undefined
@@ -20,7 +20,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
     controlPressed: false,
 
     simulateEnter: () => {
-      store.keyDown({keyCode: 36, meta: false, shift: false})
+      store.keyDown({ keyCode: 36, meta: false, shift: false })
     },
     keyDown: async ({
       keyCode,
@@ -36,14 +36,14 @@ export const createKeystrokeStore = (root: IRootStore) => {
         case 38: {
           // simulate a down key press
           if (store.controlPressed) {
-            store.keyDown({keyCode: 125, meta: false, shift: false})
+            store.keyDown({ keyCode: 125, meta: false, shift: false })
           }
           break
         }
         // "k" key
         case 40: {
           if (store.controlPressed) {
-            store.keyDown({keyCode: 126, meta: false, shift: false})
+            store.keyDown({ keyCode: 126, meta: false, shift: false })
           }
           break
         }
@@ -55,10 +55,20 @@ export const createKeystrokeStore = (root: IRootStore) => {
             root.ui.currentItem != null &&
             root.ui.currentItem.type === ItemType.CUSTOM
           ) {
-            const newItems = root.ui.customItems.filter(
-              c => c.name !== root.ui.currentItem!.name,
-            )
-            root.ui.customItems = newItems
+            root.ui.deleteCustomItem(root.ui.currentItem.id)
+          }
+          break
+        }
+        // "e" key
+        case 14: {
+          if (
+            meta &&
+            root.ui.focusedWidget === Widget.SEARCH &&
+            root.ui.currentItem != null &&
+            root.ui.currentItem.type === ItemType.CUSTOM
+          ) {
+            root.ui.setEditingCustomItem(root.ui.currentItem)
+            root.ui.focusWidget(Widget.CREATE_ITEM)
           }
           break
         }
@@ -648,7 +658,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
               ) {
                 root.ui.setQuery(
                   root.ui.history[
-                    root.ui.history.length - 1 - root.ui.historyPointer
+                  root.ui.history.length - 1 - root.ui.historyPointer
                   ],
                 )
 
