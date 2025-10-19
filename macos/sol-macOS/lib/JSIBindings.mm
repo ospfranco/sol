@@ -15,6 +15,8 @@
 #else
 #import <sol-Swift.h>
 #endif
+#import "FolderWatcherJSI.h"
+
 extern "C" {
 #import <CoreLocation/CoreLocation.h>
 #import <CoreWLAN/CoreWLAN.h>
@@ -617,6 +619,14 @@ void install(jsi::Runtime &rt,
     
     return jsi::Value(success);
   });
+  
+  auto createFolderWatcher = HOSTFN("createFolderWatcher", []) {
+    auto path = jsiValueToString(rt, arguments[0]);
+    auto callback = std::make_shared<jsi::Value>(rt, arguments[1]);
+    auto folderWatcher = std::make_shared<FolderWatcherJSI>(rt, path, callback);
+    return jsi::Object::createFromHostObject(rt, folderWatcher);
+  });
+
 
   jsi::Object module = jsi::Object(rt);
 
@@ -644,6 +654,7 @@ void install(jsi::Runtime &rt,
   module.setProperty(rt, "mkdir", std::move(mkdir));
   module.setProperty(rt, "cp", std::move(cp));
   module.setProperty(rt, "del", std::move(del));
+  module.setProperty(rt, "createFolderWatcher", std::move(createFolderWatcher));
 
   rt.global().setProperty(rt, "__SolProxy", std::move(module));
 }

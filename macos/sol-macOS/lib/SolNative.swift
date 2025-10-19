@@ -451,7 +451,7 @@ class SolNative: RCTEventEmitter {
       }
     } else {
       DispatchQueue.main.async {
-      
+
         HotKeyManager.shared.resetCapsLockMonitoring()
       }
     }

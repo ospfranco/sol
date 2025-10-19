@@ -55,6 +55,7 @@ export enum ItemType {
   APPLICATION = 'APPLICATION',
   CONFIGURATION = 'CONFIGURATION',
   CUSTOM = 'CUSTOM',
+  USER_SCRIPT = "USER_SCRIPT",
   TEMPORARY_RESULT = 'TEMPORARY_RESULT',
   BOOKMARK = 'BOOKMARK',
   PREFERENCE_PANE = 'PREFERENCE_PANE',
@@ -338,6 +339,7 @@ export const createUIStore = (root: IRootStore) => {
         ...store.apps,
         ...baseItems,
         ...store.customItems,
+        ...root.scripts.scripts,
         ...(store.showInAppBrowserBookMarks
           ? [
             ...store.safariBookmarks,

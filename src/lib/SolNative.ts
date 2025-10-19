@@ -95,6 +95,7 @@ class SolNative extends NativeEventEmitter {
   mkdir: typeof global.__SolProxy.mkdir
   cp: typeof global.__SolProxy.cp
   del: typeof global.__SolProxy.del
+  createFolderWatcher: typeof global.__SolProxy.createFolderWatcher
 
   // Constants
   accentColor: string
@@ -212,6 +213,7 @@ class SolNative extends NativeEventEmitter {
     this.log = global.__SolProxy.log
     this.getApplications = global.__SolProxy.getApplications
     this.setHyperKeyEnabled = module.setHyperKeyEnabled
+    this.createFolderWatcher = global.__SolProxy.createFolderWatcher
   }
 }
 

@@ -64,6 +64,7 @@ declare var global: {
     mkdir: (path: string) => boolean
     cp: (sourcePath: string, destPath: string) => boolean
     del: (path: string) => boolean
+    createFolderWatcher: (path: string, callback: (path: string, changeType: "modified" | "created" | "deleted") => void) => Object
   }
 }
 

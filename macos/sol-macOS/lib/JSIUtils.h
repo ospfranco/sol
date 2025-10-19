@@ -7,6 +7,7 @@ namespace sol {
 
 namespace jsi = facebook::jsi;
 
+std::string jsiValueToString(jsi::Runtime &rt, const jsi::Value &v);
 NSString* jsiValueToNSString(jsi::Runtime &rt, const jsi::Value &v);
 double jsiValueToDouble(jsi::Runtime &rt, const jsi::Value &v);
 NSDate* jsiValueToNSDate(jsi::Runtime &rt, const jsi::Value &v);
