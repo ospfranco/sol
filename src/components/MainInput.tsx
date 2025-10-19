@@ -1,11 +1,11 @@
-import {observer} from 'mobx-react-lite'
-import {DevSettings, Image, TouchableOpacity, View} from 'react-native'
-import {TextInput} from 'react-native-macos'
-import {useStore} from 'store'
+import { observer } from 'mobx-react-lite'
+import { DevSettings, Image, Text, TouchableOpacity, View } from 'react-native'
+import { TextInput } from 'react-native-macos'
+import { useStore } from 'store'
 import colors from 'tailwindcss/colors'
-import {Widget} from 'stores/ui.store'
-import {BackButton} from './BackButton'
-import {Assets} from 'assets'
+import { Widget } from 'stores/ui.store'
+import { BackButton } from './BackButton'
+import { Assets } from 'assets'
 
 type Props = {
   placeholder?: string
@@ -44,7 +44,7 @@ export const MainInput = observer<Props>(
         <TouchableOpacity onPress={reloadApp}>
           <Image
             source={isDarkMode ? Assets.logoMinimal : Assets.logoMinimalWhite}
-            style={{width: 20, height: 20}}
+            style={{ width: 20, height: 20 }}
           />
         </TouchableOpacity>
       )
@@ -68,6 +68,7 @@ export const MainInput = observer<Props>(
           placeholder={placeholder}
           placeholderTextColor={isDarkMode ? '#888' : '#888'}
         />
+        {__DEV__ && <Text>Debug</Text>}
       </View>
     )
   },
