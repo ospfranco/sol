@@ -3,6 +3,20 @@
     <channel>
         <title>Sol</title>
         <item>
+            <title>2.1.275</title>
+            <description><![CDATA[## What's Changed
+* Support Running Scripts from .config/sol/scripts folder by @ospfranco in https://github.com/ospfranco/sol/pull/211
+* Shell commands now output to floating window by @ospfranco in https://github.com/ospfranco/sol/pull/212
+
+
+**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.274...2.1.275]]></description>
+            <pubDate>Sun, 19 Oct 2025 23:04:23 +0200</pubDate>
+            <sparkle:version>489</sparkle:version>
+            <sparkle:shortVersionString>2.1.275</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.275/2.1.275.zip" length="14248661" type="application/octet-stream" sparkle:edSignature="p68herhyIg50uQMrJOafdUVr3KDum4qWZpyEk/rQVXYsvuCN+SDHb32G1vbzPFck1ivnUTPHmMLiUZW1k+ysBA=="/>
+        </item>
+        <item>
             <title>2.1.274</title>
             <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.273...2.1.274]]></description>
             <pubDate>Sun, 19 Oct 2025 18:25:01 +0200</pubDate>
@@ -23,21 +37,6 @@
             <sparkle:shortVersionString>2.1.273</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.273/2.1.273.zip" length="14233783" type="application/octet-stream" sparkle:edSignature="yF492kofM9LQuKJgfnlNKcaJKE6YxMooTfF4/HQ57HNoTedwlXAlxibqEc/M4UvHLjQp3LIoCDC1ABQwW3gUCw=="/>
-        </item>
-        <item>
-            <title>2.1.272</title>
-            <description><![CDATA[## What's Changed
-* Fixes hyper key plus lower system events by @ospfranco in https://github.com/ospfranco/sol/pull/207
-* Fix toast re-centering window by @ospfranco in https://github.com/ospfranco/sol/pull/208
-* Add error handling on initialization by @ospfranco in https://github.com/ospfranco/sol/pull/209
-
-
-**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.271...2.1.272]]></description>
-            <pubDate>Fri, 17 Oct 2025 15:07:33 +0200</pubDate>
-            <sparkle:version>486</sparkle:version>
-            <sparkle:shortVersionString>2.1.272</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.272/2.1.272.zip" length="14233489" type="application/octet-stream" sparkle:edSignature="LwY5pXdvesL7UzsTZcOjIM5ibYAGLVLfPosMSjHMtX5D+zliR/i3KOFGNu8L6U+vw3iX+fzMh9Kif8AOvQS8Dw=="/>
         </item>
     </channel>
 </rss>
