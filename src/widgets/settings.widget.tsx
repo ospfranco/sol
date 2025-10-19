@@ -1,15 +1,16 @@
-import {observer} from 'mobx-react-lite'
-import {FC, useState} from 'react'
-import {View} from 'react-native'
-import {About} from './settings/about'
-import {General} from './settings/general'
-import {Shortcuts} from './settings/shortcuts'
-import {Sidebar} from './settings/sidebar'
-import {Translate} from './settings/translate'
-import {useStore} from 'store'
-import {KeyboardShortcutRecorderView} from 'components/KeyboardShortcutRecorderView'
+import { observer } from 'mobx-react-lite'
+import { FC, useState } from 'react'
+import { View } from 'react-native'
+import { About } from './settings/about'
+import { General } from './settings/general'
+import { Shortcuts } from './settings/shortcuts'
+import { Sidebar } from './settings/sidebar'
+import { Translate } from './settings/translate'
+import { Scripts } from './settings/scripts'
+import { useStore } from 'store'
+import { KeyboardShortcutRecorderView } from 'components/KeyboardShortcutRecorderView'
 
-type ITEM = 'ABOUT' | 'GENERAL' | 'TRANSLATE' | 'SHORTCUTS'
+type ITEM = 'ABOUT' | 'GENERAL' | 'TRANSLATE' | 'SHORTCUTS' | 'SCRIPTS'
 
 export const SettingsWidget: FC = observer(() => {
   const store = useStore()
@@ -23,6 +24,7 @@ export const SettingsWidget: FC = observer(() => {
         {selected === 'ABOUT' && <About />}
         {selected === 'SHORTCUTS' && <Shortcuts />}
         {selected === 'TRANSLATE' && <Translate />}
+        {selected === 'SCRIPTS' && <Scripts />}
       </View>
       {showKeyboardRecorder && (
         <View className="absolute top-0 bottom-0 left-0 right-0 bg-black/80 items-center justify-center">

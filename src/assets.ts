@@ -156,6 +156,7 @@ import logoMinimalWhite from './assets/logoMinimalWhite.png'
 import power from './assets/power.png'
 import restart from './assets/restart.png'
 import toggle from './assets/toggle.png'
+import terminal from './assets/terminal.png'
 
 export const Assets = {
   Brave,
@@ -201,6 +202,7 @@ export const Assets = {
   power,
   restart,
   toggle,
+  terminal
 }
 
 export const Icons = {

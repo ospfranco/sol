@@ -29,6 +29,7 @@
 		7042A22A2815C06B00874743 /* NSColor.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7042A2292815C06B00874743 /* NSColor.extension.swift */; };
 		7047E80627D4D31400582E1B /* MediaHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7047E80527D4D31400582E1B /* MediaHelper.swift */; };
 		7047E80827D4DAEB00582E1B /* Sequence.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7047E80727D4DAEB00582E1B /* Sequence.extension.swift */; };
+		7062E8332EA53319008A9B69 /* FolderWatcherJSI.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7062E8322EA53311008A9B69 /* FolderWatcherJSI.mm */; };
 		7065EBBF2CDB8C2B008C0A74 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 7065EBBE2CDB8C2B008C0A74 /* LaunchAtLogin */; };
 		706ABFAB2E059FC2000C0F30 /* KeyboardShortcutRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706ABFAA2E059FC2000C0F30 /* KeyboardShortcutRecorder.swift */; };
 		706ABFAE2E059FCF000C0F30 /* KeyboardShortcutRecorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706ABFAD2E059FCF000C0F30 /* KeyboardShortcutRecorderView.swift */; };
@@ -99,6 +100,8 @@
 		7042A2292815C06B00874743 /* NSColor.extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSColor.extension.swift; sourceTree = "<group>"; };
 		7047E80527D4D31400582E1B /* MediaHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaHelper.swift; sourceTree = "<group>"; };
 		7047E80727D4DAEB00582E1B /* Sequence.extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sequence.extension.swift; sourceTree = "<group>"; };
+		7062E8322EA53311008A9B69 /* FolderWatcherJSI.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FolderWatcherJSI.mm; sourceTree = "<group>"; };
+		7062E8342EA5331D008A9B69 /* FolderWatcherJSI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FolderWatcherJSI.h; sourceTree = "<group>"; };
 		706ABFAA2E059FC2000C0F30 /* KeyboardShortcutRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardShortcutRecorder.swift; sourceTree = "<group>"; };
 		706ABFAC2E059FCF000C0F30 /* KeyboardShortcutRecorderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KeyboardShortcutRecorderView.m; sourceTree = "<group>"; };
 		706ABFAD2E059FCF000C0F30 /* KeyboardShortcutRecorderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardShortcutRecorderView.swift; sourceTree = "<group>"; };
@@ -258,6 +261,8 @@
 		70F7EBEA2795A4BD00CED17A /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				7062E8342EA5331D008A9B69 /* FolderWatcherJSI.h */,
+				7062E8322EA53311008A9B69 /* FolderWatcherJSI.mm */,
 				706ABFAA2E059FC2000C0F30 /* KeyboardShortcutRecorder.swift */,
 				70142B3A2D21812500EA565F /* KeychainAccess.swift */,
 				70E233692A8F4A20008E88D9 /* ITunesApplicationApplication.h */,
@@ -606,6 +611,7 @@
 				70A25D452D33AF4500165270 /* PanelManager.swift in Sources */,
 				70969E192796719100BE3F1C /* SolNative.mm in Sources */,
 				70BED7CD27F4C23D00906E41 /* FileManager.extension.swift in Sources */,
+				7062E8332EA53319008A9B69 /* FolderWatcherJSI.mm in Sources */,
 				70AAC12029F7AB9B004AD3E7 /* GradientView.m in Sources */,
 				70A25D472D33B4D600165270 /* HotKeyManager.swift in Sources */,
 				700A18D8279DBBE40096C830 /* ApplicationSearcher.swift in Sources */,

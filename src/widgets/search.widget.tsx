@@ -114,6 +114,14 @@ const ItemRow = observer(({ item, index }: { item: Item; index: number }) => {
             Browser Bookmark
           </Text>
         )}
+        {item.type === ItemType.USER_SCRIPT && (
+          <Text
+            className={clsx('darker-text text-xs', {
+              'text-white dark:text-neutral-200': isActive,
+            })}>
+            Script
+          </Text>
+        )}
 
         {item.type === ItemType.CUSTOM && (
           <Text

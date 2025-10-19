@@ -5,6 +5,14 @@ namespace sol {
 
 namespace jsi = facebook::jsi;
 
+std::string jsiValueToString(jsi::Runtime &rt, const jsi::Value &v) {
+  if(!v.isString()) {
+    throw jsi::JSError(rt, "Invalid string marshalling");
+  }
+  auto str = v.asString(rt).utf8(rt);
+  return str;
+}
+
 NSString* jsiValueToNSString(jsi::Runtime &rt, const jsi::Value &v) {
   if(!v.isString()) {
     throw jsi::JSError(rt, "Invalid string marshalling");

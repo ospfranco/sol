@@ -2,6 +2,7 @@ import { MMKV } from 'react-native-mmkv'
 import { solNative } from '../lib/SolNative'
 
 const newStoragePath = `/Users/${solNative.userName()}/.config/sol`
+const scriptsPath = `/Users/${solNative.userName()}/.config/sol/scripts`
 const oldStoragePath = `/Users/${solNative.userName()}/Documents/mmkv`
 
 // Ensure new directory exists
@@ -13,6 +14,11 @@ const ensureDirectory = () => {
     } catch (e) {
       console.error(e)
     }
+  }
+
+  const scriptsDirExists = solNative.exists(scriptsPath)
+  if (!scriptsDirExists) {
+    solNative.mkdir(scriptsPath)
   }
 }
 

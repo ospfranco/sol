@@ -1,10 +1,11 @@
-import {createContext, useContext} from 'react'
-import {CalendarStore, createCalendarStore} from 'stores/calendar.store'
-import {ClipboardStore, createClipboardStore} from 'stores/clipboard.store'
-import {createKeystrokeStore, KeystrokeStore} from 'stores/keystroke.store'
-import {createUIStore, UIStore} from './stores/ui.store'
-import {ProcessesStore, createProcessesStore} from 'stores/processes.store'
-import {EmojiStore, createEmojiStore} from 'stores/emoji.store'
+import { createContext, useContext } from 'react'
+import { CalendarStore, createCalendarStore } from 'stores/calendar.store'
+import { ClipboardStore, createClipboardStore } from 'stores/clipboard.store'
+import { createKeystrokeStore, KeystrokeStore } from 'stores/keystroke.store'
+import { createUIStore, UIStore } from './stores/ui.store'
+import { ProcessesStore, createProcessesStore } from 'stores/processes.store'
+import { EmojiStore, createEmojiStore } from 'stores/emoji.store'
+import { ScriptsStore, createScriptsStore } from 'stores/scripts.store'
 
 export interface IRootStore {
   ui: UIStore
@@ -13,6 +14,7 @@ export interface IRootStore {
   calendar: CalendarStore
   processes: ProcessesStore
   emoji: EmojiStore
+  scripts: ScriptsStore
   cleanUp: () => void
 }
 
@@ -24,13 +26,14 @@ let createRootStore = (): IRootStore => {
   store.keystroke = createKeystrokeStore(store)
   store.calendar = createCalendarStore(store)
   store.processes = createProcessesStore(store)
+  store.scripts = createScriptsStore(store)
   store.emoji = createEmojiStore(store)
-  ;(store as IRootStore).cleanUp = () => {
-    store.ui.cleanUp()
-    store.calendar.cleanUp()
-    store.keystroke.cleanUp()
-    store.clipboard.cleanUp()
-  }
+    ; (store as IRootStore).cleanUp = () => {
+      store.ui.cleanUp()
+      store.calendar.cleanUp()
+      store.keystroke.cleanUp()
+      store.clipboard.cleanUp()
+    }
 
   return store
 }

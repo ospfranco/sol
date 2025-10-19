@@ -1,9 +1,9 @@
-import {Assets} from 'assets'
-import {BackButton} from 'components/BackButton'
-import {SelectableButton} from 'components/SelectableButton'
-import {View} from 'react-native'
-import {useStore} from 'store'
-import {Widget} from 'stores/ui.store'
+import { Assets } from 'assets'
+import { BackButton } from 'components/BackButton'
+import { SelectableButton } from 'components/SelectableButton'
+import { View } from 'react-native'
+import { useStore } from 'store'
+import { Widget } from 'stores/ui.store'
 
 export const Sidebar = ({
   selected,
@@ -45,6 +45,12 @@ export const Sidebar = ({
         selected={selected === 'ABOUT'}
         onPress={() => setSelected('ABOUT')}
         title="About"
+      />
+      <SelectableButton
+        icon={Assets.terminal}
+        selected={selected === 'SCRIPTS'}
+        onPress={() => setSelected('SCRIPTS')}
+        title="Scripts"
       />
     </View>
   )
