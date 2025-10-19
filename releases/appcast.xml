@@ -3,6 +3,15 @@
     <channel>
         <title>Sol</title>
         <item>
+            <title>2.1.274</title>
+            <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.273...2.1.274]]></description>
+            <pubDate>Sun, 19 Oct 2025 18:25:01 +0200</pubDate>
+            <sparkle:version>488</sparkle:version>
+            <sparkle:shortVersionString>2.1.274</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.274/2.1.274.zip" length="14242787" type="application/octet-stream" sparkle:edSignature="bwuWNzYGazrSDyajv6kvNOT4BkSoFxOoObAaND5rcoHfl2a7QZcUKSiUy5fPI5uCWDGZRqVbrsXyWO7JlAEoCg=="/>
+        </item>
+        <item>
             <title>2.1.273</title>
             <description><![CDATA[## What's Changed
 * Oscar/improve quicklink creation by @ospfranco in https://github.com/ospfranco/sol/pull/210
@@ -29,19 +38,6 @@
             <sparkle:shortVersionString>2.1.272</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.272/2.1.272.zip" length="14233489" type="application/octet-stream" sparkle:edSignature="LwY5pXdvesL7UzsTZcOjIM5ibYAGLVLfPosMSjHMtX5D+zliR/i3KOFGNu8L6U+vw3iX+fzMh9Kif8AOvQS8Dw=="/>
-        </item>
-        <item>
-            <title>2.1.271</title>
-            <description><![CDATA[## What's Changed
-* Search for apps in symbolic links by @ospfranco in https://github.com/ospfranco/sol/pull/206
-
-
-**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.270...2.1.271]]></description>
-            <pubDate>Thu, 16 Oct 2025 18:45:04 +0200</pubDate>
-            <sparkle:version>485</sparkle:version>
-            <sparkle:shortVersionString>2.1.271</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.271/2.1.271.zip" length="14229413" type="application/octet-stream" sparkle:edSignature="n86UdWdej710wZHUnGgGSflEuHz/kh2ofEr4marabnAQuPERE14as6LXlAiJYO+WYWfb1valDAKPZu7iNGv2Bw=="/>
         </item>
     </channel>
 </rss>
