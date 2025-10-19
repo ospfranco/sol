@@ -19,9 +19,9 @@
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.1.274</string>
+	<string>2.1.275</string>
 	<key>CFBundleVersion</key>
-	<string>488</string>
+	<string>489</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.productivity</string>
 	<key>LSMinimumSystemVersion</key>
