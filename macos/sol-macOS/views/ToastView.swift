@@ -33,7 +33,7 @@ class ToastView: NSView {
   var variant: ToastVariant
   var image: NSImage?
 
-  private var textLabel: NSTextField!
+  var textLabel: NSTextField!
   private var imageView: NSImageView?
   private var gradientLayer: CAGradientLayer?
   private var dotView: NSView?

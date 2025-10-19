@@ -53,12 +53,8 @@ export const createScriptsStore = (root: IRootStore) => {
               if (file.endsWith('.applescript')) {
                 await solNative.executeAppleScript(content)
               } else {
-                let output = await solNative.executeBashScript(content)
-                solNative.showToast(`Executed Script. ${output}`, 'success')
+                await solNative.executeBashScript(content)
               }
-
-              let output = await solNative.executeBashScript(content)
-              solNative.showToast(`Executed Script. ${output}`, 'success')
 
             } catch (e) {
               solNative.showToast(`Error executing script ${e}`, 'error')

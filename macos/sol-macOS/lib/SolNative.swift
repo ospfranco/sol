@@ -119,7 +119,7 @@ class SolNative: RCTEventEmitter {
     resolver: RCTPromiseResolveBlock,
     rejecter _: RCTPromiseRejectBlock
   ) {
-    let output = ShellHelper.sh(source)
+    let output = ShellHelper.shWithFloatingPanel(source)
     resolver(output)
   }
 
