@@ -25,7 +25,9 @@ export const Scripts: FC = observer(() => {
             Scripts are located at <Text className="font-mono">/User/{username}/.config/sol/scripts</Text>.
           </Text>
           <Text className="text-xxs text-neutral-500 dark:text-neutral-400">
-            Place your scripts in this folder to have them automatically picked up by Sol.
+            Place your scripts in this folder to have them automatically picked up by Sol. Each script must contain two comments:
+            # name: Script Name
+            # icon: Emoji Icon
           </Text>
         </View>
       </View>
@@ -36,7 +38,7 @@ export const Scripts: FC = observer(() => {
         ) : (
           store.scripts.scripts.map(script => (
             <View key={script.id} className="mb-2 flex-row items-center">
-              <Text className="mr-2 text-xl">{script.icon}</Text>
+              <Text className="mr-2">{script.icon}</Text>
               <Text className="font-mono mr-2">{script.name}</Text>
               <Text className="text-xs text-neutral-500">({script.id.replace('script-', '')})</Text>
             </View>

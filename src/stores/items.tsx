@@ -132,7 +132,7 @@ export function createBaseItems(store: IRootStore) {
     {
       id: 'create_shorcut',
       icon: '🔗',
-      name: 'Create Shortcut or Script',
+      name: 'Create Quick Link',
       type: ItemType.CONFIGURATION,
       callback: () => {
         store.ui.focusWidget(Widget.CREATE_ITEM)

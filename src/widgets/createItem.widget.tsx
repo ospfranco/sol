@@ -42,7 +42,6 @@ export const CreateItemWidget: FC<Props> = observer(({ style }) => {
   const [color, setColor] = useState(
     editingItem?.color || (store.ui.isDarkMode ? USER_COLOR_PALETTE[1] : USER_COLOR_PALETTE[0]),
   )
-  const [isApplescript, setIsAppleScript] = useState(editingItem?.isApplescript || false)
   const [name, setName] = useState(editingItem?.name || '')
   const [text, setText] = useState(editingItem?.text || '')
   const [iconSelectorOpen, setIconSelectorOpen] = useState(false)
@@ -68,14 +67,11 @@ export const CreateItemWidget: FC<Props> = observer(({ style }) => {
         return
       }
 
-      if (isApplescript && e.keyCode === 36) {
-        setText(text + '\n')
-      }
     })
     return () => {
       subscription.remove()
     }
-  }, [text, setText, isApplescript, iconSelectorOpen, focusedField])
+  }, [text, setText, iconSelectorOpen, focusedField])
 
   const commit = () => {
     const item = {
@@ -84,7 +80,6 @@ export const CreateItemWidget: FC<Props> = observer(({ style }) => {
       icon,
       color,
       text,
-      isApplescript,
       type: ItemType.CUSTOM,
     }
 
@@ -134,7 +129,7 @@ export const CreateItemWidget: FC<Props> = observer(({ style }) => {
             <View className="flex-1">
               <Input
                 inputRef={nameInputRef}
-                placeholder="Name of your link or script"
+                placeholder="My Quick Link"
                 bordered
                 value={name}
                 onChangeText={setName}
@@ -143,26 +138,15 @@ export const CreateItemWidget: FC<Props> = observer(({ style }) => {
               />
             </View>
           </View>
-          <View className="flex-row items-center py-2">
-            <Text className="mr-2 w-24 text-right font-bold">AppleScript</Text>
-            <View className="flex-1">
-              <MySwitch
-                value={isApplescript}
-                onValueChange={setIsAppleScript}
-              />
-            </View>
-          </View>
           <View className="flex-row py-2 items-center">
             <Text className="mr-2 w-24 text-right font-bold">
-              {isApplescript ? 'Script' : 'Link'}
+              Link
             </Text>
 
             <Input
               inputRef={textInputRef}
-              placeholder="Link or script..."
+              placeholder="https://google.com"
               bordered
-              // broken on 0.71.3
-              multiline={isApplescript}
               className={'flex-1'}
               value={text}
               onChangeText={setText}

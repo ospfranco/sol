@@ -34,7 +34,7 @@ export const createScriptsStore = (root: IRootStore) => {
       const scriptItems: Item[] = []
       const allowedExtensions = [
         // '.sh', '.py', '.js', '.ts', '.rb', '.pl', '.command', '.applescript', '.scpt', '.zsh', '.bash'
-        ".sh"
+        ".sh", ".applescript"
       ]
       for (const file of files) {
         const fullPath = `${scriptsPath}/${file}`
@@ -50,6 +50,13 @@ export const createScriptsStore = (root: IRootStore) => {
           type: ItemType.USER_SCRIPT,
           callback: async () => {
             try {
+              if (file.endsWith('.applescript')) {
+                await solNative.executeAppleScript(content)
+              } else {
+                let output = await solNative.executeBashScript(content)
+                solNative.showToast(`Executed Script. ${output}`, 'success')
+              }
+
               let output = await solNative.executeBashScript(content)
               solNative.showToast(`Executed Script. ${output}`, 'success')
 
