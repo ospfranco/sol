@@ -218,6 +218,7 @@ export const createUIStore = (root: IRootStore) => {
         store.hasDismissedGettingStarted =
           parsedStore.hasDismissedGettingStarted ?? false
         store.hyperKeyEnabled = parsedStore.hyperKeyEnabled ?? false
+        store.disabledItemIds = parsedStore.disabledItemIds ?? []
       })
 
       solNative.setLaunchAtLogin(parsedStore.launchAtLogin ?? true)
