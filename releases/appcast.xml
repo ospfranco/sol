@@ -3,6 +3,15 @@
     <channel>
         <title>Sol</title>
         <item>
+            <title>2.1.277</title>
+            <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.276...2.1.277]]></description>
+            <pubDate>Mon, 20 Oct 2025 09:47:09 +0200</pubDate>
+            <sparkle:version>491</sparkle:version>
+            <sparkle:shortVersionString>2.1.277</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.277/2.1.277.zip" length="14251347" type="application/octet-stream" sparkle:edSignature="dJ70+mkGpdTUwwaVwtPjt0OISVNTQT03fgKnqkDUdwhx/3kavcGyouoR9pq7S+eEyBjWl0fKTVchZUn86+kgCg=="/>
+        </item>
+        <item>
             <title>2.1.276</title>
             <description><![CDATA[## What's Changed
 * Adds shortcut fuzzy search by @ospfranco in https://github.com/ospfranco/sol/pull/213
@@ -28,15 +37,6 @@
             <sparkle:shortVersionString>2.1.275</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.275/2.1.275.zip" length="14248661" type="application/octet-stream" sparkle:edSignature="p68herhyIg50uQMrJOafdUVr3KDum4qWZpyEk/rQVXYsvuCN+SDHb32G1vbzPFck1ivnUTPHmMLiUZW1k+ysBA=="/>
-        </item>
-        <item>
-            <title>2.1.274</title>
-            <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.273...2.1.274]]></description>
-            <pubDate>Sun, 19 Oct 2025 18:25:01 +0200</pubDate>
-            <sparkle:version>488</sparkle:version>
-            <sparkle:shortVersionString>2.1.274</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.274/2.1.274.zip" length="14242787" type="application/octet-stream" sparkle:edSignature="bwuWNzYGazrSDyajv6kvNOT4BkSoFxOoObAaND5rcoHfl2a7QZcUKSiUy5fPI5uCWDGZRqVbrsXyWO7JlAEoCg=="/>
         </item>
     </channel>
 </rss>
