@@ -12,9 +12,12 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
+  TextInput,
 } from 'react-native'
 import { useStore } from 'store'
 import { ItemType } from 'stores/ui.store'
+import { useState, useEffect } from 'react'
+import { Input } from 'components/Input'
 
 const RenderItem = observer(({ item, index }: any) => {
   const store = useStore()
@@ -72,7 +75,7 @@ const RenderItem = observer(({ item, index }: any) => {
         <View className="flex-row gap-1">
           <View className="flex-row gap-1 items-center">
             {itemShortcut ? (
-              <View className="flex-row items-center">
+              <View className="flex-row items-center gap-1">
                 {renderToKeys(itemShortcut)}
                 <TouchableOpacity
                   onPress={() => {
@@ -95,8 +98,23 @@ const RenderItem = observer(({ item, index }: any) => {
   )
 })
 
+
 export const Shortcuts = observer(() => {
   const store = useStore()
+  const [query, setQuery] = useState('')
+
+  // Clear query on unmount
+  useEffect(() => {
+    return () => {
+      store.ui.setQuery('')
+    }
+  }, [])
+
+  // Update store query for fuzzy search
+  const handleQueryChange = (text: string) => {
+    setQuery(text)
+    store.ui.setQuery(text)
+  }
 
   let items = store.ui.items
 
@@ -117,7 +135,17 @@ export const Shortcuts = observer(() => {
           <MySwitch value={store.ui.hyperKeyEnabled}
             onValueChange={store.ui.setHyperKeyEnabled} />
         </View>
-        <View className="border-t border-lightBorder dark:border-darkBorder z-0" />
+        <View className="border-t border-lightBorder dark:border-darkBorder z-0 mb-3" />
+        <Input
+          bordered
+          value={query}
+          onChangeText={handleQueryChange}
+          placeholder="Type to search..."
+          className="ml-2"
+          autoCorrect={false}
+          autoCapitalize="none"
+          clearButtonMode="while-editing"
+        />
         <LegendList
           className="flex-1"
           contentContainerClassName="px-4 pb-4"
