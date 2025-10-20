@@ -35,9 +35,9 @@ export const Sidebar = ({
       <SelectableButton
         icon={Assets.shortcuts}
         className="items-center "
-        selected={selected === 'SHORTCUTS'}
-        onPress={() => setSelected('SHORTCUTS')}
-        title="Shortcuts"
+        selected={selected === 'ITEMS'}
+        onPress={() => setSelected('ITEMS')}
+        title="Items"
       />
       <SelectableButton
         icon={Assets.smallLogo}

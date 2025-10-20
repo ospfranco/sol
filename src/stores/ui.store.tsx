@@ -266,6 +266,7 @@ export const createUIStore = (root: IRootStore) => {
     focusedWidget: Widget.SEARCH,
     events: [] as INativeEvent[],
     customItems: [] as Item[],
+    disabledItemIds: [] as string[],
     editingCustomItem: null as Item | null,
     apps: [] as Item[],
     isLoading: false,
@@ -480,6 +481,21 @@ export const createUIStore = (root: IRootStore) => {
     },
     setEditingCustomItem: (item: Item | null) => {
       store.editingCustomItem = item
+    },
+    disableItem: (itemId: string) => {
+      if (!store.disabledItemIds.includes(itemId)) {
+        store.disabledItemIds.push(itemId)
+        // Remove shortcut if present
+        if (store.shortcuts[itemId]) {
+          delete store.shortcuts[itemId]
+        }
+      }
+    },
+    enableItem: (itemId: string) => {
+      store.disabledItemIds = store.disabledItemIds.filter(id => id !== itemId)
+    },
+    isItemDisabled: (itemId: string) => {
+      return store.disabledItemIds.includes(itemId)
     },
     translateQuery: async () => {
       store.isLoading = true
