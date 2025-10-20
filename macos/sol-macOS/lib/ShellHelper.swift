@@ -12,11 +12,9 @@ struct ShellHelper {
     task.launchPath = "/bin/zsh"
     task.standardInput = nil
 
-    var panel: ShellOutputFloatingPanel?
     DispatchQueue.main.sync {
-      panel = ShellOutputFloatingPanel()
-      panel?.appendOutput("$ " + command + "\n")
-      panel?.showAndClose(after: 9999)  // keep open until we finish
+      ToastManager.shared.showShellOutput()
+      ToastManager.shared.appendShellOutput(command + "\n\n")
     }
 
     let fileHandle = pipe.fileHandleForReading
@@ -24,16 +22,23 @@ struct ShellHelper {
       let data = handle.availableData
       if let str = String(data: data, encoding: .utf8), !str.isEmpty {
         DispatchQueue.main.async {
-          panel?.appendOutput(str)
+          ToastManager.shared.appendShellOutput(str)
         }
       }
     }
 
-    task.terminationHandler = { _ in
+    task.terminationHandler = { process in
       fileHandle.readabilityHandler = nil
       DispatchQueue.main.async {
-        panel?.setFinishedStyle()
-        panel?.showAndClose(after: 5)
+        if process.terminationStatus == 0 {
+          ToastManager.shared.setShellSuccessStyle()
+        } else {
+          ToastManager.shared.setShellFailedStyle()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+          ToastManager.shared.closeShellOutput()
+        }
+        //        panel?.showAndClose(after: 5)
       }
     }
 

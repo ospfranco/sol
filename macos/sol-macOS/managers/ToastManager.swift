@@ -1,7 +1,72 @@
 class ToastManager {
   private var toastWindow: Toast = Toast(contentRect: .zero)
+  private var shellOuputView: ShellOutputView!
 
   static public let shared = ToastManager()
+
+  func appendShellOutput(_ text: String) {
+    shellOuputView?.appendOutput(text)
+  }
+
+  func setShellSuccessStyle() {
+    shellOuputView?.setSuccessStyle()
+  }
+
+  func setShellFailedStyle() {
+    shellOuputView?.setFailedStyle()
+  }
+
+  func closeShellOutput() {
+    shellOuputView.removeFromSuperview()
+    shellOuputView = nil
+    toastWindow.orderOut(nil)
+  }
+
+  func showShellOutput() {
+    guard let screen = PanelManager.shared.getPreferredScreen()
+    else {
+      return
+    }
+
+    shellOuputView = ShellOutputView()
+    shellOuputView.layoutSubtreeIfNeeded()
+
+    let contentSize = NSSize(width: 500, height: 200)
+
+    let size = NSRect(
+      x: 0, y: 0, width: contentSize.width, height: contentSize.height)
+    shellOuputView.frame = size
+
+    let effectView = NSVisualEffectView(
+      frame: size
+    )
+    effectView.autoresizingMask = [.width, .height]
+    effectView.material = .hudWindow
+    effectView.blendingMode = .behindWindow
+    effectView.state = .active
+
+    toastWindow.contentView = effectView
+    toastWindow.contentView!.addSubview(shellOuputView)
+
+    toastWindow
+      .setFrame(
+        size,
+        display: true
+      )
+    toastWindow.setContentSize(contentSize)
+
+    // Position the window at the bottom right corner of the screen
+    let x = screen.frame.origin.x + screen.frame.size.width - contentSize.width - 20
+    let y = screen.frame.origin.y + 20
+
+    toastWindow.setFrameOrigin(
+      NSPoint(
+        x: x,
+        y: y
+      ))
+
+    toastWindow.orderFront(nil)
+  }
 
   func showToast(
     _ text: String, variant: String, timeout: NSNumber?, image: NSImage?
