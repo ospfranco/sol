@@ -48,7 +48,6 @@ https://discord.gg/W9XmqCQCKP
 - Start a google meet
 - Switch OS theme
 - Process killer
-- Clear XCode Derived Data
 - Generate NanoID
 - Generate UUID
 - Generate lorem ipsum
@@ -56,6 +55,7 @@ https://discord.gg/W9XmqCQCKP
 - Forward media keys to Spotify/Apple Music
 - Blacken Menu Bar
 - Quickly evaluate math operations
+- Script Runner
 
 ## Contributing
 

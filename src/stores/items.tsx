@@ -605,22 +605,6 @@ export function createBaseItems(store: IRootStore) {
       },
     },
     {
-      id: 'clear_derived_data',
-      IconComponent: () => (
-        <FileIcon url="/Applications/Xcode.app" className="w-6 h-6" />
-      ),
-      name: 'Remove derived data folder',
-      alias: 'Clear xcode',
-      type: ItemType.CONFIGURATION,
-      callback: async () => {
-        await solNative.executeBashScript(
-          'rm -rf ~/Library/Developer/Xcode/DerivedData',
-        )
-
-        solNative.showToast('Cleared', 'success')
-      },
-    },
-    {
       id: 'generate_nano_id',
       icon: '🍔',
       name: 'Generate Nano ID',

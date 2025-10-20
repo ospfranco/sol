@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 #import <Foundation/Foundation.h>
+#import <AppKit/AppKit.h>
 
 namespace sol {
 
@@ -48,6 +49,24 @@ static void FolderWatcherCallback(ConstFSEventStreamRef streamRef,
 
 FolderWatcherJSI::FolderWatcherJSI(jsi::Runtime &rt, std::string path, std::shared_ptr<jsi::Value> cb)
 	: rt(rt), path(path), callback(cb) {
+	cfPath = CFStringCreateWithCString(nullptr, path.c_str(), kCFStringEncodingUTF8);
+	pathsToWatch = CFArrayCreate(nullptr, (const void**)&cfPath, 1, &kCFTypeArrayCallBacks);
+	startStream();
+
+	// Add observer for system wake notification (capture this pointer safely)
+	FolderWatcherJSI *cppThis = this;
+	wakeObserver = [[NSNotificationCenter defaultCenter] addObserverForName:NSWorkspaceDidWakeNotification
+		object:nil
+		queue:[NSOperationQueue mainQueue]
+		usingBlock:^(NSNotification * _Nonnull note) {
+			if (cppThis) {
+				cppThis->handleWakeNotification();
+			}
+		}];
+}
+
+void FolderWatcherJSI::startStream() {
+	stopStream();
 	FSEventStreamContext context = {
 		0,
 		this,
@@ -55,8 +74,6 @@ FolderWatcherJSI::FolderWatcherJSI(jsi::Runtime &rt, std::string path, std::shar
 		nullptr,
 		nullptr
 	};
-	cfPath = CFStringCreateWithCString(nullptr, path.c_str(), kCFStringEncodingUTF8);
-	pathsToWatch = CFArrayCreate(nullptr, (const void**)&cfPath, 1, &kCFTypeArrayCallBacks);
 	streamRef = FSEventStreamCreate(nullptr,
 								   &FolderWatcherCallback,
 								   &context,
@@ -67,15 +84,30 @@ FolderWatcherJSI::FolderWatcherJSI(jsi::Runtime &rt, std::string path, std::shar
 	if (streamRef) {
 		FSEventStreamScheduleWithRunLoop(streamRef, CFRunLoopGetMain(), kCFRunLoopDefaultMode);
 		FSEventStreamStart(streamRef);
+    NSLog(@"🟦 Started FS stream");
 	}
 }
 
-FolderWatcherJSI::~FolderWatcherJSI() {
+void FolderWatcherJSI::stopStream() {
 	if (streamRef) {
 		FSEventStreamStop(streamRef);
 		FSEventStreamInvalidate(streamRef);
 		FSEventStreamRelease(streamRef);
 		streamRef = nullptr;
+	}
+}
+
+void FolderWatcherJSI::handleWakeNotification() {
+	// Restart the FSEventStream after wake
+  NSLog(@"🟩 Restarting FSEventStream");
+	startStream();
+}
+
+FolderWatcherJSI::~FolderWatcherJSI() {
+	stopStream();
+	if (wakeObserver) {
+		[[NSNotificationCenter defaultCenter] removeObserver:wakeObserver];
+		wakeObserver = nil;
 	}
 	if (cfPath) {
 		CFRelease(cfPath);

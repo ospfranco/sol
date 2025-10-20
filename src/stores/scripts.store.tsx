@@ -29,7 +29,7 @@ export const createScriptsStore = (root: IRootStore) => {
   const store = makeAutoObservable({
     scripts: [] as Item[],
 
-    async loadScripts() {
+    loadScripts() {
       const files = solNative.ls(scriptsPath)
       const scriptItems: Item[] = []
       const allowedExtensions = [
@@ -62,9 +62,7 @@ export const createScriptsStore = (root: IRootStore) => {
           }
         })
       }
-      runInAction(() => {
-        store.scripts = scriptItems
-      })
+      store.scripts = scriptItems
     },
   })
 
