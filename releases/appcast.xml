@@ -3,6 +3,19 @@
     <channel>
         <title>Sol</title>
         <item>
+            <title>2.1.276</title>
+            <description><![CDATA[## What's Changed
+* Adds shortcut fuzzy search by @ospfranco in https://github.com/ospfranco/sol/pull/213
+
+
+**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.275...2.1.276]]></description>
+            <pubDate>Mon, 20 Oct 2025 08:21:01 +0200</pubDate>
+            <sparkle:version>490</sparkle:version>
+            <sparkle:shortVersionString>2.1.276</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.276/2.1.276.zip" length="14249506" type="application/octet-stream" sparkle:edSignature="Zi6HJZ+Q2zYGMVAfG3ljWocD75L79hCNNut3n9Pw2tQySJzv4YE+2htBxgHUnCJqAIZuuU0qmLqmwLHYZc19DA=="/>
+        </item>
+        <item>
             <title>2.1.275</title>
             <description><![CDATA[## What's Changed
 * Support Running Scripts from .config/sol/scripts folder by @ospfranco in https://github.com/ospfranco/sol/pull/211
@@ -24,19 +37,6 @@
             <sparkle:shortVersionString>2.1.274</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.274/2.1.274.zip" length="14242787" type="application/octet-stream" sparkle:edSignature="bwuWNzYGazrSDyajv6kvNOT4BkSoFxOoObAaND5rcoHfl2a7QZcUKSiUy5fPI5uCWDGZRqVbrsXyWO7JlAEoCg=="/>
-        </item>
-        <item>
-            <title>2.1.273</title>
-            <description><![CDATA[## What's Changed
-* Oscar/improve quicklink creation by @ospfranco in https://github.com/ospfranco/sol/pull/210
-
-
-**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.272...2.1.273]]></description>
-            <pubDate>Fri, 17 Oct 2025 17:10:15 +0200</pubDate>
-            <sparkle:version>487</sparkle:version>
-            <sparkle:shortVersionString>2.1.273</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.273/2.1.273.zip" length="14233783" type="application/octet-stream" sparkle:edSignature="yF492kofM9LQuKJgfnlNKcaJKE6YxMooTfF4/HQ57HNoTedwlXAlxibqEc/M4UvHLjQp3LIoCDC1ABQwW3gUCw=="/>
         </item>
     </channel>
 </rss>
