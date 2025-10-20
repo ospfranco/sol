@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@expo/plist": "^0.4.7",
-    "@legendapp/list": "2.0.9",
+    "@legendapp/list": "2.0.13",
     "@react-native-async-storage/async-storage": "2.2.0",
     "@sentry/react-native": "7.2.0",
     "assert": "^2.0.0",

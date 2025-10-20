@@ -1,14 +1,14 @@
-import {Dropdown} from 'components/Dropdown'
-import {languages} from 'lib/languages'
-import {observer} from 'mobx-react-lite'
-import {Text, View} from 'react-native'
-import {useStore} from 'store'
+import { Dropdown } from 'components/Dropdown'
+import { languages } from 'lib/languages'
+import { observer } from 'mobx-react-lite'
+import { Text, View } from 'react-native'
+import { useStore } from 'store'
 
 export const Translate = observer(() => {
   const store = useStore()
 
   return (
-    <View className="flex-1 py-3 px-6">
+    <View className="flex-1 py-5 px-5">
       <View className="p-3 subBg rounded-lg border border-lightBorder dark:border-darkBorder gap-1">
         <Text className="text-xxs text">
           Select up to 3 languages for translation

@@ -1,12 +1,12 @@
-import {Assets} from 'assets'
+import { Assets } from 'assets'
 import clsx from 'clsx'
-import {Dropdown} from 'components/Dropdown'
-import {Input} from 'components/Input'
-import {MySwitch} from 'components/MySwitch'
-import {solNative} from 'lib/SolNative'
-import {observer} from 'mobx-react-lite'
-import {Image, ScrollView, Text, TouchableOpacity, View} from 'react-native'
-import {useStore} from 'store'
+import { Dropdown } from 'components/Dropdown'
+import { Input } from 'components/Input'
+import { MySwitch } from 'components/MySwitch'
+import { solNative } from 'lib/SolNative'
+import { observer } from 'mobx-react-lite'
+import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { useStore } from 'store'
 
 export const isValidCustomSearchEngineUrl = (url: string) => {
   if (url.trim() === '') return false
@@ -19,8 +19,10 @@ export const General = observer(() => {
   const store = useStore()
   return (
     <ScrollView
-      className="flex-1 h-full"
-      contentContainerClassName="justify-center pb-5 px-5 -mt-4 gap-2">
+      showsVerticalScrollIndicator={false}
+      StickyHeaderComponent={() => null}
+      className="flex-1"
+      contentContainerClassName="pb-5 px-5 -mt-4 gap-2">
       <View className="flex-row items-center p-3 subBg rounded-lg border border-lightBorder dark:border-darkBorder">
         <View className="flex-1">
           <Text className="text-sm text">Open at Login</Text>
@@ -43,9 +45,9 @@ export const General = observer(() => {
               store.ui.setGlobalShortcut(v as any)
             }}
             options={[
-              {label: '⌘ + ␣', value: 'command' as const},
-              {label: '⌥ + ␣', value: 'option' as const},
-              {label: '⌃ + ␣', value: 'control' as const},
+              { label: '⌘ + ␣', value: 'command' as const },
+              { label: '⌥ + ␣', value: 'option' as const },
+              { label: '⌃ + ␣', value: 'control' as const },
             ]}
           />
         </View>
@@ -59,10 +61,10 @@ export const General = observer(() => {
               store.ui.setSearchEngine(v as any)
             }}
             options={[
-              {label: 'Google', value: 'google' as const},
-              {label: 'DuckDuckGo', value: 'duckduckgo' as const},
-              {label: 'Bing', value: 'bing' as const},
-              {label: 'Custom', value: 'custom' as const},
+              { label: 'Google', value: 'google' as const },
+              { label: 'DuckDuckGo', value: 'duckduckgo' as const },
+              { label: 'Bing', value: 'bing' as const },
+              { label: 'Custom', value: 'custom' as const },
             ]}
           />
         </View>
@@ -116,7 +118,7 @@ export const General = observer(() => {
                   <Image
                     source={Assets.close}
                     className="h-4 w-4"
-                    style={{tintColor: 'red'}}
+                    style={{ tintColor: 'red' }}
                   />
                   {/* <Text className="text-red-500">Remove</Text> */}
                 </TouchableOpacity>
@@ -136,7 +138,7 @@ export const General = observer(() => {
                   store.ui.addSearchFolder(path)
                 }
                 solNative.showWindow()
-              } catch (e) {}
+              } catch (e) { }
             }}>
             <Text className="text-blue-500">Add folder</Text>
           </TouchableOpacity>
@@ -157,7 +159,7 @@ export const General = observer(() => {
                 label: 'Frontmost Window',
                 value: 'screenWithFrontmost' as const,
               },
-              {label: 'Cursor Screen', value: 'screenWithCursor' as const},
+              { label: 'Cursor Screen', value: 'screenWithCursor' as const },
             ]}
           />
         </View>
