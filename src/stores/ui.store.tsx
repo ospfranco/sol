@@ -543,6 +543,10 @@ export const createUIStore = (root: IRootStore) => {
       store.query = query.replace('\n', ' ')
       store.selectedIndex = 0
 
+      if (store.query === '') {
+        return
+      }
+
       if (store.focusedWidget === Widget.SEARCH) {
         try {
           const res = exprParser.evaluate(store.query)
