@@ -12,7 +12,6 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
-  TextInput,
 } from 'react-native'
 import { useStore } from 'store'
 import { ItemType } from 'stores/ui.store'
@@ -22,17 +21,30 @@ import { Input } from 'components/Input'
 const RenderItem = observer(({ item, index }: any) => {
   const store = useStore()
   const itemShortcut = store.ui.shortcuts[item.id]
+  const isDisabled = store.ui.isItemDisabled(item.id)
 
   return (
     <View
       className={clsx('flex-row items-center py-1.5 px-3 rounded-sm gap-2', {
         'bg-gray-200 dark:subBg': index % 2 === 1,
+        'opacity-50': isDisabled,
       })}>
+      <View style={{ marginRight: 8 }}>
+        <MySwitch
+          value={!isDisabled}
+          onValueChange={v => {
+            if (v) {
+              store.ui.enableItem(item.id)
+            } else {
+              store.ui.disableItem(item.id)
+            }
+          }}
+        />
+      </View>
       {!!item.url && item.type != ItemType.BOOKMARK && (
         <FileIcon url={item.url} className={'w-6 h-6'} />
       )}
       {item.type !== ItemType.CUSTOM && !!item.icon && <Text>{item.icon}</Text>}
-
       {item.type === ItemType.CUSTOM && !!item.icon && (
         <View className="w-6 h-6 rounded items-center justify-center bg-white dark:bg-black">
           {/* @ts-expect-error */}
@@ -67,14 +79,15 @@ const RenderItem = observer(({ item, index }: any) => {
       <Text className="flex-1" numberOfLines={1}>
         {item.name}
       </Text>
-
       <TouchableWithoutFeedback
         onPress={() => {
-          store.ui.setShowKeyboardRecorderForItem(true, item.id)
+          if (!isDisabled) {
+            store.ui.setShowKeyboardRecorderForItem(true, item.id)
+          }
         }}>
         <View className="flex-row gap-1">
           <View className="flex-row gap-1 items-center">
-            {itemShortcut ? (
+            {!isDisabled && itemShortcut ? (
               <View className="flex-row items-center gap-1">
                 {renderToKeys(itemShortcut)}
                 <TouchableOpacity
@@ -89,7 +102,7 @@ const RenderItem = observer(({ item, index }: any) => {
                 </TouchableOpacity>
               </View>
             ) : (
-              <Text className="text-xs text-accent">Click to set</Text>
+              <Text className="text-xs text-accent">{isDisabled ? 'Disabled' : 'Click to set'}</Text>
             )}
           </View>
         </View>
@@ -99,7 +112,7 @@ const RenderItem = observer(({ item, index }: any) => {
 })
 
 
-export const Shortcuts = observer(() => {
+export const Items = observer(() => {
   const store = useStore()
   const [query, setQuery] = useState('')
 
