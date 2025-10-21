@@ -1,12 +1,12 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import {solNative} from 'lib/SolNative'
-import {autorun, makeAutoObservable, runInAction, toJS} from 'mobx'
-import {EmitterSubscription} from 'react-native'
-import {IRootStore} from 'store'
-import {Widget} from './ui.store'
+import { solNative } from 'lib/SolNative'
+import { autorun, makeAutoObservable, runInAction, toJS } from 'mobx'
+import { EmitterSubscription } from 'react-native'
+import { IRootStore } from 'store'
+import { Widget } from './ui.store'
 import MiniSearch from 'minisearch'
-import {storage} from './storage'
-import {captureException} from '@sentry/react-native'
+import { storage } from './storage'
+import { captureException } from '@sentry/react-native'
 
 const MAX_ITEMS = 1000
 
@@ -20,27 +20,31 @@ export type PasteItem = {
   text: string
   url?: string | null
   bundle?: string | null
+  datetime: number // Unix timestamp when copied
 }
 
 let minisearch = new MiniSearch({
   fields: ['text', 'bundle'],
-  storeFields: ['text', 'url', 'bundle'],
+  storeFields: ['id', 'text', 'url', 'bundle', 'datetime'],
   tokenize: (text: string, fieldName?: string) => text.split(/[\s\.]+/),
-  searchOptions: {
-    boost: {text: 2},
-    fuzzy: true,
-    prefix: true,
-  },
 })
 
 export const createClipboardStore = (root: IRootStore) => {
   const store = makeAutoObservable({
+    deleteItem: (index: number) => {
+      if (index >= 0 && index < store.items.length) {
+        minisearch.remove(store.items[index])
+        store.items.splice(index, 1)
+      }
+    },
+    deleteAllItems: () => {
+      store.items = []
+      minisearch.removeAll()
+    },
     items: [] as PasteItem[],
     saveHistory: false,
-    onFileCopied: (obj: {text: string; url: string; bundle: string | null}) => {
-      let newItem = {id: +Date.now(), ...obj}
-
-      console.warn(`Received copied file! ${JSON.stringify(newItem)}`)
+    onFileCopied: (obj: { text: string; url: string; bundle: string | null }) => {
+      let newItem: PasteItem = { id: +Date.now(), datetime: Date.now(), ...obj }
 
       // If save history move file to more permanent storage
       if (store.saveHistory) {
@@ -65,12 +69,12 @@ export const createClipboardStore = (root: IRootStore) => {
       // Remove last item from minisearch
       store.removeLastItemIfNeeded()
     },
-    onTextCopied: (obj: {text: string; bundle: string | null}) => {
+    onTextCopied: (obj: { text: string; bundle: string | null }) => {
       if (!obj.text) {
         return
       }
 
-      let newItem = {id: Date.now().valueOf(), ...obj}
+      let newItem: PasteItem = { id: Date.now().valueOf(), datetime: Date.now(), ...obj }
 
       const index = store.items.findIndex(t => t.text === newItem.text)
       // Item already exists, move to top
@@ -91,11 +95,27 @@ export const createClipboardStore = (root: IRootStore) => {
       store.removeLastItemIfNeeded()
     },
     get clipboardItems(): PasteItem[] {
+      let items = store.items;
+
       if (!root.ui.query || root.ui.focusedWidget !== Widget.CLIPBOARD) {
-        return root.clipboard.items
+        return items
       }
 
-      return minisearch.search(root.ui.query) as any
+      // Boost recent items in search results
+      const now = Date.now();
+      return minisearch.search(root.ui.query, {
+        boostDocument: (documentId, term, storedFields) => {
+          const dt = typeof storedFields?.datetime === 'number' ? storedFields.datetime : Number(storedFields?.datetime);
+          if (!dt || isNaN(dt)) return 1;
+          // Boost items copied in the last 24h, scale down for older
+          const hoursAgo = (now - dt) / (1000 * 60 * 60);
+          if (hoursAgo < 1) return 2; // very recent
+          if (hoursAgo < 24) return 1.5; // recent
+          return 1;
+        },
+        boost: { text: 2 },
+        fuzzy: true,
+      }) as any
     },
     removeLastItemIfNeeded: () => {
       if (store.items.length > MAX_ITEMS) {
@@ -160,7 +180,13 @@ export const createClipboardStore = (root: IRootStore) => {
 
       if (entry) {
         let items = JSON.parse(entry)
-
+        // Ensure all items have datetime
+        items = items.map((item: any) => ({
+          ...item,
+          datetime: typeof item.datetime === 'number' && !isNaN(item.datetime)
+            ? item.datetime
+            : (item.id || Date.now()), // fallback: use id or now
+        }))
         runInAction(() => {
           store.items = items
           minisearch.addAll(store.items)
@@ -171,18 +197,24 @@ export const createClipboardStore = (root: IRootStore) => {
 
   const persist = async () => {
     if (store.saveHistory) {
-      const history = toJS(store)
+      // Ensure all items have datetime before persisting
+      const itemsToPersist = store.items.map(item => ({
+        ...item,
+        datetime: typeof item.datetime === 'number' && !isNaN(item.datetime)
+          ? item.datetime
+          : (item.id || Date.now()),
+      }))
       try {
         await solNative.securelyStore(
           '@sol.clipboard_history_v2',
-          JSON.stringify(history.items),
+          JSON.stringify(itemsToPersist),
         )
       } catch (e) {
         console.warn('Could not persist data', e)
       }
     }
 
-    let storeWithoutItems = {...store}
+    let storeWithoutItems = { ...store }
     storeWithoutItems.items = []
 
     try {

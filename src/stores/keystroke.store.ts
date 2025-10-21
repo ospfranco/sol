@@ -32,6 +32,17 @@ export const createKeystrokeStore = (root: IRootStore) => {
       shift: boolean
     }) => {
       switch (keyCode) {
+        case 51: {
+          if (root.ui.focusedWidget === Widget.CLIPBOARD) {
+            if (shift) {
+              root.clipboard.deleteAllItems()
+            } else {
+              root.clipboard.deleteItem(root.ui.selectedIndex)
+            }
+            return
+          }
+          break
+        }
         // "j" key
         case 38: {
           // simulate a down key press
