@@ -29,9 +29,12 @@ export const SettingsWidget: FC = observer(() => {
       {showKeyboardRecorder && (
         <View className="absolute top-0 bottom-0 left-0 right-0 bg-black/80 items-center justify-center">
           <KeyboardShortcutRecorderView
-            className={'w-80 h-20'}
+            className={'w-80 h-24'}
             onShortcutChange={e => {
               store.ui.setShortcutFromUI(e.nativeEvent.shortcut)
+            }}
+            onCancel={() => {
+              store.ui.closeKeyboardRecorder()
             }}
           />
         </View>

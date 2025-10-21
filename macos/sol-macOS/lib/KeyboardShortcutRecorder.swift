@@ -4,6 +4,8 @@ import Cocoa
 class KeyboardShortcutRecorder {
   private var isActive = false
   var onShortcut: (([String]) -> Void)?
+  var onCancel: (() -> Void)?
+  private var hyperDown: Bool = false
   private var eventTap: CFMachPort?
   private var runLoopSource: CFRunLoopSource?
 
@@ -57,27 +59,51 @@ class KeyboardShortcutRecorder {
     CGEvent
   >? {
     if type == .keyDown {
+      let code = UInt8(event.getIntegerValueField(.keyboardEventKeycode))
+      // Ignore Tab key
+      if code == UInt8(kVK_Tab) {
+        return nil
+      }
+      // Handle Escape key: close component
+      if code == UInt8(kVK_Escape) {
+        DispatchQueue.main.async {
+          self.onCancel?()
+        }
+        return nil
+      }
+      if code == UInt8(kVK_F18) {
+        if type == .keyDown {
+          hyperDown = true
+        } else {
+          hyperDown = false
+        }
+        return nil
+      }
       // Convert CGEvent to NSEvent to use our existing parsing logic
       if let nsEvent = NSEvent(cgEvent: event) {
         let keys = keysFrom(event: nsEvent)
-
-        // Call the callback directly on main thread if already on main, otherwise dispatch
         self.onShortcut?(keys)
       }
-
       // Consume the event to prevent it from triggering system shortcuts
       return nil
     }
-
     return Unmanaged.passUnretained(event)
   }
 
   private func keysFrom(event: NSEvent) -> [String] {
     var keys: [String] = []
+    if hyperDown {
+      keys.append("⌘")
+      keys.append("⌥")
+      keys.append("⌃")
+      keys.append("⇧")
+    }
+
     if event.modifierFlags.contains(.command) { keys.append("⌘") }
     if event.modifierFlags.contains(.option) { keys.append("⌥") }
     if event.modifierFlags.contains(.control) { keys.append("⌃") }
     if event.modifierFlags.contains(.shift) { keys.append("⇧") }
+
     if let chars = event.charactersIgnoringModifiers {
       keys.append(chars.uppercased())
     }

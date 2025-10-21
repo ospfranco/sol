@@ -1,12 +1,14 @@
 import Cocoa
 
 class KeyboardShortcutRecorderView: NSView {
-  private let textField = NSTextField(labelWithString: "Click to record shortcut")
+  private let instructionLabel = NSTextField(labelWithString: "Enter Key Combination")
+  private let valueLabel = NSTextField(labelWithString: "waiting...")
   private var isRecording = false
   private let recorder = KeyboardShortcutRecorder()
 
-  // Add the callback property
+  // Add the callback properties
   @objc var onShortcutChange: RCTBubblingEventBlock?
+  @objc var onCancel: RCTBubblingEventBlock?
 
   override init(frame frameRect: NSRect) {
     super.init(frame: frameRect)
@@ -21,25 +23,39 @@ class KeyboardShortcutRecorderView: NSView {
   private func setupView() {
     wantsLayer = true
     layer?.backgroundColor = NSColor.windowBackgroundColor.cgColor
-    layer?.cornerRadius = 6
+    layer?.cornerRadius = 10
+    layer?.shadowColor = NSColor.black.cgColor
+    layer?.shadowOpacity = 0.08
+    layer?.shadowRadius = 4
+    layer?.shadowOffset = CGSize(width: 0, height: 2)
 
-    textField.alignment = .center
-    textField.translatesAutoresizingMaskIntoConstraints = false
-    addSubview(textField)
+    instructionLabel.alignment = .center
+    instructionLabel.font = NSFont.boldSystemFont(ofSize: 13)
+    instructionLabel.translatesAutoresizingMaskIntoConstraints = false
+    addSubview(instructionLabel)
+
+    valueLabel.alignment = .center
+    valueLabel.font = NSFont.monospacedSystemFont(ofSize: 13, weight: .medium)
+    valueLabel.textColor = NSColor.labelColor
+    valueLabel.backgroundColor = NSColor.controlBackgroundColor
+    valueLabel.wantsLayer = true
+    valueLabel.translatesAutoresizingMaskIntoConstraints = false
+    valueLabel.drawsBackground = true
+    addSubview(valueLabel)
 
     NSLayoutConstraint.activate([
-      textField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
-      textField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
-      textField.centerYAnchor.constraint(equalTo: centerYAnchor),
+      instructionLabel.topAnchor.constraint(equalTo: topAnchor, constant: 18),
+      instructionLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 18),
+      instructionLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -18),
+
+      valueLabel.topAnchor.constraint(equalTo: instructionLabel.bottomAnchor, constant: 10),
+      valueLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 18),
+      valueLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -18),
+      valueLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -18),
     ])
 
-    //    let clickGesture = NSClickGestureRecognizer(target: self, action: #selector(toggleRecording))
-    //    addGestureRecognizer(clickGesture)
-
     recorder.onShortcut = { [weak self] keys in
-      self?.textField.stringValue = keys.joined(separator: " + ")
-      //      self?.stopRecording()
-      // Call the callback with the shortcut
+      self?.valueLabel.stringValue = keys.joined(separator: " + ")
       if let onShortcutChange = self?.onShortcutChange {
         onShortcutChange([
           "shortcut": keys
@@ -47,11 +63,17 @@ class KeyboardShortcutRecorderView: NSView {
       }
     }
 
+    recorder.onCancel = { [weak self] in
+      self?.valueLabel.stringValue = "waiting..."
+      if let onCancel = self?.onCancel {
+        onCancel([:])
+      }
+    }
+
     startRecording()
   }
 
   deinit {
-    // CRITICAL: Stop recording when view is deallocated
     recorder.stopRecording()
   }
 
@@ -63,7 +85,7 @@ class KeyboardShortcutRecorderView: NSView {
 
   private func startRecording() {
     isRecording = true
-    textField.stringValue = "Recording..."
+    valueLabel.stringValue = "waiting..."
     recorder.startRecording()
   }
 

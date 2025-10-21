@@ -927,6 +927,14 @@ export const createUIStore = (root: IRootStore) => {
     },
 
     setShortcut(id: string, shortcut: string) {
+      // Check for duplicate shortcut
+      if (shortcut !== "") {
+        const isDuplicate = Object.entries(store.shortcuts).some(([key, value]) => value === shortcut && key !== id)
+        if (isDuplicate) {
+          solNative.showToast('Shortcut already exists', 'error', 4)
+          return
+        }
+      }
       store.shortcuts[id] = shortcut
       solNative.updateHotkeys(toJS(store.shortcuts))
     },
@@ -962,14 +970,20 @@ export const createUIStore = (root: IRootStore) => {
     applicationsChanged: () => {
       store.getApps()
     },
+    closeKeyboardRecorder: () => {
+      store.showKeyboardRecorder = false
+      store.keyboardRecorderSelectedItem = null
+    },
     setShowKeyboardRecorderForItem: (show: boolean, itemId: string) => {
       store.showKeyboardRecorder = show
       store.keyboardRecorderSelectedItem = itemId
     },
     setShortcutFromUI: (shortcut: string[]) => {
       setTimeout(() => {
-        store.showKeyboardRecorder = false
-      }, 1000)
+        runInAction(() => {
+          store.showKeyboardRecorder = false
+        })
+      }, 2000)
 
       let itemId = store.keyboardRecorderSelectedItem
       store.keyboardRecorderSelectedItem = null
