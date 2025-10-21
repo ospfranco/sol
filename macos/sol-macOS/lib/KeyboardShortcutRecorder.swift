@@ -64,6 +64,7 @@ class KeyboardShortcutRecorder {
       if code == UInt8(kVK_Tab) {
         return nil
       }
+
       // Handle Escape key: close component
       if code == UInt8(kVK_Escape) {
         DispatchQueue.main.async {
@@ -71,6 +72,7 @@ class KeyboardShortcutRecorder {
         }
         return nil
       }
+
       if code == UInt8(kVK_F18) {
         if type == .keyDown {
           hyperDown = true
@@ -79,6 +81,7 @@ class KeyboardShortcutRecorder {
         }
         return nil
       }
+
       // Convert CGEvent to NSEvent to use our existing parsing logic
       if let nsEvent = NSEvent(cgEvent: event) {
         let keys = keysFrom(event: nsEvent)
@@ -105,7 +108,18 @@ class KeyboardShortcutRecorder {
     if event.modifierFlags.contains(.shift) { keys.append("⇧") }
 
     if let chars = event.charactersIgnoringModifiers {
-      keys.append(chars.uppercased())
+      switch chars {
+      case "\u{F703}":  // right arrow key
+        keys.append("→")
+      case "\u{F702}":  // left arrow key
+        keys.append("←")
+      case "\u{F700}":  // up arrow key
+        keys.append("↑")
+      case "\u{F701}":  // down arrow key
+        keys.append("↓")
+      default:
+        keys.append(chars.uppercased())
+      }
     }
     return keys
   }
