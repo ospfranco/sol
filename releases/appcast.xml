@@ -3,6 +3,19 @@
     <channel>
         <title>Sol</title>
         <item>
+            <title>2.1.281</title>
+            <description><![CDATA[## What's Changed
+* Delete clipboard items support by @ospfranco in https://github.com/ospfranco/sol/pull/217
+
+
+**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.280...2.1.281]]></description>
+            <pubDate>Tue, 21 Oct 2025 17:07:36 +0200</pubDate>
+            <sparkle:version>495</sparkle:version>
+            <sparkle:shortVersionString>2.1.281</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.281/2.1.281.zip" length="14257704" type="application/octet-stream" sparkle:edSignature="6M+YcLN4t0RZ/BR+Nc9GJ6Yr871py4RHJujinsd+IdJuS2ouLIOsePh+DHzXXvdpEvAD+81LeGlq6dZqobrVCQ=="/>
+        </item>
+        <item>
             <title>2.1.279</title>
             <description><![CDATA[## What's Changed
 * Fix keyboard recorder by @ospfranco in https://github.com/ospfranco/sol/pull/215
@@ -27,15 +40,6 @@
             <sparkle:shortVersionString>2.1.278</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.278/2.1.278.zip" length="14251479" type="application/octet-stream" sparkle:edSignature="UIWaiw9chL3IlRfhGNrruFgQCzwFKrTK1HgNwlzFleIuqs3mPUAxRDsxHwhTj/G64uXW/w1NIN60yO17z56cAQ=="/>
-        </item>
-        <item>
-            <title>2.1.277</title>
-            <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.276...2.1.277]]></description>
-            <pubDate>Mon, 20 Oct 2025 09:47:09 +0200</pubDate>
-            <sparkle:version>491</sparkle:version>
-            <sparkle:shortVersionString>2.1.277</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.277/2.1.277.zip" length="14251347" type="application/octet-stream" sparkle:edSignature="dJ70+mkGpdTUwwaVwtPjt0OISVNTQT03fgKnqkDUdwhx/3kavcGyouoR9pq7S+eEyBjWl0fKTVchZUn86+kgCg=="/>
         </item>
     </channel>
 </rss>
