@@ -1,9 +1,10 @@
-import {requireNativeComponent} from 'react-native'
-import {FC} from 'react'
-import {cssInterop} from 'nativewind'
+import { requireNativeComponent } from 'react-native'
+import { FC } from 'react'
+import { cssInterop } from 'nativewind'
 
 type Props = {
   onShortcutChange: (e: any) => void
+  onCancel: () => void
   style?: any
   className?: string
 }
