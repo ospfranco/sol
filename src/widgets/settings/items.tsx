@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import Favicon from 'components/Favicon'
 import { FileIcon } from 'components/FileIcon'
 import { MySwitch } from 'components/MySwitch'
-import { renderToKeys } from 'lib/shorcuts'
+import { renderToKeys } from 'lib/shortcuts'
 import { observer } from 'mobx-react-lite'
 import {
   Image,

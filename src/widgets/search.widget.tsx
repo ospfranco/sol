@@ -6,7 +6,7 @@ import { FileIcon } from 'components/FileIcon'
 import { Key } from 'components/Key'
 import { LoadingBar } from 'components/LoadingBar'
 import { MainInput } from 'components/MainInput'
-import { renderToKeys } from 'lib/shorcuts'
+import { renderToKeys } from 'lib/shortcuts'
 import { observer } from 'mobx-react-lite'
 import { FC, useEffect, useRef } from 'react'
 import {

@@ -8,12 +8,13 @@ import { Assets } from 'assets'
 export const Scripts: FC = observer(() => {
   const store = useStore()
   const username = solNative.userName()
+
   return (
     <ScrollView
-      className="flex-1"
-      contentContainerClassName="-mt-4 pb-5 px-5 gap-2 flex-grow"
       showsVerticalScrollIndicator={false}
-      StickyHeaderComponent={() => null}
+      automaticallyAdjustContentInsets
+      className="flex-1 -mt-10"
+      contentContainerClassName="p-5 gap-2"
     >
       <View className="flex-row items-center p-3 subBg rounded-lg border border-lightBorder dark:border-darkBorder mb-2">
         <Image

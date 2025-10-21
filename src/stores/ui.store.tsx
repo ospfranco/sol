@@ -23,7 +23,7 @@ import { createBaseItems } from './items'
 import MiniSearch from 'minisearch'
 import * as Sentry from '@sentry/react-native'
 import { storage } from './storage'
-import { defaultShortcuts } from 'lib/shorcuts'
+import { defaultShortcuts } from 'lib/shortcuts'
 
 const exprParser = new Parser()
 

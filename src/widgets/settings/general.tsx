@@ -20,9 +20,9 @@ export const General = observer(() => {
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
-      StickyHeaderComponent={() => null}
-      className="flex-1"
-      contentContainerClassName="pb-5 px-5 -mt-4 gap-2">
+      automaticallyAdjustContentInsets
+      className="flex-1 -mt-10"
+      contentContainerClassName="p-5 gap-2">
       <View className="flex-row items-center p-3 subBg rounded-lg border border-lightBorder dark:border-darkBorder">
         <View className="flex-1">
           <Text className="text-sm text">Open at Login</Text>
