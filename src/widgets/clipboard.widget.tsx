@@ -1,13 +1,14 @@
-import {LegendList, LegendListRef} from '@legendapp/list'
+import { LegendList, LegendListRef } from '@legendapp/list'
 import clsx from 'clsx'
-import {FileIcon} from 'components/FileIcon'
-import {LoadingBar} from 'components/LoadingBar'
-import {MainInput} from 'components/MainInput'
-import {observer} from 'mobx-react-lite'
-import {FC, useEffect, useRef} from 'react'
-import {StyleSheet, Text, TouchableOpacity, View, ViewStyle} from 'react-native'
-import {useStore} from 'store'
-import {PasteItem} from 'stores/clipboard.store'
+import { FileIcon } from 'components/FileIcon'
+import { Key } from 'components/Key'
+import { LoadingBar } from 'components/LoadingBar'
+import { MainInput } from 'components/MainInput'
+import { observer } from 'mobx-react-lite'
+import { FC, useEffect, useRef } from 'react'
+import { StyleSheet, Text, TouchableOpacity, View, ViewStyle } from 'react-native'
+import { useStore } from 'store'
+import { PasteItem } from 'stores/clipboard.store'
 
 interface Props {
   style?: ViewStyle
@@ -15,7 +16,7 @@ interface Props {
 }
 
 const RenderItem = observer(
-  ({item, index}: {item: PasteItem; index: number}) => {
+  ({ item, index }: { item: PasteItem; index: number }) => {
     const store = useStore()
     const selectedIndex = store.ui.selectedIndex
     const isActive = index === selectedIndex
@@ -32,8 +33,8 @@ const RenderItem = observer(
         <FileIcon
           url={decodeURIComponent(
             item.bundle?.replace('file://', '') ??
-              item.url?.replace('file://', '') ??
-              '',
+            item.url?.replace('file://', '') ??
+            '',
           )}
           className="h-6 w-6"
         />
@@ -62,7 +63,7 @@ function isPngOrJpg(url: string | null | undefined) {
   )
 }
 
-export const ClipboardWidget: FC<Props> = observer(({style}) => {
+export const ClipboardWidget: FC<Props> = observer(() => {
   const store = useStore()
   const data = store.clipboard.clipboardItems
   const selectedIndex = store.ui.selectedIndex
@@ -80,13 +81,15 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
   return (
     <View className="flex-1">
       <View className="flex-row px-3">
-        <MainInput placeholder="Search pasteboard history..." showBackButton />
+        <MainInput placeholder="Search Pasteboard..." showBackButton />
       </View>
       <LoadingBar />
       <View className="flex-1 flex-row">
-        <View className="w-64">
+        <View className="w-64 h-full">
           <LegendList
+            key={`${data.length}`}
             data={data}
+            className='flex-1'
             contentContainerStyle={STYLES.contentContainer}
             ref={listRef}
             recycleItems
@@ -129,6 +132,15 @@ export const ClipboardWidget: FC<Props> = observer(({style}) => {
             </View>
           )}
         </View>
+      </View>
+      {/* Shortcut bar at the bottom */}
+      <View className="py-2 px-4 flex-row items-center justify-end gap-1 subBg">
+        <Text className="text-xs darker-text mr-1">Delete All</Text>
+        <Key symbol={'⇧'} />
+        <Key symbol={'⏎'} />
+        <View className="mx-2" />
+        <Text className="text-xs darker-text mr-1">Delete</Text>
+        <Key symbol={'⌫'} />
       </View>
     </View>
   )
