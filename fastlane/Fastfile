@@ -3,6 +3,12 @@ default_platform(:mac)
 platform :mac do
 
   lane :release do
+
+    check_apple_agreement(
+      apple_id: "ospfranco@protonmail.com",
+      password: ENV["FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD"]
+    )
+
     Dir.chdir("..") do
       sh("bun", "bump")
     end
