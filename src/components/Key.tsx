@@ -31,15 +31,15 @@ export const Key: FC<IProps> = observer(
         {!!symbol && (
           <View
             className={clsx(
-              'w-[20px] h-[20px] items-center justify-center rounded dark:bg-neutral-700',
+              'w-[20px] h-[20px] items-center justify-center rounded ',
               {
+                'bg-neutral-500 dark:bg-neutral-700': !primary,
                 'bg-accent dark:bg-accent': primary,
               },
             )}>
             <Text
               className="text-xs text-center"
-              style={{
-              }}>
+            >
               {symbol}
             </Text>
           </View>

@@ -101,9 +101,9 @@ export const ClipboardWidget: FC<Props> = observer(() => {
             renderItem={RenderItem}
           />
         </View>
-        <View className="flex-1 p-3">
+        <View className="flex-1 px-3 py-2">
           {!!data[selectedIndex] && (
-            <View className="flex-1 dark:bg-black/50 bg-white rounded-lg px-3">
+            <View className="dark:bg-black/20 bg-white rounded-lg p-3">
               {!data[selectedIndex].url && (
                 <Text className="text-xs">
                   {data[selectedIndex]?.text ?? []}
@@ -126,7 +126,7 @@ export const ClipboardWidget: FC<Props> = observer(() => {
                       url={`file://${data[selectedIndex].url}`}
                       className="h-20 w-20"
                     />
-                    <Text>{data[selectedIndex].text}</Text>
+                    <Text className='font-mono'>{data[selectedIndex].text}</Text>
                   </View>
                 )}
             </View>
@@ -134,13 +134,19 @@ export const ClipboardWidget: FC<Props> = observer(() => {
         </View>
       </View>
       {/* Shortcut bar at the bottom */}
-      <View className="py-2 px-4 flex-row items-center justify-end gap-1 subBg">
+      <View className="py-2 px-4 flex-row items-center justify-end gap-1 subBg border-t border-color">
         <Text className="text-xs darker-text mr-1">Delete All</Text>
         <Key symbol={'⇧'} />
-        <Key symbol={'⏎'} />
-        <View className="mx-2" />
-        <Text className="text-xs darker-text mr-1">Delete</Text>
         <Key symbol={'⌫'} />
+        <View className="mx-2" />
+        <Text className="text-xs darker-text mr-1">Delete Item</Text>
+        <Key symbol={'⌫'} />
+        <View className="mx-2" />
+        <Text
+          className={'text-xs mr-1'}>
+          Paste
+        </Text>
+        <Key symbol={'⏎'} primary />
       </View>
     </View>
   )

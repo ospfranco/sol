@@ -138,10 +138,10 @@ export let FullCalendar: FC = observer(() => {
       />
       {store.calendar.upcomingEvent &&
         <View className="subBg flex-row items-center justify-end gap-1 py-2 px-4">
-          <Text className={'text-xs darker-text mr-1'}>
-            Open Upcoming Event "{store.calendar.upcomingEvent.title?.substring(0, 20)}"
+          <Text className={'text-xs mr-1'} numberOfLines={1}>
+            Open Upcoming <Text className='font-bold'>{store.calendar.upcomingEvent.title}</Text>
           </Text>
-          <Key symbol={'⏎'} />
+          <Key symbol={'⏎'} primary />
         </View>
       }
     </>
