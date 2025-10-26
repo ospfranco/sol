@@ -4,6 +4,10 @@ require 'spaceship'
 module Fastlane
   module Actions
     class CheckAppleAgreementAction < Action
+      def self.is_supported?(platform)
+        true
+      end
+
       def self.run(params)
         begin
           Spaceship::Portal.login(params[:apple_id], params[:password])
@@ -38,7 +42,7 @@ module Fastlane
       end
 
       def self.authors
-        ['GitHub Copilot']
+        ['Oscar Franco']
       end
     end
   end
