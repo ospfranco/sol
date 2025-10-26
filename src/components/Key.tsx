@@ -1,9 +1,8 @@
 import clsx from 'clsx'
-import {FC} from 'react'
-import {Text, View, ViewStyle} from 'react-native'
-import colors from 'tailwindcss/colors'
-import {observer} from 'mobx-react-lite'
-import {useStore} from 'store'
+import { FC } from 'react'
+import { Text, View, ViewStyle } from 'react-native'
+import { observer } from 'mobx-react-lite'
+import { useStore } from 'store'
 
 interface IProps {
   title?: string
@@ -15,7 +14,7 @@ interface IProps {
 }
 
 export const Key: FC<IProps> = observer(
-  ({title, primary = false, style, symbol}) => {
+  ({ title, primary = false, style, symbol }) => {
     let store = useStore()
 
     return (
@@ -32,17 +31,14 @@ export const Key: FC<IProps> = observer(
         {!!symbol && (
           <View
             className={clsx(
-              'w-[20px] h-[20px] items-center justify-center rounded border subBg border-color',
+              'w-[20px] h-[20px] items-center justify-center rounded dark:bg-neutral-700',
               {
-                'bg-accent border-accent': primary,
+                'bg-accent dark:bg-accent': primary,
               },
             )}>
             <Text
               className="text-xs text-center"
               style={{
-                color: store.ui.isDarkMode
-                  ? colors.neutral[300]
-                  : colors.neutral[500],
               }}>
               {symbol}
             </Text>

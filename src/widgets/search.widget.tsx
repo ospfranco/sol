@@ -49,17 +49,14 @@ const ItemRow = observer(({ item, index }: { item: Item; index: number }) => {
         store.ui.setSelectedIndex(index)
         store.keystroke.simulateEnter()
       }}
-      className={clsx('flex-row items-center rounded-xl py-1', {
-        'bg-accent': isActive,
+    >
+      <View className={clsx("flex-1 flex-row items-center px-3 h-12 rounded-xl", {
+        'bg-accent': isActive
       })}>
-      <View className="flex-1 flex-row items-center px-3 h-10">
         {item.isRunning && (
           <View
             className={clsx(
               'absolute bottom-1 left-[19px] h-[3px] w-[3px] rounded-full bg-neutral-600 dark:bg-neutral-400',
-              {
-                'bg-white dark:bg-white': isActive,
-              },
             )}
           />
         )}
@@ -204,7 +201,7 @@ export const SearchWidget: FC = observer(() => {
         <>
           <LoadingBar />
           <LegendList
-            className="flex-1"
+            style={STYLES.list}
             contentContainerStyle={STYLES.contentContainer}
             ref={listRef}
             data={items}
@@ -215,7 +212,7 @@ export const SearchWidget: FC = observer(() => {
             recycleItems
           />
 
-          <View className="py-2 px-4 flex-row items-center justify-end gap-1 subBg">
+          <View className="py-2 px-4 flex-row items-center justify-end gap-1 subBg border-t border-color">
             {store.ui.currentItem?.type === ItemType.CUSTOM && (
               <>
                 <Text className="text-xs darker-text mr-1">Edit</Text>
@@ -249,7 +246,7 @@ export const SearchWidget: FC = observer(() => {
               className={clsx('text-xs darker-text mr-1', {
                 'font-semibold': !items.length,
               })}>
-              Search
+              Browser Search
             </Text>
             {!!items.length && <Key symbol={'⌘'} />}
             <Key symbol={'⏎'} primary={!items.length} />
@@ -257,7 +254,7 @@ export const SearchWidget: FC = observer(() => {
               <>
                 <View className="mx-2" />
                 <Text
-                  className={clsx('text-xs darker-text mr-1', {
+                  className={clsx('text-xs mr-1', {
                     'font-semibold': !!items.length,
                   })}>
                   Select
@@ -273,9 +270,13 @@ export const SearchWidget: FC = observer(() => {
 })
 
 const STYLES = StyleSheet.create({
+  list: {
+    flex: 1,
+    marginTop: 4,
+  },
   contentContainer: {
     flexGrow: 1,
     paddingHorizontal: 8,
-    paddingVertical: 4,
+    paddingVertical: 8,
   },
 })
