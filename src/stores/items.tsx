@@ -124,8 +124,7 @@ export function createBaseItems(store: IRootStore) {
       alias: 'preferences',
       type: ItemType.CONFIGURATION,
       callback: () => {
-        store.ui.focusWidget(Widget.SETTINGS)
-        store.ui.setQuery('')
+        store.ui.showSettings()
       },
       preventClose: true,
     },

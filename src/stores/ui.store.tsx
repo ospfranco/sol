@@ -450,6 +450,7 @@ export const createUIStore = (root: IRootStore) => {
       }
     },
     showSettings: () => {
+      store.setQuery('')
       store.focusWidget(Widget.SETTINGS)
     },
     setSelectedIndex: (idx: number) => {
