@@ -15,7 +15,7 @@ class ClipboardHelper {
       name: NSWorkspace.didActivateApplicationNotification, object: nil)
 
     // TODO find if there is any better way to observe for changes other than continously check if the amount of items has changed
-    Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { _ in
+    Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
       if pasteboard.changeCount != changeCount {
         callback(pasteboard, self.frontmostApp)
         changeCount = pasteboard.changeCount
