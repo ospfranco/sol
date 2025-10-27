@@ -84,7 +84,6 @@ void FolderWatcherJSI::startStream() {
 	if (streamRef) {
 		FSEventStreamScheduleWithRunLoop(streamRef, CFRunLoopGetMain(), kCFRunLoopDefaultMode);
 		FSEventStreamStart(streamRef);
-    NSLog(@"🟦 Started FS stream");
 	}
 }
 

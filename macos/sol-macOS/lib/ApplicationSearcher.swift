@@ -40,10 +40,7 @@ class Application {
 
   // File watching
   private var eventStream: FSEventStreamRef?
-  private var lastApplications: [[String: Any]] = []
   private var isWatchingFolders = false
-
-  // Callback for application changes
   public var onApplicationsChanged: (() -> Void)?
 
   var fixedUrls: [URL] = [
@@ -67,11 +64,22 @@ class Application {
     "Tips.app",
   ]
 
-  // Application directories to watch
   private var watchedDirectories: [String] = []
+  private var wakeObserver: NSObjectProtocol?
 
   override init() {
     super.init()
+
+    // Observe system wake notification to restart FSEventStream
+    wakeObserver = NSWorkspace.shared.notificationCenter.addObserver(
+      forName: NSWorkspace.didWakeNotification,
+      object: nil,
+      queue: OperationQueue.main
+    ) { [weak self] _ in
+      self?.handleWakeFromSleep()
+    }
+
+    startWatchingFolders()
 
     if #unavailable(macOS 14) {
       fixedUrls.append(
@@ -93,6 +101,12 @@ class Application {
 
   deinit {
     stopWatchingFolders()
+
+    // Remove wake observer
+    if let observer = wakeObserver {
+      NSWorkspace.shared.notificationCenter.removeObserver(observer)
+      wakeObserver = nil
+    }
   }
 
   // Start watching application directories for changes
@@ -108,10 +122,6 @@ class Application {
         watchedDirectories.append(url.path)
       }
 
-      // Get initial applications
-      lastApplications = getAllApplications()
-
-      // Set up the FSEvents stream
       var context = FSEventStreamContext(
         version: 0,
         info: Unmanaged.passUnretained(self).toOpaque(),
@@ -129,16 +139,25 @@ class Application {
           eventFlags: UnsafePointer<FSEventStreamEventFlags>,
           eventIds: UnsafePointer<FSEventStreamEventId>
         ) in
-        // Get reference to self from context
+
         guard let info = clientCallBackInfo else { return }
         let myself = Unmanaged<ApplicationSearcher>.fromOpaque(info)
           .takeUnretainedValue()
 
-        // Process file changes
-        myself.processFileChanges()
+        // Notify if a file was added, removed, renamed, or inode metadata changed
+        for i in 0..<numEvents {
+          let flags = eventFlags[i]
+          if (flags & UInt32(kFSEventStreamEventFlagItemCreated) != 0)
+            || (flags & UInt32(kFSEventStreamEventFlagItemRemoved) != 0)
+            || (flags & UInt32(kFSEventStreamEventFlagItemRenamed) != 0)
+            || (flags & UInt32(kFSEventStreamEventFlagItemInodeMetaMod) != 0)
+          {
+            myself.processFileChanges()
+            break
+          }
+        }
       }
 
-      // Create paths array for FSEvents
       let pathsToWatch = watchedDirectories as CFArray
 
       // Create event stream
@@ -160,11 +179,12 @@ class Application {
         isWatchingFolders = true
       }
     } catch {
-      let breadcrumb = Breadcrumb(level: .error, category: "custom")
-      breadcrumb.message =
-        "Failed to start watching application folders: \(error.localizedDescription)"
-      SentrySDK.addBreadcrumb(breadcrumb)
-      SentrySDK.capture(error: error)
+      //      let breadcrumb = Breadcrumb(level: .error, category: "custom")
+      //      breadcrumb.message =
+      //        "Failed to start watching application folders: \(error.localizedDescription)"
+      //      SentrySDK.addBreadcrumb(breadcrumb)
+      //      SentrySDK.capture(error: error)
+      print("💔 COuld not watch applications")
     }
   }
 
@@ -176,15 +196,31 @@ class Application {
       self.eventStream = nil
       isWatchingFolders = false
     }
+
+    watchedDirectories.removeAll()
   }
 
+  // Restart FSEventStream after wake
+  private func handleWakeFromSleep() {
+    stopWatchingFolders()
+    startWatchingFolders()
+  }
+
+  private var debounceWorkItem: DispatchWorkItem?
+
   private func processFileChanges() {
-    // Delay processing to batch events together
-    DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 1.0) {
-      [weak self] in
+    debounceWorkItem?.cancel()
+
+    let workItem = DispatchWorkItem { [weak self] in
       guard let self = self else { return }
-      self.onApplicationsChanged?()
+
+      DispatchQueue.main.async {
+        self.onApplicationsChanged?()
+      }
     }
+
+    debounceWorkItem = workItem
+    DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 1.0, execute: workItem)
   }
 
   private func getApplicationDirectories() throws -> [URL] {

@@ -1,8 +1,6 @@
 import clsx from 'clsx'
 import { FC } from 'react'
 import { Text, View, ViewStyle } from 'react-native'
-import { observer } from 'mobx-react-lite'
-import { useStore } from 'store'
 
 interface IProps {
   title?: string
@@ -13,10 +11,8 @@ interface IProps {
   className?: string
 }
 
-export const Key: FC<IProps> = observer(
+export const Key: FC<IProps> =
   ({ title, primary = false, style, symbol }) => {
-    let store = useStore()
-
     return (
       <View className="items-center gap-2 flex-row" style={style}>
         {!!title && (
@@ -33,7 +29,7 @@ export const Key: FC<IProps> = observer(
             className={clsx(
               'w-[20px] h-[20px] items-center justify-center rounded ',
               {
-                'bg-neutral-500 dark:bg-neutral-700': !primary,
+                'bg-neutral-100 dark:bg-neutral-700': !primary,
                 'bg-accent dark:bg-accent': primary,
               },
             )}>
@@ -46,5 +42,4 @@ export const Key: FC<IProps> = observer(
         )}
       </View>
     )
-  },
-)
+  }
