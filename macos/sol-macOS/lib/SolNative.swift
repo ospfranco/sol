@@ -14,10 +14,8 @@ class SolNative: RCTEventEmitter {
     ApplicationSearcher.shared.onApplicationsChanged = {
       self.sendEvent(
         withName: "applicationsChanged",
-        body: nil)
+        body: [])
     }
-
-    ApplicationSearcher.shared.startWatchingFolders()
   }
 
   @objc override func constantsToExport() -> [AnyHashable: Any]! {
