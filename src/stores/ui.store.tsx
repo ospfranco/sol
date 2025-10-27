@@ -282,9 +282,7 @@ export const createUIStore = (root: IRootStore) => {
     showAllDayEvents: true,
     launchAtLogin: true,
     hasFullDiskAccess: false,
-    safariBookmarks: [] as Item[],
-    braveBookmarks: [] as Item[],
-    chromeBookmarks: [] as Item[],
+    bookmarks: [] as Item[],
     mediaKeyForwardingEnabled: true,
     targetHeight: 64,
     isDarkMode: Appearance.getColorScheme() === 'dark',
@@ -343,11 +341,7 @@ export const createUIStore = (root: IRootStore) => {
         ...store.customItems,
         ...root.scripts.scripts,
         ...(store.showInAppBrowserBookMarks
-          ? [
-            ...store.safariBookmarks,
-            ...store.braveBookmarks,
-            ...store.chromeBookmarks,
-          ]
+          ? store.bookmarks
           : []),
       ]
 
@@ -669,7 +663,7 @@ export const createUIStore = (root: IRootStore) => {
         return
       }
 
-      store.getApps()
+      // store.getApps()
 
       setImmediate(() => {
         if (!store.isAccessibilityTrusted) {
@@ -747,48 +741,63 @@ export const createUIStore = (root: IRootStore) => {
     },
     getFullDiskAccessStatus: async () => {
       const hasAccess = await solNative.hasFullDiskAccess()
-      runInAction(() => {
-        store.hasFullDiskAccess = hasAccess
-        if (hasAccess) {
-          store.getSafariBookmarks()
-        }
-      })
-      store.getBraveBookmarks()
-      store.getChromeBookmarks()
+      store.getBookmarks();
     },
-    getSafariBookmarks: async () => {
-      if (store.hasFullDiskAccess) {
-        const safariBookmarksRaw = await solNative.getSafariBookmarks()
+    getBookmarks: async () => {
 
-        runInAction(() => {
-          store.safariBookmarks = safariBookmarksRaw.map(
-            (bookmark: any, idx: number): Item => {
-              return {
-                id: `${bookmark.title}_safari_${idx}`,
-                name: bookmark.title,
-                type: ItemType.BOOKMARK,
-                bookmarkFolder: null,
-                faviconFallback: Assets.Safari,
-                url: bookmark.url,
-                callback: () => {
-                  Linking.openURL(bookmark.url)
-                },
-              }
-            },
-          )
-        })
+      // Fetch all bookmarks and deduplicate by id
+      const allBookmarks: Item[] = []
+
+      const safariBookmarks = await store.getSafariBookmarks()
+      const braveBookmarks = await store.getBraveBookmarks()
+      const chromeBookmarks = await store.getChromeBookmarks()
+
+      // Use a Set to keep track of unique ids
+      const seenIds = new Set<string>()
+
+      for (const bookmark of [...safariBookmarks, ...braveBookmarks, ...chromeBookmarks]) {
+        if (!seenIds.has(bookmark.id)) {
+          allBookmarks.push(bookmark)
+          seenIds.add(bookmark.id)
+        }
       }
+
+      runInAction(() => {
+        store.bookmarks = allBookmarks
+      })
     },
-    getBraveBookmarks: async () => {
+    getSafariBookmarks: async (): Promise<Item[]> => {
+      if (!store.hasFullDiskAccess) {
+        return []
+      }
+      const safariBookmarksRaw = await solNative.getSafariBookmarks()
+
+      return safariBookmarksRaw.map(
+        (bookmark: any, idx: number): Item => {
+          return {
+            id: `${bookmark.title}_safari_${idx}`,
+            name: bookmark.title,
+            type: ItemType.BOOKMARK,
+            bookmarkFolder: null,
+            faviconFallback: Assets.Safari,
+            url: bookmark.url,
+            callback: () => {
+              Linking.openURL(bookmark.url)
+            },
+          }
+        },
+      )
+    },
+    getBraveBookmarks: async (): Promise<Item[]> => {
       const path = `/Users/${store.username}/Library/Application Support/BraveSoftware/Brave-Browser/Default/Bookmarks`
       const exists = solNative.exists(path)
       if (!exists) {
-        return
+        return []
       }
 
       const bookmarksString = solNative.readFile(path)
       if (!bookmarksString) {
-        return
+        return []
       }
 
       const OGbookmarks = JSON.parse(bookmarksString)
@@ -801,7 +810,7 @@ export const createUIStore = (root: IRootStore) => {
 
       traverse(bookmarks, OGbookmarks.roots.bookmark_bar.children, null)
 
-      store.braveBookmarks = bookmarks.map((bookmark, idx): Item => {
+      return bookmarks.map((bookmark, idx): Item => {
         return {
           id: `${bookmark.title}_brave_${idx}`,
           name: bookmark.title,
@@ -819,37 +828,40 @@ export const createUIStore = (root: IRootStore) => {
         }
       })
     },
-    getChromeBookmarks: async () => {
+    getChromeBookmarks: async (): Promise<Item[]> => {
       const username = solNative.userName()
       const path = `/Users/${username}/Library/Application Support/Google/Chrome/Default/Bookmarks`
       const exists = solNative.exists(path)
-      if (exists) {
-        const bookmarksString = solNative.readFile(path)
-        if (!bookmarksString) {
-          return
-        }
-        const OGbookmarks = JSON.parse(bookmarksString)
-        let bookmarks: {
-          title: string
-          url: string
-          bookmarkFolder: null | string
-        }[] = []
-
-        traverse(bookmarks, OGbookmarks.roots.bookmark_bar.children, null)
-        store.chromeBookmarks = bookmarks.map((bookmark, idx): Item => {
-          return {
-            id: `${bookmark.title}_brave_${idx}`,
-            name: bookmark.title,
-            bookmarkFolder: bookmark.bookmarkFolder,
-            type: ItemType.BOOKMARK,
-            faviconFallback: Assets.Chrome,
-            url: bookmark.url,
-            callback: () => {
-              Linking.openURL(bookmark.url)
-            },
-          }
-        })
+      if (!exists) {
+        return []
       }
+      const bookmarksString = solNative.readFile(path)
+      if (!bookmarksString) {
+        return []
+      }
+      const OGbookmarks = JSON.parse(bookmarksString)
+
+      let bookmarks: {
+        title: string
+        url: string
+        bookmarkFolder: null | string
+      }[] = []
+
+      traverse(bookmarks, OGbookmarks.roots.bookmark_bar.children, null)
+
+      return bookmarks.map((bookmark, idx): Item => {
+        return {
+          id: `${bookmark.title}_brave_${idx}`,
+          name: bookmark.title,
+          bookmarkFolder: bookmark.bookmarkFolder,
+          type: ItemType.BOOKMARK,
+          faviconFallback: Assets.Chrome,
+          url: bookmark.url,
+          callback: () => {
+            Linking.openURL(bookmark.url)
+          },
+        }
+      })
     },
 
     setMediaKeyForwardingEnabled: (enabled: boolean) => {
@@ -866,7 +878,6 @@ export const createUIStore = (root: IRootStore) => {
     }: {
       colorScheme: 'light' | 'dark' | null | undefined
     }) {
-      console.log("Changed theme to", colorScheme)
       if (colorScheme === 'dark') {
         store.isDarkMode = true
         // nativeWindColorScheme.set("dark")
@@ -935,13 +946,14 @@ export const createUIStore = (root: IRootStore) => {
           return
         }
       }
+
       store.shortcuts[id] = shortcut
       solNative.updateHotkeys(toJS(store.shortcuts))
     },
 
     restoreDefaultShorcuts() {
       store.shortcuts = defaultShortcuts
-      solNative.updateHotkeys(toJS(store.shortcuts))
+      solNative.updateHotkeys(defaultShortcuts)
     },
 
     setWindowHeight(e: any) {
