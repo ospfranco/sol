@@ -56,6 +56,7 @@ https://discord.gg/W9XmqCQCKP
 - Blacken Menu Bar
 - Quickly evaluate math operations
 - Script Runner
+- Symbolic Link Support
 
 ## Contributing
 
