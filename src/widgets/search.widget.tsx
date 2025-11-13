@@ -210,6 +210,7 @@ export const SearchWidget: FC = observer(() => {
             showsVerticalScrollIndicator={false}
             ListEmptyComponent={EmptyComponent}
             recycleItems
+            maintainVisibleContentPosition={false}
           />
 
           <View className="py-2 px-4 flex-row items-center justify-end gap-1 subBg border-t border-color">
