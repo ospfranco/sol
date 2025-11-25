@@ -66,7 +66,7 @@ export const languages = {
   'zh-TW': {
     code: 'zh-TW',
     name: 'Chinese Traditional',
-    flag: '🇨🇳',
+    flag: '🇹🇼',
   },
   co: {
     code: 'co',
