@@ -51,7 +51,6 @@ class Application {
     "Audio MIDI Setup.app",
     "Script Editor.app",
     "Grapher.app",
-    "Screenshot.app",
     "Airport Utility.app",
     "ColorSync Utility.app",
     "Bluetooth File Exchange.app",
