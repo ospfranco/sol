@@ -3,6 +3,15 @@
     <channel>
         <title>Sol</title>
         <item>
+            <title>2.1.289</title>
+            <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.288...2.1.289]]></description>
+            <pubDate>Sun, 14 Dec 2025 20:33:04 -0400</pubDate>
+            <sparkle:version>503</sparkle:version>
+            <sparkle:shortVersionString>2.1.289</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.289/2.1.289.zip" length="14260696" type="application/octet-stream" sparkle:edSignature="uxATEsXlkNnh+vwJmVWkNSZ5KZH4ti6Vr7YRtk782vS4fpB/ou9hblgARAUhiIchgmS2jXIFu6ooRpmkyM0lDA=="/>
+        </item>
+        <item>
             <title>2.1.288</title>
             <description><![CDATA[## What's Changed
 * Various fixes by @ospfranco in https://github.com/ospfranco/sol/pull/223
@@ -31,15 +40,6 @@
             <sparkle:shortVersionString>2.1.286</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.286/2.1.286.zip" length="14257800" type="application/octet-stream" sparkle:edSignature="/s3NVwzq/+DleO+UQ9Ar2E4acC7xMHgmgQhfJfHL+6pSi3EyBKQg2uHNhphFUhZ5SH0OitJ7MspQQv4HYTSoAg=="/>
-        </item>
-        <item>
-            <title>2.1.285</title>
-            <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.284...2.1.285]]></description>
-            <pubDate>Sun, 26 Oct 2025 20:36:51 +0100</pubDate>
-            <sparkle:version>499</sparkle:version>
-            <sparkle:shortVersionString>2.1.285</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.285/2.1.285.zip" length="14257837" type="application/octet-stream" sparkle:edSignature="HhWh34yl8fQvjeO8brQNFc15SBdQWeZdfESUksdA8SODKytcFTyNBFwnkAkdzUJ45CwtA+OnAQf4U83P3foGCw=="/>
         </item>
     </channel>
 </rss>
