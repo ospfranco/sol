@@ -44,6 +44,7 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
     "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.25.3",
     "@babel/runtime": "^7.25.0",
