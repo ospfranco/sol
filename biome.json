@@ -1,0 +1,12 @@
+{
+	"linter": {
+		"rules": {
+			"style": {
+				"noUnusedTemplateLiteral": "off"
+			},
+			"suspicious": {
+				"noExplicitAny": "off"
+			}
+		}
+	}
+}
