@@ -15,8 +15,26 @@ import {
 } from 'react-native'
 import { useStore } from 'store'
 import { ItemType } from 'stores/ui.store'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { Input } from 'components/Input'
+
+// Helper to check if a shortcut matches the search filter
+function shortcutMatchesFilter(shortcut: string | undefined, filter: string): boolean {
+  if (!shortcut) return false
+
+  // Normalize both strings for comparison
+  const normalizedShortcut = shortcut.toLowerCase().split('+').sort().join('+')
+  const normalizedFilter = filter.toLowerCase().split('+').sort().join('+')
+
+  // Exact match
+  if (normalizedShortcut === normalizedFilter) return true
+
+  // Check if all filter parts are contained in the shortcut
+  const filterParts = filter.toLowerCase().split('+')
+  const shortcutParts = shortcut.toLowerCase().split('+')
+
+  return filterParts.every(part => shortcutParts.includes(part))
+}
 
 const RenderItem = observer(({ item, index }: any) => {
   const store = useStore()
@@ -115,11 +133,13 @@ const RenderItem = observer(({ item, index }: any) => {
 export const Items = observer(() => {
   const store = useStore()
   const [query, setQuery] = useState('')
+  const shortcutSearchFilter = store.ui.shortcutSearchFilter
 
   // Clear query on unmount
   useEffect(() => {
     return () => {
       store.ui.setQuery('')
+      store.ui.clearShortcutSearch()
     }
   }, [])
 
@@ -129,7 +149,20 @@ export const Items = observer(() => {
     store.ui.setQuery(text)
   }
 
-  let items = store.ui.items
+  // Filter items based on shortcut search filter
+  const filteredItems = useMemo(() => {
+    let items = store.ui.items
+
+    // If there's a shortcut filter, filter items by shortcut
+    if (shortcutSearchFilter) {
+      items = items.filter(item => {
+        const itemShortcut = store.ui.shortcuts[item.id]
+        return shortcutMatchesFilter(itemShortcut, shortcutSearchFilter)
+      })
+    }
+
+    return items
+  }, [store.ui.items, shortcutSearchFilter, store.ui.shortcuts])
 
   return (
     <View className="flex-1 h-full p-4">
@@ -149,20 +182,52 @@ export const Items = observer(() => {
             onValueChange={store.ui.setHyperKeyEnabled} />
         </View>
         <View className="border-t border-lightBorder dark:border-darkBorder z-0 mb-3" />
-        <Input
-          bordered
-          value={query}
-          onChangeText={handleQueryChange}
-          placeholder="Type to search..."
-          className="ml-2"
-          autoCorrect={false}
-          autoCapitalize="none"
-          clearButtonMode="while-editing"
-        />
+        <View className="flex-row items-center gap-2 ml-2">
+          <Input
+            bordered
+            value={query}
+            onChangeText={handleQueryChange}
+            placeholder="Type to search..."
+            className="flex-1"
+            autoCorrect={false}
+            autoCapitalize="none"
+            clearButtonMode="while-editing"
+          />
+          <TouchableOpacity
+            onPress={store.ui.startShortcutSearch}
+            className={clsx(
+              'w-8 h-8 items-center justify-center rounded border',
+              {
+                'border-accent bg-accent/10': shortcutSearchFilter,
+                'border-lightBorder dark:border-darkBorder': !shortcutSearchFilter,
+              }
+            )}
+          >
+            <Text className="text-base">⌨</Text>
+          </TouchableOpacity>
+        </View>
+        {shortcutSearchFilter && (
+          <View className="flex-row items-center gap-2 ml-2 mt-2 p-2 bg-accent/10 rounded">
+            <Text className="text-sm">Filtering by shortcut:</Text>
+            <View className="flex-row items-center gap-1">
+              {renderToKeys(shortcutSearchFilter)}
+            </View>
+            <TouchableOpacity
+              onPress={store.ui.clearShortcutSearch}
+              className="ml-auto"
+            >
+              <Image
+                source={Assets.close}
+                className="h-4 w-4"
+                style={{ tintColor: 'red' }}
+              />
+            </TouchableOpacity>
+          </View>
+        )}
         <LegendList
           className="flex-1"
           contentContainerClassName="px-4 pb-4"
-          data={items}
+          data={filteredItems}
           keyExtractor={item => item.id}
           renderItem={RenderItem}
           recycleItems
