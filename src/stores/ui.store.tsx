@@ -311,6 +311,8 @@ export const createUIStore = (root: IRootStore) => {
 		isVisible: false,
 		showKeyboardRecorder: false,
 		keyboardRecorderSelectedItem: null as string | null,
+		shortcutSearchMode: false,
+		shortcutSearchFilter: null as string | null,
 		confirmDialogShown: false,
 		confirmCallback: null as (() => any) | null,
 		confirmTitle: null as string | null,
@@ -1006,12 +1008,38 @@ export const createUIStore = (root: IRootStore) => {
 		closeKeyboardRecorder: () => {
 			store.showKeyboardRecorder = false;
 			store.keyboardRecorderSelectedItem = null;
+			store.shortcutSearchMode = false;
 		},
 		setShowKeyboardRecorderForItem: (show: boolean, itemId: string) => {
 			store.showKeyboardRecorder = show;
 			store.keyboardRecorderSelectedItem = itemId;
+			store.shortcutSearchMode = false;
+		},
+		startShortcutSearch: () => {
+			store.showKeyboardRecorder = true;
+			store.shortcutSearchMode = true;
+			store.keyboardRecorderSelectedItem = null;
+		},
+		setShortcutSearchFilter: (shortcut: string | null) => {
+			store.shortcutSearchFilter = shortcut;
+		},
+		clearShortcutSearch: () => {
+			store.shortcutSearchFilter = null;
+			store.shortcutSearchMode = false;
 		},
 		setShortcutFromUI: (shortcut: string[]) => {
+			// Check if we're in shortcut search mode
+			if (store.shortcutSearchMode) {
+				store.shortcutSearchFilter = shortcut.join("+");
+				setTimeout(() => {
+					runInAction(() => {
+						store.showKeyboardRecorder = false;
+						store.shortcutSearchMode = false;
+					});
+				}, 500);
+				return;
+			}
+
 			setTimeout(() => {
 				runInAction(() => {
 					store.showKeyboardRecorder = false;
