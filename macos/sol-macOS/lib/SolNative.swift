@@ -293,6 +293,11 @@ class SolNative: RCTEventEmitter {
     ClipboardHelper.pasteImageToFrontmostApp(imagePath)
   }
 
+  @objc func deleteClipboardImage(_ imagePath: String, thumbnailPath: String) {
+    try? FileManager.default.removeItem(atPath: imagePath)
+    try? FileManager.default.removeItem(atPath: thumbnailPath)
+  }
+
   @objc func insertToFrontmostApp(_ content: String) {
     ClipboardHelper.insertToFrontmostApp(content)
   }

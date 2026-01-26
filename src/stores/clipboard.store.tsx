@@ -30,10 +30,21 @@ export const createClipboardStore = (root: IRootStore) => {
   const store = makeAutoObservable({
     deleteItem: (index: number) => {
       if (index >= 0 && index < store.items.length) {
+        const item = store.items[index]
+        // Clean up image files when deleting clipboard items
+        if (item.imagePath && item.thumbnailPath) {
+          solNative.deleteClipboardImage(item.imagePath, item.thumbnailPath)
+        }
         store.items.splice(index, 1)
       }
     },
     deleteAllItems: () => {
+      // Clean up all image files
+      for (const item of store.items) {
+        if (item.imagePath && item.thumbnailPath) {
+          solNative.deleteClipboardImage(item.imagePath, item.thumbnailPath)
+        }
+      }
       store.items = []
     },
     items: [] as PasteItem[],
@@ -100,6 +111,13 @@ export const createClipboardStore = (root: IRootStore) => {
     },
     removeLastItemIfNeeded: () => {
       if (store.items.length > MAX_ITEMS) {
+        // Clean up image files for items being removed
+        const itemsToRemove = store.items.slice(MAX_ITEMS)
+        for (const item of itemsToRemove) {
+          if (item.imagePath && item.thumbnailPath) {
+            solNative.deleteClipboardImage(item.imagePath, item.thumbnailPath)
+          }
+        }
         store.items = store.items.slice(0, MAX_ITEMS)
       }
     },

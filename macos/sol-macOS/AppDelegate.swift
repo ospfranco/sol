@@ -85,11 +85,16 @@ class AppDelegate: RCTAppDelegate {
 
       let bundle = $1?.bundle
 
-      // Check for image data (screenshots, copied images)
-      if let tiffData = $0.data(forType: .tiff),
-         let image = NSImage(data: tiffData) {
-        self.handleImageCopy(image: image, bundle: bundle)
-        return
+      // Check for image data in multiple formats (screenshots, copied images)
+      // Order matters: prefer lossless formats first
+      let imageTypes: [NSPasteboard.PasteboardType] = [.png, .tiff]
+      for imageType in imageTypes {
+        if let imageData = $0.data(forType: imageType),
+           let image = NSImage(data: imageData),
+           image.size.width > 0, image.size.height > 0 {
+          self.handleImageCopy(image: image, bundle: bundle)
+          return
+        }
       }
 
       let data = $0.data(forType: .fileURL)
@@ -131,17 +136,28 @@ class AppDelegate: RCTAppDelegate {
   }
 
   private func handleImageCopy(image: NSImage, bundle: String?) {
-    let timestamp = Int(Date().timeIntervalSince1970 * 1000)
-    guard let appSupportDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else {
-      print("Could not get Application Support directory")
+    // Validate image dimensions
+    guard image.size.width > 0, image.size.height > 0 else {
+      print("Invalid image dimensions")
       return
     }
-    let imagesDir = appSupportDir.appendingPathComponent("sol/ClipboardImages", isDirectory: true)
+
+    // Skip very large images (> 50MB estimated) to prevent memory issues
+    let estimatedSize = image.size.width * image.size.height * 4 // RGBA bytes
+    guard estimatedSize < 50_000_000 else {
+      print("Image too large, skipping clipboard capture")
+      return
+    }
+
+    let timestamp = Int(Date().timeIntervalSince1970 * 1000)
+
+    // Use temp directory - OS handles cleanup, prevents disk bloat
+    let imagesDir = FileConstants.tempURL.appendingPathComponent("sol-clipboard-images", isDirectory: true)
 
     do {
       try FileManager.default.createDirectory(at: imagesDir, withIntermediateDirectories: true)
     } catch {
-      print("Could not create ClipboardImages directory: \(error)")
+      print("Could not create clipboard images directory: \(error)")
       return
     }
 
