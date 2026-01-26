@@ -54,6 +54,7 @@ class SolNative: RCTEventEmitter {
       "onHide",
       "onTextCopied",
       "onFileCopied",
+      "onImageCopied",
       "onFileSearch",
       "onStatusBarItemClick",
       "hotkey",
@@ -286,6 +287,10 @@ class SolNative: RCTEventEmitter {
 
   @objc func pasteToFrontmostApp(_ content: String) {
     ClipboardHelper.pasteToFrontmostApp(content)
+  }
+
+  @objc func pasteImageToFrontmostApp(_ imagePath: String) {
+    ClipboardHelper.pasteImageToFrontmostApp(imagePath)
   }
 
   @objc func insertToFrontmostApp(_ content: String) {

@@ -1,6 +1,7 @@
 import { LegendList, LegendListRef } from '@legendapp/list'
 import clsx from 'clsx'
 import { FileIcon } from 'components/FileIcon'
+import { ImagePreview } from 'components/ImagePreview'
 import { Key } from 'components/Key'
 import { LoadingBar } from 'components/LoadingBar'
 import { MainInput } from 'components/MainInput'
@@ -20,6 +21,8 @@ const RenderItem = observer(
     const store = useStore()
     const selectedIndex = store.ui.selectedIndex
     const isActive = index === selectedIndex
+    const isImage = !!item.imagePath
+
     return (
       <TouchableOpacity
         onPress={() => {
@@ -30,22 +33,29 @@ const RenderItem = observer(
           'bg-accent': isActive,
           'opacity-80': !isActive,
         })}>
-        <FileIcon
-          url={decodeURIComponent(
-            item.bundle?.replace('file://', '') ??
-            item.url?.replace('file://', '') ??
-            '',
-          )}
-          className="h-6 w-6"
-        />
+        {isImage && item.thumbnailPath ? (
+          <ImagePreview
+            path={item.thumbnailPath}
+            style={{ width: 24, height: 24, borderRadius: 4 }}
+          />
+        ) : isImage ? (
+          <View style={{ width: 24, height: 24, borderRadius: 4, backgroundColor: '#007AFF', alignItems: 'center', justifyContent: 'center' }}>
+            <Text style={{ fontSize: 12, color: 'white', fontWeight: 'bold' }}>I</Text>
+          </View>
+        ) : (
+          <FileIcon
+            url={decodeURIComponent(
+              item.bundle?.replace('file://', '') ??
+              item.url?.replace('file://', '') ??
+              '',
+            )}
+            className="h-6 w-6"
+          />
+        )}
 
         <Text className={clsx('text-xs text flex-1')} numberOfLines={1}>
           {item.text.trim()}
         </Text>
-
-        {/* {!!item.url && (
-        <Image src={`file://${item.url}`} className="h-20 w-20" />
-      )} */}
       </TouchableOpacity>
     )
   },
@@ -103,23 +113,26 @@ export const ClipboardWidget: FC<Props> = observer(() => {
         </View>
         <View className="flex-1 px-3 py-2">
           {!!data[selectedIndex] && (
-            <View className="dark:bg-black/20 bg-white rounded-lg p-3">
-              {!data[selectedIndex].url && (
+            <View className="dark:bg-black/20 bg-white rounded-lg p-3 flex-1">
+              {/* Image preview */}
+              {!!data[selectedIndex].imagePath && (
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                  <ImagePreview
+                    path={data[selectedIndex].imagePath}
+                    style={{ width: 200, height: 200, borderRadius: 8 }}
+                  />
+                  <Text className="text-xs darker-text mt-2">{data[selectedIndex].text}</Text>
+                </View>
+              )}
+              {/* Text preview */}
+              {!data[selectedIndex].url && !data[selectedIndex].imagePath && (
                 <Text className="text-xs">
                   {data[selectedIndex]?.text ?? []}
                 </Text>
               )}
-              {/* {!!data[selectedIndex].url &&
-              isPngOrJpg(data[selectedIndex].url) && (
-                <Image
-                  source={{
-                    uri: `file://${data[selectedIndex].url}`,
-                  }}
-                  className="flex-1 rounded-lg"
-                  style={{resizeMode: 'contain'}}
-                />
-              )} */}
+              {/* File preview */}
               {!!data[selectedIndex].url &&
+                !data[selectedIndex].imagePath &&
                 !isPngOrJpg(data[selectedIndex].url) && (
                   <View className="flex-1 w-full items-center justify-center">
                     <FileIcon
@@ -140,6 +153,7 @@ export const ClipboardWidget: FC<Props> = observer(() => {
         <Key symbol={'⌫'} />
         <View className="mx-2" />
         <Text className="text-xs darker-text mr-1">Delete Item</Text>
+        <Key symbol={'⌘'} />
         <Key symbol={'⌫'} />
         <View className="mx-2" />
         <Text

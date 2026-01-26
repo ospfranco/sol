@@ -33,12 +33,33 @@ export const createKeystrokeStore = (root: IRootStore) => {
     }) => {
       switch (keyCode) {
         case 51: {
+          // Clipboard: require modifier keys to delete (prevents accidental deletion while typing)
+          // Shift+Backspace = delete all, Cmd+Backspace = delete single item
           if (root.ui.focusedWidget === Widget.CLIPBOARD) {
             if (shift) {
               root.clipboard.deleteAllItems()
-            } else {
-              root.clipboard.deleteItem(root.ui.selectedIndex)
+              return
             }
+            if (meta) {
+              const entry = root.clipboard.clipboardItems[root.ui.selectedIndex]
+              if (entry) {
+                const originalIndex = root.clipboard.items.findIndex(e => e === entry)
+                if (originalIndex !== -1) {
+                  root.clipboard.deleteItem(originalIndex)
+                }
+              }
+              return
+            }
+            // Plain backspace: let it pass through to edit the search text
+          }
+          // Search: delete custom items with shift+backspace
+          if (
+            shift &&
+            root.ui.focusedWidget === Widget.SEARCH &&
+            root.ui.currentItem != null &&
+            root.ui.currentItem.type === ItemType.CUSTOM
+          ) {
+            root.ui.deleteCustomItem(root.ui.currentItem.id)
             return
           }
           break
@@ -55,18 +76,6 @@ export const createKeystrokeStore = (root: IRootStore) => {
         case 40: {
           if (store.controlPressed) {
             store.keyDown({ keyCode: 126, meta: false, shift: false })
-          }
-          break
-        }
-        // delete key
-        case 51: {
-          if (
-            store.shiftPressed &&
-            root.ui.focusedWidget === Widget.SEARCH &&
-            root.ui.currentItem != null &&
-            root.ui.currentItem.type === ItemType.CUSTOM
-          ) {
-            root.ui.deleteCustomItem(root.ui.currentItem.id)
           }
           break
         }
@@ -151,22 +160,32 @@ export const createKeystrokeStore = (root: IRootStore) => {
 
               const entry = root.clipboard.clipboardItems[root.ui.selectedIndex]
 
-              const originalIndex = root.clipboard.clipboardItems.findIndex(
+              // Find the original index in unfiltered items (selectedIndex refers to filtered clipboardItems)
+              const originalIndex = root.clipboard.items.findIndex(
                 e => entry === e,
               )
 
-              root.clipboard.popToTop(originalIndex)
+              if (originalIndex !== -1) {
+                root.clipboard.popToTop(originalIndex)
+              }
 
               if (entry) {
                 if (meta) {
-                  try {
-                    Linking.openURL(entry.text)
-                  } catch (e) {
-                    // console.log('could not open in browser')
+                  // Only open URL for text items
+                  if (!entry.imagePath) {
+                    try {
+                      Linking.openURL(entry.text)
+                    } catch (e) {
+                      // console.log('could not open in browser')
+                    }
                   }
                   solNative.hideWindow()
                 } else {
-                  solNative.pasteToFrontmostApp(entry.text)
+                  if (entry.imagePath) {
+                    solNative.pasteImageToFrontmostApp(entry.imagePath)
+                  } else {
+                    solNative.pasteToFrontmostApp(entry.text)
+                  }
                 }
               }
 
@@ -691,7 +710,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
             case Widget.CLIPBOARD: {
               root.ui.selectedIndex = Math.min(
                 root.ui.selectedIndex + 1,
-                root.clipboard.items.length - 1,
+                Math.max(0, root.clipboard.clipboardItems.length - 1),
               )
               break
             }

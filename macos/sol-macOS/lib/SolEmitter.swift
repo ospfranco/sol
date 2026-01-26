@@ -85,4 +85,16 @@ class SolEmitter {
   func onStatusBarItemClick() {
     dispatch(name: "onStatusBarItemClick", body: [])
   }
+
+  func imageCopied(_ imagePath: String, _ thumbnailPath: String, _ thumbnailBase64: String, _ imageName: String, _ bundle: String?) {
+    dispatch(
+      name: "onImageCopied",
+      body: [
+        "imagePath": imagePath,
+        "thumbnailPath": thumbnailPath,
+        "thumbnailBase64": thumbnailBase64,
+        "imageName": imageName,
+        "bundle": bundle,
+      ])
+  }
 }

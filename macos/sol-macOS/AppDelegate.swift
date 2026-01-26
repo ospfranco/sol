@@ -78,7 +78,19 @@ class AppDelegate: RCTAppDelegate {
 
   func setupPasteboardListener() {
     ClipboardHelper.addOnCopyListener {
+      // Skip if we're currently pasting (prevents infinite loop)
+      if ClipboardHelper.isPasting {
+        return
+      }
+
       let bundle = $1?.bundle
+
+      // Check for image data (screenshots, copied images)
+      if let tiffData = $0.data(forType: .tiff),
+         let image = NSImage(data: tiffData) {
+        self.handleImageCopy(image: image, bundle: bundle)
+        return
+      }
 
       let data = $0.data(forType: .fileURL)
 
@@ -115,6 +127,55 @@ class AppDelegate: RCTAppDelegate {
       if txt != nil {
         SolEmitter.sharedInstance.textCopied(txt!, bundle)
       }
+    }
+  }
+
+  private func handleImageCopy(image: NSImage, bundle: String?) {
+    let timestamp = Int(Date().timeIntervalSince1970 * 1000)
+    guard let appSupportDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else {
+      print("Could not get Application Support directory")
+      return
+    }
+    let imagesDir = appSupportDir.appendingPathComponent("sol/ClipboardImages", isDirectory: true)
+
+    do {
+      try FileManager.default.createDirectory(at: imagesDir, withIntermediateDirectories: true)
+    } catch {
+      print("Could not create ClipboardImages directory: \(error)")
+      return
+    }
+
+    let imagePath = imagesDir.appendingPathComponent("img_\(timestamp).png")
+    let thumbPath = imagesDir.appendingPathComponent("thumb_\(timestamp).png")
+
+    // Generate thumbnail (64x64 max)
+    guard let thumbnail = image.resizeMaintainingAspectRatio(withSize: NSSize(width: 64, height: 64)) else {
+      print("Failed to generate thumbnail")
+      return
+    }
+
+    do {
+      try image.savePngTo(url: imagePath)
+      try thumbnail.savePngTo(url: thumbPath)
+
+      // Convert thumbnail to base64 for React Native Image
+      guard let thumbData = thumbnail.PNGRepresentation else {
+        print("Failed to get PNG representation of thumbnail")
+        return
+      }
+      let thumbnailBase64 = "data:image/png;base64," + thumbData.base64EncodedString()
+
+      // Create a descriptive name based on image dimensions and source
+      let width = Int(image.size.width)
+      let height = Int(image.size.height)
+      let dateFormatter = DateFormatter()
+      dateFormatter.dateFormat = "HH:mm"
+      let timeStr = dateFormatter.string(from: Date())
+      let imageName = "Screenshot \(width)×\(height) at \(timeStr)"
+
+      SolEmitter.sharedInstance.imageCopied(imagePath.path, thumbPath.path, thumbnailBase64, imageName, bundle)
+    } catch {
+      print("Failed to save clipboard image: \(error)")
     }
   }
 

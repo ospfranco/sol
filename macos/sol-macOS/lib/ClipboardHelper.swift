@@ -2,6 +2,8 @@ import Foundation
 
 class ClipboardHelper {
   static var frontmostApp: (name: String, bundle: String)?
+  // Flag to prevent clipboard listener from capturing our own paste operations
+  static var isPasting = false
 
   static func addOnCopyListener(
     _ callback: @escaping (_ pasteboard: NSPasteboard, _ app: (name: String, bundle: String)?) ->
@@ -59,21 +61,55 @@ class ClipboardHelper {
   }
 
   static func pasteToFrontmostApp(_ content: String) {
+    isPasting = true
+
     DispatchQueue.main.async {
-      PanelManager.shared.hideWindow()
-
       let pasteboard = NSPasteboard.general
-      pasteboard.declareTypes([.string], owner: nil)
-
+      pasteboard.clearContents()
       pasteboard.setString(content, forType: .string)
 
-      let event1 = CGEvent(keyboardEventSource: nil, virtualKey: 0x09, keyDown: true)  // cmd-v down
+      simulatePaste()
+    }
+  }
+
+  static func pasteImageToFrontmostApp(_ imagePath: String) {
+    isPasting = true
+
+    DispatchQueue.main.async {
+      guard let image = NSImage(contentsOfFile: imagePath) else {
+        print("Failed to load image from path: \(imagePath)")
+        isPasting = false
+        return
+      }
+
+      let pasteboard = NSPasteboard.general
+      pasteboard.clearContents()
+
+      if let tiffData = image.tiffRepresentation {
+        pasteboard.setData(tiffData, forType: .tiff)
+      }
+
+      simulatePaste()
+    }
+  }
+
+  /// Hides window, waits for previous app to regain focus, then simulates Cmd+V
+  private static func simulatePaste() {
+    PanelManager.shared.hideWindow()
+
+    // Delay to ensure the previous app has focus before simulating paste
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+      let event1 = CGEvent(keyboardEventSource: nil, virtualKey: 0x09, keyDown: true)
       event1?.flags = CGEventFlags.maskCommand
       event1?.post(tap: CGEventTapLocation.cghidEventTap)
 
-      let event2 = CGEvent(keyboardEventSource: nil, virtualKey: 0x09, keyDown: false)  // cmd-v up
-      //    event2?.flags = CGEventFlags.maskCommand
+      let event2 = CGEvent(keyboardEventSource: nil, virtualKey: 0x09, keyDown: false)
       event2?.post(tap: CGEventTapLocation.cghidEventTap)
+
+      // Reset flag after clipboard poll interval (1s) plus buffer
+      DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+        isPasting = false
+      }
     }
   }
 }
