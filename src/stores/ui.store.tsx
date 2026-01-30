@@ -661,6 +661,7 @@ export const createUIStore = (root: IRootStore) => {
 			});
 		},
 		onShow: ({ target }: { target?: string }) => {
+			store.getApps();
 			store.isVisible = true;
 			if (target != null) {
 				switch (target) {
@@ -1088,10 +1089,10 @@ export const createUIStore = (root: IRootStore) => {
 	onShowListener = solNative.addListener("onShow", store.onShow);
 	onHideListener = solNative.addListener("onHide", store.onHide);
 	onHotkeyListener = solNative.addListener("hotkey", store.onHotkey);
-	onAppsChangedListener = solNative.addListener(
-		"applicationsChanged",
-		store.applicationsChanged,
-	);
+	// onAppsChangedListener = solNative.addListener(
+	// 	"applicationsChanged",
+	// 	store.applicationsChanged,
+	// );
 	onFileSearchListener = solNative.addListener(
 		"onFileSearch",
 		store.onFileSearch,

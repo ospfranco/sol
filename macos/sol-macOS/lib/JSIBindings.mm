@@ -304,43 +304,46 @@ void install(jsi::Runtime &rt,
               }
 
               auto color = [[ekEvent calendar] color];
-              
+
               CGFloat redFloatValue, greenFloatValue, blueFloatValue;
               int redIntValue, greenIntValue, blueIntValue;
               NSString *redHexValue, *greenHexValue, *blueHexValue;
-              
-              // Convert the NSColor to the RGB color space before we can access its
-              // components
-              NSColor *convertedColor =
-              [color colorUsingColorSpace:[NSColorSpace genericRGBColorSpace]];
-              
+
+              // Convert the NSColor to the RGB color space before we can access
+              // its components
+              NSColor *convertedColor = [color
+                  colorUsingColorSpace:[NSColorSpace genericRGBColorSpace]];
+
               if (convertedColor) {
                 // Get the red, green, and blue components of the color
                 [convertedColor getRed:&redFloatValue
                                  green:&greenFloatValue
                                   blue:&blueFloatValue
                                  alpha:NULL];
-                
-                // Convert the components to numbers (unsigned decimal integer) between
-                // 0 and 255
+
+                // Convert the components to numbers (unsigned decimal integer)
+                // between 0 and 255
                 redIntValue = redFloatValue * 255.99999f;
                 greenIntValue = greenFloatValue * 255.99999f;
                 blueIntValue = blueFloatValue * 255.99999f;
-                
+
                 // Convert the numbers to hex strings
                 redHexValue = [NSString stringWithFormat:@"%02x", redIntValue];
-                greenHexValue = [NSString stringWithFormat:@"%02x", greenIntValue];
-                blueHexValue = [NSString stringWithFormat:@"%02x", blueIntValue];
-                
-                // Concatenate the red, green, and blue components' hex strings together
-                // with a "#"
-                colorString = [NSString stringWithFormat:@"#%@%@%@", redHexValue,
-                               greenHexValue, blueHexValue];
+                greenHexValue =
+                    [NSString stringWithFormat:@"%02x", greenIntValue];
+                blueHexValue =
+                    [NSString stringWithFormat:@"%02x", blueIntValue];
+
+                // Concatenate the red, green, and blue components' hex strings
+                // together with a "#"
+                colorString =
+                    [NSString stringWithFormat:@"#%@%@%@", redHexValue,
+                                               greenHexValue, blueHexValue];
               }
 
-
               jsi::Object event = jsi::Object(rt);
-              event.setProperty(rt, "id", [[ekEvent eventIdentifier] UTF8String]);
+              event.setProperty(rt, "id",
+                                [[ekEvent eventIdentifier] UTF8String]);
               auto title =
                   jsi::String::createFromUtf8(rt, [[ekEvent title] UTF8String]);
               event.setProperty(rt, "title", title);
@@ -349,8 +352,8 @@ void install(jsi::Runtime &rt,
                                   [[[ekEvent URL] absoluteString] UTF8String]);
               }
               if ([ekEvent notes] != NULL) {
-                auto notes =
-                    jsi::String::createFromUtf8(rt, [[ekEvent notes] UTF8String]);
+                auto notes = jsi::String::createFromUtf8(
+                    rt, [[ekEvent notes] UTF8String]);
                 event.setProperty(rt, "notes", std::move(notes));
               }
 
@@ -404,7 +407,8 @@ void install(jsi::Runtime &rt,
               //              }
               //            }
 
-              //      NSLog(@"Event name %@ organizer %@", [[ekEvent title] UTF],
+              //      NSLog(@"Event name %@ organizer %@", [[ekEvent title]
+              //      UTF],
               //      [[ekEvent organizer] name]);
 
               //      if([ekEvent organizer]) {
@@ -422,8 +426,11 @@ void install(jsi::Runtime &rt,
         } @catch (NSException *exception) {
           NSLog(@"Error in getEvents: %@", exception);
           invoker->invokeAsync([reject, exception, &rt]() mutable {
-            NSString *errorMessage = [NSString stringWithFormat:@"Failed to fetch calendar events: %@", [exception reason]];
-            auto error = jsi::String::createFromUtf8(rt, [errorMessage UTF8String]);
+            NSString *errorMessage = [NSString
+                stringWithFormat:@"Failed to fetch calendar events: %@",
+                                 [exception reason]];
+            auto error =
+                jsi::String::createFromUtf8(rt, [errorMessage UTF8String]);
             reject->asObject(rt).asFunction(rt).call(rt, error);
           });
         }
@@ -536,6 +543,7 @@ void install(jsi::Runtime &rt,
             jsi::Array appsArray(rt, apps.count);
             for (NSUInteger i = 0; i < apps.count; i++) {
               NSDictionary *nsApp = [apps objectAtIndex:i];
+
               jsi::Object app = jsi::Object(rt);
 
               NSString *nsName = [nsApp valueForKey:@"name"];
@@ -548,8 +556,8 @@ void install(jsi::Runtime &rt,
                   jsi::String::createFromUtf8(rt, [nsUrl UTF8String]);
               app.setProperty(rt, "url", url);
 
-              app.setProperty(rt, "isRunning",
-                              jsi::Value([nsApp valueForKey:@"isRunning"]));
+              bool isRunning = [[nsApp valueForKey:@"isRunning"] boolValue];
+              app.setProperty(rt, "isRunning", isRunning);
 
               appsArray.setValueAtIndex(rt, i, app);
             }
@@ -559,8 +567,11 @@ void install(jsi::Runtime &rt,
         } @catch (NSException *exception) {
           NSLog(@"Error in getApplications: %@", exception);
           invoker->invokeAsync([reject, exception, &rt]() mutable {
-            NSString *errorMessage = [NSString stringWithFormat:@"Failed to fetch applications: %@", [exception reason]];
-            auto error = jsi::String::createFromUtf8(rt, [errorMessage UTF8String]);
+            NSString *errorMessage =
+                [NSString stringWithFormat:@"Failed to fetch applications: %@",
+                                           [exception reason]];
+            auto error =
+                jsi::String::createFromUtf8(rt, [errorMessage UTF8String]);
             reject->asObject(rt).asFunction(rt).call(rt, error);
           });
         }
@@ -574,17 +585,18 @@ void install(jsi::Runtime &rt,
   auto mkdir = HOSTFN("mkdir", []) {
     NSString *path = sol::jsiValueToNSString(rt, arguments[0]);
     NSError *error = nil;
-    
-    BOOL success = [[NSFileManager defaultManager] 
-                    createDirectoryAtPath:path 
-                    withIntermediateDirectories:YES 
-                    attributes:nil 
-                    error:&error];
-    
+
+    BOOL success =
+        [[NSFileManager defaultManager] createDirectoryAtPath:path
+                                  withIntermediateDirectories:YES
+                                                   attributes:nil
+                                                        error:&error];
+
     if (!success || error) {
-      throw jsi::JSError(rt, sol::NSStringToJsiValue(rt, error.localizedDescription));
+      throw jsi::JSError(
+          rt, sol::NSStringToJsiValue(rt, error.localizedDescription));
     }
-    
+
     return jsi::Value(success);
   });
 
@@ -592,41 +604,40 @@ void install(jsi::Runtime &rt,
     NSString *sourcePath = sol::jsiValueToNSString(rt, arguments[0]);
     NSString *destPath = sol::jsiValueToNSString(rt, arguments[1]);
     NSError *error = nil;
-    
-    BOOL success = [[NSFileManager defaultManager] 
-                    copyItemAtPath:sourcePath 
-                    toPath:destPath 
-                    error:&error];
-    
+
+    BOOL success = [[NSFileManager defaultManager] copyItemAtPath:sourcePath
+                                                           toPath:destPath
+                                                            error:&error];
+
     if (!success || error) {
-      throw jsi::JSError(rt, sol::NSStringToJsiValue(rt, error.localizedDescription));
+      throw jsi::JSError(
+          rt, sol::NSStringToJsiValue(rt, error.localizedDescription));
     }
-    
+
     return jsi::Value(success);
   });
 
   auto del = HOSTFN("del", []) {
     NSString *path = sol::jsiValueToNSString(rt, arguments[0]);
     NSError *error = nil;
-    
-    BOOL success = [[NSFileManager defaultManager] 
-                    removeItemAtPath:path 
-                    error:&error];
-    
+
+    BOOL success = [[NSFileManager defaultManager] removeItemAtPath:path
+                                                              error:&error];
+
     if (!success || error) {
-      throw jsi::JSError(rt, sol::NSStringToJsiValue(rt, error.localizedDescription));
+      throw jsi::JSError(
+          rt, sol::NSStringToJsiValue(rt, error.localizedDescription));
     }
-    
+
     return jsi::Value(success);
   });
-  
+
   auto createFolderWatcher = HOSTFN("createFolderWatcher", []) {
     auto path = jsiValueToString(rt, arguments[0]);
     auto callback = std::make_shared<jsi::Value>(rt, arguments[1]);
     auto folderWatcher = std::make_shared<FolderWatcherJSI>(rt, path, callback);
     return jsi::Object::createFromHostObject(rt, folderWatcher);
   });
-
 
   jsi::Object module = jsi::Object(rt);
 

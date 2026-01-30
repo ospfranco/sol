@@ -14,8 +14,8 @@
 		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {
-		"@expo/plist": "^0.4.7",
-		"@legendapp/list": "2.0.15",
+		"@expo/plist": "0.5.2",
+		"@legendapp/list": "2.0.19",
 		"@react-native-async-storage/async-storage": "2.2.0",
 		"@sentry/react-native": "7.2.0",
 		"assert": "^2.0.0",
@@ -35,7 +35,7 @@
 		"react": "19.0.0",
 		"react-native": "^0.78.2",
 		"react-native-get-random-values": "^1.8.0",
-		"react-native-macos": "0.79.0",
+		"react-native-macos": "0.79.4",
 		"react-native-mmkv": "2.12.2",
 		"react-native-reanimated": "^3.8.1",
 		"react-native-safe-area-context": "5.4.0",
