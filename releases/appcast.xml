@@ -3,6 +3,19 @@
     <channel>
         <title>Sol</title>
         <item>
+            <title>2.1.293</title>
+            <description><![CDATA[## What's Changed
+* Fixes various clipboard issues by @ospfranco in https://github.com/ospfranco/sol/pull/236
+
+
+**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.292...2.1.293]]></description>
+            <pubDate>Fri, 30 Jan 2026 13:26:56 +0100</pubDate>
+            <sparkle:version>507</sparkle:version>
+            <sparkle:shortVersionString>2.1.293</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.293/2.1.293.zip" length="14264780" type="application/octet-stream" sparkle:edSignature="dINxzLBl0otarRrZ7Kv5ehnF3NvV9OCYZZR0yLp4+FZ8ajYKigchIRjyBS3UNr11FrmcPT8Mo9Qzw2+BWvXJDQ=="/>
+        </item>
+        <item>
             <title>2.1.292</title>
             <description><![CDATA[## What's Changed
 * Add keyboard shortcut reverse search feature by @AtAFork in https://github.com/ospfranco/sol/pull/231
@@ -25,15 +38,6 @@
             <sparkle:shortVersionString>2.1.290</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.290/2.1.290.zip" length="14260774" type="application/octet-stream" sparkle:edSignature="vsNCajY2Ew6/vGT0/LhEbQg567b6fjJAGbL6KIhza1Jo6ouvV4U646JF3T0UHmeSWiEddh2uBp0mOjPRcu0mAA=="/>
-        </item>
-        <item>
-            <title>2.1.289</title>
-            <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.288...2.1.289]]></description>
-            <pubDate>Sun, 14 Dec 2025 20:33:04 -0400</pubDate>
-            <sparkle:version>503</sparkle:version>
-            <sparkle:shortVersionString>2.1.289</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.289/2.1.289.zip" length="14260696" type="application/octet-stream" sparkle:edSignature="uxATEsXlkNnh+vwJmVWkNSZ5KZH4ti6Vr7YRtk782vS4fpB/ou9hblgARAUhiIchgmS2jXIFu6ooRpmkyM0lDA=="/>
         </item>
     </channel>
 </rss>
