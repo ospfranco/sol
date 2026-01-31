@@ -69,9 +69,10 @@ export enum ScratchPadColor {
 }
 
 const minisearch = new MiniSearch({
-	fields: ["name", "alias", "type"],
+	fields: ["name", "localizedName", "alias", "type"],
 	storeFields: [
 		"name",
+		"localizedName",
 		"icon",
 		"iconName",
 		"iconImage",
@@ -599,12 +600,12 @@ export const createUIStore = (root: IRootStore) => {
 			}
 		},
 		updateApps: (
-			apps: Array<{ name: string; url: string; isRunning: boolean }>,
+			apps: Array<{ name: string; localizedName: string; url: string; isRunning: boolean }>,
 		) => {
 			// First update the app list
 			const appsRecord: Record<string, Item> = {};
 
-			for (const { name, url, isRunning } of apps) {
+			for (const { name, localizedName, url, isRunning } of apps) {
 				if (name === "sol") {
 					continue;
 				}
@@ -633,6 +634,7 @@ export const createUIStore = (root: IRootStore) => {
 					type: ItemType.APPLICATION as ItemType.APPLICATION,
 					url: decodeURI(url.replace("file://", "")),
 					name: name,
+					localizedName: localizedName,
 					isRunning,
 					alias,
 				};

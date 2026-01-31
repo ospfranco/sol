@@ -551,6 +551,11 @@ void install(jsi::Runtime &rt,
                   jsi::String::createFromUtf8(rt, [nsName UTF8String]);
               app.setProperty(rt, "name", name);
 
+              NSString *nsLocalizedName = [nsApp valueForKey:@"localizedName"];
+              jsi::String localizedName =
+                  jsi::String::createFromUtf8(rt, [nsLocalizedName UTF8String]);
+              app.setProperty(rt, "localizedName", localizedName);
+
               NSString *nsUrl = [nsApp valueForKey:@"url"];
               jsi::String url =
                   jsi::String::createFromUtf8(rt, [nsUrl UTF8String]);

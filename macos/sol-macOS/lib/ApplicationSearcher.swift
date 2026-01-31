@@ -4,11 +4,13 @@ import Sentry
 
 class Application {
   public var name: String
+  public var localizedName: String
   public var url: String
   public var isRunning: Bool
 
-  init(name: String, url: String, isRunning: Bool) {
+  init(name: String, localizedName: String, url: String, isRunning: Bool) {
     self.name = name
+    self.localizedName = localizedName
     self.url = url
     self.isRunning = isRunning
   }
@@ -16,6 +18,7 @@ class Application {
   func toDictionary() -> [String: Any] {
     return [
       "name": name,
+      "localizedName": localizedName,
       "url": url,
       "isRunning": isRunning,
     ]
@@ -301,10 +304,15 @@ class Application {
 
         if resourceValues.isExecutable! && resourceValues.isApplication! {
           let name = url.deletingPathExtension().lastPathComponent
+          var localizedName = name
+          if let mdItem = MDItemCreateWithURL(nil, url as CFURL),
+             let displayName = MDItemCopyAttribute(mdItem, kMDItemDisplayName) as? String {
+            localizedName = displayName.hasSuffix(".app") ? String(displayName.dropLast(4)) : displayName
+          }
           let urlStr = url.absoluteString
 
           applications[urlStr] = Application(
-            name: name, url: urlStr, isRunning: false)
+            name: name, localizedName: localizedName, url: urlStr, isRunning: false)
         }
       } catch {
         let breadcrumb = Breadcrumb(level: .info, category: "custom")
