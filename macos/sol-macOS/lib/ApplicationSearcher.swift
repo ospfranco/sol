@@ -181,12 +181,7 @@ class Application {
         isWatchingFolders = true
       }
     } catch {
-      //      let breadcrumb = Breadcrumb(level: .error, category: "custom")
-      //      breadcrumb.message =
-      //        "Failed to start watching application folders: \(error.localizedDescription)"
-      //      SentrySDK.addBreadcrumb(breadcrumb)
-      //      SentrySDK.capture(error: error)
-      print("💔 COuld not watch applications")
+      print("💔 Could not watch applications")
     }
   }
 
