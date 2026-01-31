@@ -1,4 +1,4 @@
-import { safeCaptureException } from '../config'
+import { safeCaptureException } from '../telemetry'
 import { extractMeetingLink } from 'lib/calendar'
 import { solNative } from 'lib/SolNative'
 import { DateTime } from 'luxon'

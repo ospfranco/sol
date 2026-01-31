@@ -6,7 +6,7 @@ import type { IRootStore } from "store";
 import { Widget } from "./ui.store";
 import MiniSearch from "minisearch";
 import { storage } from "./storage";
-import { safeCaptureException } from "../config";
+import { safeCaptureException } from "../telemetry";
 
 const MAX_ITEMS = 1000;
 
