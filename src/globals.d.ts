@@ -57,6 +57,7 @@ declare var global: {
     getApplications: () => Promise<
       Array<{
         name: string
+        localizedName: string
         url: string
         isRunning: boolean
       }>
@@ -109,6 +110,7 @@ type Item = {
   preventClose?: boolean
   type: ItemType
   name: string
+  localizedName?: string
   alias?: string
   subName?: string
   callback?: () => void
