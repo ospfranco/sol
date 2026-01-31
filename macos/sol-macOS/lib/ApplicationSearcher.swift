@@ -275,8 +275,8 @@ class Application {
     } catch {
       let breadcrumb = Breadcrumb(level: .info, category: "custom")
       breadcrumb.message = "Error getting all applications at localDomainMask"
-      SentrySDK.addBreadcrumb(breadcrumb)
-      SentrySDK.capture(error: error)
+      TelemetryManager.shared.addBreadcrumb(breadcrumb)
+      TelemetryManager.shared.captureError(error)
     }
 
     var applications = [String: Application]()
@@ -318,8 +318,8 @@ class Application {
         let breadcrumb = Breadcrumb(level: .info, category: "custom")
         breadcrumb.message =
           "Error resolving info for application at \(url): \(error.localizedDescription)"
-        SentrySDK.addBreadcrumb(breadcrumb)
-        SentrySDK.capture(error: error)
+        TelemetryManager.shared.addBreadcrumb(breadcrumb)
+        TelemetryManager.shared.captureError(error)
       }
     }
 
@@ -408,8 +408,8 @@ class Application {
       let breadcrumb = Breadcrumb(level: .info, category: "custom")
       breadcrumb.message =
         "Could not resolve apps url at \(url): \(error.localizedDescription)"
-      SentrySDK.addBreadcrumb(breadcrumb)
-      SentrySDK.capture(error: error)
+      TelemetryManager.shared.addBreadcrumb(breadcrumb)
+      TelemetryManager.shared.captureError(error)
       return []
     }
   }
