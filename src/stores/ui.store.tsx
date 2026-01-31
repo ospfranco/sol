@@ -22,7 +22,7 @@ import {
 import type { IRootStore } from "store";
 import { createBaseItems } from "./items";
 import MiniSearch from "minisearch";
-import * as Sentry from "@sentry/react-native";
+import { safeCaptureException, setTelemetryEnabled } from "../config";
 import { storage } from "./storage";
 import { defaultShortcuts } from "lib/shortcuts";
 
@@ -157,7 +157,7 @@ export const createUIStore = (root: IRootStore) => {
 		try {
 			storage.set("@ui.store", JSON.stringify(plainState));
 		} catch (e) {
-			Sentry.captureException(e);
+			safeCaptureException(e);
 		}
 	};
 
@@ -232,6 +232,7 @@ export const createUIStore = (root: IRootStore) => {
 				store.hasDismissedGettingStarted =
 					parsedStore.hasDismissedGettingStarted ?? false;
 				store.hyperKeyEnabled = parsedStore.hyperKeyEnabled ?? false;
+				store.telemetryEnabled = parsedStore.telemetryEnabled ?? true;
 				store.disabledItemIds = parsedStore.disabledItemIds ?? [];
 			});
 
@@ -242,6 +243,8 @@ export const createUIStore = (root: IRootStore) => {
 			);
 			solNative.setMediaKeyForwardingEnabled(store.mediaKeyForwardingEnabled);
 			solNative.setHyperKeyEnabled(store.hyperKeyEnabled);
+			setTelemetryEnabled(store.telemetryEnabled);
+			solNative.setTelemetryEnabled(store.telemetryEnabled);
 			solNative.updateHotkeys(toJS(store.shortcuts));
 
 			store.username = solNative.userName();
@@ -318,6 +321,7 @@ export const createUIStore = (root: IRootStore) => {
 		confirmCallback: null as (() => any) | null,
 		confirmTitle: null as string | null,
 		hyperKeyEnabled: false,
+		telemetryEnabled: true,
 		//    _____                            _           _
 		//   / ____|                          | |         | |
 		//  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -445,6 +449,11 @@ export const createUIStore = (root: IRootStore) => {
 		setHyperKeyEnabled: (enabled: boolean) => {
 			store.hyperKeyEnabled = enabled;
 			solNative.setHyperKeyEnabled(enabled);
+		},
+		setTelemetryEnabled: (enabled: boolean) => {
+			store.telemetryEnabled = enabled;
+			setTelemetryEnabled(enabled);
+			solNative.setTelemetryEnabled(enabled);
 		},
 		rotateScratchPadColor: () => {
 			if (store.scratchPadColor === ScratchPadColor.SYSTEM) {

@@ -23,3 +23,15 @@ if (!__DEV__) {
 } else {
   Sentry.setUser({email: 'ospfranco@gmail.com'})
 }
+
+let telemetryEnabled = true
+
+export function setTelemetryEnabled(enabled: boolean) {
+  telemetryEnabled = enabled
+}
+
+export function safeCaptureException(error: unknown) {
+  if (telemetryEnabled && !__DEV__) {
+    Sentry.captureException(error)
+  }
+}

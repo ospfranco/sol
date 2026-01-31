@@ -92,6 +92,7 @@ class SolNative extends NativeEventEmitter {
   log: (message: string) => void
   getApplications: typeof global.__SolProxy.getApplications
   setHyperKeyEnabled: (v: boolean) => void
+  setTelemetryEnabled: (v: boolean) => void
   mkdir: typeof global.__SolProxy.mkdir
   cp: typeof global.__SolProxy.cp
   del: typeof global.__SolProxy.del
@@ -213,6 +214,7 @@ class SolNative extends NativeEventEmitter {
     this.log = global.__SolProxy.log
     this.getApplications = global.__SolProxy.getApplications
     this.setHyperKeyEnabled = module.setHyperKeyEnabled
+    this.setTelemetryEnabled = module.setTelemetryEnabled
     this.createFolderWatcher = global.__SolProxy.createFolderWatcher
   }
 }

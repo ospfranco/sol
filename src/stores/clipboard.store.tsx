@@ -6,7 +6,7 @@ import type { IRootStore } from "store";
 import { Widget } from "./ui.store";
 import MiniSearch from "minisearch";
 import { storage } from "./storage";
-import { captureException } from "@sentry/react-native";
+import { safeCaptureException } from "../config";
 
 const MAX_ITEMS = 1000;
 
@@ -139,7 +139,7 @@ export const createClipboardStore = (root: IRootStore) => {
 				try {
 					minisearch.remove(store.items[store.items.length - 1]);
 				} catch (e) {
-					captureException(e);
+					safeCaptureException(e);
 				}
 
 				store.items = store.items.slice(0, MAX_ITEMS);
