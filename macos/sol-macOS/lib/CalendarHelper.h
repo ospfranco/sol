@@ -1,7 +1,7 @@
 #ifndef CalendarHelper_h
 #define CalendarHelper_h
 
-#import <EventKit/EKEventStore.h>
+#import <EventKit/EventKit.h>
 
 @interface CalendarHelper : NSObject
 
@@ -10,6 +10,7 @@
 - (void)requestCalendarAccess:(void (^)(void))callback;
 - (NSString *)getCalendarAuthorizationStatus;
 - (NSArray<EKEvent *> *)getEvents;
+- (void)focusDate:(NSString *)dateISO;
 
 @end
 #endif /* CalendarHelper_h */

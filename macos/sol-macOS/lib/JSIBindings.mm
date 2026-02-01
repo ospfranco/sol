@@ -386,6 +386,11 @@ void install(jsi::Runtime &rt,
                   rt, "availability",
                   jsi::Value(static_cast<int>([ekEvent availability])));
 
+              if ([[ekEvent calendar] title] != NULL) {
+                event.setProperty(rt, "calendarTitle",
+                                  [[[ekEvent calendar] title] UTF8String]);
+              }
+
               //            if ([ekEvent hasAttendees]) {
               //              for (EKParticipant *participant in
               //              ekEvent.attendees) {
@@ -439,6 +444,12 @@ void install(jsi::Runtime &rt,
                                                 }));
 
     return promise;
+  });
+
+  auto focusDate = HOSTFN("focusDate", []) {
+    NSString *dateISO = sol::jsiValueToNSString(rt, arguments[0]);
+    [calendarHelper focusDate:dateISO];
+    return jsi::Value::undefined();
   });
 
   auto ls = HOSTFN("ls", []) {
@@ -657,6 +668,7 @@ void install(jsi::Runtime &rt,
   module.setProperty(rt, "getCalendarAuthorizationStatus",
                      std::move(getCalendarAuthorizationStatus));
   module.setProperty(rt, "getEvents", std::move(getEvents));
+  module.setProperty(rt, "focusDate", std::move(focusDate));
   module.setProperty(rt, "ls", std::move(ls));
   module.setProperty(rt, "exists", std::move(exists));
   module.setProperty(rt, "userName", std::move(userName));
