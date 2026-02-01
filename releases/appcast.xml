@@ -3,6 +3,21 @@
     <channel>
         <title>Sol</title>
         <item>
+            <title>2.1.295</title>
+            <description><![CDATA[## What's Changed
+* Do not report broken symlinks when searching for applications by @ospfranco in https://github.com/ospfranco/sol/pull/239
+* Fix passwords prefpane being gone in latest macOS by @ospfranco in https://github.com/ospfranco/sol/pull/240
+* Fix calendar not focusing on event and erroring by @ospfranco in https://github.com/ospfranco/sol/pull/241
+
+
+**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.294...2.1.295]]></description>
+            <pubDate>Sun, 01 Feb 2026 11:28:18 +0100</pubDate>
+            <sparkle:version>509</sparkle:version>
+            <sparkle:shortVersionString>2.1.295</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.295/2.1.295.zip" length="14264832" type="application/octet-stream" sparkle:edSignature="v1y1/H/qQJ1GanS3H3/Qljgm+98MPRLS4r0cZsXc7yc34ZpxuFqBKZqgydmEGaYOsR5qw3PPh1CbVAV7ghAYAQ=="/>
+        </item>
+        <item>
             <title>2.1.294</title>
             <description><![CDATA[## What's Changed
 * Match Applications by their localizedName by @DwieDave in https://github.com/ospfranco/sol/pull/237
@@ -29,21 +44,6 @@
             <sparkle:shortVersionString>2.1.293</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.293/2.1.293.zip" length="14264780" type="application/octet-stream" sparkle:edSignature="dINxzLBl0otarRrZ7Kv5ehnF3NvV9OCYZZR0yLp4+FZ8ajYKigchIRjyBS3UNr11FrmcPT8Mo9Qzw2+BWvXJDQ=="/>
-        </item>
-        <item>
-            <title>2.1.292</title>
-            <description><![CDATA[## What's Changed
-* Add keyboard shortcut reverse search feature by @AtAFork in https://github.com/ospfranco/sol/pull/231
-
-## New Contributors
-* @AtAFork made their first contribution in https://github.com/ospfranco/sol/pull/231
-
-**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.290...2.1.292]]></description>
-            <pubDate>Mon, 12 Jan 2026 16:10:25 -0400</pubDate>
-            <sparkle:version>506</sparkle:version>
-            <sparkle:shortVersionString>2.1.292</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.292/2.1.292.zip" length="14261121" type="application/octet-stream" sparkle:edSignature="x1rQ1WBeB0GVQTJqypZMz2+QxkWqJWtk2aKQwI6ABoFWZ7O24vYRHc2Qk86QftfW+zKPx1gTxQWfCF/hJpwyAQ=="/>
         </item>
     </channel>
 </rss>
