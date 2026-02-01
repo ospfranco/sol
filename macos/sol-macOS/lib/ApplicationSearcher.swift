@@ -306,8 +306,10 @@ class Application {
           let name = url.deletingPathExtension().lastPathComponent
           var localizedName = name
           if let mdItem = MDItemCreateWithURL(nil, url as CFURL),
-             let displayName = MDItemCopyAttribute(mdItem, kMDItemDisplayName) as? String {
-            localizedName = displayName.hasSuffix(".app") ? String(displayName.dropLast(4)) : displayName
+            let displayName = MDItemCopyAttribute(mdItem, kMDItemDisplayName) as? String
+          {
+            localizedName =
+              displayName.hasSuffix(".app") ? String(displayName.dropLast(4)) : displayName
           }
           let urlStr = url.absoluteString
 
@@ -399,9 +401,21 @@ class Application {
         return []
       }
     } catch {
-      if (error as NSError).domain == NSCocoaErrorDomain
-        && (error as NSError).code == NSFileReadNoPermissionError
+      let nsError = error as NSError
+
+      // Silently ignore permission errors
+      if nsError.domain == NSCocoaErrorDomain
+        && nsError.code == NSFileReadNoPermissionError
       {
+        return []
+      }
+
+      // Silently ignore "file not found" errors - these occur with broken symlinks
+      // or race conditions where files are deleted between directory listing and access
+      if nsError.domain == NSPOSIXErrorDomain && nsError.code == 2 {
+        return []
+      }
+      if nsError.domain == NSCocoaErrorDomain && nsError.code == NSFileReadNoSuchFileError {
         return []
       }
 
