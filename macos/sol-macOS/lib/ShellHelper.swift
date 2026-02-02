@@ -12,9 +12,14 @@ struct ShellHelper {
     task.launchPath = "/bin/zsh"
     task.standardInput = nil
 
-    DispatchQueue.main.sync {
+    if Thread.isMainThread {
       ToastManager.shared.showShellOutput()
       ToastManager.shared.appendShellOutput(command + "\n\n")
+    } else {
+      DispatchQueue.main.sync {
+        ToastManager.shared.showShellOutput()
+        ToastManager.shared.appendShellOutput(command + "\n\n")
+      }
     }
 
     let fileHandle = pipe.fileHandleForReading
@@ -38,7 +43,6 @@ struct ShellHelper {
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
           ToastManager.shared.closeShellOutput()
         }
-        //        panel?.showAndClose(after: 5)
       }
     }
 

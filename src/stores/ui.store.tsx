@@ -600,7 +600,12 @@ export const createUIStore = (root: IRootStore) => {
 			}
 		},
 		updateApps: (
-			apps: Array<{ name: string; localizedName: string; url: string; isRunning: boolean }>,
+			apps: Array<{
+				name: string;
+				localizedName: string;
+				url: string;
+				isRunning: boolean;
+			}>,
 		) => {
 			// First update the app list
 			const appsRecord: Record<string, Item> = {};
@@ -730,7 +735,6 @@ export const createUIStore = (root: IRootStore) => {
 			});
 		},
 		showScratchpad: () => {
-			console.warn("SHOW SCRATCHPAD");
 			if (store.focusedWidget === Widget.SCRATCHPAD) {
 				store.focusWidget(Widget.SEARCH);
 			} else {
