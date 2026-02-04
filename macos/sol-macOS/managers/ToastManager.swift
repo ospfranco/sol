@@ -17,7 +17,7 @@ class ToastManager {
   }
 
   func closeShellOutput() {
-    shellOuputView.removeFromSuperview()
+    shellOuputView?.removeFromSuperview()
     shellOuputView = nil
     toastWindow.orderOut(nil)
   }

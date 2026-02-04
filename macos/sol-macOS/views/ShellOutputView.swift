@@ -38,7 +38,7 @@ class ShellOutputView: NSView {
     textView.isEditable = false
     textView.isSelectable = false
     textView.drawsBackground = false
-    textView.textColor = NSColor.white
+    textView.textColor = NSColor.labelColor
     textView.font = NSFont.monospacedSystemFont(ofSize: 11, weight: .regular)
     textView.isVerticallyResizable = true
     textView.isHorizontallyResizable = false
