@@ -3,6 +3,15 @@
     <channel>
         <title>Sol</title>
         <item>
+            <title>2.1.297</title>
+            <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.296...2.1.297]]></description>
+            <pubDate>Wed, 04 Feb 2026 13:13:28 +0100</pubDate>
+            <sparkle:version>511</sparkle:version>
+            <sparkle:shortVersionString>2.1.297</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.297/2.1.297.zip" length="14265224" type="application/octet-stream" sparkle:edSignature="Y9F1H1wYn2SbokaZrh7JUZK/+I6rEOWja0DLeSO4p9BeGqyI9dc37XPWZXh8+8+yMvvo1ywmA0pfNQC1izsKCQ=="/>
+        </item>
+        <item>
             <title>2.1.296</title>
             <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.295...2.1.296]]></description>
             <pubDate>Mon, 02 Feb 2026 09:31:25 +0100</pubDate>
@@ -25,21 +34,6 @@
             <sparkle:shortVersionString>2.1.295</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.295/2.1.295.zip" length="14264832" type="application/octet-stream" sparkle:edSignature="v1y1/H/qQJ1GanS3H3/Qljgm+98MPRLS4r0cZsXc7yc34ZpxuFqBKZqgydmEGaYOsR5qw3PPh1CbVAV7ghAYAQ=="/>
-        </item>
-        <item>
-            <title>2.1.294</title>
-            <description><![CDATA[## What's Changed
-* Match Applications by their localizedName by @DwieDave in https://github.com/ospfranco/sol/pull/237
-
-## New Contributors
-* @DwieDave made their first contribution in https://github.com/ospfranco/sol/pull/237
-
-**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.293...2.1.294]]></description>
-            <pubDate>Sat, 31 Jan 2026 14:59:14 +0100</pubDate>
-            <sparkle:version>508</sparkle:version>
-            <sparkle:shortVersionString>2.1.294</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.294/2.1.294.zip" length="14264016" type="application/octet-stream" sparkle:edSignature="AOaaZBeqClHxyaM0rW2SL73VcLmI3GzBW5kvdJLNkd2FrD+wslqym7V0TfZTG2hpHqLa/2Vf3wo3UDYA27yODA=="/>
         </item>
     </channel>
 </rss>
