@@ -15,6 +15,7 @@
 		700A18DA279DC17F0096C830 /* FileIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700A18D9279DC17F0096C830 /* FileIcon.swift */; };
 		700A18DC279DC1F50096C830 /* FileIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 700A18DB279DC1F50096C830 /* FileIcon.m */; };
 		700A99F22C33D6E30049831F /* QRGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700A99F12C33D6E30049831F /* QRGenerator.swift */; };
+		70TELEM012EF1234500TELM1 /* TelemetryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70TELEM002EF1234500TELM0 /* TelemetryManager.swift */; };
 		700DF99A28266F0B00C5FD0B /* ClipboardHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700DF99928266F0B00C5FD0B /* ClipboardHelper.swift */; };
 		700F266729F501C8002CA8F1 /* BlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 700F266629F501C8002CA8F1 /* BlurView.m */; };
 		700F266929F5026B002CA8F1 /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700F266829F5026B002CA8F1 /* BlurView.swift */; };
@@ -85,6 +86,7 @@
 		700A18D9279DC17F0096C830 /* FileIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileIcon.swift; sourceTree = "<group>"; };
 		700A18DB279DC1F50096C830 /* FileIcon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileIcon.m; sourceTree = "<group>"; };
 		700A99F12C33D6E30049831F /* QRGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRGenerator.swift; sourceTree = "<group>"; };
+		70TELEM002EF1234500TELM0 /* TelemetryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelemetryManager.swift; sourceTree = "<group>"; };
 		700DF99928266F0B00C5FD0B /* ClipboardHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardHelper.swift; sourceTree = "<group>"; };
 		700F266629F501C8002CA8F1 /* BlurView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlurView.m; sourceTree = "<group>"; };
 		700F266829F5026B002CA8F1 /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
@@ -305,6 +307,7 @@
 				703EB24C2BED4E1E00F7B391 /* NSString+Score.m */,
 				703EB24E2BED4E3C00F7B391 /* NSString+Score.h */,
 				700A99F12C33D6E30049831F /* QRGenerator.swift */,
+				70TELEM002EF1234500TELM0 /* TelemetryManager.swift */,
 			);
 			path = lib;
 			sourceTree = "<group>";
@@ -638,6 +641,7 @@
 				70754B532BECECAB00B77EF8 /* FileSearch.mm in Sources */,
 				70BED7CB27F4C1A600906E41 /* FileConstants.swift in Sources */,
 				700A99F22C33D6E30049831F /* QRGenerator.swift in Sources */,
+				70TELEM012EF1234500TELM1 /* TelemetryManager.swift in Sources */,
 				70E80B5F294C6EDE0094F1B5 /* MetadataExtractorError.swift in Sources */,
 				70B2D5902824254B0005D80A /* WindowManager.swift in Sources */,
 			);

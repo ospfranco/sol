@@ -455,4 +455,8 @@ class SolNative: RCTEventEmitter {
     }
   }
 
+  @objc func setTelemetryEnabled(_ enabled: Bool) {
+    TelemetryManager.shared.isEnabled = enabled
+  }
+
 }

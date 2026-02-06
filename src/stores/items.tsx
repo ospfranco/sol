@@ -8,6 +8,7 @@ import { nanoid } from 'nanoid'
 import { v4 as uuidv4 } from 'uuid'
 import { systemPreferenceItems } from './systemPreferences'
 import Chance from 'chance'
+import { safeCaptureException } from '../telemetry';
 
 const chance = new Chance()
 
@@ -811,6 +812,7 @@ export function createBaseItems(store: IRootStore) {
         )
       },
     })
+
     items.push({
       id: 'error_toast',
       icon: '🍞',
@@ -823,6 +825,22 @@ export function createBaseItems(store: IRootStore) {
         )
       },
     })
+
+    items.push({
+      id: 'debug_telemetry',
+      icon: '🛰️',
+      name: 'Debug Telemetry',
+      type: ItemType.CONFIGURATION,
+      callback: () => {
+        solNative.showToast(
+          'State of Telemetry Enabled toggle: ' + String(store.ui.telemetryEnabled),
+          'success',
+        )
+        const testError = new Error("This is a Debug Telemetry Error only triggered by the Debug Telemetry action")
+        safeCaptureException(testError)
+      },
+    })
+
   }
 
   return items

@@ -3,10 +3,12 @@ import { Assets } from "assets";
 import { Parser } from "expr-eval";
 import { solNative } from "lib/SolNative";
 import { CONSTANTS } from "lib/constants";
+import { defaultShortcuts } from "lib/shortcuts";
 import { googleTranslate } from "lib/translator";
+import MiniSearch from "minisearch";
 import {
-	autorun,
 	type IReactionDisposer,
+	autorun,
 	makeAutoObservable,
 	reaction,
 	runInAction,
@@ -20,11 +22,9 @@ import {
 	type NativeEventSubscription,
 } from "react-native";
 import type { IRootStore } from "store";
+import { safeCaptureException, setTelemetryEnabled as setTelemetryModuleEnabled } from "../telemetry";
 import { createBaseItems } from "./items";
-import MiniSearch from "minisearch";
-import * as Sentry from "@sentry/react-native";
 import { storage } from "./storage";
-import { defaultShortcuts } from "lib/shortcuts";
 
 const exprParser = new Parser();
 
@@ -157,7 +157,7 @@ export const createUIStore = (root: IRootStore) => {
 		try {
 			storage.set("@ui.store", JSON.stringify(plainState));
 		} catch (e) {
-			Sentry.captureException(e);
+			safeCaptureException(e);
 		}
 	};
 
@@ -232,6 +232,7 @@ export const createUIStore = (root: IRootStore) => {
 				store.hasDismissedGettingStarted =
 					parsedStore.hasDismissedGettingStarted ?? false;
 				store.hyperKeyEnabled = parsedStore.hyperKeyEnabled ?? false;
+				store.telemetryEnabled = parsedStore.telemetryEnabled ?? true;
 				store.disabledItemIds = parsedStore.disabledItemIds ?? [];
 			});
 
@@ -242,6 +243,7 @@ export const createUIStore = (root: IRootStore) => {
 			);
 			solNative.setMediaKeyForwardingEnabled(store.mediaKeyForwardingEnabled);
 			solNative.setHyperKeyEnabled(store.hyperKeyEnabled);
+			store.setTelemetryEnabled(store.telemetryEnabled);
 			solNative.updateHotkeys(toJS(store.shortcuts));
 
 			store.username = solNative.userName();
@@ -318,6 +320,7 @@ export const createUIStore = (root: IRootStore) => {
 		confirmCallback: null as (() => any) | null,
 		confirmTitle: null as string | null,
 		hyperKeyEnabled: false,
+		telemetryEnabled: true,
 		//    _____                            _           _
 		//   / ____|                          | |         | |
 		//  | |     ___  _ __ ___  _ __  _   _| |_ ___  __| |
@@ -445,6 +448,11 @@ export const createUIStore = (root: IRootStore) => {
 		setHyperKeyEnabled: (enabled: boolean) => {
 			store.hyperKeyEnabled = enabled;
 			solNative.setHyperKeyEnabled(enabled);
+		},
+		setTelemetryEnabled: (enabled: boolean) => {
+			store.telemetryEnabled = enabled;
+			solNative.setTelemetryEnabled(enabled);
+			setTelemetryModuleEnabled(enabled);
 		},
 		rotateScratchPadColor: () => {
 			if (store.scratchPadColor === ScratchPadColor.SYSTEM) {

@@ -208,6 +208,19 @@ export const General = observer(() => {
             }}
           />
         </View>
+        <View className="border-t border-lightBorder dark:border-darkBorder" />
+        <View className="flex-row items-center">
+          <View className="flex-1">
+            <Text>Send Anonymous Error Reports</Text>
+            <Text className="text-xxs text-neutral-500 dark:text-neutral-400">
+              Help improve Sol by sending crash reports
+            </Text>
+          </View>
+          <MySwitch
+            value={store.ui.telemetryEnabled}
+            onValueChange={store.ui.setTelemetryEnabled}
+          />
+        </View>
       </View>
     </ScrollView>
   )
