@@ -457,7 +457,7 @@ export const createUIStore = (root: IRootStore) => {
 		},
 		setShowUpcomingEvent: (v: boolean) => {
 			store.showUpcomingEvent = v;
-			root.calendar.fetchEvents();
+			solNative.setUpcomingEventEnabled(v && store.calendarEnabled);
 		},
 		showEmojiPicker: () => {
 			store.query = "";
@@ -758,6 +758,7 @@ export const createUIStore = (root: IRootStore) => {
 		},
 		setCalendarEnabled: (v: boolean) => {
 			store.calendarEnabled = v;
+			solNative.setUpcomingEventEnabled(v && store.showUpcomingEvent);
 		},
 		setShowAllDayEvents: (v: boolean) => {
 			store.showAllDayEvents = v;
@@ -1089,6 +1090,9 @@ export const createUIStore = (root: IRootStore) => {
 		store.getCalendarAccess();
 		store.getAccessibilityStatus();
 		store.getFullDiskAccessStatus();
+		solNative.setUpcomingEventEnabled(
+			store.showUpcomingEvent && store.calendarEnabled,
+		);
 	});
 
 	appareanceListener = Appearance.addChangeListener(store.onColorSchemeChange);

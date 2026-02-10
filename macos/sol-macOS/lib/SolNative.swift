@@ -442,6 +442,10 @@ class SolNative: RCTEventEmitter {
     HotKeyManager.shared.updateHotkeys(hotkeyMap: hotkeys)
   }
 
+  @objc func setUpcomingEventEnabled(_ enabled: Bool) {
+    StatusBarCalendarManager.shared.enabled = enabled
+  }
+
   @objc func setHyperKeyEnabled(_ enabled: Bool) {
     if enabled {
       DispatchQueue.main.async {
