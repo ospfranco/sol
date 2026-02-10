@@ -97,6 +97,7 @@ class SolNative extends NativeEventEmitter {
   del: typeof global.__SolProxy.del
   createFolderWatcher: typeof global.__SolProxy.createFolderWatcher
   focusDate: (dateISO: string) => void
+  setUpcomingEventEnabled: (enabled: boolean) => void
 
   // Constants
   accentColor: string
@@ -216,6 +217,7 @@ class SolNative extends NativeEventEmitter {
     this.setHyperKeyEnabled = module.setHyperKeyEnabled
     this.createFolderWatcher = global.__SolProxy.createFolderWatcher
     this.focusDate = global.__SolProxy.focusDate
+    this.setUpcomingEventEnabled = module.setUpcomingEventEnabled
   }
 }
 
