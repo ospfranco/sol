@@ -3,6 +3,19 @@
     <channel>
         <title>Sol</title>
         <item>
+            <title>2.1.298</title>
+            <description><![CDATA[## What's Changed
+* Move calendar item update to native side by @ospfranco in https://github.com/ospfranco/sol/pull/242
+
+
+**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.297...2.1.298]]></description>
+            <pubDate>Tue, 10 Feb 2026 19:44:20 +0100</pubDate>
+            <sparkle:version>512</sparkle:version>
+            <sparkle:shortVersionString>2.1.298</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.298/2.1.298.zip" length="14276920" type="application/octet-stream" sparkle:edSignature="rVVeBdzDCKlKoxIRZVidpdnm4SPJwUc9G9ZCMGnqRRi6vo15RX9A7Re+SvPMZflxV1bbklBifvwDtakCthdfCQ=="/>
+        </item>
+        <item>
             <title>2.1.297</title>
             <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.296...2.1.297]]></description>
             <pubDate>Wed, 04 Feb 2026 13:13:28 +0100</pubDate>
@@ -19,21 +32,6 @@
             <sparkle:shortVersionString>2.1.296</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.296/2.1.296.zip" length="14265258" type="application/octet-stream" sparkle:edSignature="8CIhakDPEfD7hEmuPWlZnm0v3RRpyqW8+N2q1FcYLbEG1aC39me3TUD2j+FWLCo7LLSntUESlx79IRoV6g7rCg=="/>
-        </item>
-        <item>
-            <title>2.1.295</title>
-            <description><![CDATA[## What's Changed
-* Do not report broken symlinks when searching for applications by @ospfranco in https://github.com/ospfranco/sol/pull/239
-* Fix passwords prefpane being gone in latest macOS by @ospfranco in https://github.com/ospfranco/sol/pull/240
-* Fix calendar not focusing on event and erroring by @ospfranco in https://github.com/ospfranco/sol/pull/241
-
-
-**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.294...2.1.295]]></description>
-            <pubDate>Sun, 01 Feb 2026 11:28:18 +0100</pubDate>
-            <sparkle:version>509</sparkle:version>
-            <sparkle:shortVersionString>2.1.295</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.295/2.1.295.zip" length="14264832" type="application/octet-stream" sparkle:edSignature="v1y1/H/qQJ1GanS3H3/Qljgm+98MPRLS4r0cZsXc7yc34ZpxuFqBKZqgydmEGaYOsR5qw3PPh1CbVAV7ghAYAQ=="/>
         </item>
     </channel>
 </rss>
