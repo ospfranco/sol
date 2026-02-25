@@ -3,6 +3,15 @@
     <channel>
         <title>Sol</title>
         <item>
+            <title>2.1.300</title>
+            <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.299...2.1.300]]></description>
+            <pubDate>Wed, 25 Feb 2026 17:52:30 +0100</pubDate>
+            <sparkle:version>514</sparkle:version>
+            <sparkle:shortVersionString>2.1.300</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.300/2.1.300.zip" length="14276005" type="application/octet-stream" sparkle:edSignature="6VPAlO6vomKO7I5zw1JZC10f73jat3Y+MGTZFENm6TdPUPWDcOE75ophJzITtoSkwhFSLyoGwc7mpIQTGA2YAg=="/>
+        </item>
+        <item>
             <title>2.1.299</title>
             <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.298...2.1.299]]></description>
             <pubDate>Wed, 25 Feb 2026 08:08:52 +0100</pubDate>
@@ -23,15 +32,6 @@
             <sparkle:shortVersionString>2.1.298</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.298/2.1.298.zip" length="14276920" type="application/octet-stream" sparkle:edSignature="rVVeBdzDCKlKoxIRZVidpdnm4SPJwUc9G9ZCMGnqRRi6vo15RX9A7Re+SvPMZflxV1bbklBifvwDtakCthdfCQ=="/>
-        </item>
-        <item>
-            <title>2.1.297</title>
-            <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.296...2.1.297]]></description>
-            <pubDate>Wed, 04 Feb 2026 13:13:28 +0100</pubDate>
-            <sparkle:version>511</sparkle:version>
-            <sparkle:shortVersionString>2.1.297</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.297/2.1.297.zip" length="14265224" type="application/octet-stream" sparkle:edSignature="Y9F1H1wYn2SbokaZrh7JUZK/+I6rEOWja0DLeSO4p9BeGqyI9dc37XPWZXh8+8+yMvvo1ywmA0pfNQC1izsKCQ=="/>
         </item>
     </channel>
 </rss>
