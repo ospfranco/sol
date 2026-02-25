@@ -3,6 +3,15 @@
     <channel>
         <title>Sol</title>
         <item>
+            <title>2.1.299</title>
+            <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.298...2.1.299]]></description>
+            <pubDate>Wed, 25 Feb 2026 08:08:52 +0100</pubDate>
+            <sparkle:version>513</sparkle:version>
+            <sparkle:shortVersionString>2.1.299</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.299/2.1.299.zip" length="14276884" type="application/octet-stream" sparkle:edSignature="qcObQ5F0aIwA9g8vzqxN592cG5kDgNBoWohV6g93//6pcO2QWs9N7NP+ALGJB68MNDtBET1Ilu3YsWMh4M5kAA=="/>
+        </item>
+        <item>
             <title>2.1.298</title>
             <description><![CDATA[## What's Changed
 * Move calendar item update to native side by @ospfranco in https://github.com/ospfranco/sol/pull/242
@@ -23,15 +32,6 @@
             <sparkle:shortVersionString>2.1.297</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.297/2.1.297.zip" length="14265224" type="application/octet-stream" sparkle:edSignature="Y9F1H1wYn2SbokaZrh7JUZK/+I6rEOWja0DLeSO4p9BeGqyI9dc37XPWZXh8+8+yMvvo1ywmA0pfNQC1izsKCQ=="/>
-        </item>
-        <item>
-            <title>2.1.296</title>
-            <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.295...2.1.296]]></description>
-            <pubDate>Mon, 02 Feb 2026 09:31:25 +0100</pubDate>
-            <sparkle:version>510</sparkle:version>
-            <sparkle:shortVersionString>2.1.296</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.296/2.1.296.zip" length="14265258" type="application/octet-stream" sparkle:edSignature="8CIhakDPEfD7hEmuPWlZnm0v3RRpyqW8+N2q1FcYLbEG1aC39me3TUD2j+FWLCo7LLSntUESlx79IRoV6g7rCg=="/>
         </item>
     </channel>
 </rss>
