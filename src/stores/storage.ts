@@ -1,5 +1,6 @@
 import { MMKV } from 'react-native-mmkv'
 import { solNative } from '../lib/SolNative'
+import { PORTABLE_KEYS, readJsonConfig, writeJsonConfig } from './config'
 
 const newStoragePath = `/Users/${solNative.userName()}/.config/sol`
 const scriptsPath = `/Users/${solNative.userName()}/.config/sol/scripts`
@@ -65,3 +66,30 @@ export const storage = new MMKV({
   id: 'mmkv.default',
   path: newStoragePath,
 })
+
+/**
+ * One-time migration: if config.json doesn't exist yet, extract PORTABLE_KEYS
+ * from the legacy MMKV store object and write them to config.json.
+ * Always deletes the MMKV @ui.store key afterward.
+ * Call this INSIDE hydrate(), NOT at module load time.
+ */
+export function migrateToJson(parsedMmkv: Record<string, any> | null): void {
+  try {
+    const existingConfig = readJsonConfig()
+    if (existingConfig == null && parsedMmkv != null) {
+      const portable: Record<string, any> = {}
+      for (const key of PORTABLE_KEYS) {
+        if (parsedMmkv[key] !== undefined) {
+          portable[key] = parsedMmkv[key]
+        }
+      }
+      if (Object.keys(portable).length > 0) {
+        writeJsonConfig(portable)
+      }
+    }
+  } catch (e) {
+    console.error('Failed to migrate to JSON config:', e)
+  } finally {
+    storage.delete('@ui.store')
+  }
+}
