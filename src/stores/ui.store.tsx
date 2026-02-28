@@ -8,7 +8,6 @@ import { defaultShortcuts } from "lib/shortcuts";
 import { googleTranslate } from "lib/translator";
 import MiniSearch from "minisearch";
 import {
-	autorun,
 	type IReactionDisposer,
 	makeAutoObservable,
 	reaction,
@@ -23,8 +22,9 @@ import {
 	type NativeEventSubscription,
 } from "react-native";
 import type { IRootStore } from "store";
+import { PORTABLE_KEYS, readJsonConfig, writeJsonConfig } from "./config";
 import { createBaseItems } from "./items";
-import { storage } from "./storage";
+import { migrateToJson, storage } from "./storage";
 import {
 	createTextTemporaryResult,
 	fetchFlightInfoFromWeb,
@@ -46,6 +46,7 @@ let onHotkeyListener: EmitterSubscription | undefined;
 let onAppsChangedListener: EmitterSubscription | undefined;
 let appareanceListener: NativeEventSubscription | undefined;
 let bookmarksDisposer: IReactionDisposer | undefined;
+let configDisposer: IReactionDisposer | undefined;
 
 export enum Widget {
 	ONBOARDING = "ONBOARDING",
@@ -129,105 +130,200 @@ const itemsThatShouldShowWindow = [
 ];
 
 export const createUIStore = (root: IRootStore) => {
-	const persist = async () => {
-		const plainState = toJS(store);
-		try {
-			storage.set("@ui.store", JSON.stringify(plainState));
-		} catch (e) {
-			Sentry.captureException(e);
-		}
+	// Guards against spurious writes during hydrate/reload
+	let isHydrating = false;
+	let persistTimer: ReturnType<typeof setTimeout> | undefined;
+
+	const persistToJson = () => {
+		if (isHydrating) return;
+		if (persistTimer) clearTimeout(persistTimer);
+		persistTimer = setTimeout(() => {
+			try {
+				const snapshot: Record<string, any> = {};
+				for (const key of PORTABLE_KEYS) {
+					snapshot[key] = toJS((store as any)[key]);
+				}
+				writeJsonConfig(snapshot);
+			} catch (e) {
+				Sentry.captureException(e);
+			}
+		}, 500);
 	};
 
 	const hydrate = async () => {
-		let storeState: string | null | undefined;
+		isHydrating = true;
 		try {
-			storeState = storage.getString("@ui.store");
-		} catch {
-			// intentionally left blank
-		}
-		if (!storeState) {
-			storeState = await AsyncStorage.getItem("@ui.store");
-		}
+			// 1. Read legacy MMKV store
+			let mmkvRaw: string | null | undefined;
+			try {
+				mmkvRaw = storage.getString("@ui.store");
+			} catch {
+				// intentionally left blank
+			}
+			if (!mmkvRaw) {
+				mmkvRaw = await AsyncStorage.getItem("@ui.store");
+			}
 
-		if (storeState) {
-			const parsedStore = JSON.parse(storeState);
+			const parsedMmkv: Record<string, any> | null = mmkvRaw
+				? JSON.parse(mmkvRaw)
+				: null;
 
-			runInAction(() => {
-				if (parsedStore.frequencies) {
-					const values = Object.values(parsedStore.frequencies);
-					const maxValue = Math.max(...(values as number[]));
-					if (maxValue > 100) {
-						store.frequencies = Object.fromEntries(
-							Object.entries(parsedStore.frequencies).map(([key, value]) => [
-								key,
-								Math.floor(((value as number) / maxValue) * 100),
-							]),
-						);
-					} else {
-						store.frequencies = parsedStore.frequencies;
+			// 2. Read JSON config (authoritative for portable keys)
+			const jsonConfig = readJsonConfig();
+
+			// 3. Migrate: write JSON if absent, then delete MMKV key
+			migrateToJson(parsedMmkv);
+
+			// 4. Build merged source: JSON overrides MMKV for portable keys
+			const src: Record<string, any> = {
+				...(parsedMmkv ?? {}),
+				...(jsonConfig ?? {}),
+			};
+
+			const hasPortableData =
+				jsonConfig != null && Object.keys(jsonConfig).length > 0;
+
+			if (Object.keys(src).length > 0) {
+				runInAction(() => {
+					if (src.frequencies) {
+						const values = Object.values(src.frequencies);
+						const maxValue = Math.max(...(values as number[]));
+						if (maxValue > 100) {
+							store.frequencies = Object.fromEntries(
+								Object.entries(src.frequencies).map(([key, value]) => [
+									key,
+									Math.floor(((value as number) / maxValue) * 100),
+								]),
+							);
+						} else {
+							store.frequencies = src.frequencies;
+						}
 					}
-				}
-				store.onboardingStep = parsedStore.onboardingStep;
-				store.firstTranslationLanguage =
-					parsedStore.firstTranslationLanguage ?? "en";
-				store.secondTranslationLanguage =
-					parsedStore.secondTranslationLanguage ?? "de";
-				store.thirdTranslationLanguage =
-					parsedStore.thirdTranslationLanguage ?? null;
-				store.customItems = parsedStore.customItems ?? [];
-				if (
-					store.onboardingStep !== "v1_completed" &&
-					store.onboardingStep !== "v1_skipped"
-				) {
-					store.focusedWidget = Widget.ONBOARDING;
-				}
-				store.note = parsedStore.note ?? "";
-				// temporary code to prevent loss of data
-				if (parsedStore.notes) {
-					store.note = parsedStore.notes.reduce((acc: string, n: string) => {
-						return `${acc}\n${n}`;
-					}, "");
-				}
-				store.globalShortcut = parsedStore.globalShortcut;
-				store.showWindowOn = parsedStore.showWindowOn ?? "screenWithFrontmost";
-				store.calendarEnabled = parsedStore.calendarEnabled ?? true;
-				store.showAllDayEvents = parsedStore.showAllDayEvents ?? true;
-				store.launchAtLogin = parsedStore.launchAtLogin ?? true;
-				store.mediaKeyForwardingEnabled =
-					parsedStore.mediaKeyForwardingEnabled ?? true;
-				store.history = parsedStore.history ?? [];
-				store.showUpcomingEvent = parsedStore.showUpcomingEvent ?? true;
-				store.scratchPadColor =
-					parsedStore.scratchPadColor ?? ScratchPadColor.SYSTEM;
-				store.searchFolders = parsedStore.searchFolders ?? defaultSearchFolders;
-				store.searchEngine = parsedStore.searchEngine ?? "google";
-				store.customSearchUrl =
-					parsedStore.customSearchUrl ?? "https://google.com/search?q=%s";
-				store.shortcuts = parsedStore.shortcuts ?? defaultShortcuts;
-				store.showInAppBrowserBookMarks =
-					parsedStore.showInAppBrowserBookMarks ?? true;
-				store.hasDismissedGettingStarted =
-					parsedStore.hasDismissedGettingStarted ?? false;
-				store.hyperKeyEnabled = parsedStore.hyperKeyEnabled ?? false;
-				store.disabledItemIds = parsedStore.disabledItemIds ?? [];
-			});
+					// Non-portable fields from MMKV/AsyncStorage only
+					store.onboardingStep = src.onboardingStep;
+					store.note = src.note ?? "";
+					if (src.notes) {
+						store.note = src.notes.reduce((acc: string, n: string) => {
+							return `${acc}\n${n}`;
+						}, "");
+					}
+					store.history = src.history ?? [];
 
-			solNative.setLaunchAtLogin(parsedStore.launchAtLogin ?? true);
-			solNative.setGlobalShortcut(parsedStore.globalShortcut);
-			solNative.setShowWindowOn(
-				parsedStore.showWindowOn ?? "screenWithFrontmost",
-			);
+					// Portable fields — JSON is authoritative
+					store.firstTranslationLanguage = src.firstTranslationLanguage ?? "en";
+					store.secondTranslationLanguage =
+						src.secondTranslationLanguage ?? "de";
+					store.thirdTranslationLanguage = src.thirdTranslationLanguage ?? null;
+					store.customItems = src.customItems ?? [];
+					store.globalShortcut = src.globalShortcut;
+					store.showWindowOn = src.showWindowOn ?? "screenWithFrontmost";
+					store.calendarEnabled = src.calendarEnabled ?? true;
+					store.showAllDayEvents = src.showAllDayEvents ?? true;
+					store.launchAtLogin = src.launchAtLogin ?? true;
+					store.mediaKeyForwardingEnabled =
+						src.mediaKeyForwardingEnabled ?? true;
+					store.showUpcomingEvent = src.showUpcomingEvent ?? true;
+					store.scratchPadColor =
+						src.scratchPadColor ?? ScratchPadColor.SYSTEM;
+					store.searchFolders = src.searchFolders ?? defaultSearchFolders;
+					store.searchEngine = src.searchEngine ?? "google";
+					store.customSearchUrl =
+						src.customSearchUrl ?? "https://google.com/search?q=%s";
+					store.shortcuts = src.shortcuts ?? defaultShortcuts;
+					store.showInAppBrowserBookMarks =
+						src.showInAppBrowserBookMarks ?? true;
+					store.hasDismissedGettingStarted =
+						src.hasDismissedGettingStarted ?? false;
+					store.hyperKeyEnabled = src.hyperKeyEnabled ?? false;
+					store.disabledItemIds = src.disabledItemIds ?? [];
+
+					// If JSON had portable data, user completed onboarding
+					if (hasPortableData) {
+						store.onboardingStep = "v1_completed";
+					}
+
+					if (
+						store.onboardingStep !== "v1_completed" &&
+						store.onboardingStep !== "v1_skipped"
+					) {
+						store.focusedWidget = Widget.ONBOARDING;
+					}
+				});
+
+				solNative.setLaunchAtLogin(src.launchAtLogin ?? true);
+				solNative.setGlobalShortcut(src.globalShortcut);
+				solNative.setShowWindowOn(src.showWindowOn ?? "screenWithFrontmost");
+				solNative.setMediaKeyForwardingEnabled(store.mediaKeyForwardingEnabled);
+				solNative.setHyperKeyEnabled(store.hyperKeyEnabled);
+				solNative.updateHotkeys(toJS(store.shortcuts));
+
+				store.username = solNative.userName();
+				store.getApps();
+				store.migrateCustomItems();
+			} else {
+				runInAction(() => {
+					store.focusedWidget = Widget.ONBOARDING;
+				});
+			}
+		} finally {
+			isHydrating = false;
+		}
+	};
+
+	const reloadJsonConfig = () => {
+		isHydrating = true;
+		try {
+			const jsonConfig = readJsonConfig();
+			if (!jsonConfig) return;
+			runInAction(() => {
+				if (jsonConfig.firstTranslationLanguage !== undefined)
+					store.firstTranslationLanguage = jsonConfig.firstTranslationLanguage;
+				if (jsonConfig.secondTranslationLanguage !== undefined)
+					store.secondTranslationLanguage = jsonConfig.secondTranslationLanguage;
+				if (jsonConfig.thirdTranslationLanguage !== undefined)
+					store.thirdTranslationLanguage = jsonConfig.thirdTranslationLanguage;
+				if (jsonConfig.globalShortcut !== undefined)
+					store.globalShortcut = jsonConfig.globalShortcut;
+				if (jsonConfig.showWindowOn !== undefined)
+					store.showWindowOn = jsonConfig.showWindowOn;
+				if (jsonConfig.calendarEnabled !== undefined)
+					store.calendarEnabled = jsonConfig.calendarEnabled;
+				if (jsonConfig.showAllDayEvents !== undefined)
+					store.showAllDayEvents = jsonConfig.showAllDayEvents;
+				if (jsonConfig.launchAtLogin !== undefined)
+					store.launchAtLogin = jsonConfig.launchAtLogin;
+				if (jsonConfig.mediaKeyForwardingEnabled !== undefined)
+					store.mediaKeyForwardingEnabled = jsonConfig.mediaKeyForwardingEnabled;
+				if (jsonConfig.showUpcomingEvent !== undefined)
+					store.showUpcomingEvent = jsonConfig.showUpcomingEvent;
+				if (jsonConfig.scratchPadColor !== undefined)
+					store.scratchPadColor = jsonConfig.scratchPadColor;
+				if (jsonConfig.searchFolders !== undefined)
+					store.searchFolders = jsonConfig.searchFolders;
+				if (jsonConfig.searchEngine !== undefined)
+					store.searchEngine = jsonConfig.searchEngine;
+				if (jsonConfig.customSearchUrl !== undefined)
+					store.customSearchUrl = jsonConfig.customSearchUrl;
+				if (jsonConfig.shortcuts !== undefined)
+					store.shortcuts = jsonConfig.shortcuts;
+				if (jsonConfig.showInAppBrowserBookMarks !== undefined)
+					store.showInAppBrowserBookMarks = jsonConfig.showInAppBrowserBookMarks;
+				if (jsonConfig.hyperKeyEnabled !== undefined)
+					store.hyperKeyEnabled = jsonConfig.hyperKeyEnabled;
+				if (jsonConfig.customItems !== undefined)
+					store.customItems = jsonConfig.customItems;
+				if (jsonConfig.disabledItemIds !== undefined)
+					store.disabledItemIds = jsonConfig.disabledItemIds;
+			});
+			// Re-apply native side effects
+			solNative.setLaunchAtLogin(store.launchAtLogin);
+			solNative.setGlobalShortcut(store.globalShortcut);
+			solNative.setShowWindowOn(store.showWindowOn);
 			solNative.setMediaKeyForwardingEnabled(store.mediaKeyForwardingEnabled);
 			solNative.setHyperKeyEnabled(store.hyperKeyEnabled);
 			solNative.updateHotkeys(toJS(store.shortcuts));
-
-			store.username = solNative.userName();
-			store.getApps();
-			store.migrateCustomItems();
-		} else {
-			runInAction(() => {
-				store.focusedWidget = Widget.ONBOARDING;
-			});
+		} finally {
+			isHydrating = false;
 		}
 	};
 
@@ -740,6 +836,8 @@ export const createUIStore = (root: IRootStore) => {
 			onAppsChangedListener?.remove();
 			appareanceListener?.remove();
 			bookmarksDisposer?.();
+			configDisposer?.();
+			if (persistTimer != null) clearTimeout(persistTimer);
 		},
 		getCalendarAccess: () => {
 			store.calendarAuthorizationStatus =
@@ -1117,6 +1215,7 @@ export const createUIStore = (root: IRootStore) => {
 			store.closeConfirm();
 			await callback?.();
 		},
+		reloadJsonConfig,
 	});
 
 	bookmarksDisposer = reaction(
@@ -1127,7 +1226,16 @@ export const createUIStore = (root: IRootStore) => {
 	);
 
 	hydrate().then(() => {
-		autorun(persist);
+		configDisposer = reaction(
+			() => {
+				const snapshot: Record<string, any> = {};
+				for (const key of PORTABLE_KEYS) {
+					snapshot[key] = toJS((store as any)[key]);
+				}
+				return JSON.stringify(snapshot);
+			},
+			() => persistToJson(),
+		);
 		store.getCalendarAccess();
 		store.getAccessibilityStatus();
 		store.getFullDiskAccessStatus();

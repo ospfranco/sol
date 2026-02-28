@@ -157,7 +157,6 @@ export const General = observer(() => {
 					</TouchableOpacity>
 				</View>
 			</View>
-
 			<View className="p-3 subBg gap-3 rounded-lg border border-lightBorder dark:border-darkBorder">
 				<View className="flex-row items-center z-20">
 					<Text className="flex-1">Show Window on Screen with</Text>
@@ -178,10 +177,26 @@ export const General = observer(() => {
 				</View>
 				<View className="border-t border-lightBorder dark:border-darkBorder z-0" />
 				<View className="flex-row items-center">
+					<Text className="flex-1">Show In-App Calendar</Text>
+					<MySwitch
+						value={store.ui.calendarEnabled}
+						onValueChange={store.ui.setCalendarEnabled}
+					/>
+				</View>
+				<View className="border-t border-lightBorder dark:border-darkBorder" />
+				<View className="flex-row items-center">
 					<Text className="flex-1">Show Browser Bookmarks</Text>
 					<MySwitch
 						value={store.ui.showInAppBrowserBookMarks}
 						onValueChange={store.ui.setShowInAppBrowserBookmarks}
+					/>
+				</View>
+				<View className="border-t border-lightBorder dark:border-darkBorder" />
+				<View className="flex-row items-center">
+					<Text className="flex-1">Show upcoming event in Menu Bar</Text>
+					<MySwitch
+						value={store.ui.showUpcomingEvent}
+						onValueChange={store.ui.setShowUpcomingEvent}
 					/>
 				</View>
 				<View className="border-t border-lightBorder dark:border-darkBorder" />
@@ -204,6 +219,17 @@ export const General = observer(() => {
 						}}
 					/>
 				</View>
+			</View>
+			<View className="flex-row items-center p-3 subBg rounded-lg border border-lightBorder dark:border-darkBorder">
+				<View className="flex-1">
+					<Text className="text-sm text">Reload Config</Text>
+					<Text className="text-xxs text-neutral-500 dark:text-neutral-400">
+						Re-read ~/.config/sol/config.json
+					</Text>
+				</View>
+				<TouchableOpacity onPress={() => store.ui.reloadJsonConfig()}>
+					<Text className="text-blue-500">Reload</Text>
+				</TouchableOpacity>
 			</View>
 		</ScrollView>
 	);
