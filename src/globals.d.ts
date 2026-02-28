@@ -64,6 +64,7 @@ declare const global: {
 		ls: (path: string) => string[];
 		exists: (path: string) => boolean;
 		readFile: (path: string) => string | null;
+		writeFile: (path: string, contents: string) => boolean;
 		userName: () => string;
 		ps: () => string;
 		killProcess: (pid: string) => void;

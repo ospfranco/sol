@@ -22,6 +22,26 @@ import Foundation
     }
   }
   
+  @objc static func writeFile(path: String, contents: String) -> Bool {
+    let url = URL(fileURLWithPath: path)
+    let parentDir = url.deletingLastPathComponent()
+
+    if !FileManager.default.fileExists(atPath: parentDir.path) {
+      do {
+        try FileManager.default.createDirectory(at: parentDir, withIntermediateDirectories: true, attributes: nil)
+      } catch {
+        return false
+      }
+    }
+
+    do {
+      try contents.write(to: url, atomically: true, encoding: .utf8)
+      return true
+    } catch {
+      return false
+    }
+  }
+
   static func copyFileFromUrl(_ url: URL, toPath path: String) throws {
     if exists(path: path) {
       try FileManager.default.removeItem(at: URL(fileURLWithPath: path))
