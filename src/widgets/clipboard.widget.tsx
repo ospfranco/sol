@@ -1,6 +1,7 @@
 import { LegendList, type LegendListRef } from "@legendapp/list";
 import clsx from "clsx";
 import { FileIcon } from "components/FileIcon";
+import { FileImageView } from "components/FileImageView";
 import { Key } from "components/Key";
 import { LoadingBar } from "components/LoadingBar";
 import { MainInput } from "components/MainInput";
@@ -46,14 +47,21 @@ const RenderItem = observer(
 					"opacity-80": !isActive,
 				})}
 			>
-				<FileIcon
-					url={decodeURIComponent(
-						item.bundle?.replace("file://", "") ??
-							item.url?.replace("file://", "") ??
-							"",
-					)}
-					className="h-6 w-6"
-				/>
+				{isPngOrJpg(item.url) ? (
+					<FileImageView
+						url={item.url ?? ""}
+						style={{ width: 24, height: 24, borderRadius: 4 }}
+					/>
+				) : (
+					<FileIcon
+						url={decodeURIComponent(
+							item.bundle?.replace("file://", "") ??
+								item.url?.replace("file://", "") ??
+								"",
+						)}
+						className="h-6 w-6"
+					/>
+				)}
 
 				<Text
 					className={clsx("text-xs text flex-1", {
@@ -61,7 +69,7 @@ const RenderItem = observer(
 					})}
 					numberOfLines={1}
 				>
-					{item.text.trim()}
+					{isPngOrJpg(item.url) ? item.text : item.text.trim()}
 				</Text>
 
 				{item.pinned && (
@@ -139,6 +147,22 @@ export const ClipboardWidget: FC<Props> = observer(() => {
 									{truncateText(data[selectedIndex]?.text)}
 								</Text>
 							)}
+							{!!data[selectedIndex].url &&
+								isPngOrJpg(data[selectedIndex].url) && (
+									<View className="flex-1 w-full items-center justify-center">
+										<FileImageView
+											url={data[selectedIndex].url ?? ""}
+											style={{
+												width: 280,
+												height: 280,
+												borderRadius: 8,
+											}}
+										/>
+										<Text className="text-xs darker-text mt-2">
+											{data[selectedIndex].text}
+										</Text>
+									</View>
+								)}
 							{!!data[selectedIndex].url &&
 								!isPngOrJpg(data[selectedIndex].url) && (
 									<View className="flex-1 w-full items-center justify-center">

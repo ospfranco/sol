@@ -191,6 +191,8 @@ export const createKeystrokeStore = (root: IRootStore) => {
 										// console.log('could not open in browser')
 									}
 									solNative.hideWindow();
+								} else if (entry.url) {
+									solNative.pasteFileToFrontmostApp(entry.url);
 								} else {
 									solNative.pasteToFrontmostApp(entry.text);
 								}

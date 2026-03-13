@@ -154,7 +154,7 @@ final class HotKeyManager {
     }
   }
 
-  func updateHotkeys(hotkeyMap: [String: String]) {
+  func updateHotkeys(hotkeyMap: [String: String], urlMap: [String: String] = [:]) {
     hotkeys.removeAll()
 
     for (key, value) in hotkeyMap {
@@ -205,8 +205,15 @@ final class HotKeyManager {
       guard let finalKey = keyValue else { continue }
       let hotKey = HotKey(key: finalKey, modifiers: modifiers)
 
-      hotKey.keyUpHandler = {
-        SolEmitter.sharedInstance.onHotkey(id: key)
+      // If the hotkey has a URL, open it directly in native (skip JS round-trip)
+      if let url = urlMap[key] {
+        hotKey.keyUpHandler = {
+          NSWorkspace.shared.openFile(url)
+        }
+      } else {
+        hotKey.keyUpHandler = {
+          SolEmitter.sharedInstance.onHotkey(id: key)
+        }
       }
       hotkeys.append(hotKey)
     }

@@ -75,4 +75,23 @@ class ClipboardHelper {
       event2?.post(tap: CGEventTapLocation.cghidEventTap)
     }
   }
+
+  static func pasteFileToFrontmostApp(_ filePath: String) {
+    DispatchQueue.main.async {
+      PanelManager.shared.hideWindow()
+
+      let pasteboard = NSPasteboard.general
+      pasteboard.clearContents()
+
+      let url = URL(fileURLWithPath: filePath)
+      pasteboard.writeObjects([url as NSURL])
+
+      let event1 = CGEvent(keyboardEventSource: nil, virtualKey: 0x09, keyDown: true)  // cmd-v down
+      event1?.flags = CGEventFlags.maskCommand
+      event1?.post(tap: CGEventTapLocation.cghidEventTap)
+
+      let event2 = CGEvent(keyboardEventSource: nil, virtualKey: 0x09, keyDown: false)  // cmd-v up
+      event2?.post(tap: CGEventTapLocation.cghidEventTap)
+    }
+  }
 }

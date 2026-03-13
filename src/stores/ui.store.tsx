@@ -253,7 +253,7 @@ export const createUIStore = (root: IRootStore) => {
 			);
 			solNative.setMediaKeyForwardingEnabled(store.mediaKeyForwardingEnabled);
 			solNative.setHyperKeyEnabled(store.hyperKeyEnabled);
-			solNative.updateHotkeys(toJS(store.shortcuts));
+			solNative.updateHotkeys(toJS(store.shortcuts), {});
 
 			store.username = solNative.userName();
 			store.getApps();
@@ -656,6 +656,7 @@ export const createUIStore = (root: IRootStore) => {
 		getApps: () => {
 			solNative.getApplications().then((apps) => {
 				store.updateApps(apps);
+				store.syncHotkeys();
 			});
 		},
 		onShow: ({ target }: { target?: string }) => {
@@ -745,9 +746,7 @@ export const createUIStore = (root: IRootStore) => {
 				store.focusWidget(Widget.CLIPBOARD);
 				const items = root.clipboard.clipboardItems;
 				const firstUnpinned = items.findIndex((i) => !i.pinned);
-				if (firstUnpinned > 0) {
-					store.selectedIndex = firstUnpinned;
-				}
+				store.selectedIndex = firstUnpinned >= 0 ? firstUnpinned : 0;
 			}
 		},
 		showProcessManager: () => {
@@ -950,21 +949,20 @@ export const createUIStore = (root: IRootStore) => {
 		},
 
 		onHotkey({ id }: { id: string }) {
-			const item = store.items.find((i) => i.id === id);
-
-			if (item == null) {
-				return;
+			// Widget hotkeys use direct lookup (O(1)) instead of scanning all items
+			const targetWidget = itemIdToWidget[id];
+			if (targetWidget) {
+				if (store.isVisible && store.focusedWidget === targetWidget) {
+					store.setQuery("");
+					store.focusWidget(Widget.SEARCH);
+					solNative.hideWindow();
+					return;
+				}
 			}
 
-			const targetWidget = itemIdToWidget[item.id];
-			if (
-				targetWidget &&
-				store.isVisible &&
-				store.focusedWidget === targetWidget
-			) {
-				store.setQuery("");
-				store.focusWidget(Widget.SEARCH);
-				solNative.hideWindow();
+			// For items that need callbacks, find and execute
+			const item = store.items.find((i) => i.id === id);
+			if (item == null) {
 				return;
 			}
 
@@ -974,9 +972,24 @@ export const createUIStore = (root: IRootStore) => {
 				solNative.openFile(item.url);
 			}
 
-			if (itemsThatShouldShowWindow.includes(item.id)) {
-				setTimeout(solNative.showWindow, 0);
+			if (itemsThatShouldShowWindow.includes(id)) {
+				solNative.showWindow();
 			}
+		},
+
+		syncHotkeys() {
+			const shortcuts = toJS(store.shortcuts);
+			const urlMap: Record<string, string> = {};
+			const allItems = [
+				...store.apps,
+				...store.customItems,
+			];
+			for (const item of allItems) {
+				if (shortcuts[item.id] && item.url) {
+					urlMap[item.id] = item.url;
+				}
+			}
+			solNative.updateHotkeys(shortcuts, urlMap);
 		},
 
 		setShortcut(id: string, shortcut: string) {
@@ -992,12 +1005,12 @@ export const createUIStore = (root: IRootStore) => {
 			}
 
 			store.shortcuts[id] = shortcut;
-			solNative.updateHotkeys(toJS(store.shortcuts));
+			store.syncHotkeys();
 		},
 
 		restoreDefaultShorcuts() {
 			store.shortcuts = defaultShortcuts;
-			solNative.updateHotkeys(defaultShortcuts);
+			store.syncHotkeys();
 		},
 
 		setWindowHeight(e: LayoutChangeEvent) {

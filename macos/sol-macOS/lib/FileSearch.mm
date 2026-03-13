@@ -18,15 +18,11 @@
 #include "FileSearch.h"
 #include "NSString+Score.h"
 
-static NSSet *skippedDirectories = nil;
-
 static NSSet *getSkippedDirectories() {
-  if (!skippedDirectories) {
-    skippedDirectories = [NSSet setWithObjects:
-      @"node_modules", @".git", @"Library", @".cache",
-      @".Trash", @"__pycache__", @".npm", @".yarn",
-      @"Pods", @"build", @"DerivedData", nil];
-  }
+  static NSSet *skippedDirectories = [NSSet setWithObjects:
+    @"node_modules", @".git", @"Library", @".cache",
+    @".Trash", @"__pycache__", @".npm", @".yarn",
+    @"Pods", @"build", @"DerivedData", nil];
   return skippedDirectories;
 }
 

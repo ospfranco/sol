@@ -6,7 +6,7 @@ import type { IRootStore } from "store";
 import { Widget } from "./ui.store";
 import MiniSearch from "minisearch";
 import { storage } from "./storage";
-import { captureException } from "@sentry/react-native";
+
 
 const MAX_ITEMS = 1000;
 const MAX_TEXT_INDEX_LENGTH = 500; // Only index first N chars for search
@@ -88,7 +88,7 @@ export const createClipboardStore = (root: IRootStore) => {
 
 	function removeFromIndex(item: PasteItem) {
 		try {
-			minisearch.remove({ id: item.id, indexText: "", datetime: 0 });
+			minisearch.discard(item.id);
 		} catch {
 			// ignore missing id errors
 		}
@@ -229,12 +229,17 @@ export const createClipboardStore = (root: IRootStore) => {
 		},
 		removeLastItemIfNeeded: () => {
 			while (store.items.length > MAX_ITEMS) {
-				const last = store.items[store.items.length - 1];
-				if (last?.pinned) break;
-				const removed = store.items.pop();
-				if (removed) {
-					removeFromIndex(removed);
+				// Find the last unpinned item to evict
+				let evictIdx = -1;
+				for (let i = store.items.length - 1; i >= 0; i--) {
+					if (!store.items[i].pinned) {
+						evictIdx = i;
+						break;
+					}
 				}
+				if (evictIdx === -1) break; // all items are pinned
+				const [removed] = store.items.splice(evictIdx, 1);
+				removeFromIndex(removed);
 			}
 		},
 		popToTop: (index: number) => {
@@ -242,6 +247,10 @@ export const createClipboardStore = (root: IRootStore) => {
 			item.datetime = Date.now();
 			store.items.unshift(item);
 			rebuildHashMap();
+			// Update MiniSearch so datetime boost stays correct
+			removeFromIndex(item);
+			addToIndex(item);
+			store._persistVersion++;
 		},
 		setSaveHistory: (v: boolean) => {
 			store.saveHistory = v;
@@ -264,6 +273,11 @@ export const createClipboardStore = (root: IRootStore) => {
 	onTextCopiedListener = solNative.addListener(
 		"onTextCopied",
 		store.onTextCopied,
+	);
+
+	onFileCopiedListener = solNative.addListener(
+		"onFileCopied",
+		store.onFileCopied,
 	);
 
 	const hydrate = async () => {

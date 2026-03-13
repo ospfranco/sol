@@ -14,6 +14,8 @@
 		700A18D8279DBBE40096C830 /* ApplicationSearcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700A18D7279DBBE40096C830 /* ApplicationSearcher.swift */; };
 		700A18DA279DC17F0096C830 /* FileIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700A18D9279DC17F0096C830 /* FileIcon.swift */; };
 		700A18DC279DC1F50096C830 /* FileIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 700A18DB279DC1F50096C830 /* FileIcon.m */; };
+		C10A18DA279DC17F0096C830 /* FileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10A18D9279DC17F0096C830 /* FileImageView.swift */; };
+		C10A18DC279DC1F50096C830 /* FileImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C10A18DB279DC1F50096C830 /* FileImageView.m */; };
 		700A99F22C33D6E30049831F /* QRGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700A99F12C33D6E30049831F /* QRGenerator.swift */; };
 		700DF99A28266F0B00C5FD0B /* ClipboardHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700DF99928266F0B00C5FD0B /* ClipboardHelper.swift */; };
 		700F266729F501C8002CA8F1 /* BlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 700F266629F501C8002CA8F1 /* BlurView.m */; };
@@ -85,6 +87,8 @@
 		700A18D7279DBBE40096C830 /* ApplicationSearcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationSearcher.swift; sourceTree = "<group>"; };
 		700A18D9279DC17F0096C830 /* FileIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileIcon.swift; sourceTree = "<group>"; };
 		700A18DB279DC1F50096C830 /* FileIcon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileIcon.m; sourceTree = "<group>"; };
+		C10A18D9279DC17F0096C830 /* FileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileImageView.swift; sourceTree = "<group>"; };
+		C10A18DB279DC1F50096C830 /* FileImageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileImageView.m; sourceTree = "<group>"; };
 		700A99F12C33D6E30049831F /* QRGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRGenerator.swift; sourceTree = "<group>"; };
 		700DF99928266F0B00C5FD0B /* ClipboardHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardHelper.swift; sourceTree = "<group>"; };
 		700F266629F501C8002CA8F1 /* BlurView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlurView.m; sourceTree = "<group>"; };
@@ -240,6 +244,8 @@
 				706ABFAD2E059FCF000C0F30 /* KeyboardShortcutRecorderView.swift */,
 				700A18D9279DC17F0096C830 /* FileIcon.swift */,
 				700A18DB279DC1F50096C830 /* FileIcon.m */,
+				C10A18D9279DC17F0096C830 /* FileImageView.swift */,
+				C10A18DB279DC1F50096C830 /* FileImageView.m */,
 				70B78360279BE866008660F5 /* Panel.swift */,
 				70D1220128DA95C500179A1D /* Overlay.swift */,
 				70B927602930ADC100F883A0 /* Toast.swift */,
@@ -630,6 +636,7 @@
 				70142B3B2D21812500EA565F /* KeychainAccess.swift in Sources */,
 				70D1220228DA95C500179A1D /* Overlay.swift in Sources */,
 				700A18DC279DC1F50096C830 /* FileIcon.m in Sources */,
+				C10A18DC279DC1F50096C830 /* FileImageView.m in Sources */,
 				70805244298F692E000DB574 /* MouseUtils.swift in Sources */,
 				70EFF77428D5F732009FE998 /* DoNotDisturb.swift in Sources */,
 				7042A22A2815C06B00874743 /* NSColor.extension.swift in Sources */,
@@ -638,6 +645,7 @@
 				70E15D082931FC57007FFE5F /* FS.swift in Sources */,
 				700DF99A28266F0B00C5FD0B /* ClipboardHelper.swift in Sources */,
 				700A18DA279DC17F0096C830 /* FileIcon.swift in Sources */,
+				C10A18DA279DC17F0096C830 /* FileImageView.swift in Sources */,
 				706ABFAE2E059FCF000C0F30 /* KeyboardShortcutRecorderView.swift in Sources */,
 				706ABFAF2E059FCF000C0F30 /* KeyboardShortcutRecorderView.m in Sources */,
 				70754B532BECECAB00B77EF8 /* FileSearch.mm in Sources */,

@@ -292,6 +292,10 @@ class SolNative: RCTEventEmitter {
     ClipboardHelper.insertToFrontmostApp(content)
   }
 
+  @objc func pasteFileToFrontmostApp(_ filePath: String) {
+    ClipboardHelper.pasteFileToFrontmostApp(filePath)
+  }
+
   @objc func turnOnHorizontalArrowsListeners() {
     HotKeyManager.shared.catchHorizontalArrowsPress = true
   }
@@ -437,9 +441,10 @@ class SolNative: RCTEventEmitter {
     }
   }
 
-  @objc func updateHotkeys(_ hotkeys: NSDictionary) {
+  @objc func updateHotkeys(_ hotkeys: NSDictionary, urlMap: NSDictionary?) {
     guard let hotkeys = hotkeys as? [String: String] else { return }
-    HotKeyManager.shared.updateHotkeys(hotkeyMap: hotkeys)
+    let urls = urlMap as? [String: String] ?? [:]
+    HotKeyManager.shared.updateHotkeys(hotkeyMap: hotkeys, urlMap: urls)
   }
 
   @objc func setUpcomingEventEnabled(_ enabled: Bool) {
