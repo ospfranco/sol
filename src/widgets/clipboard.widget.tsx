@@ -7,6 +7,7 @@ import { MainInput } from "components/MainInput";
 import { observer } from "mobx-react-lite";
 import { type FC, useEffect, useRef } from "react";
 import {
+	ScrollView,
 	StyleSheet,
 	Text,
 	TouchableOpacity,
@@ -19,6 +20,14 @@ import type { PasteItem } from "stores/clipboard.store";
 interface Props {
 	style?: ViewStyle;
 	className?: string;
+}
+
+const MAX_PREVIEW_LENGTH = 5000;
+
+function truncateText(text: string | undefined | null): string {
+	if (!text) return "";
+	if (text.length <= MAX_PREVIEW_LENGTH) return text;
+	return text.slice(0, MAX_PREVIEW_LENGTH) + `\n\n... (${text.length.toLocaleString()} chars total)`;
 }
 
 const RenderItem = observer(
@@ -55,9 +64,16 @@ const RenderItem = observer(
 					{item.text.trim()}
 				</Text>
 
-				{/* {!!item.url && (
-        <Image src={`file://${item.url}`} className="h-20 w-20" />
-      )} */}
+				{item.pinned && (
+					<Text
+						className={clsx("text-xs mr-1", {
+							"text-white": isActive,
+							"darker-text": !isActive,
+						})}
+					>
+						{"\u{1F4CC}"}
+					</Text>
+				)}
 			</TouchableOpacity>
 		);
 	},
@@ -99,7 +115,6 @@ export const ClipboardWidget: FC<Props> = observer(() => {
 			<View className="flex-1 flex-row">
 				<View className="w-64 h-full">
 					<LegendList
-						key={`${data.length}`}
 						data={data}
 						className="flex-1"
 						contentContainerStyle={STYLES.contentContainer}
@@ -107,7 +122,7 @@ export const ClipboardWidget: FC<Props> = observer(() => {
 						recycleItems
 						ListEmptyComponent={
 							<View className="flex-1 justify-center items-center">
-								<Text className="darker-text">[ ]</Text>
+								<Text className="darker-text">No items</Text>
 							</View>
 						}
 						renderItem={RenderItem}
@@ -115,22 +130,15 @@ export const ClipboardWidget: FC<Props> = observer(() => {
 				</View>
 				<View className="flex-1 px-3 py-2">
 					{!!data[selectedIndex] && (
-						<View className="dark:bg-black/20 bg-white rounded-lg p-3">
+						<ScrollView
+							className="dark:bg-black/20 bg-white rounded-lg flex-1"
+							contentContainerStyle={{ padding: 12 }}
+						>
 							{!data[selectedIndex].url && (
-								<Text className="text-xs">
-									{data[selectedIndex]?.text ?? []}
+								<Text className="text-xs" selectable>
+									{truncateText(data[selectedIndex]?.text)}
 								</Text>
 							)}
-							{/* {!!data[selectedIndex].url &&
-              isPngOrJpg(data[selectedIndex].url) && (
-                <Image
-                  source={{
-                    uri: `file://${data[selectedIndex].url}`,
-                  }}
-                  className="flex-1 rounded-lg"
-                  style={{resizeMode: 'contain'}}
-                />
-              )} */}
 							{!!data[selectedIndex].url &&
 								!isPngOrJpg(data[selectedIndex].url) && (
 									<View className="flex-1 w-full items-center justify-center">
@@ -143,12 +151,57 @@ export const ClipboardWidget: FC<Props> = observer(() => {
 										</Text>
 									</View>
 								)}
-						</View>
+						</ScrollView>
 					)}
 				</View>
 			</View>
 			{/* Shortcut bar at the bottom */}
 			<View className="py-2 px-4 flex-row items-center justify-end gap-1 subBg border-t border-color">
+				<View style={{ position: "relative" }}>
+					{store.clipboard.clipboardMenuOpen && !!data[selectedIndex] && (
+						<View
+							style={{
+								position: "absolute",
+								bottom: 36,
+								left: 0,
+								zIndex: 10,
+							}}
+						>
+							<View
+								className="rounded-lg p-1 border border-color"
+								style={{
+									minWidth: 200,
+									backgroundColor: store.ui.isDarkMode
+										? "rgba(50,50,50,0.95)"
+										: "rgba(235,235,235,0.95)",
+								}}
+							>
+								<Text className="text-xs darker-text px-3 py-1.5 font-semibold">
+									Actions
+								</Text>
+								<TouchableOpacity
+									onPress={() => {
+										store.clipboard.togglePin(selectedIndex);
+										store.clipboard.closeClipboardMenu();
+									}}
+									className="flex-row items-center gap-2 px-3 py-1.5 rounded"
+								>
+									<Text className="text-sm flex-1">
+										{data[selectedIndex]?.pinned ? "Unpin" : "Pin to top"}
+									</Text>
+									<Key symbol={"⌘"} />
+									<Key symbol="P" />
+								</TouchableOpacity>
+							</View>
+						</View>
+					)}
+					<View className="flex-row items-center gap-1">
+						<Text className="text-xs darker-text mr-1">More</Text>
+						<Key symbol={"⌘"} />
+						<Key symbol={"K"} />
+					</View>
+				</View>
+				<View className="mx-2" />
 				<Text className="text-xs darker-text mr-1">Delete Item</Text>
 				<Key symbol={"⇧"} />
 				<Key symbol={"⌫"} />

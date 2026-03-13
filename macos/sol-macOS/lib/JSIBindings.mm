@@ -163,11 +163,16 @@ void install(jsi::Runtime &rt,
     auto paths = arguments[0].asObject(rt).asArray(rt);
     auto query = arguments[1].asString(rt).utf8(rt);
     std::vector<File> res;
+    size_t result_count = 0;
     for (size_t i = 0; i < paths.size(rt); i++) {
+      if (result_count >= MAX_SEARCH_RESULTS) {
+        break;
+      }
       auto path = paths.getValueAtIndex(rt, i).asString(rt).utf8(rt);
       std::vector<File> path_results =
           search_files([NSString stringWithUTF8String:path.c_str()],
-                       [NSString stringWithUTF8String:query.c_str()]);
+                       [NSString stringWithUTF8String:query.c_str()],
+                       0, &result_count);
       res.insert(res.end(), path_results.begin(), path_results.end());
     }
 

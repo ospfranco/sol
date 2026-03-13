@@ -35,6 +35,8 @@ let onHotkeyListener: EmitterSubscription | undefined;
 let onAppsChangedListener: EmitterSubscription | undefined;
 let appareanceListener: NativeEventSubscription | undefined;
 let bookmarksDisposer: IReactionDisposer | undefined;
+let fileSearchTimer: ReturnType<typeof setTimeout> | undefined;
+let fileSearchDisposer: IReactionDisposer | undefined;
 
 export enum Widget {
 	ONBOARDING = "ONBOARDING",
@@ -115,7 +117,16 @@ const itemsThatShouldShowWindow = [
 	"clipboard_manager",
 	"process_manager",
 	"scratchpad",
+	"file_search",
 ];
+
+const itemIdToWidget: Record<string, Widget> = {
+	emoji_picker: Widget.EMOJIS,
+	clipboard_manager: Widget.CLIPBOARD,
+	process_manager: Widget.PROCESSES,
+	scratchpad: Widget.SCRATCHPAD,
+	file_search: Widget.FILE_SEARCH,
+};
 
 function getInitials(name: string) {
 	return name
@@ -291,6 +302,7 @@ export const createUIStore = (root: IRootStore) => {
 		firstTranslationLanguage: "en" as string,
 		secondTranslationLanguage: "de" as string,
 		thirdTranslationLanguage: null as null | string,
+		fileSearchResults: [] as Item[],
 		fileResults: [] as FileDescription[],
 		calendarEnabled: true,
 		showAllDayEvents: true,
@@ -327,28 +339,7 @@ export const createUIStore = (root: IRootStore) => {
 		//                        | |
 		//                        |_|
 		get files(): Item[] {
-			if (!!store.query && store.focusedWidget === Widget.FILE_SEARCH) {
-				runInAction(() => {
-					store.isLoading = true;
-				});
-				const fileResults = solNative.searchFiles(
-					toJS(store.searchFolders),
-					store.query,
-				);
-
-				const results = fileResults.map((f) => ({
-					id: f.path,
-					type: ItemType.FILE,
-					name: f.name,
-					url: f.path,
-				}));
-				runInAction(() => {
-					store.isLoading = false;
-				});
-				return results;
-			}
-
-			return [];
+			return store.fileSearchResults;
 		},
 		get items(): Item[] {
 			const allItems = [
@@ -722,6 +713,11 @@ export const createUIStore = (root: IRootStore) => {
 			onAppsChangedListener?.remove();
 			appareanceListener?.remove();
 			bookmarksDisposer?.();
+			fileSearchDisposer?.();
+			if (fileSearchTimer) {
+				clearTimeout(fileSearchTimer);
+				fileSearchTimer = undefined;
+			}
 		},
 		getCalendarAccess: () => {
 			store.calendarAuthorizationStatus =
@@ -747,6 +743,11 @@ export const createUIStore = (root: IRootStore) => {
 				store.focusWidget(Widget.SEARCH);
 			} else {
 				store.focusWidget(Widget.CLIPBOARD);
+				const items = root.clipboard.clipboardItems;
+				const firstUnpinned = items.findIndex((i) => !i.pinned);
+				if (firstUnpinned > 0) {
+					store.selectedIndex = firstUnpinned;
+				}
 			}
 		},
 		showProcessManager: () => {
@@ -955,6 +956,18 @@ export const createUIStore = (root: IRootStore) => {
 				return;
 			}
 
+			const targetWidget = itemIdToWidget[item.id];
+			if (
+				targetWidget &&
+				store.isVisible &&
+				store.focusedWidget === targetWidget
+			) {
+				store.setQuery("");
+				store.focusWidget(Widget.SEARCH);
+				solNative.hideWindow();
+				return;
+			}
+
 			if (item.callback) {
 				item.callback();
 			} else if (item.url) {
@@ -1082,6 +1095,40 @@ export const createUIStore = (root: IRootStore) => {
 		() => [store.showInAppBrowserBookMarks],
 		() => {
 			minisearch.removeAll();
+		},
+	);
+
+	fileSearchDisposer = reaction(
+		() => [store.query, store.focusedWidget] as const,
+		([query, widget]) => {
+			if (fileSearchTimer) {
+				clearTimeout(fileSearchTimer);
+				fileSearchTimer = undefined;
+			}
+
+			if (!query || widget !== Widget.FILE_SEARCH) {
+				store.fileSearchResults = [];
+				store.isLoading = false;
+				return;
+			}
+
+			store.isLoading = true;
+			fileSearchTimer = setTimeout(() => {
+				const fileResults = solNative.searchFiles(
+					toJS(store.searchFolders),
+					query,
+				);
+
+				runInAction(() => {
+					store.fileSearchResults = fileResults.map((f) => ({
+						id: f.path,
+						type: ItemType.FILE,
+						name: f.name,
+						url: f.path,
+					}));
+					store.isLoading = false;
+				});
+			}, 200);
 		},
 	);
 
