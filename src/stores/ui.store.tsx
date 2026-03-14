@@ -747,6 +747,9 @@ export const createUIStore = (root: IRootStore) => {
 				store.focusWidget(Widget.SEARCH);
 			} else {
 				store.focusWidget(Widget.CLIPBOARD);
+				const items = root.clipboard.clipboardItems;
+				const firstUnpinned = items.findIndex((i) => !i.pinned);
+				store.selectedIndex = firstUnpinned >= 0 ? firstUnpinned : 0;
 			}
 		},
 		showProcessManager: () => {

@@ -30,6 +30,22 @@ export const createKeystrokeStore = (root: IRootStore) => {
 			meta: boolean;
 			shift: boolean;
 		}) => {
+			// Handle clipboard menu when open
+			if (
+				root.clipboard.clipboardMenuOpen &&
+				root.ui.focusedWidget === Widget.CLIPBOARD &&
+				keyCode !== 55 && // let modifier keys pass through
+				keyCode !== 60 &&
+				keyCode !== 59
+			) {
+				// Cmd+P - toggle pin
+				if (keyCode === 35 && meta) {
+					root.clipboard.togglePin(root.ui.selectedIndex);
+				}
+				root.clipboard.closeClipboardMenu();
+				return;
+			}
+
 			switch (keyCode) {
 				// "j" key
 				case 38: {
@@ -41,6 +57,10 @@ export const createKeystrokeStore = (root: IRootStore) => {
 				}
 				// "k" key
 				case 40: {
+					if (meta && root.ui.focusedWidget === Widget.CLIPBOARD) {
+						root.clipboard.toggleClipboardMenu();
+						return;
+					}
 					if (store.controlPressed) {
 						store.keyDown({ keyCode: 126, meta: false, shift: false });
 					}
@@ -62,6 +82,14 @@ export const createKeystrokeStore = (root: IRootStore) => {
 						if (shift) {
 							root.clipboard.deleteItem(root.ui.selectedIndex);
 						}
+						return;
+					}
+					break;
+				}
+				// "p" key
+				case 35: {
+					if (meta && root.ui.focusedWidget === Widget.CLIPBOARD) {
+						root.clipboard.togglePin(root.ui.selectedIndex);
 						return;
 					}
 					break;
@@ -148,13 +176,14 @@ export const createKeystrokeStore = (root: IRootStore) => {
 							const entry =
 								root.clipboard.clipboardItems[root.ui.selectedIndex];
 
-							const originalIndex = root.clipboard.clipboardItems.findIndex(
-								(e) => entry === e,
-							);
-
-							root.clipboard.popToTop(originalIndex);
-
 							if (entry) {
+								const originalIndex = root.clipboard.items.findIndex(
+									(e) => e.id === entry.id,
+								);
+								if (originalIndex !== -1) {
+									root.clipboard.popToTop(originalIndex);
+								}
+
 								if (meta) {
 									try {
 										Linking.openURL(entry.text);
@@ -698,7 +727,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
 						case Widget.CLIPBOARD: {
 							root.ui.selectedIndex = Math.min(
 								root.ui.selectedIndex + 1,
-								root.clipboard.items.length - 1,
+								root.clipboard.clipboardItems.length - 1,
 							);
 							break;
 						}
