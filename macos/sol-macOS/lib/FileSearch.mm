@@ -28,8 +28,8 @@ std::vector<File> search_files(NSString *basePath, NSString *query) {
     NSString *full_path = [basePath stringByAppendingPathComponent:path];
     std::string cpp_full_path = [full_path UTF8String];
     float distance = [path scoreAgainst:query];
-    
-     if([defFM fileExistsAtPath:full_path isDirectory:&is_dir] && is_dir){  
+
+     if([defFM fileExistsAtPath:full_path isDirectory:&is_dir] && is_dir){
       if (distance > 0.5) {
         files.push_back({
           .path = cpp_full_path,
@@ -41,7 +41,7 @@ std::vector<File> search_files(NSString *basePath, NSString *query) {
        std::vector<File> sub_files = search_files(full_path, query);
        files.insert(files.end(), sub_files.begin(), sub_files.end());
      } else {
-       
+
        if (distance > 0.5) {
         files.push_back({
           .path = cpp_full_path,
@@ -51,7 +51,6 @@ std::vector<File> search_files(NSString *basePath, NSString *query) {
       }
      }
   }
-  
+
    return files;
 }
-

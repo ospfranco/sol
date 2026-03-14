@@ -98,6 +98,10 @@ class SolNative extends NativeEventEmitter {
   createFolderWatcher: typeof global.__SolProxy.createFolderWatcher
   focusDate: (dateISO: string) => void
   setUpcomingEventEnabled: (enabled: boolean) => void
+  toggleQuickLook: (path: string) => void
+  updateQuickLook: (path: string) => void
+  hideQuickLook: () => void
+  executeBashScriptSilent: (script: string) => Promise<string>
 
   // Constants
   accentColor: string
@@ -218,6 +222,10 @@ class SolNative extends NativeEventEmitter {
     this.createFolderWatcher = global.__SolProxy.createFolderWatcher
     this.focusDate = global.__SolProxy.focusDate
     this.setUpcomingEventEnabled = module.setUpcomingEventEnabled
+    this.toggleQuickLook = module.toggleQuickLook
+    this.updateQuickLook = module.updateQuickLook
+    this.hideQuickLook = module.hideQuickLook
+    this.executeBashScriptSilent = module.executeBashScriptSilent
   }
 }
 

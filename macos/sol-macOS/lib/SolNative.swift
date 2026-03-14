@@ -459,4 +459,43 @@ class SolNative: RCTEventEmitter {
     }
   }
 
+  @objc func toggleQuickLook(_ path: String) {
+    DispatchQueue.main.async {
+      QuickLookManager.shared.toggle(path: path)
+    }
+  }
+
+  @objc func updateQuickLook(_ path: String) {
+    DispatchQueue.main.async {
+      QuickLookManager.shared.update(path: path)
+    }
+  }
+
+  @objc func hideQuickLook() {
+    DispatchQueue.main.async {
+      QuickLookManager.shared.hide()
+    }
+  }
+
+  @objc func executeBashScriptSilent(
+    _ source: String,
+    resolver: @escaping RCTPromiseResolveBlock,
+    rejecter _: @escaping RCTPromiseRejectBlock
+  ) {
+    DispatchQueue.global(qos: .userInitiated).async {
+      let task = Process()
+      let pipe = Pipe()
+      task.standardOutput = pipe
+      task.standardError = pipe
+      task.arguments = ["-l", "-c", source]
+      task.launchPath = "/bin/zsh"
+      task.standardInput = nil
+      task.launch()
+      task.waitUntilExit()
+      let data = pipe.fileHandleForReading.readDataToEndOfFile()
+      let output = String(data: data, encoding: .utf8) ?? ""
+      resolver(output)
+    }
+  }
+
 }
