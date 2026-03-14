@@ -35,6 +35,8 @@ let onHotkeyListener: EmitterSubscription | undefined;
 let onAppsChangedListener: EmitterSubscription | undefined;
 let appareanceListener: NativeEventSubscription | undefined;
 let bookmarksDisposer: IReactionDisposer | undefined;
+let fileSearchTimer: ReturnType<typeof setTimeout> | undefined;
+let fileSearchDisposer: IReactionDisposer | undefined;
 
 export enum Widget {
 	ONBOARDING = "ONBOARDING",
@@ -66,6 +68,12 @@ export enum ScratchPadColor {
 	SYSTEM = "SYSTEM",
 	BLUE = "BLUE",
 	ORANGE = "ORANGE",
+}
+
+export enum FileSearchMode {
+	FUZZY = "FUZZY",
+	PATH = "PATH",
+	REGEX = "REGEX",
 }
 
 const minisearch = new MiniSearch({
@@ -115,6 +123,7 @@ const itemsThatShouldShowWindow = [
 	"clipboard_manager",
 	"process_manager",
 	"scratchpad",
+	"file_search",
 ];
 
 function getInitials(name: string) {
@@ -291,7 +300,11 @@ export const createUIStore = (root: IRootStore) => {
 		firstTranslationLanguage: "en" as string,
 		secondTranslationLanguage: "de" as string,
 		thirdTranslationLanguage: null as null | string,
+		fileSearchResults: [] as Item[],
 		fileResults: [] as FileDescription[],
+		fileSearchMode: FileSearchMode.FUZZY as FileSearchMode,
+		fileSearchMenuOpen: false,
+		fileSearchMenuIndex: 0,
 		calendarEnabled: true,
 		showAllDayEvents: true,
 		launchAtLogin: true,
@@ -327,28 +340,7 @@ export const createUIStore = (root: IRootStore) => {
 		//                        | |
 		//                        |_|
 		get files(): Item[] {
-			if (!!store.query && store.focusedWidget === Widget.FILE_SEARCH) {
-				runInAction(() => {
-					store.isLoading = true;
-				});
-				const fileResults = solNative.searchFiles(
-					toJS(store.searchFolders),
-					store.query,
-				);
-
-				const results = fileResults.map((f) => ({
-					id: f.path,
-					type: ItemType.FILE,
-					name: f.name,
-					url: f.path,
-				}));
-				runInAction(() => {
-					store.isLoading = false;
-				});
-				return results;
-			}
-
-			return [];
+			return store.fileSearchResults;
 		},
 		get items(): Item[] {
 			const allItems = [
@@ -713,6 +705,7 @@ export const createUIStore = (root: IRootStore) => {
 			store.selectedIndex = 0;
 			store.translationResults = [];
 			store.historyPointer = 0;
+			store.fileSearchMode = FileSearchMode.FUZZY;
 		},
 		cleanUp: () => {
 			onShowListener?.remove();
@@ -722,6 +715,11 @@ export const createUIStore = (root: IRootStore) => {
 			onAppsChangedListener?.remove();
 			appareanceListener?.remove();
 			bookmarksDisposer?.();
+			fileSearchDisposer?.();
+			if (fileSearchTimer) {
+				clearTimeout(fileSearchTimer);
+				fileSearchTimer = undefined;
+			}
 		},
 		getCalendarAccess: () => {
 			store.calendarAuthorizationStatus =
@@ -934,6 +932,18 @@ export const createUIStore = (root: IRootStore) => {
 			store.focusWidget(Widget.FILE_SEARCH);
 			store.query = "";
 		},
+		setFileSearchMode: (mode: FileSearchMode) => {
+			store.fileSearchMode = mode;
+			store.fileSearchMenuOpen = false;
+		},
+		toggleFileSearchMenu: () => {
+			store.fileSearchMenuOpen = !store.fileSearchMenuOpen;
+			store.fileSearchMenuIndex = 0;
+		},
+		closeFileSearchMenu: () => {
+			store.fileSearchMenuOpen = false;
+			store.fileSearchMenuIndex = 0;
+		},
 
 		addSearchFolder: (folder: string) => {
 			store.searchFolders.push(folder);
@@ -1085,6 +1095,40 @@ export const createUIStore = (root: IRootStore) => {
 		() => [store.showInAppBrowserBookMarks],
 		() => {
 			minisearch.removeAll();
+		},
+	);
+
+	fileSearchDisposer = reaction(
+		() => [store.query, store.focusedWidget] as const,
+		([query, widget]) => {
+			if (fileSearchTimer) {
+				clearTimeout(fileSearchTimer);
+				fileSearchTimer = undefined;
+			}
+
+			if (!query || widget !== Widget.FILE_SEARCH) {
+				store.fileSearchResults = [];
+				store.isLoading = false;
+				return;
+			}
+
+			store.isLoading = true;
+			fileSearchTimer = setTimeout(() => {
+				const fileResults = solNative.searchFiles(
+					toJS(store.searchFolders),
+					query,
+				);
+
+				runInAction(() => {
+					store.fileSearchResults = fileResults.map((f) => ({
+						id: f.path,
+						type: ItemType.FILE,
+						name: f.name,
+						url: f.path,
+					}));
+					store.isLoading = false;
+				});
+			}, 200);
 		},
 	);
 

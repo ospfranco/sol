@@ -110,4 +110,8 @@ RCT_EXTERN_METHOD(openFilePicker : (RCTPromiseResolveBlock)
 RCT_EXTERN_METHOD(updateHotkeys : (NSDictionary)hotkeys)
 RCT_EXTERN_METHOD(setUpcomingEventEnabled : (BOOL)enabled)
 RCT_EXTERN_METHOD(setHyperKeyEnabled : (BOOL)v)
+RCT_EXTERN_METHOD(toggleQuickLook : (NSString)path)
+RCT_EXTERN_METHOD(updateQuickLook : (NSString)path)
+RCT_EXTERN_METHOD(hideQuickLook)
+RCT_EXTERN_METHOD(executeBashScriptSilent : (NSString)source resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 @end

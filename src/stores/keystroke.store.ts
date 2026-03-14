@@ -3,7 +3,7 @@ import { solNative } from "lib/SolNative";
 import { makeAutoObservable } from "mobx";
 import { Clipboard, type EmitterSubscription, Linking } from "react-native";
 import type { IRootStore } from "store";
-import { ItemType, Widget } from "./ui.store";
+import { FileSearchMode, ItemType, Widget } from "./ui.store";
 import { EMOJI_ROW_SIZE } from "./emoji.store";
 import { isValidCustomSearchEngineUrl } from "widgets/settings/general";
 
@@ -46,6 +46,46 @@ export const createKeystrokeStore = (root: IRootStore) => {
 				return;
 			}
 
+			// Handle file search menu when open
+			if (
+				root.ui.fileSearchMenuOpen &&
+				root.ui.focusedWidget === Widget.FILE_SEARCH &&
+				keyCode !== 55 &&
+				keyCode !== 60 &&
+				keyCode !== 59
+			) {
+				switch (keyCode) {
+					case 126: // up arrow
+						root.ui.fileSearchMenuIndex = Math.max(0, root.ui.fileSearchMenuIndex - 1);
+						break;
+					case 125: // down arrow
+						root.ui.fileSearchMenuIndex = Math.min(2, root.ui.fileSearchMenuIndex + 1);
+						break;
+					case 36: // enter - execute mode
+						if (root.ui.fileSearchMenuIndex === 0) {
+							root.ui.setFileSearchMode(FileSearchMode.FUZZY);
+						} else if (root.ui.fileSearchMenuIndex === 1) {
+							root.ui.setFileSearchMode(FileSearchMode.PATH);
+						} else {
+							root.ui.setFileSearchMode(FileSearchMode.REGEX);
+						}
+						break;
+					case 18: // Cmd+1
+						if (meta) root.ui.setFileSearchMode(FileSearchMode.FUZZY);
+						break;
+					case 19: // Cmd+2
+						if (meta) root.ui.setFileSearchMode(FileSearchMode.PATH);
+						break;
+					case 20: // Cmd+3
+						if (meta) root.ui.setFileSearchMode(FileSearchMode.REGEX);
+						break;
+					default:
+						root.ui.closeFileSearchMenu();
+						break;
+				}
+				return;
+			}
+
 			switch (keyCode) {
 				// "j" key
 				case 38: {
@@ -61,8 +101,23 @@ export const createKeystrokeStore = (root: IRootStore) => {
 						root.clipboard.toggleClipboardMenu();
 						return;
 					}
+					if (meta && root.ui.focusedWidget === Widget.FILE_SEARCH) {
+						root.ui.toggleFileSearchMenu();
+						return;
+					}
 					if (store.controlPressed) {
 						store.keyDown({ keyCode: 126, meta: false, shift: false });
+					}
+					break;
+				}
+				// "y" key
+				case 16: {
+					if (meta && root.ui.focusedWidget === Widget.FILE_SEARCH) {
+						const file = root.ui.files[root.ui.selectedIndex];
+						if (file?.url) {
+							solNative.toggleQuickLook(file.url);
+						}
+						return;
 					}
 					break;
 				}
@@ -803,37 +858,31 @@ export const createKeystrokeStore = (root: IRootStore) => {
 				}
 
 				// "1"
-				// case 18: {
-				//   if (meta) {
-				//     if (root.ui.query) {
-				//       Linking.openURL(`https://google.com/search?q=${root.ui.query}`)
-				//       root.ui.query = ''
-				//     }
-				//   }
-				//   break
-				// }
+				case 18: {
+					if (meta && root.ui.focusedWidget === Widget.FILE_SEARCH) {
+						root.ui.setFileSearchMode(FileSearchMode.FUZZY);
+						return;
+					}
+					break;
+				}
 
-				// // "2"
-				// case 19: {
-				//   if (meta) {
-				//     if (root.ui.query) {
-				//       root.ui.translateQuery()
-				//     }
-				//   }
-				//   break
-				// }
+				// "2"
+				case 19: {
+					if (meta && root.ui.focusedWidget === Widget.FILE_SEARCH) {
+						root.ui.setFileSearchMode(FileSearchMode.PATH);
+						return;
+					}
+					break;
+				}
 
-				// // "3"
-				// case 20: {
-				//   if (meta) {
-				//     if (root.ui.query) {
-				//       root.ui.focusedWidget = Widget.GOOGLE_MAP
-				//     } else {
-				//       root.ui.runFavorite(2)
-				//     }
-				//   }
-				//   break
-				// }
+				// "3"
+				case 20: {
+					if (meta && root.ui.focusedWidget === Widget.FILE_SEARCH) {
+						root.ui.setFileSearchMode(FileSearchMode.REGEX);
+						return;
+					}
+					break;
+				}
 
 				// "4"
 				// case 21: {

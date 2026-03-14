@@ -14,6 +14,8 @@
 		700A18D8279DBBE40096C830 /* ApplicationSearcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700A18D7279DBBE40096C830 /* ApplicationSearcher.swift */; };
 		700A18DA279DC17F0096C830 /* FileIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700A18D9279DC17F0096C830 /* FileIcon.swift */; };
 		700A18DC279DC1F50096C830 /* FileIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 700A18DB279DC1F50096C830 /* FileIcon.m */; };
+		C10A18DA279DC17F0096C830 /* FileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10A18D9279DC17F0096C830 /* FileImageView.swift */; };
+		C10A18DC279DC1F50096C830 /* FileImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C10A18DB279DC1F50096C830 /* FileImageView.m */; };
 		700A99F22C33D6E30049831F /* QRGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700A99F12C33D6E30049831F /* QRGenerator.swift */; };
 		700DF99A28266F0B00C5FD0B /* ClipboardHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700DF99928266F0B00C5FD0B /* ClipboardHelper.swift */; };
 		700F266729F501C8002CA8F1 /* BlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 700F266629F501C8002CA8F1 /* BlurView.m */; };
@@ -37,6 +39,8 @@
 		706ABFAF2E059FCF000C0F30 /* KeyboardShortcutRecorderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 706ABFAC2E059FCF000C0F30 /* KeyboardShortcutRecorderView.m */; };
 		706D6D532B388C1700941026 /* CoreWLAN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 707B9F4C2B38845000C3A2FC /* CoreWLAN.framework */; };
 		706D6D572B3894E200941026 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 706D6D562B3894E200941026 /* CoreLocation.framework */; };
+		70QL00012E5A000100000001 /* QuickLookManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70QL00002E5A000100000001 /* QuickLookManager.swift */; };
+		70QL00032E5A000100000002 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70QL00022E5A000100000002 /* Quartz.framework */; };
 		7071D43727B3211700F8A4DC /* DarkMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7071D43527B3211700F8A4DC /* DarkMode.swift */; };
 		7071D43827B3211700F8A4DC /* AppleScriptHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7071D43627B3211700F8A4DC /* AppleScriptHelper.swift */; };
 		7074A3A228BDCB6B0032ADD7 /* CalendarHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7074A3A128BDCB6B0032ADD7 /* CalendarHelper.mm */; };
@@ -85,6 +89,8 @@
 		700A18D7279DBBE40096C830 /* ApplicationSearcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationSearcher.swift; sourceTree = "<group>"; };
 		700A18D9279DC17F0096C830 /* FileIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileIcon.swift; sourceTree = "<group>"; };
 		700A18DB279DC1F50096C830 /* FileIcon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileIcon.m; sourceTree = "<group>"; };
+		C10A18D9279DC17F0096C830 /* FileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileImageView.swift; sourceTree = "<group>"; };
+		C10A18DB279DC1F50096C830 /* FileImageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileImageView.m; sourceTree = "<group>"; };
 		700A99F12C33D6E30049831F /* QRGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRGenerator.swift; sourceTree = "<group>"; };
 		700DF99928266F0B00C5FD0B /* ClipboardHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardHelper.swift; sourceTree = "<group>"; };
 		700F266629F501C8002CA8F1 /* BlurView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlurView.m; sourceTree = "<group>"; };
@@ -109,6 +115,8 @@
 		706ABFAC2E059FCF000C0F30 /* KeyboardShortcutRecorderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KeyboardShortcutRecorderView.m; sourceTree = "<group>"; };
 		706ABFAD2E059FCF000C0F30 /* KeyboardShortcutRecorderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardShortcutRecorderView.swift; sourceTree = "<group>"; };
 		706D6D562B3894E200941026 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.2.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
+		70QL00002E5A000100000001 /* QuickLookManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickLookManager.swift; sourceTree = "<group>"; };
+		70QL00022E5A000100000002 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.2.sdk/System/Library/Frameworks/Quartz.framework; sourceTree = DEVELOPER_DIR; };
 		7071D43527B3211700F8A4DC /* DarkMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DarkMode.swift; sourceTree = "<group>"; };
 		7071D43627B3211700F8A4DC /* AppleScriptHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppleScriptHelper.swift; sourceTree = "<group>"; };
 		7074A3A128BDCB6B0032ADD7 /* CalendarHelper.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CalendarHelper.mm; sourceTree = "<group>"; };
@@ -164,6 +172,7 @@
 			files = (
 				706D6D572B3894E200941026 /* CoreLocation.framework in Frameworks */,
 				706D6D532B388C1700941026 /* CoreWLAN.framework in Frameworks */,
+				70QL00032E5A000100000002 /* Quartz.framework in Frameworks */,
 				7065EBBF2CDB8C2B008C0A74 /* LaunchAtLogin in Frameworks */,
 				3919C725599C8DA45324A5C6 /* libPods-macOS.a in Frameworks */,
 			);
@@ -186,6 +195,7 @@
 			children = (
 				706D6D562B3894E200941026 /* CoreLocation.framework */,
 				707B9F4C2B38845000C3A2FC /* CoreWLAN.framework */,
+				70QL00022E5A000100000002 /* Quartz.framework */,
 				1194CEEB2780EBB1CE91CBEB /* libPods-macOS.a */,
 			);
 			name = Frameworks;
@@ -240,6 +250,8 @@
 				706ABFAD2E059FCF000C0F30 /* KeyboardShortcutRecorderView.swift */,
 				700A18D9279DC17F0096C830 /* FileIcon.swift */,
 				700A18DB279DC1F50096C830 /* FileIcon.m */,
+				C10A18D9279DC17F0096C830 /* FileImageView.swift */,
+				C10A18DB279DC1F50096C830 /* FileImageView.m */,
 				70B78360279BE866008660F5 /* Panel.swift */,
 				70D1220128DA95C500179A1D /* Overlay.swift */,
 				70B927602930ADC100F883A0 /* Toast.swift */,
@@ -260,6 +272,7 @@
 				70A25D482D33B9C500165270 /* ToastManager.swift */,
 				70A25D462D33B4D300165270 /* HotKeyManager.swift */,
 				70A25D442D33AF3E00165270 /* PanelManager.swift */,
+				70QL00002E5A000100000001 /* QuickLookManager.swift */,
 			);
 			path = managers;
 			sourceTree = "<group>";
@@ -371,7 +384,8 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1340;
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 2630;
 				TargetAttributes = {
 					514201482437B4B30078DB4F = {
 						CreatedOnToolsVersion = 11.4;
@@ -432,7 +446,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\nSENTRY_XCODE=\"../node_modules/@sentry/react-native/scripts/sentry-xcode.sh\"\nBUNDLE_REACT_NATIVE=\"/bin/sh $SENTRY_XCODE $REACT_NATIVE_XCODE\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT \\\"$BUNDLE_REACT_NATIVE\\\"\"\n";
+			shellScript = "set -e\n\nexport SENTRY_DISABLE_AUTO_UPLOAD=${SENTRY_DISABLE_AUTO_UPLOAD:-true}\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\nSENTRY_XCODE=\"../node_modules/@sentry/react-native/scripts/sentry-xcode.sh\"\nBUNDLE_REACT_NATIVE=\"/bin/sh $SENTRY_XCODE $REACT_NATIVE_XCODE\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT \\\"$BUNDLE_REACT_NATIVE\\\"\"\n";
 		};
 		381D8A6F24576A6C00465D17 /* Start Packager */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -529,7 +543,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/bin/sh ../node_modules/@sentry/react-native/scripts/sentry-xcode-debug-files.sh\n";
+			shellScript = "export SENTRY_DISABLE_AUTO_UPLOAD=${SENTRY_DISABLE_AUTO_UPLOAD:-true}\n/bin/sh ../node_modules/@sentry/react-native/scripts/sentry-xcode-debug-files.sh\n";
 		};
 		9ACD38329CAF517BAD27034C /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -616,6 +630,7 @@
 				7071D43827B3211700F8A4DC /* AppleScriptHelper.swift in Sources */,
 				700F266729F501C8002CA8F1 /* BlurView.m in Sources */,
 				70A25D452D33AF4500165270 /* PanelManager.swift in Sources */,
+				70QL00012E5A000100000001 /* QuickLookManager.swift in Sources */,
 				7023959C2EA580A700CF7802 /* ShellOutputView.swift in Sources */,
 				70969E192796719100BE3F1C /* SolNative.mm in Sources */,
 				70BED7CD27F4C23D00906E41 /* FileManager.extension.swift in Sources */,
@@ -629,6 +644,7 @@
 				70142B3B2D21812500EA565F /* KeychainAccess.swift in Sources */,
 				70D1220228DA95C500179A1D /* Overlay.swift in Sources */,
 				700A18DC279DC1F50096C830 /* FileIcon.m in Sources */,
+				C10A18DC279DC1F50096C830 /* FileImageView.m in Sources */,
 				70805244298F692E000DB574 /* MouseUtils.swift in Sources */,
 				70EFF77428D5F732009FE998 /* DoNotDisturb.swift in Sources */,
 				7042A22A2815C06B00874743 /* NSColor.extension.swift in Sources */,
@@ -637,6 +653,7 @@
 				70E15D082931FC57007FFE5F /* FS.swift in Sources */,
 				700DF99A28266F0B00C5FD0B /* ClipboardHelper.swift in Sources */,
 				700A18DA279DC17F0096C830 /* FileIcon.swift in Sources */,
+				C10A18DA279DC17F0096C830 /* FileImageView.swift in Sources */,
 				706ABFAE2E059FCF000C0F30 /* KeyboardShortcutRecorderView.swift in Sources */,
 				706ABFAF2E059FCF000C0F30 /* KeyboardShortcutRecorderView.m in Sources */,
 				70754B532BECECAB00B77EF8 /* FileSearch.mm in Sources */,
@@ -666,15 +683,21 @@
 			baseConfigurationReference = 434AA4134E3E6A10DF347D75 /* Pods-macOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				AUTOMATION_APPLE_EVENTS = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "sol-macOS/sol-macOS.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = 24CMR7378R;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = FFRGZZ3V5A;
+				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				ENABLE_RESOURCE_ACCESS_CALENDARS = YES;
+				ENABLE_RESOURCE_ACCESS_LOCATION = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "i386 arm64";
 				INFOPLIST_FILE = "sol-macos/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = SolDebug;
@@ -706,15 +729,21 @@
 			baseConfigurationReference = 95E8C102E7DEC7DFB286A43C /* Pods-macOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				AUTOMATION_APPLE_EVENTS = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "sol-macOS/sol-macOS.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = 24CMR7378R;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = FFRGZZ3V5A;
+				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				ENABLE_RESOURCE_ACCESS_CALENDARS = YES;
+				ENABLE_RESOURCE_ACCESS_LOCATION = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "i386 arm64";
 				INFOPLIST_FILE = "sol-macos/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -772,6 +801,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -789,7 +819,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -803,6 +833,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
 				USE_HERMES = true;
 			};
@@ -841,6 +872,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -854,7 +886,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -867,6 +899,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				USE_HERMES = true;
 				VALIDATE_PRODUCT = YES;

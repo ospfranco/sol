@@ -45,6 +45,7 @@ final class Panel: NSPanel, NSWindowDelegate {
 
   func windowDidResignKey(_ notification: Notification) {
     DispatchQueue.main.async {
+      if QuickLookManager.shared.isVisible { return }
       PanelManager.shared.hideWindow()
     }
   }

@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "JSIBindings.hpp"
 #import "CalendarHelper.h"
 #import "FileSearch.h"
@@ -70,7 +71,7 @@ void install(jsi::Runtime &rt,
   auto showWindow = HOSTFN("showWindow", []) {
     dispatch_async(dispatch_get_main_queue(), ^{
       PanelManager *panelManager = [PanelManager shared];
-      [panelManager showWindowWithTarget:NULL];
+      [panelManager showWindowOnly];
     });
 
     return {};
@@ -162,13 +163,34 @@ void install(jsi::Runtime &rt,
   auto searchFiles = HOSTFN("searchFiles", []) {
     auto paths = arguments[0].asObject(rt).asArray(rt);
     auto query = arguments[1].asString(rt).utf8(rt);
+    NSString *nsQuery = [NSString stringWithUTF8String:query.c_str()];
+
+    // Read optional mode argument (default: SEARCH_MODE_FUZZY)
+    SearchMode mode = SEARCH_MODE_FUZZY;
+    if (count > 2 && arguments[2].isNumber()) {
+      int modeInt = static_cast<int>(arguments[2].asNumber());
+      if (modeInt >= 0 && modeInt <= 2) {
+        mode = static_cast<SearchMode>(modeInt);
+      }
+    }
+
     std::vector<File> res;
     for (size_t i = 0; i < paths.size(rt); i++) {
       auto path = paths.getValueAtIndex(rt, i).asString(rt).utf8(rt);
+      NSString *nsPath = [NSString stringWithUTF8String:path.c_str()];
       std::vector<File> path_results =
-          search_files([NSString stringWithUTF8String:path.c_str()],
-                       [NSString stringWithUTF8String:query.c_str()]);
+          search_files(nsPath, nsQuery, mode);
       res.insert(res.end(), path_results.begin(), path_results.end());
+    }
+
+    // Sort by score descending
+    std::sort(res.begin(), res.end(), [](const File &a, const File &b) {
+      return a.score > b.score;
+    });
+
+    // Cap at MAX_SEARCH_RESULTS
+    if (res.size() > MAX_SEARCH_RESULTS) {
+      res.resize(MAX_SEARCH_RESULTS);
     }
 
     auto arr_res = jsi::Array(rt, res.size());
