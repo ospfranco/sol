@@ -1,5 +1,6 @@
 import {LegendList, LegendListRef} from '@legendapp/list'
 import clsx from 'clsx'
+import {FileIcon} from 'components/FileIcon'
 import {Key} from 'components/Key'
 import {MainInput} from 'components/MainInput'
 import {observer} from 'mobx-react-lite'
@@ -9,6 +10,13 @@ import {Text, View} from 'react-native'
 import {useStore} from 'store'
 import {Process} from 'stores/processes.store'
 
+function getIconPath(process: Process): string | null {
+  const appMatch = process.path.match(/^(.*?\.app)\b/)
+  if (appMatch) return appMatch[1]
+  if (process.path) return process.path
+  return null
+}
+
 const RenderItem = observer(({item, index}: any) => {
   const store = useStore()
   const selectedIndex = store.ui.selectedIndex
@@ -16,15 +24,14 @@ const RenderItem = observer(({item, index}: any) => {
   const isActive = index === selectedIndex
   return (
     <View
-      className={clsx('px-2 py-1 flex-row rounded mx-2', {
+      className={clsx('px-2 py-1 flex-row rounded mx-2 items-center', {
         highlight: isActive,
       })}>
-      {/* <Text
-                className={clsx('text-sm w-28 text px-4 py-2', {
-                  'dark:text-white': isActive,
-                })}>
-                {process.pid}
-              </Text> */}
+      {getIconPath(process) ? (
+        <FileIcon url={getIconPath(process)} className="w-5 h-5 ml-2" />
+      ) : (
+        <View className="w-5 h-5 ml-2" />
+      )}
       <Text
         className={clsx('text-sm flex-1 text px-4 py-2', {
           'text-white dark:text-white': isActive,

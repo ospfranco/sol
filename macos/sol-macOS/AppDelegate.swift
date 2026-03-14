@@ -110,6 +110,26 @@ class AppDelegate: RCTAppDelegate {
         return
       }
 
+      // Check for image data on the pasteboard (supports all image types via NSImage)
+      let imageTypes: Set<String> = [
+        "public.tiff", "public.png", "public.jpeg",
+        "public.heic", "com.compuserve.gif", "com.microsoft.bmp"
+      ]
+      let hasExplicitImageType = $0.types?.contains(where: { imageTypes.contains($0.rawValue) }) ?? false
+      if hasExplicitImageType,
+         let image = NSImage(pasteboard: $0),
+         let pngRepData = image.PNGRepresentation {
+        let filename = "clipboard_\(Int(Date().timeIntervalSince1970 * 1000)).png"
+        let tempFile = NSTemporaryDirectory() + filename
+        do {
+          try pngRepData.write(to: URL(fileURLWithPath: tempFile), options: .atomic)
+          SolEmitter.sharedInstance.fileCopied(filename, tempFile, bundle)
+        } catch {
+          print("Could not save clipboard image: \(error.localizedDescription)")
+        }
+        return
+      }
+
       // Try to parse first as string
       let txt = $0.string(forType: .string)
       if txt != nil {

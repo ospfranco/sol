@@ -14,8 +14,7 @@ class ClipboardHelper {
       self, selector: #selector(frontmostAppChanged(sender:)),
       name: NSWorkspace.didActivateApplicationNotification, object: nil)
 
-    // TODO find if there is any better way to observe for changes other than continously check if the amount of items has changed
-    Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+    Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true) { _ in
       if pasteboard.changeCount != changeCount {
         callback(pasteboard, self.frontmostApp)
         changeCount = pasteboard.changeCount
@@ -73,6 +72,25 @@ class ClipboardHelper {
 
       let event2 = CGEvent(keyboardEventSource: nil, virtualKey: 0x09, keyDown: false)  // cmd-v up
       //    event2?.flags = CGEventFlags.maskCommand
+      event2?.post(tap: CGEventTapLocation.cghidEventTap)
+    }
+  }
+
+  static func pasteFileToFrontmostApp(_ filePath: String) {
+    DispatchQueue.main.async {
+      PanelManager.shared.hideWindow()
+
+      let pasteboard = NSPasteboard.general
+      pasteboard.clearContents()
+
+      let url = URL(fileURLWithPath: filePath)
+      pasteboard.writeObjects([url as NSURL])
+
+      let event1 = CGEvent(keyboardEventSource: nil, virtualKey: 0x09, keyDown: true)  // cmd-v down
+      event1?.flags = CGEventFlags.maskCommand
+      event1?.post(tap: CGEventTapLocation.cghidEventTap)
+
+      let event2 = CGEvent(keyboardEventSource: nil, virtualKey: 0x09, keyDown: false)  // cmd-v up
       event2?.post(tap: CGEventTapLocation.cghidEventTap)
     }
   }

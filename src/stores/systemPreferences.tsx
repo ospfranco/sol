@@ -97,11 +97,16 @@ const globalPanes = solNative.exists(GLOBAL_PREFERENCE_PANES)
 			)
 	: [];
 
-const userPanes = solNative.exists(USER_PREFERENCE_PANES)
-	? solNative
+let userPanes: ReturnType<typeof extractObjectFromPrefPanePath>[] = [];
+try {
+	if (solNative.exists(USER_PREFERENCE_PANES)) {
+		userPanes = solNative
 			.ls(USER_PREFERENCE_PANES)
-			.map((pane) => extractObjectFromPrefPanePath(USER_PREFERENCE_PANES, pane))
-	: [];
+			.map((pane) => extractObjectFromPrefPanePath(USER_PREFERENCE_PANES, pane));
+	}
+} catch {
+	// Sandboxed apps may not have permission to read ~/Library/PreferencePanes
+}
 
 const panes: { name: string; preferenceId: string }[] = [
 	...systemPanes,
