@@ -204,6 +204,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
 									solNative.openFinderAt(directoryPath);
 								} else {
 									solNative.openFile(file.url);
+									root.ui.isVisible = false;
 									solNative.hideWindow();
 								}
 							}
@@ -216,6 +217,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
 							if (process) {
 								solNative.killProcess(process.id.toString());
 							}
+							root.ui.isVisible = false;
 							solNative.hideWindow();
 							solNative.showToast(
 								`Process "${process.processName}" killed`,
@@ -239,6 +241,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
 									root.clipboard.popToTop(originalIndex);
 								}
 
+								root.ui.isVisible = false;
 								if (meta) {
 									try {
 										Linking.openURL(entry.text);
@@ -306,6 +309,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
 							} else {
 								Linking.openURL("ical://");
 							}
+							root.ui.isVisible = false;
 							solNative.hideWindow();
 							break;
 						}
@@ -315,6 +319,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
 								Clipboard.setString(
 									root.ui.translationResults[root.ui.selectedIndex],
 								);
+								root.ui.isVisible = false;
 								solNative.hideWindow();
 								root.ui.translationResults = [];
 							}
@@ -334,12 +339,14 @@ export const createKeystrokeStore = (root: IRootStore) => {
 									.catch((e) => {
 										root.ui.getCalendarAccess();
 									});
+								root.ui.isVisible = false;
 								solNative.hideWindow();
 								return;
 							}
 
 							if (!root.ui.query && !root.ui.isAccessibilityTrusted) {
 								solNative.requestAccessibilityAccess();
+								root.ui.isVisible = false;
 								solNative.hideWindow();
 								return;
 							}
@@ -354,6 +361,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
 											"error",
 										);
 									});
+									root.ui.isVisible = false;
 									solNative.hideWindow();
 									root.ui.setHasDismissedGettingStarted(true);
 									return;
@@ -458,6 +466,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
 										break;
 								}
 
+								root.ui.isVisible = false;
 								solNative.hideWindow();
 								return;
 							}
@@ -474,6 +483,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
 							) {
 								Clipboard.setString(root.ui.temporaryResult);
 								solNative.showToast("Copied to clipboard", "success");
+								root.ui.isVisible = false;
 								solNative.hideWindow();
 								return;
 							}
@@ -484,6 +494,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
 
 							// close window
 							if (!item.preventClose) {
+								root.ui.isVisible = false;
 								solNative.hideWindow();
 							}
 
@@ -548,6 +559,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
 						case Widget.SCRATCHPAD:
 						case Widget.CLIPBOARD:
 						case Widget.GOOGLE_MAP:
+							root.ui.isVisible = false;
 							solNative.hideWindow();
 							break;
 

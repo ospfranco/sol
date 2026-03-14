@@ -107,7 +107,7 @@ RCT_EXPORT_METHOD(restart) {
 RCT_EXTERN_METHOD(showWifiQR : (NSString)SSID password : (NSString)password)
 RCT_EXTERN_METHOD(openFilePicker : (RCTPromiseResolveBlock)
                       resolve reject : (RCTPromiseRejectBlock)reject)
-RCT_EXTERN_METHOD(updateHotkeys : (NSDictionary)hotkeys)
+RCT_EXTERN_METHOD(updateHotkeys : (NSDictionary)hotkeys urlMap : (NSDictionary)urlMap)
 RCT_EXTERN_METHOD(setUpcomingEventEnabled : (BOOL)enabled)
 RCT_EXTERN_METHOD(setHyperKeyEnabled : (BOOL)v)
 RCT_EXTERN_METHOD(toggleQuickLook : (NSString)path)
