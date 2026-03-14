@@ -115,7 +115,16 @@ const itemsThatShouldShowWindow = [
 	"clipboard_manager",
 	"process_manager",
 	"scratchpad",
+	"file_search",
 ];
+
+const itemIdToWidget: Record<string, Widget> = {
+	emoji_picker: Widget.EMOJIS,
+	clipboard_manager: Widget.CLIPBOARD,
+	process_manager: Widget.PROCESSES,
+	scratchpad: Widget.SCRATCHPAD,
+	file_search: Widget.FILE_SEARCH,
+};
 
 function getInitials(name: string) {
 	return name
@@ -152,6 +161,10 @@ function formatExpressionResult(value: number) {
 }
 
 export const createUIStore = (root: IRootStore) => {
+	// Generation counter for showWindow rAF callbacks; incremented on every
+	// hotkey toggle so stale deferred callbacks from earlier presses are ignored.
+	let showGeneration = 0;
+
 	const persist = async () => {
 		const plainState = toJS(store);
 		try {
@@ -242,7 +255,7 @@ export const createUIStore = (root: IRootStore) => {
 			);
 			solNative.setMediaKeyForwardingEnabled(store.mediaKeyForwardingEnabled);
 			solNative.setHyperKeyEnabled(store.hyperKeyEnabled);
-			solNative.updateHotkeys(toJS(store.shortcuts));
+			solNative.updateHotkeys(toJS(store.shortcuts), {});
 
 			store.username = solNative.userName();
 			store.getApps();
@@ -665,6 +678,7 @@ export const createUIStore = (root: IRootStore) => {
 		getApps: () => {
 			solNative.getApplications().then((apps) => {
 				store.updateApps(apps);
+				store.syncHotkeys();
 			});
 		},
 		onShow: ({ target }: { target?: string }) => {
@@ -704,6 +718,9 @@ export const createUIStore = (root: IRootStore) => {
 			});
 		},
 		onHide: () => {
+			// If isVisible is already true, a new show cycle has started
+			// before this (async) onHide arrived — ignore the stale event
+			if (store.isVisible) return;
 			store.isVisible = false;
 			store.focusedWidget = Widget.SEARCH;
 			store.editingCustomItem = null;
@@ -949,8 +966,25 @@ export const createUIStore = (root: IRootStore) => {
 		},
 
 		onHotkey({ id }: { id: string }) {
-			const item = store.items.find((i) => i.id === id);
+			// Record whether the panel was already visible before processing
+			const wasVisible = store.isVisible;
 
+			// Widget hotkeys use direct lookup (O(1)) instead of scanning all items
+			const targetWidget = itemIdToWidget[id];
+			if (targetWidget) {
+				if (wasVisible && store.focusedWidget === targetWidget) {
+					store.setQuery("");
+					store.focusWidget(Widget.SEARCH);
+					// Set synchronously so subsequent rapid presses see correct state
+					store.isVisible = false;
+					showGeneration++;
+					solNative.hideWindow();
+					return;
+				}
+			}
+
+			// For items that need callbacks, find and execute
+			const item = store.items.find((i) => i.id === id);
 			if (item == null) {
 				return;
 			}
@@ -961,9 +995,39 @@ export const createUIStore = (root: IRootStore) => {
 				solNative.openFile(item.url);
 			}
 
-			if (itemsThatShouldShowWindow.includes(item.id)) {
-				setTimeout(solNative.showWindow, 0);
+			if (itemsThatShouldShowWindow.includes(id)) {
+				store.isVisible = true;
+				// Only show the window if it was hidden beforehand;
+				// switching widgets while already visible doesn't need to re-show
+				if (!wasVisible) {
+					// Capture current generation; if a hide/show cycle happens
+					// before the rAF fires, this callback becomes stale
+					const gen = ++showGeneration;
+					// Double rAF: first frame lets React reconcile the widget tree,
+					// second frame lets RN bridge commit native view changes
+					requestAnimationFrame(() => {
+						requestAnimationFrame(() => {
+							if (showGeneration !== gen) return;
+							solNative.showWindow();
+						});
+					});
+				}
 			}
+		},
+
+		syncHotkeys() {
+			const shortcuts = toJS(store.shortcuts);
+			const urlMap: Record<string, string> = {};
+			const allItems = [
+				...store.apps,
+				...store.customItems,
+			];
+			for (const item of allItems) {
+				if (shortcuts[item.id] && item.url) {
+					urlMap[item.id] = item.url;
+				}
+			}
+			solNative.updateHotkeys(shortcuts, urlMap);
 		},
 
 		setShortcut(id: string, shortcut: string) {
@@ -979,12 +1043,12 @@ export const createUIStore = (root: IRootStore) => {
 			}
 
 			store.shortcuts[id] = shortcut;
-			solNative.updateHotkeys(toJS(store.shortcuts));
+			store.syncHotkeys();
 		},
 
 		restoreDefaultShorcuts() {
 			store.shortcuts = defaultShortcuts;
-			solNative.updateHotkeys(defaultShortcuts);
+			store.syncHotkeys();
 		},
 
 		setWindowHeight(e: LayoutChangeEvent) {
