@@ -27,6 +27,11 @@ import { storage } from "./storage";
 import { defaultShortcuts } from "lib/shortcuts";
 
 const exprParser = new Parser();
+const QUERY_PREFERENCE_BOOST = 4;
+const MAX_QUERY_PREFERENCE_ITEMS = 25;
+
+type FrequencyMap = Record<string, number>;
+type QueryFrequencyMap = Record<string, FrequencyMap>;
 
 let onShowListener: EmitterSubscription | undefined;
 let onHideListener: EmitterSubscription | undefined;
@@ -62,6 +67,7 @@ export enum ItemType {
 	TEMPORARY_RESULT = "TEMPORARY_RESULT",
 	BOOKMARK = "BOOKMARK",
 	PREFERENCE_PANE = "PREFERENCE_PANE",
+	SHORTCUT = "SHORTCUT",
 }
 
 export enum ScratchPadColor {
@@ -71,9 +77,9 @@ export enum ScratchPadColor {
 }
 
 export enum FileSearchMode {
-	FUZZY = "FUZZY",
-	PATH = "PATH",
-	REGEX = "REGEX",
+	FUZZY = 0,
+	PATH = 1,
+	REGEX = 2,
 }
 
 const minisearch = new MiniSearch({
@@ -168,10 +174,117 @@ function formatExpressionResult(value: number) {
 	return rounded.toString();
 }
 
+function normalizeSearchQuery(query: string) {
+	return query.trim().toLowerCase().replace(/\s+/g, " ");
+}
+
+function normalizeFrequencyMap(raw: unknown): FrequencyMap {
+	if (raw == null || typeof raw !== "object") {
+		return {};
+	}
+
+	const frequencyEntries = Object.entries(
+		raw as Record<string, unknown>,
+	).filter(
+		([key, value]) =>
+			key.length > 0 &&
+			typeof value === "number" &&
+			Number.isFinite(value) &&
+			value > 0,
+	);
+
+	if (frequencyEntries.length === 0) {
+		return {};
+	}
+
+	const frequencies = Object.fromEntries(frequencyEntries) as FrequencyMap;
+	const maxValue = Math.max(0, ...Object.values(frequencies));
+
+	if (maxValue <= 100) {
+		return frequencies;
+	}
+
+	return Object.fromEntries(
+		Object.entries(frequencies).map(([key, value]) => [
+			key,
+			Math.floor((value / maxValue) * 100),
+		]),
+	) as FrequencyMap;
+}
+
+function compactFrequencyMap(frequencies: FrequencyMap): FrequencyMap {
+	const entries = Object.entries(frequencies)
+		.filter(([, value]) => Number.isFinite(value) && value > 0)
+		.sort(([, left], [, right]) => right - left);
+
+	if (entries.length <= MAX_QUERY_PREFERENCE_ITEMS) {
+		return Object.fromEntries(entries) as FrequencyMap;
+	}
+
+	return Object.fromEntries(
+		entries.slice(0, MAX_QUERY_PREFERENCE_ITEMS),
+	) as FrequencyMap;
+}
+
+function normalizeQueryFrequencyMap(raw: unknown): QueryFrequencyMap {
+	if (raw == null || typeof raw !== "object") {
+		return {};
+	}
+
+	const queryFrequencies: QueryFrequencyMap = {};
+
+	for (const [query, bucket] of Object.entries(
+		raw as Record<string, unknown>,
+	)) {
+		const normalizedQuery = normalizeSearchQuery(query);
+		if (normalizedQuery.length === 0) {
+			continue;
+		}
+
+		const normalizedBucket = normalizeFrequencyMap(bucket);
+		if (Object.keys(normalizedBucket).length === 0) {
+			continue;
+		}
+
+		const mergedBucket = queryFrequencies[normalizedQuery] ?? {};
+		for (const [itemKey, value] of Object.entries(normalizedBucket)) {
+			mergedBucket[itemKey] = (mergedBucket[itemKey] ?? 0) + value;
+		}
+		queryFrequencies[normalizedQuery] = compactFrequencyMap(mergedBucket);
+	}
+
+	return queryFrequencies;
+}
+
+function getQueryPrefixes(query: string) {
+	const normalizedQuery = normalizeSearchQuery(query);
+	return Array.from({ length: normalizedQuery.length }, (_, index) =>
+		normalizedQuery.slice(0, index + 1),
+	);
+}
+
+function getItemPreferenceKey(item: Pick<Item, "id" | "type" | "url">) {
+	if (
+		(item.type === ItemType.APPLICATION || item.type === ItemType.BOOKMARK) &&
+		item.url
+	) {
+		return `${item.type}:${item.url}`;
+	}
+
+	return `${item.type}:${item.id}`;
+}
+
 export const createUIStore = (root: IRootStore) => {
 	// Generation counter for showWindow rAF callbacks; incremented on every
 	// hotkey toggle so stale deferred callbacks from earlier presses are ignored.
 	let showGeneration = 0;
+
+	// Counter for JS-initiated hideWindow calls. Each JS hide (via onHotkey
+	// toggle-off) already resets state, so the subsequent onHide event from
+	// native hideWindow() is redundant. This counter lets onHide skip the
+	// redundant reset, preventing a stale onHide from clobbering state set
+	// by a rapid reopen.
+	let pendingJsHideCount = 0;
 
 	const persist = async () => {
 		const plainState = toJS(store);
@@ -197,20 +310,10 @@ export const createUIStore = (root: IRootStore) => {
 			const parsedStore = JSON.parse(storeState);
 
 			runInAction(() => {
-				if (parsedStore.frequencies) {
-					const values = Object.values(parsedStore.frequencies);
-					const maxValue = Math.max(...(values as number[]));
-					if (maxValue > 100) {
-						store.frequencies = Object.fromEntries(
-							Object.entries(parsedStore.frequencies).map(([key, value]) => [
-								key,
-								Math.floor(((value as number) / maxValue) * 100),
-							]),
-						);
-					} else {
-						store.frequencies = parsedStore.frequencies;
-					}
-				}
+				store.frequencies = normalizeFrequencyMap(parsedStore.frequencies);
+				store.queryFrequencies = normalizeQueryFrequencyMap(
+					parsedStore.queryFrequencies,
+				);
 				store.onboardingStep = parsedStore.onboardingStep;
 				store.firstTranslationLanguage =
 					parsedStore.firstTranslationLanguage ?? "en";
@@ -263,7 +366,7 @@ export const createUIStore = (root: IRootStore) => {
 			);
 			solNative.setMediaKeyForwardingEnabled(store.mediaKeyForwardingEnabled);
 			solNative.setHyperKeyEnabled(store.hyperKeyEnabled);
-			solNative.updateHotkeys(toJS(store.shortcuts), {});
+			solNative.updateHotkeys(toJS(store.shortcuts), {}, {});
 
 			store.username = solNative.userName();
 			store.getApps();
@@ -308,6 +411,7 @@ export const createUIStore = (root: IRootStore) => {
 		isLoading: false,
 		translationResults: [] as string[],
 		frequencies: {} as Record<string, number>,
+		queryFrequencies: {} as QueryFrequencyMap,
 		temporaryResult: null as string | null,
 		firstTranslationLanguage: "en" as string,
 		secondTranslationLanguage: "de" as string,
@@ -342,6 +446,7 @@ export const createUIStore = (root: IRootStore) => {
 		confirmDialogShown: false,
 		confirmCallback: null as (() => any) | null,
 		confirmTitle: null as string | null,
+		macShortcuts: [] as Item[],
 		hyperKeyEnabled: false,
 		//    _____                            _           _
 		//   / ____|                          | |         | |
@@ -361,6 +466,7 @@ export const createUIStore = (root: IRootStore) => {
 				...store.customItems,
 				...root.scripts.scripts,
 				...(store.showInAppBrowserBookMarks ? store.bookmarks : []),
+				...store.macShortcuts,
 			];
 
 			// If the query is empty, return all items
@@ -380,7 +486,11 @@ export const createUIStore = (root: IRootStore) => {
 				}
 			}
 
-			const maxFreq = Math.max(...Object.values(store.frequencies));
+			const normalizedQuery = normalizeSearchQuery(store.query);
+			const queryFrequencies =
+				store.queryFrequencies[normalizedQuery] ?? ({} as FrequencyMap);
+			const maxFreq = Math.max(0, ...Object.values(store.frequencies));
+			const maxQueryFreq = Math.max(0, ...Object.values(queryFrequencies));
 
 			const results: Item[] = minisearch.search(store.query, {
 				boost: {
@@ -388,7 +498,6 @@ export const createUIStore = (root: IRootStore) => {
 				},
 				prefix: true,
 				fuzzy: true,
-				// Slightly boost items that have a frequency
 				boostDocument: (
 					documentId: any,
 					term: string,
@@ -396,10 +505,18 @@ export const createUIStore = (root: IRootStore) => {
 				) => {
 					if (storedFields) {
 						const freq = store.frequencies[storedFields.name] ?? 0;
-						if (freq === 0) {
-							return 1;
-						}
-						return maxFreq > 0 ? 1 + freq / maxFreq : 1;
+						const globalBoost = maxFreq > 0 ? freq / maxFreq : 0;
+						const queryPreferenceKey = getItemPreferenceKey({
+							id: String(documentId),
+							type: storedFields.type as ItemType,
+							url: storedFields.url,
+						});
+						const queryFreq = queryFrequencies[queryPreferenceKey] ?? 0;
+						const queryBoost =
+							maxQueryFreq > 0
+								? (queryFreq / maxQueryFreq) * QUERY_PREFERENCE_BOOST
+								: 0;
+						return 1 + globalBoost + queryBoost;
 					}
 
 					return 1;
@@ -603,6 +720,22 @@ export const createUIStore = (root: IRootStore) => {
 				}
 			}
 		},
+		trackSelectionForQuery: (query: string, item: Item) => {
+			const prefixes = getQueryPrefixes(query);
+			if (prefixes.length === 0 || !minisearch.has(item.id)) {
+				return;
+			}
+
+			const itemPreferenceKey = getItemPreferenceKey(item);
+			for (const prefix of prefixes) {
+				const nextBucket = {
+					...(store.queryFrequencies[prefix] ?? {}),
+					[itemPreferenceKey]:
+						(store.queryFrequencies[prefix]?.[itemPreferenceKey] ?? 0) + 1,
+				};
+				store.queryFrequencies[prefix] = compactFrequencyMap(nextBucket);
+			}
+		},
 		updateApps: (
 			apps: Array<{
 				name: string;
@@ -672,32 +805,149 @@ export const createUIStore = (root: IRootStore) => {
 				store.syncHotkeys();
 			});
 		},
-		onShow: ({ target }: { target?: string }) => {
-			store.getApps();
-			store.isVisible = true;
-			if (target != null) {
-				switch (target) {
+		fetchMacShortcuts: () => {
+			solNative.executeBashScriptSilent("shortcuts list").then((output) => {
+				if (!output) return;
+				const shortcuts: Item[] = output
+					.split("\n")
+					.map((line) => line.trim())
+					.filter((line) => line.length > 0)
+					.map((name) => ({
+						id: `shortcut_${name}`,
+						name,
+						type: ItemType.SHORTCUT,
+						icon: "⌨️",
+						callback: () => {
+							const escaped = name.replace(/'/g, "'\\''");
+							solNative.executeBashScriptSilent(`shortcuts run '${escaped}'`);
+							solNative.showToast("Shortcut executed", "success");
+						},
+					}));
+				runInAction(() => {
+					minisearch.removeAll();
+					store.macShortcuts = shortcuts;
+				});
+			});
+		},
+		onShow: ({
+			target,
+			isToggle,
+		}: { target?: string; isToggle?: boolean }) => {
+			const showTargetWidget = (widget: string) => {
+				switch (widget) {
 					case Widget.CLIPBOARD:
 						store.showClipboardManager();
-						return;
-
+						break;
 					case Widget.SCRATCHPAD:
 						store.showScratchpad();
-						return;
-
+						break;
 					case Widget.EMOJIS:
 						store.showEmojiPicker();
-						return;
-
+						break;
+					case Widget.PROCESSES:
+						store.showProcessManager();
+						break;
+					case Widget.FILE_SEARCH:
+						store.showFileSearch();
+						break;
 					case Widget.SETTINGS:
 						store.showSettings();
-						return;
+						break;
+				}
+			};
+
+			// Main hotkey pressed while window is on screen (toggle())
+			if (isToggle) {
+				// Race condition: JS already initiated a hide (ESC or toggle-off),
+				// but the async hideWindow hasn't executed on the native main queue
+				// yet, so toggle() still sees the window as visible. Treat as a
+				// fresh show request.
+				if (!store.isVisible) {
+					// Ensure the pending hideWindow's onHide event gets suppressed
+					if (pendingJsHideCount === 0) {
+						pendingJsHideCount = 1;
+					}
+					store.isVisible = true;
+					store.getApps();
+					store.focusedWidget = Widget.SEARCH;
+					store.setQuery("");
+					store.selectedIndex = 0;
+					const gen = ++showGeneration;
+					requestAnimationFrame(() => {
+						requestAnimationFrame(() => {
+							if (showGeneration !== gen) return;
+							solNative.showWindow();
+						});
+					});
+					return;
+				}
+
+				if (store.focusedWidget === Widget.SEARCH) {
+					// Search visible — normal toggle off
+					pendingJsHideCount++;
+					store.isVisible = false;
+					showGeneration++;
+					solNative.hideWindow();
+				} else {
+					// Widget visible — switch to Search without hiding
+					store.focusedWidget = Widget.SEARCH;
+					store.setQuery("");
+					store.selectedIndex = 0;
 				}
 				return;
 			}
 
-			// store.getApps()
+			// If isVisible is still true, the window was soft-hidden (click outside).
+			// Widget hotkeys (target != null) resume; the main hotkey resets to Search.
+			if (store.isVisible) {
+				if (target == null) {
+					// Main hotkey from soft-hide — reset to fresh Search
+					store.focusedWidget = Widget.SEARCH;
+					store.setQuery("");
+					store.selectedIndex = 0;
+					const gen = ++showGeneration;
+					requestAnimationFrame(() => {
+						requestAnimationFrame(() => {
+							if (showGeneration !== gen) return;
+							solNative.showWindow();
+						});
+					});
+					return;
+				}
+				if (target !== store.focusedWidget) {
+					showTargetWidget(target);
+					const gen = ++showGeneration;
+					requestAnimationFrame(() => {
+						requestAnimationFrame(() => {
+							if (showGeneration !== gen) return;
+							solNative.showWindow();
+						});
+					});
+				} else {
+					// Same widget — resume where user left off
+					solNative.showWindow();
+				}
+				return;
+			}
 
+			store.getApps();
+			store.fetchMacShortcuts();
+			store.isVisible = true;
+
+			if (target != null) {
+				showTargetWidget(target);
+				// Widget set — wait for render, then show window
+				const gen = ++showGeneration;
+				requestAnimationFrame(() => {
+					requestAnimationFrame(() => {
+						if (showGeneration !== gen) return;
+						solNative.showWindow();
+					});
+				});
+				return;
+			}
+
+			// Main hotkey — window already shown by native
 			setImmediate(() => {
 				if (!store.isAccessibilityTrusted) {
 					store.getAccessibilityStatus();
@@ -709,9 +959,14 @@ export const createUIStore = (root: IRootStore) => {
 			});
 		},
 		onHide: () => {
-			// If isVisible is already true, a new show cycle has started
-			// before this (async) onHide arrived — ignore the stale event
-			if (store.isVisible) return;
+			// JS-initiated hides (onHotkey toggle-off) already reset state
+			// before calling solNative.hideWindow(). The native hideWindow()
+			// emits a redundant onHide — skip it to prevent clobbering state
+			// that may have been set by a rapid reopen.
+			if (pendingJsHideCount > 0) {
+				pendingJsHideCount--;
+				return;
+			}
 			store.isVisible = false;
 			store.focusedWidget = Widget.SEARCH;
 			store.editingCustomItem = null;
@@ -763,7 +1018,9 @@ export const createUIStore = (root: IRootStore) => {
 				store.focusWidget(Widget.CLIPBOARD);
 				const items = root.clipboard.clipboardItems;
 				const firstUnpinned = items.findIndex((i) => !i.pinned);
-				store.selectedIndex = firstUnpinned >= 0 ? firstUnpinned : 0;
+				if (firstUnpinned >= 0) {
+					store.selectedIndex = firstUnpinned;
+				}
 			}
 		},
 		showProcessManager: () => {
@@ -771,6 +1028,7 @@ export const createUIStore = (root: IRootStore) => {
 			store.focusWidget(Widget.PROCESSES);
 		},
 		onFileSearch: (files: FileDescription[]) => {
+			if (store.focusedWidget !== Widget.FILE_SEARCH) return;
 			store.fileResults = files;
 		},
 		setCalendarEnabled: (v: boolean) => {
@@ -947,9 +1205,11 @@ export const createUIStore = (root: IRootStore) => {
 		showFileSearch: () => {
 			store.focusWidget(Widget.FILE_SEARCH);
 			store.query = "";
+			store.fileSearchMode = FileSearchMode.FUZZY;
 		},
 		setFileSearchMode: (mode: FileSearchMode) => {
 			store.fileSearchMode = mode;
+			store.selectedIndex = 0;
 			store.fileSearchMenuOpen = false;
 		},
 		toggleFileSearchMenu: () => {
@@ -985,12 +1245,37 @@ export const createUIStore = (root: IRootStore) => {
 			const targetWidget = itemIdToWidget[id];
 			if (targetWidget) {
 				if (wasVisible && store.focusedWidget === targetWidget) {
+					// Same widget — toggle off
 					store.setQuery("");
 					store.focusWidget(Widget.SEARCH);
-					// Set synchronously so subsequent rapid presses see correct state
 					store.isVisible = false;
 					showGeneration++;
+					pendingJsHideCount++;
 					solNative.hideWindow();
+					return;
+				}
+				if (wasVisible && store.focusedWidget !== targetWidget) {
+					// Different widget — switch to it
+					switch (targetWidget) {
+						case Widget.CLIPBOARD:
+							store.showClipboardManager();
+							break;
+						case Widget.SCRATCHPAD:
+							store.showScratchpad();
+							break;
+						case Widget.EMOJIS:
+							store.showEmojiPicker();
+							break;
+						case Widget.PROCESSES:
+							store.showProcessManager();
+							break;
+						case Widget.FILE_SEARCH:
+							store.showFileSearch();
+							break;
+						case Widget.SETTINGS:
+							store.showSettings();
+							break;
+					}
 					return;
 				}
 			}
@@ -1030,6 +1315,7 @@ export const createUIStore = (root: IRootStore) => {
 		syncHotkeys() {
 			const shortcuts = toJS(store.shortcuts);
 			const urlMap: Record<string, string> = {};
+			const widgetMap: Record<string, string> = {};
 			const allItems = [
 				...store.apps,
 				...store.customItems,
@@ -1039,7 +1325,14 @@ export const createUIStore = (root: IRootStore) => {
 					urlMap[item.id] = item.url;
 				}
 			}
-			solNative.updateHotkeys(shortcuts, urlMap);
+			// Tell native which hotkeys correspond to widgets so it can show
+			// the window instantly without waiting for a JS round-trip
+			for (const [id, widget] of Object.entries(itemIdToWidget)) {
+				if (shortcuts[id]) {
+					widgetMap[id] = widget;
+				}
+			}
+			solNative.updateHotkeys(shortcuts, urlMap, widgetMap);
 		},
 
 		setShortcut(id: string, shortcut: string) {
@@ -1162,8 +1455,8 @@ export const createUIStore = (root: IRootStore) => {
 	);
 
 	fileSearchDisposer = reaction(
-		() => [store.query, store.focusedWidget] as const,
-		([query, widget]) => {
+		() => [store.query, store.focusedWidget, store.fileSearchMode] as const,
+		([query, widget, mode]) => {
 			if (fileSearchTimer) {
 				clearTimeout(fileSearchTimer);
 				fileSearchTimer = undefined;
@@ -1171,6 +1464,7 @@ export const createUIStore = (root: IRootStore) => {
 
 			if (!query || widget !== Widget.FILE_SEARCH) {
 				store.fileSearchResults = [];
+				store.fileResults = [];
 				store.isLoading = false;
 				return;
 			}
@@ -1180,6 +1474,7 @@ export const createUIStore = (root: IRootStore) => {
 				const fileResults = solNative.searchFiles(
 					toJS(store.searchFolders),
 					query,
+					mode,
 				);
 
 				runInAction(() => {

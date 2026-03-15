@@ -492,6 +492,10 @@ export const createKeystrokeStore = (root: IRootStore) => {
 							root.ui.frequencies[item.name] =
 								(root.ui.frequencies[item.name] ?? 0) + 1;
 
+							if (root.ui.query.trim()) {
+								root.ui.trackSelectionForQuery(root.ui.query, item);
+							}
+
 							// close window
 							if (!item.preventClose) {
 								root.ui.isVisible = false;
@@ -559,6 +563,8 @@ export const createKeystrokeStore = (root: IRootStore) => {
 						case Widget.SCRATCHPAD:
 						case Widget.CLIPBOARD:
 						case Widget.GOOGLE_MAP:
+						case Widget.FILE_SEARCH:
+						case Widget.PROCESSES:
 							root.ui.isVisible = false;
 							solNative.hideWindow();
 							break;
@@ -744,6 +750,11 @@ export const createKeystrokeStore = (root: IRootStore) => {
 					switch (root.ui.focusedWidget) {
 						case Widget.SCRATCHPAD:
 							break;
+
+						case Widget.FILE_SEARCH: {
+							root.ui.selectedIndex = Math.max(0, root.ui.selectedIndex - 1);
+							break;
+						}
 
 						case Widget.EMOJIS:
 							root.ui.selectedIndex = Math.max(

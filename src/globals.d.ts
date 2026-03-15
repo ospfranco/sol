@@ -41,6 +41,7 @@ declare const global: {
 		searchFiles: (
 			paths: string[],
 			query: string,
+			mode?: number, // 0=fuzzy, 1=path, 2=regex
 		) => { name: string; path: string; isFolder: boolean }[];
 		requestCalendarAccess: () => Promise<void>;
 		getCalendarAuthorizationStatus: () => CalendarAuthorizationStatus;

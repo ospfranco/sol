@@ -89,7 +89,7 @@ class SolNative extends NativeEventEmitter {
   openFilePicker: () => Promise<string | null>
   showWindow: typeof global.__SolProxy.showWindow
   showWifiQR: (ssid: string, password: string) => void
-  updateHotkeys: (v: Record<string, string>, urlMap?: Record<string, string>) => void
+  updateHotkeys: (v: Record<string, string>, urlMap?: Record<string, string>, widgetMap?: Record<string, string>) => void
   log: (message: string) => void
   getApplications: typeof global.__SolProxy.getApplications
   setHyperKeyEnabled: (v: boolean) => void

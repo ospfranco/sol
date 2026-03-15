@@ -136,6 +136,16 @@ const ItemRow = observer(({ item, index }: { item: Item; index: number }) => {
 					</Text>
 				)}
 
+				{item.type === ItemType.SHORTCUT && (
+					<Text
+						className={clsx("darker-text text-xs", {
+							"text-white dark:text-neutral-200": isActive,
+						})}
+					>
+						Shortcut
+					</Text>
+				)}
+
 				{!!item.subName && (
 					<Text
 						className={clsx("darker-text text-xs", {
