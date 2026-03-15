@@ -179,7 +179,7 @@ final class HotKeyManager {
     }
   }
 
-  func updateHotkeys(hotkeyMap: [String: String], urlMap: [String: String] = [:]) {
+  func updateHotkeys(hotkeyMap: [String: String], urlMap: [String: String] = [:], widgetMap: [String: String] = [:]) {
     hotkeys.removeAll()
 
     for (key, value) in hotkeyMap {
@@ -232,8 +232,30 @@ final class HotKeyManager {
 
       // If the hotkey has a URL, open it directly in native (skip JS round-trip)
       if let url = urlMap[key] {
+        let appURL = URL(fileURLWithPath: url)
+        let bundleId = Bundle(url: appURL)?.bundleIdentifier
+
         hotKey.keyUpHandler = {
-          NSWorkspace.shared.openFile(url)
+          let frontmost = NSWorkspace.shared.frontmostApplication
+
+          if let bid = bundleId, frontmost?.bundleIdentifier == bid {
+            frontmost?.hide()
+            return
+          }
+
+          let config = NSWorkspace.OpenConfiguration()
+          NSWorkspace.shared.openApplication(at: appURL, configuration: config)
+        }
+      } else if let widget = widgetMap[key] {
+        // Widget hotkeys: show window natively with target for instant response
+        hotKey.keyUpHandler = {
+          if PanelManager.shared.mainWindow.isVisible {
+            // Window visible — let JS decide toggle vs. switch
+            SolEmitter.sharedInstance.onHotkey(id: key)
+          } else {
+            // Window hidden — show instantly with target widget
+            PanelManager.shared.showWindow(target: widget)
+          }
         }
       } else {
         hotKey.keyUpHandler = {

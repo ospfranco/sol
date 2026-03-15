@@ -46,7 +46,14 @@ final class Panel: NSPanel, NSWindowDelegate {
   func windowDidResignKey(_ notification: Notification) {
     DispatchQueue.main.async {
       if QuickLookManager.shared.isVisible { return }
-      PanelManager.shared.hideWindow()
+      // Only soft-hide if the window is still visible (user clicked outside).
+      // hideWindow() also triggers windowDidResignKey via orderOut(); by the
+      // time this async block runs the window is already hidden, so skip to
+      // avoid overwriting wasSoftHidden with true after a hard hide.
+      guard PanelManager.shared.mainWindow.isVisible else { return }
+      // Soft hide preserves JS state (query, selected index, focused widget)
+      // so re-opening the window resumes where the user left off.
+      PanelManager.shared.softHideWindow()
     }
   }
 }

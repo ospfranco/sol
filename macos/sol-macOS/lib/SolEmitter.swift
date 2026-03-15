@@ -43,11 +43,12 @@ class SolEmitter {
       ])
   }
 
-  func onShow(target: String?) {
+  func onShow(target: String?, isToggle: Bool = false) {
     dispatch(
       name: "onShow",
       body: [
-        "target": target
+        "target": target,
+        "isToggle": isToggle,
       ])
   }
 

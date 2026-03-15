@@ -437,11 +437,12 @@ class SolNative: RCTEventEmitter {
     }
   }
 
-  @objc func updateHotkeys(_ hotkeys: NSDictionary, urlMap: NSDictionary?) {
+  @objc func updateHotkeys(_ hotkeys: NSDictionary, urlMap: NSDictionary?, widgetMap: NSDictionary?) {
     guard let hotkeys = hotkeys as? [String: String] else { return }
     let urls = urlMap as? [String: String] ?? [:]
+    let widgets = widgetMap as? [String: String] ?? [:]
     DispatchQueue.main.async {
-      HotKeyManager.shared.updateHotkeys(hotkeyMap: hotkeys, urlMap: urls)
+      HotKeyManager.shared.updateHotkeys(hotkeyMap: hotkeys, urlMap: urls, widgetMap: widgets)
     }
   }
 

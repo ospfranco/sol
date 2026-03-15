@@ -6,8 +6,11 @@ enum PreferredScreen {
 @objc class PanelManager: NSObject {
   let baseSize = NSSize(width: 700, height: 450)
   public var preferredScreen: PreferredScreen = .frontmost
-  private let mainWindow: Panel = Panel(contentRect: .zero)
+  let mainWindow: Panel = Panel(contentRect: .zero)
   private var rootView: NSView?
+  /// True when the window was hidden by clicking outside (soft hide).
+  /// The main hotkey should let JS reset state before showing the window.
+  private(set) var wasSoftHidden = false
 
   @objc static public let shared = PanelManager()
 
@@ -17,6 +20,35 @@ enum PreferredScreen {
   }
 
   @objc func showWindow(target: String? = nil) {
+    let resumingFromSoftHide = wasSoftHidden
+    wasSoftHidden = false
+    HotKeyManager.shared.settingsHotKey.isPaused = false
+
+    guard
+      let screen =
+        (preferredScreen == .frontmost ? getFrontmostScreen() : getScreenWithMouse())
+    else {
+      return
+    }
+
+    let yOffset = screen.visibleFrame.height * 0.3
+    let x = screen.visibleFrame.midX - baseSize.width / 2
+    let y = screen.visibleFrame.midY - mainWindow.frame.height + yOffset
+    mainWindow.setFrameOrigin(NSPoint(x: floor(x), y: floor(y)))
+
+    // Don't show the window yet when:
+    // - A target widget is specified (let JS set the widget first)
+    // - Resuming from soft-hide with no target (let JS reset state first)
+    // In both cases, JS calls showWindowOnly() after the state update renders.
+    if target == nil && !resumingFromSoftHide {
+      mainWindow.makeKeyAndOrderFront(self)
+    }
+
+    SolEmitter.sharedInstance.onShow(target: target)
+  }
+
+  /// Show the window without emitting onShow (for JS-initiated calls where widget is already set)
+  @objc func showWindowOnly() {
     HotKeyManager.shared.settingsHotKey.isPaused = false
 
     guard
@@ -32,13 +64,28 @@ enum PreferredScreen {
     mainWindow.setFrameOrigin(NSPoint(x: floor(x), y: floor(y)))
 
     mainWindow.makeKeyAndOrderFront(self)
-
-    SolEmitter.sharedInstance.onShow(target: nil)
   }
 
+  func getWindow() -> NSWindow? {
+    return mainWindow
+  }
+
+  /// Hard hide: hides the window and tells JS to reset all state.
+  /// Used by ESC, hotkey toggle, and other explicit close actions.
   @objc func hideWindow() {
+    wasSoftHidden = false
+    QuickLookManager.shared.hide()
     mainWindow.orderOut(self)
     SolEmitter.sharedInstance.onHide()
+    HotKeyManager.shared.settingsHotKey.isPaused = true
+  }
+
+  /// Soft hide: hides the window visually but preserves JS state.
+  /// Used when the user clicks outside (window loses focus).
+  func softHideWindow() {
+    QuickLookManager.shared.hide()
+    mainWindow.orderOut(self)
+    wasSoftHidden = true
     HotKeyManager.shared.settingsHotKey.isPaused = true
   }
 
@@ -94,7 +141,8 @@ enum PreferredScreen {
 
   func toggle() {
     if mainWindow.isVisible {
-      hideWindow()
+      // Let JS decide: toggle off (Search) or switch to Search (widget)
+      SolEmitter.sharedInstance.onShow(target: nil, isToggle: true)
     } else {
       showWindow()
     }
