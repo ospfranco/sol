@@ -9,7 +9,7 @@ import { storage } from "./storage";
 
 
 const MAX_ITEMS = 1000;
-const MAX_TEXT_INDEX_LENGTH = 500; // Only index first N chars for search
+const MAX_TEXT_INDEX_LENGTH = 5000; // Index first N chars for search
 const PERSIST_DEBOUNCE_MS = 2000;
 
 let onTextCopiedListener: EmitterSubscription | undefined;
@@ -23,6 +23,7 @@ export type PasteItem = {
 	text: string;
 	url?: string | null;
 	bundle?: string | null;
+	bundleId?: string | null;
 	datetime: number;
 	pinned?: boolean;
 };
@@ -142,6 +143,7 @@ export const createClipboardStore = (root: IRootStore) => {
 			text: string;
 			url: string;
 			bundle: string | null;
+			bundleId: string | null;
 		}) => {
 			const newItem: PasteItem = {
 				id: +Date.now(),
@@ -153,8 +155,22 @@ export const createClipboardStore = (root: IRootStore) => {
 			addToIndex(newItem);
 			rebuildHashMap();
 			store.removeLastItemIfNeeded();
+
+			// Select the newly added item in the clipboard view
+			if (root.ui.focusedWidget === Widget.CLIPBOARD) {
+				const displayIndex = store.clipboardItems.findIndex(
+					(i) => i.id === newItem.id,
+				);
+				if (displayIndex !== -1) {
+					root.ui.selectedIndex = displayIndex;
+				}
+			}
 		},
-		onTextCopied: (obj: { text: string; bundle: string | null }) => {
+		onTextCopied: (obj: {
+			text: string;
+			bundle: string | null;
+			bundleId: string | null;
+		}) => {
 			if (!obj.text) {
 				return;
 			}
@@ -163,21 +179,31 @@ export const createClipboardStore = (root: IRootStore) => {
 			// Item already exists, move to top
 			if (index !== -1) {
 				store.popToTop(index);
-				return;
+			} else {
+				const newItem: PasteItem = {
+					id: Date.now().valueOf(),
+					datetime: Date.now(),
+					...obj,
+				};
+
+				store.items.unshift(newItem);
+				addToIndex(newItem);
+				textHashMap.set(hashText(newItem.text), 0);
+				// Shift all existing hash map entries by 1
+				rebuildHashMap();
+				store.removeLastItemIfNeeded();
 			}
 
-			const newItem: PasteItem = {
-				id: Date.now().valueOf(),
-				datetime: Date.now(),
-				...obj,
-			};
-
-			store.items.unshift(newItem);
-			addToIndex(newItem);
-			textHashMap.set(hashText(newItem.text), 0);
-			// Shift all existing hash map entries by 1
-			rebuildHashMap();
-			store.removeLastItemIfNeeded();
+			// Select the newly added/moved item in the clipboard view
+			if (root.ui.focusedWidget === Widget.CLIPBOARD) {
+				const topItemId = store.items[0].id;
+				const displayIndex = store.clipboardItems.findIndex(
+					(i) => i.id === topItemId,
+				);
+				if (displayIndex !== -1) {
+					root.ui.selectedIndex = displayIndex;
+				}
+			}
 		},
 		get clipboardItems(): PasteItem[] {
 			const items = store.items;

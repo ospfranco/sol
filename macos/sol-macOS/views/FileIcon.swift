@@ -18,8 +18,21 @@ class FileIcon: NSView {
   }
 
   private func setupView() {
+    let path = (self.url as String)
+
+    // If it looks like a bundle identifier (e.g. "com.google.Chrome"), resolve to app path
+    if !path.isEmpty && !path.contains("/") && path.contains(".") {
+      if let appUrl = NSWorkspace.shared.urlForApplication(withBundleIdentifier: path) {
+        let icon = NSWorkspace.shared.icon(forFile: appUrl.path)
+        self.image.image = icon
+        image.autoresizingMask = [.height, .width]
+        self.addSubview(image)
+        return
+      }
+    }
+
     let url = URL(
-      fileURLWithPath: (self.url as String).replacingOccurrences(
+      fileURLWithPath: path.replacingOccurrences(
         of: "~", with: FileManager.default.homeDirectoryForCurrentUser.path))
 
     let icon = NSWorkspace.shared.icon(forFile: url.path)

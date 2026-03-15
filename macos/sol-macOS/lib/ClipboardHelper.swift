@@ -1,10 +1,10 @@
 import Foundation
 
 class ClipboardHelper {
-  static var frontmostApp: (name: String, bundle: String)?
+  static var frontmostApp: (name: String, bundle: String, bundleId: String)?
 
   static func addOnCopyListener(
-    _ callback: @escaping (_ pasteboard: NSPasteboard, _ app: (name: String, bundle: String)?) ->
+    _ callback: @escaping (_ pasteboard: NSPasteboard, _ app: (name: String, bundle: String, bundleId: String)?) ->
       Void
   ) {
     let pasteboard = NSPasteboard.general
@@ -29,7 +29,7 @@ class ClipboardHelper {
       let bundle = content.bundleIdentifier,
       let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundle)
     {
-      frontmostApp = (name: name, bundle: url.absoluteString)
+      frontmostApp = (name: name, bundle: url.absoluteString, bundleId: bundle)
     }
   }
 

@@ -42,7 +42,7 @@ const RenderItem = observer(
 					store.ui.setSelectedIndex(index);
 					store.keystroke.simulateEnter();
 				}}
-				className={clsx("items-center flex-row rounded gap-2 p-2", {
+				className={clsx("items-center flex-row rounded gap-2 p-2 mr-2", {
 					"bg-accent": isActive,
 					"opacity-80": !isActive,
 				})}
@@ -54,11 +54,14 @@ const RenderItem = observer(
 					/>
 				) : (
 					<FileIcon
-						url={decodeURIComponent(
-							item.bundle?.replace("file://", "") ??
-								item.url?.replace("file://", "") ??
-								"",
-						)}
+						url={
+							item.bundleId ??
+							decodeURIComponent(
+								item.bundle?.replace("file://", "") ??
+									item.url?.replace("file://", "") ??
+									"",
+							)
+						}
 						className="h-6 w-6"
 					/>
 				)}
@@ -104,15 +107,21 @@ export const ClipboardWidget: FC<Props> = observer(() => {
 	const data = store.clipboard.clipboardItems;
 	const selectedIndex = store.ui.selectedIndex;
 	const listRef = useRef<LegendListRef | null>(null);
+	const isInitialMount = useRef(true);
 
 	useEffect(() => {
+		if (isInitialMount.current) {
+			isInitialMount.current = false;
+			return;
+		}
 		if (data.length > 0 && selectedIndex < data.length) {
 			listRef.current?.scrollToIndex({
-				index: store.ui.selectedIndex,
-				viewOffset: 80,
+				index: selectedIndex,
+				animated: false,
+				viewPosition: 0.5,
 			});
 		}
-	}, [selectedIndex, data.length, store.ui.selectedIndex]);
+	}, [selectedIndex, data.length]);
 
 	return (
 		<View className="flex-1">
@@ -127,7 +136,6 @@ export const ClipboardWidget: FC<Props> = observer(() => {
 						className="flex-1"
 						contentContainerStyle={STYLES.contentContainer}
 						ref={listRef}
-						recycleItems
 						ListEmptyComponent={
 							<View className="flex-1 justify-center items-center">
 								<Text className="darker-text">No items</Text>
@@ -241,6 +249,6 @@ const STYLES = StyleSheet.create({
 	contentContainer: {
 		flexGrow: 1,
 		paddingVertical: 6,
-		paddingLeft: 8,
+		paddingHorizontal: 8,
 	},
 });

@@ -79,6 +79,7 @@ class AppDelegate: RCTAppDelegate {
   func setupPasteboardListener() {
     ClipboardHelper.addOnCopyListener {
       let bundle = $1?.bundle
+      let bundleId = $1?.bundleId
 
       let data = $0.data(forType: .fileURL)
 
@@ -102,7 +103,7 @@ class AppDelegate: RCTAppDelegate {
           let tempFile = NSTemporaryDirectory() + filename
           // Copy the file to the temp dir
           try FS.copyFileFromUrl(url, toPath: tempFile)
-          SolEmitter.sharedInstance.fileCopied(filename, tempFile, bundle)
+          SolEmitter.sharedInstance.fileCopied(filename, tempFile, bundle, bundleId)
         } catch {
           let errorDesc = error.localizedDescription
           print("Could not copy file to temp folder \(errorDesc)")
@@ -123,7 +124,7 @@ class AppDelegate: RCTAppDelegate {
         let tempFile = NSTemporaryDirectory() + filename
         do {
           try pngRepData.write(to: URL(fileURLWithPath: tempFile), options: .atomic)
-          SolEmitter.sharedInstance.fileCopied(filename, tempFile, bundle)
+          SolEmitter.sharedInstance.fileCopied(filename, tempFile, bundle, bundleId)
         } catch {
           print("Could not save clipboard image: \(error.localizedDescription)")
         }

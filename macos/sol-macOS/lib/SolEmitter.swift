@@ -63,22 +63,24 @@ class SolEmitter {
     dispatch(name: "onHide", body: [])
   }
 
-  func textCopied(_ txt: String, _ bundle: String?) {
+  func textCopied(_ txt: String, _ bundle: String?, _ bundleId: String?) {
     dispatch(
       name: "onTextCopied",
       body: [
         "text": txt,
         "bundle": bundle,
+        "bundleId": bundleId,
       ])
   }
 
-  func fileCopied(_ text: String, _ url: String, _ bundle: String?) {
+  func fileCopied(_ text: String, _ url: String, _ bundle: String?, _ bundleId: String?) {
     dispatch(
       name: "onFileCopied",
       body: [
         "text": text,
         "url": url,
         "bundle": bundle,
+        "bundleId": bundleId,
       ])
   }
 
