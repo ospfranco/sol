@@ -1,28 +1,50 @@
 import Cocoa
 import Quartz
 
-/// NSPanel subclass that auto-promotes to key window on scroll/magnify
-/// so pinch-to-zoom works without clicking the Quick Look window first.
-private class QuickLookPanel: NSPanel {
-  override func sendEvent(_ event: NSEvent) {
-    if (event.type == .magnify || event.type == .scrollWheel) && !isKeyWindow {
-      makeKey()
-    }
-    super.sendEvent(event)
-  }
-}
-
-class QuickLookManager: NSObject {
+class QuickLookManager: NSObject, QLPreviewPanelDataSource {
   static let shared = QuickLookManager()
 
-  private var qlWindow: NSPanel?
-  private var previewView: QLPreviewView?
+  private var currentURL: NSURL?
   private var pendingPath: String?
+  /// Prevents rapid reloadData() from overwhelming QuickLook's XPC service
+  private var isLoading = false
+  private var queuedPath: String?
+  private var observingPanelKey = false
+  /// Prevents rapid toggle (Cmd+Y spam) from overwhelming QLPreviewPanel
+  private var toggleCooldown = false
+  /// Persists across hide/show so native Cmd+Y can re-show without JS round-trip
+  private(set) var lastPath: String?
+  /// True from show() until forceHide(). ESC uses this to detect a stuck panel
+  /// even when isVisible returns false during a freeze.
+  private(set) var active = false
+  /// Global ESC monitor — works even when app loses focus due to QL freeze
+  private var globalEscMonitor: Any?
+
+  private var panelReady = false
+
+  override init() {
+    super.init()
+    // Pre-warm: create the QLPreviewPanel singleton and cache a reference.
+    // This forces XPC service setup to happen now (at app startup) instead of
+    // blocking the main thread on the first Cmd+Y press.
+    DispatchQueue.main.async { [weak self] in
+      _ = QLPreviewPanel.shared()
+      self?.panelReady = true
+    }
+  }
+
   var isVisible: Bool {
-    return qlWindow?.isVisible ?? false
+    return QLPreviewPanel.sharedPreviewPanelExists() && QLPreviewPanel.shared().isVisible
   }
 
   func toggle(path: String) {
+    guard !toggleCooldown else { return }
+    toggleCooldown = true
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+      self?.toggleCooldown = false
+    }
+
+    lastPath = path
     if isVisible {
       hide()
     } else {
@@ -31,31 +53,71 @@ class QuickLookManager: NSObject {
   }
 
   func show(path: String) {
-    let url = URL(fileURLWithPath: path)
+    lastPath = path
+    active = true
+    currentURL = NSURL(fileURLWithPath: path)
 
-    if qlWindow == nil {
-      setupWindow()
+    if !panelReady {
+      DispatchQueue.main.async { [weak self] in
+        self?.presentPanel()
+      }
+      return
+    }
+    presentPanel()
+  }
+
+  private func presentPanel() {
+    guard currentURL != nil else { return }
+    let panel = QLPreviewPanel.shared()!
+    panelReady = true
+    panel.dataSource = self
+    panel.reloadData()
+    panel.orderFront(self)
+
+    if !observingPanelKey {
+      observingPanelKey = true
+      NotificationCenter.default.addObserver(
+        self,
+        selector: #selector(reclaimKeyWindow),
+        name: NSWindow.didBecomeKeyNotification,
+        object: panel
+      )
     }
 
-    previewView?.previewItem = url as QLPreviewItem
+    installGlobalEscMonitor()
 
-    guard let parentWindow = PanelManager.shared.getWindow() else { return }
-
-    positionWindow(relativeTo: parentWindow)
-
-    if qlWindow?.parent == nil {
-      parentWindow.addChildWindow(qlWindow!, ordered: .above)
+    DispatchQueue.main.async {
+      PanelManager.shared.mainWindow.makeKey()
     }
+  }
 
-    qlWindow?.orderFront(nil)
+  private func installGlobalEscMonitor() {
+    guard globalEscMonitor == nil else { return }
+    globalEscMonitor = NSEvent.addGlobalMonitorForEvents(matching: .keyDown) { [weak self] event in
+      // ESC = 53, Space = 49
+      if event.keyCode == 53 || event.keyCode == 49 {
+        DispatchQueue.main.async {
+          self?.forceHide()
+          NSApp.activate(ignoringOtherApps: true)
+          PanelManager.shared.mainWindow.makeKey()
+        }
+      }
+    }
+  }
+
+  private func removeGlobalEscMonitor() {
+    if let monitor = globalEscMonitor {
+      NSEvent.removeMonitor(monitor)
+      globalEscMonitor = nil
+    }
   }
 
   func update(path: String) {
+    lastPath = path
     guard isVisible else { return }
-    // Cancel any previously scheduled update to coalesce rapid navigation
     NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(applyPendingUpdate), object: nil)
     pendingPath = path
-    perform(#selector(applyPendingUpdate), with: nil, afterDelay: 0.15)
+    perform(#selector(applyPendingUpdate), with: nil, afterDelay: 0.05)
   }
 
   @objc private func applyPendingUpdate() {
@@ -64,58 +126,80 @@ class QuickLookManager: NSObject {
       return
     }
     pendingPath = nil
-    let url = URL(fileURLWithPath: path)
-    // Clear current preview first to cancel any in-progress load
-    previewView?.previewItem = nil
-    previewView?.previewItem = url as QLPreviewItem
+
+    if isLoading {
+      queuedPath = path
+      return
+    }
+
+    isLoading = true
+    currentURL = NSURL(fileURLWithPath: path)
+    QLPreviewPanel.shared().reloadData()
+    DispatchQueue.main.async {
+      PanelManager.shared.mainWindow.makeKey()
+    }
+
+    perform(#selector(loadingCooldownDone), with: nil, afterDelay: 0.3)
   }
 
-  func hide() {
-    guard let window = qlWindow, window.isVisible else { return }
-    // Cancel any pending coalesced update
-    NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(applyPendingUpdate), object: nil)
-    pendingPath = nil
-    if let parent = window.parent {
-      parent.removeChildWindow(window)
+  @objc private func loadingCooldownDone() {
+    isLoading = false
+    if let queued = queuedPath {
+      queuedPath = nil
+      pendingPath = queued
+      applyPendingUpdate()
     }
-    window.orderOut(nil)
-    previewView?.previewItem = nil
-    // Return key focus to Sol's panel
+  }
+
+  @objc private func reclaimKeyWindow() {
+    // Always reclaim — QLPreviewPanel can steal key status asynchronously
+    // even after hide/orderOut due to pending XPC callbacks.
+    PanelManager.shared.mainWindow.makeKey()
+  }
+
+  /// Normal hide — preserves lastPath so native Cmd+Y can re-show without JS.
+  func hide() {
+    guard isVisible else { return }
+    NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(applyPendingUpdate), object: nil)
+    NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(loadingCooldownDone), object: nil)
+    pendingPath = nil
+    queuedPath = nil
+    isLoading = false
+    currentURL = nil
+    active = false
+    removeGlobalEscMonitor()
+    QLPreviewPanel.shared().orderOut(self)
+    PanelManager.shared.mainWindow.makeKey()
+  }
+
+  /// Nuclear reset — works even if QLPreviewPanel is stuck/frozen.
+  /// Bypasses isVisible check, clears all state including lastPath.
+  func forceHide() {
+    NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(applyPendingUpdate), object: nil)
+    NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(loadingCooldownDone), object: nil)
+    pendingPath = nil
+    queuedPath = nil
+    isLoading = false
+    toggleCooldown = false
+    currentURL = nil
+    lastPath = nil
+    active = false
+    removeGlobalEscMonitor()
+    if QLPreviewPanel.sharedPreviewPanelExists() {
+      let panel = QLPreviewPanel.shared()!
+      panel.dataSource = nil
+      panel.orderOut(self)
+    }
     PanelManager.shared.getWindow()?.makeKey()
   }
 
-  private func setupWindow() {
-    let window = QuickLookPanel(
-      contentRect: NSRect(x: 0, y: 0, width: 600, height: 450),
-      styleMask: [.titled, .closable, .resizable, .miniaturizable, .fullSizeContentView],
-      backing: .buffered,
-      defer: false
-    )
-    window.level = .floating
-    window.titleVisibility = .hidden
-    window.titlebarAppearsTransparent = true
-    window.isReleasedWhenClosed = false
-    window.hasShadow = true
-    window.setFrameAutosaveName("SolQuickLook")
+  // MARK: - QLPreviewPanelDataSource
 
-    let preview = QLPreviewView(frame: window.contentView!.bounds, style: .normal)!
-    preview.autoresizingMask = [.width, .height]
-    window.contentView!.addSubview(preview)
-
-    qlWindow = window
-    previewView = preview
+  func numberOfPreviewItems(in panel: QLPreviewPanel!) -> Int {
+    return currentURL != nil ? 1 : 0
   }
 
-  private func positionWindow(relativeTo parentWindow: NSWindow) {
-    guard let _ = parentWindow.screen ?? NSScreen.main else { return }
-
-    let qlSize = qlWindow!.frame.size
-    let parentFrame = parentWindow.frame
-
-    // Center horizontally with Sol's panel, align top edges
-    let x = parentFrame.midX - qlSize.width / 2
-    let y = parentFrame.maxY - qlSize.height
-
-    qlWindow!.setFrameOrigin(NSPoint(x: x, y: y))
+  func previewPanel(_ panel: QLPreviewPanel!, previewItemAt index: Int) -> (any QLPreviewItem)! {
+    return currentURL
   }
 }

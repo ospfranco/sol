@@ -34,6 +34,31 @@ final class HotKeyManager {
       // 124 arrow right
       // 125 arrow down
       // 126 arrow up
+
+      // ESC (53) or Space (49) force-kills Quick Look regardless of its internal state.
+      // Uses `active` flag which is true from show() until forceHide(), so it catches
+      // frozen panels where isVisible might return false.
+      if $0.keyCode == 53 || $0.keyCode == 49 {
+        let qlm = QuickLookManager.shared
+        if qlm.active || qlm.isVisible {
+          qlm.forceHide()
+          return nil
+        }
+      }
+
+      // Cmd+Y (keyCode 16) toggle: handle entirely natively to avoid JS bridge flood.
+      // Uses lastPath for re-show so no JS round-trip is needed after the first open.
+      if $0.keyCode == 16 && $0.modifierFlags.contains(.command) {
+        if QuickLookManager.shared.isVisible {
+          QuickLookManager.shared.hide()
+          return nil
+        } else if let path = QuickLookManager.shared.lastPath {
+          QuickLookManager.shared.toggle(path: path)
+          return nil
+        }
+        // No lastPath yet — fall through to JS for the first-ever Cmd+Y
+      }
+
       if ($0.keyCode == 123 || $0.keyCode == 124)
         && !self
           .catchHorizontalArrowsPress
@@ -69,8 +94,8 @@ final class HotKeyManager {
       }
 
       if metaPressed && $0.characters != nil
-        && self.numberchars
-          .contains($0.characters!)
+        && (self.numberchars.contains($0.characters!)
+          || $0.characters == "y")
       {
         return nil
       }

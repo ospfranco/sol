@@ -68,6 +68,9 @@ class AppDelegate: RCTAppDelegate {
     mediaKeyForwarder = MediaKeyForwarder()
 
     PanelManager.shared.showWindow()
+
+    // Pre-warm QLPreviewPanel so the first Cmd+Y doesn't block the main thread
+    _ = QuickLookManager.shared
   }
 
   func checkForUpdates() {
@@ -134,7 +137,7 @@ class AppDelegate: RCTAppDelegate {
       // Try to parse first as string
       let txt = $0.string(forType: .string)
       if txt != nil {
-        SolEmitter.sharedInstance.textCopied(txt!, bundle)
+        SolEmitter.sharedInstance.textCopied(txt!, bundle, bundleId)
       }
     }
   }

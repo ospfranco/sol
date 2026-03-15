@@ -1,6 +1,7 @@
 #import "CalendarHelper.h"
 #import "MediaKeyForwarder.h"
 #import <AppKit/AppKit.h>
+#import <Quartz/Quartz.h>
 #import <RCTAppDelegate.h>
 #import <React/RCTBridge.h>
 #import <React/RCTBridgeModule.h>
