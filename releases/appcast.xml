@@ -3,6 +3,26 @@
     <channel>
         <title>Sol</title>
         <item>
+            <title>2.1.308</title>
+            <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.307...2.1.308]]></description>
+            <pubDate>Tue, 17 Mar 2026 22:21:19 +0100</pubDate>
+            <sparkle:version>522</sparkle:version>
+            <sparkle:shortVersionString>2.1.308</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.308/2.1.308.zip" length="14287343" type="application/octet-stream" sparkle:edSignature="YPu6iH0Lm7jnOU2RCrRSsn8b/Pkjx0gJd918PCLv3YL/uft6QKBvExDPKpgXsZPG2qQs63Q9BTRib5HSbu2aDw=="/>
+            <sparkle:deltas>
+                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/Sol522-520.delta" sparkle:deltaFrom="520" length="18766" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="858560" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="5sZZcBc/ZrbgFonCP/73WIQJOJc8g6sj6KIx6jrkl8QeQaXmJk+vwI/hlszPhXYy+U8LyxQt8jQLEZNy1q2fBQ=="/>
+            </sparkle:deltas>
+        </item>
+        <item>
+            <title>2.1.306</title>
+            <pubDate>Tue, 17 Mar 2026 22:03:14 +0100</pubDate>
+            <sparkle:version>520</sparkle:version>
+            <sparkle:shortVersionString>2.1.306</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/2.1.306.zip" length="14287355" type="application/octet-stream" sparkle:edSignature="u9qrL1JamG18wY6oak4p8CpwImZE6F9w0PQBgqaNmQ7wwOskMcP20RiMjp7djUkdc7x/DwmyOt4Tm3ZN5ceOCw=="/>
+        </item>
+        <item>
             <title>2.1.300</title>
             <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.299...2.1.300]]></description>
             <pubDate>Wed, 25 Feb 2026 17:52:30 +0100</pubDate>
@@ -10,28 +30,6 @@
             <sparkle:shortVersionString>2.1.300</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.300/2.1.300.zip" length="14276005" type="application/octet-stream" sparkle:edSignature="6VPAlO6vomKO7I5zw1JZC10f73jat3Y+MGTZFENm6TdPUPWDcOE75ophJzITtoSkwhFSLyoGwc7mpIQTGA2YAg=="/>
-        </item>
-        <item>
-            <title>2.1.299</title>
-            <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.298...2.1.299]]></description>
-            <pubDate>Wed, 25 Feb 2026 08:08:52 +0100</pubDate>
-            <sparkle:version>513</sparkle:version>
-            <sparkle:shortVersionString>2.1.299</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.299/2.1.299.zip" length="14276884" type="application/octet-stream" sparkle:edSignature="qcObQ5F0aIwA9g8vzqxN592cG5kDgNBoWohV6g93//6pcO2QWs9N7NP+ALGJB68MNDtBET1Ilu3YsWMh4M5kAA=="/>
-        </item>
-        <item>
-            <title>2.1.298</title>
-            <description><![CDATA[## What's Changed
-* Move calendar item update to native side by @ospfranco in https://github.com/ospfranco/sol/pull/242
-
-
-**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.297...2.1.298]]></description>
-            <pubDate>Tue, 10 Feb 2026 19:44:20 +0100</pubDate>
-            <sparkle:version>512</sparkle:version>
-            <sparkle:shortVersionString>2.1.298</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.298/2.1.298.zip" length="14276920" type="application/octet-stream" sparkle:edSignature="rVVeBdzDCKlKoxIRZVidpdnm4SPJwUc9G9ZCMGnqRRi6vo15RX9A7Re+SvPMZflxV1bbklBifvwDtakCthdfCQ=="/>
         </item>
     </channel>
 </rss>
