@@ -1841,7 +1841,7 @@ PODS:
     - Yoga
   - Sentry/HybridSDK (8.56.1)
   - SocketRocket (0.7.1)
-  - Sparkle (2.9.0)
+  - Sparkle (2.8.1)
   - Yoga (0.0.0)
 
 DEPENDENCIES:
@@ -2173,7 +2173,7 @@ SPEC CHECKSUMS:
   RNSentry: eeaaa1a61ce59874fb46bba120042464618723e6
   Sentry: b3ec44d01708fce73f99b544beb57e890eca4406
   SocketRocket: 03f7111df1a343b162bf5b06ead333be808e1e0a
-  Sparkle: f4355f9ebbe9b7d932df4980d70f13922ac97b2a
+  Sparkle: a346a4341537c625955751ed3ae4b340b68551fa
   Yoga: be08366e61155f388be00b3943f4b3febdef8d30
 
 PODFILE CHECKSUM: 09d9f4d8690650f7bbc4a5e78de155d44c82904c
