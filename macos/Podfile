@@ -12,12 +12,10 @@ target 'macOS' do
   platform :macos, '14.0'
   use_native_modules!
 
-  # Flags change depending on the env values.
-  flags = get_default_flags()
-
   use_react_native!(
     :path => '../node_modules/react-native-macos',
-    :fabric_enabled => ENV['RCT_NEW_ARCH_ENABLED'] == '1',
+    :fabric_enabled => true,
+    :hermes_enabled => true,
     # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
