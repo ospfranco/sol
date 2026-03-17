@@ -58,7 +58,6 @@ export const MainInput = observer<Props>(
 					enableFocusRing={false}
 					value={store.ui.query}
 					onChangeText={store.ui.setQuery}
-					// @ts-ignore
 					className="text-lg flex-1"
 					cursorColor={isDarkMode ? colors.white : colors.black}
 					placeholder={placeholder}
