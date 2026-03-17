@@ -87,7 +87,7 @@ export const TranslationWidget: FC<Props> = observer(({ style }) => {
 							>
 								{store.ui.translationResults[2]}
 							</Text>
-							<Text className="text-sm opacity-50 absolute top-[%20] -right-20">
+							<Text className="absolute bottom-2 right-2 opacity-50">
 								{store.ui.thirdTranslationLanguage}
 							</Text>
 						</View>
