@@ -7,6 +7,7 @@ import { MainInput } from "components/MainInput";
 import { observer } from "mobx-react-lite";
 import { type FC, useEffect, useRef } from "react";
 import {
+	ScrollView,
 	StyleSheet,
 	Text,
 	TouchableOpacity,
@@ -19,6 +20,14 @@ import type { PasteItem } from "stores/clipboard.store";
 interface Props {
 	style?: ViewStyle;
 	className?: string;
+}
+
+const MAX_PREVIEW_LENGTH = 5000;
+
+function truncateText(text: string | undefined | null): string {
+	if (!text) return "";
+	if (text.length <= MAX_PREVIEW_LENGTH) return text;
+	return `${text.slice(0, MAX_PREVIEW_LENGTH)}\n\n... (${text.length.toLocaleString()} chars total)`;
 }
 
 const RenderItem = observer(
@@ -115,10 +124,14 @@ export const ClipboardWidget: FC<Props> = observer(() => {
 				</View>
 				<View className="flex-1 px-3 py-2">
 					{!!data[selectedIndex] && (
-						<View className="dark:bg-black/20 bg-white rounded-lg p-3">
+						<ScrollView
+							className="dark:bg-black/20 bg-white rounded-lg flex-1"
+							contentContainerStyle={{ padding: 12 }}
+						>
+							{" "}
 							{!data[selectedIndex].url && (
 								<Text className="text-xs">
-									{data[selectedIndex]?.text ?? []}
+									{truncateText(data[selectedIndex]?.text)}
 								</Text>
 							)}
 							{/* {!!data[selectedIndex].url &&
@@ -143,7 +156,7 @@ export const ClipboardWidget: FC<Props> = observer(() => {
 										</Text>
 									</View>
 								)}
-						</View>
+						</ScrollView>
 					)}
 				</View>
 			</View>
