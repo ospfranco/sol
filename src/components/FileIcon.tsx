@@ -1,16 +1,16 @@
-import {cssInterop} from 'nativewind'
-import {requireNativeComponent, ViewStyle} from 'react-native'
+import { cssInterop } from "nativewind";
+import { requireNativeComponent, type ViewStyle } from "react-native";
 
 const FileIconNative = requireNativeComponent<{
-  url: string
-  style?: ViewStyle
-  className?: string
-}>('FileIcon')
+	url: string;
+	style?: ViewStyle;
+	className?: string;
+}>("FileIcon");
 
 export const FileIcon = (props: any) => {
-  return <FileIconNative {...props} />
-}
+	return <FileIconNative {...props} />;
+};
 
 cssInterop(FileIcon, {
-  className: 'style',
-})
+	className: "style",
+});

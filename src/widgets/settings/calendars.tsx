@@ -15,7 +15,7 @@ export const Calendars = observer(() => {
 			className="flex-1"
 			contentContainerClassName="p-5 gap-2"
 		>
-			<View className="p-3 subBg gap-3 rounded-lg border border-lightBorder dark:border-darkBorder -mt-10">
+			<View className="p-3 subBg gap-3 rounded-lg border border-lightBorder dark:border-darkBorder">
 				<View className="flex-row items-center">
 					<View className="flex-1">
 						<Text className="text-sm text">Show In-App Calendar</Text>

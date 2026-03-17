@@ -10,7 +10,7 @@ export const Sidebar = ({
 	setSelected,
 }: {
 	selected: string;
-	setSelected: (selected: string) => {};
+	setSelected: (selected: string) => unknown;
 }) => {
 	const store = useStore();
 

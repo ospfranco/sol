@@ -28,11 +28,11 @@ export const SettingsWidget: FC = observer(() => {
 			<Sidebar setSelected={setSelected as any} selected={selected} />
 			<View className="flex-1 h-full bg-neutral-100 dark:bg-neutral-800">
 				{selected === "GENERAL" && <General />}
-				{selected === "ABOUT" && <About />}
 				{selected === "ITEMS" && <Items />}
 				{selected === "TRANSLATE" && <Translate />}
 				{selected === "SCRIPTS" && <Scripts />}
 				{selected === "CALENDARS" && <Calendars />}
+				{selected === "ABOUT" && <About />}
 			</View>
 			{showKeyboardRecorder && (
 				<View className="absolute top-0 bottom-0 left-0 right-0 bg-black/80 items-center justify-center">

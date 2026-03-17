@@ -1,41 +1,41 @@
-import {requireNativeComponent, ViewStyle} from 'react-native'
+import { requireNativeComponent, type ViewStyle } from "react-native";
 
-import {cssInterop} from 'nativewind'
-import {FC} from 'react'
+import { cssInterop } from "nativewind";
+import type { FC } from "react";
 
 type BlurViewProps = {
-  children?: any
-  onLayout?: (e: any) => void
-  style?: ViewStyle
-  borderRadius?: number
-  disabled?: boolean
-  materialName?:
-    | 'windowBackground'
-    | 'menu'
-    | 'sidebar'
-    | 'header'
-    | 'sheet'
-    | 'popover'
-    | 'hudWindow'
-    | 'fullScreenUI'
-  className?: string
-}
+	children?: any;
+	onLayout?: (e: any) => void;
+	style?: ViewStyle;
+	borderRadius?: number;
+	disabled?: boolean;
+	materialName?:
+		| "windowBackground"
+		| "menu"
+		| "sidebar"
+		| "header"
+		| "sheet"
+		| "popover"
+		| "hudWindow"
+		| "fullScreenUI";
+	className?: string;
+};
 
-export const BlurViewNative = requireNativeComponent<BlurViewProps>('BlurView')
+export const BlurViewNative = requireNativeComponent<BlurViewProps>("BlurView");
 
-export const BlurView: FC<BlurViewProps> = props => {
-  return (
-    <BlurViewNative
-      {...props}
-      materialName={props.materialName ?? 'windowBackground'}
-    />
-  )
-}
+export const BlurView: FC<BlurViewProps> = (props) => {
+	return (
+		<BlurViewNative
+			{...props}
+			materialName={props.materialName ?? "windowBackground"}
+		/>
+	);
+};
 
 cssInterop(BlurView, {
-  className: 'style',
-  nativeStyleToProp: {
-    // @ts-expect-error
-    borderRadius: 'borderRadius',
-  },
-})
+	className: "style",
+	nativeStyleToProp: {
+		// @ts-expect-error
+		borderRadius: "borderRadius",
+	},
+});

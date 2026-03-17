@@ -6,13 +6,13 @@ prepare_react_native_project!
 ENV['RCT_NEW_ARCH_ENABLED'] = '0'
 
 target 'macOS' do
-  platform :macos, '11'
+  platform :macos, '14'
   use_native_modules!
 
   use_react_native!(
     :path => '../node_modules/react-native-macos',
     :hermes_enabled => true,
-    :fabric_enabled => false,
+    :fabric_enabled => true,
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 

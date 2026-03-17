@@ -21,7 +21,7 @@ export const General = observer(() => {
 		<ScrollView
 			showsVerticalScrollIndicator={false}
 			automaticallyAdjustContentInsets
-			className="flex-1 -mt-10"
+			className="flex-1"
 			contentContainerClassName="p-5 gap-2"
 		>
 			<View className="flex-row items-center p-3 subBg rounded-lg border border-lightBorder dark:border-darkBorder">

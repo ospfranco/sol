@@ -79,6 +79,7 @@ declare const global: {
 				path: string,
 				changeType: "modified" | "created" | "deleted",
 			) => void,
+			// biome-ignore lint/complexity/noBannedTypes: <explanation>
 		) => Object;
 		focusDate: (dateISO: string) => void;
 	};

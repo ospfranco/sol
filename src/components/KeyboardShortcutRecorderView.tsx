@@ -1,22 +1,22 @@
-import { requireNativeComponent } from 'react-native'
-import { FC } from 'react'
-import { cssInterop } from 'nativewind'
+import { requireNativeComponent } from "react-native";
+import type { FC } from "react";
+import { cssInterop } from "nativewind";
 
 type Props = {
-  onShortcutChange: (e: any) => void
-  onCancel: () => void
-  style?: any
-  className?: string
-}
+	onShortcutChange: (e: any) => void;
+	onCancel: () => void;
+	style?: any;
+	className?: string;
+};
 
 export const KeyboardShortcutRecorderViewNative = requireNativeComponent<Props>(
-  'KeyboardShortcutRecorderView',
-)
+	"KeyboardShortcutRecorderView",
+);
 
-export const KeyboardShortcutRecorderView: FC<Props> = props => {
-  return <KeyboardShortcutRecorderViewNative {...props} />
-}
+export const KeyboardShortcutRecorderView: FC<Props> = (props) => {
+	return <KeyboardShortcutRecorderViewNative {...props} />;
+};
 
 cssInterop(KeyboardShortcutRecorderView, {
-  className: 'style',
-})
+	className: "style",
+});
