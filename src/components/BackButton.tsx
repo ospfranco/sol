@@ -1,42 +1,44 @@
-import clsx from 'clsx'
-import {useBoolean} from 'hooks'
-import React, {FC} from 'react'
+import clsx from "clsx";
+import { useBoolean } from "hooks";
+import React, { type FC } from "react";
 import {
-  Image,
-  TouchableOpacity,
-  TouchableOpacityProps,
-  View,
-  useColorScheme,
-} from 'react-native'
-import {observer} from 'mobx-react-lite'
-import {useStore} from 'store'
-import {Assets} from 'assets'
+	Image,
+	TouchableOpacity,
+	type TouchableOpacityProps,
+	View,
+	useColorScheme,
+} from "react-native";
+import { observer } from "mobx-react-lite";
+import { useStore } from "store";
+import { Assets } from "assets";
 
-type Props = {} & TouchableOpacityProps
+type Props = {} & TouchableOpacityProps;
 
-export const BackButton: FC<Props> = observer(props => {
-  const [hovered, hoverOn, hoverOff] = useBoolean()
-  const colorScheme = useColorScheme()
-  return (
-    <TouchableOpacity
-      className="w-6"
-      onMouseEnter={hoverOn}
-      onMouseLeave={hoverOff}
-      {...props}
-      // @ts-ignore
-      enableFocusRing={false}>
-      <View
-        className={clsx('h-6 w-6 items-center justify-center rounded', {
-          'bg-transparent': !hovered,
-          'bg-accent': hovered,
-        })}>
-        <Image
-          source={Assets.ArrowLeftWhite}
-          tintColor={colorScheme === 'dark' ? 'white' : 'black'}
-          className="h-6 w-6"
-          resizeMode="contain"
-        />
-      </View>
-    </TouchableOpacity>
-  )
-})
+export const BackButton: FC<Props> = observer((props) => {
+	const [hovered, hoverOn, hoverOff] = useBoolean();
+	const colorScheme = useColorScheme();
+	return (
+		<TouchableOpacity
+			className="w-6"
+			onMouseEnter={hoverOn}
+			onMouseLeave={hoverOff}
+			{...props}
+			// @ts-ignore
+			enableFocusRing={false}
+		>
+			<View
+				className={clsx("h-6 w-6 items-center justify-center rounded", {
+					"bg-transparent": !hovered,
+					"bg-accent": hovered,
+				})}
+			>
+				<Image
+					source={Assets.ArrowLeftWhite}
+					tintColor={colorScheme === "dark" ? "white" : "black"}
+					className="h-6 w-6"
+					resizeMode="contain"
+				/>
+			</View>
+		</TouchableOpacity>
+	);
+});
