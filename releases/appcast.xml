@@ -3,6 +3,19 @@
     <channel>
         <title>Sol</title>
         <item>
+            <title>2.1.310</title>
+            <description><![CDATA[## What's Changed
+* Do not dismiss window to prevent RN from resetting it's state by @ospfranco in https://github.com/ospfranco/sol/pull/258
+
+
+**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.309...2.1.310]]></description>
+            <pubDate>Fri, 20 Mar 2026 16:34:43 +0100</pubDate>
+            <sparkle:version>524</sparkle:version>
+            <sparkle:shortVersionString>2.1.310</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.310/2.1.310.zip" length="14287880" type="application/octet-stream" sparkle:edSignature="zDjlPLkGI11gv5WIdv+HOYFyl56qvKV6TJk08gNMfQwfrDgpYwk7I9yZWmrKGmSsuNSE3JBnoajvm4HklwmHCw=="/>
+        </item>
+        <item>
             <title>2.1.309</title>
             <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.308...2.1.309]]></description>
             <pubDate>Fri, 20 Mar 2026 12:10:10 +0100</pubDate>
@@ -22,14 +35,6 @@
             <sparkle:deltas>
                 <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/Sol522-520.delta" sparkle:deltaFrom="520" length="18766" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="858560" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="5sZZcBc/ZrbgFonCP/73WIQJOJc8g6sj6KIx6jrkl8QeQaXmJk+vwI/hlszPhXYy+U8LyxQt8jQLEZNy1q2fBQ=="/>
             </sparkle:deltas>
-        </item>
-        <item>
-            <title>2.1.306</title>
-            <pubDate>Tue, 17 Mar 2026 22:03:14 +0100</pubDate>
-            <sparkle:version>520</sparkle:version>
-            <sparkle:shortVersionString>2.1.306</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/2.1.306.zip" length="14287355" type="application/octet-stream" sparkle:edSignature="u9qrL1JamG18wY6oak4p8CpwImZE6F9w0PQBgqaNmQ7wwOskMcP20RiMjp7djUkdc7x/DwmyOt4Tm3ZN5ceOCw=="/>
         </item>
     </channel>
 </rss>
