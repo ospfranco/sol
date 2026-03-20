@@ -63,10 +63,6 @@ const RenderItem = observer(
 				>
 					{item.text.trim()}
 				</Text>
-
-				{/* {!!item.url && (
-        <Image src={`file://${item.url}`} className="h-20 w-20" />
-      )} */}
 			</TouchableOpacity>
 		);
 	},
@@ -128,22 +124,12 @@ export const ClipboardWidget: FC<Props> = observer(() => {
 							className="dark:bg-black/20 bg-white rounded-lg flex-1"
 							contentContainerStyle={{ padding: 12 }}
 						>
-							{" "}
 							{!data[selectedIndex].url && (
 								<Text className="text-xs">
 									{truncateText(data[selectedIndex]?.text)}
 								</Text>
 							)}
-							{/* {!!data[selectedIndex].url &&
-              isPngOrJpg(data[selectedIndex].url) && (
-                <Image
-                  source={{
-                    uri: `file://${data[selectedIndex].url}`,
-                  }}
-                  className="flex-1 rounded-lg"
-                  style={{resizeMode: 'contain'}}
-                />
-              )} */}
+
 							{!!data[selectedIndex].url &&
 								!isPngOrJpg(data[selectedIndex].url) && (
 									<View className="flex-1 w-full items-center justify-center">
