@@ -31,13 +31,15 @@ enum PreferredScreen {
     let y = screen.visibleFrame.midY - mainWindow.frame.height + yOffset
     mainWindow.setFrameOrigin(NSPoint(x: floor(x), y: floor(y)))
 
+    mainWindow.setIsVisible(true)
+
     mainWindow.makeKeyAndOrderFront(self)
 
     SolEmitter.sharedInstance.onShow(target: nil)
   }
 
   @objc func hideWindow() {
-    mainWindow.orderOut(self)
+    mainWindow.setIsVisible(false)
     SolEmitter.sharedInstance.onHide()
     HotKeyManager.shared.settingsHotKey.isPaused = true
   }

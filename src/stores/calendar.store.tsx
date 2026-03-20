@@ -144,7 +144,6 @@ export const createCalendarStore = (root: IRootStore) => {
 			onStatusBarItemClickListener?.remove();
 		},
 		onShow: () => {
-			console.log("Fetching events");
 			store.fetchEvents();
 		},
 		getCalendarAccess: () => {
