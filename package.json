@@ -1,6 +1,6 @@
 {
 	"name": "sol",
-	"version": "2.1.308",
+	"version": "2.1.309",
 	"private": true,
 	"scripts": {
 		"start": "react-native start",
