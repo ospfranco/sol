@@ -3,6 +3,19 @@
     <channel>
         <title>Sol</title>
         <item>
+            <title>2.1.311</title>
+            <description><![CDATA[## What's Changed
+* Unit, time conversions and flight searchs by @ospfranco in https://github.com/ospfranco/sol/pull/259
+
+
+**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.310...2.1.311]]></description>
+            <pubDate>Sun, 22 Mar 2026 17:10:02 +0100</pubDate>
+            <sparkle:version>525</sparkle:version>
+            <sparkle:shortVersionString>2.1.311</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.311/2.1.311.zip" length="14370102" type="application/octet-stream" sparkle:edSignature="raslO9eOrKN/SsFxMKlASBWTCIjUYXUXzVjw721n99XwAnuUwjD0qKjyylSHhEcW09G6ZGzUb+5w/kKInfYqDw=="/>
+        </item>
+        <item>
             <title>2.1.310</title>
             <description><![CDATA[## What's Changed
 * Do not dismiss window to prevent RN from resetting it's state by @ospfranco in https://github.com/ospfranco/sol/pull/258
@@ -23,18 +36,6 @@
             <sparkle:shortVersionString>2.1.309</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.309/2.1.309.zip" length="14287312" type="application/octet-stream" sparkle:edSignature="W8mthfYmU49iQB0yya+bxmP4hCzNjl5YKTdzW51z74gDH20vr7Kk3kk+bOTPcZP2KtYT2NcG7wU5lYUQZbJ4Bg=="/>
-        </item>
-        <item>
-            <title>2.1.308</title>
-            <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.307...2.1.308]]></description>
-            <pubDate>Tue, 17 Mar 2026 22:21:19 +0100</pubDate>
-            <sparkle:version>522</sparkle:version>
-            <sparkle:shortVersionString>2.1.308</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.308/2.1.308.zip" length="14287343" type="application/octet-stream" sparkle:edSignature="YPu6iH0Lm7jnOU2RCrRSsn8b/Pkjx0gJd918PCLv3YL/uft6QKBvExDPKpgXsZPG2qQs63Q9BTRib5HSbu2aDw=="/>
-            <sparkle:deltas>
-                <enclosure url="https://raw.githubusercontent.com/ospfranco/sol/main/releases/Sol522-520.delta" sparkle:deltaFrom="520" length="18766" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="858560" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="5sZZcBc/ZrbgFonCP/73WIQJOJc8g6sj6KIx6jrkl8QeQaXmJk+vwI/hlszPhXYy+U8LyxQt8jQLEZNy1q2fBQ=="/>
-            </sparkle:deltas>
         </item>
     </channel>
 </rss>
