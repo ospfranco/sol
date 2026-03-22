@@ -25,6 +25,17 @@ import MiniSearch from "minisearch";
 import * as Sentry from "@sentry/react-native";
 import { storage } from "./storage";
 import { defaultShortcuts } from "lib/shortcuts";
+import {
+	createTextTemporaryResult,
+	fetchFlightInfoFromWeb,
+	formatExpressionResult,
+	getInitials,
+	parseFlightIdentifier,
+	parseUnitConversion,
+	parseTimezoneConversion,
+	type TemporaryResult,
+	traverse,
+} from "./ui.store.helpers";
 
 const exprParser = new Parser();
 
@@ -116,40 +127,6 @@ const itemsThatShouldShowWindow = [
 	"process_manager",
 	"scratchpad",
 ];
-
-function getInitials(name: string) {
-	return name
-		.toLowerCase()
-		.split(" ")
-		.map((s) => s.charAt(0))
-		.join("");
-}
-
-function traverse(
-	bookmarks: any[],
-	nodes: any[],
-	bookmarkFolder: null | string,
-) {
-	for (const node of nodes) {
-		if (node.type === "folder") {
-			traverse(bookmarks, node.children, node.name);
-		} else if (node.type === "url") {
-			bookmarks.push({ title: node.name, url: node.url, bookmarkFolder });
-		}
-	}
-}
-
-const EXPRESSION_RESULT_DECIMALS = 12;
-
-function formatExpressionResult(value: number) {
-	if (!Number.isFinite(value)) {
-		return value.toString();
-	}
-
-	const scale = 10 ** EXPRESSION_RESULT_DECIMALS;
-	const rounded = Math.round((value + Number.EPSILON) * scale) / scale;
-	return rounded.toString();
-}
 
 export const createUIStore = (root: IRootStore) => {
 	const persist = async () => {
@@ -287,7 +264,7 @@ export const createUIStore = (root: IRootStore) => {
 		isLoading: false,
 		translationResults: [] as string[],
 		frequencies: {} as Record<string, number>,
-		temporaryResult: null as string | null,
+		temporaryResult: null as TemporaryResult | null,
 		firstTranslationLanguage: "en" as string,
 		secondTranslationLanguage: "de" as string,
 		thirdTranslationLanguage: null as null | string,
@@ -574,16 +551,55 @@ export const createUIStore = (root: IRootStore) => {
 		setQuery: (query: string) => {
 			store.query = query.replace("\n", " ");
 			store.selectedIndex = 0;
+			store.temporaryResult = null;
 
 			if (store.query === "") {
 				return;
 			}
 
 			if (store.focusedWidget === Widget.SEARCH) {
+				const timezoneResult = parseTimezoneConversion(store.query);
+				if (timezoneResult != null) {
+					store.temporaryResult = timezoneResult;
+					return;
+				}
+
+				const unitResult = parseUnitConversion(store.query);
+				if (unitResult != null) {
+					store.temporaryResult = unitResult;
+					return;
+				}
+
+				const flightIdentifier = parseFlightIdentifier(store.query);
+				if (flightIdentifier != null) {
+					const querySnapshot = store.query;
+					void fetchFlightInfoFromWeb(flightIdentifier)
+						.then((result) => {
+							if (
+								result != null &&
+								store.focusedWidget === Widget.SEARCH &&
+								store.query === querySnapshot
+							) {
+								runInAction(() => {
+									store.temporaryResult = result;
+								});
+							}
+						})
+						.catch((error) => {
+							console.log(
+								`Flight info request failed for ${flightIdentifier}`,
+								error,
+							);
+						});
+				}
+
 				try {
 					const res = exprParser.evaluate(store.query);
 					if (typeof res === "number" && !Number.isNaN(res)) {
-						store.temporaryResult = formatExpressionResult(res);
+						store.temporaryResult = createTextTemporaryResult(
+							formatExpressionResult(res),
+							store.query,
+						);
 					} else {
 						store.temporaryResult = null;
 					}
@@ -594,7 +610,7 @@ export const createUIStore = (root: IRootStore) => {
 				if (query === "ip") {
 					const info = solNative.getWifiInfo();
 					if (info.ip) {
-						store.temporaryResult = info.ip;
+						store.temporaryResult = createTextTemporaryResult(info.ip, "IP");
 					}
 				}
 			}
@@ -949,7 +965,13 @@ export const createUIStore = (root: IRootStore) => {
 		},
 
 		onHotkey({ id }: { id: string }) {
-			const item = store.items.find((i) => i.id === id);
+			const item = [
+				...store.apps,
+				...baseItems,
+				...store.customItems,
+				...root.scripts.scripts,
+				...(store.showInAppBrowserBookMarks ? store.bookmarks : []),
+			].find((i) => i.id === id);
 
 			if (item == null) {
 				return;
