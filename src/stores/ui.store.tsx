@@ -28,6 +28,7 @@ import { defaultShortcuts } from "lib/shortcuts";
 import {
 	formatExpressionResult,
 	getInitials,
+	parseUnitConversion,
 	parseTimezoneConversion,
 	traverse,
 } from "./ui.store.helpers";
@@ -555,6 +556,12 @@ export const createUIStore = (root: IRootStore) => {
 				const timezoneResult = parseTimezoneConversion(store.query);
 				if (timezoneResult != null) {
 					store.temporaryResult = timezoneResult;
+					return;
+				}
+
+				const unitResult = parseUnitConversion(store.query);
+				if (unitResult != null) {
+					store.temporaryResult = unitResult;
 					return;
 				}
 
