@@ -927,7 +927,13 @@ export const createUIStore = (root: IRootStore) => {
 		},
 
 		onHotkey({ id }: { id: string }) {
-			const item = store.items.find((i) => i.id === id);
+			const item = [
+				...store.apps,
+				...baseItems,
+				...store.customItems,
+				...root.scripts.scripts,
+				...(store.showInAppBrowserBookMarks ? store.bookmarks : []),
+			].find((i) => i.id === id);
 
 			if (item == null) {
 				return;
