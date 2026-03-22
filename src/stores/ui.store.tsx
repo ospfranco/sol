@@ -26,10 +26,14 @@ import * as Sentry from "@sentry/react-native";
 import { storage } from "./storage";
 import { defaultShortcuts } from "lib/shortcuts";
 import {
+	createTextTemporaryResult,
+	fetchFlightInfoFromWeb,
 	formatExpressionResult,
 	getInitials,
+	parseFlightIdentifier,
 	parseUnitConversion,
 	parseTimezoneConversion,
+	type TemporaryResult,
 	traverse,
 } from "./ui.store.helpers";
 
@@ -260,7 +264,7 @@ export const createUIStore = (root: IRootStore) => {
 		isLoading: false,
 		translationResults: [] as string[],
 		frequencies: {} as Record<string, number>,
-		temporaryResult: null as string | null,
+		temporaryResult: null as TemporaryResult | null,
 		firstTranslationLanguage: "en" as string,
 		secondTranslationLanguage: "de" as string,
 		thirdTranslationLanguage: null as null | string,
@@ -547,6 +551,7 @@ export const createUIStore = (root: IRootStore) => {
 		setQuery: (query: string) => {
 			store.query = query.replace("\n", " ");
 			store.selectedIndex = 0;
+			store.temporaryResult = null;
 
 			if (store.query === "") {
 				return;
@@ -565,10 +570,36 @@ export const createUIStore = (root: IRootStore) => {
 					return;
 				}
 
+				const flightIdentifier = parseFlightIdentifier(store.query);
+				if (flightIdentifier != null) {
+					const querySnapshot = store.query;
+					void fetchFlightInfoFromWeb(flightIdentifier)
+						.then((result) => {
+							if (
+								result != null &&
+								store.focusedWidget === Widget.SEARCH &&
+								store.query === querySnapshot
+							) {
+								runInAction(() => {
+									store.temporaryResult = result;
+								});
+							}
+						})
+						.catch((error) => {
+							console.log(
+								`Flight info request failed for ${flightIdentifier}`,
+								error,
+							);
+						});
+				}
+
 				try {
 					const res = exprParser.evaluate(store.query);
 					if (typeof res === "number" && !Number.isNaN(res)) {
-						store.temporaryResult = formatExpressionResult(res);
+						store.temporaryResult = createTextTemporaryResult(
+							formatExpressionResult(res),
+							store.query,
+						);
 					} else {
 						store.temporaryResult = null;
 					}
@@ -579,7 +610,7 @@ export const createUIStore = (root: IRootStore) => {
 				if (query === "ip") {
 					const info = solNative.getWifiInfo();
 					if (info.ip) {
-						store.temporaryResult = info.ip;
+						store.temporaryResult = createTextTemporaryResult(info.ip, "IP");
 					}
 				}
 			}

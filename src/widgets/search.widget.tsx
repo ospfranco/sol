@@ -19,6 +19,90 @@ import {
 } from "react-native";
 import { useStore } from "store";
 import { ItemType, Widget } from "stores/ui.store";
+import type { TemporaryResult } from "stores/ui.store.helpers";
+
+function TemporaryResultView({
+	result,
+	isActive,
+}: {
+	result: TemporaryResult;
+	isActive: boolean;
+}) {
+	if (result.kind === "comparison") {
+		return (
+			<View className="flex-1 px-4">
+				<View className="flex-row items-center justify-between gap-4">
+					<View className="flex-1">
+						<Text
+							className={clsx("text-xs uppercase darker-text", {
+								"text-white dark:text-neutral-100": isActive,
+							})}
+						>
+							{result.left.label}
+						</Text>
+						<Text className="text-2xl font-semibold">{result.left.value}</Text>
+					</View>
+					<Text className="text-lg darker-text">→</Text>
+					<View className="flex-1 items-end">
+						<Text
+							className={clsx("text-xs uppercase darker-text", {
+								"text-white dark:text-neutral-100": isActive,
+							})}
+						>
+							{result.right.label}
+						</Text>
+						<Text className="text-2xl font-semibold">{result.right.value}</Text>
+					</View>
+				</View>
+				{!!result.footer && (
+					<Text className="mt-2 text-xs darker-text">{result.footer}</Text>
+				)}
+			</View>
+		);
+	}
+
+	if (result.kind === "flight") {
+		return (
+			<View className="flex-1 px-4">
+				<Text className="text-xl font-semibold">{result.flight}</Text>
+				<View className="mt-1 flex-row flex-wrap gap-x-3 gap-y-1">
+					{!!result.status && (
+						<Text className="text-sm darker-text">Status: {result.status}</Text>
+					)}
+					{!!result.departureTime && (
+						<Text className="text-sm darker-text">
+							Departure: {result.departureTime}
+						</Text>
+					)}
+					{!!result.arrivalTime && (
+						<Text className="text-sm darker-text">
+							Arrival: {result.arrivalTime}
+						</Text>
+					)}
+					{!!result.terminal && (
+						<Text className="text-sm darker-text">
+							Terminal: {result.terminal}
+						</Text>
+					)}
+					{!!result.gate && (
+						<Text className="text-sm darker-text">Gate: {result.gate}</Text>
+					)}
+				</View>
+			</View>
+		);
+	}
+
+	return (
+		<View className={clsx("flex-1 px-4 flex-row items-center")}>
+			<Text className="text-4xl font-semibold flex-1">{result.value}</Text>
+			{!!result.secondary && (
+				<Text className="text-neutral-600 dark:text-neutral-400">
+					{result.secondary}
+				</Text>
+			)}
+		</View>
+	);
+}
 
 const ItemRow = observer(({ item, index }: { item: Item; index: number }) => {
 	const store = useStore();
@@ -26,20 +110,20 @@ const ItemRow = observer(({ item, index }: { item: Item; index: number }) => {
 
 	// this is used for things like calculator results
 	if (item.type === ItemType.TEMPORARY_RESULT) {
+		if (store.ui.temporaryResult == null) {
+			return null;
+		}
+
 		return (
 			<View
 				className={clsx("flex-row items-center rounded-lg py-6", {
 					highlight: isActive,
 				})}
 			>
-				<View className={clsx("flex-1 px-4 flex-row items-center")}>
-					<Text className="text-4xl font-semibold flex-1">
-						{store.ui.temporaryResult}
-					</Text>
-					<Text className="text-neutral-600 dark:text-neutral-400">
-						{store.ui.query}
-					</Text>
-				</View>
+				<TemporaryResultView
+					result={store.ui.temporaryResult}
+					isActive={isActive}
+				/>
 			</View>
 		);
 	}

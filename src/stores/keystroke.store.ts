@@ -6,6 +6,7 @@ import type { IRootStore } from "store";
 import { ItemType, Widget } from "./ui.store";
 import { EMOJI_ROW_SIZE } from "./emoji.store";
 import { isValidCustomSearchEngineUrl } from "widgets/settings/general";
+import { formatTemporaryResultForClipboard } from "./ui.store.helpers";
 
 let keyDownListener: EmitterSubscription | undefined;
 let keyUpListener: EmitterSubscription | undefined;
@@ -388,7 +389,9 @@ export const createKeystrokeStore = (root: IRootStore) => {
 								item.type === ItemType.TEMPORARY_RESULT &&
 								root.ui.temporaryResult
 							) {
-								Clipboard.setString(root.ui.temporaryResult);
+								Clipboard.setString(
+									formatTemporaryResultForClipboard(root.ui.temporaryResult),
+								);
 								solNative.showToast("Copied to clipboard", "success");
 								solNative.hideWindow();
 								return;

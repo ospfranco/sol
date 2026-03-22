@@ -1,6 +1,29 @@
 import * as chrono from "chrono-node";
+import axios from "axios";
 import convert from "convert-units";
 import { DateTime } from "luxon";
+
+export type TemporaryResult =
+	| {
+			kind: "text";
+			value: string;
+			secondary?: string;
+	  }
+	| {
+			kind: "comparison";
+			left: { label: string; value: string };
+			right: { label: string; value: string };
+			footer?: string;
+	  }
+	| {
+			kind: "flight";
+			flight: string;
+			status?: string;
+			departureTime?: string;
+			arrivalTime?: string;
+			terminal?: string;
+			gate?: string;
+	  };
 
 type BookmarkNode = {
 	type: "folder" | "url";
@@ -136,6 +159,31 @@ function formatConvertedValue(value: number) {
 	return rounded.toString();
 }
 
+export function createTextTemporaryResult(
+	value: string,
+	secondary?: string,
+): TemporaryResult {
+	return {
+		kind: "text",
+		value,
+		secondary,
+	};
+}
+
+function stripHtmlTags(input: string) {
+	return input.replace(/<[^>]+>/g, " ");
+}
+
+function decodeHtmlEntities(input: string) {
+	return input
+		.replace(/&amp;/g, "&")
+		.replace(/&quot;/g, '"')
+		.replace(/&#39;/g, "'")
+		.replace(/&lt;/g, "<")
+		.replace(/&gt;/g, ">")
+		.replace(/&nbsp;/g, " ");
+}
+
 export function getInitials(name: string) {
 	return name
 		.toLowerCase()
@@ -162,7 +210,7 @@ export function traverse(
 	}
 }
 
-export function parseTimezoneConversion(query: string) {
+export function parseTimezoneConversion(query: string): TemporaryResult | null {
 	const localZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 	if (!localZone) {
 		return null;
@@ -231,10 +279,20 @@ export function parseTimezoneConversion(query: string) {
 				: localZone;
 	}
 
-	return `${sourceDateTime.toFormat("HH:mm")} ${sourceTz} = ${targetDateTime.toFormat("HH:mm")} ${targetLabel}`;
+	return {
+		kind: "comparison",
+		left: {
+			label: sourceTz,
+			value: sourceDateTime.toFormat("ccc dd LLL HH:mm"),
+		},
+		right: {
+			label: targetLabel,
+			value: targetDateTime.toFormat("ccc dd LLL HH:mm"),
+		},
+	};
 }
 
-export function parseUnitConversion(query: string) {
+export function parseUnitConversion(query: string): TemporaryResult | null {
 	const normalized = query.trim().replace(/,/g, "").replace(/\s+/g, " ");
 	const match = normalized.match(
 		/^(?<value>-?\d*\.?\d+)\s*(?<from>[a-zA-Z]+)\s*(?:to|in)\s*(?<to>[a-zA-Z]+)$/i,
@@ -256,10 +314,177 @@ export function parseUnitConversion(query: string) {
 		const converted = convert(value)
 			.from(fromUnit as any)
 			.to(toUnit as any);
-		return `${formatConvertedValue(value)} ${fromUnit} = ${formatConvertedValue(converted)} ${toUnit}`;
+		return {
+			kind: "comparison",
+			left: {
+				label: fromUnit,
+				value: formatConvertedValue(value),
+			},
+			right: {
+				label: toUnit,
+				value: formatConvertedValue(converted),
+			},
+		};
 	} catch {
 		return null;
 	}
+}
+
+export function parseFlightIdentifier(query: string) {
+	const normalized = query.trim().toUpperCase().replace(/\s+/g, "");
+	if (!/^[A-Z]{2,3}\d{2,4}[A-Z]?$/.test(normalized)) {
+		return null;
+	}
+
+	return normalized;
+}
+
+function extractFlightSnippetsFromHtml(html: string, engine: "ddg" | "google") {
+	const rawMatches =
+		engine === "ddg"
+			? [...html.matchAll(/result__snippet[^>]*>([\s\S]*?)<\/a>/gi)].map(
+					(m) => m[1],
+				)
+			: [
+					...html.matchAll(
+						/class="(?:VwiC3b|aCOpRe)[^"]*"[^>]*>([\s\S]*?)<\/div>/gi,
+					),
+				].map((m) => m[1]);
+
+	return rawMatches
+		.map((s) => decodeHtmlEntities(stripHtmlTags(s)))
+		.map((s) => s.replace(/\s+/g, " ").trim())
+		.filter(Boolean)
+		.slice(0, 6);
+}
+
+function parseFlightTemporaryResultFromSnippets(
+	flightIdentifier: string,
+	snippets: string[],
+): TemporaryResult | null {
+	if (snippets.length === 0) {
+		return null;
+	}
+
+	const merged = snippets.join(" ");
+	const statusMatch = merged.match(
+		/\b(on\s*time|delayed|cancelled|boarding|departed|landed|scheduled)\b/i,
+	);
+	const terminalMatch = merged.match(/\bterminal\s*([a-z0-9-]+)/i);
+	const gateMatch = merged.match(/\bgate\s*([a-z0-9-]+)/i);
+	const times = [...merged.matchAll(/\b\d{1,2}:\d{2}\s?(?:am|pm)?\b/gi)]
+		.map((m) => m[0].toUpperCase())
+		.slice(0, 2);
+
+	if (!statusMatch && !terminalMatch && !gateMatch && times.length === 0) {
+		return null;
+	}
+
+	return {
+		kind: "flight",
+		flight: flightIdentifier,
+		status: statusMatch?.[1]?.toUpperCase(),
+		departureTime: times[0],
+		arrivalTime: times[1],
+		terminal: terminalMatch?.[1]?.toUpperCase(),
+		gate: gateMatch?.[1]?.toUpperCase(),
+	};
+}
+
+export async function fetchFlightInfoFromWeb(
+	flightIdentifier: string,
+): Promise<TemporaryResult | null> {
+	const searchQuery = `${flightIdentifier} flight status gate terminal departure time`;
+	const requestConfig = {
+		headers: {
+			"User-Agent":
+				"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+		},
+		timeout: 6000,
+	};
+
+	let ddgError: unknown;
+	try {
+		const ddgResponse = await axios.get<string>(
+			"https://duckduckgo.com/html/",
+			{
+				...requestConfig,
+				params: { q: searchQuery },
+			},
+		);
+		const ddgResult = parseFlightTemporaryResultFromSnippets(
+			flightIdentifier,
+			extractFlightSnippetsFromHtml(ddgResponse.data, "ddg"),
+		);
+		if (ddgResult != null) {
+			return ddgResult;
+		}
+	} catch (error) {
+		ddgError = error;
+	}
+
+	let googleError: unknown;
+	try {
+		const googleResponse = await axios.get<string>(
+			"https://www.google.com/search",
+			{
+				...requestConfig,
+				params: { q: searchQuery, hl: "en" },
+			},
+		);
+		const googleResult = parseFlightTemporaryResultFromSnippets(
+			flightIdentifier,
+			extractFlightSnippetsFromHtml(googleResponse.data, "google"),
+		);
+		if (googleResult != null) {
+			return googleResult;
+		}
+	} catch (error) {
+		googleError = error;
+	}
+
+	if (googleError != null) {
+		throw googleError;
+	}
+
+	if (ddgError != null) {
+		throw ddgError;
+	}
+
+	return null;
+}
+
+export function formatTemporaryResultForClipboard(result: TemporaryResult) {
+	if (result.kind === "text") {
+		return result.secondary
+			? `${result.value} (${result.secondary})`
+			: result.value;
+	}
+
+	if (result.kind === "comparison") {
+		const footer = result.footer ? ` | ${result.footer}` : "";
+		return `${result.left.value} ${result.left.label} = ${result.right.value} ${result.right.label}${footer}`;
+	}
+
+	const parts: string[] = [];
+	if (result.status) {
+		parts.push(`Status: ${result.status}`);
+	}
+	if (result.departureTime) {
+		parts.push(`Departure: ${result.departureTime}`);
+	}
+	if (result.arrivalTime) {
+		parts.push(`Arrival: ${result.arrivalTime}`);
+	}
+	if (result.terminal) {
+		parts.push(`Terminal: ${result.terminal}`);
+	}
+	if (result.gate) {
+		parts.push(`Gate: ${result.gate}`);
+	}
+
+	const details = parts.join(" | ");
+	return details ? `${result.flight} | ${details}` : result.flight;
 }
 
 export function formatExpressionResult(value: number) {
