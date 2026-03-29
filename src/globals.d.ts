@@ -2,6 +2,7 @@
 
 interface INativeEvent {
 	id: string;
+	calendarId?: string;
 	calendarTitle?: string;
 	title?: string;
 	url?: string;
@@ -15,6 +16,11 @@ interface INativeEvent {
 	status: number; // 0 none, 1 confirmed, 2 tentative, 3 cancelled
 	declined: boolean;
 	eventLink?: string | null; // Computed
+}
+
+interface INativeCalendar {
+	id: string;
+	title: string;
 }
 
 declare module "*.png" {
@@ -44,7 +50,8 @@ declare const global: {
 		) => { name: string; path: string; isFolder: boolean }[];
 		requestCalendarAccess: () => Promise<void>;
 		getCalendarAuthorizationStatus: () => CalendarAuthorizationStatus;
-		getEvents: () => Promise<INativeEvent[]>;
+		getEvents: (calendarIds?: string[]) => Promise<INativeEvent[]>;
+		getCalendars: () => Promise<INativeCalendar[]>;
 		ls: (path: string) => string[];
 		exists: (path: string) => boolean;
 		readFile: (path: string) => string | null;

@@ -10,6 +10,9 @@
 - (void)requestCalendarAccess:(void (^)(void))callback;
 - (NSString *)getCalendarAuthorizationStatus;
 - (NSArray<EKEvent *> *)getEvents;
+- (NSArray<EKEvent *> *)getEventsForCalendarIdentifiers:
+	(NSArray<NSString *> *_Nullable)calendarIdentifiers;
+- (NSArray<NSDictionary<NSString *, NSString *> *> *)getCalendars;
 - (void)focusDate:(NSString *)dateISO;
 
 @end

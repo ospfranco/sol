@@ -35,11 +35,27 @@
 }
 
 - (NSArray<EKEvent *> *)getEvents {
+  return [self getEventsForCalendarIdentifiers:nil];
+}
+
+- (NSArray<EKEvent *> *)getEventsForCalendarIdentifiers:
+    (NSArray<NSString *> *_Nullable)calendarIdentifiers {
   @try {
-    NSArray *calendars = [_store calendarsForEntityType:EKEntityTypeEvent];
+    NSArray<EKCalendar *> *calendars =
+        [_store calendarsForEntityType:EKEntityTypeEvent];
+
+    if (calendarIdentifiers != nil) {
+      NSSet<NSString *> *calendarIdsSet =
+          [NSSet setWithArray:calendarIdentifiers];
+      NSPredicate *filter = [NSPredicate
+          predicateWithBlock:^BOOL(EKCalendar *calendar,
+                                   NSDictionary<NSString *, id> *_Nullable _) {
+            return [calendarIdsSet containsObject:calendar.calendarIdentifier];
+          }];
+      calendars = [calendars filteredArrayUsingPredicate:filter];
+    }
 
     if (!calendars || calendars.count == 0) {
-      NSLog(@"No calendars available");
       return @[];
     }
 
@@ -59,6 +75,34 @@
     return events ? events : @[];
   } @catch (NSException *exception) {
     NSLog(@"Error fetching events: %@", exception);
+    return @[];
+  }
+}
+
+- (NSArray<NSDictionary<NSString *, NSString *> *> *)getCalendars {
+  @try {
+    NSArray<EKCalendar *> *eventCalendars =
+        [_store calendarsForEntityType:EKEntityTypeEvent];
+
+    if (!eventCalendars || eventCalendars.count == 0) {
+      return @[];
+    }
+
+    NSMutableArray<NSDictionary<NSString *, NSString *> *> *res =
+        [NSMutableArray arrayWithCapacity:eventCalendars.count];
+    for (EKCalendar *calendar in eventCalendars) {
+      if (calendar.calendarIdentifier == nil || calendar.title == nil) {
+        continue;
+      }
+      [res addObject:@{
+        @"id" : calendar.calendarIdentifier,
+        @"title" : calendar.title,
+      }];
+    }
+
+    return res;
+  } @catch (NSException *exception) {
+    NSLog(@"Error fetching calendars: %@", exception);
     return @[];
   }
 }

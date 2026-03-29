@@ -271,15 +271,27 @@ void install(jsi::Runtime &rt,
   });
 
   auto getEvents = HOSTFN("getEvents", []) {
+    NSMutableArray<NSString *> *selectedCalendarIds = nil;
+    if (count > 0 && !arguments[0].isUndefined() && !arguments[0].isNull()) {
+      auto calendarIdsArray = arguments[0].asObject(rt).asArray(rt);
+      selectedCalendarIds = [NSMutableArray arrayWithCapacity:calendarIdsArray.size(rt)];
+      for (size_t i = 0; i < calendarIdsArray.size(rt); i++) {
+        auto id = calendarIdsArray.getValueAtIndex(rt, i).asString(rt).utf8(rt);
+        [selectedCalendarIds addObject:[NSString stringWithUTF8String:id.c_str()]];
+      }
+    }
+
     auto promiseCtr = rt.global().getPropertyAsFunction(rt, "Promise");
     auto promise = promiseCtr.callAsConstructor(
-                                                rt, HOSTFN("executor", []) {
+                                                rt,
+                                                HOSTFN("executor", [selectedCalendarIds]) {
       auto resolve = std::make_shared<jsi::Value>(rt, arguments[0]);
       auto reject = std::make_shared<jsi::Value>(rt, arguments[1]);
 
       dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), ^{
         @try {
-          NSArray<EKEvent *> *ekEvents = [calendarHelper getEvents];
+          NSArray<EKEvent *> *ekEvents = [calendarHelper
+              getEventsForCalendarIdentifiers:selectedCalendarIds];
 
           invoker->invokeAsync([resolve, ekEvents = ekEvents, &rt]() mutable {
             auto events = jsi::Array(rt, ekEvents.count);
@@ -390,6 +402,11 @@ void install(jsi::Runtime &rt,
                 event.setProperty(rt, "calendarTitle",
                                   [[[ekEvent calendar] title] UTF8String]);
               }
+              if ([[ekEvent calendar] calendarIdentifier] != NULL) {
+                event.setProperty(rt, "calendarId",
+                                  [[[ekEvent calendar] calendarIdentifier]
+                                      UTF8String]);
+              }
 
               //            if ([ekEvent hasAttendees]) {
               //              for (EKParticipant *participant in
@@ -440,6 +457,57 @@ void install(jsi::Runtime &rt,
           });
         }
       });
+      return {};
+                                                }));
+
+    return promise;
+  });
+
+  auto getCalendars = HOSTFN("getCalendars", []) {
+    auto promiseCtr = rt.global().getPropertyAsFunction(rt, "Promise");
+    auto promise = promiseCtr.callAsConstructor(
+                                                rt, HOSTFN("executor", []) {
+      auto resolve = std::make_shared<jsi::Value>(rt, arguments[0]);
+      auto reject = std::make_shared<jsi::Value>(rt, arguments[1]);
+
+      dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), ^{
+        @try {
+          NSArray<NSDictionary<NSString *, NSString *> *> *calendarEntries =
+              [calendarHelper getCalendars];
+
+          invoker->invokeAsync([resolve, calendarEntries = calendarEntries,
+                                &rt]() mutable {
+            auto calendars = jsi::Array(rt, calendarEntries.count);
+
+            for (int i = 0; i < calendarEntries.count; i++) {
+              NSDictionary<NSString *, NSString *> *calendarEntry =
+                  [calendarEntries objectAtIndex:i];
+              auto obj = jsi::Object(rt);
+
+              NSString *calendarId = [calendarEntry objectForKey:@"id"];
+              NSString *calendarTitle = [calendarEntry objectForKey:@"title"];
+
+              obj.setProperty(rt, "id", [calendarId UTF8String]);
+              obj.setProperty(rt, "title", [calendarTitle UTF8String]);
+
+              calendars.setValueAtIndex(rt, i, obj);
+            }
+
+            resolve->asObject(rt).asFunction(rt).call(rt, calendars);
+          });
+        } @catch (NSException *exception) {
+          NSLog(@"Error in getCalendars: %@", exception);
+          invoker->invokeAsync([reject, exception, &rt]() mutable {
+            NSString *errorMessage =
+                [NSString stringWithFormat:@"Failed to fetch calendars: %@",
+                                           [exception reason]];
+            auto error =
+                jsi::String::createFromUtf8(rt, [errorMessage UTF8String]);
+            reject->asObject(rt).asFunction(rt).call(rt, error);
+          });
+        }
+      });
+
       return {};
                                                 }));
 
@@ -668,6 +736,7 @@ void install(jsi::Runtime &rt,
   module.setProperty(rt, "getCalendarAuthorizationStatus",
                      std::move(getCalendarAuthorizationStatus));
   module.setProperty(rt, "getEvents", std::move(getEvents));
+  module.setProperty(rt, "getCalendars", std::move(getCalendars));
   module.setProperty(rt, "focusDate", std::move(focusDate));
   module.setProperty(rt, "ls", std::move(ls));
   module.setProperty(rt, "exists", std::move(exists));

@@ -9,9 +9,9 @@ PODS:
     - hermes-engine/Pre-built (= 0.79.6)
   - hermes-engine/Pre-built (0.79.6)
   - HotKey (0.2.1)
-  - MMKV (2.3.0):
-    - MMKVCore (~> 2.3.0)
-  - MMKVCore (2.3.0)
+  - MMKV (2.4.0):
+    - MMKVCore (~> 2.4.0)
+  - MMKVCore (2.4.0)
   - RCT-Folly (2024.11.18.00):
     - boost
     - DoubleConversion
@@ -1841,7 +1841,7 @@ PODS:
     - Yoga
   - Sentry/HybridSDK (8.56.1)
   - SocketRocket (0.7.1)
-  - Sparkle (2.8.1)
+  - Sparkle (2.9.0)
   - Yoga (0.0.0)
 
 DEPENDENCIES:
@@ -2101,8 +2101,8 @@ SPEC CHECKSUMS:
   glog: ea1690290b2b90f923ffcce07436498f09b428ee
   hermes-engine: 44bb6fe76a6eb400d3a992e2d0b21946ae999fa9
   HotKey: 400beb7caa29054ea8d864c96f5ba7e5b4852277
-  MMKV: c953dbaac0da392c24b005e763c03ce2638b4ed7
-  MMKVCore: d078dce7d6586a888b2c2ef5343b6242678e3ee8
+  MMKV: 86859fdfa2b0b21db1fd6e48788474a6416a2c77
+  MMKVCore: 3d16ce9f7d411e135020915fde98a056859a1efa
   RCT-Folly: e8b53d8c0d2d9df4a6a8b0a368a1a91fc62a88cb
   RCTDeprecation: 0418ac97b9f53b2e37f473da1663ef3061e46beb
   RCTRequired: 61528f74d9cf28b483de36e8ad1e157fa9e5c640
@@ -2173,7 +2173,7 @@ SPEC CHECKSUMS:
   RNSentry: eeaaa1a61ce59874fb46bba120042464618723e6
   Sentry: b3ec44d01708fce73f99b544beb57e890eca4406
   SocketRocket: 03f7111df1a343b162bf5b06ead333be808e1e0a
-  Sparkle: a346a4341537c625955751ed3ae4b340b68551fa
+  Sparkle: f4355f9ebbe9b7d932df4980d70f13922ac97b2a
   Yoga: be08366e61155f388be00b3943f4b3febdef8d30
 
 PODFILE CHECKSUM: 09d9f4d8690650f7bbc4a5e78de155d44c82904c
