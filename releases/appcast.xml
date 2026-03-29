@@ -3,6 +3,15 @@
     <channel>
         <title>Sol</title>
         <item>
+            <title>2.1.312</title>
+            <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.311...2.1.312]]></description>
+            <pubDate>Sun, 29 Mar 2026 15:46:34 +0200</pubDate>
+            <sparkle:version>526</sparkle:version>
+            <sparkle:shortVersionString>2.1.312</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.312/2.1.312.zip" length="14506487" type="application/octet-stream" sparkle:edSignature="nC8o1091NOGS3yKOSGAQfFW3XT70k7yDzJ31Cht5De/xPBoHGNIkoKWTqNcB7n4yGQVMf1JGwMFljlIy14ngDg=="/>
+        </item>
+        <item>
             <title>2.1.311</title>
             <description><![CDATA[## What's Changed
 * Unit, time conversions and flight searchs by @ospfranco in https://github.com/ospfranco/sol/pull/259
@@ -27,15 +36,6 @@
             <sparkle:shortVersionString>2.1.310</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.310/2.1.310.zip" length="14287880" type="application/octet-stream" sparkle:edSignature="zDjlPLkGI11gv5WIdv+HOYFyl56qvKV6TJk08gNMfQwfrDgpYwk7I9yZWmrKGmSsuNSE3JBnoajvm4HklwmHCw=="/>
-        </item>
-        <item>
-            <title>2.1.309</title>
-            <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.308...2.1.309]]></description>
-            <pubDate>Fri, 20 Mar 2026 12:10:10 +0100</pubDate>
-            <sparkle:version>523</sparkle:version>
-            <sparkle:shortVersionString>2.1.309</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.309/2.1.309.zip" length="14287312" type="application/octet-stream" sparkle:edSignature="W8mthfYmU49iQB0yya+bxmP4hCzNjl5YKTdzW51z74gDH20vr7Kk3kk+bOTPcZP2KtYT2NcG7wU5lYUQZbJ4Bg=="/>
         </item>
     </channel>
 </rss>
