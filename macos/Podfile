@@ -3,8 +3,6 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 prepare_react_native_project!
 
-ENV['RCT_NEW_ARCH_ENABLED'] = '0'
-
 target 'macOS' do
   platform :macos, '14'
   use_native_modules!
