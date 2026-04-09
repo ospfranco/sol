@@ -1,0 +1,112 @@
+diff --git a/index.native.js b/index.native.js
+index e9ffac12c05566b0987ff4adf5444fb2f8b57571..9323d81fd59ffb0bc5cd80f1fdbe63ea85dcc099 100644
+--- a/index.native.js
++++ b/index.native.js
+@@ -362,17 +362,12 @@ var PositionViewState = typedMemo(function PositionViewState2({
+   ...rest
+ }) {
+   const [position = POSITION_OUT_OF_VIEW] = useArr$([`containerPosition${id}`]);
+-  return /* @__PURE__ */ React2__namespace.createElement(
+-    ReactNative.View,
+-    {
+-      ref: refView,
+-      style: [
+-        style,
+-        horizontal ? { transform: [{ translateX: position }] } : { transform: [{ translateY: position }] }
+-      ],
+-      ...rest
+-    }
+-  );
++  const positionStyle = ReactNative.Platform.OS === "ios" || ReactNative.Platform.OS === "android" ? horizontal ? { transform: [{ translateX: position }] } : { transform: [{ translateY: position }] } : horizontal ? { left: position } : { top: position };
++  return /* @__PURE__ */ React2__namespace.createElement(ReactNative.View, {
++    ref: refView,
++    style: [style, positionStyle],
++    ...rest
++  });
+ });
+ var PositionViewAnimated = typedMemo(function PositionViewAnimated2({
+   id,
+diff --git a/index.native.mjs b/index.native.mjs
+index 8fabeee844bf227c943361ad49969233a307e32c..4ad7d8cf2c67a39ea44c7c6936b1304f90e4dbdf 100644
+--- a/index.native.mjs
++++ b/index.native.mjs
+@@ -341,17 +341,12 @@ var PositionViewState = typedMemo(function PositionViewState2({
+   ...rest
+ }) {
+   const [position = POSITION_OUT_OF_VIEW] = useArr$([`containerPosition${id}`]);
+-  return /* @__PURE__ */ React2.createElement(
+-    View$1,
+-    {
+-      ref: refView,
+-      style: [
+-        style,
+-        horizontal ? { transform: [{ translateX: position }] } : { transform: [{ translateY: position }] }
+-      ],
+-      ...rest
+-    }
+-  );
++  const positionStyle = Platform.OS === "ios" || Platform.OS === "android" ? horizontal ? { transform: [{ translateX: position }] } : { transform: [{ translateY: position }] } : horizontal ? { left: position } : { top: position };
++  return /* @__PURE__ */ React2.createElement(View$1, {
++    ref: refView,
++    style: [style, positionStyle],
++    ...rest
++  });
+ });
+ var PositionViewAnimated = typedMemo(function PositionViewAnimated2({
+   id,
+diff --git a/react-native.js b/react-native.js
+index 7441a76b34c875d4fe64eef73c82f296b51cdd93..15eb8cb87dd80b66ce055822a6345f64c2c4d83f 100644
+--- a/react-native.js
++++ b/react-native.js
+@@ -362,17 +362,12 @@ var PositionViewState = typedMemo(function PositionViewState2({
+   ...rest
+ }) {
+   const [position = POSITION_OUT_OF_VIEW] = useArr$([`containerPosition${id}`]);
+-  return /* @__PURE__ */ React2__namespace.createElement(
+-    ReactNative.View,
+-    {
+-      ref: refView,
+-      style: [
+-        style,
+-        horizontal ? { transform: [{ translateX: position }] } : { transform: [{ translateY: position }] }
+-      ],
+-      ...rest
+-    }
+-  );
++  const positionStyle = ReactNative.Platform.OS === "ios" || ReactNative.Platform.OS === "android" ? horizontal ? { transform: [{ translateX: position }] } : { transform: [{ translateY: position }] } : horizontal ? { left: position } : { top: position };
++  return /* @__PURE__ */ React2__namespace.createElement(ReactNative.View, {
++    ref: refView,
++    style: [style, positionStyle],
++    ...rest
++  });
+ });
+ var PositionViewAnimated = typedMemo(function PositionViewAnimated2({
+   id,
+diff --git a/react-native.mjs b/react-native.mjs
+index e35a084eea213e14b9181f2fa8c842a719f2fb4d..4c653ba590123b37855a8c572d67a6464082d9dc 100644
+--- a/react-native.mjs
++++ b/react-native.mjs
+@@ -341,17 +341,12 @@ var PositionViewState = typedMemo(function PositionViewState2({
+   ...rest
+ }) {
+   const [position = POSITION_OUT_OF_VIEW] = useArr$([`containerPosition${id}`]);
+-  return /* @__PURE__ */ React2.createElement(
+-    View$1,
+-    {
+-      ref: refView,
+-      style: [
+-        style,
+-        horizontal ? { transform: [{ translateX: position }] } : { transform: [{ translateY: position }] }
+-      ],
+-      ...rest
+-    }
+-  );
++  const positionStyle = Platform.OS === "ios" || Platform.OS === "android" ? horizontal ? { transform: [{ translateX: position }] } : { transform: [{ translateY: position }] } : horizontal ? { left: position } : { top: position };
++  return /* @__PURE__ */ React2.createElement(View$1, {
++    ref: refView,
++    style: [style, positionStyle],
++    ...rest
++  });
+ });
+ var PositionViewAnimated = typedMemo(function PositionViewAnimated2({
+   id,

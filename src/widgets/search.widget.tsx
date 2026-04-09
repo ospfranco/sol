@@ -1,4 +1,4 @@
-import { LegendList, type LegendListRef } from "@legendapp/list";
+import { LegendList, type LegendListRef } from "@legendapp/list/react-native";
 import { Icons } from "assets";
 import clsx from "clsx";
 import Favicon from "components/Favicon";
