@@ -4,7 +4,9 @@
     "lib": ["ES2020"],
     "allowJs": true,
     "strict": true,
-    "baseUrl": "./src",
+    "paths": {
+      "*": ["./src/*"]
+    },
     "jsx": "react-jsx",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
