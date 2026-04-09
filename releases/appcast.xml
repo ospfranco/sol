@@ -3,6 +3,15 @@
     <channel>
         <title>Sol</title>
         <item>
+            <title>2.1.313</title>
+            <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.312...2.1.313]]></description>
+            <pubDate>Thu, 09 Apr 2026 17:12:00 -0400</pubDate>
+            <sparkle:version>527</sparkle:version>
+            <sparkle:shortVersionString>2.1.313</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.313/2.1.313.zip" length="15158751" type="application/octet-stream" sparkle:edSignature="KSHKcJdYS4pbtwGHPLzdEm1TBs0kVTG/u4V6AeL8jGuCtlKKOzuJYhGoH5Pl9w4Bu0CarTE7HfcaOfmKeBUKCw=="/>
+        </item>
+        <item>
             <title>2.1.312</title>
             <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.311...2.1.312]]></description>
             <pubDate>Sun, 29 Mar 2026 15:46:34 +0200</pubDate>
