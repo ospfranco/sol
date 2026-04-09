@@ -1,14 +1,13 @@
+import { LegendList } from "@legendapp/list";
 import clsx from "clsx";
+import { useBoolean } from "hooks";
+import { solNative } from "lib/SolNative";
 import { DateTime } from "luxon";
 import { observer } from "mobx-react-lite";
 import { type FC, useCallback, useMemo } from "react";
 import { Linking, Text, TouchableWithoutFeedback, View } from "react-native";
 import { useStore } from "store";
-import { Key } from "./Key";
-import { useBoolean } from "hooks";
 import { LoadingBar } from "./LoadingBar";
-import { LegendList } from "@legendapp/list";
-import { solNative } from "lib/SolNative";
 
 const CalendarItem = ({ item }: { item: INativeEvent }) => {
 	const store = useStore();
@@ -141,17 +140,6 @@ export const FullCalendar: FC = observer(() => {
 				contentContainerStyle={{ flexGrow: 1 }}
 				recycleItems
 			/>
-			{store.calendar.upcomingEvent && (
-				<View className="subBg flex-row items-center justify-end gap-1 py-2 px-4">
-					<Text className={"text-xs mr-1"} numberOfLines={1}>
-						Open Upcoming{" "}
-						<Text className="font-bold">
-							{store.calendar.upcomingEvent.title}
-						</Text>
-					</Text>
-					<Key symbol={"⏎"} primary />
-				</View>
-			)}
 		</>
 	);
 });

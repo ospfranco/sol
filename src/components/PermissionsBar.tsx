@@ -2,6 +2,7 @@ import { observer } from "mobx-react-lite";
 import type { FC } from "react";
 import { Text, View } from "react-native";
 import { useStore } from "store";
+import { Widget } from "stores/ui.store";
 import { Key } from "./Key";
 
 export const PermissionsBar: FC = observer(() => {
@@ -38,6 +39,23 @@ export const PermissionsBar: FC = observer(() => {
 			<View className="subBg flex-row justify-end items-center gap-1 py-2 px-4 ">
 				<Text className={"text-xs darker-text mr-1"}>
 					Seems you just installed Sol, check out the getting started
+				</Text>
+				<Key symbol={"⏎"} primary />
+			</View>
+		);
+	}
+
+	if (
+		store.ui.focusedWidget === Widget.SEARCH &&
+		store.calendar.upcomingEvent
+	) {
+		return (
+			<View className="subBg flex-row items-center justify-end gap-1 py-2 px-4">
+				<Text className={"text-xs mr-1"} numberOfLines={1}>
+					Open Upcoming{" "}
+					<Text className="font-bold">
+						{store.calendar.upcomingEvent.title}
+					</Text>
 				</Text>
 				<Key symbol={"⏎"} primary />
 			</View>

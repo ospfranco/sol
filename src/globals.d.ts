@@ -33,6 +33,11 @@ declare module "*.jpeg" {
 	export default value;
 }
 
+declare module "*.css" {
+	const value: Record<string, string>;
+	export default value;
+}
+
 type CalendarAuthorizationStatus =
 	| "notDetermined"
 	| "restricted"
@@ -79,7 +84,7 @@ declare const global: {
 				path: string,
 				changeType: "modified" | "created" | "deleted",
 			) => void,
-			// biome-ignore lint/complexity/noBannedTypes: <explanation>
+			// biome-ignore lint/complexity/noBannedTypes: reason
 		) => Object;
 		focusDate: (dateISO: string) => void;
 	};

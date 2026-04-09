@@ -1,9 +1,12 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Sentry from "@sentry/react-native";
 import { Assets } from "assets";
 import { Parser } from "expr-eval";
-import { solNative } from "lib/SolNative";
 import { CONSTANTS } from "lib/constants";
+import { solNative } from "lib/SolNative";
+import { defaultShortcuts } from "lib/shortcuts";
 import { googleTranslate } from "lib/translator";
+import MiniSearch from "minisearch";
 import {
 	autorun,
 	type IReactionDisposer,
@@ -21,18 +24,15 @@ import {
 } from "react-native";
 import type { IRootStore } from "store";
 import { createBaseItems } from "./items";
-import MiniSearch from "minisearch";
-import * as Sentry from "@sentry/react-native";
 import { storage } from "./storage";
-import { defaultShortcuts } from "lib/shortcuts";
 import {
 	createTextTemporaryResult,
 	fetchFlightInfoFromWeb,
 	formatExpressionResult,
 	getInitials,
 	parseFlightIdentifier,
-	parseUnitConversion,
 	parseTimezoneConversion,
+	parseUnitConversion,
 	type TemporaryResult,
 	traverse,
 } from "./ui.store.helpers";
@@ -105,7 +105,7 @@ const minisearch = new MiniSearch({
 		"faviconFallback",
 	],
 	tokenize: (text: string, fieldName?: string) =>
-		text.toLowerCase().split(/[\s\.-]+/),
+		text.toLowerCase().split(/[\s.-]+/),
 });
 
 const userName = solNative.userName();
@@ -508,7 +508,7 @@ export const createUIStore = (root: IRootStore) => {
 					store.translationResults = translations;
 					store.isLoading = false;
 				});
-			} catch (e) {
+			} catch (_) {
 				runInAction(() => {
 					store.isLoading = false;
 				});
@@ -603,7 +603,7 @@ export const createUIStore = (root: IRootStore) => {
 					} else {
 						store.temporaryResult = null;
 					}
-				} catch (e) {
+				} catch (_) {
 					store.temporaryResult = null;
 				}
 
@@ -866,7 +866,7 @@ export const createUIStore = (root: IRootStore) => {
 					callback: () => {
 						try {
 							Linking.openURL(bookmark.url);
-						} catch (e) {
+						} catch (_) {
 							// intentionally left blank
 						}
 					},
