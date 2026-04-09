@@ -8,7 +8,7 @@ import { LoadingBar } from "components/LoadingBar";
 import { MainInput } from "components/MainInput";
 import { renderToKeys } from "lib/shortcuts";
 import { observer } from "mobx-react-lite";
-import { type FC, useEffect, useRef } from "react";
+import { type FC, useCallback, useEffect, useRef, useState } from "react";
 import {
 	Image,
 	Platform,
@@ -270,9 +270,23 @@ export const SearchWidget: FC = observer(() => {
 	const store = useStore();
 	const focused = store.ui.focusedWidget === Widget.SEARCH;
 	const listRef = useRef<LegendListRef | null>(null);
+	const inputRef = useRef<any>(null);
+	const wasVisibleRef = useRef(store.ui.isVisible);
+	const [selection, setSelection] = useState<
+		{ start: number; end: number } | undefined
+	>(undefined);
 	const items = store.ui.items.filter(
 		(item) => !store.ui.isItemDisabled(item.id),
 	);
+
+	const selectAllQuery = useCallback(() => {
+		const length = store.ui.query.length;
+		inputRef.current?.focus?.();
+		setSelection({ start: 0, end: length });
+		requestAnimationFrame(() => {
+			setSelection(undefined);
+		});
+	}, [store.ui.query]);
 
 	useEffect(() => {
 		if (focused && items.length && store.ui.selectedIndex < items.length) {
@@ -283,6 +297,14 @@ export const SearchWidget: FC = observer(() => {
 		}
 	}, [focused, store.ui.selectedIndex, items]);
 
+	useEffect(() => {
+		const becameVisible = !wasVisibleRef.current && store.ui.isVisible;
+		if (becameVisible && focused && store.ui.temporaryResult != null) {
+			selectAllQuery();
+		}
+		wasVisibleRef.current = store.ui.isVisible;
+	}, [focused, store.ui.isVisible, store.ui.temporaryResult, selectAllQuery]);
+
 	return (
 		<View
 			className={clsx({
@@ -290,7 +312,21 @@ export const SearchWidget: FC = observer(() => {
 			})}
 		>
 			<View className="flex-row items-center gap-2 px-3">
-				<MainInput className="flex-1" hideIcon />
+				<MainInput
+					className="flex-1"
+					hideIcon
+					inputRef={inputRef}
+					selection={selection}
+				/>
+				{__DEV__ && (
+					<TouchableOpacity
+						onPress={() => {
+							selectAllQuery();
+						}}
+					>
+						<Text className="text-xs darker-text">Select Debug</Text>
+					</TouchableOpacity>
+				)}
 			</View>
 
 			{!!store.ui.query && (

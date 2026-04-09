@@ -1,11 +1,12 @@
+import { Assets } from "assets";
 import { observer } from "mobx-react-lite";
+import type { MutableRefObject } from "react";
 import { DevSettings, Image, Text, TouchableOpacity, View } from "react-native";
 import { TextInput } from "react-native-macos";
 import { useStore } from "store";
-import colors from "tailwindcss/colors";
 import { Widget } from "stores/ui.store";
+import colors from "tailwindcss/colors";
 import { BackButton } from "./BackButton";
-import { Assets } from "assets";
 
 type Props = {
 	placeholder?: string;
@@ -13,10 +14,20 @@ type Props = {
 	style?: any;
 	className?: string;
 	hideIcon?: boolean;
+	selectTextOnFocus?: boolean;
+	inputRef?: MutableRefObject<any>;
+	selection?: { start: number; end: number };
 };
 
 export const MainInput = observer<Props>(
-	({ placeholder = "Search your mac...", showBackButton, hideIcon }) => {
+	({
+		placeholder = "Search your mac...",
+		showBackButton,
+		hideIcon,
+		selectTextOnFocus = false,
+		inputRef,
+		selection,
+	}) => {
 		const store = useStore();
 		const isDarkMode = store.ui.isDarkMode;
 		const reloadApp = async () => {
@@ -54,7 +65,14 @@ export const MainInput = observer<Props>(
 			<View className="min-h-[42px] flex-row items-center gap-2 my-1 flex-1 px-2">
 				{leftButton}
 				<TextInput
+					ref={(node) => {
+						if (inputRef) {
+							inputRef.current = node;
+						}
+					}}
 					autoFocus
+					selectTextOnFocus={selectTextOnFocus}
+					selection={selection}
 					enableFocusRing={false}
 					value={store.ui.query}
 					onChangeText={store.ui.setQuery}
