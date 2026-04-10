@@ -36,13 +36,19 @@ class NotchHelper {
       }
 
       let appBundleID = Bundle.main.infoDictionary?["CFBundleName"] as! String
-      if let myAppPath = myAppPath, path.absoluteString.contains("/\(appBundleID)/original") {
-        currentImageName = URL(fileURLWithPath: path.absoluteString).lastPathComponent
+      if let myAppPath = myAppPath, path.path.contains("/\(appBundleID)/processed/") {
+        currentImageName = path.lastPathComponent
+        recoverNotch(screen: screen)
+        continue
+      }
+
+      if let myAppPath = myAppPath, path.path.contains("/\(appBundleID)/original/") {
+        currentImageName = path.lastPathComponent
         let processdUrl = myAppPath.appendingPathComponent("processed").appendingPathComponent(
           currentImageName)
         if FileManager.default.fileExists(atPath: processdUrl.path) {
           setDesktopImageURL(url: processdUrl, screen: screen)
-          return
+          continue
         }
       }
 
