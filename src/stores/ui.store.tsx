@@ -104,7 +104,7 @@ const minisearch = new MiniSearch({
 		"bookmarkFolder",
 		"faviconFallback",
 	],
-	tokenize: (text: string, fieldName?: string) =>
+	tokenize: (text: string, _fieldName?: string) =>
 		text.toLowerCase().split(/[\s.-]+/),
 });
 
@@ -363,8 +363,8 @@ export const createUIStore = (root: IRootStore) => {
 				fuzzy: true,
 				// Slightly boost items that have a frequency
 				boostDocument: (
-					documentId: any,
-					term: string,
+					_documentId: any,
+					_term: string,
 					storedFields?: Record<string, any>,
 				) => {
 					if (storedFields) {
@@ -784,7 +784,7 @@ export const createUIStore = (root: IRootStore) => {
 			solNative.setLaunchAtLogin(v);
 		},
 		getFullDiskAccessStatus: async () => {
-			const hasAccess = await solNative.hasFullDiskAccess();
+			const _hasAccess = await solNative.hasFullDiskAccess();
 			store.getBookmarks();
 		},
 		getBookmarks: async () => {

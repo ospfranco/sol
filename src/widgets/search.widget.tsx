@@ -8,12 +8,13 @@ import { LoadingBar } from "components/LoadingBar";
 import { MainInput } from "components/MainInput";
 import { renderToKeys } from "lib/shortcuts";
 import { observer } from "mobx-react-lite";
-import { type FC, useCallback, useEffect, useRef, useState } from "react";
+import { type FC, useEffect, useRef } from "react";
 import {
 	Image,
 	Platform,
 	StyleSheet,
 	Text,
+	type TextInput,
 	TouchableOpacity,
 	View,
 } from "react-native";
@@ -270,23 +271,11 @@ export const SearchWidget: FC = observer(() => {
 	const store = useStore();
 	const focused = store.ui.focusedWidget === Widget.SEARCH;
 	const listRef = useRef<LegendListRef | null>(null);
-	const inputRef = useRef<any>(null);
+	const inputRef = useRef<TextInput>(null);
 	const wasVisibleRef = useRef(store.ui.isVisible);
-	const [selection, setSelection] = useState<
-		{ start: number; end: number } | undefined
-	>(undefined);
 	const items = store.ui.items.filter(
 		(item) => !store.ui.isItemDisabled(item.id),
 	);
-
-	const selectAllQuery = useCallback(() => {
-		const length = store.ui.query.length;
-		inputRef.current?.focus?.();
-		setSelection({ start: 0, end: length });
-		requestAnimationFrame(() => {
-			setSelection(undefined);
-		});
-	}, [store.ui.query]);
 
 	useEffect(() => {
 		if (focused && items.length && store.ui.selectedIndex < items.length) {
@@ -300,10 +289,15 @@ export const SearchWidget: FC = observer(() => {
 	useEffect(() => {
 		const becameVisible = !wasVisibleRef.current && store.ui.isVisible;
 		if (becameVisible && focused && store.ui.temporaryResult != null) {
-			selectAllQuery();
+			const length = store.ui.query.length;
+			console.log("Should select text");
+			inputRef.current?.focus?.();
+			inputRef.current?.setNativeProps?.({
+				selection: { start: 0, end: length },
+			});
 		}
 		wasVisibleRef.current = store.ui.isVisible;
-	}, [focused, store.ui.isVisible, store.ui.temporaryResult, selectAllQuery]);
+	}, [focused, store.ui.isVisible, store.ui.temporaryResult, store.ui.query]);
 
 	return (
 		<View
@@ -312,16 +306,17 @@ export const SearchWidget: FC = observer(() => {
 			})}
 		>
 			<View className="flex-row items-center gap-2 px-3">
-				<MainInput
-					className="flex-1"
-					hideIcon
-					inputRef={inputRef}
-					selection={selection}
-				/>
+				<MainInput className="flex-1" hideIcon inputRef={inputRef} />
 				{__DEV__ && (
 					<TouchableOpacity
 						onPress={() => {
-							selectAllQuery();
+							console.log("Pressed!");
+							console.log(inputRef.current);
+							const length = store.ui.query.length;
+							inputRef.current?.focus?.();
+							inputRef.current?.setNativeProps?.({
+								selection: { start: 0, end: length },
+							});
 						}}
 					>
 						<Text className="text-xs darker-text">Select Debug</Text>
