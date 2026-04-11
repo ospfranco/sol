@@ -1,17 +1,19 @@
 {
-  "extends": "@react-native/typescript-config/tsconfig.json",
+  "extends": "@react-native/typescript-config",
   "compilerOptions": {
-    "lib": ["ES2020"],
-    "allowJs": true,
-    "strict": true,
     "paths": {
-      "*": ["./src/*"]
-    },
-    "jsx": "react-jsx",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "useDefineForClassFields": true,
-    "resolveJsonModule": true,
-    "skipLibCheck": true
-  }
+      "*": [
+        "./src/*"
+      ]
+    }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "nativewind-env.d.ts"
+  ],
+  "exclude": [
+    "**/node_modules",
+    "**/Pods"
+  ]
 }

@@ -1,4 +1,4 @@
-import { LegendList } from "@legendapp/list";
+import { LegendList } from "@legendapp/list/react-native";
 import clsx from "clsx";
 import { useBoolean } from "hooks";
 import { solNative } from "lib/SolNative";

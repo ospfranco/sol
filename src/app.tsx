@@ -3,7 +3,7 @@ import "config";
 import { RootContainer } from "containers";
 import "intl";
 import "intl/locale-data/jsonp/en";
-import { LegendList } from "@legendapp/list";
+import { LegendList } from "@legendapp/list/react-native";
 import { accentRgb } from "mytailwind";
 import { remapProps, vars } from "nativewind";
 import { LogBox, View } from "react-native";

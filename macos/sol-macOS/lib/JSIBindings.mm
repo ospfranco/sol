@@ -1,6 +1,5 @@
 #include "JSIBindings.hpp"
 #import "CalendarHelper.h"
-#import "FileSearch.h"
 #import "JSIUtils.h"
 #include "SolMacros.h"
 #import "processes.h"
@@ -159,30 +158,134 @@ void install(jsi::Runtime &rt,
     return res;
   });
 
-  auto searchFiles = HOSTFN("searchFiles", []) {
+  auto hasIndexedContent = HOSTFN("hasIndexedContent", []) {
+    BOOL result = [FileSearchIndexObjC.shared hasIndexedContent];
+    return jsi::Value(rt, (bool)result);
+  });
+
+  auto startWatchingPaths = HOSTFN("startWatchingPaths", []) {
     auto paths = arguments[0].asObject(rt).asArray(rt);
-    auto query = arguments[1].asString(rt).utf8(rt);
-    std::vector<File> res;
+    NSMutableArray *pathsArray = [NSMutableArray array];
     for (size_t i = 0; i < paths.size(rt); i++) {
       auto path = paths.getValueAtIndex(rt, i).asString(rt).utf8(rt);
-      std::vector<File> path_results =
-          search_files([NSString stringWithUTF8String:path.c_str()],
-                       [NSString stringWithUTF8String:query.c_str()]);
-      res.insert(res.end(), path_results.begin(), path_results.end());
+      [pathsArray addObject:[NSString stringWithUTF8String:path.c_str()]];
+    }
+    [FileSearchIndexObjC.shared startWatchingPaths:pathsArray];
+    return jsi::Value::undefined();
+  });
+
+  auto removeIndexedPath = HOSTFN("removeIndexedPath", []) {
+    auto path = arguments[0].asString(rt).utf8(rt);
+    NSString *pathStr = [NSString stringWithUTF8String:path.c_str()];
+
+    auto promiseCtr = rt.global().getPropertyAsFunction(rt, "Promise");
+    auto promise = promiseCtr.callAsConstructor(
+      rt,
+      HOSTFN("executor", [pathStr]) {
+        auto resolve = std::make_shared<jsi::Value>(rt, arguments[0]);
+
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0), ^{
+          [FileSearchIndexObjC.shared removeIndexedPath:pathStr];
+          invoker->invokeAsync([resolve, &rt]() mutable {
+            resolve->asObject(rt).asFunction(rt).call(rt);
+          });
+        });
+
+        return {};
+      }));
+
+    return promise;
+  });
+
+  auto clearIndex = HOSTFN("clearIndex", []) {
+    [FileSearchIndexObjC.shared clearIndex];
+    return jsi::Value::undefined();
+  });
+
+  auto searchFilesIndexed = HOSTFN("searchFilesIndexed", []) {
+    auto query = arguments[0].asString(rt).utf8(rt);
+
+    if (query.empty()) {
+      auto promiseCtr = rt.global().getPropertyAsFunction(rt, "Promise");
+      return promiseCtr.callAsConstructor(rt, HOSTFN("executor", []) {
+        auto resolve = std::make_shared<jsi::Value>(rt, arguments[0]);
+        invoker->invokeAsync([resolve, &rt]() mutable {
+          auto empty = jsi::Array(rt, 0);
+          resolve->asObject(rt).asFunction(rt).call(rt, std::move(empty));
+        });
+        return {};
+      }));
     }
 
-    auto arr_res = jsi::Array(rt, res.size());
+    NSString *queryStr = [NSString stringWithUTF8String:query.c_str()];
 
-    for (size_t i = 0; i < res.size(); i++) {
-      auto result = res.at(i);
-      auto obj = jsi::Object(rt);
-      obj.setProperty(rt, "name", jsi::String::createFromUtf8(rt, result.name));
-      obj.setProperty(rt, "path", jsi::String::createFromUtf8(rt, result.path));
-      obj.setProperty(rt, "isFolder", result.is_folder);
-      arr_res.setValueAtIndex(rt, i, std::move(obj));
+    auto promiseCtr = rt.global().getPropertyAsFunction(rt, "Promise");
+    auto promise = promiseCtr.callAsConstructor(
+      rt,
+      HOSTFN("executor", [queryStr]) {
+        auto resolve = std::make_shared<jsi::Value>(rt, arguments[0]);
+
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+          NSArray *results = [FileSearchIndexObjC.shared searchFilesWithQuery:queryStr];
+
+          invoker->invokeAsync([resolve, results, &rt]() mutable {
+            auto arr_res = jsi::Array(rt, results.count);
+            for (size_t i = 0; i < results.count; i++) {
+              NSDictionary *result = results[i];
+              auto obj = jsi::Object(rt);
+              obj.setProperty(rt, "name", jsi::String::createFromUtf8(rt, [result[@"name"] UTF8String]));
+              obj.setProperty(rt, "path", jsi::String::createFromUtf8(rt, [result[@"path"] UTF8String]));
+              obj.setProperty(rt, "isFolder", [result[@"is_folder"] boolValue]);
+              arr_res.setValueAtIndex(rt, i, std::move(obj));
+            }
+            resolve->asObject(rt).asFunction(rt).call(rt, std::move(arr_res));
+          });
+        });
+
+        return {};
+      }));
+
+    return promise;
+  });
+
+  auto indexPaths = HOSTFN("indexPaths", []) {
+    auto paths = arguments[0].asObject(rt).asArray(rt);
+
+    NSMutableArray *pathsArray = [NSMutableArray array];
+    for (size_t i = 0; i < paths.size(rt); i++) {
+      auto path = paths.getValueAtIndex(rt, i).asString(rt).utf8(rt);
+      [pathsArray addObject:[NSString stringWithUTF8String:path.c_str()]];
     }
 
-    return std::move(arr_res);
+    auto promiseCtr = rt.global().getPropertyAsFunction(rt, "Promise");
+    auto promise = promiseCtr.callAsConstructor(
+                                                rt,
+                                                HOSTFN("executor", [pathsArray]) {
+      auto resolve = std::make_shared<jsi::Value>(rt, arguments[0]);
+      auto reject = std::make_shared<jsi::Value>(rt, arguments[1]);
+
+      dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0), ^{
+        @try {
+          [FileSearchIndexObjC.shared indexPathsWith:pathsArray];
+          invoker->invokeAsync([resolve, &rt]() mutable {
+            resolve->asObject(rt).asFunction(rt).call(rt);
+          });
+        } @catch (NSException *exception) {
+          invoker->invokeAsync([reject, exception, &rt]() mutable {
+            NSString *errorMessage =
+                [NSString stringWithFormat:@"Failed to index paths: %@",
+                                           [exception reason]];
+            auto error =
+                jsi::String::createFromUtf8(rt, [errorMessage UTF8String]);
+            reject->asObject(rt).asFunction(rt).call(rt, error);
+          });
+        }
+      });
+
+      return {};
+                                                }));
+
+    return promise;
   });
 
   // auto getMediaInfo = HOSTFN("getMediaInfo", 0, [=]) {
@@ -730,7 +833,12 @@ void install(jsi::Runtime &rt,
   module.setProperty(rt, "hideWindow", std::move(hideWindow));
   module.setProperty(rt, "showWindow", std::move(showWindow));
   // module.setProperty(rt, "getMediaInfo", std::move(getMediaInfo));
-  module.setProperty(rt, "searchFiles", std::move(searchFiles));
+  module.setProperty(rt, "searchFilesIndexed", std::move(searchFilesIndexed));
+  module.setProperty(rt, "hasIndexedContent", std::move(hasIndexedContent));
+  module.setProperty(rt, "startWatchingPaths", std::move(startWatchingPaths));
+  module.setProperty(rt, "removeIndexedPath", std::move(removeIndexedPath));
+  module.setProperty(rt, "clearIndex", std::move(clearIndex));
+  module.setProperty(rt, "indexPaths", std::move(indexPaths));
   module.setProperty(rt, "requestCalendarAccess",
                      std::move(requestCalendarAccess));
   module.setProperty(rt, "getCalendarAuthorizationStatus",

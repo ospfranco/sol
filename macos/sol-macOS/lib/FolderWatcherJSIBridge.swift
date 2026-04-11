@@ -1,26 +1,6 @@
 import Foundation
 
-@_cdecl("createFolderWatcher")
-public func createFolderWatcher(
-  pathPtr: UnsafePointer<CChar>,
-  callback:
-    @convention(c) (UnsafePointer<CChar>, UnsafePointer<CChar>, UnsafeMutableRawPointer?) -> Void,
-  context: UnsafeMutableRawPointer?
-) -> UnsafeMutableRawPointer? {
-  let path = String(cString: pathPtr)
-  let watcher = FolderWatcher(path: path) { changedPath, changeType in
-    changedPath.withCString { cPath in
-      changeType.withCString { cType in
-        callback(cPath, cType, context)
-      }
-    }
-  }
-  return Unmanaged.passRetained(watcher).toOpaque()
-}
+// Note: Folder watching is implemented in C++ via FolderWatcherJSI.h/mm
+// This Swift bridge file is superseded by the C++ implementation
+// Kept for backwards compatibility but not used
 
-@_cdecl("destroyFolderWatcher")
-public func destroyFolderWatcher(_ watcherPtr: UnsafeMutableRawPointer?) {
-  if let ptr = watcherPtr {
-    Unmanaged<FolderWatcher>.fromOpaque(ptr).release()
-  }
-}

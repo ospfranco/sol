@@ -1,4 +1,4 @@
-import { LegendList, type LegendListRef } from "@legendapp/list";
+import { LegendList, type LegendListRef } from "@legendapp/list/react-native";
 import clsx from "clsx";
 import { FileIcon } from "components/FileIcon";
 import { Key } from "components/Key";
@@ -54,7 +54,17 @@ export const FileSearchWidget: FC<Props> = observer(() => {
 	const store = useStore();
 	const data = store.ui.files;
 	const selectedIndex = store.ui.selectedIndex;
+	const query = store.ui.query;
 	const listRef = useRef<LegendListRef | null>(null);
+
+	const runFileSearch = store.ui.runFileSearch;
+
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			void runFileSearch(query);
+		}, 150);
+		return () => clearTimeout(timer);
+	}, [query, runFileSearch]);
 
 	useEffect(() => {
 		if (data.length && selectedIndex < data.length) {

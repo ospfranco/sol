@@ -49,10 +49,14 @@ declare const global: {
 		setHeight: (height: number) => void;
 		resetWindowSize: () => void;
 		hideWindow: () => void;
-		searchFiles: (
-			paths: string[],
+		searchFilesIndexed: (
 			query: string,
-		) => { name: string; path: string; isFolder: boolean }[];
+		) => Promise<{ name: string; path: string; isFolder: boolean }[]>;
+		hasIndexedContent: () => boolean;
+		indexPaths: (paths: string[]) => Promise<void>;
+		startWatchingPaths: (paths: string[]) => void;
+		removeIndexedPath: (path: string) => Promise<void>;
+		clearIndex: () => void;
 		requestCalendarAccess: () => Promise<void>;
 		getCalendarAuthorizationStatus: () => CalendarAuthorizationStatus;
 		getEvents: (calendarIds?: string[]) => Promise<INativeEvent[]>;

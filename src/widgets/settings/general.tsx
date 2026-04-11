@@ -129,7 +129,16 @@ export const General = observer(() => {
 						);
 					})}
 				</View>
-				<View className="justify-end flex-row mt-2">
+				<View className="justify-end flex-row mt-2 gap-4">
+					<TouchableOpacity
+						onPress={() => {
+							store.ui.reindexAll();
+						}}
+					>
+						<Text className="text-neutral-500">
+							{store.ui.isIndexing ? "Indexing..." : "Re-index"}
+						</Text>
+					</TouchableOpacity>
 					<TouchableOpacity
 						onPress={async () => {
 							try {
