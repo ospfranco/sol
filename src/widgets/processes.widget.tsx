@@ -1,4 +1,4 @@
-import { LegendList, type LegendListRef } from "@legendapp/list";
+import { LegendList, type LegendListRef } from "@legendapp/list/react-native";
 import clsx from "clsx";
 import { Key } from "components/Key";
 import { MainInput } from "components/MainInput";

@@ -61,7 +61,12 @@ class SolNative extends NativeEventEmitter {
 	resizeRightThird: () => void;
 	resizeLeftTwoThirds: () => void;
 	resizeRightTwoThirds: () => void;
-	searchFiles: typeof global.__SolProxy.searchFiles;
+	searchFilesIndexed: typeof global.__SolProxy.searchFilesIndexed;
+	hasIndexedContent: typeof global.__SolProxy.hasIndexedContent;
+	indexPaths: typeof global.__SolProxy.indexPaths;
+	startWatchingPaths: typeof global.__SolProxy.startWatchingPaths;
+	removeIndexedPath: typeof global.__SolProxy.removeIndexedPath;
+	clearIndex: typeof global.__SolProxy.clearIndex;
 	setShowWindowOn: (on: "screenWithFrontmost" | "screenWithCursor") => void;
 	useBackgroundOverlay: (v: boolean) => void;
 	toggleDND: () => void;
@@ -166,7 +171,12 @@ class SolNative extends NativeEventEmitter {
 		this.resizeLeftTwoThirds = module.resizeLeftTwoThirds;
 		this.resizeRightTwoThirds = module.resizeRightTwoThirds;
 		this.toggleDND = module.toggleDND;
-		this.searchFiles = global.__SolProxy.searchFiles;
+		this.searchFilesIndexed = global.__SolProxy.searchFilesIndexed;
+		this.hasIndexedContent = global.__SolProxy.hasIndexedContent;
+		this.indexPaths = global.__SolProxy.indexPaths;
+		this.startWatchingPaths = global.__SolProxy.startWatchingPaths;
+		this.removeIndexedPath = global.__SolProxy.removeIndexedPath;
+		this.clearIndex = global.__SolProxy.clearIndex;
 
 		this.setWindowHeight = global.__SolProxy.setHeight;
 		this.resetWindowSize = global.__SolProxy.resetWindowSize;

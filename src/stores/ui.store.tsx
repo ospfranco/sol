@@ -262,13 +262,14 @@ export const createUIStore = (root: IRootStore) => {
 		editingCustomItem: null as Item | null,
 		apps: [] as Item[],
 		isLoading: false,
+		isIndexing: false,
+		indexedFileResults: [] as Item[],
 		translationResults: [] as string[],
 		frequencies: {} as Record<string, number>,
 		temporaryResult: null as TemporaryResult | null,
 		firstTranslationLanguage: "en" as string,
 		secondTranslationLanguage: "de" as string,
 		thirdTranslationLanguage: null as null | string,
-		fileResults: [] as FileDescription[],
 		calendarEnabled: true,
 		showAllDayEvents: true,
 		launchAtLogin: true,
@@ -304,28 +305,29 @@ export const createUIStore = (root: IRootStore) => {
 		//                        | |
 		//                        |_|
 		get files(): Item[] {
-			if (!!store.query && store.focusedWidget === Widget.FILE_SEARCH) {
+			return store.indexedFileResults;
+		},
+		runFileSearch: async (query: string) => {
+			if (!query || store.focusedWidget !== Widget.FILE_SEARCH) {
 				runInAction(() => {
-					store.isLoading = true;
+					store.indexedFileResults = [];
+					store.isLoading = false;
 				});
-				const fileResults = solNative.searchFiles(
-					toJS(store.searchFolders),
-					store.query,
-				);
-
-				const results = fileResults.map((f) => ({
+				return;
+			}
+			runInAction(() => {
+				store.isLoading = true;
+			});
+			const results = await solNative.searchFilesIndexed(query);
+			runInAction(() => {
+				store.indexedFileResults = results.map((f) => ({
 					id: f.path,
 					type: ItemType.FILE,
 					name: f.name,
 					url: f.path,
 				}));
-				runInAction(() => {
-					store.isLoading = false;
-				});
-				return results;
-			}
-
-			return [];
+				store.isLoading = false;
+			});
 		},
 		get items(): Item[] {
 			const allItems = [
@@ -769,9 +771,6 @@ export const createUIStore = (root: IRootStore) => {
 			store.query = "";
 			store.focusWidget(Widget.PROCESSES);
 		},
-		onFileSearch: (files: FileDescription[]) => {
-			store.fileResults = files;
-		},
 		setCalendarEnabled: (v: boolean) => {
 			store.calendarEnabled = v;
 			solNative.setUpcomingEventEnabled(v && store.showUpcomingEvent);
@@ -950,10 +949,30 @@ export const createUIStore = (root: IRootStore) => {
 
 		addSearchFolder: (folder: string) => {
 			store.searchFolders.push(folder);
+			store.isIndexing = true;
+			void solNative.indexPaths([folder]).then(() => {
+				runInAction(() => {
+					store.isIndexing = false;
+				});
+			});
 		},
 
 		removeSearchFolder: (folder: string) => {
 			store.searchFolders = store.searchFolders.filter((f) => f !== folder);
+			void solNative.removeIndexedPath(folder);
+		},
+
+		reindexAll: () => {
+			solNative.clearIndex();
+			if (store.searchFolders.length === 0) return;
+			runInAction(() => {
+				store.isIndexing = true;
+			});
+			void solNative.indexPaths(toJS(store.searchFolders)).then(() => {
+				runInAction(() => {
+					store.isIndexing = false;
+				});
+			});
 		},
 
 		setSearchEngine: (engine: SearchEngine) => {
@@ -1115,6 +1134,22 @@ export const createUIStore = (root: IRootStore) => {
 		solNative.setUpcomingEventEnabled(
 			store.showUpcomingEvent && store.calendarEnabled,
 		);
+
+		if (store.searchFolders.length > 0) {
+			if (!solNative.hasIndexedContent()) {
+				runInAction(() => {
+					store.isIndexing = true;
+				});
+				void solNative.indexPaths(toJS(store.searchFolders)).then(() => {
+					runInAction(() => {
+						store.isIndexing = false;
+					});
+				});
+			} else {
+				// DB already populated — just start watching for changes
+				solNative.startWatchingPaths(toJS(store.searchFolders));
+			}
+		}
 	});
 
 	appareanceListener = Appearance.addChangeListener(store.onColorSchemeChange);
@@ -1125,10 +1160,6 @@ export const createUIStore = (root: IRootStore) => {
 	// 	"applicationsChanged",
 	// 	store.applicationsChanged,
 	// );
-	onFileSearchListener = solNative.addListener(
-		"onFileSearch",
-		store.onFileSearch,
-	);
 
 	return store;
 };
