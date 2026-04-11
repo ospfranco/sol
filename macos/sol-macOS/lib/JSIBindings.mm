@@ -235,7 +235,7 @@ void install(jsi::Runtime &rt,
               auto obj = jsi::Object(rt);
               obj.setProperty(rt, "name", jsi::String::createFromUtf8(rt, [result[@"name"] UTF8String]));
               obj.setProperty(rt, "path", jsi::String::createFromUtf8(rt, [result[@"path"] UTF8String]));
-              obj.setProperty(rt, "isFolder", [result[@"is_folder"] boolValue]);
+              obj.setProperty(rt, "isFolder", (bool)[result[@"is_folder"] boolValue]);
               arr_res.setValueAtIndex(rt, i, std::move(obj));
             }
             resolve->asObject(rt).asFunction(rt).call(rt, std::move(arr_res));
