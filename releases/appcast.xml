@@ -3,6 +3,15 @@
     <channel>
         <title>Sol</title>
         <item>
+            <title>2.1.317</title>
+            <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.316...2.1.317]]></description>
+            <pubDate>Sat, 11 Apr 2026 10:33:43 -0400</pubDate>
+            <sparkle:version>531</sparkle:version>
+            <sparkle:shortVersionString>2.1.317</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.317/2.1.317.zip" length="15182227" type="application/octet-stream" sparkle:edSignature="YAsHyB0Lr2Vna8KkeEEs681/XmVXBMdR66huG20aeMcV3x57xLaA9LuIawj9z49BnXe7t1O6wposR2lmyX/vAg=="/>
+        </item>
+        <item>
             <title>2.1.314</title>
             <description><![CDATA[## What's Changed
 * Fixes text input color by @ospfranco in https://github.com/ospfranco/sol/pull/265
