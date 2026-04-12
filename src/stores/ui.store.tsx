@@ -223,8 +223,7 @@ export const createUIStore = (root: IRootStore) => {
 					store.mediaKeyForwardingEnabled =
 						src.mediaKeyForwardingEnabled ?? true;
 					store.showUpcomingEvent = src.showUpcomingEvent ?? true;
-					store.scratchPadColor =
-						src.scratchPadColor ?? ScratchPadColor.SYSTEM;
+					store.scratchPadColor = src.scratchPadColor ?? ScratchPadColor.SYSTEM;
 					store.searchFolders = src.searchFolders ?? defaultSearchFolders;
 					store.searchEngine = src.searchEngine ?? "google";
 					store.customSearchUrl =
@@ -279,7 +278,8 @@ export const createUIStore = (root: IRootStore) => {
 				if (jsonConfig.firstTranslationLanguage !== undefined)
 					store.firstTranslationLanguage = jsonConfig.firstTranslationLanguage;
 				if (jsonConfig.secondTranslationLanguage !== undefined)
-					store.secondTranslationLanguage = jsonConfig.secondTranslationLanguage;
+					store.secondTranslationLanguage =
+						jsonConfig.secondTranslationLanguage;
 				if (jsonConfig.thirdTranslationLanguage !== undefined)
 					store.thirdTranslationLanguage = jsonConfig.thirdTranslationLanguage;
 				if (jsonConfig.globalShortcut !== undefined)
@@ -293,7 +293,8 @@ export const createUIStore = (root: IRootStore) => {
 				if (jsonConfig.launchAtLogin !== undefined)
 					store.launchAtLogin = jsonConfig.launchAtLogin;
 				if (jsonConfig.mediaKeyForwardingEnabled !== undefined)
-					store.mediaKeyForwardingEnabled = jsonConfig.mediaKeyForwardingEnabled;
+					store.mediaKeyForwardingEnabled =
+						jsonConfig.mediaKeyForwardingEnabled;
 				if (jsonConfig.showUpcomingEvent !== undefined)
 					store.showUpcomingEvent = jsonConfig.showUpcomingEvent;
 				if (jsonConfig.scratchPadColor !== undefined)
@@ -307,7 +308,8 @@ export const createUIStore = (root: IRootStore) => {
 				if (jsonConfig.shortcuts !== undefined)
 					store.shortcuts = jsonConfig.shortcuts;
 				if (jsonConfig.showInAppBrowserBookMarks !== undefined)
-					store.showInAppBrowserBookMarks = jsonConfig.showInAppBrowserBookMarks;
+					store.showInAppBrowserBookMarks =
+						jsonConfig.showInAppBrowserBookMarks;
 				if (jsonConfig.hyperKeyEnabled !== undefined)
 					store.hyperKeyEnabled = jsonConfig.hyperKeyEnabled;
 				if (jsonConfig.customItems !== undefined)
