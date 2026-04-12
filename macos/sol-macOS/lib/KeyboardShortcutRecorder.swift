@@ -96,16 +96,16 @@ class KeyboardShortcutRecorder {
   private func keysFrom(event: NSEvent) -> [String] {
     var keys: [String] = []
     if hyperDown {
-      keys.append("⌘")
-      keys.append("⌥")
-      keys.append("⌃")
-      keys.append("⇧")
+      keys.append("command")
+      keys.append("option")
+      keys.append("control")
+      keys.append("shift")
     }
 
-    if event.modifierFlags.contains(.command) { keys.append("⌘") }
-    if event.modifierFlags.contains(.option) { keys.append("⌥") }
-    if event.modifierFlags.contains(.control) { keys.append("⌃") }
-    if event.modifierFlags.contains(.shift) { keys.append("⇧") }
+    if event.modifierFlags.contains(.command) { keys.append("command") }
+    if event.modifierFlags.contains(.option) { keys.append("option") }
+    if event.modifierFlags.contains(.control) { keys.append("control") }
+    if event.modifierFlags.contains(.shift) { keys.append("shift") }
 
     if let chars = event.charactersIgnoringModifiers {
       switch chars {

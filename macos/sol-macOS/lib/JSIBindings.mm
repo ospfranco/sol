@@ -819,6 +819,15 @@ void install(jsi::Runtime &rt,
     return jsi::Value(success);
   });
 
+  auto writeFile = HOSTFN("writeFile", []) {
+    NSString *path = sol::jsiValueToNSString(rt, arguments[0]);
+    NSString *contents = sol::jsiValueToNSString(rt, arguments[1]);
+
+    BOOL success = [FS writeFileWithPath:path contents:contents];
+
+    return jsi::Value(static_cast<bool>(success));
+  });
+
   auto createFolderWatcher = HOSTFN("createFolderWatcher", []) {
     auto path = jsiValueToString(rt, arguments[0]);
     auto callback = std::make_shared<jsi::Value>(rt, arguments[1]);
@@ -850,6 +859,7 @@ void install(jsi::Runtime &rt,
   module.setProperty(rt, "exists", std::move(exists));
   module.setProperty(rt, "userName", std::move(userName));
   module.setProperty(rt, "readFile", std::move(readFile));
+  module.setProperty(rt, "writeFile", std::move(writeFile));
   module.setProperty(rt, "ps", std::move(ps));
   module.setProperty(rt, "killProcess", std::move(killProcess));
   module.setProperty(rt, "getWifiPassword", std::move(getWifiPassword));

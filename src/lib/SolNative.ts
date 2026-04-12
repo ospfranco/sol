@@ -81,6 +81,7 @@ class SolNative extends NativeEventEmitter {
 	ls: typeof global.__SolProxy.ls;
 	exists: typeof global.__SolProxy.exists;
 	readFile: typeof global.__SolProxy.readFile;
+	writeFile: typeof global.__SolProxy.writeFile;
 	userName: typeof global.__SolProxy.userName;
 	ps: typeof global.__SolProxy.ps;
 	killProcess: typeof global.__SolProxy.killProcess;
@@ -193,6 +194,7 @@ class SolNative extends NativeEventEmitter {
 		this.ls = global.__SolProxy.ls;
 		this.exists = global.__SolProxy.exists;
 		this.readFile = global.__SolProxy.readFile;
+		this.writeFile = global.__SolProxy.writeFile;
 		this.userName = global.__SolProxy.userName;
 		this.ps = global.__SolProxy.ps;
 		this.killProcess = global.__SolProxy.killProcess;
