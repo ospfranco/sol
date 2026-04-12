@@ -39,6 +39,7 @@ class SolNative extends NativeEventEmitter {
 	moveFrontmostToNextSpace: () => void;
 	moveFrontmostToPreviousSpace: () => void;
 	pasteToFrontmostApp: (content: string) => void;
+	pasteImageToFrontmostApp: (path: string) => void;
 	insertToFrontmostApp: (content: string) => void;
 
 	turnOnHorizontalArrowsListeners: () => void;
@@ -149,6 +150,7 @@ class SolNative extends NativeEventEmitter {
 		this.moveFrontmostPrevScreen = module.moveFrontmostPrevScreen;
 		this.moveFrontmostCenter = module.moveFrontmostCenter;
 		this.pasteToFrontmostApp = module.pasteToFrontmostApp;
+		this.pasteImageToFrontmostApp = module.pasteImageToFrontmostApp;
 		this.insertToFrontmostApp = module.insertToFrontmostApp;
 		this.turnOnHorizontalArrowsListeners =
 			module.turnOnHorizontalArrowsListeners;

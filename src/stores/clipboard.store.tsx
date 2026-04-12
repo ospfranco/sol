@@ -1,14 +1,15 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { captureException } from "@sentry/react-native";
 import { solNative } from "lib/SolNative";
-import { autorun, makeAutoObservable, runInAction, toJS } from "mobx";
+import MiniSearch from "minisearch";
+import { autorun, makeAutoObservable, runInAction } from "mobx";
 import type { EmitterSubscription } from "react-native";
 import type { IRootStore } from "store";
-import { Widget } from "./ui.store";
-import MiniSearch from "minisearch";
 import { storage } from "./storage";
-import { captureException } from "@sentry/react-native";
+import { Widget } from "./ui.store";
 
 const MAX_ITEMS = 1000;
+const MANAGED_PASTEBOARD_IMAGES_PATH = `/Users/${solNative.userName()}/.config/sol/images_pasteboard`;
 
 let onTextCopiedListener: EmitterSubscription | undefined;
 let onFileCopiedListener: EmitterSubscription | undefined;
@@ -30,15 +31,59 @@ const minisearch = new MiniSearch({
 	// 	text.toLowerCase().split(/[\s\.-]+/),
 });
 
+function isManagedPasteboardImagePath(path: string | null | undefined) {
+	return !!path && path.startsWith(`${MANAGED_PASTEBOARD_IMAGES_PATH}/`);
+}
+
+function removeManagedImageFile(item: PasteItem | undefined) {
+	if (!item?.url || !isManagedPasteboardImagePath(item.url)) {
+		return;
+	}
+
+	try {
+		if (solNative.exists(item.url)) {
+			solNative.del(item.url);
+		}
+	} catch (e) {
+		captureException(e);
+	}
+}
+
+function cleanupOrphanedManagedImageFiles(items: PasteItem[]) {
+	try {
+		if (!solNative.exists(MANAGED_PASTEBOARD_IMAGES_PATH)) {
+			return;
+		}
+
+		const referencedPaths = new Set(
+			items
+				.map((item) => item.url)
+				.filter((path): path is string => isManagedPasteboardImagePath(path)),
+		);
+
+		const files = solNative.ls(MANAGED_PASTEBOARD_IMAGES_PATH);
+		for (const fileName of files) {
+			const fullPath = `${MANAGED_PASTEBOARD_IMAGES_PATH}/${fileName}`;
+			if (!referencedPaths.has(fullPath) && solNative.exists(fullPath)) {
+				solNative.del(fullPath);
+			}
+		}
+	} catch (e) {
+		captureException(e);
+	}
+}
+
 export const createClipboardStore = (root: IRootStore) => {
 	const store = makeAutoObservable({
 		deleteItem: (index: number) => {
 			if (index >= 0 && index < store.items.length) {
+				removeManagedImageFile(store.items[index]);
 				minisearch.remove(store.items[index]);
 				store.items.splice(index, 1);
 			}
 		},
 		deleteAllItems: () => {
+			store.items.forEach(removeManagedImageFile);
 			store.items = [];
 			minisearch.removeAll();
 		},
@@ -117,7 +162,7 @@ export const createClipboardStore = (root: IRootStore) => {
 			// Boost recent items in search results
 			const now = Date.now();
 			return minisearch.search(root.ui.query, {
-				boostDocument: (documentId, term, storedFields) => {
+				boostDocument: (_, __, storedFields) => {
 					const dt =
 						typeof storedFields?.datetime === "number"
 							? storedFields.datetime
@@ -136,6 +181,9 @@ export const createClipboardStore = (root: IRootStore) => {
 		},
 		removeLastItemIfNeeded: () => {
 			if (store.items.length > MAX_ITEMS) {
+				const removedItem = store.items[store.items.length - 1];
+				removeManagedImageFile(removedItem);
+
 				try {
 					minisearch.remove(store.items[store.items.length - 1]);
 				} catch (e) {
@@ -169,10 +217,10 @@ export const createClipboardStore = (root: IRootStore) => {
 		"onTextCopied",
 		store.onTextCopied,
 	);
-	// onFileCopiedListener = solNative.addListener(
-	//   'onFileCopied',
-	//   store.onFileCopied,
-	// )
+	onFileCopiedListener = solNative.addListener(
+		"onFileCopied",
+		store.onFileCopied,
+	);
 
 	const hydrate = async () => {
 		let state: string | null | undefined;
@@ -209,7 +257,13 @@ export const createClipboardStore = (root: IRootStore) => {
 					store.items = items;
 					minisearch.addAll(store.items);
 				});
+
+				cleanupOrphanedManagedImageFiles(items);
+			} else {
+				cleanupOrphanedManagedImageFiles([]);
 			}
+		} else {
+			cleanupOrphanedManagedImageFiles([]);
 		}
 	};
 
@@ -241,7 +295,7 @@ export const createClipboardStore = (root: IRootStore) => {
 				"@clipboard.store",
 				JSON.stringify(storeWithoutItems),
 			);
-		} catch (e) {
+		} catch {
 			await AsyncStorage.clear();
 			await AsyncStorage.setItem(
 				"@clipboard.store",

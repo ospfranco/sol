@@ -7,6 +7,7 @@ import { MainInput } from "components/MainInput";
 import { observer } from "mobx-react-lite";
 import { type FC, useEffect, useRef } from "react";
 import {
+	Image,
 	ScrollView,
 	StyleSheet,
 	Text,
@@ -30,6 +31,24 @@ function truncateText(text: string | undefined | null): string {
 	return `${text.slice(0, MAX_PREVIEW_LENGTH)}\n\n... (${text.length.toLocaleString()} chars total)`;
 }
 
+function isImageUrl(url: string | null | undefined) {
+	if (!url) {
+		return false;
+	}
+	const lowercaseUrl = url.toLowerCase();
+	return (
+		lowercaseUrl.includes(".png") ||
+		lowercaseUrl.includes(".jpg") ||
+		lowercaseUrl.includes(".jpeg") ||
+		lowercaseUrl.includes(".tif") ||
+		lowercaseUrl.includes(".tiff")
+	);
+}
+
+function toFileUri(path: string) {
+	return encodeURI(`file://${path}`);
+}
+
 const RenderItem = observer(
 	({ item, index }: { item: PasteItem; index: number }) => {
 		const store = useStore();
@@ -46,14 +65,22 @@ const RenderItem = observer(
 					"opacity-80": !isActive,
 				})}
 			>
-				<FileIcon
-					url={decodeURIComponent(
-						item.bundle?.replace("file://", "") ??
-							item.url?.replace("file://", "") ??
-							"",
-					)}
-					className="h-6 w-6"
-				/>
+				{isImageUrl(item.url) ? (
+					<Image
+						source={{ uri: toFileUri(item.url as string) }}
+						className="h-6 w-6 rounded"
+						resizeMode="cover"
+					/>
+				) : (
+					<FileIcon
+						url={decodeURIComponent(
+							item.bundle?.replace("file://", "") ??
+								item.url?.replace("file://", "") ??
+								"",
+						)}
+						className="h-6 w-6"
+					/>
+				)}
 
 				<Text
 					className={clsx("text-xs text flex-1", {
@@ -67,18 +94,6 @@ const RenderItem = observer(
 		);
 	},
 );
-
-function isPngOrJpg(url: string | null | undefined) {
-	if (!url) {
-		return false;
-	}
-	const lowercaseUrl = url.toLowerCase();
-	return (
-		lowercaseUrl.includes(".png") ||
-		lowercaseUrl.includes(".jpg") ||
-		lowercaseUrl.includes(".jpeg")
-	);
-}
 
 export const ClipboardWidget: FC<Props> = observer(() => {
 	const store = useStore();
@@ -131,7 +146,20 @@ export const ClipboardWidget: FC<Props> = observer(() => {
 							)}
 
 							{!!data[selectedIndex].url &&
-								!isPngOrJpg(data[selectedIndex].url) && (
+								isImageUrl(data[selectedIndex].url) && (
+									<View className="flex-1 items-center justify-center">
+										<Image
+											source={{
+												uri: toFileUri(data[selectedIndex].url as string),
+											}}
+											style={{ width: "100%", height: 360 }}
+											resizeMode="contain"
+										/>
+									</View>
+								)}
+
+							{!!data[selectedIndex].url &&
+								!isImageUrl(data[selectedIndex].url) && (
 									<View className="flex-1 w-full items-center justify-center">
 										<FileIcon
 											url={`file://${data[selectedIndex].url}`}
