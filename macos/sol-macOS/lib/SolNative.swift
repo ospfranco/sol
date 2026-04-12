@@ -288,6 +288,10 @@ class SolNative: RCTEventEmitter {
     ClipboardHelper.pasteToFrontmostApp(content)
   }
 
+  @objc func pasteImageToFrontmostApp(_ path: String) {
+    ClipboardHelper.pasteImageFileToFrontmostApp(path)
+  }
+
   @objc func insertToFrontmostApp(_ content: String) {
     ClipboardHelper.insertToFrontmostApp(content)
   }

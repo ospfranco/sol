@@ -3,13 +3,27 @@ import { solNative } from "lib/SolNative";
 import { makeAutoObservable } from "mobx";
 import { Clipboard, type EmitterSubscription, Linking } from "react-native";
 import type { IRootStore } from "store";
-import { ItemType, Widget } from "./ui.store";
-import { EMOJI_ROW_SIZE } from "./emoji.store";
 import { isValidCustomSearchEngineUrl } from "widgets/settings/general";
+import { EMOJI_ROW_SIZE } from "./emoji.store";
+import { ItemType, Widget } from "./ui.store";
 import { formatTemporaryResultForClipboard } from "./ui.store.helpers";
 
 let keyDownListener: EmitterSubscription | undefined;
 let keyUpListener: EmitterSubscription | undefined;
+
+function isImageClipboardPath(path: string | null | undefined) {
+	if (!path) {
+		return false;
+	}
+	const lower = path.toLowerCase();
+	return (
+		lower.endsWith(".png") ||
+		lower.endsWith(".jpg") ||
+		lower.endsWith(".jpeg") ||
+		lower.endsWith(".tif") ||
+		lower.endsWith(".tiff")
+	);
+}
 
 export type KeystrokeStore = ReturnType<typeof createKeystrokeStore>;
 
@@ -164,7 +178,11 @@ export const createKeystrokeStore = (root: IRootStore) => {
 									}
 									solNative.hideWindow();
 								} else {
-									solNative.pasteToFrontmostApp(entry.text);
+									if (isImageClipboardPath(entry.url)) {
+										solNative.pasteImageToFrontmostApp(entry.url as string);
+									} else {
+										solNative.pasteToFrontmostApp(entry.text);
+									}
 								}
 							}
 

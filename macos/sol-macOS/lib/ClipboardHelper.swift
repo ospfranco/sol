@@ -2,6 +2,7 @@ import Foundation
 
 class ClipboardHelper {
   static var frontmostApp: (name: String, bundle: String)?
+  private static let jpegPasteboardType = NSPasteboard.PasteboardType("public.jpeg")
 
   static func addOnCopyListener(
     _ callback: @escaping (_ pasteboard: NSPasteboard, _ app: (name: String, bundle: String)?) ->
@@ -67,6 +68,45 @@ class ClipboardHelper {
 
       pasteboard.setString(content, forType: .string)
 
+      postPasteShortcut()
+    }
+  }
+
+  static func pasteImageFileToFrontmostApp(_ path: String) {
+    DispatchQueue.main.async {
+      PanelManager.shared.hideWindow()
+
+      let fileURL = URL(fileURLWithPath: path)
+      guard let imageData = try? Data(contentsOf: fileURL) else {
+        print("Could not read image data from \(path)")
+        return
+      }
+
+      let ext = fileURL.pathExtension.lowercased()
+      let imageType: NSPasteboard.PasteboardType
+
+      switch ext {
+      case "png":
+        imageType = .png
+      case "jpg", "jpeg":
+        imageType = jpegPasteboardType
+      case "tif", "tiff":
+        imageType = .tiff
+      default:
+        print("Unsupported image extension for paste: \(ext)")
+        return
+      }
+
+      let pasteboard = NSPasteboard.general
+      pasteboard.clearContents()
+      pasteboard.declareTypes([imageType], owner: nil)
+      pasteboard.setData(imageData, forType: imageType)
+
+      postPasteShortcut()
+    }
+  }
+
+  private static func postPasteShortcut() {
       let event1 = CGEvent(keyboardEventSource: nil, virtualKey: 0x09, keyDown: true)  // cmd-v down
       event1?.flags = CGEventFlags.maskCommand
       event1?.post(tap: CGEventTapLocation.cghidEventTap)
@@ -74,6 +114,5 @@ class ClipboardHelper {
       let event2 = CGEvent(keyboardEventSource: nil, virtualKey: 0x09, keyDown: false)  // cmd-v up
       //    event2?.flags = CGEventFlags.maskCommand
       event2?.post(tap: CGEventTapLocation.cghidEventTap)
-    }
   }
 }
