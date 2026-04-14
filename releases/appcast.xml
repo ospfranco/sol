@@ -3,6 +3,15 @@
     <channel>
         <title>Sol</title>
         <item>
+            <title>2.1.319</title>
+            <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.318...2.1.319]]></description>
+            <pubDate>Tue, 14 Apr 2026 09:47:43 -0400</pubDate>
+            <sparkle:version>533</sparkle:version>
+            <sparkle:shortVersionString>2.1.319</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.319/2.1.319.zip" length="15190595" type="application/octet-stream" sparkle:edSignature="l5DkdqMPoCNjOq1CpbUUf2jz5lzjnInd5ZZCa8LF77TFEtVf7FabLyY24sI0+bDiYO9kMtOI9VquilCbvGeFAg=="/>
+        </item>
+        <item>
             <title>2.1.318</title>
             <description><![CDATA[## What's Changed
 * Ricing support by @ospfranco in https://github.com/ospfranco/sol/pull/268
@@ -24,19 +33,6 @@
             <sparkle:shortVersionString>2.1.317</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
             <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.317/2.1.317.zip" length="15182227" type="application/octet-stream" sparkle:edSignature="YAsHyB0Lr2Vna8KkeEEs681/XmVXBMdR66huG20aeMcV3x57xLaA9LuIawj9z49BnXe7t1O6wposR2lmyX/vAg=="/>
-        </item>
-        <item>
-            <title>2.1.314</title>
-            <description><![CDATA[## What's Changed
-* Fixes text input color by @ospfranco in https://github.com/ospfranco/sol/pull/265
-
-
-**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.313...2.1.314]]></description>
-            <pubDate>Fri, 10 Apr 2026 07:38:24 -0400</pubDate>
-            <sparkle:version>528</sparkle:version>
-            <sparkle:shortVersionString>2.1.314</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.314/2.1.314.zip" length="15159953" type="application/octet-stream" sparkle:edSignature="uQbkTNv5zicF/LEXWiLJKK2LA4kOVsHNuFRk6QWi6wUwxtG15gMR9/tLyNxnA47TJswd7B+rK9QmzIZOSVnpCw=="/>
         </item>
         <item>
             <title>2.1.312</title>
