@@ -1,15 +1,15 @@
+import { KeyboardShortcutRecorderView } from "components/KeyboardShortcutRecorderView";
 import { observer } from "mobx-react-lite";
 import { type FC, useState } from "react";
 import { View } from "react-native";
+import { useStore } from "store";
 import { About } from "./settings/about";
 import { Calendars } from "./settings/calendars";
 import { General } from "./settings/general";
 import { Items } from "./settings/items";
+import { Scripts } from "./settings/scripts";
 import { Sidebar } from "./settings/sidebar";
 import { Translate } from "./settings/translate";
-import { Scripts } from "./settings/scripts";
-import { useStore } from "store";
-import { KeyboardShortcutRecorderView } from "components/KeyboardShortcutRecorderView";
 
 type ITEM =
 	| "ABOUT"

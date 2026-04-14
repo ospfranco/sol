@@ -1,9 +1,9 @@
-import type { FC } from "react";
-import { View, Text, Image, ScrollView } from "react-native";
-import { observer } from "mobx-react-lite";
-import { useStore } from "store";
-import { solNative } from "lib/SolNative";
 import { Assets } from "assets";
+import { solNative } from "lib/SolNative";
+import { observer } from "mobx-react-lite";
+import type { FC } from "react";
+import { Image, ScrollView, Text, View } from "react-native";
+import { useStore } from "store";
 
 export const Scripts: FC = observer(() => {
 	const store = useStore();
@@ -13,7 +13,7 @@ export const Scripts: FC = observer(() => {
 		<ScrollView
 			showsVerticalScrollIndicator={false}
 			automaticallyAdjustContentInsets
-			className="flex-1 -mt-10"
+			className="flex-1"
 			contentContainerClassName="p-5 gap-2"
 		>
 			<View className="flex-row items-center p-3 subBg rounded-lg border border-lightBorder dark:border-darkBorder mb-2">
