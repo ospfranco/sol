@@ -213,75 +213,75 @@ class SolNative: RCTEventEmitter {
   }
 
   @objc func resizeFrontmostBottomHalf() {
-    WindowManager.sharedInstance.moveHalf(.bottom)
+    DispatchQueue.main.async { WindowManager.sharedInstance.moveHalf(.bottom) }
   }
 
   @objc func resizeFrontmostRightHalf() {
-    WindowManager.sharedInstance.moveHalf(.right)
+    DispatchQueue.main.async { WindowManager.sharedInstance.moveHalf(.right) }
   }
 
   @objc func resizeFrontmostLeftHalf() {
-    WindowManager.sharedInstance.moveHalf(.left)
+    DispatchQueue.main.async { WindowManager.sharedInstance.moveHalf(.left) }
   }
 
   @objc func resizeFrontmostFullscreen() {
-    WindowManager.sharedInstance.fullscreen()
+    DispatchQueue.main.async { WindowManager.sharedInstance.fullscreen() }
   }
 
   @objc func resizeTopLeft() {
-    WindowManager.sharedInstance.moveQuarter(.topLeft)
+    DispatchQueue.main.async { WindowManager.sharedInstance.moveQuarter(.topLeft) }
   }
 
   @objc func resizeTopRight() {
-    WindowManager.sharedInstance.moveQuarter(.topRight)
+    DispatchQueue.main.async { WindowManager.sharedInstance.moveQuarter(.topRight) }
   }
 
   @objc func resizeBottomLeft() {
-    WindowManager.sharedInstance.moveQuarter(.bottomLeft)
+    DispatchQueue.main.async { WindowManager.sharedInstance.moveQuarter(.bottomLeft) }
   }
 
   @objc func resizeBottomRight() {
-    WindowManager.sharedInstance.moveQuarter(.bottomRight)
+    DispatchQueue.main.async { WindowManager.sharedInstance.moveQuarter(.bottomRight) }
   }
 
   @objc func resizeLeftThird() {
-    WindowManager.sharedInstance.moveThird(.left)
+    DispatchQueue.main.async { WindowManager.sharedInstance.moveThird(.left) }
   }
 
   @objc func resizeCenterThird() {
-    WindowManager.sharedInstance.moveThird(.center)
+    DispatchQueue.main.async { WindowManager.sharedInstance.moveThird(.center) }
   }
 
   @objc func resizeRightThird() {
-    WindowManager.sharedInstance.moveThird(.right)
+    DispatchQueue.main.async { WindowManager.sharedInstance.moveThird(.right) }
   }
 
   @objc func resizeLeftTwoThirds() {
-    WindowManager.sharedInstance.moveTwoThirds(.left)
+    DispatchQueue.main.async { WindowManager.sharedInstance.moveTwoThirds(.left) }
   }
 
   @objc func resizeRightTwoThirds() {
-    WindowManager.sharedInstance.moveTwoThirds(.right)
+    DispatchQueue.main.async { WindowManager.sharedInstance.moveTwoThirds(.right) }
   }
 
   @objc func moveFrontmostNextScreen() {
-    WindowManager.sharedInstance.moveToNextScreen()
+    DispatchQueue.main.async { WindowManager.sharedInstance.moveToNextScreen() }
   }
 
   @objc func moveFrontmostPrevScreen() {
-    WindowManager.sharedInstance.moveToPrevScreen()
+    DispatchQueue.main.async { WindowManager.sharedInstance.moveToPrevScreen() }
   }
 
   @objc func moveFrontmostCenter() {
-    WindowManager.sharedInstance.center()
+    DispatchQueue.main.async { WindowManager.sharedInstance.center() }
   }
 
   @objc func moveFrontmostToNextSpace() {
-    WindowManager.sharedInstance.moveFrontmostToNextSpace()
+    DispatchQueue.main.async { WindowManager.sharedInstance.moveFrontmostToNextSpace() }
   }
 
   @objc func moveFrontmostToPreviousSpace() {
-    WindowManager.sharedInstance.moveFrontmostToPreviousSpace()
+    DispatchQueue.main.async { WindowManager.sharedInstance.moveFrontmostToPreviousSpace() }
   }
 
   @objc func pasteToFrontmostApp(_ content: String) {
