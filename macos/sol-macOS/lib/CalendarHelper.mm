@@ -12,11 +12,17 @@
 }
 
 - (void)requestCalendarAccess:(void (^)(void))callback {
+  void (^safeCallback)(void) = [callback copy];
+
   if (@available(macOS 14.0, *)) {
     [_store requestFullAccessToEventsWithCompletion:^(
                 BOOL granted, NSError *_Nullable error) {
       if (granted) {
-        callback();
+        if (safeCallback != nil) {
+          dispatch_async(dispatch_get_main_queue(), ^{
+            safeCallback();
+          });
+        }
       } else {
         NSLog(@"Access not granted %@", error);
       }
@@ -26,7 +32,11 @@
         requestAccessToEntityType:EKEntityTypeEvent
                        completion:^(BOOL granted, NSError *_Nullable error) {
                          if (granted) {
-                           callback();
+                           if (safeCallback != nil) {
+                             dispatch_async(dispatch_get_main_queue(), ^{
+                               safeCallback();
+                             });
+                           }
                          } else {
                            NSLog(@"Access not granted %@", error);
                          }

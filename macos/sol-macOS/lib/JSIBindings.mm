@@ -358,7 +358,13 @@ void install(jsi::Runtime &rt,
       auto resolve = std::make_shared<jsi::Value>(rt, arguments[0]);
 
       [calendarHelper requestCalendarAccess:^{
-        resolve->asObject(rt).asFunction(rt).call(rt);
+        if (invoker == nullptr) {
+          return;
+        }
+
+        invoker->invokeAsync([resolve, &rt]() mutable {
+          resolve->asObject(rt).asFunction(rt).call(rt);
+        });
       }];
 
       return {};
