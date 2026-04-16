@@ -1,9 +1,9 @@
+import plist from "@expo/plist";
+import { Assets, Icons } from "assets";
+import { FileIcon } from "components/FileIcon";
 import { solNative } from "lib/SolNative";
 import { Image, type ImageSourcePropType, Linking } from "react-native";
 import { ItemType } from "./ui.store";
-import { FileIcon } from "components/FileIcon";
-import plist from "@expo/plist";
-import { Assets, Icons } from "assets";
 
 const ignoreList = [
 	"ClassKitPreferencePane.prefPane",
@@ -50,16 +50,18 @@ function extractObjectFromPrefPanePath(path: string, fileName: string) {
 		return null;
 	}
 
-	const plistFileExists = solNative.exists(`${path}/Contents/Info.plist`);
+	const panePath = `${path}/${fileName}`;
+	const plistPath = `${panePath}/Contents/Info.plist`;
+	const plistFileExists = solNative.exists(plistPath);
 
 	if (plistFileExists) {
-		const plistContent = solNative.readFile(path);
+		const plistContent = solNative.readFile(plistPath);
 
 		const parsed = plistContent ? plist.parse(plistContent) : null;
 
 		return {
 			name: parsed?.CFBundleDisplayName ?? nameMappings[fileName],
-			preferenceId: path,
+			preferenceId: panePath,
 			icon: iconMap[fileName],
 		};
 	}
@@ -74,9 +76,10 @@ function extractObjectFromPrefPanePath(path: string, fileName: string) {
 			.split(/(?=[A-Z])/)
 			.join(" ");
 	}
+
 	return {
 		name,
-		preferenceId: `${path}/${fileName}`,
+		preferenceId: panePath,
 		icon: iconMap[fileName],
 	};
 }
@@ -84,6 +87,7 @@ function extractObjectFromPrefPanePath(path: string, fileName: string) {
 const systemPanes = solNative.exists(SYSTEM_PREFERENCE_PANES)
 	? solNative
 			.ls(SYSTEM_PREFERENCE_PANES)
+			.filter((a) => a)
 			.map((pane) =>
 				extractObjectFromPrefPanePath(SYSTEM_PREFERENCE_PANES, pane),
 			)
@@ -92,6 +96,7 @@ const systemPanes = solNative.exists(SYSTEM_PREFERENCE_PANES)
 const globalPanes = solNative.exists(GLOBAL_PREFERENCE_PANES)
 	? solNative
 			.ls(GLOBAL_PREFERENCE_PANES)
+			.filter((a) => a)
 			.map((pane) =>
 				extractObjectFromPrefPanePath(GLOBAL_PREFERENCE_PANES, pane),
 			)
@@ -100,6 +105,7 @@ const globalPanes = solNative.exists(GLOBAL_PREFERENCE_PANES)
 const userPanes = solNative.exists(USER_PREFERENCE_PANES)
 	? solNative
 			.ls(USER_PREFERENCE_PANES)
+			.filter((a) => a)
 			.map((pane) => extractObjectFromPrefPanePath(USER_PREFERENCE_PANES, pane))
 	: [];
 
