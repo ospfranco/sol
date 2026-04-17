@@ -59,25 +59,15 @@ class FileSearchIndex {
   func indexPath(_ basePath: NSString) {
     queue.async { [weak self] in
       guard let self = self, let db = self.db else { return }
-      
-      // Start transaction
-      sqlite3_exec(db, "BEGIN TRANSACTION;", nil, nil, nil)
-      
-      self._indexPathRecursive(basePath, parentPath: basePath, db: db)
-      
-      // Commit transaction
-      sqlite3_exec(db, "COMMIT;", nil, nil, nil)
+      self._indexPathIterative(basePath as String, db: db)
     }
   }
 
   func indexPaths(_ paths: [String]) {
     queue.async { [weak self] in
       guard let self = self, let db = self.db else { return }
-
       for path in paths {
-        sqlite3_exec(db, "BEGIN TRANSACTION;", nil, nil, nil)
-        self._indexPathRecursive(path as NSString, parentPath: path as NSString, db: db)
-        sqlite3_exec(db, "COMMIT;", nil, nil, nil)
+        self._indexPathIterative(path, db: db)
       }
     }
   }
@@ -127,38 +117,52 @@ class FileSearchIndex {
     }
   }
   
-  private func _indexPathRecursive(_ basePath: NSString, parentPath: NSString, db: OpaquePointer) {
+  private func _indexPathIterative(_ rootPath: String, db: OpaquePointer) {
     let fileManager = FileManager.default
-    
-    guard let dirContents = try? fileManager.contentsOfDirectory(atPath: basePath as String) else {
-      return
-    }
-    
-    for item in dirContents {
-      // Skip hidden files and common exclusions
-      if item.hasPrefix(".") {
+    let batchSize = 200
+    var pendingDirs: [String] = [rootPath]
+    var batchCount = 0
+
+    sqlite3_exec(db, "BEGIN TRANSACTION;", nil, nil, nil)
+
+    while !pendingDirs.isEmpty {
+      let currentDir = pendingDirs.removeFirst()
+
+      guard let dirContents = try? fileManager.contentsOfDirectory(atPath: currentDir) else {
         continue
       }
-      
-      let fullPath = basePath.appendingPathComponent(item)
-      var isDir: ObjCBool = false
-      
-      guard fileManager.fileExists(atPath: fullPath, isDirectory: &isDir) else {
-        continue
-      }
-      
-      let relativeParent = parentPath as String
-      
-      // Insert or update in database
-      self._insertOrUpdateFile(path: fullPath, name: item, isFolder: isDir.boolValue, parentPath: relativeParent, db: db)
-      
-      // Recursively index subdirectories
-      if isDir.boolValue {
-        self._indexPathRecursive(fullPath as NSString, parentPath: fullPath as NSString, db: db)
+
+      for item in dirContents {
+        // Skip hidden files and folders
+        if item.hasPrefix(".") {
+          continue
+        }
+
+        let fullPath = (currentDir as NSString).appendingPathComponent(item)
+        var isDir: ObjCBool = false
+
+        guard fileManager.fileExists(atPath: fullPath, isDirectory: &isDir) else {
+          continue
+        }
+
+        self._insertOrUpdateFile(path: fullPath, name: item, isFolder: isDir.boolValue, parentPath: currentDir, db: db)
+        batchCount += 1
+
+        if isDir.boolValue {
+          pendingDirs.append(fullPath)
+        }
+
+        if batchCount >= batchSize {
+          sqlite3_exec(db, "COMMIT;", nil, nil, nil)
+          sqlite3_exec(db, "BEGIN TRANSACTION;", nil, nil, nil)
+          batchCount = 0
+        }
       }
     }
+
+    sqlite3_exec(db, "COMMIT;", nil, nil, nil)
   }
-  
+
   private func _insertOrUpdateFile(path: String, name: String, isFolder: Bool, parentPath: String, db: OpaquePointer) {
     let insertSQL = """
       INSERT OR REPLACE INTO files (path, name, is_folder, parent_path)

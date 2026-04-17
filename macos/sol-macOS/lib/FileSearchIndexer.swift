@@ -60,12 +60,17 @@ class FileSearchIndexer {
       let isRemoved = flag & FSEventStreamEventFlags(kFSEventStreamEventFlagItemRemoved) != 0
       let isRenamed = flag & FSEventStreamEventFlags(kFSEventStreamEventFlagItemRenamed) != 0
 
+      let name = (path as NSString).lastPathComponent
+      // Skip hidden files and folders (those starting with a dot)
+      if name.hasPrefix(".") {
+        continue
+      }
+
       if isRemoved || (isRenamed && !fileManager.fileExists(atPath: path)) {
         index.removeFile(atPath: path)
       } else if fileManager.fileExists(atPath: path) {
         var isDir: ObjCBool = false
         fileManager.fileExists(atPath: path, isDirectory: &isDir)
-        let name = (path as NSString).lastPathComponent
         let parent = (path as NSString).deletingLastPathComponent
         index.upsertFile(path: path, name: name, isFolder: isDir.boolValue, parentPath: parent)
       }
