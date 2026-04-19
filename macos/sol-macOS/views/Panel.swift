@@ -1,7 +1,5 @@
 import Foundation
 
-let appDelegate = NSApp.delegate as? AppDelegate
-
 final class Panel: NSPanel, NSWindowDelegate {
   init(contentRect: NSRect) {
     super.init(

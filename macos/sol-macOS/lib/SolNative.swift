@@ -6,7 +6,14 @@ private let keychain = Keychain(service: "Sol")
 
 @objc(SolNative)
 class SolNative: RCTEventEmitter {
-  let appDelegate = NSApp.delegate as? AppDelegate
+  private func withAppDelegate(_ action: @escaping (AppDelegate) -> Void) {
+    DispatchQueue.main.async {
+      guard let delegate = NSApp.delegate as? AppDelegate else {
+        return
+      }
+      action(delegate)
+    }
+  }
 
   override init() {
     super.init()
@@ -321,7 +328,9 @@ class SolNative: RCTEventEmitter {
   }
 
   @objc func checkForUpdates() {
-    appDelegate?.checkForUpdates()
+    withAppDelegate { appDelegate in
+      appDelegate.checkForUpdates()
+    }
   }
 
   @objc func setWindowRelativeSize(_ relative: NSNumber) {
@@ -418,8 +427,8 @@ class SolNative: RCTEventEmitter {
   }
 
   @objc func setMediaKeyForwardingEnabled(_ v: Bool) {
-    DispatchQueue.main.async {
-      self.appDelegate?.setMediaKeyForwardingEnabled(v)
+    withAppDelegate { appDelegate in
+      appDelegate.setMediaKeyForwardingEnabled(v)
     }
   }
 
