@@ -103,7 +103,7 @@ export const EmojisWidget: FC<Props> = observer(({style}) => {
       <LoadingBar />
       <LegendList
         ref={listRef}
-        className="flex-1"
+        style={{flex: 1}}
         contentContainerStyle={{
           paddingHorizontal: 12,
           paddingTop: 8,

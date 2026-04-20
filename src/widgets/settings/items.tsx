@@ -225,8 +225,8 @@ export const Items = observer(() => {
           </View>
         )}
         <LegendList
-          className="flex-1"
-          contentContainerClassName="px-4 pb-4"
+          style={{flex: 1}}
+          contentContainerStyle={{paddingHorizontal: 16, paddingBottom: 16}}
           data={filteredItems}
           keyExtractor={item => item.id}
           renderItem={RenderItem}

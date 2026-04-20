@@ -1,8 +1,8 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { solNative } from "lib/SolNative";
 import MiniSearch from "minisearch";
 import { autorun, makeAutoObservable, runInAction, toJS } from "mobx";
 import type { IRootStore } from "store";
+import { readJsonConfig, writeJsonConfig } from "./config";
 import { emojis as rawEmojis_ } from "../lib/emojis";
 
 const rawEmojis = rawEmojis_.map((emoji: any, idx) => ({ id: idx, ...emoji }));
@@ -28,6 +28,7 @@ const minisearch = new MiniSearch({
 minisearch.addAll(rawEmojis);
 
 export const EMOJI_ROW_SIZE = 7;
+const EMOJI_FREQUENTLY_USED_KEY = "emojiFrequentlyUsed";
 
 function groupEmojis(emojis: Emoji[]): Array<Emoji[]> {
 	const emojisArray: Array<Emoji[]> = [];
@@ -43,29 +44,25 @@ export type EmojiStore = ReturnType<typeof createEmojiStore>;
 
 export const createEmojiStore = (root: IRootStore) => {
 	const persist = async () => {
-		const plainState = toJS(store);
 		try {
-			await AsyncStorage.setItem("@emoji.store", JSON.stringify(plainState));
+			writeJsonConfig({
+				[EMOJI_FREQUENTLY_USED_KEY]: toJS(store.frequentlyUsedEmojis),
+			});
 		} catch (error) {
 			console.error("Error saving emoji store", error);
-			await AsyncStorage.clear();
-			await AsyncStorage.setItem(
-				"@emoji.store",
-				JSON.stringify(plainState),
-			).catch((e) => console.warn("Could re-persist persist emoji store", e));
 		}
 	};
 
 	const hydrate = async () => {
-		const storeState = await AsyncStorage.getItem("@emoji.store");
+		const jsonConfig = readJsonConfig();
+		const frequentlyUsedEmojis = jsonConfig?.[EMOJI_FREQUENTLY_USED_KEY];
 
-		if (storeState) {
-			const parsedStore = JSON.parse(storeState);
+		if (frequentlyUsedEmojis && typeof frequentlyUsedEmojis === "object") {
 
 			runInAction(() => {
-				store.frequentlyUsedEmojis = parsedStore.frequentlyUsedEmojis
+				store.frequentlyUsedEmojis = frequentlyUsedEmojis
 					? (Object.fromEntries(
-							Object.entries(parsedStore.frequentlyUsedEmojis).slice(
+							Object.entries(frequentlyUsedEmojis).slice(
 								0,
 								EMOJI_ROW_SIZE,
 							),

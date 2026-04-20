@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Sentry from "@sentry/react-native";
 import { Assets } from "assets";
 import { Parser } from "expr-eval";
@@ -128,30 +127,6 @@ const itemsThatShouldShowWindow = [
 	"scratchpad",
 ];
 
-const migrateLegacyUiStateToJson = (
-	legacy: Record<string, any> | null,
-	jsonConfig: Record<string, any> | null,
-) => {
-	if (legacy == null) {
-		return;
-	}
-
-	if (jsonConfig == null || Object.keys(jsonConfig).length === 0) {
-		const portableSnapshot: Record<string, any> = {};
-		for (const key of PORTABLE_KEYS) {
-			if (legacy[key] !== undefined) {
-				portableSnapshot[key] = legacy[key];
-			}
-		}
-
-		if (Object.keys(portableSnapshot).length > 0) {
-			writeJsonConfig(portableSnapshot);
-		}
-	}
-
-	void AsyncStorage.removeItem("@ui.store");
-};
-
 export const createUIStore = (root: IRootStore) => {
 	// Guards against spurious writes during hydrate/reload
 	let isHydrating = false;
@@ -176,25 +151,9 @@ export const createUIStore = (root: IRootStore) => {
 	const hydrate = async () => {
 		isHydrating = true;
 		try {
-			// 1. Read legacy AsyncStorage store
-			const legacyRaw = await AsyncStorage.getItem("@ui.store");
-			const parsedLegacy: Record<string, any> | null = legacyRaw
-				? JSON.parse(legacyRaw)
-				: null;
-
-			// 2. Read JSON config (authoritative for portable keys)
-			const initialJsonConfig = readJsonConfig();
-
-			// 3. Migrate: write JSON if absent, then delete legacy AsyncStorage key
-			migrateLegacyUiStateToJson(parsedLegacy, initialJsonConfig);
-
 			const jsonConfig = readJsonConfig();
 
-			// 4. Build merged source: JSON overrides legacy data for portable keys
-			const src: Record<string, any> = {
-				...(parsedLegacy ?? {}),
-				...(jsonConfig ?? {}),
-			};
+			const src: Record<string, any> = jsonConfig ?? {};
 
 			const hasPortableData =
 				jsonConfig != null && Object.keys(jsonConfig).length > 0;

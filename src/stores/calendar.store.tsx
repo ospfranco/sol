@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { captureException } from "@sentry/react-native";
 import { extractMeetingLink } from "lib/calendar";
 import { solNative } from "lib/SolNative";
@@ -9,7 +8,6 @@ import type { IRootStore } from "store";
 import { readJsonConfig, writeJsonConfig } from "./config";
 
 const MAX_DAYS_AHEAD = 14;
-const CALENDAR_STORE_KEY = "@calendar.store";
 const CALENDAR_SELECTED_IDS_KEY = "calendarSelectedCalendarIds";
 const CALENDAR_HAS_INITIALIZED_KEY = "calendarHasInitializedSelection";
 
@@ -54,30 +52,7 @@ export const createCalendarStore = (root: IRootStore) => {
 			}
 		}
 
-		let storeState: string | null = null;
-
-		storeState = await AsyncStorage.getItem(CALENDAR_STORE_KEY);
-
-		if (!storeState) {
-			return;
-		}
-
-		try {
-			const parsedStore = JSON.parse(storeState);
-			runInAction(() => {
-				store.selectedCalendarIds = parsedStore.selectedCalendarIds ?? [];
-				store.hasInitializedSelection =
-					parsedStore.hasInitializedSelection ?? false;
-			});
-
-			writeJsonConfig({
-				[CALENDAR_SELECTED_IDS_KEY]: parsedStore.selectedCalendarIds ?? [],
-				[CALENDAR_HAS_INITIALIZED_KEY]:
-					parsedStore.hasInitializedSelection ?? false,
-			});
-		} catch (error) {
-			captureException(error);
-		}
+		return;
 	};
 
 	const store = makeAutoObservable({
