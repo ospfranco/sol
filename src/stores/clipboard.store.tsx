@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { captureException } from "@sentry/react-native";
 import { solNative } from "lib/SolNative";
 import MiniSearch from "minisearch";
@@ -273,21 +272,6 @@ export const createClipboardStore = (root: IRootStore) => {
 
 		const storeWithoutItems = { ...store };
 		storeWithoutItems.items = [];
-
-		try {
-			await AsyncStorage.setItem(
-				"@clipboard.store",
-				JSON.stringify(storeWithoutItems),
-			);
-		} catch {
-			await AsyncStorage.clear();
-			await AsyncStorage.setItem(
-				"@clipboard.store",
-				JSON.stringify(storeWithoutItems),
-			).catch((e) =>
-				console.warn("Could re-persist persist clipboard store", e),
-			);
-		}
 	};
 
 	hydrate().then(() => {
