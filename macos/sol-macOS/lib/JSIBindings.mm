@@ -39,6 +39,7 @@ void install(jsi::Runtime &rt,
   dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ssZ";
 
   auto setHeight = HOSTFN("setHeight", []) {
+    NSLog(@"[Sol] Calling setHeight");
     int height = static_cast<int>(arguments[0].asNumber());
     dispatch_async(dispatch_get_main_queue(), ^{
       PanelManager *panelManager = [PanelManager shared];
@@ -49,6 +50,7 @@ void install(jsi::Runtime &rt,
   });
 
   auto resetWindowSize = HOSTFN("resetWindowSize", []) {
+    NSLog(@"[Sol] Calling resetWindowSize");
     dispatch_async(dispatch_get_main_queue(), ^{
       PanelManager *panelManager = [PanelManager shared];
       [panelManager resetSize];
@@ -58,6 +60,7 @@ void install(jsi::Runtime &rt,
   });
 
   auto hideWindow = HOSTFN("hideWindow", []) {
+    NSLog(@"[Sol] Calling hideWindow");
     dispatch_async(dispatch_get_main_queue(), ^{
       PanelManager *panelManager = [PanelManager shared];
       [panelManager hideWindow];
@@ -67,6 +70,7 @@ void install(jsi::Runtime &rt,
   });
 
   auto showWindow = HOSTFN("showWindow", []) {
+    NSLog(@"[Sol] Calling showWindow");
     dispatch_async(dispatch_get_main_queue(), ^{
       PanelManager *panelManager = [PanelManager shared];
       [panelManager showWindowWithTarget:NULL];
@@ -76,6 +80,7 @@ void install(jsi::Runtime &rt,
   });
 
   auto getWifiPassword = HOSTFN("getWifiPassword", []) {
+    NSLog(@"[Sol] Calling getWifiPassword");
 
     CLLocationManager *lm = [[CLLocationManager alloc] init];
     bool location_enabled = [lm locationServicesEnabled];
@@ -117,6 +122,7 @@ void install(jsi::Runtime &rt,
   });
 
   auto getWifiInfo = HOSTFN("getWifiInfo", []) {
+    NSLog(@"[Sol] Calling getWifiInfo");
     if (@available(macOS 15.0, *)) {
       CLLocationManager *locationManager = [[CLLocationManager alloc] init];
       [locationManager requestAlwaysAuthorization];
@@ -159,11 +165,13 @@ void install(jsi::Runtime &rt,
   });
 
   auto hasIndexedContent = HOSTFN("hasIndexedContent", []) {
+    NSLog(@"[Sol] Calling hasIndexedContent");
     BOOL result = [FileSearchIndexObjC.shared hasIndexedContent];
     return jsi::Value(rt, (bool)result);
   });
 
   auto startWatchingPaths = HOSTFN("startWatchingPaths", []) {
+    NSLog(@"[Sol] Calling startWatchingPaths");
     auto paths = arguments[0].asObject(rt).asArray(rt);
     NSMutableArray *pathsArray = [NSMutableArray array];
     for (size_t i = 0; i < paths.size(rt); i++) {
@@ -175,6 +183,7 @@ void install(jsi::Runtime &rt,
   });
 
   auto removeIndexedPath = HOSTFN("removeIndexedPath", []) {
+    NSLog(@"[Sol] Calling removeIndexedPath");
     auto path = arguments[0].asString(rt).utf8(rt);
     NSString *pathStr = [NSString stringWithUTF8String:path.c_str()];
 
@@ -198,11 +207,13 @@ void install(jsi::Runtime &rt,
   });
 
   auto clearIndex = HOSTFN("clearIndex", []) {
+    NSLog(@"[Sol] Calling clearIndex");
     [FileSearchIndexObjC.shared clearIndex];
     return jsi::Value::undefined();
   });
 
   auto searchFilesIndexed = HOSTFN("searchFilesIndexed", []) {
+    NSLog(@"[Sol] Calling searchFilesIndexed");
     auto query = arguments[0].asString(rt).utf8(rt);
 
     if (query.empty()) {
@@ -249,6 +260,7 @@ void install(jsi::Runtime &rt,
   });
 
   auto indexPaths = HOSTFN("indexPaths", []) {
+    NSLog(@"[Sol] Calling indexPaths");
     auto paths = arguments[0].asObject(rt).asArray(rt);
 
     NSMutableArray *pathsArray = [NSMutableArray array];
@@ -352,6 +364,7 @@ void install(jsi::Runtime &rt,
   // });
 
   auto requestCalendarAccess = HOSTFN("requestCalendarAccess", []) {
+    NSLog(@"[Sol] Calling requestCalendarAccess");
     auto promiseConstructor = rt.global().getPropertyAsFunction(rt, "Promise");
 
     auto promise = promiseConstructor.callAsConstructor(rt, HOSTFN("executor", []) {
@@ -374,12 +387,14 @@ void install(jsi::Runtime &rt,
 
   auto getCalendarAuthorizationStatus =
       HOSTFN("getCalendarAuthorizationStatus", []) {
+    NSLog(@"[Sol] Calling getCalendarAuthorizationStatus");
     NSString *status = [calendarHelper getCalendarAuthorizationStatus];
     std::string statusStd = std::string([status UTF8String]);
     return jsi::String::createFromUtf8(rt, statusStd);
   });
 
   auto getEvents = HOSTFN("getEvents", []) {
+    NSLog(@"[Sol] Calling getEvents");
     NSMutableArray<NSString *> *selectedCalendarIds = nil;
     if (count > 0 && !arguments[0].isUndefined() && !arguments[0].isNull()) {
       auto calendarIdsArray = arguments[0].asObject(rt).asArray(rt);
@@ -573,6 +588,7 @@ void install(jsi::Runtime &rt,
   });
 
   auto getCalendars = HOSTFN("getCalendars", []) {
+    NSLog(@"[Sol] Calling getCalendars");
     auto promiseCtr = rt.global().getPropertyAsFunction(rt, "Promise");
     auto promise = promiseCtr.callAsConstructor(
                                                 rt, HOSTFN("executor", []) {
@@ -624,12 +640,14 @@ void install(jsi::Runtime &rt,
   });
 
   auto focusDate = HOSTFN("focusDate", []) {
+    NSLog(@"[Sol] Calling focusDate");
     NSString *dateISO = sol::jsiValueToNSString(rt, arguments[0]);
     [calendarHelper focusDate:dateISO];
     return jsi::Value::undefined();
   });
 
   auto ls = HOSTFN("ls", []) {
+    NSLog(@"[Sol] Calling ls");
     NSString *path = sol::jsiValueToNSString(rt, arguments[0]);
     NSError *error;
     NSArray *contents = [FS lsWithPath:path error:&error];
@@ -648,6 +666,7 @@ void install(jsi::Runtime &rt,
   });
 
   auto exists = HOSTFN("exists", []) {
+    NSLog(@"[Sol] Calling exists");
     NSString *path = sol::jsiValueToNSString(rt, arguments[0]);
 
     bool exists = static_cast<bool>([FS existsWithPath:path]);
@@ -656,6 +675,7 @@ void install(jsi::Runtime &rt,
   });
 
   auto readFile = HOSTFN("readFile", []) {
+    NSLog(@"[Sol] Calling readFile");
     NSString *path = sol::jsiValueToNSString(rt, arguments[0]);
 
     NSString *contents = [FS readFileWithPath:path];
@@ -668,11 +688,13 @@ void install(jsi::Runtime &rt,
   });
 
   auto userName = HOSTFN("userName", []) {
+    NSLog(@"[Sol] Calling userName");
     NSString *userName = NSUserName();
     return sol::NSStringToJsiValue(rt, userName);
   });
 
   auto ps = HOSTFN("ps", []) {
+    NSLog(@"[Sol] Calling ps");
 
     NSPipe *pipe = [[NSPipe alloc] init];
     NSFileHandle *file = [pipe fileHandleForReading];
@@ -697,6 +719,7 @@ void install(jsi::Runtime &rt,
   });
 
   auto killProcess = HOSTFN("killProcess", []) {
+    NSLog(@"[Sol] Calling killProcess");
     NSString *pid = sol::jsiValueToNSString(rt, arguments[0]);
 
     NSTask *killTask = [[NSTask alloc] init];
@@ -711,12 +734,14 @@ void install(jsi::Runtime &rt,
   });
 
   auto log = HOSTFN("log", []) {
+    NSLog(@"[Sol] Calling log");
     NSString *msg = sol::jsiValueToNSString(rt, arguments[0]);
     NSLog(@"%@", msg);
     return {};
   });
 
   auto getApplications = HOSTFN("getApplications", []) {
+    NSLog(@"[Sol] Calling getApplications");
     auto promiseCtr = rt.global().getPropertyAsFunction(rt, "Promise");
     auto promise = promiseCtr.callAsConstructor(
         rt, HOSTFN("executor", []) {
@@ -776,6 +801,7 @@ void install(jsi::Runtime &rt,
   });
 
   auto mkdir = HOSTFN("mkdir", []) {
+    NSLog(@"[Sol] Calling mkdir");
     NSString *path = sol::jsiValueToNSString(rt, arguments[0]);
     NSError *error = nil;
 
@@ -794,6 +820,7 @@ void install(jsi::Runtime &rt,
   });
 
   auto cp = HOSTFN("cp", []) {
+    NSLog(@"[Sol] Calling cp");
     NSString *sourcePath = sol::jsiValueToNSString(rt, arguments[0]);
     NSString *destPath = sol::jsiValueToNSString(rt, arguments[1]);
     NSError *error = nil;
@@ -811,6 +838,7 @@ void install(jsi::Runtime &rt,
   });
 
   auto del = HOSTFN("del", []) {
+    NSLog(@"[Sol] Calling del");
     NSString *path = sol::jsiValueToNSString(rt, arguments[0]);
     NSError *error = nil;
 
@@ -826,6 +854,7 @@ void install(jsi::Runtime &rt,
   });
 
   auto writeFile = HOSTFN("writeFile", []) {
+    NSLog(@"[Sol] Calling writeFile");
     NSString *path = sol::jsiValueToNSString(rt, arguments[0]);
     NSString *contents = sol::jsiValueToNSString(rt, arguments[1]);
 
@@ -835,6 +864,7 @@ void install(jsi::Runtime &rt,
   });
 
   auto createFolderWatcher = HOSTFN("createFolderWatcher", []) {
+    NSLog(@"[Sol] Calling createFolderWatcher");
     auto path = jsiValueToString(rt, arguments[0]);
     auto callback = std::make_shared<jsi::Value>(rt, arguments[1]);
     auto folderWatcher = std::make_shared<FolderWatcherJSI>(rt, path, callback);
