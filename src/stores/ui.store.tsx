@@ -24,7 +24,6 @@ import {
 import type { IRootStore } from "store";
 import { PORTABLE_KEYS, readJsonConfig, writeJsonConfig } from "./config";
 import { createBaseItems } from "./items";
-import { migrateToJson, storage } from "./storage";
 import {
 	createTextTemporaryResult,
 	fetchFlightInfoFromWeb,
@@ -105,7 +104,7 @@ const minisearch = new MiniSearch({
 		"bookmarkFolder",
 		"faviconFallback",
 	],
-	tokenize: (text: string, fieldName?: string) =>
+	tokenize: (text: string, _fieldName?: string) =>
 		text.toLowerCase().split(/[\s.-]+/),
 });
 
@@ -128,6 +127,30 @@ const itemsThatShouldShowWindow = [
 	"process_manager",
 	"scratchpad",
 ];
+
+const migrateLegacyUiStateToJson = (
+	legacy: Record<string, any> | null,
+	jsonConfig: Record<string, any> | null,
+) => {
+	if (legacy == null) {
+		return;
+	}
+
+	if (jsonConfig == null || Object.keys(jsonConfig).length === 0) {
+		const portableSnapshot: Record<string, any> = {};
+		for (const key of PORTABLE_KEYS) {
+			if (legacy[key] !== undefined) {
+				portableSnapshot[key] = legacy[key];
+			}
+		}
+
+		if (Object.keys(portableSnapshot).length > 0) {
+			writeJsonConfig(portableSnapshot);
+		}
+	}
+
+	void AsyncStorage.removeItem("@ui.store");
+};
 
 export const createUIStore = (root: IRootStore) => {
 	// Guards against spurious writes during hydrate/reload
@@ -153,30 +176,23 @@ export const createUIStore = (root: IRootStore) => {
 	const hydrate = async () => {
 		isHydrating = true;
 		try {
-			// 1. Read legacy MMKV store
-			let mmkvRaw: string | null | undefined;
-			try {
-				mmkvRaw = storage.getString("@ui.store");
-			} catch {
-				// intentionally left blank
-			}
-			if (!mmkvRaw) {
-				mmkvRaw = await AsyncStorage.getItem("@ui.store");
-			}
-
-			const parsedMmkv: Record<string, any> | null = mmkvRaw
-				? JSON.parse(mmkvRaw)
+			// 1. Read legacy AsyncStorage store
+			const legacyRaw = await AsyncStorage.getItem("@ui.store");
+			const parsedLegacy: Record<string, any> | null = legacyRaw
+				? JSON.parse(legacyRaw)
 				: null;
 
 			// 2. Read JSON config (authoritative for portable keys)
+			const initialJsonConfig = readJsonConfig();
+
+			// 3. Migrate: write JSON if absent, then delete legacy AsyncStorage key
+			migrateLegacyUiStateToJson(parsedLegacy, initialJsonConfig);
+
 			const jsonConfig = readJsonConfig();
 
-			// 3. Migrate: write JSON if absent, then delete MMKV key
-			migrateToJson(parsedMmkv);
-
-			// 4. Build merged source: JSON overrides MMKV for portable keys
+			// 4. Build merged source: JSON overrides legacy data for portable keys
 			const src: Record<string, any> = {
-				...(parsedMmkv ?? {}),
+				...(parsedLegacy ?? {}),
 				...(jsonConfig ?? {}),
 			};
 
@@ -463,8 +479,8 @@ export const createUIStore = (root: IRootStore) => {
 				fuzzy: true,
 				// Slightly boost items that have a frequency
 				boostDocument: (
-					documentId: any,
-					term: string,
+					_documentId: any,
+					_term: string,
 					storedFields?: Record<string, any>,
 				) => {
 					if (storedFields) {
@@ -883,7 +899,7 @@ export const createUIStore = (root: IRootStore) => {
 			solNative.setLaunchAtLogin(v);
 		},
 		getFullDiskAccessStatus: async () => {
-			const hasAccess = await solNative.hasFullDiskAccess();
+			store.hasFullDiskAccess = await solNative.hasFullDiskAccess();
 			store.getBookmarks();
 		},
 		getBookmarks: async () => {

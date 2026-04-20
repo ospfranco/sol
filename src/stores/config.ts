@@ -42,8 +42,14 @@ export function readJsonConfig(): Record<string, any> | null {
 
 export function writeJsonConfig(data: Record<string, any>): boolean {
 	try {
+		const configDir = `/Users/${solNative.userName()}/.config/sol`;
+		if (!solNative.exists(configDir)) {
+			solNative.mkdir(configDir);
+		}
+		const existing = readJsonConfig() ?? {};
+		const merged = { ...existing, ...data };
 		const path = getConfigPath();
-		const json = JSON.stringify(data, null, 2);
+		const json = JSON.stringify(merged, null, 2);
 		return solNative.writeFile(path, json);
 	} catch (e) {
 		console.error("Failed to write config.json:", e);

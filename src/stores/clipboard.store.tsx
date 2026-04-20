@@ -5,7 +5,6 @@ import MiniSearch from "minisearch";
 import { autorun, makeAutoObservable, runInAction } from "mobx";
 import type { EmitterSubscription } from "react-native";
 import type { IRootStore } from "store";
-import { storage } from "./storage";
 import { Widget } from "./ui.store";
 
 const MAX_ITEMS = 1000;
@@ -223,21 +222,6 @@ export const createClipboardStore = (root: IRootStore) => {
 	);
 
 	const hydrate = async () => {
-		let state: string | null | undefined;
-		try {
-			state = storage.getString("@clipboard.store");
-		} catch {
-			// intentionally left blank
-		}
-		if (!state) {
-			state = await AsyncStorage.getItem("@clipboard.store");
-		}
-
-		if (state) {
-			const parsedStore = JSON.parse(state);
-			store.saveHistory = parsedStore.saveHistory;
-		}
-
 		if (store.saveHistory) {
 			const entry = await solNative.securelyRetrieve(
 				"@sol.clipboard_history_v2",
