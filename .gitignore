@@ -21,6 +21,9 @@ DerivedData
 *.ipa
 *.xcuserstate
 ios/.xcode.env.local
+macos/.xcode.env.local
+macos/sol.xcodeproj/project.pbxproj
+macos/sol.xcodeproj/project.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
 
 # Windows
 msbuild.binlog

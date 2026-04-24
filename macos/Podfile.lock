@@ -2613,7 +2613,7 @@ PODS:
     - Sentry/Core (= 9.8.0)
   - Sentry/Core (9.8.0)
   - SocketRocket (0.7.1)
-  - Sparkle (2.9.0)
+  - Sparkle (2.9.1)
   - Yoga (0.0.0)
 
 DEPENDENCIES:
@@ -2947,9 +2947,9 @@ SPEC CHECKSUMS:
   RNSentry: d9c281d2d09d7906fa9d783c4ecef80182c7db40
   Sentry: 88746bf877eff714bc45315a39ad1d1efea2cdda
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
-  Sparkle: f4355f9ebbe9b7d932df4980d70f13922ac97b2a
+  Sparkle: a4115cd9a339b297a61163256e6954d9e35297ce
   Yoga: 4ef4653dfc35ebc95b49047afcf7a690e32efc0a
 
-PODFILE CHECKSUM: ff33d89398a7240d20b8e881f6a64685dd007c50
+PODFILE CHECKSUM: 443f7f2d4e1fc83ee2eccab1dea867a70ad0a5b7
 
 COCOAPODS: 1.16.2

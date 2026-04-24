@@ -1,6 +1,7 @@
 [tools]
 bun = "latest"
-ruby = "3.2.8"
+node = "lts"
+ruby = "latest"
 
 [hooks]
-postinstall = "bun install && gem install bundler && bundle install && bun pods"
+postinstall = "bun install && gem install bundler --no-document && bundle install && bun pods"

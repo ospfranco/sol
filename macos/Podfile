@@ -19,6 +19,21 @@ target 'macOS' do
 
   post_install do |installer|
     react_native_post_install(installer)
+
+    # fmt 11.0.2 (React Native / RCT-Folly) + Apple Clang 21 (Xcode 26.4+): consteval breaks in
+    # format-inl.h (https://github.com/fmtlib/fmt/issues/4740). Not a missing tool: upgrading fmt
+    # is upstream’s job; we patch vendored base.h after each pod install so the fmt pod can keep
+    # CocoaPods’ default C++20 like every other pod.
+    fmt_base = File.join(__dir__, 'Pods/fmt/include/fmt/base.h')
+    if File.exist?(fmt_base)
+      contents = File.read(fmt_base)
+      old = "#elif defined(__apple_build_version__) && __apple_build_version__ < 14000029L\n#  define FMT_USE_CONSTEVAL 0  // consteval is broken in Apple clang < 14.\n"
+      new = "#elif defined(__apple_build_version__)\n#  define FMT_USE_CONSTEVAL 0  // Apple clang 21+ (Xcode 26.4+); fmt#4740.\n"
+      unless contents.include?('fmt#4740')
+        contents = contents.sub(old, new)
+        File.write(fmt_base, contents)
+      end
+    end
   end
 
 end
