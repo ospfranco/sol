@@ -640,6 +640,7 @@ export function createBaseItems(store: IRootStore) {
 			id: "quit_sol",
 			icon: "💀",
 			name: "Quit/Exit Sol",
+			alias: "exit",
 			type: ItemType.CONFIGURATION,
 			callback: async () => {
 				solNative.quit();
