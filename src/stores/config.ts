@@ -17,6 +17,7 @@ export const PORTABLE_KEYS = [
 	"customSearchUrl",
 	"shortcuts",
 	"showInAppBrowserBookMarks",
+	"hasDismissedGettingStarted",
 	"hyperKeyEnabled",
 	"customItems",
 	"disabledItemIds",
