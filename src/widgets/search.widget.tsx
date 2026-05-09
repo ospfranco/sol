@@ -269,19 +269,20 @@ const EmptyComponent = () => {
 export const SearchWidget: FC = observer(() => {
 	const store = useStore();
 	const focused = store.ui.focusedWidget === Widget.SEARCH;
+	const selectedIndex = store.ui.selectedIndex;
 	const listRef = useRef<LegendListRef | null>(null);
 	const items = store.ui.items.filter(
 		(item) => !store.ui.isItemDisabled(item.id),
 	);
 
 	useEffect(() => {
-		if (focused && items.length && store.ui.selectedIndex < items.length) {
+		if (focused && items.length && selectedIndex < items.length) {
 			listRef.current?.scrollToIndex({
-				index: store.ui.selectedIndex,
+				index: selectedIndex,
 				viewOffset: 80,
 			});
 		}
-	}, [focused, store.ui.selectedIndex, items]);
+	}, [focused, selectedIndex, items]);
 
 	return (
 		<View

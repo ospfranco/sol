@@ -1,0 +1,208 @@
+diff --git a/Libraries/Text/TextInput/Multiline/RCTUITextView.mm b/Libraries/Text/TextInput/Multiline/RCTUITextView.mm
+index 3ddc6016b5dee1f0ced35b9be2c4e59ff32f0a58..f86e1210e3d5ce452c9543189f112484db92206f 100644
+--- a/Libraries/Text/TextInput/Multiline/RCTUITextView.mm
++++ b/Libraries/Text/TextInput/Multiline/RCTUITextView.mm
+@@ -26,6 +26,7 @@
+ #endif // [macOS]
+   NSArray<NSString *> *_acceptDragAndDropTypes;
+ #if TARGET_OS_OSX // [macOS
++  BOOL _enableFocusRing;
+   NSArray<NSPasteboardType> *_readablePasteboardTypes;
+ #endif // macOS]
+ }
+@@ -64,6 +65,7 @@ static RCTUIColor *defaultPlaceholderColor(void) // [macOS]
+     // Fix blurry text on non-retina displays.
+     self.canDrawSubviewsIntoLayer = YES;
+     self.allowsUndo = YES;
++  _enableFocusRing = YES;
+ #endif // macOS]
+ 
+     _textInputDelegateAdapter = [[RCTBackedTextViewDelegateAdapter alloc] initWithTextView:self];
+@@ -258,6 +260,21 @@ static RCTUIColor *defaultPlaceholderColor(void) // [macOS]
+ 
+   return success;
+ }
++
++- (NSFocusRingType)focusRingType
++{
++  return _enableFocusRing ? NSFocusRingTypeDefault : NSFocusRingTypeNone;
++}
++
++- (void)setEnableFocusRing:(BOOL)enableFocusRing
++{
++  if (_enableFocusRing != enableFocusRing) {
++    _enableFocusRing = enableFocusRing;
++  }
++
++  [super setFocusRingType:self.focusRingType];
++  [self setKeyboardFocusRingNeedsDisplayInRect:self.bounds];
++}
+ #endif // macOS]
+ 
+ - (void)setDefaultTextAttributes:(NSDictionary<NSAttributedStringKey, id> *)defaultTextAttributes
+diff --git a/Libraries/Text/TextInput/Multiline/RCTWrappedTextView.m b/Libraries/Text/TextInput/Multiline/RCTWrappedTextView.m
+index ed8f3444b755d97c993a5ee8c991399d177ba45f..5e18d7204bd17934e582673bd1ad81013a24e23b 100644
+--- a/Libraries/Text/TextInput/Multiline/RCTWrappedTextView.m
++++ b/Libraries/Text/TextInput/Multiline/RCTWrappedTextView.m
+@@ -49,6 +49,9 @@
+     _forwardingTextView.textContainer.containerSize = NSMakeSize(FLT_MAX, FLT_MAX);
+     _forwardingTextView.textContainer.widthTracksTextView = YES;
+     _forwardingTextView.textInputDelegate = self;
++    if ([_forwardingTextView respondsToSelector:@selector(setEnableFocusRing:)]) {
++      [_forwardingTextView setEnableFocusRing:YES];
++    }
+     
+     _scrollView.documentView = _forwardingTextView;
+     _scrollView.contentView.postsBoundsChangedNotifications = YES;
+@@ -197,12 +200,19 @@
+ 
+ - (BOOL)enableFocusRing
+ {
++  if ([_forwardingTextView respondsToSelector:@selector(enableFocusRing)]) {
++    return [_forwardingTextView enableFocusRing];
++  }
++
+   return _scrollView.enableFocusRing;
+ }
+ 
+ - (void)setEnableFocusRing:(BOOL)enableFocusRing 
+ {
+   _scrollView.enableFocusRing = enableFocusRing;
++  if ([_forwardingTextView respondsToSelector:@selector(setEnableFocusRing:)]) {
++    [_forwardingTextView setEnableFocusRing:enableFocusRing];
++  }
+ }
+ 
+ @end
+diff --git a/Libraries/Text/TextInput/Singleline/RCTUITextField.mm b/Libraries/Text/TextInput/Singleline/RCTUITextField.mm
+index b1a968f7cd1d0c05e7d412da3a60f598365717dd..2cce4c0e9a42576401979473cd45a7b05fec92f8 100644
+--- a/Libraries/Text/TextInput/Singleline/RCTUITextField.mm
++++ b/Libraries/Text/TextInput/Singleline/RCTUITextField.mm
+@@ -311,16 +311,18 @@
+   return ((RCTUITextFieldCell*)self.cell).font;
+ }
+ 
++- (NSFocusRingType)focusRingType
++{
++  return _enableFocusRing ? NSFocusRingTypeExterior : NSFocusRingTypeNone;
++}
++
+ - (void)setEnableFocusRing:(BOOL)enableFocusRing {
+   if (_enableFocusRing != enableFocusRing) {
+     _enableFocusRing = enableFocusRing;
+   }
+ 
+-  if (enableFocusRing) {
+-    [self setFocusRingType:NSFocusRingTypeDefault];
+-  } else {
+-    [self setFocusRingType:NSFocusRingTypeNone];
+-  }
++  [super setFocusRingType:self.focusRingType];
++  [self setKeyboardFocusRingNeedsDisplayInRect:self.bounds];
+ }
+ 
+ #endif // macOS]
+diff --git a/React/Base/macOS/RCTUIKit.m b/React/Base/macOS/RCTUIKit.m
+index a37a1c106a04752c1baeb6dd2170402ce5f34f71..b9a50af7ef1c95a4ffb50d5ddf0676abfe16fc67 100644
+--- a/React/Base/macOS/RCTUIKit.m
++++ b/React/Base/macOS/RCTUIKit.m
+@@ -478,17 +478,18 @@ static RCTUIView *RCTUIViewCommonInit(RCTUIView *self)
+   }
+ }
+ 
++- (NSFocusRingType)focusRingType
++{
++  return _enableFocusRing ? NSFocusRingTypeExterior : NSFocusRingTypeNone;
++}
++
+ - (void)setEnableFocusRing:(BOOL)enableFocusRing {
+   if (_enableFocusRing != enableFocusRing) {
+     _enableFocusRing = enableFocusRing;
+   }
+ 
+-  if (enableFocusRing) {
+-    // NSTextView has no focus ring by default so let's use the standard Aqua focus ring.
+-    [self setFocusRingType:NSFocusRingTypeExterior];
+-  } else {
+-    [self setFocusRingType:NSFocusRingTypeNone];
+-  }
++  [super setFocusRingType:self.focusRingType];
++  [self setKeyboardFocusRingNeedsDisplayInRect:self.bounds];
+ }
+ 
+ // UIScrollView properties missing from NSScrollView
+diff --git a/React/CoreModules/RCTAppearance.mm b/React/CoreModules/RCTAppearance.mm
+index 39e2914d89925076fb2f839beb9ecbca5377fb8e..63b567bdb7e355a2a659da524175202ade8a0b82 100644
+--- a/React/CoreModules/RCTAppearance.mm
++++ b/React/CoreModules/RCTAppearance.mm
+@@ -156,15 +156,7 @@ RCT_EXPORT_METHOD(setColorScheme : (NSString *)style)
+     window.overrideUserInterfaceStyle = userInterfaceStyle;
+   }
+ #else // [macOS
+-  RCTExecuteOnMainQueue(^{
+-    NSAppearance *appearance = nil;
+-    if ([style isEqualToString:@"light"]) {
+-      appearance = [NSAppearance appearanceNamed:NSAppearanceNameAqua];
+-    } else if ([style isEqualToString:@"dark"]) {
+-      appearance = [NSAppearance appearanceNamed:NSAppearanceNameDarkAqua];
+-    }
+-    RCTSharedApplication().appearance = appearance;
+-  });
++  (void)style;
+ #endif // macOS]
+ }
+ 
+diff --git a/React/Fabric/Mounting/ComponentViews/TextInput/RCTTextInputComponentView.mm b/React/Fabric/Mounting/ComponentViews/TextInput/RCTTextInputComponentView.mm
+index c4bfeb1b9f9acf0926e238fe401e9ce58ed510e0..0f5b99f248085da66e8c87f8a87a20a99d77b152 100644
+--- a/React/Fabric/Mounting/ComponentViews/TextInput/RCTTextInputComponentView.mm
++++ b/React/Fabric/Mounting/ComponentViews/TextInput/RCTTextInputComponentView.mm
+@@ -818,7 +818,10 @@ static NSSet<NSNumber *> *returnKeyTypesSet;
+   [_backedTextInputView becomeFirstResponder];
+ #else // [macOS
+   NSWindow *window = [_backedTextInputView window];
+-  [window makeFirstResponder:_backedTextInputView];
++  NSResponder *responder = [_backedTextInputView respondsToSelector:@selector(responder)]
++      ? _backedTextInputView.responder
++      : (NSResponder *)_backedTextInputView;
++  [window makeFirstResponder:responder];
+ #endif // macOS]
+ 
+   const auto &props = static_cast<const TextInputProps &>(*_props);
+@@ -842,7 +845,10 @@ static NSSet<NSNumber *> *returnKeyTypesSet;
+   [_backedTextInputView resignFirstResponder];
+ #else // [macOS
+   NSWindow *window = [_backedTextInputView window];
+-  if ([window firstResponder] == _backedTextInputView.responder) {
++  NSResponder *responder = [_backedTextInputView respondsToSelector:@selector(responder)]
++      ? _backedTextInputView.responder
++      : (NSResponder *)_backedTextInputView;
++  if ([window firstResponder] == responder) {
+     [window makeFirstResponder:nil];
+   }
+ #endif // macOS]
+diff --git a/React/Fabric/Mounting/ComponentViews/TextInput/RCTTextInputUtils.mm b/React/Fabric/Mounting/ComponentViews/TextInput/RCTTextInputUtils.mm
+index 566d598cf95d4e14fd0427703006255b2deeb569..f9a5565125ecc680efbcc578171c6a74bc85e343 100644
+--- a/React/Fabric/Mounting/ComponentViews/TextInput/RCTTextInputUtils.mm
++++ b/React/Fabric/Mounting/ComponentViews/TextInput/RCTTextInputUtils.mm
+@@ -35,6 +35,14 @@ void RCTCopyBackedTextInput(
+   toTextInput.accessibilityLabel = fromTextInput.accessibilityLabel;
+   toTextInput.accessibilityRole = fromTextInput.accessibilityRole;
+   toTextInput.autoresizingMask = fromTextInput.autoresizingMask;
++  toTextInput.enableFocusRing = fromTextInput.enableFocusRing;
++  toTextInput.disableKeyboardShortcuts = fromTextInput.disableKeyboardShortcuts;
++  toTextInput.acceptDragAndDropTypes = fromTextInput.acceptDragAndDropTypes;
++  toTextInput.pointScaleFactor = fromTextInput.pointScaleFactor;
++  toTextInput.automaticSpellingCorrectionEnabled = fromTextInput.automaticSpellingCorrectionEnabled;
++  toTextInput.grammarCheckingEnabled = fromTextInput.grammarCheckingEnabled;
++  toTextInput.continuousSpellCheckingEnabled = fromTextInput.continuousSpellCheckingEnabled;
++  [toTextInput setSelectedTextRange:[fromTextInput selectedTextRange] notifyDelegate:NO];
+ #endif // macOS]
+ #if TARGET_OS_IOS // [macOS] [visionOS]
+   toTextInput.inputAccessoryView = fromTextInput.inputAccessoryView;
+diff --git a/node_modules/react-native-macos/scripts/.packager.env b/scripts/.packager.env
+new file mode 100644
+index 0000000000000000000000000000000000000000..361f5fb47d34aca545859cfa4b794257949172b0
+--- /dev/null
++++ b/scripts/.packager.env
+@@ -0,0 +1 @@
++export RCT_METRO_PORT=8081
