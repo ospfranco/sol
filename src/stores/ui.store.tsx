@@ -21,6 +21,7 @@ import {
 	Linking,
 	type NativeEventSubscription,
 } from "react-native";
+import RNRestart from "react-native-restart-newarch";
 import type { IRootStore } from "store";
 import { PORTABLE_KEYS, readJsonConfig, writeJsonConfig } from "./config";
 import { createBaseItems } from "./items";
@@ -1029,6 +1030,7 @@ export const createUIStore = (root: IRootStore) => {
 				store.isDarkMode = false;
 				// nativeWindColorScheme.set("light")
 			}
+			RNRestart.restart();
 		},
 
 		addToHistory: (query: string) => {

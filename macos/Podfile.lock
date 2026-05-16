@@ -2402,6 +2402,34 @@ PODS:
     - React-perflogger (= 0.81.7)
     - React-utils (= 0.81.7)
     - SocketRocket
+  - RestartNewArch (1.0.85):
+    - boost
+    - DoubleConversion
+    - fast_float
+    - fmt
+    - glog
+    - hermes-engine
+    - RCT-Folly
+    - RCT-Folly/Fabric
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-jsi
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-renderercss
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - SocketRocket
+    - Yoga
   - RNCAsyncStorage (2.2.0):
     - boost
     - DoubleConversion
@@ -2692,6 +2720,7 @@ DEPENDENCIES:
   - ReactAppDependencyProvider (from `build/generated/ios`)
   - ReactCodegen (from `build/generated/ios`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native-macos/ReactCommon`)
+  - RestartNewArch (from `../node_modules/react-native-restart-newarch`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - "RNSentry (from `../node_modules/@sentry/react-native`)"
@@ -2856,6 +2885,8 @@ EXTERNAL SOURCES:
     :path: build/generated/ios
   ReactCommon:
     :path: "../node_modules/react-native-macos/ReactCommon"
+  RestartNewArch:
+    :path: "../node_modules/react-native-restart-newarch"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
   RNReanimated:
@@ -2942,6 +2973,7 @@ SPEC CHECKSUMS:
   ReactAppDependencyProvider: 17d150a60ad301142905427154168f58641e38c4
   ReactCodegen: 8b4eefc1bbc1b4691070c87fb6593e78856e43aa
   ReactCommon: b2b6ff304cf01e1b67d8e9646e34d58320be0964
+  RestartNewArch: da0a57c408cc149df50dfd5c132022d35091c9a0
   RNCAsyncStorage: 29f0230e1a25f36c20b05f65e2eb8958d6526e82
   RNReanimated: 9af1b9f7d221d1cc2f99d935bab08419cae7c1ce
   RNSentry: d9c281d2d09d7906fa9d783c4ecef80182c7db40
@@ -2950,6 +2982,6 @@ SPEC CHECKSUMS:
   Sparkle: a4115cd9a339b297a61163256e6954d9e35297ce
   Yoga: 8a0df683a71bee13fe0b9d8b653d1a062ff65b2e
 
-PODFILE CHECKSUM: e624fa9d5bc53d452865529838b81e879837edfd
+PODFILE CHECKSUM: ff33d89398a7240d20b8e881f6a64685dd007c50
 
 COCOAPODS: 1.16.2

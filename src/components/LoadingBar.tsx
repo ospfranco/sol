@@ -1,7 +1,7 @@
 import { solNative } from "lib/SolNative";
 import { observer } from "mobx-react-lite";
-import React, { useEffect, useRef } from "react";
-import { Animated, useColorScheme } from "react-native";
+import { useEffect, useRef } from "react";
+import { Animated } from "react-native";
 import { useStore } from "store";
 
 export const LoadingBar = observer(() => {

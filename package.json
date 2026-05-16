@@ -15,7 +15,7 @@
 	},
 	"dependencies": {
 		"@expo/plist": "0.5.2",
-		"@legendapp/list": "3.0.0-beta.44",
+		"@legendapp/list": "3.0.0-beta.53",
 		"@react-native-async-storage/async-storage": "2.2.0",
 		"@sentry/react-native": "8.7.0",
 		"assert": "^2.1.0",
@@ -40,6 +40,7 @@
 		"react-native-macos": "0.81.7",
 		"react-native-mmkv": "2.12.2",
 		"react-native-reanimated": "^3.19.5",
+		"react-native-restart-newarch": "^1.0.85",
 		"react-native-safe-area-context": "5.5.2",
 		"react-native-url-polyfill": "3.0.0",
 		"uuid": "13.0.0"
@@ -71,8 +72,8 @@
 		"typescript": "5.8.3"
 	},
 	"patchedDependencies": {
-		"@legendapp/list@3.0.0-beta.44": "patches/@legendapp%2Flist@3.0.0-beta.44.patch",
-		"react-native-macos@0.81.7": "patches/react-native-macos@0.81.7.patch"
+		"react-native-macos@0.81.7": "patches/react-native-macos@0.81.7.patch",
+		"react-native-restart-newarch@1.0.85": "patches/react-native-restart-newarch@1.0.85.patch"
 	},
 	"trustedDependencies": [
 		"@sentry/cli"

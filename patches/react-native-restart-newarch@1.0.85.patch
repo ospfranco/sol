@@ -1,0 +1,13 @@
+diff --git a/RestartNewArch.podspec b/RestartNewArch.podspec
+index 3a07395b08881e57c4d535524010808c3b58c950..97e66b8f6320cab976d3be979a07924f7ec389e9 100644
+--- a/RestartNewArch.podspec
++++ b/RestartNewArch.podspec
+@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
+   s.license      = package["license"]
+   s.authors      = package["author"]
+ 
+-  s.platforms    = { :ios => min_ios_version_supported }
++  s.platforms    = { :ios => min_ios_version_supported, :osx => "10.15" }
+   s.source       = { :git => "https://github.com/ahmedawaad1804/react-native-restart-newarch.git", :tag => "#{s.version}" }
+ 
+   s.source_files = "ios/**/*.{h,m,mm,cpp}"
