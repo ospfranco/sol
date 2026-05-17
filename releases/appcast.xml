@@ -3,6 +3,19 @@
     <channel>
         <title>Sol</title>
         <item>
+            <title>2.1.336</title>
+            <description><![CDATA[## What's Changed
+* Fixes quick link custom hotkey not working by @ospfranco in https://github.com/ospfranco/sol/pull/287
+
+
+**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.335...2.1.336]]></description>
+            <pubDate>Sun, 17 May 2026 10:53:50 -0400</pubDate>
+            <sparkle:version>545</sparkle:version>
+            <sparkle:shortVersionString>2.1.336</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.336/2.1.336.zip" length="15197388" type="application/octet-stream" sparkle:edSignature="bFbMcpajHxDCnMue/YadD+aEfwAvvR9oJ+clvDlYIkO2ayhjw22REhjMpoL2+oxPOFhgBWF94na/OY2ZgwN1Bw=="/>
+        </item>
+        <item>
             <title>2.1.335</title>
             <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.334...2.1.335]]></description>
             <pubDate>Sat, 16 May 2026 16:20:24 -0400</pubDate>
@@ -19,22 +32,6 @@
             <sparkle:shortVersionString>2.1.334</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
             <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.334/2.1.334.zip" length="15192355" type="application/octet-stream" sparkle:edSignature="c01D/6sGq5ZETzIcWYPxzzPmU6O2Z5Sj48pNYtO9Vbm/U+7fZHpGVgBDpf79oh15SoyeU5yjK3J2K8TC4+IEBQ=="/>
-        </item>
-        <item>
-            <title>2.1.333</title>
-            <description><![CDATA[## What's Changed
-* Delete local only file ".xcode.env.local" from repo and prevent from re-adding by @ViToni in https://github.com/ospfranco/sol/pull/281
-* Add "exit" alias for "quit" command by @ViToni in https://github.com/ospfranco/sol/pull/284
-
-## New Contributors
-* @ViToni made their first contribution in https://github.com/ospfranco/sol/pull/281
-
-**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.332...2.1.333]]></description>
-            <pubDate>Sat, 09 May 2026 10:29:16 -0400</pubDate>
-            <sparkle:version>542</sparkle:version>
-            <sparkle:shortVersionString>2.1.333</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.333/2.1.333.zip" length="15190307" type="application/octet-stream" sparkle:edSignature="S8br5VIEV7ORqqRlzojk4T0pmP9N3USp9zDTWxd0U/OdHQ4WpLwh4swuZXLUSzeCYab+jlmPdeZHts2YzuibCw=="/>
         </item>
         <item>
             <title>2.1.312</title>
