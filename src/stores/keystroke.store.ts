@@ -864,7 +864,6 @@ export const createKeystrokeStore = (root: IRootStore) => {
 		},
 		keyUp: async ({
 			keyCode,
-			meta,
 		}: {
 			key: string;
 			keyCode: number;

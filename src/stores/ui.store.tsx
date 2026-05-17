@@ -464,8 +464,8 @@ export const createUIStore = (root: IRootStore) => {
 				fuzzy: true,
 				// Slightly boost items that have a frequency
 				boostDocument: (
-					documentId: any,
-					term: string,
+					_documentId: any,
+					_term: string,
 					storedFields?: Record<string, any>,
 				) => {
 					if (storedFields) {
@@ -1085,7 +1085,7 @@ export const createUIStore = (root: IRootStore) => {
 			store.customSearchUrl = url;
 		},
 
-		onHotkey({ id }: { id: string }) {
+		onHotKey: async ({ id }: { id: string }) => {
 			const item = [
 				...store.apps,
 				...baseItems,
@@ -1096,6 +1096,28 @@ export const createUIStore = (root: IRootStore) => {
 
 			if (item == null) {
 				return;
+			}
+
+			// TODO logic repeated from keystroke.store.ts. At some point de-duplicate
+			if (item.type === ItemType.CUSTOM) {
+				if (!item.text) {
+					return;
+				}
+
+				if (item.isApplescript) {
+					solNative.executeAppleScript(item.text);
+				} else {
+					try {
+						const canOpenURL = await Linking.canOpenURL(item.text);
+						if (canOpenURL) {
+							await Linking.openURL(item.text);
+						} else {
+							solNative.showToast(`Could not open URL: ${item.text}`, "error");
+						}
+					} catch (_e) {
+						solNative.showToast(`Could not open URL: ${item.text}`, "error");
+					}
+				}
 			}
 
 			if (item.callback) {
@@ -1267,7 +1289,7 @@ export const createUIStore = (root: IRootStore) => {
 	appareanceListener = Appearance.addChangeListener(store.onColorSchemeChange);
 	onShowListener = solNative.addListener("onShow", store.onShow);
 	onHideListener = solNative.addListener("onHide", store.onHide);
-	onHotkeyListener = solNative.addListener("hotkey", store.onHotkey);
+	onHotkeyListener = solNative.addListener("hotkey", store.onHotKey);
 	// onAppsChangedListener = solNative.addListener(
 	// 	"applicationsChanged",
 	// 	store.applicationsChanged,
