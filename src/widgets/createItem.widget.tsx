@@ -17,6 +17,7 @@ import {
 } from "react-native";
 import { useStore } from "store";
 import { ItemType } from "stores/ui.store";
+import { v4 as uuidv4 } from "uuid";
 
 interface Props {
 	style?: ViewStyle;
@@ -82,7 +83,7 @@ export const CreateItemWidget: FC<Props> = observer(({ style }) => {
 
 	const commit = () => {
 		const item = {
-			id: isEditing ? editingItem.id : Math.random().toString(),
+			id: isEditing ? editingItem.id : uuidv4(),
 			name,
 			icon,
 			color,
@@ -119,7 +120,7 @@ export const CreateItemWidget: FC<Props> = observer(({ style }) => {
 							>
 								{icon ? (
 									<Image
-										// @ts-ignore
+										// @ts-expect-error
 										source={Icons[icon]}
 										className={clsx(`h-4 w-4`)}
 										style={{
