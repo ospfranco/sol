@@ -1098,6 +1098,7 @@ export const createUIStore = (root: IRootStore) => {
 				return;
 			}
 
+			// TODO logic repeated from keystroke.store.ts. At some point de-duplicate
 			if (item.type === ItemType.CUSTOM) {
 				if (!item.text) {
 					return;
