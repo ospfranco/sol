@@ -1,11 +1,10 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { captureException } from "@sentry/react-native";
 import { solNative } from "lib/SolNative";
 import MiniSearch from "minisearch";
 import { autorun, makeAutoObservable, runInAction } from "mobx";
 import type { EmitterSubscription } from "react-native";
 import type { IRootStore } from "store";
-import { storage } from "./storage";
+import { readPersistedStore, writePersistedStore } from "./persisted-config";
 import { Widget } from "./ui.store";
 
 const MAX_ITEMS = 1000;
@@ -223,19 +222,14 @@ export const createClipboardStore = (root: IRootStore) => {
 	);
 
 	const hydrate = async () => {
-		let state: string | null | undefined;
-		try {
-			state = storage.getString("@clipboard.store");
-		} catch {
-			// intentionally left blank
-		}
-		if (!state) {
-			state = await AsyncStorage.getItem("@clipboard.store");
-		}
+		const persistedState = await readPersistedStore<{
+			saveHistory?: boolean;
+		}>("clipboard", (legacyState) => ({
+			saveHistory: legacyState.saveHistory ?? false,
+		}));
 
-		if (state) {
-			const parsedStore = JSON.parse(state);
-			store.saveHistory = parsedStore.saveHistory;
+		if (persistedState) {
+			store.saveHistory = persistedState.saveHistory ?? false;
 		}
 
 		if (store.saveHistory) {
@@ -291,18 +285,11 @@ export const createClipboardStore = (root: IRootStore) => {
 		storeWithoutItems.items = [];
 
 		try {
-			await AsyncStorage.setItem(
-				"@clipboard.store",
-				JSON.stringify(storeWithoutItems),
-			);
+			writePersistedStore("clipboard", {
+				saveHistory: storeWithoutItems.saveHistory,
+			});
 		} catch {
-			await AsyncStorage.clear();
-			await AsyncStorage.setItem(
-				"@clipboard.store",
-				JSON.stringify(storeWithoutItems),
-			).catch((e) =>
-				console.warn("Could re-persist persist clipboard store", e),
-			);
+			console.warn("Could not persist clipboard store config");
 		}
 	};
 

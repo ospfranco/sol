@@ -1,5 +1,8 @@
 import { solNative } from "../lib/SolNative";
 
+const CONFIG_DIRECTORY_PATH = `/Users/${solNative.userName()}/.config/sol`;
+const SCRIPTS_DIRECTORY_PATH = `${CONFIG_DIRECTORY_PATH}/scripts`;
+
 export const PORTABLE_KEYS = [
 	"firstTranslationLanguage",
 	"secondTranslationLanguage",
@@ -23,10 +26,38 @@ export const PORTABLE_KEYS = [
 	"disabledItemIds",
 ] as const;
 
+export const UI_PERSISTED_KEYS = [
+	"frequencies",
+	"history",
+	"note",
+	"onboardingStep",
+	...PORTABLE_KEYS,
+] as const;
+
 export type PortableKey = (typeof PORTABLE_KEYS)[number];
+export type UIPersistedKey = (typeof UI_PERSISTED_KEYS)[number];
+
+const ensureDirectory = (path: string) => {
+	if (solNative.exists(path)) {
+		return;
+	}
+
+	try {
+		solNative.mkdir(path);
+	} catch (e) {
+		console.error(`Failed to create ${path}:`, e);
+	}
+};
+
+const ensureConfigDirectories = () => {
+	ensureDirectory(CONFIG_DIRECTORY_PATH);
+	ensureDirectory(SCRIPTS_DIRECTORY_PATH);
+};
+
+ensureConfigDirectories();
 
 export function getConfigPath(): string {
-	return `/Users/${solNative.userName()}/.config/sol/config.json`;
+	return `${CONFIG_DIRECTORY_PATH}/config.json`;
 }
 
 export function readJsonConfig(): Record<string, any> | null {

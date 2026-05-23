@@ -1,15 +1,13 @@
 import { captureException } from "@sentry/react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { extractMeetingLink } from "lib/calendar";
 import { solNative } from "lib/SolNative";
 import { DateTime } from "luxon";
 import { autorun, makeAutoObservable, runInAction, toJS } from "mobx";
 import { type EmitterSubscription, Linking } from "react-native";
 import type { IRootStore } from "store";
-import { storage } from "./storage";
+import { readPersistedStore, writePersistedStore } from "./persisted-config";
 
 const MAX_DAYS_AHEAD = 14;
-const CALENDAR_STORE_KEY = "@calendar.store";
 
 let onShowListener: EmitterSubscription | undefined;
 let onStatusBarItemClickListener: EmitterSubscription | undefined;
@@ -20,45 +18,33 @@ export type CalendarStore = ReturnType<typeof createCalendarStore>;
 export const createCalendarStore = (root: IRootStore) => {
 	const persist = async () => {
 		try {
-			storage.set(
-				CALENDAR_STORE_KEY,
-				JSON.stringify({
-					selectedCalendarIds: toJS(store.selectedCalendarIds),
-					hasInitializedSelection: store.hasInitializedSelection,
-				}),
-			);
+			writePersistedStore("calendar", {
+				selectedCalendarIds: toJS(store.selectedCalendarIds),
+				hasInitializedSelection: store.hasInitializedSelection,
+			});
 		} catch (error) {
 			captureException(error);
 		}
 	};
 
 	const hydrate = async () => {
-		let storeState: string | null | undefined;
+		const persistedState = await readPersistedStore<{
+			selectedCalendarIds?: string[];
+			hasInitializedSelection?: boolean;
+		}>("calendar", (legacyState) => ({
+			selectedCalendarIds: legacyState.selectedCalendarIds ?? [],
+			hasInitializedSelection: legacyState.hasInitializedSelection ?? false,
+		}));
 
-		try {
-			storeState = storage.getString(CALENDAR_STORE_KEY);
-		} catch {
-			// intentionally left blank
-		}
-
-		if (!storeState) {
-			storeState = await AsyncStorage.getItem(CALENDAR_STORE_KEY);
-		}
-
-		if (!storeState) {
+		if (!persistedState) {
 			return;
 		}
 
-		try {
-			const parsedStore = JSON.parse(storeState);
-			runInAction(() => {
-				store.selectedCalendarIds = parsedStore.selectedCalendarIds ?? [];
-				store.hasInitializedSelection =
-					parsedStore.hasInitializedSelection ?? false;
-			});
-		} catch (error) {
-			captureException(error);
-		}
+		runInAction(() => {
+			store.selectedCalendarIds = persistedState.selectedCalendarIds ?? [];
+			store.hasInitializedSelection =
+				persistedState.hasInitializedSelection ?? false;
+		});
 	};
 
 	const store = makeAutoObservable({
@@ -144,6 +130,9 @@ export const createCalendarStore = (root: IRootStore) => {
 				}
 
 				const dayISODate = lEventDay.toISODate();
+				if (!dayISODate) {
+					continue;
+				}
 				if (!acc[dayISODate]) {
 					acc[dayISODate] = {
 						date: lEventDay,
@@ -316,20 +305,20 @@ export const createCalendarStore = (root: IRootStore) => {
 				} else {
 					Linking.openURL("ical://");
 				}
-			} catch (e) {
+			} catch {
 				Linking.openURL("ical://");
 			}
 		},
 		initialize: async () => {
 			await hydrate();
+			persistDisposer?.();
+			persistDisposer = autorun(() => {
+				void persist();
+			});
 			store.getCalendarAccess();
 			await store.fetchCalendars();
 			await store.fetchEvents();
 		},
-	});
-
-	persistDisposer = autorun(() => {
-		void persist();
 	});
 
 	void store.initialize();

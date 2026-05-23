@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Sentry from "@sentry/react-native";
 import { Assets } from "assets";
 import { Parser } from "expr-eval";
@@ -8,6 +7,7 @@ import { defaultShortcuts } from "lib/shortcuts";
 import { googleTranslate } from "lib/translator";
 import MiniSearch from "minisearch";
 import {
+	autorun,
 	type IReactionDisposer,
 	makeAutoObservable,
 	reaction,
@@ -23,9 +23,12 @@ import {
 } from "react-native";
 import RNRestart from "react-native-restart-newarch";
 import type { IRootStore } from "store";
-import { PORTABLE_KEYS, readJsonConfig, writeJsonConfig } from "./config";
+import { PORTABLE_KEYS, UI_PERSISTED_KEYS } from "./config";
 import { createBaseItems } from "./items";
-import { migrateToJson, storage } from "./storage";
+import {
+	readPersistedUIState,
+	writePersistedUIState,
+} from "./persisted-config";
 import {
 	createTextTemporaryResult,
 	fetchFlightInfoFromWeb,
@@ -106,8 +109,7 @@ const minisearch = new MiniSearch({
 		"bookmarkFolder",
 		"faviconFallback",
 	],
-	tokenize: (text: string, fieldName?: string) =>
-		text.toLowerCase().split(/[\s.-]+/),
+	tokenize: (text: string) => text.toLowerCase().split(/[\s.-]+/),
 });
 
 const userName = solNative.userName();
@@ -133,56 +135,33 @@ const itemsThatShouldShowWindow = [
 export const createUIStore = (root: IRootStore) => {
 	// Guards against spurious writes during hydrate/reload
 	let isHydrating = false;
-	let persistTimer: ReturnType<typeof setTimeout> | undefined;
+
+	const getPersistedUISnapshot = () => {
+		const snapshot: Record<string, any> = {};
+		for (const key of UI_PERSISTED_KEYS) {
+			snapshot[key] = toJS((store as any)[key]);
+		}
+		return snapshot;
+	};
 
 	const persistToJson = () => {
 		if (isHydrating) return;
-		if (persistTimer) clearTimeout(persistTimer);
-		persistTimer = setTimeout(() => {
-			try {
-				const snapshot: Record<string, any> = {};
-				for (const key of PORTABLE_KEYS) {
-					snapshot[key] = toJS((store as any)[key]);
-				}
-				writeJsonConfig(snapshot);
-			} catch (e) {
-				Sentry.captureException(e);
-			}
-		}, 500);
+
+		try {
+			writePersistedUIState(getPersistedUISnapshot());
+		} catch (e) {
+			Sentry.captureException(e);
+		}
 	};
 
 	const hydrate = async () => {
 		isHydrating = true;
 		try {
-			// 1. Read legacy MMKV store
-			let mmkvRaw: string | null | undefined;
-			try {
-				mmkvRaw = storage.getString("@ui.store");
-			} catch {
-				// intentionally left blank
-			}
-			if (!mmkvRaw) {
-				mmkvRaw = await AsyncStorage.getItem("@ui.store");
-			}
+			const src: Record<string, any> = (await readPersistedUIState()) ?? {};
 
-			const parsedMmkv: Record<string, any> | null = mmkvRaw
-				? JSON.parse(mmkvRaw)
-				: null;
-
-			// 2. Read JSON config (authoritative for portable keys)
-			const jsonConfig = readJsonConfig();
-
-			// 3. Migrate: write JSON if absent, then delete MMKV key
-			migrateToJson(parsedMmkv);
-
-			// 4. Build merged source: JSON overrides MMKV for portable keys
-			const src: Record<string, any> = {
-				...(parsedMmkv ?? {}),
-				...(jsonConfig ?? {}),
-			};
-
-			const hasPortableData =
-				jsonConfig != null && Object.keys(jsonConfig).length > 0;
+			const hasPortableData = PORTABLE_KEYS.some(
+				(key) => src[key] !== undefined,
+			);
 
 			if (Object.keys(src).length > 0) {
 				runInAction(() => {
@@ -200,8 +179,8 @@ export const createUIStore = (root: IRootStore) => {
 							store.frequencies = src.frequencies;
 						}
 					}
-					// Non-portable fields from MMKV/AsyncStorage only
-					store.onboardingStep = src.onboardingStep;
+					// Config-backed UI state
+					store.onboardingStep = src.onboardingStep ?? "v1_start";
 					store.note = src.note ?? "";
 					if (src.notes) {
 						store.note = src.notes.reduce((acc: string, n: string) => {
@@ -210,13 +189,13 @@ export const createUIStore = (root: IRootStore) => {
 					}
 					store.history = src.history ?? [];
 
-					// Portable fields — JSON is authoritative
+					// Config.json is authoritative for persisted UI state
 					store.firstTranslationLanguage = src.firstTranslationLanguage ?? "en";
 					store.secondTranslationLanguage =
 						src.secondTranslationLanguage ?? "de";
 					store.thirdTranslationLanguage = src.thirdTranslationLanguage ?? null;
 					store.customItems = src.customItems ?? [];
-					store.globalShortcut = src.globalShortcut;
+					store.globalShortcut = src.globalShortcut ?? "option";
 					store.showWindowOn = src.showWindowOn ?? "screenWithFrontmost";
 					store.calendarEnabled = src.calendarEnabled ?? true;
 					store.showAllDayEvents = src.showAllDayEvents ?? true;
@@ -270,12 +249,19 @@ export const createUIStore = (root: IRootStore) => {
 		}
 	};
 
-	const reloadJsonConfig = () => {
+	const reloadJsonConfig = async () => {
 		isHydrating = true;
 		try {
-			const jsonConfig = readJsonConfig();
+			const jsonConfig = await readPersistedUIState();
 			if (!jsonConfig) return;
 			runInAction(() => {
+				if (jsonConfig.frequencies !== undefined)
+					store.frequencies = jsonConfig.frequencies;
+				if (jsonConfig.history !== undefined)
+					store.history = jsonConfig.history;
+				if (jsonConfig.note !== undefined) store.note = jsonConfig.note;
+				if (jsonConfig.onboardingStep !== undefined)
+					store.onboardingStep = jsonConfig.onboardingStep;
 				if (jsonConfig.firstTranslationLanguage !== undefined)
 					store.firstTranslationLanguage = jsonConfig.firstTranslationLanguage;
 				if (jsonConfig.secondTranslationLanguage !== undefined)
@@ -840,7 +826,6 @@ export const createUIStore = (root: IRootStore) => {
 			appareanceListener?.remove();
 			bookmarksDisposer?.();
 			configDisposer?.();
-			if (persistTimer != null) clearTimeout(persistTimer);
 		},
 		getCalendarAccess: () => {
 			store.calendarAuthorizationStatus =
@@ -885,6 +870,9 @@ export const createUIStore = (root: IRootStore) => {
 		},
 		getFullDiskAccessStatus: async () => {
 			const hasAccess = await solNative.hasFullDiskAccess();
+			runInAction(() => {
+				store.hasFullDiskAccess = hasAccess;
+			});
 			store.getBookmarks();
 		},
 		getBookmarks: async () => {
@@ -1252,16 +1240,10 @@ export const createUIStore = (root: IRootStore) => {
 	);
 
 	hydrate().then(() => {
-		configDisposer = reaction(
-			() => {
-				const snapshot: Record<string, any> = {};
-				for (const key of PORTABLE_KEYS) {
-					snapshot[key] = toJS((store as any)[key]);
-				}
-				return JSON.stringify(snapshot);
-			},
-			() => persistToJson(),
-		);
+		configDisposer = autorun(() => {
+			getPersistedUISnapshot();
+			persistToJson();
+		});
 		store.getCalendarAccess();
 		store.getAccessibilityStatus();
 		store.getFullDiskAccessStatus();
