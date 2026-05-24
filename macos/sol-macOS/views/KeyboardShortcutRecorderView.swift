@@ -20,6 +20,23 @@ class KeyboardShortcutRecorderView: NSView {
     setupView()
   }
 
+  private func displayText(for keys: [String]) -> String {
+    return keys.map { key in
+      switch key {
+      case "command":
+        return "⌘"
+      case "shift":
+        return "⇧"
+      case "option":
+        return "⌥"
+      case "control":
+        return "⌃"
+      default:
+        return key
+      }
+    }.joined(separator: " ")
+  }
+
   private func setupView() {
     wantsLayer = true
     layer?.backgroundColor = NSColor.windowBackgroundColor.cgColor
@@ -55,7 +72,7 @@ class KeyboardShortcutRecorderView: NSView {
     ])
 
     recorder.onShortcut = { [weak self] keys in
-      self?.valueLabel.stringValue = keys.joined(separator: " + ")
+      self?.valueLabel.stringValue = self?.displayText(for: keys) ?? ""
       if let onShortcutChange = self?.onShortcutChange {
         onShortcutChange([
           "shortcut": keys
@@ -64,7 +81,7 @@ class KeyboardShortcutRecorderView: NSView {
     }
 
     recorder.onCancel = { [weak self] in
-      self?.valueLabel.stringValue = "waiting..."
+      self?.valueLabel.stringValue = "Press your Hotkey..."
       if let onCancel = self?.onCancel {
         onCancel([:])
       }
@@ -85,7 +102,7 @@ class KeyboardShortcutRecorderView: NSView {
 
   private func startRecording() {
     isRecording = true
-    valueLabel.stringValue = "waiting..."
+    valueLabel.stringValue = "Press your Hotkey..."
     recorder.startRecording()
   }
 
