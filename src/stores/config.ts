@@ -26,16 +26,21 @@ export const PORTABLE_KEYS = [
 	"disabledItemIds",
 ] as const;
 
-export const UI_PERSISTED_KEYS = [
+export const RUNTIME_CONFIG_KEYS = [
 	"frequencies",
 	"selectionTimestamps",
 	"history",
 	"note",
 	"onboardingStep",
+] as const;
+
+export const UI_PERSISTED_KEYS = [
+	...RUNTIME_CONFIG_KEYS,
 	...PORTABLE_KEYS,
 ] as const;
 
 export type PortableKey = (typeof PORTABLE_KEYS)[number];
+export type RuntimeConfigKey = (typeof RUNTIME_CONFIG_KEYS)[number];
 export type UIPersistedKey = (typeof UI_PERSISTED_KEYS)[number];
 
 const ensureDirectory = (path: string) => {
@@ -61,25 +66,50 @@ export function getConfigPath(): string {
 	return `${CONFIG_DIRECTORY_PATH}/config.json`;
 }
 
-export function readJsonConfig(): Record<string, any> | null {
+export function getRuntimeStatePath(): string {
+	return `${CONFIG_DIRECTORY_PATH}/state.json`;
+}
+
+const readJsonFile = (
+	path: string,
+	fileName: string,
+): Record<string, any> | null => {
 	try {
-		const path = getConfigPath();
 		const raw = solNative.readFile(path);
 		if (raw == null) return null;
 		return JSON.parse(raw);
 	} catch (e) {
-		console.error("Failed to read config.json:", e);
+		console.error(`Failed to read ${fileName}:`, e);
 		return null;
 	}
-}
+};
 
-export function writeJsonConfig(data: Record<string, any>): boolean {
+const writeJsonFile = (
+	path: string,
+	fileName: string,
+	data: Record<string, any>,
+): boolean => {
 	try {
-		const path = getConfigPath();
 		const json = JSON.stringify(data, null, 2);
 		return solNative.writeFile(path, json);
 	} catch (e) {
-		console.error("Failed to write config.json:", e);
+		console.error(`Failed to write ${fileName}:`, e);
 		return false;
 	}
+};
+
+export function readJsonConfig(): Record<string, any> | null {
+	return readJsonFile(getConfigPath(), "config.json");
+}
+
+export function writeJsonConfig(data: Record<string, any>): boolean {
+	return writeJsonFile(getConfigPath(), "config.json", data);
+}
+
+export function readJsonRuntimeState(): Record<string, any> | null {
+	return readJsonFile(getRuntimeStatePath(), "state.json");
+}
+
+export function writeJsonRuntimeState(data: Record<string, any>): boolean {
+	return writeJsonFile(getRuntimeStatePath(), "state.json", data);
 }
