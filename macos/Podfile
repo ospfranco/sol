@@ -3,6 +3,16 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 prepare_react_native_project!
 
+def disable_fmt_consteval!(installer)
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      next unless target.name == 'fmt'
+
+      config.build_settings['CLANG_CXX_LANGUAGE_STANDARD'] = 'gnu++17'
+    end
+  end
+end
+
 target 'macOS' do
   platform :macos, '14'
   use_native_modules!
@@ -19,6 +29,7 @@ target 'macOS' do
 
   post_install do |installer|
     react_native_post_install(installer)
+    disable_fmt_consteval!(installer)
   end
 
 end

@@ -28,6 +28,7 @@ export const PORTABLE_KEYS = [
 
 export const UI_PERSISTED_KEYS = [
 	"frequencies",
+	"selectionTimestamps",
 	"history",
 	"note",
 	"onboardingStep",

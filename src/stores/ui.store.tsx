@@ -132,9 +132,58 @@ const itemsThatShouldShowWindow = [
 	"scratchpad",
 ];
 
+type RankedItem = Item & {
+	score?: number;
+};
+
 export const createUIStore = (root: IRootStore) => {
 	// Guards against spurious writes during hydrate/reload
 	let isHydrating = false;
+
+	const getSelectionCount = (item: Pick<Item, "id" | "name">) => {
+		const countById = store.frequencies[item.id];
+		if (typeof countById === "number") {
+			return countById;
+		}
+
+		const legacyCount = store.frequencies[item.name];
+		return typeof legacyCount === "number" ? legacyCount : 0;
+	};
+
+	const getSelectionTimestamp = (item: Pick<Item, "id">) => {
+		const timestamp = store.selectionTimestamps[item.id];
+		return typeof timestamp === "number" ? timestamp : 0;
+	};
+
+	const compareRankedItems = (left: RankedItem, right: RankedItem) => {
+		const leftCount = getSelectionCount(left);
+		const rightCount = getSelectionCount(right);
+		const leftWasSelected = leftCount > 0;
+		const rightWasSelected = rightCount > 0;
+
+		if (leftWasSelected !== rightWasSelected) {
+			return leftWasSelected ? -1 : 1;
+		}
+
+		const scoreDiff = (right.score ?? 0) - (left.score ?? 0);
+		if (scoreDiff !== 0) {
+			return scoreDiff;
+		}
+
+		const timestampDiff =
+			getSelectionTimestamp(right) - getSelectionTimestamp(left);
+		if (timestampDiff !== 0) {
+			return timestampDiff;
+		}
+
+		if (rightCount !== leftCount) {
+			return rightCount - leftCount;
+		}
+
+		return left.name.localeCompare(right.name, undefined, {
+			sensitivity: "base",
+		});
+	};
 
 	const getPersistedUISnapshot = () => {
 		const snapshot: Record<string, any> = {};
@@ -178,6 +227,9 @@ export const createUIStore = (root: IRootStore) => {
 						} else {
 							store.frequencies = src.frequencies;
 						}
+					}
+					if (src.selectionTimestamps) {
+						store.selectionTimestamps = src.selectionTimestamps;
 					}
 					// Config-backed UI state
 					store.onboardingStep = src.onboardingStep ?? "v1_start";
@@ -257,6 +309,8 @@ export const createUIStore = (root: IRootStore) => {
 			runInAction(() => {
 				if (jsonConfig.frequencies !== undefined)
 					store.frequencies = jsonConfig.frequencies;
+				if (jsonConfig.selectionTimestamps !== undefined)
+					store.selectionTimestamps = jsonConfig.selectionTimestamps;
 				if (jsonConfig.history !== undefined)
 					store.history = jsonConfig.history;
 				if (jsonConfig.note !== undefined) store.note = jsonConfig.note;
@@ -351,6 +405,7 @@ export const createUIStore = (root: IRootStore) => {
 		indexedFileResults: [] as Item[],
 		translationResults: [] as string[],
 		frequencies: {} as Record<string, number>,
+		selectionTimestamps: {} as Record<string, number>,
 		temporaryResult: null as TemporaryResult | null,
 		firstTranslationLanguage: "en" as string,
 		secondTranslationLanguage: "de" as string,
@@ -425,9 +480,7 @@ export const createUIStore = (root: IRootStore) => {
 
 			// If the query is empty, return all items
 			if (!store.query) {
-				return allItems.sort((a, b) =>
-					a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1,
-				);
+				return [...allItems].sort(compareRankedItems);
 			}
 
 			if (minisearch.documentCount === 0) {
@@ -440,31 +493,15 @@ export const createUIStore = (root: IRootStore) => {
 				}
 			}
 
-			const maxFreq = Math.max(...Object.values(store.frequencies));
-
-			const results: Item[] = minisearch.search(store.query, {
+			const results = minisearch.search(store.query, {
 				boost: {
 					name: 2,
 				},
 				prefix: true,
 				fuzzy: true,
-				// Slightly boost items that have a frequency
-				boostDocument: (
-					_documentId: any,
-					_term: string,
-					storedFields?: Record<string, any>,
-				) => {
-					if (storedFields) {
-						const freq = store.frequencies[storedFields.name] ?? 0;
-						if (freq === 0) {
-							return 1;
-						}
-						return maxFreq > 0 ? 1 + freq / maxFreq : 1;
-					}
+			}) as unknown as RankedItem[];
 
-					return 1;
-				},
-			}) as any;
+			results.sort(compareRankedItems);
 
 			const temporaryResultItems = store.temporaryResult
 				? [{ id: "temporary", type: ItemType.TEMPORARY_RESULT, name: "" }]
@@ -522,6 +559,11 @@ export const createUIStore = (root: IRootStore) => {
 		setShowUpcomingEvent: (v: boolean) => {
 			store.showUpcomingEvent = v;
 			solNative.setUpcomingEventEnabled(v && store.calendarEnabled);
+		},
+		recordItemSelection: (item: Item) => {
+			const previousCount = getSelectionCount(item);
+			store.frequencies[item.id] = previousCount + 1;
+			store.selectionTimestamps[item.id] = Date.now();
 		},
 		showEmojiPicker: () => {
 			store.query = "";

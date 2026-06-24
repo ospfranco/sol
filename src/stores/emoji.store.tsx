@@ -148,9 +148,7 @@ export const createEmojiStore = (root: IRootStore) => {
 	const hydrate = async () => {
 		const persistedState = await readPersistedStore<{
 			frequentlyUsedEmojis?: Record<string, unknown>;
-		}>("emoji", (legacyState) => ({
-			frequentlyUsedEmojis: legacyState.frequentlyUsedEmojis ?? {},
-		}));
+		}>("emoji");
 
 		if (!persistedState) {
 			return;
