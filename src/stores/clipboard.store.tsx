@@ -224,9 +224,7 @@ export const createClipboardStore = (root: IRootStore) => {
 	const hydrate = async () => {
 		const persistedState = await readPersistedStore<{
 			saveHistory?: boolean;
-		}>("clipboard", (legacyState) => ({
-			saveHistory: legacyState.saveHistory ?? false,
-		}));
+		}>("clipboard");
 
 		if (persistedState) {
 			store.saveHistory = persistedState.saveHistory ?? false;

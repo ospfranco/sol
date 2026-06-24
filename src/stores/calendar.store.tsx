@@ -31,10 +31,7 @@ export const createCalendarStore = (root: IRootStore) => {
 		const persistedState = await readPersistedStore<{
 			selectedCalendarIds?: string[];
 			hasInitializedSelection?: boolean;
-		}>("calendar", (legacyState) => ({
-			selectedCalendarIds: legacyState.selectedCalendarIds ?? [],
-			hasInitializedSelection: legacyState.hasInitializedSelection ?? false,
-		}));
+		}>("calendar");
 
 		if (!persistedState) {
 			return;

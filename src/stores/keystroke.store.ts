@@ -415,9 +415,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
 								return;
 							}
 
-							// bump frequency
-							root.ui.frequencies[item.name] =
-								(root.ui.frequencies[item.name] ?? 0) + 1;
+							root.ui.recordItemSelection(item);
 
 							// close window
 							if (!item.preventClose) {
