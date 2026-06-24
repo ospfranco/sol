@@ -3,7 +3,11 @@ import { Assets } from "assets";
 import { Parser } from "expr-eval";
 import { CONSTANTS } from "lib/constants";
 import { solNative } from "lib/SolNative";
-import { defaultShortcuts } from "lib/shortcuts";
+import {
+	defaultShortcuts,
+	normalizeShortcut,
+	normalizeShortcutMap,
+} from "lib/shortcuts";
 import { googleTranslate } from "lib/translator";
 import MiniSearch from "minisearch";
 import {
@@ -203,6 +207,14 @@ export const createUIStore = (root: IRootStore) => {
 		}
 	};
 
+	const applyShortcutNormalization = (shortcuts?: Record<string, string>) => {
+		if (!shortcuts) {
+			return defaultShortcuts;
+		}
+
+		return normalizeShortcutMap(shortcuts);
+	};
+
 	const hydrate = async () => {
 		isHydrating = true;
 		try {
@@ -260,7 +272,7 @@ export const createUIStore = (root: IRootStore) => {
 					store.searchEngine = src.searchEngine ?? "google";
 					store.customSearchUrl =
 						src.customSearchUrl ?? "https://google.com/search?q=%s";
-					store.shortcuts = src.shortcuts ?? defaultShortcuts;
+					store.shortcuts = applyShortcutNormalization(src.shortcuts);
 					store.showInAppBrowserBookMarks =
 						src.showInAppBrowserBookMarks ?? true;
 					store.hasDismissedGettingStarted =
@@ -347,7 +359,7 @@ export const createUIStore = (root: IRootStore) => {
 				if (jsonConfig.customSearchUrl !== undefined)
 					store.customSearchUrl = jsonConfig.customSearchUrl;
 				if (jsonConfig.shortcuts !== undefined)
-					store.shortcuts = jsonConfig.shortcuts;
+					store.shortcuts = applyShortcutNormalization(jsonConfig.shortcuts);
 				if (jsonConfig.showInAppBrowserBookMarks !== undefined)
 					store.showInAppBrowserBookMarks =
 						jsonConfig.showInAppBrowserBookMarks;
@@ -1162,10 +1174,12 @@ export const createUIStore = (root: IRootStore) => {
 		},
 
 		setShortcut(id: string, shortcut: string) {
+			const normalizedShortcut = normalizeShortcut(shortcut);
+
 			// Check for duplicate shortcut
-			if (shortcut !== "") {
+			if (normalizedShortcut !== "") {
 				const isDuplicate = Object.entries(store.shortcuts).some(
-					([key, value]) => value === shortcut && key !== id,
+					([key, value]) => value === normalizedShortcut && key !== id,
 				);
 				if (isDuplicate) {
 					solNative.showToast("Shortcut already exists", "error", 4);
@@ -1173,7 +1187,7 @@ export const createUIStore = (root: IRootStore) => {
 				}
 			}
 
-			store.shortcuts[id] = shortcut;
+			store.shortcuts[id] = normalizedShortcut;
 			solNative.updateHotkeys(toJS(store.shortcuts));
 		},
 
@@ -1231,9 +1245,11 @@ export const createUIStore = (root: IRootStore) => {
 			store.shortcutSearchMode = false;
 		},
 		setShortcutFromUI: (shortcut: string[]) => {
+			const normalizedShortcut = normalizeShortcut(shortcut.join("+"));
+
 			// Check if we're in shortcut search mode
 			if (store.shortcutSearchMode) {
-				store.shortcutSearchFilter = shortcut.join("+");
+				store.shortcutSearchFilter = normalizedShortcut;
 				setTimeout(() => {
 					runInAction(() => {
 						store.showKeyboardRecorder = false;
@@ -1254,7 +1270,7 @@ export const createUIStore = (root: IRootStore) => {
 			if (!itemId) {
 				return;
 			}
-			store.setShortcut(itemId, shortcut.join("+"));
+			store.setShortcut(itemId, normalizedShortcut);
 		},
 		confirm: async (title: string, callback: () => unknown) => {
 			store.confirmDialogShown = true;

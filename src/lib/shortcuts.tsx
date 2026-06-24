@@ -3,6 +3,52 @@ import {Key} from 'components/Key'
 export const validShortcutTokensRegex =
   /^(cmd|control|option|command|shift|return|space|right|left|up|down|[a-ú]|[0-9])$/
 
+const shortcutTokenAliases: Record<string, string> = {
+  cmd: 'command',
+  '⌘': 'command',
+  '⌥': 'option',
+  '⌃': 'control',
+  '⇧': 'shift',
+  '↩': 'return',
+  '␣': 'space',
+  '→': 'right',
+  '←': 'left',
+  '↑': 'up',
+  '↓': 'down',
+  '\uf703': 'right',
+  '\uf702': 'left',
+  '\uf700': 'up',
+  '\uf701': 'down',
+  '\r': 'return',
+}
+
+export function normalizeShortcutToken(token: string) {
+  const trimmed = token.trim()
+  if (!trimmed) {
+    return ''
+  }
+
+  const lowercased = trimmed.toLowerCase()
+  return shortcutTokenAliases[trimmed] ?? shortcutTokenAliases[lowercased] ?? lowercased
+}
+
+export function normalizeShortcut(shortcut: string) {
+  return shortcut
+    .split('+')
+    .map(normalizeShortcutToken)
+    .filter(Boolean)
+    .join('+')
+}
+
+export function normalizeShortcutMap(shortcuts: Record<string, string>) {
+  return Object.fromEntries(
+    Object.entries(shortcuts).map(([id, shortcut]) => [
+      id,
+      normalizeShortcut(shortcut),
+    ]),
+  )
+}
+
 export const defaultShortcuts = {
   // 'option+space': 'sol'
   resize_fullscreen: 'control+option+return',

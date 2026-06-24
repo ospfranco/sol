@@ -107,18 +107,22 @@ class KeyboardShortcutRecorder {
     if event.modifierFlags.contains(.control) { keys.append("control") }
     if event.modifierFlags.contains(.shift) { keys.append("shift") }
 
-    if let chars = event.charactersIgnoringModifiers {
-      switch chars {
-      case "\u{F703}":  // right arrow key
-        keys.append("→")
-      case "\u{F702}":  // left arrow key
-        keys.append("←")
-      case "\u{F700}":  // up arrow key
-        keys.append("↑")
-      case "\u{F701}":  // down arrow key
-        keys.append("↓")
-      default:
-        keys.append(chars.uppercased())
+    switch event.keyCode {
+    case UInt16(kVK_RightArrow):
+      keys.append("right")
+    case UInt16(kVK_LeftArrow):
+      keys.append("left")
+    case UInt16(kVK_UpArrow):
+      keys.append("up")
+    case UInt16(kVK_DownArrow):
+      keys.append("down")
+    case UInt16(kVK_Return):
+      keys.append("return")
+    case UInt16(kVK_Space):
+      keys.append("space")
+    default:
+      if let chars = event.charactersIgnoringModifiers?.lowercased(), !chars.isEmpty {
+        keys.append(chars)
       }
     }
     return keys
