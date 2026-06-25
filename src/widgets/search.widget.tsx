@@ -271,9 +271,7 @@ export const SearchWidget: FC = observer(() => {
 	const focused = store.ui.focusedWidget === Widget.SEARCH;
 	const selectedIndex = store.ui.selectedIndex;
 	const listRef = useRef<LegendListRef | null>(null);
-	const items = store.ui.items.filter(
-		(item) => !store.ui.isItemDisabled(item.id),
-	);
+	const items = store.ui.searchItems;
 
 	useEffect(() => {
 		if (focused && items.length && selectedIndex < items.length) {
