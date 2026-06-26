@@ -543,8 +543,11 @@ export const createUIStore = (root: IRootStore) => {
 
 			return finalResults;
 		},
+		get searchItems(): Item[] {
+			return store.items.filter((item) => !store.isItemDisabled(item.id));
+		},
 		get currentItem(): Item | undefined {
-			return store.items[store.selectedIndex];
+			return store.searchItems[store.selectedIndex];
 		},
 		//                _   _
 		//      /\       | | (_)

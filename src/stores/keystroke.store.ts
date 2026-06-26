@@ -324,8 +324,8 @@ export const createKeystrokeStore = (root: IRootStore) => {
 								return;
 							}
 
-							// If there are no items, or if the query is a meta (⌘ is pressed) query, open a google search
-							if (!root.ui.items.length || meta) {
+							// If there are no visible items, or if the query is a meta (⌘ is pressed) query, open a browser search
+							if (!root.ui.searchItems.length || meta) {
 								switch (root.ui.searchEngine) {
 									case "google":
 										Linking.openURL(
@@ -397,7 +397,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
 								return;
 							}
 
-							const item = root.ui.items[root.ui.selectedIndex];
+							const item = root.ui.searchItems[root.ui.selectedIndex];
 
 							if (item == null) {
 								return;
