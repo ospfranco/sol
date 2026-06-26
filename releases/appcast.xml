@@ -3,6 +3,15 @@
     <channel>
         <title>Sol</title>
         <item>
+            <title>2.1.345</title>
+            <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.344...2.1.345]]></description>
+            <pubDate>Fri, 26 Jun 2026 08:20:49 -0400</pubDate>
+            <sparkle:version>554</sparkle:version>
+            <sparkle:shortVersionString>2.1.345</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.345/2.1.345.zip" length="14933701" type="application/octet-stream" sparkle:edSignature="odZu0go6kYBqViSsN0DaD7QKgaohHwAJxZbiiVpJSuymWNRljouSeDPxFCfdCjJNhRyCjOxMIYBu67sJC/7CCg=="/>
+        </item>
+        <item>
             <title>2.1.342</title>
             <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.340...2.1.342]]></description>
             <pubDate>Wed, 24 Jun 2026 11:59:16 -0400</pubDate>
@@ -19,19 +28,6 @@
             <sparkle:shortVersionString>2.1.340</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
             <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.340/2.1.340.zip" length="14931827" type="application/octet-stream" sparkle:edSignature="Xz+A6kpvnPWfohMv/dVZiE96W4kZ5mu9xu42GJcnmRDrWvSVgWw21TZH7DBvOeR45eCEVt28IbGFFlQc0WvRDQ=="/>
-        </item>
-        <item>
-            <title>2.1.338</title>
-            <description><![CDATA[## What's Changed
-* Fixes keyboard recorder display issue by @ospfranco in https://github.com/ospfranco/sol/pull/289
-
-
-**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.337...2.1.338]]></description>
-            <pubDate>Sun, 24 May 2026 18:25:46 -0400</pubDate>
-            <sparkle:version>547</sparkle:version>
-            <sparkle:shortVersionString>2.1.338</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.338/2.1.338.zip" length="15201233" type="application/octet-stream" sparkle:edSignature="limnMmiQv07Tnv3PP9XEBT58j9wFW8v7QbIIv/TBbuv0vNsenQcbewxidhsCiOo9H7b4w60V6nnIQB6tx7URCg=="/>
         </item>
         <item>
             <title>2.1.312</title>
