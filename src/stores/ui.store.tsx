@@ -939,6 +939,7 @@ export const createUIStore = (root: IRootStore) => {
 			const safariBookmarks = await store.getSafariBookmarks();
 			const braveBookmarks = await store.getBraveBookmarks();
 			const chromeBookmarks = await store.getChromeBookmarks();
+			const vivaldiBookmarks = await store.getVivaldiBookmarks();
 
 			// Use a Set to keep track of unique ids
 			const seenIds = new Set<string>();
@@ -947,6 +948,7 @@ export const createUIStore = (root: IRootStore) => {
 				...safariBookmarks,
 				...braveBookmarks,
 				...chromeBookmarks,
+				...vivaldiBookmarks,
 			]) {
 				if (!seenIds.has(bookmark.id)) {
 					allBookmarks.push(bookmark);
@@ -1046,6 +1048,42 @@ export const createUIStore = (root: IRootStore) => {
 					bookmarkFolder: bookmark.bookmarkFolder,
 					type: ItemType.BOOKMARK,
 					faviconFallback: Assets.Chrome,
+					url: bookmark.url,
+					callback: () => {
+						Linking.openURL(bookmark.url);
+					},
+				};
+			});
+		},
+
+		getVivaldiBookmarks: async (): Promise<Item[]> => {
+			const username = solNative.userName();
+			const path = `/Users/${username}/Library/Application Support/Vivaldi/Default/Bookmarks`;
+			const exists = solNative.exists(path);
+			if (!exists) {
+				return [];
+			}
+			const bookmarksString = solNative.readFile(path);
+			if (!bookmarksString) {
+				return [];
+			}
+			const OGbookmarks = JSON.parse(bookmarksString);
+
+			const bookmarks: {
+				title: string;
+				url: string;
+				bookmarkFolder: null | string;
+			}[] = [];
+
+			traverse(bookmarks, OGbookmarks.roots.bookmark_bar.children, null);
+
+			return bookmarks.map((bookmark, idx): Item => {
+				return {
+					id: `${bookmark.title}_vivaldi_${idx}`,
+					name: bookmark.title,
+					bookmarkFolder: bookmark.bookmarkFolder,
+					type: ItemType.BOOKMARK,
+					faviconFallback: Assets.Vivaldi,
 					url: bookmark.url,
 					callback: () => {
 						Linking.openURL(bookmark.url);

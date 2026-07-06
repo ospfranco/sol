@@ -132,6 +132,7 @@ import StarFilled from "./assets/starFilled.png";
 import Safari from "./assets/safari.png";
 import Brave from "./assets/brave.png";
 import Chrome from "./assets/chrome.png";
+import Vivaldi from "./assets/vivaldi.png";
 import OSP from "./assets/osp.png";
 import SettingsIcon from "./assets/SettingsIcon.png";
 import Bluetooth from "./assets/Bluetooth.png";
@@ -180,6 +181,7 @@ export const Assets = {
 	ChevronUp,
 	Cake,
 	Chrome,
+	Vivaldi,
 	OSP,
 	SettingsIcon,
 	ArrowLeftBlack,
