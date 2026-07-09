@@ -47,7 +47,7 @@ jsi::Value NSDateToJsiValue(jsi::Runtime &rt, NSDate* date) {
 }
 
 jsi::Value NSStringToJsiValue(jsi::Runtime &rt, NSString* v) {
-  auto res = jsi::String::createFromAscii(rt, [v UTF8String]);
+  auto res = jsi::String::createFromUtf8(rt, [v UTF8String]);
   return res;
 }
 
