@@ -937,18 +937,25 @@ export const createUIStore = (root: IRootStore) => {
 			const allBookmarks: Item[] = [];
 
 			const safariBookmarks = await store.getSafariBookmarks();
-			const braveBookmarks = await store.getBraveBookmarks();
-			const chromeBookmarks = await store.getChromeBookmarks();
-			const vivaldiBookmarks = await store.getVivaldiBookmarks();
+
+			const sources = [
+				{ id: "brave", favicon: Assets.Brave, path: `/Users/${store.username}/Library/Application Support/BraveSoftware/Brave-Browser/Default/Bookmarks` },
+				{ id: "chrome", favicon: Assets.Chrome, path: `/Users/${store.username}/Library/Application Support/Google/Chrome/Default/Bookmarks` },
+				{ id: "vivaldi", favicon: Assets.Vivaldi, path: `/Users/${store.username}/Library/Application Support/Vivaldi/Default/Bookmarks` },
+				{ id: "edge", favicon: Assets.Edge, path: `/Users/${store.username}/Library/Application Support/Microsoft Edge/Default/Bookmarks` },
+			];
+
+			const chromiumResults = await Promise.all(
+				sources.map((s) => store.getChromiumBookmarks(s)),
+			);
+
 
 			// Use a Set to keep track of unique ids
 			const seenIds = new Set<string>();
 
 			for (const bookmark of [
 				...safariBookmarks,
-				...braveBookmarks,
-				...chromeBookmarks,
-				...vivaldiBookmarks,
+				...chromiumResults.flat(),
 			]) {
 				if (!seenIds.has(bookmark.id)) {
 					allBookmarks.push(bookmark);
@@ -980,8 +987,12 @@ export const createUIStore = (root: IRootStore) => {
 				};
 			});
 		},
-		getBraveBookmarks: async (): Promise<Item[]> => {
-			const path = `/Users/${store.username}/Library/Application Support/BraveSoftware/Brave-Browser/Default/Bookmarks`;
+		getChromiumBookmarks: async (source: {
+			id: string;
+			favicon: any;
+			path: string;
+		}): Promise<Item[]> => {
+			const path = source.path;
 			const exists = solNative.exists(path);
 			if (!exists) {
 				return [];
@@ -1002,94 +1013,17 @@ export const createUIStore = (root: IRootStore) => {
 
 			traverse(bookmarks, OGbookmarks.roots.bookmark_bar.children, null);
 
-			return bookmarks.map((bookmark, idx): Item => {
-				return {
-					id: `${bookmark.title}_brave_${idx}`,
-					name: bookmark.title,
-					bookmarkFolder: bookmark.bookmarkFolder,
-					type: ItemType.BOOKMARK,
-					faviconFallback: Assets.Brave,
-					url: bookmark.url,
-					callback: () => {
-						try {
-							Linking.openURL(bookmark.url);
-						} catch (_) {
-							// intentionally left blank
-						}
-					},
-				};
-			});
-		},
-		getChromeBookmarks: async (): Promise<Item[]> => {
-			const username = solNative.userName();
-			const path = `/Users/${username}/Library/Application Support/Google/Chrome/Default/Bookmarks`;
-			const exists = solNative.exists(path);
-			if (!exists) {
-				return [];
-			}
-			const bookmarksString = solNative.readFile(path);
-			if (!bookmarksString) {
-				return [];
-			}
-			const OGbookmarks = JSON.parse(bookmarksString);
-
-			const bookmarks: {
-				title: string;
-				url: string;
-				bookmarkFolder: null | string;
-			}[] = [];
-
-			traverse(bookmarks, OGbookmarks.roots.bookmark_bar.children, null);
-
-			return bookmarks.map((bookmark, idx): Item => {
-				return {
-					id: `${bookmark.title}_brave_${idx}`,
-					name: bookmark.title,
-					bookmarkFolder: bookmark.bookmarkFolder,
-					type: ItemType.BOOKMARK,
-					faviconFallback: Assets.Chrome,
-					url: bookmark.url,
-					callback: () => {
-						Linking.openURL(bookmark.url);
-					},
-				};
-			});
-		},
-
-		getVivaldiBookmarks: async (): Promise<Item[]> => {
-			const username = solNative.userName();
-			const path = `/Users/${username}/Library/Application Support/Vivaldi/Default/Bookmarks`;
-			const exists = solNative.exists(path);
-			if (!exists) {
-				return [];
-			}
-			const bookmarksString = solNative.readFile(path);
-			if (!bookmarksString) {
-				return [];
-			}
-			const OGbookmarks = JSON.parse(bookmarksString);
-
-			const bookmarks: {
-				title: string;
-				url: string;
-				bookmarkFolder: null | string;
-			}[] = [];
-
-			traverse(bookmarks, OGbookmarks.roots.bookmark_bar.children, null);
-
-			return bookmarks.map((bookmark, idx): Item => {
-				return {
-					id: `${bookmark.title}_vivaldi_${idx}`,
-					name: bookmark.title,
-					bookmarkFolder: bookmark.bookmarkFolder,
-					type: ItemType.BOOKMARK,
-					faviconFallback: Assets.Vivaldi,
-					url: bookmark.url,
-					callback: () => {
-						Linking.openURL(bookmark.url);
-					},
-				};
-			});
+			return bookmarks.map((bookmark, idx): Item => ({
+				id: `${bookmark.title}_${source.id}_${idx}`,
+				name: bookmark.title,
+				bookmarkFolder: bookmark.bookmarkFolder,
+				type: ItemType.BOOKMARK,
+				faviconFallback: source.favicon,
+				url: bookmark.url,
+				callback: () => {
+					Linking.openURL(bookmark.url);
+				},
+			}));
 		},
 
 		setMediaKeyForwardingEnabled: (enabled: boolean) => {
