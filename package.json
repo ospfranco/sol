@@ -32,6 +32,7 @@
 		"mobx-react-lite": "4.1.1",
 		"nanoid": "5.1.7",
 		"nativewind": "4.1.23",
+		"pinyin-pro": "^3.28.1",
 		"pretty-bytes": "7.1.0",
 		"react": "19.1.4",
 		"react-native": "0.81.6",
