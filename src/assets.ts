@@ -133,6 +133,7 @@ import Safari from "./assets/safari.png";
 import Brave from "./assets/brave.png";
 import Chrome from "./assets/chrome.png";
 import Vivaldi from "./assets/vivaldi.png";
+import Edge from "./assets/edge.png";
 import OSP from "./assets/osp.png";
 import SettingsIcon from "./assets/SettingsIcon.png";
 import Bluetooth from "./assets/Bluetooth.png";
@@ -182,6 +183,7 @@ export const Assets = {
 	Cake,
 	Chrome,
 	Vivaldi,
+	Edge,
 	OSP,
 	SettingsIcon,
 	ArrowLeftBlack,
