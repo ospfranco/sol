@@ -3,6 +3,19 @@
     <channel>
         <title>Sol</title>
         <item>
+            <title>2.1.347</title>
+            <description><![CDATA[## What's Changed
+* refactor: table-driven Chromium bookmark loading, add Edge by @xuelingkang in https://github.com/ospfranco/sol/pull/313
+
+
+**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.346...2.1.347]]></description>
+            <pubDate>Mon, 20 Jul 2026 08:39:29 -0400</pubDate>
+            <sparkle:version>556</sparkle:version>
+            <sparkle:shortVersionString>2.1.347</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.347/2.1.347.zip" length="14929215" type="application/octet-stream" sparkle:edSignature="LsTJFgGGbqJ75EHOKo5mnKQsF/8gWV5tGVg+H5+GhFlaDhZz0chYbGxRR4CNnnPP0E2TD9uNYn29woccSU1cBA=="/>
+        </item>
+        <item>
             <title>2.1.346</title>
             <description><![CDATA[## What's Changed
 * feat: add Vivaldi bookmarks support by @xuelingkang in https://github.com/ospfranco/sol/pull/306
@@ -26,15 +39,6 @@
             <sparkle:shortVersionString>2.1.345</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
             <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.345/2.1.345.zip" length="14933701" type="application/octet-stream" sparkle:edSignature="odZu0go6kYBqViSsN0DaD7QKgaohHwAJxZbiiVpJSuymWNRljouSeDPxFCfdCjJNhRyCjOxMIYBu67sJC/7CCg=="/>
-        </item>
-        <item>
-            <title>2.1.342</title>
-            <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.340...2.1.342]]></description>
-            <pubDate>Wed, 24 Jun 2026 11:59:16 -0400</pubDate>
-            <sparkle:version>551</sparkle:version>
-            <sparkle:shortVersionString>2.1.342</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.342/2.1.342.zip" length="14933707" type="application/octet-stream" sparkle:edSignature="xXE+wFJBzXNxnLky7UK5QAic62s1x/1beeRI+P3BPlIi7Q2k1+bgGxJL7LO4gq1IwbHoLbVw0Xi5joL89aZACA=="/>
         </item>
         <item>
             <title>2.1.312</title>
