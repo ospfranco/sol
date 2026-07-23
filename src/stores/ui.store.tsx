@@ -37,6 +37,7 @@ import {
 	createTextTemporaryResult,
 	fetchFlightInfoFromWeb,
 	formatExpressionResult,
+	type BookmarkNode,
 	getInitials,
 	parseFlightIdentifier,
 	parseTimezoneConversion,
@@ -992,38 +993,49 @@ export const createUIStore = (root: IRootStore) => {
 			favicon: any;
 			path: string;
 		}): Promise<Item[]> => {
-			const path = source.path;
-			const exists = solNative.exists(path);
-			if (!exists) {
+			try {
+				const path = source.path;
+				const exists = solNative.exists(path);
+				if (!exists) {
+					return [];
+				}
+
+				const bookmarksString = solNative.readFile(path);
+				if (!bookmarksString) {
+					return [];
+				}
+
+				const OGbookmarks = JSON.parse(bookmarksString);
+
+				const bookmarks: {
+					title: string;
+					url: string;
+					bookmarkFolder: null | string;
+				}[] = [];
+
+				for (const root of Object.values<{ children?: BookmarkNode[] } | undefined>(
+					OGbookmarks.roots ?? {},
+				)) {
+					if (root?.children) {
+						traverse(bookmarks, root.children, null);
+					}
+				}
+
+				return bookmarks.map((bookmark, idx): Item => ({
+					id: `${bookmark.title}_${source.id}_${idx}`,
+					name: bookmark.title,
+					bookmarkFolder: bookmark.bookmarkFolder,
+					type: ItemType.BOOKMARK,
+					faviconFallback: source.favicon,
+					url: bookmark.url,
+					callback: () => {
+						Linking.openURL(bookmark.url);
+					},
+				}));
+			} catch (e) {
+				console.error(`Could not read ${source.id} bookmarks: ${e}`);
 				return [];
 			}
-
-			const bookmarksString = solNative.readFile(path);
-			if (!bookmarksString) {
-				return [];
-			}
-
-			const OGbookmarks = JSON.parse(bookmarksString);
-
-			const bookmarks: {
-				title: string;
-				url: string;
-				bookmarkFolder: null | string;
-			}[] = [];
-
-			traverse(bookmarks, OGbookmarks.roots.bookmark_bar.children, null);
-
-			return bookmarks.map((bookmark, idx): Item => ({
-				id: `${bookmark.title}_${source.id}_${idx}`,
-				name: bookmark.title,
-				bookmarkFolder: bookmark.bookmarkFolder,
-				type: ItemType.BOOKMARK,
-				faviconFallback: source.favicon,
-				url: bookmark.url,
-				callback: () => {
-					Linking.openURL(bookmark.url);
-				},
-			}));
 		},
 
 		setMediaKeyForwardingEnabled: (enabled: boolean) => {

@@ -25,7 +25,7 @@ export type TemporaryResult =
 			gate?: string;
 	  };
 
-type BookmarkNode = {
+export type BookmarkNode = {
 	type: "folder" | "url";
 	name: string;
 	url?: string;
