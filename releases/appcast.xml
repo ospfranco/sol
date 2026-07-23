@@ -3,6 +3,15 @@
     <channel>
         <title>Sol</title>
         <item>
+            <title>2.1.348</title>
+            <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.347...2.1.348]]></description>
+            <pubDate>Thu, 23 Jul 2026 08:38:18 -0400</pubDate>
+            <sparkle:version>557</sparkle:version>
+            <sparkle:shortVersionString>2.1.348</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.348/2.1.348.zip" length="14949232" type="application/octet-stream" sparkle:edSignature="ytaora1OpI/Py6gDPHtjKusSCBlAaMyx0qZozSHirI6yES6VhpbBk0mvohNEodxeyvaJ+dXMxdw4q/LHVBSYBA=="/>
+        </item>
+        <item>
             <title>2.1.347</title>
             <description><![CDATA[## What's Changed
 * refactor: table-driven Chromium bookmark loading, add Edge by @xuelingkang in https://github.com/ospfranco/sol/pull/313
@@ -30,15 +39,6 @@
             <sparkle:shortVersionString>2.1.346</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
             <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.346/2.1.346.zip" length="14936517" type="application/octet-stream" sparkle:edSignature="IZIKU5MPq3FjKFPcxHhi9pv8gN0+SYepNTW9cnDhU2ouEgXC2auSrl69fyVSCGU4sR6TPRSUfYxOIoFpK5DwBg=="/>
-        </item>
-        <item>
-            <title>2.1.345</title>
-            <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.344...2.1.345]]></description>
-            <pubDate>Fri, 26 Jun 2026 08:20:49 -0400</pubDate>
-            <sparkle:version>554</sparkle:version>
-            <sparkle:shortVersionString>2.1.345</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.345/2.1.345.zip" length="14933701" type="application/octet-stream" sparkle:edSignature="odZu0go6kYBqViSsN0DaD7QKgaohHwAJxZbiiVpJSuymWNRljouSeDPxFCfdCjJNhRyCjOxMIYBu67sJC/7CCg=="/>
         </item>
         <item>
             <title>2.1.312</title>
