@@ -160,7 +160,34 @@ export const createUIStore = (root: IRootStore) => {
 		return typeof timestamp === "number" ? timestamp : 0;
 	};
 
+	// ponytail: coarse relevance tier so usage history can only reorder items of
+	// comparable match quality. A fuzzy hit ("Cap" for "cal") never outranks a
+	// direct prefix match ("Calendar") just because it was selected once.
+	const getMatchTier = (item: Pick<Item, "name">) => {
+		const query = store.query.trim().toLowerCase();
+		if (!query) {
+			return 0;
+		}
+
+		const name = item.name.toLowerCase();
+		if (name.startsWith(query)) {
+			return 0;
+		}
+
+		// prefix of any word, e.g. "code" matching "Visual Studio Code"
+		if (name.split(/\s+/).some((word) => word.startsWith(query))) {
+			return 1;
+		}
+
+		return name.includes(query) ? 2 : 3;
+	};
+
 	const compareRankedItems = (left: RankedItem, right: RankedItem) => {
+		const tierDiff = getMatchTier(left) - getMatchTier(right);
+		if (tierDiff !== 0) {
+			return tierDiff;
+		}
+
 		const leftCount = getSelectionCount(left);
 		const rightCount = getSelectionCount(right);
 		const leftWasSelected = leftCount > 0;
