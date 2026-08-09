@@ -23,6 +23,30 @@ export type PasteItem = {
 	datetime: number; // Unix timestamp when copied
 };
 
+type RankedPasteItem = PasteItem & {
+	score?: number;
+};
+
+// Coarse relevance tier so the recency boost can only reorder items of
+// comparable match quality, not let a fuzzy hit outrank a direct match.
+const getMatchTier = (item: Pick<PasteItem, "text">, query: string) => {
+	const q = query.trim().toLowerCase();
+	if (!q) {
+		return 0;
+	}
+
+	const text = item.text.toLowerCase();
+	if (text.startsWith(q)) {
+		return 0;
+	}
+
+	if (text.split(/\s+/).some((word) => word.startsWith(q))) {
+		return 1;
+	}
+
+	return text.includes(q) ? 2 : 3;
+};
+
 const minisearch = new MiniSearch({
 	fields: ["text"],
 	storeFields: ["id", "text", "url", "bundle", "datetime"],
@@ -160,7 +184,8 @@ export const createClipboardStore = (root: IRootStore) => {
 
 			// Boost recent items in search results
 			const now = Date.now();
-			return minisearch.search(root.ui.query, {
+			const query = root.ui.query;
+			const results = minisearch.search(query, {
 				boostDocument: (_, __, storedFields) => {
 					const dt =
 						typeof storedFields?.datetime === "number"
@@ -173,10 +198,20 @@ export const createClipboardStore = (root: IRootStore) => {
 					if (hoursAgo < 24) return 1.1; // recent
 					return 1;
 				},
-				// boost: { text: 2 },
-				// prefix: true,
-				// fuzzy: 0.1,
-			}) as any;
+				prefix: true,
+				fuzzy: true,
+			}) as unknown as RankedPasteItem[];
+
+			results.sort((left, right) => {
+				const tierDiff = getMatchTier(left, query) - getMatchTier(right, query);
+				if (tierDiff !== 0) {
+					return tierDiff;
+				}
+
+				return (right.score ?? 0) - (left.score ?? 0);
+			});
+
+			return results;
 		},
 		removeLastItemIfNeeded: () => {
 			if (store.items.length > MAX_ITEMS) {
