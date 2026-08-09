@@ -3,6 +3,15 @@
     <channel>
         <title>Sol</title>
         <item>
+            <title>2.1.350</title>
+            <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.349...2.1.350]]></description>
+            <pubDate>Sun, 09 Aug 2026 17:34:44 -0400</pubDate>
+            <sparkle:version>559</sparkle:version>
+            <sparkle:shortVersionString>2.1.350</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.350/2.1.350.zip" length="14949522" type="application/octet-stream" sparkle:edSignature="XPHLmAbblAb388n7ODA/C6s4qhGcupoMQI0KyreyWnF6vNgPS4lB4/tumakY4lz5lHlppv1N4SWlGgSQM25YCg=="/>
+        </item>
+        <item>
             <title>2.1.348</title>
             <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.347...2.1.348]]></description>
             <pubDate>Thu, 23 Jul 2026 08:38:18 -0400</pubDate>
@@ -23,22 +32,6 @@
             <sparkle:shortVersionString>2.1.347</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
             <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.347/2.1.347.zip" length="14929215" type="application/octet-stream" sparkle:edSignature="LsTJFgGGbqJ75EHOKo5mnKQsF/8gWV5tGVg+H5+GhFlaDhZz0chYbGxRR4CNnnPP0E2TD9uNYn29woccSU1cBA=="/>
-        </item>
-        <item>
-            <title>2.1.346</title>
-            <description><![CDATA[## What's Changed
-* feat: add Vivaldi bookmarks support by @xuelingkang in https://github.com/ospfranco/sol/pull/306
-* fix: use createFromUtf8 instead of createFromAscii in JSI bridge by @xuelingkang in https://github.com/ospfranco/sol/pull/307
-
-## New Contributors
-* @xuelingkang made their first contribution in https://github.com/ospfranco/sol/pull/306
-
-**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.345...2.1.346]]></description>
-            <pubDate>Mon, 13 Jul 2026 08:04:28 -0400</pubDate>
-            <sparkle:version>555</sparkle:version>
-            <sparkle:shortVersionString>2.1.346</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.346/2.1.346.zip" length="14936517" type="application/octet-stream" sparkle:edSignature="IZIKU5MPq3FjKFPcxHhi9pv8gN0+SYepNTW9cnDhU2ouEgXC2auSrl69fyVSCGU4sR6TPRSUfYxOIoFpK5DwBg=="/>
         </item>
         <item>
             <title>2.1.312</title>
