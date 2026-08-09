@@ -1,5 +1,9 @@
 default_platform(:mac)
 
+def notify_git(action)
+  sh("pingme", "About to run: #{action}")
+end
+
 platform :mac do
 
   lane :release do
@@ -61,8 +65,11 @@ platform :mac do
 
       Dir.glob("#{path}releases/*.zip").each { |file| File.delete(file) }
 
+      notify_git("git add .")
       sh("git", "add", ".")
+
       sh("git", "commit", "-m", version)
+
       sh("git", "push")
     end
 
