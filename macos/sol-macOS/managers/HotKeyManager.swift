@@ -19,6 +19,7 @@ final class HotKeyManager {
   private var hotkeys: [HotKey] = []
   private var eventTap: CFMachPort?
   private var runLoopSource: CFRunLoopSource?
+  private var capsLockMappingApplied = false
 
   static public let shared = HotKeyManager()
 
@@ -144,7 +145,9 @@ final class HotKeyManager {
   }
 
   deinit {
-    resetCapsLockMapping()
+    if capsLockMappingApplied {
+      resetCapsLockMapping()
+    }
     if let eventTap = eventTap {
       CFMachPortInvalidate(eventTap)
     }
@@ -224,6 +227,7 @@ final class HotKeyManager {
       ]
     ]
     executeHidutil(payload: ["UserKeyMapping": mapping])
+    capsLockMappingApplied = true
   }
 
   private func executeHidutil(payload: [String: Any]) {
@@ -244,7 +248,14 @@ final class HotKeyManager {
   }
 
   func resetCapsLockMonitoring() {
-    resetCapsLockMapping()
+    // Only touch hidutil if Sol itself applied the mapping. Otherwise this
+    // would clobber a user's own hidutil configuration (e.g. custom
+    // Vim/tmux bindings) every time this is called, even when the Hyper
+    // Key setting was never turned on.
+    if capsLockMappingApplied {
+      resetCapsLockMapping()
+      capsLockMappingApplied = false
+    }
     if let eventTap = eventTap {
       CGEvent.tapEnable(tap: eventTap, enable: false)
       CFMachPortInvalidate(eventTap)
