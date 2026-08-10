@@ -3,6 +3,19 @@
     <channel>
         <title>Sol</title>
         <item>
+            <title>2.1.351</title>
+            <description><![CDATA[## What's Changed
+* Fix always calling hidutil messing some users config by @ospfranco in https://github.com/ospfranco/sol/pull/321
+
+
+**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.350...2.1.351]]></description>
+            <pubDate>Mon, 10 Aug 2026 12:55:59 -0400</pubDate>
+            <sparkle:version>560</sparkle:version>
+            <sparkle:shortVersionString>2.1.351</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.351/2.1.351.zip" length="14947297" type="application/octet-stream" sparkle:edSignature="kqqXvYqXKOb17Z72bJ57bEIYbR6CfKQ+MVOMd8JtRReBd12IGa+0XWZ5rX0ExK1Mk4r6iKOBV/1voUwaU8zpAg=="/>
+        </item>
+        <item>
             <title>2.1.350</title>
             <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.349...2.1.350]]></description>
             <pubDate>Sun, 09 Aug 2026 17:34:44 -0400</pubDate>
@@ -19,19 +32,6 @@
             <sparkle:shortVersionString>2.1.348</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
             <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.348/2.1.348.zip" length="14949232" type="application/octet-stream" sparkle:edSignature="ytaora1OpI/Py6gDPHtjKusSCBlAaMyx0qZozSHirI6yES6VhpbBk0mvohNEodxeyvaJ+dXMxdw4q/LHVBSYBA=="/>
-        </item>
-        <item>
-            <title>2.1.347</title>
-            <description><![CDATA[## What's Changed
-* refactor: table-driven Chromium bookmark loading, add Edge by @xuelingkang in https://github.com/ospfranco/sol/pull/313
-
-
-**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.346...2.1.347]]></description>
-            <pubDate>Mon, 20 Jul 2026 08:39:29 -0400</pubDate>
-            <sparkle:version>556</sparkle:version>
-            <sparkle:shortVersionString>2.1.347</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.347/2.1.347.zip" length="14929215" type="application/octet-stream" sparkle:edSignature="LsTJFgGGbqJ75EHOKo5mnKQsF/8gWV5tGVg+H5+GhFlaDhZz0chYbGxRR4CNnnPP0E2TD9uNYn29woccSU1cBA=="/>
         </item>
         <item>
             <title>2.1.312</title>
