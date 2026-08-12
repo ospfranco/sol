@@ -46,16 +46,17 @@ export const createKeystrokeStore = (root: IRootStore) => {
 			shift: boolean;
 		}) => {
 			switch (keyCode) {
-				// "j" key
-				case 38: {
-					// simulate a down key press
+				// "j" / "n" keys - simulate a down key press
+				case 38:
+				case 45: {
 					if (store.controlPressed) {
 						store.keyDown({ keyCode: 125, meta: false, shift: false });
 					}
 					break;
 				}
-				// "k" key
-				case 40: {
+				// "k" / "p" keys - simulate an up key press
+				case 40:
+				case 35: {
 					if (store.controlPressed) {
 						store.keyDown({ keyCode: 126, meta: false, shift: false });
 					}

@@ -5,6 +5,8 @@ import HotKey
 
 final class HotKeyManager {
   let handledKeys: [UInt16] = [53, 123, 124, 126, 125, 36, 48]
+  // j, k, n, p - used as vim/emacs-style up/down aliases when control is held
+  let controlNavKeys: [UInt16] = [38, 40, 45, 35]
   let numberchars: [String] = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
   public var catchHorizontalArrowsPress = false
   public var catchVerticalArrowsPress = true
@@ -66,6 +68,13 @@ final class HotKeyManager {
       )
 
       if self.handledKeys.contains($0.keyCode) {
+        return nil
+      }
+
+      // Prevent control+j/k/n/p from falling through to the focused text field,
+      // where AppKit's default emacs-style bindings would move/insert instead
+      // of changing the list selection (handled as up/down aliases in JS).
+      if controlPressed && self.controlNavKeys.contains($0.keyCode) {
         return nil
       }
 
