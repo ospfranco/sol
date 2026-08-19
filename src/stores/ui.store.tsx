@@ -72,6 +72,17 @@ export enum Widget {
 	FILE_SEARCH = "FILE_SEARCH",
 }
 
+// How much of a pasteboard entry is rendered in the preview pane. The selection
+// indexes reported by the preview are offsets into this prefix, so anything that
+// is not part of the entry itself must be rendered outside of it.
+export const MAX_CLIPBOARD_PREVIEW_LENGTH = 5000;
+
+export type ClipboardPreviewSelection = {
+	start: number;
+	end: number;
+	entryId: number;
+};
+
 export enum ItemType {
 	FILE = "FILE",
 	APPLICATION = "APPLICATION",
@@ -435,6 +446,11 @@ export const createUIStore = (root: IRootStore) => {
 		query: "",
 		selectedIndex: 0,
 		focusedWidget: Widget.SEARCH,
+		clipboardPreviewFocused: false,
+		clipboardPreviewSelection: null as ClipboardPreviewSelection | null,
+		// Bumped only when the preview is focused via the keyboard, so that focusing
+		// it by dragging a selection with the mouse does not reset that selection.
+		clipboardPreviewFocusRequest: 0,
 		events: [] as INativeEvent[],
 		customItems: [] as Item[],
 		disabledItemIds: [] as string[],
@@ -577,6 +593,34 @@ export const createUIStore = (root: IRootStore) => {
 		get currentItem(): Item | undefined {
 			return store.searchItems[store.selectedIndex];
 		},
+		get canFocusClipboardPreview(): boolean {
+			const entry = root.clipboard.clipboardItems[store.selectedIndex];
+			return entry != null && !entry.url && entry.text.length > 0;
+		},
+		get clipboardPreviewSelectedText(): string | null {
+			const selection = store.clipboardPreviewSelection;
+			if (selection == null) {
+				return null;
+			}
+
+			const entry = root.clipboard.clipboardItems[store.selectedIndex];
+			if (entry == null || entry.url || entry.id !== selection.entryId) {
+				return null;
+			}
+
+			const from = Math.max(0, Math.min(selection.start, selection.end));
+			const to = Math.min(
+				entry.text.length,
+				MAX_CLIPBOARD_PREVIEW_LENGTH,
+				Math.max(selection.start, selection.end),
+			);
+
+			if (to <= from) {
+				return null;
+			}
+
+			return entry.text.slice(from, to);
+		},
 		//                _   _
 		//      /\       | | (_)
 		//     /  \   ___| |_ _  ___  _ __  ___
@@ -621,7 +665,42 @@ export const createUIStore = (root: IRootStore) => {
 			store.focusWidget(Widget.SETTINGS);
 		},
 		setSelectedIndex: (idx: number) => {
+			// Clicking a row does not resign the preview's first responder status on
+			// macOS, so the blur handler never runs. Reset here or a stale selection
+			// would be pasted instead of the newly selected entry.
+			store.resetClipboardPreview();
 			store.selectedIndex = idx;
+		},
+		setClipboardPreviewFocused: (focused: boolean) => {
+			if (focused && !store.canFocusClipboardPreview) {
+				return;
+			}
+			store.clipboardPreviewFocused = focused;
+			if (!focused) {
+				store.clipboardPreviewSelection = null;
+			}
+		},
+		toggleClipboardPreviewFocus: () => {
+			if (store.clipboardPreviewFocused) {
+				store.setClipboardPreviewFocused(false);
+				return;
+			}
+
+			if (!store.canFocusClipboardPreview) {
+				return;
+			}
+
+			store.clipboardPreviewFocused = true;
+			store.clipboardPreviewFocusRequest += 1;
+		},
+		setClipboardPreviewSelection: (
+			selection: ClipboardPreviewSelection | null,
+		) => {
+			store.clipboardPreviewSelection = selection;
+		},
+		resetClipboardPreview: () => {
+			store.clipboardPreviewFocused = false;
+			store.clipboardPreviewSelection = null;
 		},
 		setNote: (note: string) => {
 			store.note = note;
@@ -714,6 +793,7 @@ export const createUIStore = (root: IRootStore) => {
 			store.showWindowOn = on;
 		},
 		focusWidget: (widget: Widget) => {
+			store.resetClipboardPreview();
 			store.selectedIndex = 0;
 			store.focusedWidget = widget;
 		},
@@ -895,6 +975,7 @@ export const createUIStore = (root: IRootStore) => {
 			store.isVisible = false;
 			store.focusedWidget = Widget.SEARCH;
 			store.editingCustomItem = null;
+			store.resetClipboardPreview();
 			if (store.temporaryResult == null) {
 				store.setQuery("");
 			}
