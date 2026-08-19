@@ -51,6 +51,15 @@ final class HotKeyManager {
         return $0
       }
 
+      // Let the input method commit active marked text before treating Enter
+      // as an action on the selected result.
+      if $0.keyCode == 36,
+        let textInputClient = $0.window?.firstResponder as? NSTextInputClient,
+        textInputClient.hasMarkedText()
+      {
+        return $0
+      }
+
       if $0.keyCode == 36 && !self.catchEnterPress {
         return $0
       }
