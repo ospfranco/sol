@@ -285,14 +285,14 @@ export const SearchWidget: FC = observer(() => {
 	return (
 		<View
 			className={clsx({
-				"flex-1": !!store.ui.query,
+				"flex-1": store.ui.itemListVisible,
 			})}
 		>
 			<View className="flex-row items-center gap-2 px-3">
 				<MainInput className="flex-1" hideIcon />
 			</View>
 
-			{!!store.ui.query && (
+			{store.ui.itemListVisible && (
 				<>
 					<LoadingBar />
 					<LegendList
@@ -321,33 +321,37 @@ export const SearchWidget: FC = observer(() => {
 								<View className="mx-2" />
 							</>
 						)}
-						<Text className="text-xs darker-text mr-1">Translate</Text>
-						<Key symbol={"⇧"} />
-						<Key symbol={"⏎"} />
-						{!items.length && (
+						{!!store.ui.query && (
 							<>
+								<Text className="text-xs darker-text mr-1">Translate</Text>
+								<Key symbol={"⇧"} />
+								<Key symbol={"⏎"} />
+								{!items.length && (
+									<>
+										<View className="mx-2" />
+										<Text
+											className={clsx("text-xs darker-text mr-1", {
+												"font-semibold": !items.length,
+											})}
+										>
+											Search
+										</Text>
+										<Key symbol={"⌘"} />
+										<Key symbol={"⏎"} />
+									</>
+								)}
 								<View className="mx-2" />
 								<Text
 									className={clsx("text-xs darker-text mr-1", {
 										"font-semibold": !items.length,
 									})}
 								>
-									Search
+									Browser Search
 								</Text>
-								<Key symbol={"⌘"} />
-								<Key symbol={"⏎"} />
+								{!!items.length && <Key symbol={"⌘"} />}
+								<Key symbol={"⏎"} primary={!items.length} />
 							</>
 						)}
-						<View className="mx-2" />
-						<Text
-							className={clsx("text-xs darker-text mr-1", {
-								"font-semibold": !items.length,
-							})}
-						>
-							Browser Search
-						</Text>
-						{!!items.length && <Key symbol={"⌘"} />}
-						<Key symbol={"⏎"} primary={!items.length} />
 						{!!items.length && (
 							<>
 								<View className="mx-2" />

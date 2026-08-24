@@ -303,6 +303,7 @@ export const createUIStore = (root: IRootStore) => {
 					store.shortcuts = applyShortcutNormalization(src.shortcuts);
 					store.showInAppBrowserBookMarks =
 						src.showInAppBrowserBookMarks ?? true;
+					store.showItemsOnEmptyQuery = src.showItemsOnEmptyQuery ?? false;
 					store.hasDismissedGettingStarted =
 						src.hasDismissedGettingStarted ?? false;
 					store.hyperKeyEnabled = src.hyperKeyEnabled ?? false;
@@ -391,6 +392,8 @@ export const createUIStore = (root: IRootStore) => {
 				if (jsonConfig.showInAppBrowserBookMarks !== undefined)
 					store.showInAppBrowserBookMarks =
 						jsonConfig.showInAppBrowserBookMarks;
+				if (jsonConfig.showItemsOnEmptyQuery !== undefined)
+					store.showItemsOnEmptyQuery = jsonConfig.showItemsOnEmptyQuery;
 				if (jsonConfig.hyperKeyEnabled !== undefined)
 					store.hyperKeyEnabled = jsonConfig.hyperKeyEnabled;
 				if (jsonConfig.customItems !== undefined)
@@ -465,6 +468,7 @@ export const createUIStore = (root: IRootStore) => {
 		searchFolders: [] as string[],
 		shortcuts: defaultShortcuts as Record<string, string>,
 		showInAppBrowserBookMarks: true,
+		showItemsOnEmptyQuery: false,
 		hoveredEventId: null as string | null,
 		hasDismissedGettingStarted: false,
 		isVisible: false,
@@ -571,8 +575,24 @@ export const createUIStore = (root: IRootStore) => {
 
 			return finalResults;
 		},
+		get itemListVisible(): boolean {
+			// The permission and getting started prompts keep Enter to themselves until onboarding is done
+			return (
+				!!store.query ||
+				(store.showItemsOnEmptyQuery &&
+					store.searchItems.length > 0 &&
+					store.calendarAuthorizationStatus != null &&
+					store.calendarAuthorizationStatus !== "notDetermined" &&
+					store.hasDismissedGettingStarted)
+			);
+		},
 		get searchItems(): Item[] {
-			return store.items.filter((item) => !store.isItemDisabled(item.id));
+			// Bookmarks stay search-only, their favicons fire network fetches
+			return store.items.filter(
+				(item) =>
+					!store.isItemDisabled(item.id) &&
+					(!!store.query || item.type !== ItemType.BOOKMARK),
+			);
 		},
 		get currentItem(): Item | undefined {
 			return store.searchItems[store.selectedIndex];
@@ -602,6 +622,9 @@ export const createUIStore = (root: IRootStore) => {
 		setShowUpcomingEvent: (v: boolean) => {
 			store.showUpcomingEvent = v;
 			solNative.setUpcomingEventEnabled(v && store.calendarEnabled);
+		},
+		setShowItemsOnEmptyQuery: (v: boolean) => {
+			store.showItemsOnEmptyQuery = v;
 		},
 		recordItemSelection: (item: Item) => {
 			const previousCount = getSelectionCount(item);
@@ -1090,6 +1113,9 @@ export const createUIStore = (root: IRootStore) => {
 		},
 
 		addToHistory: (query: string) => {
+			if (!query) {
+				return;
+			}
 			store.history.push(query);
 		},
 

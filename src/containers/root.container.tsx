@@ -24,12 +24,12 @@ export const RootContainer = observer(() => {
     <View
       className={clsx('dark:bg-gray-900/10', {
         fullWindow:
-          !!store.ui.query ||
+          store.ui.itemListVisible ||
           (store.ui.calendarEnabled && store.calendar.events.length > 0),
       })}>
       <SearchWidget />
 
-      {!store.ui.query && store.ui.calendarEnabled && <FullCalendar />}
+      {!store.ui.itemListVisible && store.ui.calendarEnabled && <FullCalendar />}
 
       <PermissionsBar />
     </View>

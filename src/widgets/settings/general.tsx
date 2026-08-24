@@ -193,6 +193,14 @@ export const General = observer(() => {
 				</View>
 				<View className="border-t border-lightBorder dark:border-darkBorder" />
 				<View className="flex-row items-center">
+					<Text className="flex-1">Show items when search is empty</Text>
+					<MySwitch
+						value={store.ui.showItemsOnEmptyQuery}
+						onValueChange={store.ui.setShowItemsOnEmptyQuery}
+					/>
+				</View>
+				<View className="border-t border-lightBorder dark:border-darkBorder" />
+				<View className="flex-row items-center">
 					<Text className="flex-1">Show upcoming event in Menu Bar</Text>
 					<MySwitch
 						value={store.ui.showUpcomingEvent}

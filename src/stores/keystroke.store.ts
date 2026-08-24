@@ -259,7 +259,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
 
 						case Widget.SEARCH: {
 							if (
-								!root.ui.query &&
+								!root.ui.itemListVisible &&
 								root.ui.calendarAuthorizationStatus === "notDetermined"
 							) {
 								solNative
@@ -274,13 +274,13 @@ export const createKeystrokeStore = (root: IRootStore) => {
 								return;
 							}
 
-							if (!root.ui.query && !root.ui.isAccessibilityTrusted) {
+							if (!root.ui.itemListVisible && !root.ui.isAccessibilityTrusted) {
 								solNative.requestAccessibilityAccess();
 								solNative.hideWindow();
 								return;
 							}
 
-							if (!root.ui.query) {
+							if (!root.ui.itemListVisible) {
 								if (!root.ui.hasDismissedGettingStarted) {
 									Linking.openURL(
 										"https://sol.ospfranco.com/getting_started",
@@ -320,13 +320,13 @@ export const createKeystrokeStore = (root: IRootStore) => {
 
 							root.ui.addToHistory(root.ui.query);
 
-							if (shift) {
+							if (shift && root.ui.query) {
 								root.ui.translateQuery();
 								return;
 							}
 
 							// If there are no visible items, or if the query is a meta (⌘ is pressed) query, open a browser search
-							if (!root.ui.searchItems.length || meta) {
+							if (root.ui.query && (!root.ui.searchItems.length || meta)) {
 								switch (root.ui.searchEngine) {
 									case "google":
 										Linking.openURL(
@@ -754,7 +754,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
 
 						case Widget.SEARCH: {
 							root.ui.selectedIndex = Math.min(
-								root.ui.items.length - 1,
+								root.ui.searchItems.length - 1,
 								root.ui.selectedIndex + 1,
 							);
 							break;

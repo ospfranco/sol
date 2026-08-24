@@ -8,7 +8,7 @@ import { Key } from "./Key";
 export const PermissionsBar: FC = observer(() => {
 	const store = useStore();
 
-	if (store.ui.query) {
+	if (store.ui.itemListVisible) {
 		return null;
 	}
 
