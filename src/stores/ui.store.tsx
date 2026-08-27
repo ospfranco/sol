@@ -2,6 +2,7 @@ import * as Sentry from "@sentry/react-native";
 import { Assets } from "assets";
 import { Parser } from "expr-eval";
 import { CONSTANTS } from "lib/constants";
+import { generateLatinVariants } from "lib/pinyin";
 import { solNative } from "lib/SolNative";
 import {
 	defaultShortcuts,
@@ -90,7 +91,7 @@ export enum ScratchPadColor {
 }
 
 const minisearch = new MiniSearch({
-	fields: ["name", "localizedName", "alias", "type"],
+	fields: ["name", "localizedName", "alias", "type", "_latinVariants"],
 	storeFields: [
 		"name",
 		"localizedName",
@@ -140,6 +141,9 @@ const itemsThatShouldShowWindow = [
 type RankedItem = Item & {
 	score?: number;
 };
+
+/** Internal index extension: carries pinyin search variants without exposing them to the UI layer */
+type IndexableItem = Item & { _latinVariants?: string };
 
 export const createUIStore = (root: IRootStore) => {
 	// Guards against spurious writes during hydrate/reload
@@ -523,12 +527,36 @@ export const createUIStore = (root: IRootStore) => {
 				return [...allItems].sort(compareRankedItems);
 			}
 
+			const CJK_RE = /\p{Unified_Ideograph}/u;
+
+			// Inject pinyin search variants for items containing CJK characters
+			// (computed lazily on first access, cached on the item object)
+			const ensureLatinVariants = (item: IndexableItem) => {
+				if (item._latinVariants !== undefined) return;
+
+				const searchTexts = [
+					item.name,
+					item.localizedName,
+					item.alias,
+				].filter(Boolean) as string[];
+
+				const hasCJK = searchTexts.some((text) => CJK_RE.test(text));
+				if (hasCJK) {
+					item._latinVariants = generateLatinVariants(searchTexts);
+				}
+			};
+
 			if (minisearch.documentCount === 0) {
+				for (const item of allItems) {
+					ensureLatinVariants(item as IndexableItem);
+				}
 				minisearch.addAll(allItems);
 			} else {
 				for (const item of allItems) {
 					if (!minisearch.has(item.id)) {
-						minisearch.add(item);
+						const idxItem = item as IndexableItem;
+						ensureLatinVariants(idxItem);
+						minisearch.add(idxItem);
 					}
 				}
 			}

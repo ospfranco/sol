@@ -23,6 +23,7 @@
         "mobx-react-lite": "4.1.1",
         "nanoid": "5.1.7",
         "nativewind": "4.1.23",
+        "pinyin-pro": "^3.28.1",
         "pretty-bytes": "7.1.0",
         "react": "19.1.4",
         "react-native": "0.81.6",
@@ -1391,6 +1392,8 @@
     "picomatch": ["picomatch@2.3.2", "", {}, "sha512-V7+vQEJ06Z+c5tSye8S+nHUfI51xoXIXjHQ99cQtKUkQqqO1kO/KCJUfZXuB47h/YBlDhah2H3hdUGXn8ie0oA=="],
 
     "pify": ["pify@2.3.0", "", {}, "sha512-udgsAY+fTnvv7kI7aaxbqwWNb0AHiB0qBO89PZKPkoTmGOgdbrHDKD+0B2X4uTfJ/FT1R09r9gTsjUjNJotuog=="],
+
+    "pinyin-pro": ["pinyin-pro@3.28.1", "https://registry.npmmirror.com/pinyin-pro/-/pinyin-pro-3.28.1.tgz", {}, "sha512-oqz8ulwRgtUXRi0vbqEfGNly19zpyCxYrjhkk5TibGcgSW6eNwS5woajCXRwqURi8Ehc2yOFTiB4uNoZ+NJOnA=="],
 
     "pirates": ["pirates@4.0.7", "", {}, "sha512-TfySrs/5nm8fQJDcBDuUng3VOUKsd7S+zqvbOTiGXHfxX4wK31ard+hoNuvkicM/2YFzlpDgABOevKSsB4G/FA=="],
 
