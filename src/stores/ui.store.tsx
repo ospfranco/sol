@@ -114,7 +114,11 @@ const minisearch = new MiniSearch({
 		"bookmarkFolder",
 		"faviconFallback",
 	],
-	tokenize: (text: string) => text.toLowerCase().split(/[\s.-]+/),
+	tokenize: (text: string) =>
+		text
+			.normalize("NFC")
+			.toLowerCase()
+			.split(/[\s.-]+/),
 });
 
 const userName = solNative.userName();
