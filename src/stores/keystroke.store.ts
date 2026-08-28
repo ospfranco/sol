@@ -11,6 +11,9 @@ import { formatTemporaryResultForClipboard } from "./ui.store.helpers";
 let keyDownListener: EmitterSubscription | undefined;
 let keyUpListener: EmitterSubscription | undefined;
 
+const isClipboardPreviewFocused = (root: IRootStore) =>
+	root.ui.focusedWidget === Widget.CLIPBOARD && root.ui.clipboardPreviewFocused;
+
 function isImageClipboardPath(path: string | null | undefined) {
 	if (!path) {
 		return false;
@@ -49,7 +52,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
 				// "j" / "n" keys - simulate a down key press
 				case 38:
 				case 45: {
-					if (store.controlPressed) {
+					if (store.controlPressed && !isClipboardPreviewFocused(root)) {
 						store.keyDown({ keyCode: 125, meta: false, shift: false });
 					}
 					break;
@@ -57,7 +60,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
 				// "k" / "p" keys - simulate an up key press
 				case 40:
 				case 35: {
-					if (store.controlPressed) {
+					if (store.controlPressed && !isClipboardPreviewFocused(root)) {
 						store.keyDown({ keyCode: 126, meta: false, shift: false });
 					}
 					break;
@@ -75,11 +78,31 @@ export const createKeystrokeStore = (root: IRootStore) => {
 					}
 
 					if (root.ui.focusedWidget === Widget.CLIPBOARD) {
-						if (shift) {
+						if (shift && !root.ui.clipboardPreviewFocused) {
 							root.clipboard.deleteItem(root.ui.selectedIndex);
 						}
 						return;
 					}
+					break;
+				}
+				// "c" key
+				case 8: {
+					if (!meta || !isClipboardPreviewFocused(root)) {
+						break;
+					}
+
+					const selectedText = root.ui.clipboardPreviewSelectedText;
+					if (selectedText == null) {
+						break;
+					}
+
+					Clipboard.setString(selectedText);
+					root.ui.setClipboardPreviewFocused(false);
+					solNative.showToast("Copied to clipboard", "success");
+					// The pasteboard watcher would pick the copied fragment up a second
+					// later and unshift it into the history, shifting the selected index
+					// under the user. Closing the window keeps that invisible.
+					solNative.hideWindow();
 					break;
 				}
 				// "e" key
@@ -111,6 +134,11 @@ export const createKeystrokeStore = (root: IRootStore) => {
 						//     break
 						case Widget.SCRATCHPAD:
 							root.ui.rotateScratchPadColor();
+							break;
+
+						case Widget.CLIPBOARD:
+							root.ui.toggleClipboardPreviewFocus();
+							break;
 					}
 
 					break;
@@ -179,7 +207,11 @@ export const createKeystrokeStore = (root: IRootStore) => {
 									}
 									solNative.hideWindow();
 								} else {
-									if (isImageClipboardPath(entry.url)) {
+									const selectedText = root.ui.clipboardPreviewSelectedText;
+									if (selectedText != null) {
+										root.ui.setClipboardPreviewFocused(false);
+										solNative.pasteToFrontmostApp(selectedText);
+									} else if (isImageClipboardPath(entry.url)) {
 										solNative.pasteImageToFrontmostApp(entry.url as string);
 									} else {
 										solNative.pasteToFrontmostApp(entry.text);
@@ -475,6 +507,12 @@ export const createKeystrokeStore = (root: IRootStore) => {
 				case 53: {
 					if (root.ui.confirmDialogShown) {
 						root.ui.closeConfirm();
+						return;
+					}
+
+					// First escape leaves the preview, second one closes the window.
+					if (isClipboardPreviewFocused(root)) {
+						root.ui.setClipboardPreviewFocused(false);
 						return;
 					}
 
