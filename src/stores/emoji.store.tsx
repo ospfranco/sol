@@ -3,9 +3,13 @@ import MiniSearch from "minisearch";
 import { autorun, makeAutoObservable, runInAction, toJS } from "mobx";
 import type { IRootStore } from "store";
 import { emojis as rawEmojis_ } from "../lib/emojis";
+import { extraSymbols } from "../lib/symbols";
 import { readPersistedStore, writePersistedStore } from "./persisted-config";
 
-const rawEmojis = rawEmojis_.map((emoji: any, idx) => ({ id: idx, ...emoji }));
+const rawEmojis = [...rawEmojis_, ...extraSymbols].map((emoji: any, idx) => ({
+	id: idx,
+	...emoji,
+}));
 const validEmojiChars = new Set(rawEmojis.map((emoji) => emoji.emoji));
 const EMOJI_STORAGE_PREFIX = "cp:";
 
