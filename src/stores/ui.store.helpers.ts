@@ -487,12 +487,28 @@ export function formatTemporaryResultForClipboard(result: TemporaryResult) {
 	return details ? `${result.flight} | ${details}` : result.flight;
 }
 
-export function formatExpressionResult(value: number) {
+export function normalizeCalculatorQuery(query: string): string {
+	return query
+		.replace(
+			/(\d{1,3}(?:\.\d{3})+),(\d+)/g,
+			(_, whole: string, fraction: string) =>
+				`${whole.replace(/\./g, "")}.${fraction}`,
+		)
+		.replace(/(\d),(\d)/g, "$1.$2");
+}
+
+export function formatExpressionResult(value: number, query = "") {
 	if (!Number.isFinite(value)) {
 		return value.toString();
 	}
 
 	const scale = 10 ** EXPRESSION_RESULT_DECIMALS;
 	const rounded = Math.round((value + Number.EPSILON) * scale) / scale;
-	return rounded.toString();
+	const text = rounded.toString();
+
+	if (/\d,\d/.test(query)) {
+		return text.replace(".", ",");
+	}
+
+	return text;
 }
