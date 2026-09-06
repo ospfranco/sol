@@ -39,6 +39,7 @@ import {
 	formatExpressionResult,
 	type BookmarkNode,
 	getInitials,
+	normalizeCalculatorQuery,
 	parseFlightIdentifier,
 	parseTimezoneConversion,
 	parseUnitConversion,
@@ -770,10 +771,12 @@ export const createUIStore = (root: IRootStore) => {
 				}
 
 				try {
-					const res = exprParser.evaluate(store.query);
+					const res = exprParser.evaluate(
+						normalizeCalculatorQuery(store.query),
+					);
 					if (typeof res === "number" && !Number.isNaN(res)) {
 						store.temporaryResult = createTextTemporaryResult(
-							formatExpressionResult(res),
+							formatExpressionResult(res, store.query),
 							store.query,
 						);
 					} else {
