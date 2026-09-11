@@ -52,21 +52,32 @@ function extractObjectFromPrefPanePath(path: string, fileName: string) {
 
 	const panePath = `${path}/${fileName}`;
 	const plistPath = `${panePath}/Contents/Info.plist`;
-	const plistFileExists = solNative.exists(plistPath);
 
-	if (plistFileExists) {
-		const plistContent = solNative.readFile(plistPath);
+	let displayName: unknown;
 
-		const parsed = plistContent ? plist.parse(plistContent) : null;
+	try {
+		const plistContent = solNative.exists(plistPath)
+			? solNative.readFile(plistPath)
+			: null;
 
+		// @expo/plist only understands XML plists; skip binary ones (e.g. some
+		// third-party prefPanes) instead of letting the parser throw on them.
+		if (plistContent?.trimStart().startsWith("<")) {
+			displayName = plist.parse(plistContent)?.CFBundleDisplayName;
+		}
+	} catch {
+		// A single unreadable or malformed pane must not prevent Sol from starting.
+	}
+
+	if (typeof displayName === "string" && displayName.trim()) {
 		return {
-			name: parsed?.CFBundleDisplayName ?? nameMappings[fileName],
+			name: displayName,
 			preferenceId: panePath,
 			icon: iconMap[fileName],
 		};
 	}
 
-	// We don't have a plist file, so we'll just use the filename (with mapping)
+	// We don't have a usable plist name, so we'll just use the filename (with mapping)
 	let name = nameMappings[fileName];
 
 	if (!name) {
