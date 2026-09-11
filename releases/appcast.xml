@@ -3,6 +3,15 @@
     <channel>
         <title>Sol</title>
         <item>
+            <title>2.1.358</title>
+            <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.357...2.1.358]]></description>
+            <pubDate>Fri, 11 Sep 2026 07:43:39 -0400</pubDate>
+            <sparkle:version>567</sparkle:version>
+            <sparkle:shortVersionString>2.1.358</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.358/2.1.358.zip" length="14955653" type="application/octet-stream" sparkle:edSignature="XaeoLQDaPDbpp0MHcMq4OcbaAk1f3OVX5cAkv1FL2fAOAbx5tnD1Ub++0Q/ilhaZp0mVfRNGKUB3n4XxnpU6Aw=="/>
+        </item>
+        <item>
             <title>2.1.357</title>
             <description><![CDATA[## What's Changed
 * Fix localized application search normalization by @ChoSeongmin1128 in https://github.com/ospfranco/sol/pull/329
@@ -28,21 +37,6 @@
             <sparkle:shortVersionString>2.1.356</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
             <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.356/2.1.356.zip" length="14929492" type="application/octet-stream" sparkle:edSignature="SMksQeU08iz5I0VRAPMc5HbQSl2menQYeYqFhqmKS2zoaGyrQU/h2LNQoyKnyQcz6udI/C7PbIrQfjJ1eCq+CA=="/>
-        </item>
-        <item>
-            <title>2.1.352</title>
-            <description><![CDATA[## What's Changed
-* Handle ^n/^p like ^j/^k in the search field and guard them from native AppKit handling by @jwilges in https://github.com/ospfranco/sol/pull/322
-
-## New Contributors
-* @jwilges made their first contribution in https://github.com/ospfranco/sol/pull/322
-
-**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.351...2.1.352]]></description>
-            <pubDate>Wed, 12 Aug 2026 17:48:17 -0400</pubDate>
-            <sparkle:version>561</sparkle:version>
-            <sparkle:shortVersionString>2.1.352</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.352/2.1.352.zip" length="14929645" type="application/octet-stream" sparkle:edSignature="QTpqqnGrIH0qNuhDYPmkeAD0VOwostU5wOaVMH+vIM68lTJxH5g03ip5jGZopvxpOUd9i5NyIVQfqzYeZlScCg=="/>
         </item>
         <item>
             <title>2.1.312</title>
