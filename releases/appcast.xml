@@ -3,6 +3,19 @@
     <channel>
         <title>Sol</title>
         <item>
+            <title>2.1.359</title>
+            <description><![CDATA[## What's Changed
+* Fix frontmost screen detection by @ospfranco in https://github.com/ospfranco/sol/pull/333
+
+
+**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.358...2.1.359]]></description>
+            <pubDate>Tue, 15 Sep 2026 19:06:05 -0400</pubDate>
+            <sparkle:version>568</sparkle:version>
+            <sparkle:shortVersionString>2.1.359</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.359/2.1.359.zip" length="14956373" type="application/octet-stream" sparkle:edSignature="9RAxj36TakMWq/YogXeOkZsevfipPdz96ThLvV3cTcdo4FtDeaYrcRE4fFoNFJvjTM26jslnRMSZmOsrFJBmBA=="/>
+        </item>
+        <item>
             <title>2.1.358</title>
             <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.357...2.1.358]]></description>
             <pubDate>Fri, 11 Sep 2026 07:43:39 -0400</pubDate>
@@ -28,15 +41,6 @@
             <sparkle:shortVersionString>2.1.357</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
             <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.357/2.1.357.zip" length="14955600" type="application/octet-stream" sparkle:edSignature="NhybDq9ycsvRQ+VHZUONg7emsHD36IMTCZMTpfsAQDbMj0qKxbP7jjxsJi143R8xY2zB4lO7AgEERm7dapEyDg=="/>
-        </item>
-        <item>
-            <title>2.1.356</title>
-            <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.355...2.1.356]]></description>
-            <pubDate>Thu, 27 Aug 2026 10:36:45 -0400</pubDate>
-            <sparkle:version>565</sparkle:version>
-            <sparkle:shortVersionString>2.1.356</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.356/2.1.356.zip" length="14929492" type="application/octet-stream" sparkle:edSignature="SMksQeU08iz5I0VRAPMc5HbQSl2menQYeYqFhqmKS2zoaGyrQU/h2LNQoyKnyQcz6udI/C7PbIrQfjJ1eCq+CA=="/>
         </item>
         <item>
             <title>2.1.312</title>
