@@ -8,6 +8,7 @@ enum PreferredScreen {
   public var preferredScreen: PreferredScreen = .frontmost
   private let mainWindow: Panel = Panel(contentRect: .zero)
   private var rootView: NSView?
+  private let screenDetector = ScreenDetector()
 
   @objc static public let shared = PanelManager()
 
@@ -111,7 +112,16 @@ enum PreferredScreen {
   }
 
   func getFrontmostScreen() -> NSScreen? {
-    return mainWindow.screen ?? NSScreen.main
+    // While the panel itself is key/frontmost (e.g. typing in an already-open
+    // window), fall back to its own screen instead of re-detecting, since the
+    // "frontmost application" at that point is Sol itself.
+    if mainWindow.isVisible, mainWindow.isKeyWindow {
+      return mainWindow.screen ?? NSScreen.main
+    }
+
+    let frontmostWindow = AccessibilityElement.frontmostWindow()
+    let usableScreens = screenDetector.detectScreens(using: frontmostWindow)
+    return usableScreens?.currentScreen ?? mainWindow.screen ?? NSScreen.main
   }
 
 }

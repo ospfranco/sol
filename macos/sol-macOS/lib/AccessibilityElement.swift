@@ -130,9 +130,39 @@ class AccessibilityElement {
     guard let position: CGPoint = getPosition(),
           let size: CGSize = getSize()
     else {
+      // AX position/size queries can intermittently fail (e.g. right after an app
+      // becomes frontmost). Fall back to the window server's own bounds, which are
+      // in the same top-left-origin coordinate space and don't depend on the
+      // target app responding to AX queries in time.
+      if let fallbackRect = AccessibilityElement.frontmostWindowRectFromCGWindowList(pid: getPid()) {
+        return fallbackRect
+      }
       return CGRect.null
     }
     return CGRect(x: position.x, y: position.y, width: size.width, height: size.height)
+  }
+
+  static func frontmostWindowRectFromCGWindowList(pid: pid_t) -> CGRect? {
+    guard let windowInfo = CGWindowListCopyWindowInfo(
+      [.optionOnScreenOnly, .excludeDesktopElements], kCGNullWindowID
+    ) as? [[String: AnyObject]] else {
+      return nil
+    }
+
+    // Onscreen windows are ordered front-to-back, so the first match for this
+    // pid at layer 0 is the frontmost normal window of the app.
+    for info in windowInfo {
+      guard info[kCGWindowOwnerPID as String] as? pid_t == pid,
+            info[kCGWindowLayer as String] as? Int == 0,
+            let bounds = info[kCGWindowBounds as String] as? [String: CGFloat],
+            let x = bounds["X"], let y = bounds["Y"],
+            let width = bounds["Width"], let height = bounds["Height"]
+      else { continue }
+
+      return CGRect(x: x, y: y, width: width, height: height)
+    }
+
+    return nil
   }
 
   func getPid() -> pid_t {
