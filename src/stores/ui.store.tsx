@@ -39,6 +39,7 @@ import {
 	formatExpressionResult,
 	type BookmarkNode,
 	getInitials,
+	getSearchMatchTier,
 	normalizeCalculatorQuery,
 	parseFlightIdentifier,
 	parseTimezoneConversion,
@@ -144,6 +145,7 @@ const itemsThatShouldShowWindow = [
 
 type RankedItem = Item & {
 	score?: number;
+	matchTier?: number;
 };
 
 export const createUIStore = (root: IRootStore) => {
@@ -166,29 +168,15 @@ export const createUIStore = (root: IRootStore) => {
 	};
 
 	// ponytail: coarse relevance tier so usage history can only reorder items of
-	// comparable match quality. A fuzzy hit ("Cap" for "cal") never outranks a
-	// direct prefix match ("Calendar") just because it was selected once.
-	const getMatchTier = (item: Pick<Item, "name">) => {
-		const query = store.query.trim().toLowerCase();
-		if (!query) {
-			return 0;
-		}
-
-		const name = item.name.toLowerCase();
-		if (name.startsWith(query)) {
-			return 0;
-		}
-
-		// prefix of any word, e.g. "code" matching "Visual Studio Code"
-		if (name.split(/\s+/).some((word) => word.startsWith(query))) {
-			return 1;
-		}
-
-		return name.includes(query) ? 2 : 3;
-	};
+	// comparable match quality. Exact, prefix, word-prefix, substring, and fuzzy
+	// matches remain separate regardless of selection history.
+	const getMatchTier = (item: Pick<Item, "name" | "localizedName">) =>
+		getSearchMatchTier(item, store.query);
 
 	const compareRankedItems = (left: RankedItem, right: RankedItem) => {
-		const tierDiff = getMatchTier(left) - getMatchTier(right);
+		const tierDiff =
+			(left.matchTier ?? getMatchTier(left)) -
+			(right.matchTier ?? getMatchTier(right));
 		if (tierDiff !== 0) {
 			return tierDiff;
 		}
@@ -545,6 +533,9 @@ export const createUIStore = (root: IRootStore) => {
 				prefix: true,
 				fuzzy: true,
 			}) as unknown as RankedItem[];
+			for (const result of results) {
+				result.matchTier = getMatchTier(result);
+			}
 
 			results.sort(compareRankedItems);
 

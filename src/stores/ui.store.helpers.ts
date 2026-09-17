@@ -192,6 +192,49 @@ export function getInitials(name: string) {
 		.join("");
 }
 
+function normalizeSearchText(value: string) {
+	return value
+		.normalize("NFC")
+		.toLowerCase()
+		.replace(/[\s.-]+/g, " ");
+}
+
+function getTextMatchTier(value: string | undefined, query: string) {
+	if (!value) {
+		return 4;
+	}
+
+	const normalizedValue = normalizeSearchText(value);
+	if (normalizedValue === query) {
+		return 0;
+	}
+
+	if (normalizedValue.startsWith(query)) {
+		return 1;
+	}
+
+	if (normalizedValue.split(/\s+/).some((word) => word.startsWith(query))) {
+		return 2;
+	}
+
+	return normalizedValue.includes(query) ? 3 : 4;
+}
+
+export function getSearchMatchTier(
+	item: Pick<Item, "name" | "localizedName">,
+	rawQuery: string,
+) {
+	const query = normalizeSearchText(rawQuery).trim();
+	if (!query) {
+		return 0;
+	}
+
+	return Math.min(
+		getTextMatchTier(item.name, query),
+		getTextMatchTier(item.localizedName, query),
+	);
+}
+
 export function traverse(
 	bookmarks: Array<{
 		title: string;
