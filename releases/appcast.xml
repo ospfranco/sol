@@ -3,6 +3,15 @@
     <channel>
         <title>Sol</title>
         <item>
+            <title>2.1.361</title>
+            <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.360...2.1.361]]></description>
+            <pubDate>Fri, 18 Sep 2026 09:27:57 -0400</pubDate>
+            <sparkle:version>570</sparkle:version>
+            <sparkle:shortVersionString>2.1.361</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.361/2.1.361.zip" length="14956289" type="application/octet-stream" sparkle:edSignature="NjeNPh2FRbywMZCkXH8XH06OMGZJIML+pvBrW4G2sOBg4/ibyIF9gIAMsuQaC6eacmcWt0xYn5buY+ZlN2G9BQ=="/>
+        </item>
+        <item>
             <title>2.1.359</title>
             <description><![CDATA[## What's Changed
 * Fix frontmost screen detection by @ospfranco in https://github.com/ospfranco/sol/pull/333
@@ -23,24 +32,6 @@
             <sparkle:shortVersionString>2.1.358</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
             <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.358/2.1.358.zip" length="14955653" type="application/octet-stream" sparkle:edSignature="XaeoLQDaPDbpp0MHcMq4OcbaAk1f3OVX5cAkv1FL2fAOAbx5tnD1Ub++0Q/ilhaZp0mVfRNGKUB3n4XxnpU6Aw=="/>
-        </item>
-        <item>
-            <title>2.1.357</title>
-            <description><![CDATA[## What's Changed
-* Fix localized application search normalization by @ChoSeongmin1128 in https://github.com/ospfranco/sol/pull/329
-* Accept decimal commas in calculator queries by @chekalsky in https://github.com/ospfranco/sol/pull/331
-* Expand selection of UTF symbols in emoji picker search by @chekalsky in https://github.com/ospfranco/sol/pull/330
-
-## New Contributors
-* @ChoSeongmin1128 made their first contribution in https://github.com/ospfranco/sol/pull/329
-* @chekalsky made their first contribution in https://github.com/ospfranco/sol/pull/331
-
-**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.356...2.1.357]]></description>
-            <pubDate>Sun, 06 Sep 2026 16:21:46 -0400</pubDate>
-            <sparkle:version>566</sparkle:version>
-            <sparkle:shortVersionString>2.1.357</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.357/2.1.357.zip" length="14955600" type="application/octet-stream" sparkle:edSignature="NhybDq9ycsvRQ+VHZUONg7emsHD36IMTCZMTpfsAQDbMj0qKxbP7jjxsJi143R8xY2zB4lO7AgEERm7dapEyDg=="/>
         </item>
         <item>
             <title>2.1.312</title>
