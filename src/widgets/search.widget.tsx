@@ -107,6 +107,10 @@ function TemporaryResultView({
 const ItemRow = observer(({ item, index }: { item: Item; index: number }) => {
 	const store = useStore();
 	const isActive = index === store.ui.selectedIndex;
+	const displayName =
+		item.type === ItemType.APPLICATION && item.localizedName?.trim()
+			? item.localizedName
+			: item.name;
 
 	// this is used for things like calculator results
 	if (item.type === ItemType.TEMPORARY_RESULT) {
@@ -186,7 +190,7 @@ const ItemRow = observer(({ item, index }: { item: Item; index: number }) => {
 						"text-white": isActive,
 					})}
 				>
-					{item.name}
+					{displayName}
 				</Text>
 
 				<View className="flex-1" />
