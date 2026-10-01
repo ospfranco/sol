@@ -444,6 +444,7 @@ export const createUIStore = (root: IRootStore) => {
 		secondTranslationLanguage: "de" as string,
 		thirdTranslationLanguage: null as null | string,
 		calendarEnabled: true,
+		calendarTemporarilyVisible: false,
 		showAllDayEvents: true,
 		launchAtLogin: true,
 		hasFullDiskAccess: false,
@@ -893,6 +894,7 @@ export const createUIStore = (root: IRootStore) => {
 			store.isVisible = false;
 			store.focusedWidget = Widget.SEARCH;
 			store.editingCustomItem = null;
+			store.calendarTemporarilyVisible = false;
 			if (store.temporaryResult == null) {
 				store.setQuery("");
 			}
@@ -939,6 +941,10 @@ export const createUIStore = (root: IRootStore) => {
 		showProcessManager: () => {
 			store.query = "";
 			store.focusWidget(Widget.PROCESSES);
+		},
+		toggleCalendar: () => {
+			store.query = "";
+			store.calendarTemporarilyVisible = !store.calendarTemporarilyVisible;
 		},
 		setCalendarEnabled: (v: boolean) => {
 			store.calendarEnabled = v;
