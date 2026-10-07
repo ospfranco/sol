@@ -273,6 +273,14 @@ export const createUIStore = (root: IRootStore) => {
 						}, "");
 					}
 					store.history = src.history ?? [];
+					// Restore the last known apps so search works immediately on launch.
+					// A fresh scan (store.getApps) replaces them once it completes.
+					if (Array.isArray(src.apps) && store.apps.length === 0) {
+						store.apps = src.apps.map((app: Item) => ({
+							...app,
+							isRunning: false,
+						}));
+					}
 
 					// Config.json is authoritative for persisted UI state
 					store.firstTranslationLanguage = src.firstTranslationLanguage ?? "en";

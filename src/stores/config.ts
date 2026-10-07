@@ -32,6 +32,8 @@ export const RUNTIME_CONFIG_KEYS = [
 	"history",
 	"note",
 	"onboardingStep",
+	// Cached application list so search works before the first scan finishes
+	"apps",
 ] as const;
 
 export const UI_PERSISTED_KEYS = [
