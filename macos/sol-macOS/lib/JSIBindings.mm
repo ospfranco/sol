@@ -723,7 +723,8 @@ void install(jsi::Runtime &rt,
       auto resolve = std::make_shared<jsi::Value>(rt, arguments[0]);
       auto reject = std::make_shared<jsi::Value>(rt, arguments[1]);
 
-      dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), ^{
+      // USER_INITIATED so the scan isn't starved by login-time system load
+      dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
         @try {
           NSArray *apps = [[ApplicationSearcher shared] getAllApplications];
 
