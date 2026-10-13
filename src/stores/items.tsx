@@ -1,6 +1,7 @@
 import { Assets } from "assets";
 import Chance from "chance";
 import { FileIcon } from "components/FileIcon";
+import { emojiSkinToneOptions } from "lib/emojiSkinTones";
 import { solNative } from "lib/SolNative";
 import { nanoid } from "nanoid";
 import { Clipboard, Linking, Text, View } from "react-native";
@@ -431,6 +432,19 @@ export function createBaseItems(store: IRootStore) {
 				store.ui.showEmojiPicker();
 			},
 		},
+		...emojiSkinToneOptions.map(({ value, label, emoji }): Item => ({
+			id: `emoji_skin_tone_${value}`,
+			icon: emoji,
+			name: `Emoji skin tone: ${label}`,
+			alias: `emoji hand color colour skin tone ${label}`,
+			preventClose: true,
+			type: ItemType.CONFIGURATION,
+			callback: () => {
+				store.ui.setEmojiSkinTone(value);
+				store.ui.setQuery("");
+				store.ui.focusWidget(Widget.EMOJIS);
+			},
+		})),
 		{
 			id: "check_for_updates",
 			icon: "🆙",

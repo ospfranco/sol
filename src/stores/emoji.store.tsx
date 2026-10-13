@@ -11,6 +11,7 @@ import {
 	recordEmojiUse,
 	serializeFrequentlyUsedEmojis,
 } from "../lib/emojiCompatibility";
+import { applyEmojiSkinTone } from "../lib/emojiSkinTones";
 import { emojis as rawEmojis_ } from "../lib/emojis";
 import { extraSymbols } from "../lib/symbols";
 import { readPersistedStore, writePersistedStore } from "./persisted-config";
@@ -24,13 +25,15 @@ export interface Emoji {
 	macos_version?: string;
 }
 
+type DisplayEmoji = Emoji & { baseEmoji: string };
+
 // Validity uses the full catalog; only the supported subset is selectable.
 const knownEmojis: Emoji[] = [...rawEmojis_, ...extraSymbols];
 const validEmojiChars = new Set(knownEmojis.map((emoji) => emoji.emoji));
 const currentMacOSVersion = Platform.Version;
 const supportedEmojis = knownEmojis
 	.filter((emoji) => isEmojiSupported(emoji, currentMacOSVersion))
-	.map((emoji, id) => ({ ...emoji, id }));
+	.map((emoji, id) => ({ ...emoji, baseEmoji: emoji.emoji, id }));
 const supportedEmojiChars = new Set(supportedEmojis.map((emoji) => emoji.emoji));
 
 const minisearch = new MiniSearch<Emoji & { id: number }>({
@@ -46,8 +49,8 @@ minisearch.addAll(supportedEmojis);
 
 export const EMOJI_ROW_SIZE = 7;
 
-function groupEmojis(emojis: Emoji[]): Array<Emoji[]> {
-	const emojisArray: Array<Emoji[]> = [];
+function groupEmojis(emojis: DisplayEmoji[]): Array<DisplayEmoji[]> {
+	const emojisArray: Array<DisplayEmoji[]> = [];
 
 	for (let i = 0; i < emojis.length; i += EMOJI_ROW_SIZE) {
 		emojisArray.push(emojis.slice(i, i + EMOJI_ROW_SIZE));
@@ -110,18 +113,32 @@ export const createEmojiStore = (root: IRootStore) => {
 				EMOJI_ROW_SIZE,
 			);
 		},
-		get emojis(): Emoji[][] {
+		get preferredEmojis(): DisplayEmoji[] {
+			const tone = root.ui.emojiSkinTone;
+			if (tone === "default") {
+				return supportedEmojis;
+			}
+
+			return supportedEmojis.map((entry) => {
+				const emoji = applyEmojiSkinTone(entry.emoji, tone, currentMacOSVersion);
+				return emoji === entry.emoji ? entry : { ...entry, emoji };
+			});
+		},
+		get emojis(): DisplayEmoji[][] {
 			const query = root.ui.query;
+			const preferredEmojis = store.preferredEmojis;
 			const searchResults = query
 				? groupEmojis(
-						minisearch.search(query).map(({ id }) => supportedEmojis[id]),
+						minisearch.search(query).map(({ id }) => preferredEmojis[id]),
 					)
-				: groupEmojis(supportedEmojis);
+				: groupEmojis(preferredEmojis);
 
 			const favorites = store.visibleFavorites;
 			if (!query && favorites.length) {
-				const mappedFavorites: Emoji[] = favorites.map(([emoji]) => ({
-					emoji,
+				const tone = root.ui.emojiSkinTone;
+				const mappedFavorites: DisplayEmoji[] = favorites.map(([baseEmoji]) => ({
+					baseEmoji,
+					emoji: applyEmojiSkinTone(baseEmoji, tone, currentMacOSVersion),
 					description: "",
 					category: "",
 					aliases: [],
@@ -130,6 +147,7 @@ export const createEmojiStore = (root: IRootStore) => {
 
 				for (let i = mappedFavorites.length; i < EMOJI_ROW_SIZE; i++) {
 					mappedFavorites.push({
+						baseEmoji: "",
 						emoji: "",
 						description: "",
 						category: "",
@@ -152,7 +170,7 @@ export const createEmojiStore = (root: IRootStore) => {
 			const emojiChar = emoji.emoji;
 			recordEmojiUse(
 				store.frequentlyUsedEmojis,
-				emojiChar,
+				emoji.baseEmoji,
 				store.visibleFavorites,
 				EMOJI_ROW_SIZE,
 			);
