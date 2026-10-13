@@ -40,7 +40,7 @@ https://discord.gg/W9XmqCQCKP
 - Custom links
 - Imports browser bookmarks
 - Window Manager
-- Emoji picker with default emoji through [Emoji 15.0](https://unicode.org/Public/emoji/15.0/emoji-test.txt), supported by the minimum macOS 14.0 version (skin-tone variants are not included)
+- Emoji picker with default emoji through [Emoji 17.0](https://unicode.org/Public/17.0.0/emoji/emoji-test.txt), filtered for your macOS version (skin-tone variants are not included)
 - Clipboard manager
 - Notes Scratchpad
 - Retrieve Wi-Fi password
@@ -57,6 +57,22 @@ https://discord.gg/W9XmqCQCKP
 - Quickly evaluate math operations
 - Script Runner
 - Symbolic Link Support
+
+## Emoji compatibility
+
+Sol keeps its macOS 14.0 minimum and shows only emoji supported by the installed macOS version.
+Newer entries carry a minimum macOS version in the bundled catalog:
+
+| Emoji additions | Minimum macOS |
+| --- | --- |
+| Through Emoji 15.0 | 14.0 (Sol's minimum) |
+| Emoji 15.1 | [14.4](https://support.apple.com/en-us/109035) |
+| Emoji 16.0 | [15.4](https://support.apple.com/en-us/120283) |
+| Emoji 17.0 | [26.4](https://support.apple.com/en-us/122868) |
+
+Version checks compare numeric components and accept later releases automatically; no annual compatibility update is required for existing entries.
+Unsupported emoji are excluded from browsing, search, and the seven-entry favorites row, but their saved usage counts are retained.
+When those emoji become supported after an OS upgrade, they participate in the normal top-seven favorites ranking.
 
 ## Contributing
 

@@ -1,17 +1,19 @@
 import { solNative } from "lib/SolNative";
 import MiniSearch from "minisearch";
 import { autorun, makeAutoObservable, runInAction, toJS } from "mobx";
+import { Platform } from "react-native";
 import type { IRootStore } from "store";
+import {
+	getDisplayedEmoji,
+	getVisibleEmojiFavorites,
+	isEmojiSupported,
+	normalizePersistedFrequentlyUsedEmojis,
+	recordEmojiUse,
+	serializeFrequentlyUsedEmojis,
+} from "../lib/emojiCompatibility";
 import { emojis as rawEmojis_ } from "../lib/emojis";
 import { extraSymbols } from "../lib/symbols";
 import { readPersistedStore, writePersistedStore } from "./persisted-config";
-
-const rawEmojis = [...rawEmojis_, ...extraSymbols].map((emoji: any, idx) => ({
-	id: idx,
-	...emoji,
-}));
-const validEmojiChars = new Set(rawEmojis.map((emoji) => emoji.emoji));
-const EMOJI_STORAGE_PREFIX = "cp:";
 
 export interface Emoji {
 	emoji: string;
@@ -19,11 +21,20 @@ export interface Emoji {
 	category: string;
 	aliases: string[];
 	tags: string[];
+	macos_version?: string;
 }
 
-const minisearch = new MiniSearch({
+// Validity uses the full catalog; only the supported subset is selectable.
+const knownEmojis: Emoji[] = [...rawEmojis_, ...extraSymbols];
+const validEmojiChars = new Set(knownEmojis.map((emoji) => emoji.emoji));
+const currentMacOSVersion = Platform.Version;
+const supportedEmojis = knownEmojis
+	.filter((emoji) => isEmojiSupported(emoji, currentMacOSVersion))
+	.map((emoji, id) => ({ ...emoji, id }));
+const supportedEmojiChars = new Set(supportedEmojis.map((emoji) => emoji.emoji));
+
+const minisearch = new MiniSearch<Emoji & { id: number }>({
 	fields: ["description", "category", "aliases", "tags"],
-	storeFields: ["emoji"],
 	searchOptions: {
 		prefix: true,
 		fuzzy: 0.2,
@@ -31,7 +42,7 @@ const minisearch = new MiniSearch({
 	},
 });
 
-minisearch.addAll(rawEmojis);
+minisearch.addAll(supportedEmojis);
 
 export const EMOJI_ROW_SIZE = 7;
 
@@ -45,105 +56,13 @@ function groupEmojis(emojis: Emoji[]): Array<Emoji[]> {
 	return emojisArray;
 }
 
-function encodePersistedEmoji(emoji: string): string {
-	const encodedCodePoints = Array.from(emoji, (symbol) => {
-		const codePoint = symbol.codePointAt(0);
-		return codePoint == null ? "" : codePoint.toString(16);
-	}).filter(Boolean);
-
-	return `${EMOJI_STORAGE_PREFIX}${encodedCodePoints.join("-")}`;
-}
-
-function decodePersistedEmoji(storedEmoji: string): string | null {
-	if (validEmojiChars.has(storedEmoji)) {
-		return storedEmoji;
-	}
-
-	if (!storedEmoji.startsWith(EMOJI_STORAGE_PREFIX)) {
-		return null;
-	}
-
-	const codePoints = storedEmoji
-		.slice(EMOJI_STORAGE_PREFIX.length)
-		.split("-")
-		.filter(Boolean)
-		.map((hexCodePoint) => Number.parseInt(hexCodePoint, 16));
-
-	if (!codePoints.length || codePoints.some(Number.isNaN)) {
-		return null;
-	}
-
-	try {
-		const decodedEmoji = String.fromCodePoint(...codePoints);
-		return validEmojiChars.has(decodedEmoji) ? decodedEmoji : null;
-	} catch {
-		return null;
-	}
-}
-
-function normalizePersistedFrequentlyUsedEmojis(
-	storedFrequentlyUsedEmojis?: Record<string, unknown>,
-): Record<string, number> {
-	if (!storedFrequentlyUsedEmojis) {
-		return {};
-	}
-
-	const normalizedEntries = new Map<string, number>();
-
-	for (const [storedEmoji, frequency] of Object.entries(
-		storedFrequentlyUsedEmojis,
-	)) {
-		const decodedEmoji = decodePersistedEmoji(storedEmoji);
-		const numericFrequency =
-			typeof frequency === "number" ? frequency : Number(frequency);
-
-		if (
-			decodedEmoji == null ||
-			!Number.isFinite(numericFrequency) ||
-			numericFrequency <= 0
-		) {
-			continue;
-		}
-
-		normalizedEntries.set(
-			decodedEmoji,
-			(normalizedEntries.get(decodedEmoji) ?? 0) + numericFrequency,
-		);
-	}
-
-	return Object.fromEntries(
-		[...normalizedEntries.entries()]
-			.sort(([_, frequency1], [_2, frequency2]) => frequency2 - frequency1)
-			.slice(0, EMOJI_ROW_SIZE),
-	);
-}
-
-function serializeFrequentlyUsedEmojis(
-	frequentlyUsedEmojis: Record<string, number>,
-): Record<string, number> {
-	const serializedEntries: Array<[string, number]> = [];
-
-	for (const [emoji, frequency] of Object.entries(frequentlyUsedEmojis)) {
-		if (
-			!validEmojiChars.has(emoji) ||
-			!Number.isFinite(frequency) ||
-			frequency <= 0
-		) {
-			continue;
-		}
-
-		serializedEntries.push([encodePersistedEmoji(emoji), frequency]);
-	}
-
-	return Object.fromEntries(serializedEntries);
-}
-
 export type EmojiStore = ReturnType<typeof createEmojiStore>;
 
 export const createEmojiStore = (root: IRootStore) => {
 	const persist = () => {
 		const frequentlyUsedEmojis = serializeFrequentlyUsedEmojis(
 			toJS(store.frequentlyUsedEmojis),
+			validEmojiChars,
 		);
 
 		writePersistedStore("emoji", { frequentlyUsedEmojis });
@@ -161,6 +80,9 @@ export const createEmojiStore = (root: IRootStore) => {
 		runInAction(() => {
 			store.frequentlyUsedEmojis = normalizePersistedFrequentlyUsedEmojis(
 				persistedState.frequentlyUsedEmojis,
+				validEmojiChars,
+				supportedEmojiChars,
+				EMOJI_ROW_SIZE,
 			);
 		});
 	};
@@ -181,24 +103,30 @@ export const createEmojiStore = (root: IRootStore) => {
 		//   \_____\___/|_| |_| |_| .__/ \__,_|\__\___|\__,_|
 		//                        | |
 		//                        |_|
+		get visibleFavorites(): Array<[string, number]> {
+			return getVisibleEmojiFavorites(
+				store.frequentlyUsedEmojis,
+				supportedEmojiChars,
+				EMOJI_ROW_SIZE,
+			);
+		},
 		get emojis(): Emoji[][] {
 			const query = root.ui.query;
 			const searchResults = query
-				? groupEmojis(minisearch.search(query) as any)
-				: groupEmojis(rawEmojis);
+				? groupEmojis(
+						minisearch.search(query).map(({ id }) => supportedEmojis[id]),
+					)
+				: groupEmojis(supportedEmojis);
 
-			// TODO move these from UI Store here
-			const favorites = Object.entries(store.frequentlyUsedEmojis);
-			if (!root.ui.query && favorites.length) {
-				const mappedFavorites = favorites
-					.sort(([_, frequency1], [_2, frequency2]) => frequency2 - frequency1)
-					.map((entry) => ({
-						emoji: entry[0],
-						description: "",
-						category: "",
-						aliases: [],
-						tags: [],
-					}));
+			const favorites = store.visibleFavorites;
+			if (!query && favorites.length) {
+				const mappedFavorites: Emoji[] = favorites.map(([emoji]) => ({
+					emoji,
+					description: "",
+					category: "",
+					aliases: [],
+					tags: [],
+				}));
 
 				for (let i = mappedFavorites.length; i < EMOJI_ROW_SIZE; i++) {
 					mappedFavorites.push({
@@ -216,44 +144,18 @@ export const createEmojiStore = (root: IRootStore) => {
 			return searchResults;
 		},
 		insert(index: number) {
-			const favorites = Object.entries(store.frequentlyUsedEmojis).sort(
-				([_, freq1], [_2, freq2]) => freq2 - freq1,
-			);
-
-			const query = root.ui.query;
-			const data = query ? minisearch.search(query) : rawEmojis;
-			const emoji = data[index];
+			const emoji = getDisplayedEmoji(store.emojis, index, EMOJI_ROW_SIZE);
 			if (!emoji) {
 				return;
 			}
 
-			let emojiChar = emoji.emoji;
-			if (favorites.length && !query) {
-				if (index < EMOJI_ROW_SIZE) {
-					emojiChar = favorites[index]?.[0];
-					if (!emojiChar) {
-						return;
-					}
-				} else {
-					emojiChar = data[index - EMOJI_ROW_SIZE].emoji;
-				}
-			}
-
-			if (store.frequentlyUsedEmojis[emojiChar]) {
-				store.frequentlyUsedEmojis[emojiChar] += 1;
-			} else if (favorites.length === EMOJI_ROW_SIZE) {
-				let leastUsed = favorites[0];
-				favorites.forEach(([favoriteEmoji, frequency]) => {
-					if (frequency < leastUsed[1]) {
-						leastUsed = [favoriteEmoji, frequency];
-					}
-				});
-
-				delete store.frequentlyUsedEmojis[leastUsed[0]];
-				store.frequentlyUsedEmojis[emojiChar] = 1;
-			} else {
-				store.frequentlyUsedEmojis[emojiChar] = 1;
-			}
+			const emojiChar = emoji.emoji;
+			recordEmojiUse(
+				store.frequentlyUsedEmojis,
+				emojiChar,
+				store.visibleFavorites,
+				EMOJI_ROW_SIZE,
+			);
 
 			solNative.insertToFrontmostApp(emojiChar);
 		},
