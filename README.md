@@ -40,7 +40,7 @@ https://discord.gg/W9XmqCQCKP
 - Custom links
 - Imports browser bookmarks
 - Window Manager
-- Emoji picker
+- Emoji picker with default emoji through [Emoji 15.0](https://unicode.org/Public/emoji/15.0/emoji-test.txt), supported by the minimum macOS 14.0 version (skin-tone variants are not included)
 - Clipboard manager
 - Notes Scratchpad
 - Retrieve Wi-Fi password
