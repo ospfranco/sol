@@ -2,6 +2,8 @@ import * as Sentry from "@sentry/react-native";
 import { Assets } from "assets";
 import { Parser } from "expr-eval";
 import { CONSTANTS } from "lib/constants";
+import type { EmojiSkinTone } from "lib/emojiSkinTones";
+import { normalizeEmojiSkinTone } from "lib/emojiSkinTones";
 import { solNative } from "lib/SolNative";
 import {
 	defaultShortcuts,
@@ -299,6 +301,7 @@ export const createUIStore = (root: IRootStore) => {
 					store.scratchPadColor = src.scratchPadColor ?? ScratchPadColor.SYSTEM;
 					store.searchFolders = src.searchFolders ?? defaultSearchFolders;
 					store.searchEngine = src.searchEngine ?? "google";
+					store.emojiSkinTone = normalizeEmojiSkinTone(src.emojiSkinTone);
 					store.customSearchUrl =
 						src.customSearchUrl ?? "https://google.com/search?q=%s";
 					store.shortcuts = applyShortcutNormalization(src.shortcuts);
@@ -385,6 +388,7 @@ export const createUIStore = (root: IRootStore) => {
 					store.searchFolders = jsonConfig.searchFolders;
 				if (jsonConfig.searchEngine !== undefined)
 					store.searchEngine = jsonConfig.searchEngine;
+				store.emojiSkinTone = normalizeEmojiSkinTone(jsonConfig.emojiSkinTone);
 				if (jsonConfig.customSearchUrl !== undefined)
 					store.customSearchUrl = jsonConfig.customSearchUrl;
 				if (jsonConfig.shortcuts !== undefined)
@@ -426,6 +430,7 @@ export const createUIStore = (root: IRootStore) => {
 		calendarAuthorizationStatus: null as CalendarAuthorizationStatus | null,
 		onboardingStep: "v1_start" as OnboardingStep,
 		searchEngine: "google" as SearchEngine,
+		emojiSkinTone: normalizeEmojiSkinTone(undefined),
 		customSearchUrl: "https://google.com/search?q=%s" as string,
 		globalShortcut: "option" as "command" | "option" | "control",
 		scratchpadShortcut: "command" as "command" | "option" | "none",
@@ -1141,6 +1146,10 @@ export const createUIStore = (root: IRootStore) => {
 
 		setSearchEngine: (engine: SearchEngine) => {
 			store.searchEngine = engine;
+		},
+
+		setEmojiSkinTone: (value: EmojiSkinTone) => {
+			store.emojiSkinTone = value;
 		},
 
 		setCustomSearchUrl: (url: string) => {

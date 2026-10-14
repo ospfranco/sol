@@ -40,7 +40,7 @@ https://discord.gg/W9XmqCQCKP
 - Custom links
 - Imports browser bookmarks
 - Window Manager
-- Emoji picker with default emoji through [Emoji 17.0](https://unicode.org/Public/17.0.0/emoji/emoji-test.txt), filtered for your macOS version (skin-tone variants are not included)
+- Emoji picker with emoji through [Emoji 17.0](https://unicode.org/Public/17.0.0/emoji/emoji-test.txt), macOS compatibility filtering, and a preferred skin tone
 - Clipboard manager
 - Notes Scratchpad
 - Retrieve Wi-Fi password
@@ -73,6 +73,20 @@ Newer entries carry a minimum macOS version in the bundled catalog:
 Version checks compare numeric components and accept later releases automatically; no annual compatibility update is required for existing entries.
 Unsupported emoji are excluded from browsing, search, and the seven-entry favorites row, but their saved usage counts are retained.
 When those emoji become supported after an OS upgrade, they participate in the normal top-seven favorites ranking.
+
+### Preferred skin tone
+
+Set the preferred skin tone under Settings → General → Emoji Skin Tone.
+Choose default yellow or one of five skin tones; the preference is saved as `emojiSkinTone` in `~/.config/sol/config.json`.
+
+Browsing, search, favorites, and insertion use the selected tone wherever Unicode defines a matching variant.
+Emoji without tone variants remain unchanged.
+Changing the preference preserves favorites and usage counts, which remain associated with the original default emoji.
+For multi-person emoji, the global preference applies the same tone to everyone where Unicode defines that variant; mixed tones and one-off overrides are not included.
+
+Tone variants follow their own minimum macOS version, which can be newer than the default emoji.
+For example, bunny-ear and wrestling emoji gained tones in Emoji 17.0 and require macOS 26.4 for those variants.
+When the preferred variant is unsupported, Sol keeps the supported default emoji available.
 
 ## Contributing
 
