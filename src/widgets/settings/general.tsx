@@ -106,7 +106,7 @@ export const General = observer(() => {
 					<View className="flex-1">
 						<Text>Emoji Skin Tone</Text>
 						<Text className="text-xxs text-neutral-500 dark:text-neutral-400">
-							Search 'emoji skin tone' to change with keyboard; applies wherever supported.
+							Applies wherever supported.
 						</Text>
 					</View>
 					<Dropdown

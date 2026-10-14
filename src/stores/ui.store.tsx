@@ -3,7 +3,7 @@ import { Assets } from "assets";
 import { Parser } from "expr-eval";
 import { CONSTANTS } from "lib/constants";
 import type { EmojiSkinTone } from "lib/emojiSkinTones";
-import { emojiSkinToneOptions, normalizeEmojiSkinTone } from "lib/emojiSkinTones";
+import { normalizeEmojiSkinTone } from "lib/emojiSkinTones";
 import { solNative } from "lib/SolNative";
 import {
 	defaultShortcuts,
@@ -140,7 +140,6 @@ type SearchEngine = "google" | "bing" | "duckduckgo" | "perplexity" | "custom";
 
 const itemsThatShouldShowWindow = [
 	"emoji_picker",
-	...emojiSkinToneOptions.map(({ value }) => `emoji_skin_tone_${value}`),
 	"clipboard_manager",
 	"process_manager",
 	"scratchpad",

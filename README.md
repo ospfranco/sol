@@ -76,8 +76,7 @@ When those emoji become supported after an OS upgrade, they participate in the n
 
 ### Preferred skin tone
 
-Search for `emoji skin tone` in Sol, select a tone with the arrow keys, and press Enter to save it and open the emoji picker.
-The same preference is available under Settings → General → Emoji Skin Tone.
+Set the preferred skin tone under Settings → General → Emoji Skin Tone.
 Choose default yellow or one of five skin tones; the preference is saved as `emojiSkinTone` in `~/.config/sol/config.json`.
 
 Browsing, search, favorites, and insertion use the selected tone wherever Unicode defines a matching variant.
