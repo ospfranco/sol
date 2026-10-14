@@ -2,11 +2,15 @@ import clsx from 'clsx'
 import {MainInput} from 'components/MainInput'
 import {solNative} from 'lib/SolNative'
 import {observer} from 'mobx-react-lite'
-import {FC, useEffect, useRef} from 'react'
-import {Text, View, ViewStyle, TouchableOpacity} from 'react-native'
+import type {FC} from 'react'
+import {useEffect, useRef} from 'react'
+import type {ViewStyle} from 'react-native'
+import {Text, View, TouchableOpacity} from 'react-native'
 import {useStore} from 'store'
-import {EMOJI_ROW_SIZE, Emoji} from 'stores/emoji.store'
-import {LegendList, LegendListRef} from '@legendapp/list'
+import type {Emoji} from 'stores/emoji.store'
+import {EMOJI_ROW_SIZE} from 'stores/emoji.store'
+import type {LegendListRef} from '@legendapp/list'
+import {LegendList} from '@legendapp/list'
 import {LoadingBar} from 'components/LoadingBar'
 
 interface Props {
@@ -53,7 +57,7 @@ const EmojiRow = observer(
         className={clsx(`flex-row`, {
           'border-b border-lightBorder dark:border-neutral-700 pb-3 mb-2':
             rowIndex === 0 &&
-            !!Object.entries(store.emoji.frequentlyUsedEmojis).length &&
+            !!store.emoji.visibleFavorites.length &&
             !store.ui.query,
         })}>
         {res}
