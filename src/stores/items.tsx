@@ -438,7 +438,7 @@ export function createBaseItems(store: IRootStore) {
 			preventClose: true,
 			type: ItemType.CONFIGURATION,
 			callback: () => {
-				store.ui.toggleCalendar();
+				store.ui.showCalendar();
 			},
 		},
 		{

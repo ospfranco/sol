@@ -734,6 +734,8 @@ export const createUIStore = (root: IRootStore) => {
 				return;
 			}
 
+			store.calendarTemporarilyVisible = false;
+
 			if (store.focusedWidget === Widget.SEARCH) {
 				const timezoneResult = parseTimezoneConversion(store.query);
 				if (timezoneResult != null) {
@@ -950,9 +952,12 @@ export const createUIStore = (root: IRootStore) => {
 			store.query = "";
 			store.focusWidget(Widget.PROCESSES);
 		},
-		toggleCalendar: () => {
+		showCalendar: () => {
 			store.query = "";
-			store.calendarTemporarilyVisible = !store.calendarTemporarilyVisible;
+			store.calendarTemporarilyVisible = true;
+		},
+		hideCalendar: () => {
+			store.calendarTemporarilyVisible = false;
 		},
 		setCalendarEnabled: (v: boolean) => {
 			store.calendarEnabled = v;
