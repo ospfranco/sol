@@ -432,6 +432,16 @@ export function createBaseItems(store: IRootStore) {
 			},
 		},
 		{
+			id: "agenda",
+			icon: "📆",
+			name: "Agenda",
+			preventClose: true,
+			type: ItemType.CONFIGURATION,
+			callback: () => {
+				store.ui.showCalendar();
+			},
+		},
+		{
 			id: "check_for_updates",
 			icon: "🆙",
 			name: "Check for Sol updates",
