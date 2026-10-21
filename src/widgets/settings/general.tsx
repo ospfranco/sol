@@ -3,10 +3,18 @@ import clsx from "clsx";
 import { Dropdown } from "components/Dropdown";
 import { Input } from "components/Input";
 import { MySwitch } from "components/MySwitch";
+import { emojiSkinToneOptions, normalizeEmojiSkinTone } from "lib/emojiSkinTones";
 import { solNative } from "lib/SolNative";
 import { observer } from "mobx-react-lite";
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { useStore } from "store";
+
+const emojiSkinToneDropdownOptions = emojiSkinToneOptions.map(
+	({ value, label, emoji }) => ({
+		value,
+		label: `${emoji} ${label}`,
+	}),
+);
 
 export const isValidCustomSearchEngineUrl = (url: string) => {
 	if (url.trim() === "") return false;
@@ -93,6 +101,23 @@ export const General = observer(() => {
 						</Text>
 					</View>
 				)}
+				<View className="border-t border-lightBorder dark:border-darkBorder" />
+				<View className="flex-row items-center z-10">
+					<View className="flex-1">
+						<Text>Emoji Skin Tone</Text>
+						<Text className="text-xxs text-neutral-500 dark:text-neutral-400">
+							Applies wherever supported.
+						</Text>
+					</View>
+					<Dropdown
+						className="w-64"
+						value={store.ui.emojiSkinTone}
+						onValueChange={(value) => {
+							store.ui.setEmojiSkinTone(normalizeEmojiSkinTone(value));
+						}}
+						options={emojiSkinToneDropdownOptions}
+					/>
+				</View>
 			</View>
 
 			<View className="z-10 p-3 gap-1 subBg rounded-lg border border-lightBorder dark:border-darkBorder">

@@ -17,6 +17,7 @@ export const PORTABLE_KEYS = [
 	"scratchPadColor",
 	"searchFolders",
 	"searchEngine",
+	"emojiSkinTone",
 	"customSearchUrl",
 	"shortcuts",
 	"showInAppBrowserBookMarks",
