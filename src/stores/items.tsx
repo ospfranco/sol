@@ -728,7 +728,7 @@ export function createBaseItems(store: IRootStore) {
 				try {
 					const res = solNative.getWifiPassword();
 					if (!res) {
-						solNative.showToast(`Could not retrieve password`, "success");
+						solNative.showToast(`No password found`, "error");
 						return;
 					}
 
