@@ -32,6 +32,26 @@ CalendarHelper *calendarHelper;
 
 NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
 
+// Kept alive for the app's lifetime: a CLLocationManager that gets
+// deallocated right after requesting authorization dismisses the prompt.
+static CLLocationManager *locationManager = nil;
+
+static CLAuthorizationStatus getLocationAuthorizationStatus() {
+  if (locationManager) {
+    return locationManager.authorizationStatus;
+  }
+  return [[[CLLocationManager alloc] init] authorizationStatus];
+}
+
+static void requestLocationAuthorization() {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    if (!locationManager) {
+      locationManager = [[CLLocationManager alloc] init];
+    }
+    [locationManager requestAlwaysAuthorization];
+  });
+}
+
 void install(jsi::Runtime &rt,
              std::shared_ptr<react::CallInvoker> callInvoker) {
   invoker = callInvoker;
@@ -77,26 +97,38 @@ void install(jsi::Runtime &rt,
 
   auto getWifiPassword = HOSTFN("getWifiPassword", []) {
 
-    CLLocationManager *lm = [[CLLocationManager alloc] init];
-    bool location_enabled = [lm locationServicesEnabled];
-
-    if (!location_enabled) {
-      throw std::runtime_error("Location services are not enabled");
+    if (![CLLocationManager locationServicesEnabled]) {
+      throw std::runtime_error(
+          "Location Services are turned off. Enable them in System Settings "
+          "> Privacy & Security > Location Services");
     }
 
-    CLAuthorizationStatus authorization_status = [lm authorizationStatus];
+    CLAuthorizationStatus authorization_status =
+        getLocationAuthorizationStatus();
 
-    if (authorization_status == kCLAuthorizationStatusDenied) {
-      throw std::runtime_error("App doesn't have location access");
+    if (authorization_status == kCLAuthorizationStatusNotDetermined) {
+      // The SSID is unavailable until the user answers the prompt
+      requestLocationAuthorization();
+      throw std::runtime_error(
+          "Allow location access for Sol in the prompt, then try again");
     }
 
-    [lm requestAlwaysAuthorization];
+    if (authorization_status == kCLAuthorizationStatusDenied ||
+        authorization_status == kCLAuthorizationStatusRestricted) {
+      throw std::runtime_error(
+          "Sol doesn't have location access. Enable it in System Settings > "
+          "Privacy & Security > Location Services");
+    }
 
     CWWiFiClient *sharedClient = [CWWiFiClient sharedWiFiClient];
     CWInterface *interface = [sharedClient interface];
+    if (!interface || ![interface powerOn]) {
+      throw std::runtime_error("Wi-Fi is turned off");
+    }
+
     NSString *ssid = [interface ssid];
     if (!ssid) {
-      throw std::runtime_error("Could not get connected network info");
+      throw std::runtime_error("Not connected to a Wi-Fi network");
     }
     NSString *psk = nil;
 
@@ -118,8 +150,10 @@ void install(jsi::Runtime &rt,
 
   auto getWifiInfo = HOSTFN("getWifiInfo", []) {
     if (@available(macOS 15.0, *)) {
-      CLLocationManager *locationManager = [[CLLocationManager alloc] init];
-      [locationManager requestAlwaysAuthorization];
+      if (getLocationAuthorizationStatus() ==
+          kCLAuthorizationStatusNotDetermined) {
+        requestLocationAuthorization();
+      }
     }
 
     //    CWWiFiClient *sharedClient = [CWWiFiClient sharedWiFiClient];
