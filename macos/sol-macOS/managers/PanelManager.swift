@@ -1,3 +1,5 @@
+import Cocoa
+
 enum PreferredScreen {
   case frontmost
   case withMouse
@@ -20,10 +22,7 @@ enum PreferredScreen {
   @objc func showWindow(target: String? = nil) {
     HotKeyManager.shared.settingsHotKey.isPaused = false
 
-    guard
-      let screen =
-        (preferredScreen == .frontmost ? getFrontmostScreen() : getScreenWithMouse())
-    else {
+    guard let screen = getPreferredScreen() else {
       return
     }
 
@@ -60,12 +59,10 @@ enum PreferredScreen {
     }
 
     let size = NSSize(width: Int(baseSize.width), height: finalHeight)
-    guard
-      let screen =
-        (preferredScreen == .frontmost ? getFrontmostScreen() : getScreenWithMouse())
-    else {
-      return
-    }
+    // Keep layout updates on the displayed panel's screen. Re-evaluating the
+    // cursor here can mix an old X coordinate with another display's Y.
+    guard let screen = (mainWindow.isVisible ? mainWindow.screen : nil)
+      ?? getPreferredScreen() else { return }
 
     let yOffset = screen.visibleFrame.height * 0.3
     let y = screen.visibleFrame.midY - CGFloat(finalHeight) + yOffset
@@ -108,7 +105,9 @@ enum PreferredScreen {
   }
 
   func getPreferredScreen() -> NSScreen? {
-    return self.preferredScreen == .frontmost ? getFrontmostScreen() : getScreenWithMouse()
+    return self.preferredScreen == .frontmost
+      ? getFrontmostScreen()
+      : (getScreenWithMouse() ?? NSScreen.screens.first)
   }
 
   func getFrontmostScreen() -> NSScreen? {
@@ -116,12 +115,12 @@ enum PreferredScreen {
     // window), fall back to its own screen instead of re-detecting, since the
     // "frontmost application" at that point is Sol itself.
     if mainWindow.isVisible, mainWindow.isKeyWindow {
-      return mainWindow.screen ?? NSScreen.main
+      return mainWindow.screen ?? getScreenWithMouse() ?? NSScreen.screens.first
     }
 
-    let frontmostWindow = AccessibilityElement.frontmostWindow()
-    let usableScreens = screenDetector.detectScreens(using: frontmostWindow)
-    return usableScreens?.currentScreen ?? mainWindow.screen ?? NSScreen.main
+    let usableScreens = screenDetector.detectScreens(
+      containing: AccessibilityElement.frontmostWindowRect())
+    return usableScreens?.currentScreen ?? getScreenWithMouse() ?? NSScreen.screens.first
   }
 
 }
