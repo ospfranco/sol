@@ -38,6 +38,21 @@ class AccessibilityElement {
     return nil
   }
 
+  // Capture the application's PID before querying AX. Even when AX cannot
+  // provide a focused window, Window Server can still provide its bounds.
+  static func frontmostWindowRect() -> CGRect? {
+    guard let app = NSWorkspace.shared.frontmostApplication,
+          app.processIdentifier != ProcessInfo.processInfo.processIdentifier else { return nil }
+
+    let appElement = AccessibilityElement(AXUIElementCreateApplication(app.processIdentifier))
+    if let window = appElement.withAttribute(NSAccessibility.Attribute.focusedWindow as CFString) {
+      let rect = window.rectOfElement()
+      if ScreenDetector.isUsableWindowRect(rect) { return rect }
+    }
+
+    return frontmostWindowRectFromCGWindowList(pid: app.processIdentifier)
+  }
+
 //  static func allWindowsForPIDs(_ pids: [Int]) -> [AccessibilityElement] {
 //    let apps = pids.map {
 //      AccessibilityElement(AXUIElementCreateApplication(pid_t($0)))
@@ -159,7 +174,8 @@ class AccessibilityElement {
             let width = bounds["Width"], let height = bounds["Height"]
       else { continue }
 
-      return CGRect(x: x, y: y, width: width, height: height)
+      let rect = CGRect(x: x, y: y, width: width, height: height)
+      if ScreenDetector.isUsableWindowRect(rect) { return rect }
     }
 
     return nil
