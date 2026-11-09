@@ -107,7 +107,7 @@ struct UsableScreens {
   init(currentScreen: NSScreen, adjacentScreens: AdjacentScreens? = nil, numScreens: Int) {
     self.currentScreen = currentScreen
     self.adjacentScreens = adjacentScreens
-    self.frameOfCurrentScreen = currentScreen.frame
+    self.frameOfCurrentScreen = currentScreen.visibleFrame
     self.numScreens = numScreens
   }
 }
