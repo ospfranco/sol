@@ -3,53 +3,46 @@ import Cocoa
 class ScreenDetector {
 
   func detectScreens(using frontmostWindowElement: AccessibilityElement?) -> UsableScreens? {
+    return detectScreens(containing: frontmostWindowElement?.rectOfElement())
+  }
+
+  // Window bounds use the top-left-origin Accessibility/Window Server space.
+  // Unknown or off-screen bounds must not silently select Sol's previous screen.
+  func detectScreens(containing windowRect: CGRect?) -> UsableScreens? {
     let screens = NSScreen.screens
-    guard let firstScreen = screens.first else { return nil }
+    guard let firstScreen = screens.first,
+          let windowRect = windowRect,
+          Self.isUsableWindowRect(windowRect) else { return nil }
 
-    if screens.count == 1 {
-//      let adjacentScreens = Defaults.traverseSingleScreen.enabled == true
-//      ? AdjacentScreens(prev: firstScreen, next: firstScreen)
-//      : nil
-      let adjacentScreens = AdjacentScreens(prev: firstScreen, next: firstScreen)
+    var normalizedRect = windowRect
+    normalizedRect.origin.y = firstScreen.frame.maxY - windowRect.maxY
+    guard Self.isUsableWindowRect(normalizedRect),
+          let sourceScreen = screenContaining(normalizedRect, screens: screens) else { return nil }
 
-      return UsableScreens(currentScreen: firstScreen, adjacentScreens: adjacentScreens, numScreens: screens.count)
-    }
-
-    let screensOrdered = order(screens: screens)
-    guard let sourceScreen: NSScreen = screenContaining(frontmostWindowElement?.rectOfElement() ?? CGRect.zero, screens: screensOrdered) else {
-      let adjacentScreens = AdjacentScreens(prev: firstScreen, next: firstScreen)
-      return UsableScreens(currentScreen: firstScreen, adjacentScreens: adjacentScreens, numScreens: screens.count)
-    }
-
-    let adjacentScreens = adjacent(toFrameOfScreen: sourceScreen.frame, screens: screensOrdered)
-
+    let adjacentScreens = screens.count == 1
+      ? AdjacentScreens(prev: firstScreen, next: firstScreen)
+      : adjacent(toFrameOfScreen: sourceScreen.frame, screens: order(screens: screens))
     return UsableScreens(currentScreen: sourceScreen, adjacentScreens: adjacentScreens, numScreens: screens.count)
   }
 
-  private func screenContaining(_ rect: CGRect, screens: [NSScreen]) -> NSScreen? {
-    var result: NSScreen? = NSScreen.main
-    var largestPercentageOfRectWithinFrameOfScreen: CGFloat = 0.0
-    for currentScreen in screens {
-      let currentFrameOfScreen = NSRectToCGRect(currentScreen.frame)
-      let normalizedRect: CGRect = AccessibilityElement.normalizeCoordinatesOf(rect)
-      if currentFrameOfScreen.contains(normalizedRect) {
-        result = currentScreen
-        break
-      }
-      let percentageOfRectWithinCurrentFrameOfScreen: CGFloat = percentageOf(normalizedRect, withinFrameOfScreen: currentFrameOfScreen)
-      if percentageOfRectWithinCurrentFrameOfScreen > largestPercentageOfRectWithinFrameOfScreen {
-        largestPercentageOfRectWithinFrameOfScreen = percentageOfRectWithinCurrentFrameOfScreen
-        result = currentScreen
-      }
-    }
-    return result
+  static func isUsableWindowRect(_ rect: CGRect) -> Bool {
+    return !rect.isNull && !rect.isInfinite && !rect.isEmpty
+      && rect.origin.x.isFinite && rect.origin.y.isFinite
+      && rect.width.isFinite && rect.height.isFinite
+      && rect.maxX.isFinite && rect.maxY.isFinite
   }
 
-  func percentageOf(_ rect: CGRect, withinFrameOfScreen frameOfScreen: CGRect) -> CGFloat {
-    let intersectionOfRectAndFrameOfScreen: CGRect = rect.intersection(frameOfScreen)
-    var result: CGFloat = 0.0
-    if !intersectionOfRectAndFrameOfScreen.isNull {
-      result = computeAreaOfRect(rect: intersectionOfRectAndFrameOfScreen) / computeAreaOfRect(rect: rect)
+  private func screenContaining(_ rect: CGRect, screens: [NSScreen]) -> NSScreen? {
+    var result: NSScreen?
+    var largestIntersectionArea: CGFloat = 0
+    for screen in screens {
+      let intersection = rect.intersection(screen.frame)
+      guard !intersection.isNull && !intersection.isEmpty else { continue }
+      let area = intersection.width * intersection.height
+      if area > largestIntersectionArea {
+        largestIntersectionArea = area
+        result = screen
+      }
     }
     return result
   }
@@ -90,10 +83,6 @@ class ScreenDetector {
       return screen1.frame.origin.x < screen2.frame.origin.x
     })
     return alsoSortedByX
-  }
-
-  private func computeAreaOfRect(rect: CGRect) -> CGFloat {
-    return rect.size.width * rect.size.height
   }
 
 }
