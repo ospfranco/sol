@@ -478,6 +478,11 @@ export const createKeystrokeStore = (root: IRootStore) => {
 						return;
 					}
 
+					if (root.ui.calendarTemporarilyVisible) {
+						root.ui.hideCalendar();
+						return;
+					}
+
 					switch (root.ui.focusedWidget) {
 						case Widget.SEARCH:
 						case Widget.EMOJIS:
