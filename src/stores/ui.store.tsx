@@ -301,6 +301,7 @@ export const createUIStore = (root: IRootStore) => {
 					store.customSearchUrl =
 						src.customSearchUrl ?? "https://google.com/search?q=%s";
 					store.shortcuts = applyShortcutNormalization(src.shortcuts);
+					store.aliases = src.aliases ?? {};
 					store.showInAppBrowserBookMarks =
 						src.showInAppBrowserBookMarks ?? true;
 					store.hasDismissedGettingStarted =
@@ -388,6 +389,8 @@ export const createUIStore = (root: IRootStore) => {
 					store.customSearchUrl = jsonConfig.customSearchUrl;
 				if (jsonConfig.shortcuts !== undefined)
 					store.shortcuts = applyShortcutNormalization(jsonConfig.shortcuts);
+				if (jsonConfig.aliases !== undefined)
+					store.aliases = jsonConfig.aliases;
 				if (jsonConfig.showInAppBrowserBookMarks !== undefined)
 					store.showInAppBrowserBookMarks =
 						jsonConfig.showInAppBrowserBookMarks;
@@ -464,6 +467,8 @@ export const createUIStore = (root: IRootStore) => {
 		scratchPadColor: ScratchPadColor.SYSTEM,
 		searchFolders: [] as string[],
 		shortcuts: defaultShortcuts as Record<string, string>,
+		// User-defined search aliases, item id -> alias (e.g. "resize_right_half" -> "rh")
+		aliases: {} as Record<string, string>,
 		showInAppBrowserBookMarks: true,
 		hoveredEventId: null as string | null,
 		hasDismissedGettingStarted: false,
@@ -543,6 +548,12 @@ export const createUIStore = (root: IRootStore) => {
 
 			results.sort(compareRankedItems);
 
+			// Items whose user-defined alias exactly matches the query go first
+			const query = store.query.trim().toLowerCase();
+			const aliasMatches = allItems.filter(
+				(item) => store.aliases[item.id] === query,
+			);
+			const aliasMatchIds = new Set(aliasMatches.map((item) => item.id));
 			const temporaryResultItems = store.temporaryResult
 				? [{ id: "temporary", type: ItemType.TEMPORARY_RESULT, name: "" }]
 				: [];
@@ -565,8 +576,9 @@ export const createUIStore = (root: IRootStore) => {
 							},
 						]
 					: []),
+				...aliasMatches,
 				...temporaryResultItems,
-				...results,
+				...results.filter((item) => !aliasMatchIds.has(item.id)),
 			];
 
 			return finalResults;
@@ -1203,6 +1215,25 @@ export const createUIStore = (root: IRootStore) => {
 
 			store.shortcuts[id] = normalizedShortcut;
 			solNative.updateHotkeys(toJS(store.shortcuts));
+		},
+
+		setAlias(id: string, alias: string) {
+			const normalizedAlias = alias.trim().toLowerCase();
+
+			if (normalizedAlias === "") {
+				delete store.aliases[id];
+				return;
+			}
+
+			const isDuplicate = Object.entries(store.aliases).some(
+				([key, value]) => value === normalizedAlias && key !== id,
+			);
+			if (isDuplicate) {
+				solNative.showToast("Alias already exists", "error", 4);
+				return;
+			}
+
+			store.aliases[id] = normalizedAlias;
 		},
 
 		restoreDefaultShorcuts() {

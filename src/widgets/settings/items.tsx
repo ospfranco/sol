@@ -36,6 +36,39 @@ function shortcutMatchesFilter(shortcut: string | undefined, filter: string): bo
   return filterParts.every(part => shortcutParts.includes(part))
 }
 
+const AliasInput = observer(({ itemId, disabled }: { itemId: string; disabled: boolean }) => {
+  const store = useStore()
+  const storedAlias = store.ui.aliases[itemId] ?? ''
+  const [value, setValue] = useState(storedAlias)
+
+  // Rows are recycled by the list, so resync when the item or stored alias changes
+  // biome-ignore lint/correctness/useExhaustiveDependencies: itemId changes when a row is recycled
+  useEffect(() => {
+    setValue(storedAlias)
+  }, [itemId, storedAlias])
+
+  const commit = () => {
+    store.ui.setAlias(itemId, value)
+    // Revert to the stored value if the alias was rejected (e.g. duplicate)
+    setValue(store.ui.aliases[itemId] ?? '')
+  }
+
+  return (
+    <Input
+      bordered
+      value={value}
+      onChangeText={setValue}
+      onBlur={commit}
+      onSubmitEditing={commit}
+      editable={!disabled}
+      placeholder="Alias"
+      className="w-20"
+      autoCorrect={false}
+      autoCapitalize="none"
+    />
+  )
+})
+
 const RenderItem = observer(({ item, index }: any) => {
   const store = useStore()
   const itemShortcut = store.ui.shortcuts[item.id]
@@ -97,6 +130,7 @@ const RenderItem = observer(({ item, index }: any) => {
       <Text className="flex-1" numberOfLines={1}>
         {item.name}
       </Text>
+      <AliasInput itemId={item.id} disabled={isDisabled} />
       <TouchableWithoutFeedback
         onPress={() => {
           if (!isDisabled) {

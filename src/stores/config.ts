@@ -19,6 +19,7 @@ export const PORTABLE_KEYS = [
 	"searchEngine",
 	"customSearchUrl",
 	"shortcuts",
+	"aliases",
 	"showInAppBrowserBookMarks",
 	"hasDismissedGettingStarted",
 	"hyperKeyEnabled",
