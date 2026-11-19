@@ -82,7 +82,7 @@ class SolEmitter {
       ])
   }
 
-  func onStatusBarItemClick() {
-    dispatch(name: "onStatusBarItemClick", body: [])
+  func onStatusBarItemClick(url: String?) {
+    dispatch(name: "onStatusBarItemClick", body: ["url": url])
   }
 }

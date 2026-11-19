@@ -450,6 +450,16 @@ class SolNative: RCTEventEmitter {
     StatusBarCalendarManager.shared.enabled = enabled
   }
 
+  @objc func setUpcomingEventFilter(_ filter: NSDictionary) {
+    var newFilter = UpcomingEventFilter()
+    newFilter.calendarIds = filter["calendarIds"] as? [String]
+    newFilter.excludeKeywords = ((filter["excludeKeywords"] as? [String]) ?? [])
+      .map { $0.trimmingCharacters(in: .whitespaces).lowercased() }
+      .filter { !$0.isEmpty }
+    newFilter.requireMeetingLink = (filter["requireMeetingLink"] as? Bool) ?? false
+    StatusBarCalendarManager.shared.filter = newFilter
+  }
+
   @objc func setHyperKeyEnabled(_ enabled: Bool) {
     if enabled {
       DispatchQueue.main.async {

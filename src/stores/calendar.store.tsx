@@ -12,6 +12,7 @@ const MAX_DAYS_AHEAD = 14;
 let onShowListener: EmitterSubscription | undefined;
 let onStatusBarItemClickListener: EmitterSubscription | undefined;
 let persistDisposer: (() => void) | undefined;
+let menuBarFilterDisposer: (() => void) | undefined;
 
 export type CalendarStore = ReturnType<typeof createCalendarStore>;
 
@@ -21,6 +22,9 @@ export const createCalendarStore = (root: IRootStore) => {
 			writePersistedStore("calendar", {
 				selectedCalendarIds: toJS(store.selectedCalendarIds),
 				hasInitializedSelection: store.hasInitializedSelection,
+				menuBarCalendarIds: toJS(store.menuBarCalendarIds),
+				menuBarExcludeKeywords: toJS(store.menuBarExcludeKeywords),
+				menuBarRequireMeetingLink: store.menuBarRequireMeetingLink,
 			});
 		} catch (error) {
 			captureException(error);
@@ -31,6 +35,9 @@ export const createCalendarStore = (root: IRootStore) => {
 		const persistedState = await readPersistedStore<{
 			selectedCalendarIds?: string[];
 			hasInitializedSelection?: boolean;
+			menuBarCalendarIds?: string[] | null;
+			menuBarExcludeKeywords?: string[];
+			menuBarRequireMeetingLink?: boolean;
 		}>("calendar");
 
 		if (!persistedState) {
@@ -41,6 +48,11 @@ export const createCalendarStore = (root: IRootStore) => {
 			store.selectedCalendarIds = persistedState.selectedCalendarIds ?? [];
 			store.hasInitializedSelection =
 				persistedState.hasInitializedSelection ?? false;
+			store.menuBarCalendarIds = persistedState.menuBarCalendarIds ?? null;
+			store.menuBarExcludeKeywords =
+				persistedState.menuBarExcludeKeywords ?? [];
+			store.menuBarRequireMeetingLink =
+				persistedState.menuBarRequireMeetingLink ?? false;
 		});
 	};
 
@@ -57,6 +69,10 @@ export const createCalendarStore = (root: IRootStore) => {
 		calendars: [] as INativeCalendar[],
 		selectedCalendarIds: [] as string[],
 		hasInitializedSelection: false,
+		// Menu bar upcoming-event filters. null calendar ids means every calendar
+		menuBarCalendarIds: null as string[] | null,
+		menuBarExcludeKeywords: [] as string[],
+		menuBarRequireMeetingLink: false,
 
 		//    _____                            _           _
 		//   / ____|                          | |         | |
@@ -255,10 +271,39 @@ export const createCalendarStore = (root: IRootStore) => {
 		isCalendarSelected: (calendarId: string) => {
 			return store.selectedCalendarIds.includes(calendarId);
 		},
+		isMenuBarCalendarSelected: (calendarId: string) => {
+			return (
+				store.menuBarCalendarIds === null ||
+				store.menuBarCalendarIds.includes(calendarId)
+			);
+		},
+		toggleMenuBarCalendar: (calendarId: string) => {
+			const current =
+				store.menuBarCalendarIds ?? store.calendars.map((c) => c.id);
+			store.menuBarCalendarIds = current.includes(calendarId)
+				? current.filter((id) => id !== calendarId)
+				: [...current, calendarId];
+		},
+		selectAllMenuBarCalendars: () => {
+			store.menuBarCalendarIds = null;
+		},
+		clearMenuBarCalendars: () => {
+			store.menuBarCalendarIds = [];
+		},
+		setMenuBarExcludeKeywords: (text: string) => {
+			store.menuBarExcludeKeywords = text
+				.split(",")
+				.map((keyword) => keyword.trim())
+				.filter(Boolean);
+		},
+		setMenuBarRequireMeetingLink: (value: boolean) => {
+			store.menuBarRequireMeetingLink = value;
+		},
 		cleanUp: () => {
 			onShowListener?.remove();
 			onStatusBarItemClickListener?.remove();
 			persistDisposer?.();
+			menuBarFilterDisposer?.();
 		},
 		onShow: () => {
 			store.getCalendarAccess();
@@ -269,48 +314,24 @@ export const createCalendarStore = (root: IRootStore) => {
 			store.calendarAuthorizationStatus =
 				solNative.getCalendarAuthorizationStatus();
 		},
-		onStatusBarItemClick: async () => {
-			try {
-				const selectedCalendarIds = store.hasInitializedSelection
-					? (toJS(store.selectedCalendarIds) as string[])
-					: undefined;
-				const events = await solNative.getEvents(selectedCalendarIds);
-				const lNow = DateTime.now();
-
-				const found = events.find((e) => {
-					if (e.isAllDay) return false;
-					const lStart = DateTime.fromISO(e.date);
-					const lEnd = DateTime.fromISO(e.endDate || e.date);
-					const isOngoing = +lNow >= +lStart && +lNow <= +lEnd;
-					if (isOngoing) return true;
-					const isUpcoming = +lStart >= +lNow && +lStart <= +lNow.endOf("day");
-					return isUpcoming;
-				});
-
-				if (!found) {
-					Linking.openURL("ical://");
-					return;
-				}
-
-				let eventLink: string | null | undefined = found.url;
-				if (!eventLink) {
-					eventLink = extractMeetingLink(found.notes, found.location);
-				}
-
-				if (eventLink) {
-					Linking.openURL(eventLink);
-				} else {
-					Linking.openURL("ical://");
-				}
-			} catch {
-				Linking.openURL("ical://");
-			}
+		// Native passes the link of the event it is showing, so the click
+		// opens exactly what the menu bar displays
+		onStatusBarItemClick: ({ url }: { url?: string | null }) => {
+			Linking.openURL(url || "ical://");
 		},
 		initialize: async () => {
 			await hydrate();
 			persistDisposer?.();
 			persistDisposer = autorun(() => {
 				void persist();
+			});
+			menuBarFilterDisposer?.();
+			menuBarFilterDisposer = autorun(() => {
+				solNative.setUpcomingEventFilter({
+					calendarIds: toJS(store.menuBarCalendarIds),
+					excludeKeywords: toJS(store.menuBarExcludeKeywords),
+					requireMeetingLink: store.menuBarRequireMeetingLink,
+				});
 			});
 			store.getCalendarAccess();
 			await store.fetchCalendars();

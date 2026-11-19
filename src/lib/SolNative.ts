@@ -108,6 +108,11 @@ class SolNative extends NativeEventEmitter {
 	createFolderWatcher: typeof global.__SolProxy.createFolderWatcher;
 	focusDate: (dateISO: string) => void;
 	setUpcomingEventEnabled: (enabled: boolean) => void;
+	setUpcomingEventFilter: (filter: {
+		calendarIds: string[] | null;
+		excludeKeywords: string[];
+		requireMeetingLink: boolean;
+	}) => void;
 
 	// Constants
 	accentColor: string;
@@ -236,6 +241,7 @@ class SolNative extends NativeEventEmitter {
 		this.createFolderWatcher = global.__SolProxy.createFolderWatcher;
 		this.focusDate = global.__SolProxy.focusDate;
 		this.setUpcomingEventEnabled = module.setUpcomingEventEnabled;
+		this.setUpcomingEventFilter = module.setUpcomingEventFilter;
 	}
 }
 

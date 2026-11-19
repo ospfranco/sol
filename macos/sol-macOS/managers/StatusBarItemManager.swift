@@ -4,7 +4,8 @@ class StatusBarItemManager {
   private var statusBarItem: NSStatusItem?
   
   @objc func statusBarItemCallback(_: AnyObject?) {
-    SolEmitter.sharedInstance.onStatusBarItemClick()
+    SolEmitter.sharedInstance.onStatusBarItemClick(
+      url: StatusBarCalendarManager.shared.currentEventLink)
   }
   
   func setStatusBarTitle(_ title: String) {
