@@ -11,8 +11,6 @@ namespace sol {
 namespace jsi = facebook::jsi;
 namespace react = facebook::react;
 
-extern std::shared_ptr<react::CallInvoker> invoker;
-
 
 static void FolderWatcherCallback(ConstFSEventStreamRef streamRef,
 								  void *clientCallBackInfo,
@@ -30,25 +28,18 @@ static void FolderWatcherCallback(ConstFSEventStreamRef streamRef,
 		} else if ((eventFlags[i] & kFSEventStreamEventFlagItemRemoved) != 0) {
 			changeType = "deleted";
 		}
-		if (watcher->callback && sol::invoker) {
-			auto cb = watcher->callback;
-			auto &rt = watcher->rt;
-			// Capture values for async invocation
-			sol::invoker->invokeAsync([cb, &rt, pathStr, changeType]() mutable {
-				if (cb && cb->isObject()) {
-					auto func = cb->asObject(rt).asFunction(rt);
-					func.call(rt,
-						facebook::jsi::String::createFromUtf8(rt, pathStr),
-						facebook::jsi::String::createFromUtf8(rt, changeType)
-					);
-				}
-			});
-		}
+		watcher->callback.call([pathStr, changeType](jsi::Runtime &rt, jsi::Function &func) {
+			func.call(rt,
+				jsi::String::createFromUtf8(rt, pathStr),
+				jsi::String::createFromUtf8(rt, changeType)
+			);
+		});
 	}
 }
 
-FolderWatcherJSI::FolderWatcherJSI(jsi::Runtime &rt, std::string path, std::shared_ptr<jsi::Value> cb)
-	: rt(rt), path(path), callback(cb) {
+FolderWatcherJSI::FolderWatcherJSI(jsi::Runtime &rt, std::shared_ptr<react::CallInvoker> invoker,
+								   std::string path, const jsi::Value &cb)
+	: path(path), callback(rt, std::move(invoker), cb) {
 	cfPath = CFStringCreateWithCString(nullptr, path.c_str(), kCFStringEncodingUTF8);
 	pathsToWatch = CFArrayCreate(nullptr, (const void**)&cfPath, 1, &kCFTypeArrayCallBacks);
 	startStream();
@@ -104,6 +95,7 @@ void FolderWatcherJSI::handleWakeNotification() {
 
 FolderWatcherJSI::~FolderWatcherJSI() {
 	stopStream();
+	callback.forget();
 	if (wakeObserver) {
 		[[NSNotificationCenter defaultCenter] removeObserver:wakeObserver];
 		wakeObserver = nil;
