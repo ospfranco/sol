@@ -1,4 +1,5 @@
 #include "JSIBindings.hpp"
+#include "AsyncJS.h"
 #import "CalendarHelper.h"
 #import "JSIUtils.h"
 #include "SolMacros.h"
@@ -27,7 +28,6 @@ namespace sol {
 namespace jsi = facebook::jsi;
 namespace react = facebook::react;
 
-std::shared_ptr<react::CallInvoker> invoker;
 CalendarHelper *calendarHelper;
 
 NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -54,7 +54,6 @@ static void requestLocationAuthorization() {
 
 void install(jsi::Runtime &rt,
              std::shared_ptr<react::CallInvoker> callInvoker) {
-  invoker = callInvoker;
   calendarHelper = [[CalendarHelper alloc] init];
   dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ssZ";
 
@@ -208,27 +207,16 @@ void install(jsi::Runtime &rt,
     return jsi::Value::undefined();
   });
 
-  auto removeIndexedPath = HOSTFN("removeIndexedPath", []) {
+  auto removeIndexedPath = HOSTFN("removeIndexedPath", [callInvoker]) {
     auto path = arguments[0].asString(rt).utf8(rt);
     NSString *pathStr = [NSString stringWithUTF8String:path.c_str()];
 
-    auto promiseCtr = rt.global().getPropertyAsFunction(rt, "Promise");
-    auto promise = promiseCtr.callAsConstructor(
-      rt,
-      HOSTFN("executor", [pathStr]) {
-        auto resolve = std::make_shared<jsi::Value>(rt, arguments[0]);
-
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0), ^{
-          [FileSearchIndexObjC.shared removeIndexedPath:pathStr];
-          invoker->invokeAsync([resolve, &rt]() mutable {
-            resolve->asObject(rt).asFunction(rt).call(rt);
-          });
-        });
-
-        return {};
-      }));
-
-    return promise;
+    return makePromise(rt, callInvoker, [pathStr](Deferred deferred) {
+      dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0), ^{
+        [FileSearchIndexObjC.shared removeIndexedPath:pathStr];
+        deferred.resolve();
+      });
+    });
   });
 
   auto clearIndex = HOSTFN("clearIndex", []) {
@@ -236,53 +224,38 @@ void install(jsi::Runtime &rt,
     return jsi::Value::undefined();
   });
 
-  auto searchFilesIndexed = HOSTFN("searchFilesIndexed", []) {
+  auto searchFilesIndexed = HOSTFN("searchFilesIndexed", [callInvoker]) {
     auto query = arguments[0].asString(rt).utf8(rt);
 
     if (query.empty()) {
-      auto promiseCtr = rt.global().getPropertyAsFunction(rt, "Promise");
-      return promiseCtr.callAsConstructor(rt, HOSTFN("executor", []) {
-        auto resolve = std::make_shared<jsi::Value>(rt, arguments[0]);
-        invoker->invokeAsync([resolve, &rt]() mutable {
-          auto empty = jsi::Array(rt, 0);
-          resolve->asObject(rt).asFunction(rt).call(rt, std::move(empty));
-        });
-        return {};
-      }));
+      return makePromise(rt, callInvoker, [](Deferred deferred) {
+        deferred.resolve([](jsi::Runtime &rt) { return jsi::Value(rt, jsi::Array(rt, 0)); });
+      });
     }
 
     NSString *queryStr = [NSString stringWithUTF8String:query.c_str()];
 
-    auto promiseCtr = rt.global().getPropertyAsFunction(rt, "Promise");
-    auto promise = promiseCtr.callAsConstructor(
-      rt,
-      HOSTFN("executor", [queryStr]) {
-        auto resolve = std::make_shared<jsi::Value>(rt, arguments[0]);
+    return makePromise(rt, callInvoker, [queryStr](Deferred deferred) {
+      dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        NSArray *results = [FileSearchIndexObjC.shared searchFilesWithQuery:queryStr];
 
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
-          NSArray *results = [FileSearchIndexObjC.shared searchFilesWithQuery:queryStr];
-
-          invoker->invokeAsync([resolve, results, &rt]() mutable {
-            auto arr_res = jsi::Array(rt, results.count);
-            for (size_t i = 0; i < results.count; i++) {
-              NSDictionary *result = results[i];
-              auto obj = jsi::Object(rt);
-              obj.setProperty(rt, "name", jsi::String::createFromUtf8(rt, [result[@"name"] UTF8String]));
-              obj.setProperty(rt, "path", jsi::String::createFromUtf8(rt, [result[@"path"] UTF8String]));
-              obj.setProperty(rt, "isFolder", (bool)[result[@"is_folder"] boolValue]);
-              arr_res.setValueAtIndex(rt, i, std::move(obj));
-            }
-            resolve->asObject(rt).asFunction(rt).call(rt, std::move(arr_res));
-          });
+        deferred.resolve([results](jsi::Runtime &rt) {
+          auto arr_res = jsi::Array(rt, results.count);
+          for (size_t i = 0; i < results.count; i++) {
+            NSDictionary *result = results[i];
+            auto obj = jsi::Object(rt);
+            obj.setProperty(rt, "name", jsi::String::createFromUtf8(rt, [result[@"name"] UTF8String]));
+            obj.setProperty(rt, "path", jsi::String::createFromUtf8(rt, [result[@"path"] UTF8String]));
+            obj.setProperty(rt, "isFolder", (bool)[result[@"is_folder"] boolValue]);
+            arr_res.setValueAtIndex(rt, i, std::move(obj));
+          }
+          return jsi::Value(rt, arr_res);
         });
-
-        return {};
-      }));
-
-    return promise;
+      });
+    });
   });
 
-  auto indexPaths = HOSTFN("indexPaths", []) {
+  auto indexPaths = HOSTFN("indexPaths", [callInvoker]) {
     auto paths = arguments[0].asObject(rt).asArray(rt);
 
     NSMutableArray *pathsArray = [NSMutableArray array];
@@ -291,35 +264,19 @@ void install(jsi::Runtime &rt,
       [pathsArray addObject:[NSString stringWithUTF8String:path.c_str()]];
     }
 
-    auto promiseCtr = rt.global().getPropertyAsFunction(rt, "Promise");
-    auto promise = promiseCtr.callAsConstructor(
-                                                rt,
-                                                HOSTFN("executor", [pathsArray]) {
-      auto resolve = std::make_shared<jsi::Value>(rt, arguments[0]);
-      auto reject = std::make_shared<jsi::Value>(rt, arguments[1]);
-
+    return makePromise(rt, callInvoker, [pathsArray](Deferred deferred) {
       dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0), ^{
         @try {
           [FileSearchIndexObjC.shared indexPathsWith:pathsArray];
-          invoker->invokeAsync([resolve, &rt]() mutable {
-            resolve->asObject(rt).asFunction(rt).call(rt);
-          });
+          deferred.resolve();
         } @catch (NSException *exception) {
-          invoker->invokeAsync([reject, exception, &rt]() mutable {
-            NSString *errorMessage =
-                [NSString stringWithFormat:@"Failed to index paths: %@",
-                                           [exception reason]];
-            auto error =
-                jsi::String::createFromUtf8(rt, [errorMessage UTF8String]);
-            reject->asObject(rt).asFunction(rt).call(rt, error);
-          });
+          NSString *errorMessage =
+              [NSString stringWithFormat:@"Failed to index paths: %@",
+                                         [exception reason]];
+          deferred.reject([errorMessage UTF8String]);
         }
       });
-
-      return {};
-                                                }));
-
-    return promise;
+    });
   });
 
   // auto getMediaInfo = HOSTFN("getMediaInfo", 0, [=]) {
@@ -385,25 +342,12 @@ void install(jsi::Runtime &rt,
   //   return promise;
   // });
 
-  auto requestCalendarAccess = HOSTFN("requestCalendarAccess", []) {
-    auto promiseConstructor = rt.global().getPropertyAsFunction(rt, "Promise");
-
-    auto promise = promiseConstructor.callAsConstructor(rt, HOSTFN("executor", []) {
-      auto resolve = std::make_shared<jsi::Value>(rt, arguments[0]);
-
+  auto requestCalendarAccess = HOSTFN("requestCalendarAccess", [callInvoker]) {
+    return makePromise(rt, callInvoker, [](Deferred deferred) {
       [calendarHelper requestCalendarAccess:^{
-        if (invoker == nullptr) {
-          return;
-        }
-
-        invoker->invokeAsync([resolve, &rt]() mutable {
-          resolve->asObject(rt).asFunction(rt).call(rt);
-        });
+        deferred.resolve();
       }];
-
-      return {};
-    }));
-    return promise;
+    });
   });
 
   auto getCalendarAuthorizationStatus =
@@ -413,7 +357,7 @@ void install(jsi::Runtime &rt,
     return jsi::String::createFromUtf8(rt, statusStd);
   });
 
-  auto getEvents = HOSTFN("getEvents", []) {
+  auto getEvents = HOSTFN("getEvents", [callInvoker]) {
     NSMutableArray<NSString *> *selectedCalendarIds = nil;
     if (count > 0 && !arguments[0].isUndefined() && !arguments[0].isNull()) {
       auto calendarIdsArray = arguments[0].asObject(rt).asArray(rt);
@@ -424,19 +368,13 @@ void install(jsi::Runtime &rt,
       }
     }
 
-    auto promiseCtr = rt.global().getPropertyAsFunction(rt, "Promise");
-    auto promise = promiseCtr.callAsConstructor(
-                                                rt,
-                                                HOSTFN("executor", [selectedCalendarIds]) {
-      auto resolve = std::make_shared<jsi::Value>(rt, arguments[0]);
-      auto reject = std::make_shared<jsi::Value>(rt, arguments[1]);
-
+    return makePromise(rt, callInvoker, [selectedCalendarIds](Deferred deferred) {
       dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), ^{
         @try {
           NSArray<EKEvent *> *ekEvents = [calendarHelper
               getEventsForCalendarIdentifiers:selectedCalendarIds];
 
-          invoker->invokeAsync([resolve, ekEvents = ekEvents, &rt]() mutable {
+          deferred.resolve([ekEvents = ekEvents](jsi::Runtime &rt) {
             auto events = jsi::Array(rt, ekEvents.count);
             NSString *colorString = @"";
             auto count = ekEvents.count;
@@ -586,40 +524,27 @@ void install(jsi::Runtime &rt,
               events.setValueAtIndex(rt, i, event);
             }
 
-            resolve->asObject(rt).asFunction(rt).call(rt, events);
+            return jsi::Value(rt, events);
           });
         } @catch (NSException *exception) {
           NSLog(@"Error in getEvents: %@", exception);
-          invoker->invokeAsync([reject, exception, &rt]() mutable {
-            NSString *errorMessage = [NSString
-                stringWithFormat:@"Failed to fetch calendar events: %@",
-                                 [exception reason]];
-            auto error =
-                jsi::String::createFromUtf8(rt, [errorMessage UTF8String]);
-            reject->asObject(rt).asFunction(rt).call(rt, error);
-          });
+          NSString *errorMessage = [NSString
+              stringWithFormat:@"Failed to fetch calendar events: %@",
+                               [exception reason]];
+          deferred.reject([errorMessage UTF8String]);
         }
       });
-      return {};
-                                                }));
-
-    return promise;
+    });
   });
 
-  auto getCalendars = HOSTFN("getCalendars", []) {
-    auto promiseCtr = rt.global().getPropertyAsFunction(rt, "Promise");
-    auto promise = promiseCtr.callAsConstructor(
-                                                rt, HOSTFN("executor", []) {
-      auto resolve = std::make_shared<jsi::Value>(rt, arguments[0]);
-      auto reject = std::make_shared<jsi::Value>(rt, arguments[1]);
-
+  auto getCalendars = HOSTFN("getCalendars", [callInvoker]) {
+    return makePromise(rt, callInvoker, [](Deferred deferred) {
       dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), ^{
         @try {
           NSArray<NSDictionary<NSString *, NSString *> *> *calendarEntries =
               [calendarHelper getCalendars];
 
-          invoker->invokeAsync([resolve, calendarEntries = calendarEntries,
-                                &rt]() mutable {
+          deferred.resolve([calendarEntries = calendarEntries](jsi::Runtime &rt) {
             auto calendars = jsi::Array(rt, calendarEntries.count);
 
             for (int i = 0; i < calendarEntries.count; i++) {
@@ -636,25 +561,17 @@ void install(jsi::Runtime &rt,
               calendars.setValueAtIndex(rt, i, obj);
             }
 
-            resolve->asObject(rt).asFunction(rt).call(rt, calendars);
+            return jsi::Value(rt, calendars);
           });
         } @catch (NSException *exception) {
           NSLog(@"Error in getCalendars: %@", exception);
-          invoker->invokeAsync([reject, exception, &rt]() mutable {
-            NSString *errorMessage =
-                [NSString stringWithFormat:@"Failed to fetch calendars: %@",
-                                           [exception reason]];
-            auto error =
-                jsi::String::createFromUtf8(rt, [errorMessage UTF8String]);
-            reject->asObject(rt).asFunction(rt).call(rt, error);
-          });
+          NSString *errorMessage =
+              [NSString stringWithFormat:@"Failed to fetch calendars: %@",
+                                         [exception reason]];
+          deferred.reject([errorMessage UTF8String]);
         }
       });
-
-      return {};
-                                                }));
-
-    return promise;
+    });
   });
 
   auto focusDate = HOSTFN("focusDate", []) {
@@ -750,19 +667,14 @@ void install(jsi::Runtime &rt,
     return {};
   });
 
-  auto getApplications = HOSTFN("getApplications", []) {
-    auto promiseCtr = rt.global().getPropertyAsFunction(rt, "Promise");
-    auto promise = promiseCtr.callAsConstructor(
-        rt, HOSTFN("executor", []) {
-      auto resolve = std::make_shared<jsi::Value>(rt, arguments[0]);
-      auto reject = std::make_shared<jsi::Value>(rt, arguments[1]);
-
+  auto getApplications = HOSTFN("getApplications", [callInvoker]) {
+    return makePromise(rt, callInvoker, [](Deferred deferred) {
       // USER_INITIATED so the scan isn't starved by login-time system load
       dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
         @try {
           NSArray *apps = [[ApplicationSearcher shared] getAllApplications];
 
-          invoker->invokeAsync([resolve, apps, &rt]() mutable {
+          deferred.resolve([apps](jsi::Runtime &rt) {
             jsi::Array appsArray(rt, apps.count);
             for (NSUInteger i = 0; i < apps.count; i++) {
               NSDictionary *nsApp = [apps objectAtIndex:i];
@@ -790,24 +702,17 @@ void install(jsi::Runtime &rt,
               appsArray.setValueAtIndex(rt, i, app);
             }
 
-            resolve->asObject(rt).asFunction(rt).call(rt, std::move(appsArray));
+            return jsi::Value(rt, appsArray);
           });
         } @catch (NSException *exception) {
           NSLog(@"Error in getApplications: %@", exception);
-          invoker->invokeAsync([reject, exception, &rt]() mutable {
-            NSString *errorMessage =
-                [NSString stringWithFormat:@"Failed to fetch applications: %@",
-                                           [exception reason]];
-            auto error =
-                jsi::String::createFromUtf8(rt, [errorMessage UTF8String]);
-            reject->asObject(rt).asFunction(rt).call(rt, error);
-          });
+          NSString *errorMessage =
+              [NSString stringWithFormat:@"Failed to fetch applications: %@",
+                                         [exception reason]];
+          deferred.reject([errorMessage UTF8String]);
         }
       });
-      return {};
-        }));
-
-    return promise;
+    });
   });
 
   auto mkdir = HOSTFN("mkdir", []) {
@@ -869,10 +774,9 @@ void install(jsi::Runtime &rt,
     return jsi::Value(static_cast<bool>(success));
   });
 
-  auto createFolderWatcher = HOSTFN("createFolderWatcher", []) {
+  auto createFolderWatcher = HOSTFN("createFolderWatcher", [callInvoker]) {
     auto path = jsiValueToString(rt, arguments[0]);
-    auto callback = std::make_shared<jsi::Value>(rt, arguments[1]);
-    auto folderWatcher = std::make_shared<FolderWatcherJSI>(rt, path, callback);
+    auto folderWatcher = std::make_shared<FolderWatcherJSI>(rt, callInvoker, path, arguments[1]);
     return jsi::Object::createFromHostObject(rt, folderWatcher);
   });
 
