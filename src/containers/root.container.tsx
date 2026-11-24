@@ -19,17 +19,19 @@ import {TranslationWidget} from 'widgets/translation.widget'
 export const RootContainer = observer(() => {
   const store = useStore()
   const widget = store.ui.focusedWidget
+  const calendarVisible =
+    store.ui.calendarEnabled || store.ui.calendarTemporarilyVisible
 
   let subWindow = (
     <View
       className={clsx('dark:bg-gray-900/10', {
         fullWindow:
           !!store.ui.query ||
-          (store.ui.calendarEnabled && store.calendar.events.length > 0),
+          (calendarVisible && store.calendar.events.length > 0),
       })}>
       <SearchWidget />
 
-      {!store.ui.query && store.ui.calendarEnabled && <FullCalendar />}
+      {!store.ui.query && calendarVisible && <FullCalendar />}
 
       <PermissionsBar />
     </View>
