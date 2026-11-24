@@ -11,36 +11,25 @@
   return self;
 }
 
+// Calls `callback` on the main queue once the request finishes, granted or not,
+// so the caller can re-read the authorization status either way.
 - (void)requestCalendarAccess:(void (^)(void))callback {
   void (^safeCallback)(void) = [callback copy];
+  void (^completion)(BOOL, NSError *) = ^(BOOL granted, NSError *_Nullable error) {
+    if (!granted) {
+      NSLog(@"Access not granted %@", error);
+    }
+    if (safeCallback != nil) {
+      dispatch_async(dispatch_get_main_queue(), ^{
+        safeCallback();
+      });
+    }
+  };
 
   if (@available(macOS 14.0, *)) {
-    [_store requestFullAccessToEventsWithCompletion:^(
-                BOOL granted, NSError *_Nullable error) {
-      if (granted) {
-        if (safeCallback != nil) {
-          dispatch_async(dispatch_get_main_queue(), ^{
-            safeCallback();
-          });
-        }
-      } else {
-        NSLog(@"Access not granted %@", error);
-      }
-    }];
+    [_store requestFullAccessToEventsWithCompletion:completion];
   } else {
-    [_store
-        requestAccessToEntityType:EKEntityTypeEvent
-                       completion:^(BOOL granted, NSError *_Nullable error) {
-                         if (granted) {
-                           if (safeCallback != nil) {
-                             dispatch_async(dispatch_get_main_queue(), ^{
-                               safeCallback();
-                             });
-                           }
-                         } else {
-                           NSLog(@"Access not granted %@", error);
-                         }
-                       }];
+    [_store requestAccessToEntityType:EKEntityTypeEvent completion:completion];
   }
 }
 

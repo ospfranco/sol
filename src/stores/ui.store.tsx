@@ -59,6 +59,11 @@ let onFileSearchListener: EmitterSubscription | undefined;
 let onHotkeyListener: EmitterSubscription | undefined;
 let onAppsChangedListener: EmitterSubscription | undefined;
 let appareanceListener: NativeEventSubscription | undefined;
+let restartTimer: number | undefined;
+// How long the appearance must stay put before Sol restarts to pick it up.
+const RESTART_AFTER_MS = 1000;
+// The scheme this JS runtime started (and rendered) with.
+const startedDark = Appearance.getColorScheme() === "dark";
 let bookmarksDisposer: IReactionDisposer | undefined;
 let configDisposer: IReactionDisposer | undefined;
 
@@ -920,6 +925,7 @@ export const createUIStore = (root: IRootStore) => {
 			onHotkeyListener?.remove();
 			onAppsChangedListener?.remove();
 			appareanceListener?.remove();
+			if (restartTimer !== undefined) clearTimeout(restartTimer);
 			bookmarksDisposer?.();
 			configDisposer?.();
 		},
@@ -1090,14 +1096,23 @@ export const createUIStore = (root: IRootStore) => {
 		}: {
 			colorScheme: "light" | "dark" | null | undefined;
 		}) {
-			if (colorScheme === "dark") {
-				store.isDarkMode = true;
-				// nativeWindColorScheme.set("dark")
-			} else {
-				store.isDarkMode = false;
-				// nativeWindColorScheme.set("light")
+			const isDarkMode = colorScheme === "dark";
+			if (isDarkMode === store.isDarkMode) {
+				return;
 			}
-			RNRestart.restart();
+			store.isDarkMode = isDarkMode;
+			// React Native macOS doesn't fully recolour on an appearance change, so
+			// Sol restarts its JS runtime to pick it up (#283). A restart is heavy,
+			// and starting one while the previous restart is still settling can
+			// crash inside React Native, so restart once the appearance has stayed
+			// put for a moment, and only if it ends up different from what this
+			// runtime started with.
+			if (restartTimer !== undefined) clearTimeout(restartTimer);
+			restartTimer = setTimeout(() => {
+				if ((Appearance.getColorScheme() === "dark") !== startedDark) {
+					RNRestart.restart();
+				}
+			}, RESTART_AFTER_MS);
 		},
 
 		addToHistory: (query: string) => {
