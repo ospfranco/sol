@@ -5,6 +5,7 @@ import { CONSTANTS } from "lib/constants";
 import type { EmojiSkinTone } from "lib/emojiSkinTones";
 import { normalizeEmojiSkinTone } from "lib/emojiSkinTones";
 import { solNative } from "lib/SolNative";
+import type { SearchEngine } from "lib/searchEngines";
 import {
 	defaultShortcuts,
 	normalizeShortcut,
@@ -136,7 +137,6 @@ const defaultSearchFolders = [
 ];
 
 export type UIStore = ReturnType<typeof createUIStore>;
-type SearchEngine = "google" | "bing" | "duckduckgo" | "perplexity" | "custom";
 
 const itemsThatShouldShowWindow = [
 	"emoji_picker",
