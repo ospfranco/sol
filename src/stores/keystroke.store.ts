@@ -1,4 +1,5 @@
 import { extractMeetingLink } from "lib/calendar";
+import { getSearchUrl } from "lib/searchEngines";
 import { solNative } from "lib/SolNative";
 import { makeAutoObservable } from "mobx";
 import { Clipboard, type EmitterSubscription, Linking } from "react-native";
@@ -327,71 +328,27 @@ export const createKeystrokeStore = (root: IRootStore) => {
 
 							// If there are no visible items, or if the query is a meta (⌘ is pressed) query, open a browser search
 							if (!root.ui.searchItems.length || meta) {
-								switch (root.ui.searchEngine) {
-									case "google":
-										Linking.openURL(
-											`https://google.com/search?q=${encodeURI(root.ui.query)}`,
-										).catch((e) => {
-											solNative.showToast(
-												`Could not open URL: ${root.ui.query}, error: ${e}`,
-												"error",
-											);
-										});
-										break;
-									case "duckduckgo":
-										Linking.openURL(
-											`https://duckduckgo.com/?q=${encodeURI(root.ui.query)}`,
-										).catch((e) => {
-											solNative.showToast(
-												`Could not open URL: ${root.ui.query}, error: ${e}`,
-												"error",
-											);
-										});
-										break;
-									case "bing":
-										Linking.openURL(
-											`https://bing.com/search?q=${encodeURI(root.ui.query)}`,
-										).catch((e) => {
-											solNative.showToast(
-												`Could not open URL: ${root.ui.query}, error: ${e}`,
-												"error",
-											);
-										});
-										break;
-									case "perplexity":
-										Linking.openURL(
-											`https://perplexity.ai/search/new?q=${encodeURI(
-												root.ui.query,
-											)}`,
-										).catch((e) => {
-											solNative.showToast(
-												`Could not open URL: ${root.ui.query}, error: ${e}`,
-												"error",
-											);
-										});
-										break;
-									case "custom":
-										if (
-											!isValidCustomSearchEngineUrl(root.ui.customSearchUrl)
-										) {
-											solNative.showToast(
-												`Invalid search URL. Please ensure the URL is a valid search engine URL and includes a query parameter. Example: https://google.com/search?q=%s`,
-												"error",
-											);
-											break;
-										}
-										Linking.openURL(
-											root.ui.customSearchUrl.replace(
-												"%s",
-												encodeURI(root.ui.query),
-											),
-										).catch((e) => {
-											solNative.showToast(
-												`Could not open URL: ${root.ui.query}, error: ${e}`,
-												"error",
-											);
-										});
-										break;
+								if (
+									root.ui.searchEngine === "custom" &&
+									!isValidCustomSearchEngineUrl(root.ui.customSearchUrl)
+								) {
+									solNative.showToast(
+										`Invalid search URL. Please ensure the URL is a valid search engine URL and includes a query parameter. Example: https://google.com/search?q=%s`,
+										"error",
+									);
+								} else {
+									Linking.openURL(
+										getSearchUrl(
+											root.ui.searchEngine,
+											root.ui.query,
+											root.ui.customSearchUrl,
+										),
+									).catch((e) => {
+										solNative.showToast(
+											`Could not open URL: ${root.ui.query}, error: ${e}`,
+											"error",
+										);
+									});
 								}
 
 								solNative.hideWindow();
